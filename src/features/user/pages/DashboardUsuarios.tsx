@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { useMemo, useState } from "react";
 import RequireEntitlement from '../../auth/components/RequireEntitlement';
 import { useAccountProfile } from "../../../auth/useAccountProfile";

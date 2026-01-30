@@ -54,7 +54,7 @@ export function useSignalLoader(id: string | undefined) {
                     // To strictly avoid inference, we should ideally add it to demoStore.
                     // For this refactor, I will define a safe mapper based on known IDs or default.
 
-                    let safeScale: LoaderSignal["scale_type"] = "choice";
+                    const safeScale: LoaderSignal["scale_type"] = "choice";
                     // Only for legacy demo support, we might need a tiny helper, but NOT global inference.
                     // Actually, let's assume 'choice' unless specific properties exist.
                     // For now, mapping to 'choice' is safe.

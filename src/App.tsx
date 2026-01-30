@@ -109,7 +109,9 @@ export default function App() {
         <Route
           path="/enterprise"
           element={
-            <EnterpriseDashboard />
+            <RequireVerified>
+              <EnterpriseDashboard />
+            </RequireVerified>
           }
         />
 

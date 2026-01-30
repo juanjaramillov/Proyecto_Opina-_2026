@@ -30,7 +30,7 @@ export default function EnterpriseDashboard() {
 
             Promise.all([
                 kpiService.shareOfPreference(battle.id, range),
-                kpiService.trendVelocity(battle.id, 'day', range),
+                kpiService.trendVelocity(battle.id),
                 kpiService.engagementQuality(battle.id, range)
             ]).then(([resSop, _resTrends, resEqi]) => {
                 // Map Data using Battle Options (ID -> Label)
