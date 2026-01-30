@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans min-h-screen overflow-x-hidden m-0 antialiased;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.22);
+  }
+}
+
+/* ====== keyframes ====== */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -40px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .animate-blob {
+    animation: blob 14s infinite ease-in-out;
+  }
+
+  .animation-delay-1000 {
+    animation-delay: 1s;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-3000 {
+    animation-delay: 3s;
+  }
+
+  .fade-up {
+    animation: fade-up 0.5s ease-out both;
+  }
+
+  .pulse-soft {
+    animation: pulse-soft 2.5s ease-in-out infinite;
+  }
+
+  .grad-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  /* ✅ BRAND GRADIENT: Unificado con el Logo (Indigo -> Emerald) */
+  .text-gradient-brand {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-emerald-500;
+  }
+
+  .container-ws {
+    @apply max-w-ws mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ✅ ANTI-AIRE: secciones más compactas */
+  .section-y {
+    @apply py-7 sm:py-9 lg:py-10;
+  }
+
+  .hairline {
+    @apply border border-stroke;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-surface hairline rounded-3xl shadow-card;
+  }
+
+  /* ✅ ANTI-AIRE: padding más compacto */
+  .card-pad {
+    @apply p-4 sm:p-5;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lift;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold tracking-tight transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary/20 active:scale-[0.98];
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-indigo-600 to-emerald-500 text-white shadow-lg shadow-indigo-500/25 border-0 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 hover:opacity-90;
+  }
+
+  .btn-secondary {
+    @apply btn bg-surface text-ink border border-stroke shadow-sm hover:bg-surface2 hover:border-surface2 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-ink hover:bg-surface2/50 hover:text-primary;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-surface2 text-ink hairline;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary/10 text-primary border-primary/20;
+  }
+
+  .badge-accent {
+    @apply badge bg-accent/10 text-accent border-accent/20;
+  }
+
+  /* ✅ Tu panel glass (lo estabas usando en Home) */
+  .glass-panel {
+    @apply rounded-3xl bg-white/70 backdrop-blur-md border border-white/50 shadow-premium;
+  }
+
+  /* ✅ HERO CTA: Unique to Home, larger, solid color */
+  .btn-hero {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-emerald-500 text-white text-lg font-bold tracking-tight shadow-xl shadow-indigo-500/25 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/40 hover:-translate-y-1 hover:opacity-90 active:scale-95 focus:outline-none focus:ring-4 focus:ring-primary/20 border-0;
+    height: 3.5rem;
+    /* ~56px */
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.material-symbols-outlined,
+.material-symbols-rounded {
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+  line-height: 1;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
