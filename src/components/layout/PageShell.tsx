@@ -1,103 +1,106 @@
 import { NavLink } from "react-router-dom";
-import { useDemoData } from "../../demo/DemoContext";
-import { useAccountProfile } from "../../auth/useAccountProfile";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../features/auth";
+import { useSignalStore } from "../../store/signalStore";
+import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
 
-
-type NavItem = {
-  path: string;
-  label: string;
-  primary?: boolean;
-};
-
-const NAV: NavItem[] = [
-  { path: "/about", label: "Nosotros" },
-  { path: "/senales", label: "Señales" },
-  { path: "/radiografias", label: "Radiografías" },
+const MENU_ITEMS = [
+  { id: 'participa', label: 'Participa', route: '/experience' },
+  { id: 'results', label: 'Resultados', route: '/results' },
+  { id: 'rankings', label: 'Rankings', route: '/rankings' },
+  { id: 'profile', label: 'Perfil', route: '/profile' },
+  { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
+
 export default function PageShell({ children }: { children: React.ReactNode }) {
-  const { currentUser } = useDemoData();
-  const { profile } = useAccountProfile();
+  // Simplified user check logic, relying on profile or extending later
+  const { profile } = useAuth();
+  const signals = useSignalStore(s => s.signals);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isAuthenticated = profile && profile.tier !== 'guest';
 
   return (
-    <div className="min-h-screen bg-bg">
-      <header className="sticky top-0 z-50 border-b border-stroke bg-white/80 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-6 py-3 flex items-center gap-6">
+    <div className="flex flex-col flex-1 w-full min-h-screen relative">
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'glass-aurora bg-white/60 border-b border-white/20 py-4'}`}>
+        <div className="w-full px-4 sm:px-8 xl:px-12 flex flex-wrap items-center justify-between gap-4">
           {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-2 group hover:opacity-90 transition">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 transition-transform duration-300 group-hover:scale-105">
+          <NavLink to="/" className="flex items-center gap-2 group hover:opacity-90 transition shrink-0">
+            <div className="h-8 w-8 rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-primary/20 transition-transform duration-300 group-hover:scale-105">
               <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full p-1">
                 <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
                 <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
                 <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
               </svg>
             </div>
-            <span className="text-lg font-black text-slate-900 tracking-tight">Opina+</span>
+            <span className="text-xl font-black text-slate-900 tracking-tight hidden sm:block">Opina+</span>
           </NavLink>
 
-          {/* Nav */}
-          <nav className="hidden md:flex items-center gap-5">
-            {NAV.map((it) => (
-              <NavLink
-                key={it.path}
-                to={it.path}
-                className={({ isActive }) =>
-                  [
-                    "text-sm font-bold transition-colors",
-                    isActive ? "text-slate-900" : "text-slate-500 hover:text-slate-900",
-                  ].join(" ")
-                }
-              >
-                {it.label}
-              </NavLink>
-            ))}
+          {/* Gamification Badge - Only show to authenticated users */}
+          {isAuthenticated && (
+            <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl mr-auto ml-4 shadow-sm hover:shadow-md transition-shadow hidden min-[400px]:flex">
+              <div className="flex flex-col items-start justify-center">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Poder</span>
+                <span className="text-sm font-black text-emerald-600 leading-none">
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {((profile as any)?.signal_weight || 1.0).toFixed(1)}x
+                </span>
+              </div>
+              <div className="w-px h-6 bg-slate-200"></div>
+              <div className="flex flex-col items-start justify-center">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Lvl</span>
+                <span className="text-sm font-bold text-slate-700 leading-none">{Math.floor(signals / 10) + 1}</span>
+              </div>
+            </div>
+          )}
 
-            {profile?.canExport && (
+          {/* Nav - DEBUG MODE: Wrapping enabled */}
+          <nav className={`flex flex-wrap items-center gap-2 md:gap-4 justify-end w-full sm:w-auto mt-2 sm:mt-0 ${!isAuthenticated ? 'ml-auto' : ''}`}>
+            {MENU_ITEMS.map((item) => {
+              if (item.id === 'profile' && !isAuthenticated) return null;
+              const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
+
+              return (
+                <NavLink
+                  key={item.id}
+                  to={item.route}
+                  className={({ isActive }) =>
+                    [
+                      "text-xs sm:text-sm font-bold transition-colors whitespace-nowrap px-1 flex items-center gap-1",
+                      isActive ? "text-primary" : "text-slate-500 hover:text-primary",
+                    ].join(" ")
+                  }
+                >
+                  {item.label}
+                  {isLocked && <span className="material-symbols-outlined text-[12px] opacity-50">lock</span>}
+                </NavLink>
+              )
+            })}
+            {!isAuthenticated && (
               <NavLink
-                to="/enterprise"
-                className={({ isActive }) =>
-                  [
-                    "text-sm font-bold transition-colors",
-                    isActive ? "text-indigo-600" : "text-indigo-500 hover:text-indigo-700",
-                  ].join(" ")
-                }
+                to="/login"
+                className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all active:scale-95 ml-2"
               >
-                Empresas
+                Unirme / Iniciar Sesión
               </NavLink>
             )}
           </nav>
-
-          {/* User */}
-          <div className="flex items-center gap-3 ml-auto">
-            {currentUser ? (
-              <NavLink
-                to="/profile"
-                className="hidden md:inline-flex items-center gap-2 rounded-full border border-stroke bg-slate-50 pl-3 pr-4 py-1.5 text-sm font-bold text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition-all"
-              >
-                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-xs">
-                  {currentUser.name.charAt(0)}
-                </div>
-                {currentUser.name}
-              </NavLink>
-            ) : (
-              <NavLink
-                to="/login"
-                className="hidden md:inline-flex items-center rounded-full bg-gradient-to-r from-indigo-600 to-emerald-500 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:opacity-90 transition"
-              >
-                Ingresar
-              </NavLink>
-            )}
-          </div>
         </div>
       </header>
 
-      {/* Menos aire vertical global */}
-      <main className="mx-auto max-w-5xl px-4 py-4 space-y-4 md:px-6 md:py-6 md:space-y-6">
+      <main className="flex-1 flex flex-col relative w-full">
         {children}
       </main>
 
-      <footer className="border-t border-stroke bg-white py-6 px-6">
-        <div className="max-w-7xl mx-auto text-center space-y-2">
+      <footer className="w-full border-t border-aurora-primary/10 bg-white/50 backdrop-blur-sm py-6 mt-auto">
+        <div className="w-full px-4 sm:px-8 xl:px-12 mx-auto text-center space-y-2">
           <div className="flex justify-center items-center gap-2 mb-2 opacity-60">
             <span className="material-symbols-rounded text-[16px]">gavel</span>
             <span className="text-[10px] font-bold uppercase tracking-widest">Legal & Compliance</span>

@@ -4,10 +4,13 @@ node_modules
 # build output
 dist
 dist-ssr
+build
+.vite
 
 # env
 .env
 .env.local
+.env.production
 .env.*.local
 
 # logs

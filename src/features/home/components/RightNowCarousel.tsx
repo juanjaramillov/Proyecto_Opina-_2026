@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-type GenericSlide = {
-    id: number;
+export type GenericSlide = {
+    id: number | string;
     context: string;
     value: string; // The big number or phrase
     logoUrl?: string; // Optional: Logo override for "Brand" values
@@ -13,37 +13,38 @@ type GenericSlide = {
     aiInsight?: string; // New: Witty/Ironic AI comment
 };
 
-const DUMMY_SLIDES: GenericSlide[] = [
-    {
-        id: 1,
-        context: "Tendencias",
-        value: "Cargando...",
-        label: "Estamos preparando las tendencias de la comunidad. Vuelve en unos minutos.",
-        source: "Fuente: Opina+",
-        path: "#",
-        aiInsight: "Paciencia, la buena data se cocina a fuego lento."
-    }
-];
-
-export default function RightNowCarousel() {
+export default function RightNowCarousel({ readOnly = false, data = [] }: { readOnly?: boolean, data?: GenericSlide[] }) {
     const navigate = useNavigate();
     const [current, setCurrent] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+    // Si no hay data exterior, pasamos a estado carga/vacío temporal
+    const slides = data.length > 0 ? data : [
+        {
+            id: 'loading-1',
+            context: "Estado del Sistema",
+            value: "Calibrando Señales",
+            label: "Estamos recuperando el pulso en tiempo real...",
+            source: "Opina+ System",
+            path: "#",
+            aiInsight: "La precisión requiere un segundo."
+        }
+    ];
+
     useEffect(() => {
         if (isPaused) return;
         timeoutRef.current = setInterval(() => {
-            setCurrent(prev => (prev + 1) % DUMMY_SLIDES.length);
+            setCurrent(prev => (prev + 1) % slides.length);
         }, 5000); // 5s per slide
         return () => {
             if (timeoutRef.current) clearInterval(timeoutRef.current);
         };
-    }, [isPaused]);
+    }, [isPaused, slides.length]);
 
-    const activeSlide = DUMMY_SLIDES[current];
-    const nextIdx = (current + 1) % DUMMY_SLIDES.length;
-    const nextSlide = DUMMY_SLIDES[nextIdx];
+    const activeSlide = slides[current];
+    const nextIdx = (current + 1) % slides.length;
+    const nextSlide = slides[nextIdx];
 
     // Determine variant layout
     const isBrand = !!activeSlide.logoUrl;
@@ -51,19 +52,17 @@ export default function RightNowCarousel() {
 
     return (
         <section
-            className="relative w-full aspect-[16/10] md:aspect-[21/9] max-w-5xl mx-auto rounded-[2rem] overflow-hidden shadow-card hover:shadow-premium group cursor-pointer border border-stroke bg-white transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] active:shadow-sm"
+            className={`relative w-full aspect-[16/10] md:aspect-[21/9] max-w-5xl mx-auto overflow-hidden group card ${readOnly ? '' : 'cursor-pointer card-hover'}`}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            onClick={() => navigate(activeSlide.path)}
+            onClick={() => !readOnly && navigate(activeSlide.path)}
         >
             {/* Dynamic Backgrounds based on variant - MORE IMPACTFUL GRADIENTS */}
-            <div className={`absolute inset-0 z-0 transition-colors duration-700 ${isBrand ? 'bg-gradient-to-br from-slate-50 via-white to-indigo-50/20' :
-                isStat ? 'bg-gradient-to-br from-indigo-50/40 via-purple-50/20 to-white' :
-                    'bg-gradient-to-br from-white via-orange-50/10 to-transparent'
-                }`}>
+            <div className={`absolute inset-0 z-0 transition-colors duration-700 bg-white`}>
                 {/* Visual Depth Elements - Animated */}
-                {isBrand && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl animate-pulse" />}
-                {isStat && <div className="absolute -bottom-20 -right-20 w-[400px] h-[400px] bg-gradient-to-tr from-primary/10 to-purple-500/10 rounded-full blur-[100px]" />}
+                {/* Visual Depth Elements - Removed for white purity */}
+                {isBrand && <div className="hidden" />}
+                {isStat && <div className="hidden" />}
             </div>
 
             {/* Content Layer */}
@@ -71,8 +70,8 @@ export default function RightNowCarousel() {
 
                 {/* Header Context - Static Pill */}
                 <div className="w-full flex justify-center mb-1 shrink-0 z-20">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md shadow-md border border-indigo-100 ring-1 ring-white/50">
-                        <span className={`flex h-2 w-2 rounded-full animate-pulse ${isStat ? 'bg-primary' : 'bg-accent'}`} />
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md shadow-md border border-primary/20 ring-1 ring-white/50">
+                        <span className="flex h-2 w-2 rounded-full animate-pulse bg-primary" />
                         <span className="text-slate-600 text-[10px] font-black uppercase tracking-widest leading-none">
                             {activeSlide.context}
                         </span>
@@ -141,7 +140,7 @@ export default function RightNowCarousel() {
                             <div className="w-full mt-auto pt-2 flex justify-center z-20 shrink-0">
                                 <div className="px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-50 shadow-sm flex items-center gap-2 max-w-[95%]">
                                     <span className="text-base">✨</span>
-                                    <span className="text-[11px] md:text-[13px] font-semibold text-indigo-600 leading-tight text-center line-clamp-2">
+                                    <span className="text-[11px] md:text-[13px] font-semibold text-primary leading-tight text-center line-clamp-2">
                                         {activeSlide.aiInsight}
                                     </span>
                                 </div>

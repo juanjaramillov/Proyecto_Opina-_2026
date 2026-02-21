@@ -44,10 +44,10 @@ function AppButton({
             className={[
                 "inline-flex items-center justify-center",
                 "h-12 px-8 rounded-full",
-                "bg-gradient-to-r from-indigo-600 to-emerald-500 text-white font-bold",
+                "bg-gradient-brand text-white font-bold",
                 "shadow-lg shadow-indigo-500/25",
                 "transition-transform transition-all duration-200",
-                "hover:shadow-xl hover:shadow-indigo-500/40 hover:opacity-90 hover:scale-[1.02] hover:-translate-y-0.5",
+                "hover:shadow-xl hover:shadow-primary/40 hover:opacity-90 hover:scale-[1.02] hover:-translate-y-0.5",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                 "focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
                 "disabled:opacity-60 disabled:pointer-events-none",
@@ -145,7 +145,7 @@ export default function AboutUs() {
 
             {/* ATMOSPHERE: Subtle Background Blobs */}
             <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-radial-gradient from-primary/5 to-transparent opacity-50 pointer-events-none z-0 mix-blend-multiply" />
-            <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-radial-gradient from-blue-500/5 to-transparent opacity-40 pointer-events-none z-0" />
+            <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-radial-gradient from-emerald-500/5 to-transparent opacity-40 pointer-events-none z-0" />
 
             {/* Background texture */}
             <div
@@ -165,7 +165,7 @@ export default function AboutUs() {
                 >
                     <div className={`${T.eyebrow} mb-2 shadow-sm bg-white/80 backdrop-blur-sm border border-primary/20`}>
                         <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                        Manifiesto 2025
+                        Manifiesto
                     </div>
 
                     <h1 className={T.h1}>
@@ -189,18 +189,18 @@ export default function AboutUs() {
             <section className="py-4 md:py-6 px-4 relative z-10">
                 <div className="max-w-6xl mx-auto grid grid-cols-3 md:grid-cols-6 gap-y-6 gap-x-4 justify-items-center">
                     {[
-                        { icon: ShieldCheck, label: "Seguridad", color: "text-emerald-600", gradient: false },
-                        { icon: Eye, label: "Transparencia", color: "text-sky-600", gradient: true },
-                        { icon: Scale, label: "Independiente", color: "text-indigo-600", gradient: false },
-                        { icon: Handshake, label: "Confianza", color: "text-amber-600", gradient: true },
-                        { icon: TrendingUp, label: "Impacto", color: "text-violet-600", gradient: false },
-                        { icon: BadgeCheck, label: "Recompensa", color: "text-yellow-600", gradient: true },
-                    ].map(({ icon: Icon, label, color, gradient }) => (
+                        { icon: ShieldCheck, label: "Seguridad", gradient: false },
+                        { icon: Eye, label: "Transparencia", gradient: true },
+                        { icon: Scale, label: "Independiente", gradient: false },
+                        { icon: Handshake, label: "Confianza", gradient: true },
+                        { icon: TrendingUp, label: "Impacto", gradient: false },
+                        { icon: BadgeCheck, label: "Recompensa", gradient: true },
+                    ].map(({ icon: Icon, label, gradient }) => (
                         <div
                             key={label}
                             className="flex flex-col items-center gap-2 text-center group cursor-default"
                         >
-                            <IconCircle colorClass={color} isGradient={gradient}>
+                            <IconCircle colorClass="text-primary" isGradient={gradient}>
                                 <Icon size={28} strokeWidth={1.75} />
                             </IconCircle>
                             <span className={`${T.micro} group-hover:text-ink transition-colors duration-300`}>
@@ -214,7 +214,7 @@ export default function AboutUs() {
             {/* ================= TIMELINE (Palanca 4: Scroll Activation) ================= */}
             <section className="py-8 md:py-12 px-6 relative z-10 overflow-hidden">
                 {/* Subtle cool background for timeline */}
-                <div className="absolute inset-0 bg-slate-50/50 -skew-y-3 z-0 transform origin-top-left scale-110" />
+                <div className="absolute inset-0 bg-white/50 -skew-y-3 z-0 transform origin-top-left scale-110" />
 
                 <div className="max-w-4xl mx-auto relative z-10">
                     <div className="text-center mb-10">
@@ -242,7 +242,7 @@ export default function AboutUs() {
                                     Compartes tu experiencia honesta sobre una marca, lugar o tema.
                                 </p>
                             </div>
-                            <TimelineIcon activeColorClass="text-blue-600">
+                            <TimelineIcon activeColorClass="text-indigo-600">
                                 <MessageSquare size={22} strokeWidth={1.75} />
                             </TimelineIcon>
                             <div className={`md:w-1/2 md:pl-16 hidden md:block ${T.italicNote}`}>
@@ -268,7 +268,7 @@ export default function AboutUs() {
                                 <h3 className={T.h3}>2. Blindamos tu Identidad</h3>
                                 <p className={`${T.p} mt-2`}>
                                     Nuestra tecnología{" "}
-                                    <span className="font-bold text-emerald-600">Zero-Knowledge</span>{" "}
+                                    <span className="font-bold text-primary">Zero-Knowledge</span>{" "}
                                     separa quién eres de lo que dices. Eres libre.
                                 </p>
                             </div>
@@ -288,11 +288,11 @@ export default function AboutUs() {
                                     El ruido se cancela. La verdad emerge clara e innegable.
                                 </p>
                             </div>
-                            <TimelineIcon activeColorClass="text-violet-600">
+                            <TimelineIcon activeColorClass="text-primary">
                                 <BarChart3 size={22} strokeWidth={1.75} />
                             </TimelineIcon>
                             <div className={`md:w-1/2 md:pl-16 hidden md:block ${T.italicNote}`}>
-                                +15.000 usuarios piensan lo mismo.
+                                Miles de usuarios piensan lo mismo.
                             </div>
                         </motion.div>
 
@@ -307,14 +307,14 @@ export default function AboutUs() {
                             <div className={`md:w-1/2 md:pr-16 md:text-right hidden md:block ${T.italicNote}`}>
                                 Las empresas se adaptan o mueren.
                             </div>
-                            <TimelineIcon activeColorClass="text-amber-500">
+                            <TimelineIcon activeColorClass="text-primary">
                                 <Rocket size={22} strokeWidth={1.75} />
                             </TimelineIcon>
                             <div className="md:w-1/2 md:pl-16 pl-20 pt-2 md:pt-0">
                                 <h3 className={T.h3}>4. El Cambio Ocurre</h3>
                                 <p className={`${T.p} mt-2`}>
                                     Las empresas reciben la Señal.{" "}
-                                    <span className="font-bold text-amber-600/90">Tú ganas.</span>
+                                    <span className="font-bold text-primary">Tú ganas.</span>
                                 </p>
                             </div>
                         </motion.div>
@@ -356,7 +356,7 @@ export default function AboutUs() {
             </section>
 
             {/* Disclaimer */}
-            <section className="py-8 px-6 text-center border-t border-stroke bg-slate-50">
+            <section className="py-8 px-6 text-center border-t border-stroke bg-white">
                 <p className="text-xs text-text-secondary max-w-3xl mx-auto leading-relaxed opacity-70">
                     <strong>Disclaimer:</strong> Opina+ es una plataforma independiente de opinión.
                     Las marcas, productos y servicios mencionados pertenecen a sus respectivos dueños.

@@ -4,17 +4,34 @@
 
 @layer base {
 
+  :root {
+    /* ✅ BRAND ACCENT GLOBAL DEFINITION - STRICT FROM THEME */
+    --brand-accent: linear-gradient(to right, #4f46e5, #10b981);
+    --brand-accent-solid: #4f46e5;
+
+    /* ✅ DESIGN TOKENS */
+    --primary: #4f46e5;
+    --secondary: #10b981;
+    --ink: #0F172A;
+    --surface2: #F8FAFC;
+    --stroke: #E2E8F0;
+  }
+
   html,
   body {
-    background: #ffffff !important;
+    background: #FFFFFF !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   body {
-    @apply bg-bg text-ink font-sans min-h-screen overflow-x-hidden m-0 antialiased;
+    background-color: #FFFFFF;
+    @apply text-ink font-sans min-h-screen m-0 antialiased;
   }
 
   ::selection {
-    background: rgba(99, 102, 241, 0.22);
+    @apply bg-indigo-600/20 text-indigo-900;
   }
 }
 
@@ -87,12 +104,35 @@
   }
 
   .grad-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+    @apply text-primary;
   }
 
-  /* ✅ BRAND GRADIENT: Unificado con el Logo (Indigo -> Emerald) */
+  /* ✅ BRAND COLOR: Unified */
   .text-gradient-brand {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-emerald-500;
+    background: var(--brand-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-gradient-brand {
+    background: var(--brand-accent);
+  }
+
+  /* ✅ AURORA UTILITIES - Simplified/Removed colors */
+  .bg-aurora {
+    background-color: rgba(79, 70, 229, 0.05);
+    /* Very subtle indigo tint */
+  }
+
+  .text-aurora {
+    @apply text-indigo-600;
+  }
+
+  .glass-aurora {
+    @apply bg-white/70 backdrop-blur-lg border border-white/60;
+    box-shadow: 0 8px 32px 0 rgba(79, 70, 229, 0.05);
   }
 
   .container-ws {
@@ -111,7 +151,8 @@
 
 @layer components {
   .card {
-    @apply bg-surface hairline rounded-3xl shadow-card;
+    @apply bg-white border border-slate-200 rounded-xl shadow-sm;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   }
 
   /* ✅ ANTI-AIRE: padding más compacto */
@@ -120,15 +161,21 @@
   }
 
   .card-hover {
-    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lift;
+    @apply transition-shadow duration-200;
+  }
+
+  .card-hover:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold tracking-tight transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary/20 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold tracking-tight transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 active:scale-[0.98];
   }
 
   .btn-primary {
-    @apply btn bg-gradient-to-r from-indigo-600 to-emerald-500 text-white shadow-lg shadow-indigo-500/25 border-0 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 hover:opacity-90;
+    @apply btn text-white border-0 hover:-translate-y-0.5 hover:opacity-90;
+    background: var(--brand-accent);
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.25), 0 4px 6px -2px rgba(79, 70, 229, 0.1);
   }
 
   .btn-secondary {
@@ -136,7 +183,7 @@
   }
 
   .btn-ghost {
-    @apply btn bg-transparent text-ink hover:bg-surface2/50 hover:text-primary;
+    @apply btn bg-transparent text-ink hover:bg-surface2 hover:text-indigo-600;
   }
 
   .badge {
@@ -144,11 +191,11 @@
   }
 
   .badge-primary {
-    @apply badge bg-primary/10 text-primary border-primary/20;
+    @apply badge bg-indigo-50 text-indigo-600 border-indigo-100;
   }
 
   .badge-accent {
-    @apply badge bg-accent/10 text-accent border-accent/20;
+    @apply badge bg-indigo-50 text-indigo-600 border-indigo-100;
   }
 
   /* ✅ Tu panel glass (lo estabas usando en Home) */
@@ -158,11 +205,16 @@
 
   /* ✅ HERO CTA: Unique to Home, larger, solid color */
   .btn-hero {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-emerald-500 text-white text-lg font-bold tracking-tight shadow-xl shadow-indigo-500/25 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/40 hover:-translate-y-1 hover:opacity-90 active:scale-95 focus:outline-none focus:ring-4 focus:ring-primary/20 border-0;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl text-white text-lg font-bold tracking-tight shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:opacity-90 active:scale-95 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 border-0;
     height: 3.5rem;
-    /* ~56px */
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+    background: var(--brand-accent);
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.25);
+
+    .header-lined {
+      @apply border-b border-slate-200 pb-3 mb-6;
+    }
   }
 }
 

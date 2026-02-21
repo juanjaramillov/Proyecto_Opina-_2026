@@ -1,0 +1,505 @@
+import { useState, useEffect } from "react";
+import { useActiveBattles } from "../../../hooks/useActiveBattles";
+import VersusGame from "../../signals/components/VersusGame";
+import { useSignalStore } from "../../../store/signalStore";
+// import { SIGNALS_PER_BATCH } from "../../../config/constants";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useToast } from "../../../components/ui/useToast";
+
+import { signalService } from "../../signals/services/signalService";
+import { sessionService } from "../../signals/services/sessionService";
+import InsightPack from "../../signals/components/InsightPack";
+import { Battle, BattleOption } from "../../signals/types";
+import { useAuth } from "../../auth";
+import RequestLoginModal from "../../auth/components/RequestLoginModal";
+import { MASTER_CLINICS } from "../../signals/config/clinics";
+import ProgressiveRunner from "../../signals/components/ProgressiveRunner";
+import { SkeletonModuleCard } from "../../../components/ui/Skeleton";
+const PROGRESSIVE_THEMES = {
+    clinics: {
+        id: 'prog-clinics-2026',
+        title: 'Torneo de Excelencia Médica',
+        subtitle: '¿Cuál es la mejor clínica de Santiago?',
+        industry: 'salud',
+        theme: {
+            primary: '#10b981', // emerald
+            accent: '#34d399',
+            bgGradient: 'from-emerald-50 to-white',
+            icon: 'medical_services'
+        },
+        candidates: MASTER_CLINICS.slice(0, 5)
+    },
+    streaming: {
+        id: 'prog-streaming-2026',
+        title: 'La Guerra del Streaming',
+        subtitle: '¿Cuál es tu plataforma definitiva?',
+        industry: 'entretencion',
+        theme: {
+            primary: '#8b5cf6', // violet
+            accent: '#a78bfa',
+            bgGradient: 'from-violet-50 to-white',
+            icon: 'movie'
+        },
+        candidates: [
+            { id: 'st-net', label: 'Netflix', image_url: '/images/options/netflix.png' },
+            { id: 'st-dis', label: 'Disney+', image_url: '/images/options/disneyplus.svg' },
+            { id: 'st-hbo', label: 'HBO Max', image_url: '/images/options/hbomax.png' },
+            { id: 'st-prm', label: 'Prime Video', image_url: '/images/options/primevideo.png' },
+            { id: 'st-yt', label: 'YouTube Premium', image_url: '/images/options/youtube.png' }
+        ]
+    },
+    smartphones: {
+        id: 'prog-phones-2026',
+        title: 'Duelo de Gigantes Tech',
+        subtitle: '¿Qué smartphone domina tu vida?',
+        industry: 'tecnologia',
+        theme: {
+            primary: '#3b82f6', // blue
+            accent: '#60a5fa',
+            bgGradient: 'from-blue-50 to-white',
+            icon: 'smartphone'
+        },
+        candidates: [
+            { id: 'ph-iph', label: 'iPhone', image_url: '/images/options/iphone.png' },
+            { id: 'ph-sam', label: 'Samsung Galaxy', image_url: '/images/options/samsung.png' },
+            { id: 'ph-xia', label: 'Xiaomi', image_url: '/images/options/xiaomi.png' },
+            { id: 'ph-mot', label: 'Motorola', image_url: '/images/options/motorola.png' },
+            { id: 'ph-hua', label: 'Huawei', image_url: '/images/options/huawei.png' }
+        ]
+    }
+};
+
+// const BATCH_SIZE = SIGNALS_PER_BATCH;
+const BATCH_SIZE = 50; // 🧪 MODO PRUEBAS: Lotes extendidos
+
+type ExperienceMode = "menu" | "versus" | "progressive" | "insights";
+
+export default function Experience() {
+    // 1. ALL HOOKS FIRST (Unconditional)
+    const { battles, loading } = useActiveBattles();
+    const { profile } = useAuth();
+    const { signals, signalsToday } = useSignalStore();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { showToast } = useToast();
+
+    // State
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState<BattleOption | null>(null);
+    const [selectedTheme, setSelectedTheme] = useState<keyof typeof PROGRESSIVE_THEMES | null>(null);
+
+    // Navigation & Batch Logic
+    const requestedBatch = (location.state as { nextBatch?: number })?.nextBatch;
+    const computedBatch = Math.floor(signals / BATCH_SIZE);
+    const initialBatch = typeof requestedBatch === "number" ? requestedBatch : computedBatch;
+    const [batchIndex] = useState(initialBatch);
+
+    const [mode, setMode] = useState<ExperienceMode>(
+        typeof requestedBatch === "number" ? "versus" : "menu"
+    );
+
+    // 2. EFFECTS
+    // Enforce profile completion
+    useEffect(() => {
+        if (profile && !profile.isProfileComplete) {
+            navigate("/complete-profile", { replace: true });
+        }
+    }, [profile, navigate]);
+
+    // Start or resume session when in versus mode
+    useEffect(() => {
+        const initSession = async () => {
+            if (mode === "versus") {
+                try {
+                    // Start or Resume session
+                    await sessionService.startNewSession();
+                } catch (err) {
+                    console.error("Session init failed:", err);
+                }
+            }
+        };
+        initSession();
+    }, [mode]);
+
+    // 3. HANDLERS
+    const handleOptionSelect = (option: BattleOption) => {
+        setSelectedOption(option);
+        setMode("insights");
+    };
+
+    const handleVote = async (battleId: string, optionId: string, _opponentId: string): Promise<Record<string, number>> => {
+        // 🧪 MODO PRUEBAS: Límites desactivados por petición del usuario
+        /*
+        if (profile && profile.signalsDailyLimit !== -1 && signalsToday >= profile.signalsDailyLimit) {
+            if (profile.tier === 'guest') {
+                setIsLoginModalOpen(true);
+                showToast("Límite de invitado alcanzado. Verifica tu cuenta para emitir más señales.", "info");
+            } else {
+                showToast("Has alcanzado tu límite diario de señales. ¡Vuelve mañana!", "info");
+            }
+            return {};
+        }
+        */
+
+        // Fire-and-forget signal save to eliminate UI friction
+        signalService.saveSignalEvent({
+            battle_id: battleId,
+            option_id: optionId
+        }).catch(err => {
+            console.error("Failed to save vote:", err);
+            showToast("Tu voto offline se sincronizará luego.", "info");
+        });
+
+        // Resolve immediately for local ultra-fast UI transition
+        return {};
+    };
+
+    const handleBatchComplete = () => {
+        navigate("/results", { state: { batchIndex } });
+    };
+
+    const handlePlaceholderClick = (name: string) => {
+        showToast(`La experiencia "${name}" estará disponible próximamente.`, "info");
+    };
+
+    // 4. EARLY RETURNS
+    if (profile && !profile.isProfileComplete) return null;
+    if (loading && battles.length === 0) {
+        return (
+            <div className="min-h-screen bg-slate-50 py-20 px-4">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-col items-center gap-4 mb-12 animate-pulse">
+                        <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-full px-3 py-1 text-xs font-bold tracking-widest uppercase text-slate-600">
+                            <span className="material-symbols-outlined text-[16px]">bolt</span>
+                            Emite señales
+                        </div>
+                        <h1 className="mt-4 text-3xl md:text-4xl font-black tracking-tight text-slate-900">
+                            Tu opinión es una señal
+                        </h1>
+                        <p className="mt-2 text-slate-600 max-w-2xl mx-auto">
+                            Selecciona tu canal de expresión.
+                        </p>
+                    </div>
+                    {/* Skeleton Grid for 6 Hub modules */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-70">
+                        <SkeletonModuleCard />
+                        <SkeletonModuleCard />
+                        <SkeletonModuleCard />
+                        <SkeletonModuleCard />
+                        <SkeletonModuleCard />
+                        <SkeletonModuleCard />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Insight option select removed
+
+    if (loading) return null;
+
+    return (
+        <div className="min-h-screen bg-white">
+            {/* TOP HERO STRIP */}
+            <section className="relative overflow-hidden bg-white text-slate-900 pt-10 pb-8">
+                <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
+                    <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-full px-3 py-1 text-xs font-bold tracking-widest uppercase text-slate-600">
+                        <span className="material-symbols-outlined text-[16px]">bolt</span>
+                        Emite señales
+                    </div>
+
+                    <h1 className="mt-4 text-3xl md:text-4xl font-black tracking-tight text-slate-900">
+                        Tu opinión es una señal
+                    </h1>
+                    <p className="mt-2 text-slate-600 max-w-2xl mx-auto">
+                        {mode === 'menu'
+                            ? 'Selecciona tu canal de expresión.'
+                            : (mode === 'versus'
+                                ? `Bloque ${batchIndex + 1}: Calibrando preferencias.`
+                                : '')}
+                    </p>
+
+                    {/* BACK TO HUB BUTTON */}
+                    {mode !== 'menu' && (
+                        <div className="mt-6 flex justify-center">
+                            <button
+                                onClick={() => setMode('menu')}
+                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm transition-all active:scale-95"
+                            >
+                                <span className="material-symbols-outlined text-lg">grid_view</span>
+                                Volver al Hub
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* GLOBAL EMPTY STATE when no battles loaded */}
+            {!loading && battles.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                    <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6">
+                        <span className="material-symbols-outlined text-4xl text-slate-400">dns</span>
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Conectando con la base de señales...</h2>
+                    <p className="text-slate-500 max-w-md">
+                        Estamos calibrando las experiencias. Si esto persiste, verifica tu conexión o la base de datos.
+                    </p>
+                </div>
+            )}
+
+            {/* INTERACTION AREA */}
+            {battles.length > 0 && (
+                <section className="relative z-10 w-full max-w-6xl mx-auto px-4 pb-20">
+
+                    {/* HUB MENU */}
+                    {mode === 'menu' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+
+                            {/* 1. VERSUS (Classic) */}
+                            <button
+                                onClick={() => setMode('versus')}
+                                className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm transition-all text-left flex flex-col h-full group hover:shadow-lg hover:shadow-primary/10 hover:border-primary/50 hover:-translate-y-1 active:scale-[0.98]"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <span className="material-symbols-outlined text-2xl">swords</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2">Versus</h3>
+                                <p className="text-sm text-slate-500 mb-4">Comparaciones rápidas 1 vs 1. Calibra tus preferencias fundamentales.</p>
+
+                                <div className="mt-auto flex items-center gap-3 pt-4 border-t border-slate-50">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="relative flex h-1.5 w-1.5">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                        </span>
+                                        <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">124 en línea</span>
+                                    </div>
+                                    <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">8.4k señales hoy</div>
+                                </div>
+                            </button>
+
+                            {/* 2. PROGRESIVO (Ladder Tournament) */}
+                            <button
+                                onClick={() => setMode('progressive')}
+                                className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm transition-all text-left flex flex-col h-full group hover:shadow-lg hover:shadow-secondary/10 hover:border-secondary/50 hover:-translate-y-1 active:scale-[0.98]"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <span className="material-symbols-outlined text-2xl">rocket_launch</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2">Versus Progresivo</h3>
+                                <p className="text-sm text-slate-500 mb-4">Modo torneo. Enfrenta a los mejores hasta coronar a un único ganador.</p>
+
+                                <div className="mt-auto flex items-center gap-3 pt-4 border-t border-slate-50">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="relative flex h-1.5 w-1.5">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                        </span>
+                                        <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">42 en línea</span>
+                                    </div>
+                                    <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">1.2k récords</div>
+                                </div>
+                            </button>
+
+
+                            {/* 3. PROFUNDIDAD (ACTIVO) */}
+                            <button
+                                onClick={() => setMode('insights')}
+                                className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm transition-all text-left flex flex-col h-full group hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/50 hover:-translate-y-1 active:scale-[0.98]"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <span className="material-symbols-outlined text-2xl">insights</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2">Profundidad</h3>
+                                <p className="text-sm text-slate-500 mb-4">Análisis detallado. Ayuda a refinar la inteligencia colectiva sobre opciones específicas.</p>
+
+                                <div className="mt-auto flex items-center gap-3 pt-4 border-t border-slate-50">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="relative flex h-1.5 w-1.5">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                        </span>
+                                        <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">Activo</span>
+                                    </div>
+                                    <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">Core Insights</div>
+                                </div>
+                            </button>
+
+                            {/* 4. LUGARES (Placeholder) */}
+                            <button
+                                onClick={() => handlePlaceholderClick('Lugares')}
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                            >
+                                <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
+                                <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
+                                    <span className="material-symbols-outlined text-2xl">location_on</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-700 tracking-tight mb-2">Lugares</h3>
+                                <p className="text-sm text-slate-500">Califica experiencias en ubicaciones físicas.</p>
+                            </button>
+
+                            {/* 5. SERVICIO (Placeholder) */}
+                            <button
+                                onClick={() => handlePlaceholderClick('Servicio')}
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                            >
+                                <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
+                                <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
+                                    <span className="material-symbols-outlined text-2xl">support_agent</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-700 tracking-tight mb-2">Servicio</h3>
+                                <p className="text-sm text-slate-500">Evalúa la calidad de atención y servicio.</p>
+                            </button>
+
+                            {/* 6. NPS (Placeholder) */}
+                            <button
+                                onClick={() => handlePlaceholderClick('NPS')}
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                            >
+                                <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
+                                <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
+                                    <span className="material-symbols-outlined text-2xl">thumbs_up_down</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-700 tracking-tight mb-2">NPS</h3>
+                                <p className="text-sm text-slate-500">Net Promoter Score. ¿Recomendarías esta marca?</p>
+                            </button>
+
+                        </div>
+                    )}
+
+                    {/* VERSUS MODE (Standard 1-on-1 Batch) */}
+                    {mode === 'versus' && (
+                        <div className="relative animate-in fade-in slide-in-from-bottom-8 duration-500" id="battle-runner">
+                            <VersusGame
+                                key={`versus-${batchIndex}`}
+                                battles={battles as unknown as Battle[]}
+                                onVote={handleVote}
+                                mode="classic"
+                                enableAutoAdvance={true}
+                                hideProgress={false}
+                                isQueueFinite={true}
+                                autoNextMs={800}
+                                disableInsights={false}
+                                onQueueComplete={handleBatchComplete}
+                                isSubmitting={false}
+                                theme={{
+                                    primary: '#3b82f6',
+                                    accent: '#60a5fa',
+                                    bgGradient: 'from-blue-50 to-white',
+                                    icon: 'query_stats'
+                                }}
+                            />
+                        </div>
+                    )}
+
+
+                    {/* PROGRESSIVE MODE (Tournament Ladder) */}
+                    {mode === 'progressive' && (
+                        <div className="relative animate-in fade-in slide-in-from-bottom-8 duration-500" id="battle-progressive">
+                            {!selectedTheme ? (
+                                <div className="max-w-4xl mx-auto space-y-12">
+                                    <div className="text-center space-y-4">
+                                        <h2 className="text-4xl font-black text-ink">Elige tu <span className="text-secondary">Torneo</span></h2>
+                                        <p className="text-text-secondary text-lg">Enfrenta opciones del mismo tema hasta encontrar al ganador.</p>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        {Object.entries(PROGRESSIVE_THEMES).map(([key, theme]) => (
+                                            <button
+                                                key={key}
+                                                onClick={() => setSelectedTheme(key as keyof typeof PROGRESSIVE_THEMES)}
+                                                className="bg-white p-8 rounded-3xl border border-stroke hover:border-secondary/50 hover:shadow-xl transition-all group text-left space-y-4"
+                                            >
+                                                <div className="w-12 h-12 rounded-2xl bg-secondary/5 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
+                                                    <span className="material-symbols-outlined">
+                                                        {key === 'clinics' ? 'medical_services' : key === 'streaming' ? 'movie' : 'smartphone'}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-black text-xl text-ink leading-tight">{theme.title}</h4>
+                                                    <p className="text-sm text-text-secondary mt-1">{theme.subtitle}</p>
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="text-center pt-8">
+                                        <button onClick={() => setMode('menu')} className="text-sm font-bold text-text-secondary hover:text-ink">Volver al Hub</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <ProgressiveRunner
+                                    progressiveData={PROGRESSIVE_THEMES[selectedTheme]}
+                                    onVote={handleVote}
+                                    onComplete={(winner) => {
+                                        showToast(`¡Torneo completado! El ganador es ${winner.label}`, "success");
+                                        setSelectedTheme(null);
+                                        setMode('menu');
+                                    }}
+                                />
+                            )}
+                        </div>
+                    )}
+
+                    {/* INSIGHTS MODE (Profundidad) */}
+                    {mode === 'insights' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-8 duration-500">
+                            {battles.flatMap(b => b.options).map(opt => (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => handleOptionSelect(opt)}
+                                    className="bg-white p-4 rounded-xl border border-slate-100 hover:border-emerald-500 hover:shadow-lg transition-all active:scale-[0.98] text-left group flex items-center gap-4"
+                                >
+                                    <div className="w-12 h-12 rounded-lg bg-slate-50 overflow-hidden flex-shrink-0">
+                                        {opt.image_url ? (
+                                            <img src={opt.image_url} alt={opt.label} className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-100">
+                                                <span className="material-symbols-outlined">image</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-900 truncate max-w-[150px]">{opt.label}</h4>
+                                        <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Profundizar</p>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* INSIGHT PACK OVERLAY */}
+                    {selectedOption && mode === 'insights' && (
+                        <InsightPack
+                            optionId={selectedOption.id}
+                            optionLabel={selectedOption.label}
+                            battleOptions={battles.find(b => b.options.some(o => o.id === selectedOption.id))?.options}
+                            onComplete={() => {
+                                setSelectedOption(null);
+                                setMode('menu');
+                            }}
+                            onCancel={() => setSelectedOption(null)}
+                        />
+                    )}
+                </section>
+            )
+            }
+
+            {/* FOOTER TEASER */}
+            <section className="relative z-10 max-w-6xl mx-auto px-4 text-center pb-8 opacity-30 mt-auto">
+                <p className="text-xs text-slate-500">
+                    Las señales se vuelven más valiosas con mejor perfil y verificación.
+                    ({signalsToday}/{profile?.signalsDailyLimit ?? '?'})
+                </p>
+            </section>
+
+            <RequestLoginModal
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
+                onSuccess={() => {
+                    setIsLoginModalOpen(false);
+                    showToast("¡Verificación exitosa! Tu límite ha aumentado.", "success");
+                }}
+            />
+        </div >
+    );
+}
+

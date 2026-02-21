@@ -1,12 +1,20 @@
 export type BattleOption = {
     id: 'A' | 'B' | string;
     label: string;
-    imageUrl?: string;
+    imageUrl?: string | null;
+    image_url?: string | null; // Database mapping
+    imageFit?: 'cover' | 'contain'; // Control image spread
     icon?: string;
     type?: 'image' | 'brand' | 'text' | 'icon';
     color?: string;
     bgColor?: string;
     imageClassName?: string;
+    stats?: {
+        totalAnswers: number;
+        onlineCount: number;
+        consensus?: number;
+        trend?: 'up' | 'down' | 'stable';
+    };
 };
 
 export type Battle = {
@@ -20,8 +28,20 @@ export type Battle = {
     showPercentage?: boolean;
     isHighSignal?: boolean;
     type?: 'versus' | 'separator';
+    layout?: 'versus' | 'opinion' | 'topic'; // Visual layout control
+    mainImageUrl?: string | null; // Primary subject image for 'opinion' layout
     separatorText?: string;
-    industry?: string; // For progressive
+    industry?: string;
+    category: string; // Tailored survey category
+    isRepeatable?: boolean;
+    insights?: InsightQuestion[];
+};
+
+export type InsightQuestion = {
+    id: string;
+    question: string;
+    type?: string;
+    options: { id: string; label: string }[];
 };
 
 export type ProgressiveBattle = {
@@ -29,6 +49,12 @@ export type ProgressiveBattle = {
     title: string;
     subtitle?: string;
     industry?: string;
+    theme?: {
+        primary: string;
+        accent: string;
+        bgGradient: string;
+        icon: string;
+    };
     candidates: BattleOption[];
 };
 

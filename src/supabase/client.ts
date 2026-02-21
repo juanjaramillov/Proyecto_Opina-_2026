@@ -7,14 +7,9 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase = createClient<Database>(supabaseUrl || '', supabaseAnonKey || '');
 
-// Fail fast in development/production if keys are missing
+// Warn in development if keys are missing (handled critically in index.tsx)
 if (!supabaseUrl || !supabaseAnonKey) {
     if (import.meta.env.MODE !== 'test') {
-        throw new Error(
-            'CRITICAL: Missing Supabase environment variables. ' +
-            'Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.'
-        );
-    } else {
-        console.warn('Supabase keys missing in test mode - using mock client.');
+        console.warn('CRITICAL: Missing Supabase environment variables. App should be blocked by index.tsx.');
     }
 }
