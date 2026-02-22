@@ -4,6 +4,7 @@ import { useAuth } from "../../features/auth";
 import { useRole } from "../../hooks/useRole";
 import { useSignalStore } from "../../store/signalStore";
 import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
+import { getUserLevel } from "../../lib/levelSystem";
 
 const MENU_ITEMS = [
   { id: 'participa', label: 'Participa', route: '/experience' },
@@ -50,7 +51,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl mr-auto ml-4 shadow-sm hover:shadow-md transition-shadow hidden min-[400px]:flex">
               <div className="flex flex-col items-start justify-center pr-2">
                 <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Lvl</span>
-                <span className="text-sm font-bold text-slate-700 leading-none">{Math.floor(signals / 10) + 1}</span>
+                <span className="text-sm font-bold text-slate-700 leading-none">{getUserLevel(signals).level}</span>
               </div>
             </div>
           )}

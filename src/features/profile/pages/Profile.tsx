@@ -222,7 +222,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                   {isLocked ? (
                     <>
                       <span className="material-symbols-outlined">bolt</span>
-                      Semicontinuar Calibración
+                      Continuar Calibración
                     </>
                   ) : (
                     <>

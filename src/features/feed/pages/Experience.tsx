@@ -363,7 +363,7 @@ export default function Experience() {
                             {/* 5. LUGARES (Placeholder) */}
                             <button
                                 onClick={() => handlePlaceholderClick('Lugares')}
-                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-70 cursor-default relative overflow-hidden"
                             >
                                 <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
                                 <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
@@ -376,7 +376,7 @@ export default function Experience() {
                             {/* 6. SERVICIO (Placeholder) */}
                             <button
                                 onClick={() => handlePlaceholderClick('Servicio')}
-                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-70 cursor-default relative overflow-hidden"
                             >
                                 <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
                                 <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
@@ -389,7 +389,7 @@ export default function Experience() {
                             {/* 7. NPS (Placeholder) */}
                             <button
                                 onClick={() => handlePlaceholderClick('NPS')}
-                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-70 cursor-default relative overflow-hidden"
                             >
                                 <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
                                 <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
@@ -402,7 +402,7 @@ export default function Experience() {
                             {/* 8. ACTUALIDAD (Placeholder/New) */}
                             <button
                                 onClick={() => handlePlaceholderClick('Actualidad')}
-                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-70 cursor-default relative overflow-hidden"
                             >
                                 <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
                                 <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
@@ -415,7 +415,7 @@ export default function Experience() {
                             {/* 9. ESCÁNER (Placeholder/New) */}
                             <button
                                 onClick={() => handlePlaceholderClick('Escáner de Productos')}
-                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-70 cursor-default relative overflow-hidden"
                             >
                                 <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
                                 <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">

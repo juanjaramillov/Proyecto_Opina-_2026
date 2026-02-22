@@ -44,7 +44,7 @@ export default function Home() {
       <section className="relative w-full min-h-[85vh] flex items-center justify-center bg-white px-6 py-32 overflow-hidden">
         {/* Fondo sutil tipo señal (muy leve, no llamativo) */}
         <div className="absolute inset-0 pointer-events-none opacity-5">
-          <div className="w-full h-full bg-[radial-gradient(circle_at_center,_rgba(79,70,229,0.4)_0%,_transparent_60%)]"></div>
+          <div className="w-full h-full bg-[radial-gradient(circle_at_center,_rgba(79,70,229,0.15)_0%,_transparent_60%)]"></div>
         </div>
 
         <div className="relative max-w-4xl mx-auto text-center">

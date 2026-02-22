@@ -144,8 +144,8 @@ export default function AboutUs() {
         <div className="min-h-screen bg-bg text-ink font-sans overflow-x-hidden selection:bg-primary selection:text-white pb-16 relative">
 
             {/* ATMOSPHERE: Subtle Background Blobs */}
-            <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-radial-gradient from-primary/5 to-transparent opacity-50 pointer-events-none z-0 mix-blend-multiply" />
-            <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-radial-gradient from-emerald-500/5 to-transparent opacity-40 pointer-events-none z-0" />
+            <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-radial-gradient from-primary/5 to-transparent opacity-20 pointer-events-none z-0 mix-blend-multiply" />
+            <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-radial-gradient from-emerald-500/5 to-transparent opacity-15 pointer-events-none z-0" />
 
             {/* Background texture */}
             <div
