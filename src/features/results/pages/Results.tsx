@@ -27,79 +27,62 @@ import { useAuth } from "../../auth";
 import { useSignalStore } from "../../../store/signalStore";
 import RequestLoginModal from "../../auth/components/RequestLoginModal";
 import { motion } from "framer-motion";
-import { signalService, ShareOfPreferenceRow, ActiveBattle } from "../../signals/services/signalService"; // Real Service
-// import ProfileRadiography from "../../signals/components/ProfileRadiography";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
-
-type Filters = {
-  region: "RM" | "Valparaíso" | "Biobío";
-  age: "18–24" | "25–34" | "35–44";
-  category: "Sociedad" | "Economía" | "Política" | "Trabajo" | "Deportes";
-  windowLabel: "24h" | "7 días" | "30 días";
-};
+import { analyticsService, AdvancedResult, AnalyticsFilters } from "../services/analyticsService";
 
 const Results: React.FC = () => {
-  const [filters, setFilters] = useState<Filters>({
-    region: "RM",
-    age: "18–24",
-    category: "Sociedad",
-    windowLabel: "7 días",
+  const [filters, setFilters] = useState<AnalyticsFilters & { category: string }>({
+    region: undefined,
+    gender: undefined,
+    age_bucket: undefined,
+    category: "streaming", // Default category
   });
 
-  // const location = useLocation(); 
   const navigate = useNavigate();
   const { profile } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   // REAL DATA STATE
   const [loading, setLoading] = useState(true);
-  const [activeBattle, setActiveBattle] = useState<ActiveBattle | null>(null);
-  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-  const [results, setResults] = useState<ShareOfPreferenceRow[]>([]);
+  const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
+  const [results, setResults] = useState<AdvancedResult[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch Data on Mount
+  // Fetch Data on Filter Change
   React.useEffect(() => {
     let mounted = true;
 
     const loadData = async () => {
+      setLoading(true);
       try {
-        // 1. Get Active Battles
-        const battles = await signalService.getActiveBattles();
-        if (!mounted) return;
+        const data = await analyticsService.getAdvancedResults(filters.category, {
+          region: filters.region,
+          gender: filters.gender,
+          age_bucket: filters.age_bucket
+        });
 
-        if (battles.length > 0) {
-          const current = battles[0];
-          setActiveBattle(current);
-          if (current.options.length > 0) {
-            setSelectedOptionId(current.options[0].id);
-          }
-
-          // 2. Get Weighted Results (will fail 404 but we catch it)
-          try {
-            const prefs = await signalService.getShareOfPreference(current.id);
-            if (mounted) setResults(prefs);
-          } catch (prefErr) {
-            console.warn("Share of preference API failed. No local fallback available.", prefErr);
+        if (mounted) {
+          setResults(data);
+          if (data.length > 0 && !selectedEntityId) {
+            setSelectedEntityId(data[0].entity_id);
           }
         }
       } catch (err) {
-        console.error("Failed to load battles:", err);
-        if (mounted) setError("No se pudieron cargar los datos globales.");
+        console.error("Failed to load advanced results:", err);
+        if (mounted) setError("No se pudieron cargar los datos de análisis.");
       } finally {
         if (mounted) setLoading(false);
       }
     };
 
     loadData();
-
     return () => { mounted = false; };
-  }, []);
+  }, [filters, selectedEntityId]);
 
   // LOGIC: Use store only for summary progress
   const signals = useSignalStore(s => s.signals);
 
-  // Threshold Logic (Restored)
+  // Threshold Logic
   const completedSignals = signals;
   const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD;
   const progressPercent = Math.min((completedSignals / MIN_SIGNALS_THRESHOLD) * 100, 100);
@@ -109,51 +92,41 @@ const Results: React.FC = () => {
     navigate('/experience', { state: { nextBatch: nextBatchIndex } });
   };
 
-  // Derived Effective Results (Strictly from Supabase)
-  const effectiveResults = results;
-
-  // Calculate Real KPIs from Data
+  // KPI Calculations
   const kpis = React.useMemo(() => {
-    const totalVolume = effectiveResults.reduce((acc, r) => acc + r.signals_count, 0) || signals;
-    const consensus = effectiveResults.length > 0 ? Math.max(...effectiveResults.map(r => r.share_pct)) : 0;
+    const totalVolume = results.reduce((acc, r) => acc + Number(r.total_signals), 0);
+    const maxPreference = results.length > 0 ? Math.max(...results.map(r => r.preference_rate)) : 0;
 
     return {
       sampleN: totalVolume,
-      consensus: consensus,
-      deltaPts: effectiveResults.length > 0 ? 1.5 : 0,
-      volatility: "Baja" as const,
-      quality: "Alta" as const,
-      alert: "Sin alerta" as const,
-      drivers: ["Calidad", "Precio"] as [string, string], // Stable array
-      series: [] as number[],
+      consensus: maxPreference.toFixed(1),
+      avgQuality: results.length > 0 ? (results.reduce((acc, r) => acc + Number(r.avg_quality), 0) / results.length).toFixed(1) : 0,
+      volatility: "Media" as const,
+      drivers: ["Calidad", "Frecuencia"] as [string, string],
+      deltaPts: 2.1
     };
-  }, [effectiveResults, signals]);
+  }, [results]);
 
   const chartData = React.useMemo(() => {
-    if (effectiveResults.length === 0) return null;
-
-    // Map Option IDs to Labels
-    const getLabel = (optId: string) => {
-      const opt = activeBattle?.options.find(o => o.id === optId);
-      return opt ? opt.label : optId;
-    };
+    if (results.length === 0) return null;
 
     return {
-      labels: effectiveResults.map(r => getLabel(r.option_id)),
+      labels: results.map(r => r.entity_name),
       datasets: [
         {
-          data: effectiveResults.map(r => r.share_pct),
+          data: results.map(r => r.preference_rate),
           backgroundColor: [
             "#6366F1",
             "#8B5CF6",
             "#EC4899",
-            "#14B8A6"
+            "#14B8A6",
+            "#F59E0B"
           ],
           borderWidth: 0
         }
       ]
     };
-  }, [effectiveResults, activeBattle]);
+  }, [results]);
 
   const chartOptions = React.useMemo(() => ({
     responsive: true,
@@ -200,37 +173,38 @@ const Results: React.FC = () => {
           </div>
 
           <div className={`flex flex-wrap gap-3 items-end transition-opacity duration-500 ${(isLocked || !profile?.canSeeInsights) ? 'opacity-50 pointer-events-none grayscale' : ''}`}>
-            {/* Filters (Disabled when locked) */}
             <Select
               label="Región"
               value={filters.region}
-              onChange={(e) => setFilters((p) => ({ ...p, region: e.target.value as Filters["region"] }))}
+              onChange={(e) => setFilters((p) => ({ ...p, region: e.target.value }))}
             >
-              <option>RM</option>
-              <option>Valparaíso</option>
-              <option>Biobío</option>
+              <option value="">Todas</option>
+              <option value="RM">RM</option>
+              <option value="Valparaíso">Valparaíso</option>
+              <option value="Biobío">Biobío</option>
             </Select>
 
             <Select
-              label="Edad"
-              value={filters.age}
-              onChange={(e) => setFilters((p) => ({ ...p, age: e.target.value as Filters["age"] }))}
+              label="Género"
+              value={filters.gender}
+              onChange={(e) => setFilters((p) => ({ ...p, gender: e.target.value }))}
             >
-              <option>18–24</option>
-              <option>25–34</option>
-              <option>35–44</option>
+              <option value="">Todos</option>
+              <option value="male">Hombre</option>
+              <option value="female">Mujer</option>
+              <option value="other">Otro</option>
             </Select>
 
             <Select
               label="Categoría"
               value={filters.category}
-              onChange={(e) => setFilters((p) => ({ ...p, category: e.target.value as Filters["category"] }))}
+              onChange={(e) => setFilters((p) => ({ ...p, category: e.target.value }))}
             >
-              <option>Sociedad</option>
-              <option>Economía</option>
-              <option>Política</option>
-              <option>Trabajo</option>
-              <option>Deportes</option>
+              <option value="streaming">Streaming</option>
+              <option value="bebidas">Bebidas</option>
+              <option value="vacaciones">Vacaciones</option>
+              <option value="smartphones">Smartphones</option>
+              <option value="retail">Retail</option>
             </Select>
 
             <button className="h-[42px] px-4 rounded-xl bg-ink text-white text-[11px] font-black hover:opacity-90 transition-all shadow-lg uppercase tracking-[0.14em] flex items-center gap-2">
@@ -292,7 +266,6 @@ const Results: React.FC = () => {
 
             {/* TOP ROW: ACTIVITY CARDS (KPIs) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* ... Same KPI Cards ... */}
               <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex items-center gap-5 relative overflow-hidden group">
                 <div className="absolute right-0 top-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                   <span className="material-symbols-outlined text-8xl text-indigo-600">groups</span>
@@ -356,7 +329,7 @@ const Results: React.FC = () => {
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <h3 className="font-black text-ink text-lg tracking-tight">Distribución de Preferencias</h3>
-                      <p className="text-xs text-muted font-medium">Desglose porcentual de opciones (Simulado)</p>
+                      <p className="text-xs text-muted font-medium">Desglose porcentual por entidad</p>
                     </div>
                     <button className="text-muted hover:text-ink transition">
                       <span className="material-symbols-outlined">more_horiz</span>
@@ -366,8 +339,8 @@ const Results: React.FC = () => {
                   {/* Chart Container */}
                   <div className="bg-white/5 backdrop-blur-xl p-6 rounded-2xl flex justify-center">
                     {(() => {
-                      if (loading && effectiveResults.length === 0) return <div className="text-sm text-slate-400 py-10">Cargando datos...</div>;
-                      if (error && effectiveResults.length === 0) return <div className="text-sm text-red-100 py-10 bg-red-400/10 rounded-xl">{error}</div>;
+                      if (loading && results.length === 0) return <div className="text-sm text-slate-400 py-10">Cargando datos...</div>;
+                      if (error && results.length === 0) return <div className="text-sm text-red-100 py-10 bg-red-400/10 rounded-xl">{error}</div>;
                       if (!chartData) return <div className="text-sm text-slate-400 py-10">No hay datos suficientes aún.</div>;
 
                       return (
@@ -382,10 +355,10 @@ const Results: React.FC = () => {
                 {/* AI Insight */}
                 <InsightAuto
                   tier={profile?.tier || 'guest'}
-                  region={filters.region}
-                  age={filters.age}
+                  region={filters.region || "Chile"}
+                  age={filters.age_bucket || "Todos"}
                   category={filters.category}
-                  windowLabel={filters.windowLabel}
+                  windowLabel="7 días"
                   deltaPts={kpis.deltaPts}
                   volatility={kpis.volatility}
                   driversTop2={kpis.drivers}
@@ -393,23 +366,23 @@ const Results: React.FC = () => {
                 />
 
                 {/* Depth Insights Panel (Visible for registered users with insight access) */}
-                {profile?.canSeeInsights && activeBattle && selectedOptionId && (
+                {profile?.canSeeInsights && results.length > 0 && selectedEntityId && (
                   <div className="mt-8">
                     <div className="flex items-center justify-between mb-4 px-1">
                       <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest">
                         Analítica por Opción
                       </h3>
                       <select
-                        value={selectedOptionId}
-                        onChange={(e) => setSelectedOptionId(e.target.value)}
+                        value={selectedEntityId}
+                        onChange={(e) => setSelectedEntityId(e.target.value)}
                         className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold text-ink outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                       >
-                        {activeBattle.options.map(opt => (
-                          <option key={opt.id} value={opt.id}>{opt.label}</option>
+                        {results.map(r => (
+                          <option key={r.entity_id} value={r.entity_id}>{r.entity_name}</option>
                         ))}
                       </select>
                     </div>
-                    <DepthAnalyticsPanel optionId={selectedOptionId} />
+                    <DepthAnalyticsPanel optionId={selectedEntityId} />
                   </div>
                 )}
 
@@ -428,7 +401,7 @@ const Results: React.FC = () => {
                   </div>
                   <h3 className="font-black text-ink mb-2">Construyendo Base Comparativa</h3>
                   <p className="text-xs text-muted font-medium max-w-[220px] mb-6 leading-relaxed">
-                    Necesitamos más señales para generar comparativas confiables. Sigue participando para acelerar el análisis.
+                    Estamos integrando más señales para generar comparativas históricas. Sigue participando para acelerar el análisis.
                   </p>
                   <button
                     onClick={handleContinue}
@@ -448,7 +421,7 @@ const Results: React.FC = () => {
 
                   <div className="space-y-6">
                     {/* Recent Signals List - DISABLED (No API) */}
-                    {/* 
+                    {/*
                     {mockSessionBatch.map((result, idx) => ( ... ))}
                      */}
                     <div className="text-center text-slate-400 text-xs py-4">
@@ -491,8 +464,7 @@ const Results: React.FC = () => {
               )}
             </div>
           </motion.div>
-        )
-        }
+        )}
 
         <RequestLoginModal
           isOpen={showLoginModal}

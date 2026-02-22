@@ -12,60 +12,68 @@ import InsightPack from "../../signals/components/InsightPack";
 import { Battle, BattleOption } from "../../signals/types";
 import { useAuth } from "../../auth";
 import RequestLoginModal from "../../auth/components/RequestLoginModal";
-import { MASTER_CLINICS } from "../../signals/config/clinics";
 import ProgressiveRunner from "../../signals/components/ProgressiveRunner";
 import { SkeletonModuleCard } from "../../../components/ui/Skeleton";
 const PROGRESSIVE_THEMES = {
-    clinics: {
-        id: 'prog-clinics-2026',
-        title: 'Torneo de Excelencia Médica',
-        subtitle: '¿Cuál es la mejor clínica de Santiago?',
+    streaming: {
+        id: 'tournament-streaming',
+        title: 'La Guerra del Streaming',
+        subtitle: '¿Cuál es tu plataforma definitiva?',
+        industry: 'streaming',
+        theme: {
+            primary: '#8b5cf6', // violet
+            accent: '#a78bfa',
+            bgGradient: 'from-violet-50 to-white',
+            icon: 'movie'
+        }
+    },
+    bebidas: {
+        id: 'tournament-bebidas',
+        title: 'Battle of the Brands',
+        subtitle: '¿Cuál es tu bebida indispensable?',
+        industry: 'bebidas',
+        theme: {
+            primary: '#ef4444', // red
+            accent: '#f87171',
+            bgGradient: 'from-red-50 to-white',
+            icon: 'local_drink'
+        }
+    },
+    vacaciones: {
+        id: 'tournament-vacaciones',
+        title: 'Destino de Ensueño',
+        subtitle: '¿A dónde te escaparías mañana?',
+        industry: 'vacaciones',
+        theme: {
+            primary: '#0ea5e9', // sky
+            accent: '#38bdf8',
+            bgGradient: 'from-sky-50 to-white',
+            icon: 'beach_access'
+        }
+    },
+    smartphones: {
+        id: 'tournament-smartphones',
+        title: 'Duelo de Gigantes Tech',
+        subtitle: '¿Qué smartphone domina tu vida?',
+        industry: 'smartphones',
+        theme: {
+            primary: '#3b82f6', // blue
+            accent: '#60a5fa',
+            bgGradient: 'from-blue-50 to-white',
+            icon: 'smartphone'
+        }
+    },
+    salud: {
+        id: 'tournament-salud',
+        title: 'Excelencia Médica',
+        subtitle: '¿Cuál es la mejor clínica?',
         industry: 'salud',
         theme: {
             primary: '#10b981', // emerald
             accent: '#34d399',
             bgGradient: 'from-emerald-50 to-white',
             icon: 'medical_services'
-        },
-        candidates: MASTER_CLINICS.slice(0, 5)
-    },
-    streaming: {
-        id: 'prog-streaming-2026',
-        title: 'La Guerra del Streaming',
-        subtitle: '¿Cuál es tu plataforma definitiva?',
-        industry: 'entretencion',
-        theme: {
-            primary: '#8b5cf6', // violet
-            accent: '#a78bfa',
-            bgGradient: 'from-violet-50 to-white',
-            icon: 'movie'
-        },
-        candidates: [
-            { id: 'st-net', label: 'Netflix', image_url: '/images/options/netflix.png' },
-            { id: 'st-dis', label: 'Disney+', image_url: '/images/options/disneyplus.svg' },
-            { id: 'st-hbo', label: 'HBO Max', image_url: '/images/options/hbomax.png' },
-            { id: 'st-prm', label: 'Prime Video', image_url: '/images/options/primevideo.png' },
-            { id: 'st-yt', label: 'YouTube Premium', image_url: '/images/options/youtube.png' }
-        ]
-    },
-    smartphones: {
-        id: 'prog-phones-2026',
-        title: 'Duelo de Gigantes Tech',
-        subtitle: '¿Qué smartphone domina tu vida?',
-        industry: 'tecnologia',
-        theme: {
-            primary: '#3b82f6', // blue
-            accent: '#60a5fa',
-            bgGradient: 'from-blue-50 to-white',
-            icon: 'smartphone'
-        },
-        candidates: [
-            { id: 'ph-iph', label: 'iPhone', image_url: '/images/options/iphone.png' },
-            { id: 'ph-sam', label: 'Samsung Galaxy', image_url: '/images/options/samsung.png' },
-            { id: 'ph-xia', label: 'Xiaomi', image_url: '/images/options/xiaomi.png' },
-            { id: 'ph-mot', label: 'Motorola', image_url: '/images/options/motorola.png' },
-            { id: 'ph-hua', label: 'Huawei', image_url: '/images/options/huawei.png' }
-        ]
+        }
     }
 };
 
@@ -411,7 +419,7 @@ export default function Experience() {
                                             >
                                                 <div className="w-12 h-12 rounded-2xl bg-secondary/5 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
                                                     <span className="material-symbols-outlined">
-                                                        {key === 'clinics' ? 'medical_services' : key === 'streaming' ? 'movie' : 'smartphone'}
+                                                        {theme.theme.icon}
                                                     </span>
                                                 </div>
                                                 <div>
@@ -426,15 +434,32 @@ export default function Experience() {
                                     </div>
                                 </div>
                             ) : (
-                                <ProgressiveRunner
-                                    progressiveData={PROGRESSIVE_THEMES[selectedTheme]}
-                                    onVote={handleVote}
-                                    onComplete={(winner) => {
-                                        showToast(`¡Torneo completado! El ganador es ${winner.label}`, "success");
-                                        setSelectedTheme(null);
-                                        setMode('menu');
-                                    }}
-                                />
+                                (() => {
+                                    const theme = PROGRESSIVE_THEMES[selectedTheme];
+                                    const battleData = (battles as any[]).find(b => b.category?.slug === theme.industry);
+
+                                    if (!battleData) return (
+                                        <div className="text-center p-12 bg-white rounded-3xl border border-stroke">
+                                            <p className="text-text-secondary">No hay datos disponibles para este torneo.</p>
+                                            <button onClick={() => setSelectedTheme(null)} className="mt-4 text-secondary font-bold">Volver</button>
+                                        </div>
+                                    );
+
+                                    return (
+                                        <ProgressiveRunner
+                                            progressiveData={{
+                                                ...theme,
+                                                candidates: battleData.options || []
+                                            }}
+                                            onVote={handleVote}
+                                            onComplete={(winner) => {
+                                                showToast(`¡Torneo completado! El ganador es ${winner.label}`, "success");
+                                                setSelectedTheme(null);
+                                                setMode('menu');
+                                            }}
+                                        />
+                                    );
+                                })()
                             )}
                         </div>
                     )}
@@ -502,4 +527,3 @@ export default function Experience() {
         </div >
     );
 }
-

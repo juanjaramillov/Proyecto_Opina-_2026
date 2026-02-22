@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../auth";
-import { signalService } from "../../signals/services/signalService";
+import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint } from "../services/profileService";
+import { AccountProfile } from "../../auth/types";
 import ProgressiveQuestion from "../components/ProgressiveQuestion";
 import SimpleSignup from "../components/SimpleSignup";
+import SegmentComparisonCard from "../components/SegmentComparisonCard";
+import PersonalHistoryChart from "../components/PersonalHistoryChart";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -16,20 +19,39 @@ export default function Profile() {
 }
 
 // Inner component to permit hook usage
-function ProfileContent({ profile }: { profile: any }) {
+function ProfileContent({ profile }: { profile: AccountProfile | null }) {
   const navigate = useNavigate();
-  const [userStats, setUserStats] = useState<any>(null);
+  const [userStats, setUserStats] = useState<UserStats | null>(null);
+  const [participation, setParticipation] = useState<ParticipationSummary>({ versus_count: 0, progressive_count: 0, depth_count: 0 });
+  const [history, setHistory] = useState<ActivityEvent[]>([]);
+  const [comparisons, setComparisons] = useState<SegmentComparison[]>([]);
+  const [personalHistory, setPersonalHistory] = useState<PersonalHistoryPoint[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
-    const loadStats = async () => {
+    const loadAllProfileData = async () => {
+      setLoadingData(true);
       try {
-        const stats = await signalService.getUserStats();
+        const [stats, summary, activity, compData, histData] = await Promise.all([
+          profileService.getUserStats(),
+          profileService.getParticipationSummary(),
+          profileService.getActivityHistory(5),
+          profileService.getSegmentComparison(),
+          profileService.getPersonalHistory()
+        ]);
+
         setUserStats(stats);
+        setParticipation(summary);
+        setHistory(activity);
+        setComparisons(compData);
+        setPersonalHistory(histData);
       } catch (err) {
-        console.error("Failed to load user stats:", err);
+        console.error("Failed to load profile data:", err);
+      } finally {
+        setLoadingData(false);
       }
     };
-    loadStats();
+    loadAllProfileData();
   }, []);
 
   // Calculate Progress from userStats (from DB)
@@ -42,7 +64,6 @@ function ProfileContent({ profile }: { profile: any }) {
   const remaining = Math.max(0, MIN_SIGNALS_THRESHOLD - completedSignals);
 
   const handleContinue = () => {
-    // nextBatch based on DB count
     const nextBatchIndex = Math.floor(completedSignals / SIGNALS_PER_BATCH);
     navigate('/experience', { state: { nextBatch: nextBatchIndex } });
   };
@@ -52,8 +73,56 @@ function ProfileContent({ profile }: { profile: any }) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
         {/* LEFT SIDEBAR: PROGRESSIVE PROFILING */}
-        <div className="lg:col-span-4 order-2 lg:order-1">
+        <div className="lg:col-span-4 order-2 lg:order-1 space-y-6">
           <ProgressiveQuestion currentData={profile?.demographics || {}} />
+
+          {/* PARTICIPATION SUMMARY */}
+          <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+            <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-indigo-500 text-lg">analytics</span>
+              Actividad
+            </h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted font-medium">Versus ganados</span>
+                <span className="font-mono font-black text-ink">{participation.versus_count}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted font-medium">Preguntas perfil</span>
+                <span className="font-mono font-black text-ink">{participation.progressive_count}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted font-medium">Análisis profundo</span>
+                <span className="font-mono font-black text-ink">{participation.depth_count}</span>
+              </div>
+            </div>
+          </section>
+
+          {/* ACTIVITY FEED (MINI) */}
+          <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+            <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-indigo-500 text-lg">history</span>
+              Reciente
+            </h3>
+            <div className="space-y-4">
+              {history.length === 0 ? (
+                <p className="text-xs text-muted italic">No hay actividad reciente.</p>
+              ) : history.map((event) => (
+                <div key={event.id} className="flex gap-3 items-start border-l-2 border-slate-100 pl-3 py-1">
+                  <div className="flex-1">
+                    <p className="text-xs font-bold text-ink leading-tight">
+                      {event.module_type === 'versus' ? 'Participaste en Versus' :
+                        event.module_type === 'progressive' ? 'Actualizaste perfil' :
+                          event.module_type === 'depth' ? 'Análisis de marca' : 'Actividad'}
+                    </p>
+                    <p className="text-[10px] text-muted">
+                      {new Date(event.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
 
         {/* MAIN CONTENT: SYSTEM CORE */}
@@ -83,7 +152,7 @@ function ProfileContent({ profile }: { profile: any }) {
 
               {/* GUEST SIGNUP PROMPT */}
               <AnimatePresence>
-                {profile?.tier === 'guest' && !profile?.displayName && (
+                {profile?.tier === 'guest' && !profile?.displayName && !loadingData && (
                   <div className="mb-8">
                     <SimpleSignup />
                   </div>
@@ -96,7 +165,7 @@ function ProfileContent({ profile }: { profile: any }) {
                   <div className="flex flex-col">
                     <span className="text-sm font-bold text-slate-500">Nivel de Calibración</span>
                     <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mt-1">
-                      Nivel {currentLevel} • Peso {currentWeight}x
+                      Nivel {currentLevel} • Peso {currentWeight.toFixed(1)}x
                     </span>
                   </div>
                   <span className="text-2xl font-black text-ink">{completedSignals} <span className="text-sm text-slate-400 font-medium">/ {MIN_SIGNALS_THRESHOLD} señales</span></span>
@@ -127,7 +196,10 @@ function ProfileContent({ profile }: { profile: any }) {
               {/* UNLOCK GRID */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {/* RESULTADOS */}
-                <div className={`p-4 rounded-2xl border ${isLocked ? 'bg-slate-50 border-slate-100' : 'bg-emerald-50/50 border-emerald-100'}`}>
+                <button
+                  onClick={() => !isLocked && navigate('/results')}
+                  className={`p-4 rounded-2xl border text-left transition-all ${isLocked ? 'bg-slate-50 border-slate-100 cursor-not-allowed' : 'bg-emerald-50/50 border-emerald-100 hover:bg-emerald-100/50 active:scale-[0.98]'}`}
+                >
                   <div className="flex justify-between items-start mb-2">
                     <span className="font-bold text-sm text-ink">Tendencias</span>
                     {isLocked ? (
@@ -137,36 +209,35 @@ function ProfileContent({ profile }: { profile: any }) {
                     )}
                   </div>
                   <p className="text-xs text-slate-500 leading-tight">
-                    {isLocked ? 'Responde 10 versus para ver tendencias.' : 'Acceso total a indicadores y tendencias.'}
+                    {isLocked ? `Responde ${MIN_SIGNALS_THRESHOLD} versus para ver tendencias.` : 'Acceso total a indicadores y tendencias.'}
                   </p>
-                </div>
+                </button>
 
-                {/* COMPARACIONES */}
-                <div className={`p-4 rounded-2xl border ${isLocked ? 'bg-slate-50 border-slate-100' : 'bg-emerald-50/50 border-emerald-100'}`}>
+                {/* RANKINGS */}
+                <button
+                  onClick={() => navigate('/rankings')}
+                  className="p-4 rounded-2xl border bg-indigo-50/50 border-indigo-100 hover:border-indigo-300 transition-all active:scale-[0.98] text-left"
+                >
                   <div className="flex justify-between items-start mb-2">
-                    <span className="font-bold text-sm text-ink">Comparaciones</span>
-                    {isLocked ? (
-                      <span className="material-symbols-outlined text-slate-400">lock</span>
-                    ) : (
-                      <span className="material-symbols-outlined text-emerald-500">check_circle</span>
-                    )}
+                    <span className="font-bold text-sm text-ink">Rankings Globales</span>
+                    <span className="material-symbols-outlined text-indigo-500">format_list_numbered</span>
                   </div>
                   <p className="text-xs text-slate-500 leading-tight">
-                    {isLocked ? 'Desbloquea para ver tu posición vs el resto.' : 'Segmentación regional y etaria activada.'}
+                    Explora las marcas líderes en cada categoría y su evolución.
                   </p>
-                </div>
+                </button>
 
                 {/* MI PULSO (MODULO PERSONAL) */}
                 <button
                   onClick={() => navigate('/personal-state')}
-                  className="p-4 rounded-2xl border bg-indigo-50/50 border-indigo-100 hover:border-indigo-300 transition-all active:scale-[0.98] text-left"
+                  className="p-4 rounded-2xl border bg-indigo-50/50 border-indigo-100 hover:border-indigo-300 transition-all active:scale-[0.98] text-left sm:col-span-2"
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <span className="font-bold text-sm text-ink">Mi Pulso Personal</span>
-                    <span className="material-symbols-outlined text-indigo-500">analytics</span>
+                    <span className="font-bold text-sm text-ink">Estado Personal & Bienestar</span>
+                    <span className="material-symbols-outlined text-amber-500">favorite</span>
                   </div>
                   <p className="text-xs text-slate-500 leading-tight">
-                    Sincroniza tu estado de ánimo y bienestar de forma privada.
+                    Sincroniza tu estado de ánimo y bienestar para ayudar a calibrar el Pulso del País.
                   </p>
                 </button>
               </div>
@@ -189,19 +260,70 @@ function ProfileContent({ profile }: { profile: any }) {
                     </>
                   )}
                 </button>
-                {!isLocked && (
-                  <button
-                    onClick={() => navigate('/results')}
-                    className="px-6 py-4 rounded-xl font-bold text-ink bg-white border-2 border-slate-100 hover:border-slate-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-                  >
-                    Ver Dashboard
-                    <span className="material-symbols-outlined">bar_chart</span>
-                  </button>
-                )}
               </div>
 
             </div>
           </section>
+
+          {/* PERSONAL INTELLIGENCE: SEGMENT COMPARISON */}
+          {!isLocked && comparisons.length > 0 && (
+            <section className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-black text-ink tracking-tight flex items-center gap-2">
+                    <span className="material-symbols-outlined text-indigo-600">psychology</span>
+                    Tu posición en el segmento
+                  </h3>
+                  <p className="text-sm text-muted font-medium mt-1">
+                    Comparamos tus valoraciones con el promedio de tu perfil (Edad, Sexo, Región).
+                  </p>
+                </div>
+                <div className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-500 border border-slate-200">
+                  Anonimato Estructural Activo
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {comparisons.map((comp) => (
+                  <SegmentComparisonCard key={comp.entity_id} data={comp} />
+                ))}
+              </div>
+
+              {/* COHERENCE HIGHLIGHT */}
+              <div className="bg-indigo-600 rounded-3xl p-6 text-white relative overflow-hidden shadow-xl shadow-indigo-100/50">
+                <div className="absolute right-0 top-0 p-8 opacity-10">
+                  <span className="material-symbols-outlined text-[100px]">verified_user</span>
+                </div>
+                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div className="max-w-md">
+                    <h4 className="text-lg font-black mb-1">Tu Coherencia como Informante</h4>
+                    <p className="text-indigo-100 text-xs font-medium leading-relaxed">
+                      Analizamos la relación entre tus elecciones en Versus y tus valoraciones en Análisis Profundo. Una coherencia alta aumenta el peso de tus señales en el sistema.
+                    </p>
+                  </div>
+                  <div className="text-center bg-white/10 backdrop-blur-md rounded-2xl p-4 min-w-[140px] border border-white/20">
+                    <p className="text-[10px] font-black uppercase tracking-widest mb-1 opacity-80">Nivel Actual</p>
+                    <div className="text-2xl font-black">
+                      {comparisons.length > 0 ? (comparisons.find(c => c.coherence_level === 'Alta') ? 'Alta' : comparisons[0].coherence_level) : 'Incipiente'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* PERSONAL HISTORY / EVOLUTION (Placeholder for Chart) */}
+          {!isLocked && personalHistory.length > 0 && (
+            <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
+              <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-6 flex items-center gap-2">
+                <span className="material-symbols-outlined text-indigo-500 text-lg">stacked_line_chart</span>
+                Evolución de tus Valoraciones
+              </h3>
+              <div className="h-64 w-full">
+                <PersonalHistoryChart data={personalHistory} />
+              </div>
+            </section>
+          )}
 
           {/* LOWER SECTION: LEVEL INDICATOR (Simplified) */}
           <div className="grid grid-cols-3 gap-4">

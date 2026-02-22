@@ -55,7 +55,7 @@ export type ProgressiveBattle = {
         bgGradient: string;
         icon: string;
     };
-    candidates: BattleOption[];
+    candidates?: BattleOption[];
 };
 
 export type VoteResult = Record<string, number>;

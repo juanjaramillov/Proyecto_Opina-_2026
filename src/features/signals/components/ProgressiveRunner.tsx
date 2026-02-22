@@ -11,7 +11,7 @@ interface ProgressiveRunnerProps {
 
 export default function ProgressiveRunner({ progressiveData, onComplete, onVote }: ProgressiveRunnerProps) {
     const [round, setRound] = useState(0);
-    const [candidates, setCandidates] = useState<BattleOption[]>(progressiveData.candidates);
+    const [candidates, setCandidates] = useState<BattleOption[]>(progressiveData.candidates || []);
     const [defeated, setDefeated] = useState<BattleOption[]>([]);
     const [winner, setWinner] = useState<BattleOption | null>(null);
 
@@ -22,7 +22,8 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
         icon: 'stars'
     };
 
-    const activeBattle: Battle = useMemo(() => {
+    const activeBattle: Battle | null = useMemo(() => {
+        if (!candidates || candidates.length < 2) return null;
         const first = candidates[0];
         const second = candidates[1];
 
@@ -33,8 +34,17 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
             options: [first, second],
             category: 'progressive',
             industry: progressiveData.industry
-        };
+        } as Battle;
     }, [progressiveData, round, candidates]);
+
+    if (!candidates || candidates.length < 2) {
+        return (
+            <div className={`min-h-[40vh] flex flex-col items-center justify-center p-8 rounded-[3rem] bg-gradient-to-b ${theme.bgGradient}`}>
+                <p className="text-text-secondary">No hay suficientes opciones para iniciar este torneo.</p>
+                <button onClick={() => window.location.reload()} className="mt-4 text-secondary font-bold underline">Reintentar</button>
+            </div>
+        );
+    }
 
     const handleVote = async (battleId: string, optionId: string, opponentId: string) => {
         const result = await onVote(battleId, optionId, opponentId);
@@ -166,7 +176,7 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
                 </motion.div>
 
                 <div className="flex justify-center items-center gap-3">
-                    {progressiveData.candidates.map((_, i) => (
+                    {candidates.map((_, i) => (
                         <div key={i} className="flex items-center">
                             <motion.div
                                 animate={{
@@ -175,7 +185,7 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
                                 }}
                                 className="h-3 w-3 rounded-full transition-all duration-500"
                             />
-                            {i < progressiveData.candidates.length - 1 && (
+                            {i < candidates.length - 1 && (
                                 <div className={`h-1 w-4 md:w-8 transition-colors duration-500 ${i < round ? '' : 'bg-slate-200'}`} style={{ backgroundColor: i < round ? theme.primary : undefined }} />
                             )}
                         </div>
@@ -199,16 +209,18 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
                     )}
                 </AnimatePresence>
 
-                <div className="bg-white/40 backdrop-blur-md rounded-[3rem] p-2 border border-white/50 shadow-xl overflow-hidden">
-                    <VersusGame
-                        battles={[activeBattle]}
-                        onVote={handleVote}
-                        key={round}
-                        mode="progressive"
-                        hideProgress
-                        enableAutoAdvance={false}
-                    />
-                </div>
+                {activeBattle && (
+                    <div className="bg-white/40 backdrop-blur-md rounded-[3rem] p-2 border border-white/50 shadow-xl overflow-hidden">
+                        <VersusGame
+                            battles={[activeBattle]}
+                            onVote={handleVote}
+                            key={round}
+                            mode="progressive"
+                            hideProgress
+                            enableAutoAdvance={false}
+                        />
+                    </div>
+                )}
             </div>
 
             {defeated.length > 0 && (

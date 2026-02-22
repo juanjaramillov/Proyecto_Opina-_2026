@@ -57,9 +57,11 @@ export function useVersusGame({
     const timeoutRef = useRef<number | null>(null);
 
     const effectiveBattle = useMemo(() => {
-        if (mode === 'progressive' && progressiveData) {
+        if (mode === 'progressive' && progressiveData && progressiveData.candidates) {
             const a = progressiveData.candidates[0];
             const b = progressiveData.candidates[1];
+            if (!a || !b) return null;
+
             return {
                 id: progressiveData.id,
                 title: progressiveData.title,

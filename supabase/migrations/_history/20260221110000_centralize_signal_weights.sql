@@ -129,11 +129,11 @@ BEGIN
 
   INSERT INTO public.signal_events (
     anon_id, signal_id, battle_id, battle_instance_id, option_id, 
-    entity_id, entity_type, module_type
+    entity_id, entity_type, module_type, session_id, context_id
   )
   VALUES (
     v_anon_id, gen_random_uuid(), p_battle_id, v_instance_id, p_option_id,
-    p_option_id, 'topic', 'versus'
+    p_option_id, 'topic', 'versus', p_session_id, p_attribute_id
   );
 
   -- Actualizar stats (simple increment)

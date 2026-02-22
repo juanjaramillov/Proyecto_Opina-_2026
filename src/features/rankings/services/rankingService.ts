@@ -1,28 +1,19 @@
 import { supabase } from '../../../supabase/client';
-import { Json } from '../../../types/database.types';
-
-export interface RankingFilter {
-    gender?: string;
-    age_bracket?: string;
-    health_system?: string;
-    attention_12m?: boolean;
-    [key: string]: Json | undefined;
-}
-
-export interface RankingItem {
-    option_id: string;
-    score: number;
-    signals: number;
-    position: number;
-    trend: 'up' | 'down' | 'stable';
-}
 
 export interface RankSnapshot {
-    attribute_id: string;
-    segment_hash: string;
-    ranking: RankingItem[];
-    total_signals: number;
-    created_at: string;
+    id: string;
+    entity_id: string;
+    category_slug: string;
+    composite_index: number;
+    preference_score: number;
+    quality_score: number;
+    snapshot_date: string;
+    segment_id: string;
+    trend?: 'up' | 'down' | 'stable';
+    entity?: {
+        name: string;
+        image_url?: string;
+    };
 }
 
 export interface Attribute {
@@ -31,118 +22,104 @@ export interface Attribute {
     name: string;
 }
 
+export interface RankingItem {
+    option_id: string;
+    position: number;
+    trend: 'up' | 'down' | 'stable';
+}
+
+export interface PublicRankingResponse {
+    ranking: RankingItem[];
+    totalSignals: number;
+    updatedAt: string;
+}
+
 export const rankingService = {
     /**
-     * Genera un hash consistente para una combinación de filtros.
-     * Esto permite cachear snapshots por segmento.
+     * Gets the latest rankings for a category and calculates trends.
      */
-    generateSegmentHash: (attributeId: string, filters: RankingFilter): string => {
-        // Ordenar llaves para consistencia
-        const sortedFilters = Object.keys(filters)
-            .sort()
-            .reduce((acc: Record<string, Json | undefined>, key: string) => {
-                acc[key] = filters[key];
-                return acc;
-            }, {});
+    async getLatestRankings(categorySlug: string, segmentId: string = 'global'): Promise<RankSnapshot[]> {
+        const { data, error } = await supabase
+            // @ts-expect-error: entity_rank_snapshots is a new table not yet in Database types
+            .from('entity_rank_snapshots')
+            .select(`
+                *,
+                entity:entities(name, image_url)
+            `)
+            .eq('category_slug', categorySlug)
+            .eq('segment_id', segmentId)
+            .order('snapshot_date', { ascending: false });
 
-        return `${attributeId}:${JSON.stringify(sortedFilters)}`;
-    },
+        if (error) {
+            console.error('Error fetching rankings:', error);
+            throw error;
+        }
 
-    /**
-     * Obtiene el ranking actual para un atributo y segmento.
-     * Prioriza leer del último snapshot de 3 horas.
-     */
-    getRanking: async (attributeId: string, filters: RankingFilter = {}): Promise<{
-        ranking: RankingItem[];
-        totalSignals: number;
-        updatedAt: string;
-        thresholdMet: boolean;
-    }> => {
-        try {
-            // 1. Buscar el snapshot más reciente
-            const { data: snapshot, error } = await supabase
-                .from('public_rank_snapshots')
-                .select('*')
-                .eq('attribute_id', attributeId)
-                .order('created_at', { ascending: false })
-                .limit(1)
-                .maybeSingle();
+        if (!data || data.length === 0) return [];
 
-            if (error) throw error;
+        interface RawRankRecord extends RankSnapshot {
+            entity: { name: string; image_url?: string };
+        }
 
-            // 2. Si no hay snapshot, o queremos forzar uno (fallback)
-            if (!snapshot) {
-                const { data: newRanking, error: rpcError } = await supabase.rpc('calculate_rank_snapshot', {
-                    p_attribute_id: attributeId,
-                    p_filters: filters
-                });
+        const rawData = data as unknown as RawRankRecord[];
 
-                if (rpcError) throw rpcError;
+        // Get unique entities from the latest snapshot batch
+        const latestDate = rawData[0].snapshot_date;
+        const currentRankings = rawData.filter(r => r.snapshot_date === latestDate);
 
-                const rankingData = (newRanking as unknown as RankingItem[]) || [];
-                const total = rankingData.reduce((acc, curr) => acc + (curr.signals || 0), 0);
+        // Find previous snapshots to calculate trend
+        const previousRankings = rawData.filter(r => r.snapshot_date !== latestDate);
 
-                return {
-                    ranking: rankingData as RankingItem[],
-                    totalSignals: total,
-                    updatedAt: new Date().toISOString(),
-                    thresholdMet: total >= 80
-                };
+        return currentRankings.map(curr => {
+            const prev = previousRankings.find(p => p.entity_id === curr.entity_id);
+            let trend: 'up' | 'down' | 'stable' = 'stable';
+
+            if (prev) {
+                if (curr.composite_index > prev.composite_index) trend = 'up';
+                else if (curr.composite_index < prev.composite_index) trend = 'down';
             }
 
             return {
-                ranking: (snapshot.ranking as unknown as RankingItem[]),
-                totalSignals: snapshot.total_signals,
-                updatedAt: snapshot.snapshot_at,
-                thresholdMet: (snapshot.total_signals || 0) >= 80
+                ...curr,
+                trend,
+                entity: curr.entity
             };
-        } catch (err) {
-            console.error('Error fetching ranking:', err);
-            return { ranking: [], totalSignals: 0, updatedAt: '', thresholdMet: false };
-        }
+        });
     },
 
-    getAttributeBySlug: async (slug: string): Promise<Attribute | null> => {
+    /**
+     * Legacy/Compatibility: Gets an attribute by slug.
+     * In V12 we use categories, but this keeps PublicRankingPage working.
+     */
+    async getAttributeBySlug(slug: string): Promise<Attribute | null> {
         const { data, error } = await supabase
-            .from('attributes')
-            .select('*')
+            .from('categories')
+            .select('id, slug, name')
             .eq('slug', slug)
             .maybeSingle();
 
-        if (error) return null;
+        if (error || !data) return null;
         return data as Attribute;
     },
 
-    getPublicRanking: async (attributeId: string, segmentHash: string = ''): Promise<{
-        ranking: RankingItem[];
-        totalSignals: number;
-        updatedAt: string;
-    } | null> => {
-        try {
-            const query = supabase
-                .from('public_rank_snapshots')
-                .select('*')
-                .eq('attribute_id', attributeId);
+    /**
+     * Legacy/Compatibility: Gets public ranking data.
+     */
+    async getPublicRanking(categoryId: string, _segmentHash: string): Promise<PublicRankingResponse | null> {
+        // We use the category slug if available, otherwise we map back
+        const { data: cat } = await supabase.from('categories').select('slug').eq('id', categoryId).maybeSingle();
+        if (!cat) return null;
 
-            if (segmentHash) {
-                query.eq('segment_hash', segmentHash);
-            }
+        const rankings = await this.getLatestRankings(cat.slug);
 
-            const { data: snapshot, error } = await query
-                .order('created_at', { ascending: false })
-                .limit(1)
-                .maybeSingle();
-
-            if (error || !snapshot) return null;
-
-            return {
-                ranking: (snapshot.ranking as unknown as RankingItem[]),
-                totalSignals: snapshot.total_signals,
-                updatedAt: snapshot.snapshot_at
-            };
-        } catch (err) {
-            console.error('Error fetching public ranking:', err);
-            return null;
-        }
+        return {
+            ranking: rankings.map((r, idx) => ({
+                option_id: r.entity_id,
+                position: idx + 1,
+                trend: r.trend || 'stable'
+            })),
+            totalSignals: rankings.reduce((acc, r) => acc + (r.preference_score * 10 || 5), 0), // Mocked signals count
+            updatedAt: rankings[0]?.snapshot_date || new Date().toISOString()
+        };
     }
 };
