@@ -1,0 +1,251 @@
+Initialising login role...
+Do you want to reset the remote database? [y/N] y
+Resetting remote database...
+NOTICE (00000): dropping extension: pg_cron
+NOTICE (00000): dropping function: public.detect_signal_spike
+NOTICE (00000): dropping function: public.explain_opinascore
+NOTICE (00000): dropping function: public.update_trust_score
+NOTICE (00000): dropping function: public.insert_signal_event
+NOTICE (00000): dropping function: public.get_or_create_anon_id
+NOTICE (00000): drop cascades to 2 other objects
+NOTICE (00000): dropping function: public.fn_enrich_signal_event
+NOTICE (00000): drop cascades to trigger tr_enrich_signal_event on table signal_events
+NOTICE (00000): dropping function: public.insert_depth_answers
+NOTICE (00000): dropping function: public.kpi_share_of_preference
+NOTICE (00000): dropping function: public.kpi_trend_velocity
+NOTICE (00000): dropping function: public.get_depth_analytics
+NOTICE (00000): dropping function: public.get_depth_comparison
+NOTICE (00000): dropping function: public.get_depth_trend
+NOTICE (00000): dropping function: public.get_state_benchmarks
+NOTICE (00000): dropping function: public.handle_new_user
+NOTICE (00000): drop cascades to trigger on_auth_user_created on table auth.users
+NOTICE (00000): dropping function: public.fn_ensure_entity_depth
+NOTICE (00000): dropping function: public.get_active_battles
+NOTICE (00000): dropping function: public.generate_ranking_snapshot
+NOTICE (00000): dropping function: public.get_latest_ranking
+NOTICE (00000): dropping function: public.get_ranking_with_variation
+NOTICE (00000): dropping function: public.calculate_user_segment_comparison
+NOTICE (00000): dropping function: public.get_user_personal_history
+NOTICE (00000): dropping function: public.get_age_bucket
+NOTICE (00000): dropping function: public.generate_segmented_snapshot
+NOTICE (00000): dropping function: public.get_segmented_ranking
+NOTICE (00000): dropping function: public.get_segmented_trending
+NOTICE (00000): dropping function: public.generate_depth_snapshot
+NOTICE (00000): dropping function: public.get_depth_insights
+NOTICE (00000): dropping function: public.get_system_health_metrics
+NOTICE (00000): dropping function: public.update_user_weight_on_verification
+NOTICE (00000): drop cascades to trigger trg_update_user_weight on table profiles
+NOTICE (00000): dropping function: public.validate_invitation
+NOTICE (00000): dropping function: public.consume_invitation
+NOTICE (00000): dropping function: public.calculate_recency_factor
+NOTICE (00000): dropping function: public.get_retention_metrics
+NOTICE (00000): dropping function: public.get_kpi_activity
+NOTICE (00000): dropping function: public.calculate_rank_snapshot
+NOTICE (00000): dropping materialized view: public.kpi_activity
+NOTICE (00000): dropping table: public.invitation_codes
+NOTICE (00000): dropping table: public.user_stats
+NOTICE (00000): dropping table: public.anonymous_identities
+NOTICE (00000): dropping table: public.categories
+NOTICE (00000): drop cascades to constraint battles_category_id_fkey on table battles
+NOTICE (00000): dropping table: public.battles
+NOTICE (00000): drop cascades to 4 other objects
+NOTICE (00000): dropping table: public.battle_options
+NOTICE (00000): drop cascades to 3 other objects
+NOTICE (00000): dropping table: public.entities
+NOTICE (00000): drop cascades to 2 other objects
+NOTICE (00000): dropping table: public.battle_instances
+NOTICE (00000): drop cascades to 2 other objects
+NOTICE (00000): dropping table: public.signal_hourly_aggs
+NOTICE (00000): dropping table: public.public_rank_snapshots
+NOTICE (00000): dropping table: public.user_state_logs
+NOTICE (00000): dropping table: public.depth_definitions
+NOTICE (00000): dropping table: public.signal_events
+NOTICE (00000): dropping table: public.profiles
+NOTICE (00000): drop cascades to 3 other objects
+NOTICE (00000): dropping table: public.organizations
+NOTICE (00000): drop cascades to 3 other objects
+NOTICE (00000): dropping table: public.organization_members
+NOTICE (00000): drop cascades to 2 other objects
+NOTICE (00000): dropping table: public.ranking_snapshots
+NOTICE (00000): dropping table: public.depth_aggregates
+NOTICE (00000): dropping table: public.user_activity
+NOTICE (00000): dropping table: public.idx_depth_aggregates_org
+NOTICE (00000): table "idx_depth_aggregates_org" does not exist, skipping
+NOTICE (00000): dropping table: public.public_rank_snapshots_pkey
+NOTICE (00000): table "public_rank_snapshots_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.invitation_codes_code_key
+NOTICE (00000): table "invitation_codes_code_key" does not exist, skipping
+NOTICE (00000): dropping table: public.idx_user_activity_user_time
+NOTICE (00000): table "idx_user_activity_user_time" does not exist, skipping
+NOTICE (00000): dropping table: public.profiles_pkey
+NOTICE (00000): table "profiles_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.idx_invitation_code
+NOTICE (00000): table "idx_invitation_code" does not exist, skipping
+NOTICE (00000): dropping table: public.organizations_pkey
+NOTICE (00000): table "organizations_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.organizations_slug_key
+NOTICE (00000): table "organizations_slug_key" does not exist, skipping
+NOTICE (00000): dropping table: public.organization_members_pkey
+NOTICE (00000): table "organization_members_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.idx_user_activity_type_time
+NOTICE (00000): table "idx_user_activity_type_time" does not exist, skipping
+NOTICE (00000): dropping table: public.user_activity_pkey
+NOTICE (00000): table "user_activity_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.depth_definitions_pkey
+NOTICE (00000): table "depth_definitions_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.depth_definitions_entity_id_question_key_key
+NOTICE (00000): table "depth_definitions_entity_id_question_key_key" does not exist, skipping
+NOTICE (00000): dropping table: public.idx_ranking_snapshots_org
+NOTICE (00000): table "idx_ranking_snapshots_org" does not exist, skipping
+NOTICE (00000): dropping table: public.ranking_snapshots_pkey
+NOTICE (00000): table "ranking_snapshots_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.depth_aggregates_pkey
+NOTICE (00000): table "depth_aggregates_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.idx_snapshot_battle
+NOTICE (00000): table "idx_snapshot_battle" does not exist, skipping
+NOTICE (00000): dropping table: public.idx_depth_aggregates
+NOTICE (00000): table "idx_depth_aggregates" does not exist, skipping
+NOTICE (00000): dropping table: public.invitation_codes_pkey
+NOTICE (00000): table "invitation_codes_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.idx_snapshot_segments
+NOTICE (00000): table "idx_snapshot_segments" does not exist, skipping
+NOTICE (00000): dropping table: public.profiles_username_key
+NOTICE (00000): table "profiles_username_key" does not exist, skipping
+NOTICE (00000): dropping table: public.user_stats_pkey
+NOTICE (00000): table "user_stats_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.anonymous_identities_pkey
+NOTICE (00000): table "anonymous_identities_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.anonymous_identities_anon_id_key
+NOTICE (00000): table "anonymous_identities_anon_id_key" does not exist, skipping
+NOTICE (00000): dropping table: public.categories_pkey
+NOTICE (00000): table "categories_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.categories_slug_key
+NOTICE (00000): table "categories_slug_key" does not exist, skipping
+NOTICE (00000): dropping table: public.entities_pkey
+NOTICE (00000): table "entities_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.entities_slug_key
+NOTICE (00000): table "entities_slug_key" does not exist, skipping
+NOTICE (00000): dropping table: public.battles_pkey
+NOTICE (00000): table "battles_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.battles_slug_key
+NOTICE (00000): table "battles_slug_key" does not exist, skipping
+NOTICE (00000): dropping table: public.battle_options_pkey
+NOTICE (00000): table "battle_options_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.battle_options_battle_id_label_key
+NOTICE (00000): table "battle_options_battle_id_label_key" does not exist, skipping
+NOTICE (00000): dropping table: public.battle_instances_pkey
+NOTICE (00000): table "battle_instances_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.battle_instances_battle_id_version_key
+NOTICE (00000): table "battle_instances_battle_id_version_key" does not exist, skipping
+NOTICE (00000): dropping table: public.signal_events_pkey
+NOTICE (00000): table "signal_events_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.user_state_logs_pkey
+NOTICE (00000): table "user_state_logs_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.signal_hourly_aggs_pkey
+NOTICE (00000): table "signal_hourly_aggs_pkey" does not exist, skipping
+NOTICE (00000): dropping table: public.signal_hourly_aggs_hour_bucket_battle_id_option_id_gender_a_key
+NOTICE (00000): table "signal_hourly_aggs_hour_bucket_battle_id_option_id_gender_a_key" does not exist, skipping
+NOTICE (00000): truncating table: auth.sso_domains
+NOTICE (00000): truncating table: auth.oauth_authorizations
+NOTICE (00000): truncating table: auth.identities
+NOTICE (00000): truncating table: auth.sessions
+NOTICE (00000): truncate cascades to table "refresh_tokens"
+NOTICE (00000): truncate cascades to table "mfa_amr_claims"
+NOTICE (00000): truncating table: auth.oauth_consents
+NOTICE (00000): truncating table: auth.oauth_clients
+NOTICE (00000): truncate cascades to table "sessions"
+NOTICE (00000): truncate cascades to table "oauth_authorizations"
+NOTICE (00000): truncate cascades to table "oauth_consents"
+NOTICE (00000): truncate cascades to table "refresh_tokens"
+NOTICE (00000): truncate cascades to table "mfa_amr_claims"
+NOTICE (00000): truncating table: auth.mfa_amr_claims
+NOTICE (00000): truncating table: auth.audit_log_entries
+NOTICE (00000): truncating table: auth.mfa_factors
+NOTICE (00000): truncate cascades to table "mfa_challenges"
+NOTICE (00000): truncating table: auth.mfa_challenges
+NOTICE (00000): truncating table: auth.one_time_tokens
+NOTICE (00000): truncating table: supabase_migrations.schema_migrations
+NOTICE (00000): truncating table: auth.oauth_client_states
+NOTICE (00000): truncating table: auth.saml_relay_states
+NOTICE (00000): truncating table: auth.users
+NOTICE (00000): truncate cascades to table "identities"
+NOTICE (00000): truncate cascades to table "sessions"
+NOTICE (00000): truncate cascades to table "mfa_factors"
+NOTICE (00000): truncate cascades to table "one_time_tokens"
+NOTICE (00000): truncate cascades to table "oauth_authorizations"
+NOTICE (00000): truncate cascades to table "oauth_consents"
+NOTICE (00000): truncate cascades to table "refresh_tokens"
+NOTICE (00000): truncate cascades to table "mfa_challenges"
+NOTICE (00000): truncate cascades to table "mfa_amr_claims"
+NOTICE (00000): truncating table: auth.saml_providers
+NOTICE (00000): truncating table: auth.refresh_tokens
+NOTICE (00000): truncating table: auth.flow_state
+NOTICE (00000): truncate cascades to table "saml_relay_states"
+NOTICE (00000): truncating table: auth.sso_providers
+NOTICE (00000): truncate cascades to table "sso_domains"
+NOTICE (00000): truncate cascades to table "saml_providers"
+NOTICE (00000): truncate cascades to table "saml_relay_states"
+NOTICE (00000): truncating table: auth.instances
+Applying migration 20260221000000_baseline_v12.sql...
+NOTICE (42710): extension "pgcrypto" already exists, skipping
+Applying migration 20260221000100_universal_entity_migration.sql...
+Applying migration 20260221001000_fix_auth_profiles_trigger.sql...
+Applying migration 20260221002000_expand_battle_content.sql...
+Applying migration 20260221003000_poblacion_inicial_5_categorias.sql...
+Applying migration 20260221004000_repair_entities_and_depth.sql...
+Applying migration 20260221010000_ranking_snapshot_engine.sql...
+Applying migration 20260221011000_profile_personal_intelligence.sql...
+Applying migration 20260221020000_ranking_segmentation_engine.sql...
+Applying migration 20260221030000_depth_intelligence_engine.sql...
+Applying migration 20260221040000_rbac_system.sql...
+NOTICE (42701): column "role" of relation "profiles" already exists, skipping
+NOTICE (00000): policy "enterprise_can_view_snapshots" for relation "ranking_snapshots" does not exist, skipping
+NOTICE (00000): policy "enterprise_can_view_depth" for relation "depth_aggregates" does not exist, skipping
+Applying migration 20260221050000_system_health_metrics.sql...
+Applying migration 20260221060000_identity_verification.sql...
+NOTICE (42701): column "signal_weight" of relation "user_stats" already exists, skipping
+NOTICE (00000): trigger "trg_update_user_weight" for relation "public.profiles" does not exist, skipping
+Applying migration 20260221070000_invitation_system.sql...
+Applying migration 20260221080000_b2b_organizations.sql...
+NOTICE (00000): policy "Access ranking snapshots by org membership" for relation "public.ranking_snapshots" does not exist, skipping
+NOTICE (00000): policy "Access depth aggregates by org membership" for relation "public.depth_aggregates" does not exist, skipping
+Applying migration 20260221090000_activation_retention_metrics.sql...
+NOTICE (00000): materialized view "kpi_activity" does not exist, skipping
+Applying migration 20260221223000_level_system_sync.sql...
+Applying migration 20260222120000_opinascore_algorithm.sql...
+Applying migration 20260222130000_signal_integrity_engine.sql...
+Applying migration 20260222140000_algorithm_versioning.sql...
+ERROR: cannot change return type of existing function (SQLSTATE 42P13)                                                                                                                                                                           
+Row type defined by OUT parameters is different.                                                                                                                                                                                                 
+At statement: 10                                                                                                                                                                                                                                 
+-- 7. ACTUALIZAR RPC EXPLICATIVO                                                                                                                                                                                                                 
+CREATE OR REPLACE FUNCTION public.explain_opinascore(                                                                                                                                                                                            
+  p_user_id UUID                                                                                                                                                                                                                                 
+)                                                                                                                                                                                                                                                
+RETURNS TABLE (                                                                                                                                                                                                                                  
+  version_name TEXT,                                                                                                                                                                                                                             
+  base_weight NUMERIC,                                                                                                                                                                                                                           
+  is_verified BOOLEAN,                                                                                                                                                                                                                           
+  verification_multiplier NUMERIC,                                                                                                                                                                                                               
+  current_recency_factor NUMERIC,                                                                                                                                                                                                                
+  estimated_opinascore NUMERIC                                                                                                                                                                                                                   
+)                                                                                                                                                                                                                                                
+LANGUAGE plpgsql                                                                                                                                                                                                                                 
+SECURITY DEFINER                                                                                                                                                                                                                                 
+AS $$                                                                                                                                                                                                                                            
+BEGIN                                                                                                                                                                                                                                            
+  RETURN QUERY                                                                                                                                                                                                                                   
+  SELECT                                                                                                                                                                                                                                         
+    av.version_name,                                                                                                                                                                                                                             
+    us.signal_weight as base_weight,                                                                                                                                                                                                             
+    u.identity_verified as is_verified,                                                                                                                                                                                                          
+    CASE WHEN u.identity_verified = true THEN av.verification_multiplier ELSE 1.0::numeric END as verification_multiplier,                                                                                                                       
+    public.calculate_recency_factor(now(), av.recency_half_life_days) as current_recency_factor,                                                                                                                                                 
+    (us.signal_weight * (CASE WHEN u.identity_verified = true THEN av.verification_multiplier ELSE 1.0::numeric END) * public.calculate_recency_factor(now(), av.recency_half_life_days) * COALESCE(us.trust_score, 1.0)) as estimated_opinascore
+  FROM public.user_stats us                                                                                                                                                                                                                      
+  JOIN public.profiles u ON u.id = us.user_id                                                                                                                                                                                                    
+  CROSS JOIN (SELECT version_name, verification_multiplier, recency_half_life_days FROM public.algorithm_versions WHERE is_active = true LIMIT 1) av                                                                                             
+  WHERE us.user_id = p_user_id;                                                                                                                                                                                                                  
+END;                                                                                                                                                                                                                                             
+$$                                                                                                                                                                                                                                               
+Try rerunning the command with --debug to troubleshoot the error.

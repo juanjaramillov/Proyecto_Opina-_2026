@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { authService } from "../services/authService";
 import { useAuthContext } from "../context/AuthContext";
+import { supabase } from "../../../supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Register() {
@@ -9,6 +10,7 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [inviteCode, setInviteCode] = useState("");
     const [loading, setLoading] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -28,9 +30,33 @@ export default function Register() {
             return;
         }
 
+        const isInviteOnly = import.meta.env.VITE_INVITE_ONLY === "true";
+        if (isInviteOnly && !inviteCode) {
+            setError("Se requiere un código de invitación para registrarse.");
+            return;
+        }
+
         setLoading(true);
         try {
+            if (isInviteOnly) {
+                const { data: isValid, error: inviteError } = await (supabase as any).rpc(
+                    "validate_invitation",
+                    { p_code: inviteCode.trim().toUpperCase() }
+                ) as { data: boolean; error: any };
+
+                if (inviteError) throw inviteError;
+                if (!isValid) {
+                    setError("El código de invitación es inválido, ha expirado o ya no tiene usos disponibles.");
+                    setLoading(false);
+                    return;
+                }
+            }
+
             await authService.registerWithEmail(email.trim(), password);
+
+            if (isInviteOnly) {
+                await (supabase as any).rpc("consume_invitation", { p_code: inviteCode.trim().toUpperCase() });
+            }
 
             // Wait for context and data sync
             setIsSyncing(true);
@@ -111,6 +137,22 @@ export default function Register() {
                             required
                         />
                     </div>
+
+                    {import.meta.env.VITE_INVITE_ONLY === "true" && (
+                        <div>
+                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                                Código de Invitación
+                            </label>
+                            <input
+                                type="text"
+                                value={inviteCode}
+                                onChange={(e) => setInviteCode(e.target.value)}
+                                placeholder="Ej: OPINA-DEMO-001"
+                                className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700 uppercase"
+                                required
+                            />
+                        </div>
+                    )}
 
                     <button
                         type="submit"

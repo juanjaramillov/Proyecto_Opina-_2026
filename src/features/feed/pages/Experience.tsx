@@ -6,7 +6,7 @@ import { useSignalStore } from "../../../store/signalStore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../../../components/ui/useToast";
 
-import { signalService } from "../../signals/services/signalService";
+import { signalService, ActiveBattle } from "../../signals/services/signalService";
 import { sessionService } from "../../signals/services/sessionService";
 import InsightPack from "../../signals/components/InsightPack";
 import { Battle, BattleOption } from "../../signals/types";
@@ -14,6 +14,7 @@ import { useAuth } from "../../auth";
 import RequestLoginModal from "../../auth/components/RequestLoginModal";
 import ProgressiveRunner from "../../signals/components/ProgressiveRunner";
 import { SkeletonModuleCard } from "../../../components/ui/Skeleton";
+import { logger } from "../../../lib/logger";
 const PROGRESSIVE_THEMES = {
     streaming: {
         id: 'tournament-streaming',
@@ -108,11 +109,14 @@ export default function Experience() {
 
     // 2. EFFECTS
     // Enforce profile completion
+    // 🧪 MODO FIX 04: Redirección relajada. Se maneja por evento en VersusGame.
+    /*
     useEffect(() => {
         if (profile && !profile.isProfileComplete) {
             navigate("/complete-profile", { replace: true });
         }
     }, [profile, navigate]);
+    */
 
     // Start or resume session when in versus mode
     useEffect(() => {
@@ -122,7 +126,7 @@ export default function Experience() {
                     // Start or Resume session
                     await sessionService.startNewSession();
                 } catch (err) {
-                    console.error("Session init failed:", err);
+                    logger.error("Session init failed:", err);
                 }
             }
         };
@@ -154,7 +158,7 @@ export default function Experience() {
             battle_id: battleId,
             option_id: optionId
         }).catch(err => {
-            console.error("Failed to save vote:", err);
+            logger.error("Failed to save vote:", err);
             showToast("Tu voto offline se sincronizará luego.", "info");
         });
 
@@ -171,7 +175,7 @@ export default function Experience() {
     };
 
     // 4. EARLY RETURNS
-    if (profile && !profile.isProfileComplete) return null;
+    // if (profile && !profile.isProfileComplete) return null; // FIX 04: Quitamos el return nulo para permitir ver el Hub
     if (loading && battles.length === 0) {
         return (
             <div className="min-h-screen bg-slate-50 py-20 px-4">
@@ -436,7 +440,7 @@ export default function Experience() {
                             ) : (
                                 (() => {
                                     const theme = PROGRESSIVE_THEMES[selectedTheme];
-                                    const battleData = (battles as any[]).find(b => b.category?.slug === theme.industry);
+                                    const battleData = (battles as ActiveBattle[]).find(b => b.category?.slug === theme.industry);
 
                                     if (!battleData) return (
                                         <div className="text-center p-12 bg-white rounded-3xl border border-stroke">

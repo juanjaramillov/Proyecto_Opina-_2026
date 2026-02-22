@@ -1,7 +1,11 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import './index.css';
+import App from './App';
+import { logger } from './lib/logger';
+import { ToastProvider } from './components/ui/ToastProvider';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean, error: Error | null }> {
     constructor(props: { children: ReactNode }) {
@@ -14,87 +18,93 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        console.error("Uncaught error:", error, errorInfo);
+        logger.error("Uncaught error:", error, errorInfo);
     }
 
     render() {
         if (this.state.hasError) {
             return (
-                <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
+                <div style={{ padding: '20px', textAlign: 'center' }}>
                     <h1>Algo salió mal.</h1>
-                    <pre style={{ color: 'red', background: '#fff0f0', padding: 10, borderRadius: 5 }}>
-                        {this.state.error?.toString()}
-                    </pre>
+                    <p>{this.state.error?.message}</p>
+                    <button onClick={() => window.location.reload()}>Recargar página</button>
                 </div>
             );
         }
-
         return this.props.children;
     }
 }
 
-import { BrowserRouter } from 'react-router-dom';
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('Failed to find the root element');
 
-
-import { ToastProvider } from './components/ui/ToastProvider';
+const root = ReactDOM.createRoot(rootElement);
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if ((!supabaseUrl || !supabaseAnonKey || supabaseUrl === 'YOUR_SUPABASE_URL' || supabaseAnonKey === 'YOUR_SUPABASE_ANON_KEY') && import.meta.env.MODE !== 'test') {
-    const root = document.getElementById('root');
-    if (root) {
-        root.innerHTML = `
-            <div style="font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background-color: #FEF2F2; color: #DC2626;">
-                <h1 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 700;">🛑 Error de Configuración</h1>
-                <p style="font-size: 1.25rem; margin-bottom: 1.5rem;">Faltan las variables de entorno de Supabase o son inválidas.</p>
-                <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid #FECACA; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-                    <code style="background: #F3F4F6; padding: 0.2rem 0.4rem; border-radius: 0.25rem;">VITE_SUPABASE_URL</code> y 
-                    <code style="background: #F3F4F6; padding: 0.2rem 0.4rem; border-radius: 0.25rem;">VITE_SUPABASE_ANON_KEY</code> 
-                    <br/>no están definidas correctamente.
-                    <br/><br/>
-                    <span style="font-size: 0.9rem; color: #666;">Asegúrate de reemplazar los valores por defecto en .env</span>
+    logger.error("Supabase environment variables are missing or invalid.", { supabaseUrl, supabaseAnonKey });
+    root.render(
+        <div style={{
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            backgroundColor: '#f8fafc',
+            color: '#1e293b',
+            padding: '2rem',
+            textAlign: 'center'
+        }}>
+            <div style={{
+                backgroundColor: 'white',
+                padding: '3rem',
+                borderRadius: '1.5rem',
+                boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+                maxWidth: '480px'
+            }}>
+                <div style={{
+                    backgroundColor: '#fee2e2',
+                    color: '#ef4444',
+                    width: '3rem',
+                    height: '3rem',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 1.5rem'
+                }}>
+                    <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>!</span>
                 </div>
-                <p style="margin-top: 2rem; color: #4B5563;">
-                    Revisa tu archivo <code style="font-weight: bold;">.env</code> o renombra <code style="font-weight: bold;">.env.example</code>
+                <h1 style={{ fontSize: '1.5rem', fontWeight: '900', marginBottom: '1rem' }}>Faltan Variables de Entorno</h1>
+                <p style={{ color: '#64748b', lineHeight: '1.5', marginBottom: '2rem' }}>
+                    Para que la aplicación funcione, necesitas configurar <code>VITE_SUPABASE_URL</code> y <code>VITE_SUPABASE_ANON_KEY</code> en tu archivo <code>.env</code>.
                 </p>
-                <div style="margin-top: 2rem">
-                    <button onclick="window.location.reload()" style="padding: 0.75rem 1.5rem; background-color: #DC2626; color: white; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s;">
-                        Recargar página
-                    </button>
+                <div style={{ textAlign: 'left', backgroundColor: '#f1f5f9', padding: '1rem', borderRadius: '0.75rem', fontSize: '0.875rem' }}>
+                    <p style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: '#475569' }}>Próximos pasos:</p>
+                    <ol style={{ margin: 0, paddingLeft: '1.25rem', color: '#64748b' }}>
+                        <li>Crea un archivo <code>.env</code> en la raíz.</li>
+                        <li>Copia los valores desde tu dashboard de Supabase.</li>
+                        <li>Reinicia el servidor de desarrollo.</li>
+                    </ol>
                 </div>
             </div>
-        `;
-    }
+        </div>
+    );
 } else {
-    import('./App')
-        .then(({ default: App }) => {
-            ReactDOM.createRoot(document.getElementById('root')!).render(
-                <React.StrictMode>
-                    <ErrorBoundary>
+    root.render(
+        <React.StrictMode>
+            <BrowserRouter>
+                <ErrorBoundary>
+                    <HelmetProvider>
                         <ToastProvider>
-                            <BrowserRouter>
-                                <HelmetProvider>
-                                    <App />
-                                </HelmetProvider>
-                            </BrowserRouter>
+                            <App />
                         </ToastProvider>
-                    </ErrorBoundary>
-                </React.StrictMode>
-            );
-        })
-        .catch((error) => {
-            console.error("Failed to load App:", error);
-            const root = document.getElementById('root');
-            if (root) {
-                root.innerHTML = `
-                    <div style="padding: 20px; font-family: sans-serif; color: #DC2626;">
-                        <h1>Error Fatal al Iniciar</h1>
-                        <p>La aplicación no pudo cargarse debido a un error crítico:</p>
-                        <pre style="background: #f0f0f0; padding: 10px; overflow: auto; max-width: 100%; border-radius: 4px;">${error?.message || String(error)}</pre>
-                        <button onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 20px; cursor: pointer;">Recargar</button>
-                    </div>
-                `;
-            }
-        });
+                    </HelmetProvider>
+                </ErrorBoundary>
+            </BrowserRouter>
+        </React.StrictMode>
+    );
 }

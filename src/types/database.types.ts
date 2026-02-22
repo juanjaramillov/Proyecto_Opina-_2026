@@ -63,7 +63,7 @@ export interface Database {
                     country: string | null
                     region: string | null
                     city: string | null
-                    comuna: string | null
+                    commune: string | null
                     age_bucket: string | null
                     gender: string | null
                     algorithm_version: string | null
@@ -93,7 +93,7 @@ export interface Database {
                     country?: string | null
                     region?: string | null
                     city?: string | null
-                    comuna?: string | null
+                    commune?: string | null
                     age_bucket?: string | null
                     gender?: string | null
                     algorithm_version?: string | null
@@ -123,7 +123,7 @@ export interface Database {
                     country?: string | null
                     region?: string | null
                     city?: string | null
-                    comuna?: string | null
+                    commune?: string | null
                     age_bucket?: string | null
                     gender?: string | null
                     algorithm_version?: string | null
@@ -987,6 +987,12 @@ export interface Database {
             is_admin: {
                 Args: Record<string, never>;
                 Returns: boolean;
+            }
+            claim_guest_activity: {
+                Args: {
+                    p_anon_id: string
+                }
+                Returns: undefined
             }
             insert_signal_event: {
                 Args: {

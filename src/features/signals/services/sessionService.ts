@@ -1,4 +1,5 @@
 import { supabase } from '../../../supabase/client';
+import { logger } from '../../../lib/logger';
 
 export interface UserSession {
     id: string;
@@ -47,7 +48,7 @@ export const sessionService = {
 
             return session as UserSession;
         } catch (error) {
-            console.error('[SessionService] Error starting session:', error);
+            logger.error('[SessionService] Error starting session:', error);
             return null;
         }
     },
@@ -72,7 +73,7 @@ export const sessionService = {
             if (error) throw error;
             return data as UserSession;
         } catch (error) {
-            console.error('[SessionService] Error fetching active session:', error);
+            logger.error('[SessionService] Error fetching active session:', error);
             return null;
         }
     },
@@ -124,7 +125,7 @@ export const sessionService = {
 
             return winnerId;
         } catch (error) {
-            console.error('[SessionService] Error finalizing attributes:', error);
+            logger.error('[SessionService] Error finalizing attributes:', error);
             return null;
         }
     },

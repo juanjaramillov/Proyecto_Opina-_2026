@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { authService } from "../services/authService";
 import { motion, AnimatePresence } from "framer-motion";
+import { logger } from "../../../lib/logger";
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");
@@ -16,13 +17,13 @@ export default function ForgotPassword() {
         setSuccess(false);
 
         try {
-            console.log("=== FORGOT PASSWORD: Sending reset for", email.trim());
+            logger.log("=== FORGOT PASSWORD: Sending reset for", email.trim());
             await authService.resetPasswordForEmail(email.trim());
-            console.log("=== FORGOT PASSWORD: Reset link sent successfully");
+            logger.log("=== FORGOT PASSWORD: Reset link sent successfully");
             setSuccess(true);
         } catch (err: unknown) {
             const error = err as Error;
-            console.error("=== FORGOT PASSWORD: Error", error);
+            logger.error("=== FORGOT PASSWORD: Error", error);
             setError(error.message || "No se pudo enviar el correo. Por favor intenta nuevamente.");
         } finally {
             setLoading(false);

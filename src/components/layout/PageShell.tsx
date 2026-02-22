@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../features/auth";
+import { useRole } from "../../hooks/useRole";
 import { useSignalStore } from "../../store/signalStore";
 import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
 
@@ -16,6 +17,7 @@ const MENU_ITEMS = [
 export default function PageShell({ children }: { children: React.ReactNode }) {
   // Simplified user check logic, relying on profile or extending later
   const { profile } = useAuth();
+  const { role } = useRole();
   const signals = useSignalStore(s => s.signals);
   const [scrolled, setScrolled] = useState(false);
 
@@ -83,6 +85,18 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 </NavLink>
               )
             })}
+
+            {/* ENLACE CORPORATIVO */}
+            {isAuthenticated && (role === 'enterprise' || role === 'admin') && (
+              <NavLink
+                to="/b2b-dashboard"
+                className={({ isActive }) =>
+                  `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-indigo-600 text-white shadow-md' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'}`
+                }
+              >
+                B2B Console
+              </NavLink>
+            )}
             {!isAuthenticated && (
               <NavLink
                 to="/login"

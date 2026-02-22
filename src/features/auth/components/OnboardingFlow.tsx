@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { authService } from '../services/authService';
+import { logger } from '../../../lib/logger';
 
 interface OnboardingFlowProps {
     onClose: () => void;
@@ -30,7 +31,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
             }
             setStep('demographics');
         } catch (err) {
-            console.error(err);
+            logger.error(err);
         } finally {
             setLoading(false);
         }
@@ -46,7 +47,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
             });
             setStep('success');
         } catch (err) {
-            console.error(err);
+            logger.error(err);
         } finally {
             setLoading(false);
         }

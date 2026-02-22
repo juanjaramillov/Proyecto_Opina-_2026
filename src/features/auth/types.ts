@@ -5,7 +5,7 @@ export type DemographicData = {
     ageRange?: string;
     gender?: string;
     region?: string;
-    comuna?: string;
+    commune?: string;
 
     // Block B
     educationLevel?: string;

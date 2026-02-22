@@ -2,8 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useToast } from '../../../components/ui/useToast';
 import { useAuth } from "../../auth";
 import { useSignalStore } from "../../../store/signalStore";
-// import { saveSignalEvent } from "../services/saveSignalEvent"; // Removed
 import { Battle, BattleOption, ProgressiveBattle, VoteResult } from '../types';
+import { logger } from '../../../lib/logger';
+import { isProfileComplete } from '../../../lib/profileGuard';
 
 const SHOW_RESULT_MS = 400;
 const NEXT_INTERSTITIAL_MS = 200;
@@ -47,6 +48,7 @@ export function useVersusGame({
     const [result, setResult] = useState<VoteResult | null>(null);
     const [showInsight, setShowInsight] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [showProfileModal, setShowProfileModal] = useState(false);
     const [sessionHistory, setSessionHistory] = useState<Array<{
         battle: Battle;
         myVote: 'A' | 'B';
@@ -124,8 +126,21 @@ export function useVersusGame({
 
         // 🛡️ SECURITY CHECK: Real session required (Bloque 6B)
         // Delegated to profile check from useAuth for UI purposes
-        if (!profile || profile.tier === 'guest') {
+        /* if (!profile || profile.tier === 'guest') {
             setShowAuthModal(true);
+            return;
+        } */
+
+        // 🛡️ PROFILE CHECK: Ensure minimal data for segmentation
+        const minimalProfile = {
+            age: profile?.demographics?.ageRange || null,
+            gender: profile?.demographics?.gender || null,
+            commune: profile?.demographics?.commune || null,
+        };
+
+        if (!isProfileComplete(minimalProfile)) {
+            logger.warn("Intento de emitir señal sin perfil completo");
+            setShowProfileModal(true);
             return;
         }
 
@@ -181,7 +196,7 @@ export function useVersusGame({
                 }, autoNextMs ?? SHOW_RESULT_MS);
             }
         } catch (err) {
-            console.error("Vote processing failed:", err);
+            logger.error("Vote processing failed:", err);
             showToast('No pudimos registrar tu señal. Revisa tu conexión e intenta nuevamente.', 'error');
             // We do NOT call setResult, so the UI stays in 'voting' phase for the same battle.
         }
@@ -203,6 +218,8 @@ export function useVersusGame({
         showInsight,
         showAuthModal,
         setShowAuthModal,
+        showProfileModal,
+        setShowProfileModal,
         hideProgress,
         disableInsights,
         profile,

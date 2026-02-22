@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./features/auth";
 import MainLayout from "./components/layout/MainLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import RoleProtectedRoute from "./components/auth/RoleProtectedRoute";
 
 // Core Pages
 import Home from "./features/home/pages/Home";
@@ -15,6 +16,8 @@ import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
 import ProfileWizard from "./features/auth/components/ProfileWizard";
 import PersonalState from "./features/profile/pages/PersonalState";
+import IntelligencePage from "./features/intelligence/IntelligencePage";
+import B2BDashboard from "./features/b2b/pages/B2BDashboard";
 import Rankings from "./features/rankings/pages/Rankings";
 import PublicRankingPage from './features/rankings/pages/PublicRankingPage';
 import AboutUs from "./pages/static/AboutUs";
@@ -42,6 +45,20 @@ export default function App() {
           <Route path="/rankings" element={<ProtectedRoute><Rankings /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/personal-state" element={<ProtectedRoute><PersonalState /></ProtectedRoute>} />
+          <Route path="/intelligence" element={
+            <ProtectedRoute>
+              <RoleProtectedRoute allowedRoles={['admin', 'enterprise']}>
+                <IntelligencePage />
+              </RoleProtectedRoute>
+            </ProtectedRoute>
+          } />
+          <Route path="/b2b-dashboard" element={
+            <ProtectedRoute>
+              <RoleProtectedRoute allowedRoles={['admin', 'enterprise']}>
+                <B2BDashboard />
+              </RoleProtectedRoute>
+            </ProtectedRoute>
+          } />
 
           {/* Fallback */}
           <Route path="*" element={<NotFound />} />

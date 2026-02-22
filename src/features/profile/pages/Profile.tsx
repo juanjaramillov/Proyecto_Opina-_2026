@@ -7,8 +7,12 @@ import ProgressiveQuestion from "../components/ProgressiveQuestion";
 import SimpleSignup from "../components/SimpleSignup";
 import SegmentComparisonCard from "../components/SegmentComparisonCard";
 import PersonalHistoryChart from "../components/PersonalHistoryChart";
+import { UserLevelCard } from "../../../components/UserLevelCard";
+import { VerifiedBadge } from "../../../components/auth/VerifiedBadge";
+import { supabase } from "../../../supabase/client";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { logger } from "../../../lib/logger";
 
 export default function Profile() {
   const { profile, loading } = useAuth();
@@ -46,7 +50,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
         setComparisons(compData);
         setPersonalHistory(histData);
       } catch (err) {
-        console.error("Failed to load profile data:", err);
+        logger.error("Failed to load profile data:", err);
       } finally {
         setLoadingData(false);
       }
@@ -56,12 +60,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
 
   // Calculate Progress from userStats (from DB)
   const completedSignals = userStats?.total_signals || 0;
-  const currentLevel = userStats?.level || 1;
-  const currentWeight = userStats?.signal_weight || 1;
-
   const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD;
-  const progressPercent = Math.min((completedSignals / MIN_SIGNALS_THRESHOLD) * 100, 100);
-  const remaining = Math.max(0, MIN_SIGNALS_THRESHOLD - completedSignals);
 
   const handleContinue = () => {
     const nextBatchIndex = Math.floor(completedSignals / SIGNALS_PER_BATCH);
@@ -127,6 +126,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
 
         {/* MAIN CONTENT: SYSTEM CORE */}
         <div className="lg:col-span-8 order-1 lg:order-2 space-y-6">
+          <UserLevelCard totalSignals={userStats?.total_signals || 0} />
 
           {/* SYSTEM STATUS CARD */}
           <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 relative overflow-hidden">
@@ -141,9 +141,12 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                   <span className="material-symbols-outlined text-indigo-600">person_filled</span>
                 </div>
                 <div>
-                  <h1 className="text-xl font-black text-ink">
-                    {profile?.displayName ? `Hola, ${profile.displayName.split(' ')[0]}` : 'Centro de Sincronización'}
-                  </h1>
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-xl font-black text-ink">
+                      {profile?.displayName ? `Hola, ${profile.displayName.split(' ')[0]}` : 'Centro de Sincronización'}
+                    </h1>
+                    <VerifiedBadge verified={!!(profile as any)?.identity_verified} />
+                  </div>
                   <p className="text-xs text-muted font-bold uppercase tracking-wider">
                     {profile?.displayName ? 'Perfil de Inteligencia Activo' : 'Perfil de Inteligencia'}
                   </p>
@@ -159,39 +162,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 )}
               </AnimatePresence>
 
-              {/* PROGRESS SECTION */}
-              <div className="mb-8">
-                <div className="flex justify-between items-end mb-2">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold text-slate-500">Nivel de Calibración</span>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mt-1">
-                      Nivel {currentLevel} • Peso {currentWeight.toFixed(1)}x
-                    </span>
-                  </div>
-                  <span className="text-2xl font-black text-ink">{completedSignals} <span className="text-sm text-slate-400 font-medium">/ {MIN_SIGNALS_THRESHOLD} señales</span></span>
-                </div>
-                <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden shadow-inner">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progressPercent}%` }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className={`h-full ${isLocked ? 'bg-amber-400' : 'bg-emerald-500'} relative`}
-                  >
-                    <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                  </motion.div>
-                </div>
-                {isLocked ? (
-                  <p className="text-xs text-amber-600 font-bold mt-2 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm">bolt</span>
-                    Responde {remaining} versus más para activar el sistema.
-                  </p>
-                ) : (
-                  <p className="text-xs text-emerald-600 font-bold mt-2 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm">check_circle</span>
-                    Sistema calibrado y activo.
-                  </p>
-                )}
-              </div>
+              {/* ELIMINADO: PROGRESS SECTION REEMPLAZADO POR UserLevelCard */}
 
               {/* UNLOCK GRID */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -261,6 +232,46 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                   )}
                 </button>
               </div>
+
+              {/* DEMO VERIFICATION SIMULATOR */}
+              {!(profile as any)?.identity_verified && (
+                <div className="mt-8 pt-8 border-t border-slate-50">
+                  <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-100">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-600 shadow-sm shrink-0">
+                        <span className="material-symbols-outlined">verified_user</span>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-sm font-bold text-emerald-900 mb-1">Aumenta tu impacto (Demo)</h4>
+                        <p className="text-xs text-emerald-700/80 leading-relaxed mb-4">
+                          Al verificar tu identidad, el peso de tus señales aumentará de **1.0x** a **2.5x**, dándote más influencia en los rankings globales.
+                        </p>
+                        <button
+                          onClick={async () => {
+                            try {
+                              const { error } = await (supabase as any)
+                                .from("users")
+                                .update({
+                                  identity_verified: true,
+                                  identity_verified_at: new Date().toISOString(),
+                                })
+                                .eq('id', (profile as any)?.id);
+
+                              if (error) throw error;
+                              window.location.reload();
+                            } catch (err) {
+                              logger.error("Error verifying identity:", err);
+                            }
+                          }}
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-5 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-200"
+                        >
+                          Verificar identidad (Demo)
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
             </div>
           </section>

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { supabase } from '../../../supabase/client';
 import { AccountProfile } from '../types';
 import { authService as profileService } from '../services/authService';
+import { logger } from '../../../lib/logger';
 
 interface AuthContextType {
     profile: AccountProfile | null;
@@ -20,7 +21,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             const p = await profileService.getEffectiveProfile();
             setProfile(p);
         } catch (err) {
-            console.error("Error loading profile in context:", err);
+            logger.error("Error loading profile in context:", err);
         } finally {
             setLoading(false);
         }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../../../supabase/client";
+import { logger } from "../../../lib/logger";
 
 export default function ResetPassword() {
     const [password, setPassword] = useState("");
@@ -15,9 +16,9 @@ export default function ResetPassword() {
     useEffect(() => {
         // Enforce the user has a valid access token in URL
         supabase.auth.getSession().then(({ data: { session } }) => {
-            console.log("=== RESET PASSWORD: Link validation session status:", !!session);
+            logger.log("=== RESET PASSWORD: Link validation session status:", !!session);
             if (!session) {
-                console.warn("=== RESET PASSWORD: No active session found. The link may be expired or invalid.");
+                logger.warn("=== RESET PASSWORD: No active session found. The link may be expired or invalid.");
             }
         });
     }, []);
@@ -38,16 +39,16 @@ export default function ResetPassword() {
 
         setLoading(true);
         try {
-            console.log("=== RESET PASSWORD: Attempting password update...");
+            logger.log("=== RESET PASSWORD: Attempting password update...");
             await authService.updateUserPassword(password);
-            console.log("=== RESET PASSWORD: Password updated successfully");
+            logger.log("=== RESET PASSWORD: Password updated successfully");
             setSuccess(true);
             setTimeout(() => {
                 navigate("/");
             }, 3000);
         } catch (err: unknown) {
             const error = err as Error;
-            console.error("=== RESET PASSWORD: Error during update", error);
+            logger.error("=== RESET PASSWORD: Error during update", error);
             setError(error.message || "Error al actualizar la contraseña. Reintenta.");
         } finally {
             setLoading(false);

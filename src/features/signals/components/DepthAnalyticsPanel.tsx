@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { depthService } from "../services/depthService";
 import { motion, AnimatePresence } from "framer-motion";
+import { logger } from "../../../lib/logger";
 
 type Props = {
     optionId: string;
@@ -31,7 +32,7 @@ export default function DepthAnalyticsPanel({ optionId }: Props) {
                 });
                 setData(result);
             } catch (error) {
-                console.error("Failed to load depth analytics:", error);
+                logger.error("Failed to load depth analytics:", error);
             } finally {
                 setLoading(false);
             }

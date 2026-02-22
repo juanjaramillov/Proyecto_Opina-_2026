@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { rankingService, RankSnapshot } from '../services/rankingService';
 import { supabase } from '../../../supabase/client';
 import { SkeletonRankingTopCard } from '../../../components/ui/Skeleton';
+import { logger } from '../../../lib/logger';
 
 interface Category {
     id: string;
@@ -46,7 +47,7 @@ const Rankings: React.FC = () => {
                     setUpdatedAt(data[0].snapshot_date);
                 }
             } catch (err) {
-                console.error('Failed to load ranking:', err);
+                logger.error('Failed to load ranking:', err);
             } finally {
                 setLoading(false);
             }
@@ -103,8 +104,8 @@ const Rankings: React.FC = () => {
                             key={cat.id}
                             onClick={() => setActiveCategorySlug(cat.slug)}
                             className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all active:scale-95 border ${activeCategorySlug === cat.slug
-                                    ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
-                                    : 'bg-white border-slate-100 text-muted hover:border-indigo-200'
+                                ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
+                                : 'bg-white border-slate-100 text-muted hover:border-indigo-200'
                                 }`}
                         >
                             {cat.name}
@@ -186,8 +187,8 @@ const Rankings: React.FC = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: idx * 0.1 }}
                                         className={`relative p-8 rounded-[40px] border transition-all ${idx === 0
-                                                ? 'bg-ink text-white border-indigo-500 shadow-2xl scale-105 z-10'
-                                                : 'bg-white border-slate-100 text-ink shadow-xl'
+                                            ? 'bg-ink text-white border-indigo-500 shadow-2xl scale-105 z-10'
+                                            : 'bg-white border-slate-100 text-ink shadow-xl'
                                             }`}
                                     >
                                         <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-xl font-black text-indigo-600 border-4 border-indigo-50">
@@ -206,8 +207,8 @@ const Rankings: React.FC = () => {
                                                 <h3 className="font-extrabold text-lg leading-tight">{item.entity?.name}</h3>
                                                 <div className="flex items-center justify-center gap-2">
                                                     <span className={`text-[10px] font-black border rounded px-1.5 ${item.trend === 'up' ? 'text-emerald-500 border-emerald-100 bg-emerald-50' :
-                                                            item.trend === 'down' ? 'text-rose-500 border-rose-100 bg-rose-50' :
-                                                                'text-slate-400 border-slate-100 bg-slate-50'
+                                                        item.trend === 'down' ? 'text-rose-500 border-rose-100 bg-rose-50' :
+                                                            'text-slate-400 border-slate-100 bg-slate-50'
                                                         }`}>
                                                         {item.trend === 'up' ? '↑' : item.trend === 'down' ? '↓' : '→'}
                                                     </span>
@@ -235,8 +236,8 @@ const Rankings: React.FC = () => {
                                         <div className="flex items-center gap-4">
                                             <span className="text-xs font-black text-muted">{(item.composite_index).toFixed(1)}</span>
                                             <span className={`flex items-center gap-1 text-[10px] font-black border rounded px-2 py-0.5 ${item.trend === 'up' ? 'text-emerald-500 border-emerald-100' :
-                                                    item.trend === 'down' ? 'text-rose-500 border-rose-100' :
-                                                        'text-slate-400 border-slate-100'
+                                                item.trend === 'down' ? 'text-rose-500 border-rose-100' :
+                                                    'text-slate-400 border-slate-100'
                                                 }`}>
                                                 {item.trend === 'up' ? '↑' : item.trend === 'down' ? '↓' : '→'}
                                             </span>

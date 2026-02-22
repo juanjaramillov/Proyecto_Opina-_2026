@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuthContext } from "../context/AuthContext";
+import { logger } from "../../../lib/logger";
 
 const COMUNAS_SANTIAGO = [
     "Santiago", "Conchalí", "El Bosque", "Estación Central", "Huechuraba",
@@ -27,7 +28,7 @@ export default function ProfileWizard() {
         name: "",
         ageRange: "",
         gender: "",
-        comuna: "",
+        commune: "",
         healthSystem: "",
         clinicalAttention12m: null as boolean | null
     });
@@ -43,7 +44,7 @@ export default function ProfileWizard() {
                 ageRange: formData.ageRange,
                 gender: formData.gender,
                 region: "Metropolitana",
-                comuna: formData.comuna,
+                commune: formData.commune,
                 healthSystem: formData.healthSystem,
                 clinicalAttention12m: formData.clinicalAttention12m === true
             });
@@ -51,7 +52,7 @@ export default function ProfileWizard() {
             await refreshProfile();
             navigate("/"); // Redirigir al Home tras completar
         } catch (error) {
-            console.error("Error completing profile:", error);
+            logger.error("Error completing profile:", error);
         }
         setLoading(false);
     };
@@ -61,12 +62,12 @@ export default function ProfileWizard() {
             await authService.signOut();
             navigate("/login");
         } catch (err) {
-            console.error("Error signing out from wizard:", err);
+            logger.error(err);
         }
     };
 
     const isStep1Valid = formData.name.trim().length > 0 && formData.ageRange && formData.gender;
-    const isStep2Valid = formData.comuna && formData.healthSystem;
+    const isStep2Valid = formData.commune && formData.healthSystem;
     const isStep3Valid = formData.clinicalAttention12m !== null;
 
     return (
@@ -164,8 +165,8 @@ export default function ProfileWizard() {
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Comuna de Residencia (RM)</label>
                                 <select
-                                    value={formData.comuna}
-                                    onChange={(e) => setFormData({ ...formData, comuna: e.target.value })}
+                                    value={formData.commune}
+                                    onChange={(e) => setFormData({ ...formData, commune: e.target.value })}
                                     className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700"
                                 >
                                     <option value="">Selecciona tu comuna...</option>

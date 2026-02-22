@@ -1,6 +1,7 @@
 import { supabase } from '../../../supabase/client';
 import { computeAccountProfile } from './account';
 import { AccountProfile, AccountTier, DemographicData } from '../types';
+import { logger } from '../../../lib/logger';
 
 interface ProfileRow {
     id: string;
@@ -29,7 +30,7 @@ export const authService = {
         const { data: auth, error: authError } = await supabase.auth.getUser();
 
         if (authError) {
-            console.error("=== DEEP DEBUG: Auth GetUser Error ===", authError);
+            logger.error("Auth GetUser Error:", authError);
         }
 
         // Load local demographics for persistence across reloads
@@ -41,12 +42,6 @@ export const authService = {
 
         // If real user is logged in, use it and ignore demo mode
         if (auth?.user) {
-            console.log("=== DEEP DEBUG: Session Detected ===", {
-                id: auth.user.id,
-                email: auth.user.email,
-                confirmed_at: auth.user.email_confirmed_at
-            });
-
             // ... (rest of real user logic handled below)
         } else {
             // 2. DEMO/LOCAL OVERRIDE (Only if no real session)
@@ -68,12 +63,6 @@ export const authService = {
 
         // 3. REAL USER MODE (Continue if auth.user exists)
         if (auth?.user) {
-            console.log("=== DEEP DEBUG: Session Detected ===", {
-                id: auth.user.id,
-                email: auth.user.email,
-                confirmed_at: auth.user.email_confirmed_at
-            });
-
             // Parallel fetch for speed: Profile and Subscription
             const [profileRes, subRes] = await Promise.all([
                 supabase.from('profiles').select('*').eq('id', auth.user.id).maybeSingle(),
@@ -81,24 +70,15 @@ export const authService = {
             ]);
 
             if (profileRes.error) {
-                console.error("=== DEEP DEBUG: Fetch Profile Error ===", profileRes.error);
+                logger.error("Fetch Profile Error:", profileRes.error);
             }
 
             const profileData = profileRes.data as ProfileRow | null;
             const subData = subRes.data;
 
-            // Debug log to trace completion state
-            console.log("=== Profile Sync Debug ===", {
-                id: auth.user.id,
-                exists: !!profileData,
-                tier_in_db: profileData?.tier,
-                completed_flag: profileData?.profile_completed,
-                full_name: profileData?.full_name
-            });
-
             if (!profileData) {
                 // If user exists in Auth but profiles fetch failed (new signup edge case before trigger finishes, or RLS block)
-                console.warn("=== DEEP DEBUG: Profile Missing for Auth User. Falling back to 'registered' tier. ===");
+                logger.warn("Profile Missing for Auth User. Falling back to 'registered' tier.");
                 return computeAccountProfile({
                     tier: 'registered',
                     profileCompleteness: 0,
@@ -139,7 +119,7 @@ export const authService = {
                     ...localDemographics,
                     ageRange: profileData.age ? `${profileData.age}` : localDemographics.ageRange,
                     gender: profileData.gender || localDemographics.gender,
-                    comuna: profileData.commune || localDemographics.comuna,
+                    commune: profileData.commune || localDemographics.commune,
                     healthSystem: profileData.health_system || localDemographics.healthSystem,
                     clinicalAttention12m: profileData.clinical_attention_12m !== null ? profileData.clinical_attention_12m : localDemographics.clinicalAttention12m,
                 }
@@ -187,7 +167,7 @@ export const authService = {
         gender: string;
         ageRange: string;
         region: string;
-        comuna: string;
+        commune: string;
         healthSystem: string;
         clinicalAttention12m: boolean;
     }>): Promise<void> => {
@@ -220,7 +200,7 @@ export const authService = {
                     full_name: demographics.name,
                     gender: demographics.gender,
                     age: ageInt,
-                    commune: demographics.comuna,
+                    commune: demographics.commune,
                     health_system: demographics.healthSystem,
                     clinical_attention_12m: demographics.clinicalAttention12m,
                     profile_completeness: 100,
@@ -230,7 +210,7 @@ export const authService = {
                 });
 
             if (error) {
-                console.error("[authService] Failed to update profile:", error);
+                logger.error("[authService] Failed to update profile:", error);
                 throw error;
             }
         }
@@ -241,11 +221,23 @@ export const authService = {
     },
 
     registerWithEmail: async (email: string, password: string): Promise<void> => {
-        const { error } = await supabase.auth.signUp({
+        const { error, data } = await supabase.auth.signUp({
             email,
             password
         });
         if (error) throw error;
+
+        // Try to claim any guest activity prior to this official signup
+        if (data.user) {
+            const anonId = localStorage.getItem('opina_anon_id');
+            if (anonId) {
+                try {
+                    await supabase.rpc('claim_guest_activity', { p_anon_id: anonId });
+                } catch (err) {
+                    logger.warn("[authService] Failed to claim guest activity on register:", err);
+                }
+            }
+        }
 
         // Clear demo mode if it was active
         localStorage.removeItem('opina_demo_user');
@@ -255,11 +247,23 @@ export const authService = {
     },
 
     loginWithEmail: async (email: string, password: string): Promise<void> => {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { error, data } = await supabase.auth.signInWithPassword({
             email,
             password
         });
         if (error) throw error;
+
+        // Try to claim any guest activity prior to this official login
+        if (data.user) {
+            const anonId = localStorage.getItem('opina_anon_id');
+            if (anonId) {
+                try {
+                    await supabase.rpc('claim_guest_activity', { p_anon_id: anonId });
+                } catch (err) {
+                    logger.warn("[authService] Failed to claim guest activity on login:", err);
+                }
+            }
+        }
 
         // Clear demo mode if it was active
         localStorage.removeItem('opina_demo_user');
@@ -284,13 +288,12 @@ export const authService = {
         const profileData = profile as ProfileRow | null;
 
         if (error) {
-            console.error("[authService] Error checking profile during sync:", error);
+            logger.error("[authService] Error checking profile during sync:", error);
         }
 
         // 3. Update or Create if needed
         // If profile doesn't exist, we MUST create it to avoid login loops
         if (!profileData) {
-            console.log("[authService] Creating missing profile for logged in user:", user.id);
             const ageInt = parseInt(localDemographics.ageRange?.split(/[-+]/)[0] || "0", 10);
 
             await supabase.from('profiles').insert({
@@ -299,7 +302,7 @@ export const authService = {
                 display_name: localDemographics.name || user.user_metadata?.display_name || user.email?.split('@')[0],
                 gender: localDemographics.gender,
                 age: ageInt,
-                commune: localDemographics.comuna,
+                commune: localDemographics.commune,
                 health_system: localDemographics.healthSystem,
                 clinical_attention_12m: localDemographics.clinicalAttention12m,
                 profile_completed: false,
@@ -308,13 +311,12 @@ export const authService = {
             });
         } else if (!profileData.profile_completed && Object.keys(localDemographics).length > 0) {
             // Existing but incomplete profile, and we have local data to sync
-            console.log("[authService] Syncing existing profile with local data");
             const ageInt = parseInt(localDemographics.ageRange?.split(/[-+]/)[0] || "0", 10);
 
             const willBeComplete = !!(
                 (profileData.full_name || localDemographics.name) &&
                 (profileData.age || ageInt > 0) &&
-                (profileData.commune || localDemographics.comuna) &&
+                (profileData.commune || localDemographics.commune) &&
                 (profileData.gender || localDemographics.gender) &&
                 (profileData.health_system || localDemographics.healthSystem)
             );
@@ -323,7 +325,7 @@ export const authService = {
                 full_name: profileData.full_name || localDemographics.name,
                 gender: profileData.gender || localDemographics.gender,
                 age: profileData.age || (ageInt > 0 ? ageInt : undefined),
-                commune: profileData.commune || localDemographics.comuna,
+                commune: profileData.commune || localDemographics.commune,
                 health_system: profileData.health_system || localDemographics.healthSystem,
                 clinical_attention_12m: profileData.clinical_attention_12m ?? localDemographics.clinicalAttention12m,
                 profile_completed: willBeComplete,
@@ -335,7 +337,6 @@ export const authService = {
 
     resetPasswordForEmail: async (email: string): Promise<void> => {
         const redirectTo = `${window.location.origin}/reset-password`;
-        console.log("[authService] Requesting reset for:", email, "with redirectTo:", redirectTo);
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo
         });

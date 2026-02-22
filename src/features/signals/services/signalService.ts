@@ -2,6 +2,7 @@ import { supabase } from '../../../supabase/client';
 import { Database } from '../../../types/database.types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { getAssetPathForOption } from '../config/brandAssets';
+import { logger } from '../../../lib/logger';
 
 const sb = supabase as unknown as SupabaseClient<Database>;
 
@@ -102,7 +103,7 @@ export const signalService = {
     saveSignalEvent: async (payload: SignalEventPayload): Promise<void> => {
         // 1. VALIDACIÓN ESTRICTA
         if (!payload.battle_id || !payload.option_id) {
-            console.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing battle_id or option_id', payload);
+            logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing battle_id or option_id', payload);
             throw new Error('Invalid signal payload: missing battle_id or option_id');
         }
 
@@ -120,7 +121,7 @@ export const signalService = {
         });
 
         if (error) {
-            console.error('[SignalService] RPC insert_signal_event failed:', error);
+            logger.error('[SignalService] RPC insert_signal_event failed:', error);
             throw error;
         }
     },
@@ -156,7 +157,7 @@ export const signalService = {
         });
 
         if (error) {
-            console.error('[KPI Share] Error:', error);
+            logger.error('[KPI Share] Error:', error);
             return [];
         }
         return (data ?? []) as unknown as ShareOfPreferenceRow[];
@@ -178,7 +179,7 @@ export const signalService = {
         });
 
         if (error) {
-            console.error('[KPI Trend] Error:', error);
+            logger.error('[KPI Trend] Error:', error);
             return [];
         }
         return (data ?? []) as unknown as TrendVelocityRow[];
@@ -198,7 +199,7 @@ export const signalService = {
         });
 
         if (error) {
-            console.error('[KPI Quality] Error:', error);
+            logger.error('[KPI Quality] Error:', error);
             return [];
         }
         return (data ?? []) as unknown as EngagementQualityRow[];
@@ -213,7 +214,7 @@ export const signalService = {
         const { data, error } = await sb.rpc('get_active_battles');
 
         if (error) {
-            console.error('[Active Battles] Error:', error);
+            logger.error('[Active Battles] Error:', error);
             return [];
         }
 
@@ -247,7 +248,7 @@ export const signalService = {
 
         if (error) {
             if (error.code !== 'PGRST116') { // Ignore "no rows returned"
-                console.error('[User Stats] Error:', error);
+                logger.error('[User Stats] Error:', error);
             }
             return null;
         }

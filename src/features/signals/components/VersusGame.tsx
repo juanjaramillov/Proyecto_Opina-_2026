@@ -7,6 +7,8 @@ import { useAuth } from '../../auth';
 import OptionCard from './OptionCard';
 import { Battle, BattleOption, ProgressiveBattle, VoteResult } from '../types';
 import SessionSummary from './SessionSummary';
+import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
+import { GuestConversionModal } from '../../auth/components/GuestConversionModal';
 
 // --- CONSTANTS & HELPERS ---
 
@@ -51,11 +53,14 @@ export default function VersusGame(props: GameProps) {
         isCompleted,
         sessionHistory,
         showAuthModal,
-        setShowAuthModal
+        setShowAuthModal,
+        showProfileModal,
+        setShowProfileModal
     } = useVersusGame(props);
 
     const [showFinalMessage, setShowFinalMessage] = useState(false);
     const [clickPosition, setClickPosition] = useState<{ x: number, y: number } | null>(null);
+    const [showGuestConversionModal, setShowGuestConversionModal] = useState(false);
 
     // Reset local state when battle changes
     useEffect(() => {
@@ -328,6 +333,25 @@ export default function VersusGame(props: GameProps) {
                     </div>
                 )}
             </AnimatePresence>
-        </div >
+
+            <AnimatePresence>
+                {showProfileModal && (
+                    <ProfileRequiredModal
+                        onClose={() => setShowProfileModal(false)}
+                        onCompleteProfile={() => navigate('/complete-profile')}
+                    />
+                )}
+                {showGuestConversionModal && (
+                    <GuestConversionModal
+                        isOpen={showGuestConversionModal}
+                        onClose={() => setShowGuestConversionModal(false)}
+                        onRegister={() => {
+                            setShowGuestConversionModal(false);
+                            navigate('/dashboard'); // Temporarily navigating to dashboard or specialized signup page
+                        }}
+                    />
+                )}
+            </AnimatePresence>
+        </div>
     );
 }

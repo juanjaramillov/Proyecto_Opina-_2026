@@ -1,6 +1,7 @@
 import { supabase } from '../../../supabase/client';
 import { Database } from '../../../types/database.types';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { logger } from '../../../lib/logger';
 
 const sb = supabase as unknown as SupabaseClient<Database>;
 
@@ -22,7 +23,7 @@ export const depthService = {
         });
 
         if (error) {
-            console.error('[DepthService] RPC insert_depth_answers failed:', error);
+            logger.error('[DepthService] RPC insert_depth_answers failed:', error);
             throw error;
         }
     },
@@ -39,7 +40,7 @@ export const depthService = {
         });
 
         if (error) {
-            console.error('[DepthService] Error in getDepthAnalytics:', error);
+            logger.error('[DepthService] Error in getDepthAnalytics:', error);
             return [];
         }
         return data || [];
@@ -61,7 +62,7 @@ export const depthService = {
         });
 
         if (error) {
-            console.error('[DepthService] Error in getDepthComparison:', error);
+            logger.error('[DepthService] Error in getDepthComparison:', error);
             return [];
         }
         return data || [];
@@ -101,7 +102,7 @@ export const depthService = {
         });
 
         if (error) {
-            console.error('[DepthService] Error in getDepthTrend:', error);
+            logger.error('[DepthService] Error in getDepthTrend:', error);
             return [];
         }
         return data || [];

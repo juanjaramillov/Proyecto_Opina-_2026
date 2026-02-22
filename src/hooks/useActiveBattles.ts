@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ActiveBattle, signalService } from '../features/signals/services/signalService';
+import { logger } from '../lib/logger';
 
 export function useActiveBattles() {
     const [battles, setBattles] = useState<ActiveBattle[]>([]);
@@ -17,12 +18,12 @@ export function useActiveBattles() {
                     if (data && data.length > 0) {
                         setBattles(data);
                     } else {
-                        console.warn("No active battles found in DB.");
+                        logger.warn("No active battles found in DB.");
                         setBattles([]);
                     }
                 }
             } catch (err) {
-                console.error("Failed to load battles:", err);
+                logger.error("Failed to load battles:", err);
                 if (mounted) setBattles([]);
             } finally {
                 if (mounted) setLoading(false);

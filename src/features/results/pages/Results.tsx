@@ -29,6 +29,7 @@ import RequestLoginModal from "../../auth/components/RequestLoginModal";
 import { motion } from "framer-motion";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
 import { analyticsService, AdvancedResult, AnalyticsFilters } from "../services/analyticsService";
+import { logger } from "../../../lib/logger";
 
 const Results: React.FC = () => {
   const [filters, setFilters] = useState<AnalyticsFilters & { category: string }>({
@@ -68,7 +69,7 @@ const Results: React.FC = () => {
           }
         }
       } catch (err) {
-        console.error("Failed to load advanced results:", err);
+        logger.error("Failed to load advanced results:", err);
         if (mounted) setError("No se pudieron cargar los datos de análisis.");
       } finally {
         if (mounted) setLoading(false);

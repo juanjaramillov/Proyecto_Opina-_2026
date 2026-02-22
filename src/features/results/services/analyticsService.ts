@@ -1,4 +1,5 @@
 import { supabase } from '../../../supabase/client';
+import { logger } from '../../../lib/logger';
 
 export interface AdvancedResult {
     entity_id: string;
@@ -29,7 +30,7 @@ export const analyticsService = {
         });
 
         if (error) {
-            console.error('Error fetching advanced results:', error);
+            logger.error('Error fetching advanced results:', error);
             throw error;
         }
 

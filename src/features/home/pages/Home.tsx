@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 import RightNowCarousel, { GenericSlide } from "../components/RightNowCarousel";
 import { platformService, RecentActivity } from "../../signals/services/platformService";
+import { TrendingItem } from "../../../types/trending";
 
 export default function Home() {
   const [recentActivity, setRecentActivity] = useState<RecentActivity | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [trendingFeed, setTrendingFeed] = useState<any[]>([]);
+  const [trendingFeed, setTrendingFeed] = useState<TrendingItem[]>([]);
+
+  // State for filter controls
+  const [ageRange, setAgeRange] = useState<string>('all');
+  const [gender, setGender] = useState<string>('all');
+  const [commune, setCommune] = useState<string>('all');
 
   useEffect(() => {
     platformService.getRecentActivity().then(data => {
@@ -13,22 +18,23 @@ export default function Home() {
     });
 
     async function loadFeed() {
-      const data = await platformService.getTrendingFeedGrouped();
+      // Use the new segmented trending service with current filters
+      const data = await platformService.getSegmentedTrending(ageRange, gender, commune);
       setTrendingFeed(data);
     }
 
     loadFeed();
-  }, []);
+  }, [ageRange, gender, commune]); // Add filters to dependency array to re-fetch when they change
 
   // Map trending feed item to GenericSlide format
   const slidesData: GenericSlide[] = trendingFeed.slice(0, 5).map((item, idx) => ({
-    id: item.option_id,
-    context: `Tendencia #${idx + 1} • ${item.category}`,
-    value: item.trend_status === 'subiendo' ? `+${item.delta_weight}x` : item.option_name,
-    label: item.trend_status === 'subiendo' ? `${item.option_name} está ganando inercia acelerada` : `Señal consistente del segmento principal.`,
+    id: item.id,
+    context: `Tendencia #${idx + 1} • ${item.slug}`,
+    value: item.title,
+    label: `Señal detectada con un score de ${item.trend_score.toFixed(1)}`,
     source: "Opina+ Live Engine",
-    path: `/battle/${item.battle_id}`,
-    aiInsight: item.trend_status === 'subiendo' ? "El spread de opinión se está ampliando." : "Fuerte consolidación detectada."
+    path: `/battle/${item.id}`,
+    aiInsight: "Patrón de opinión consolidado en este segmento."
   }));
 
   return (
@@ -45,7 +51,7 @@ export default function Home() {
 
           {/* Micro badge */}
           <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-100 text-sm text-slate-600 mb-8 border border-slate-200 shadow-sm">
-            Datos agregados en tiempo real · Snapshot cada 3 horas
+            Datos agregados · Snapshot optimizado cada 3 horas
           </div>
 
           {/* Título principal */}
@@ -110,18 +116,74 @@ export default function Home() {
       )}
 
       {/* TRENDING FEED GROUPED */}
-      {trendingFeed.length > 0 && (
-        <section className="w-full py-16 bg-gray-50">
-          <div className="max-w-6xl mx-auto px-6">
-            {Object.entries(
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              trendingFeed.reduce((acc: any, item: any) => {
-                if (!acc[item.category]) acc[item.category] = [];
-                acc[item.category].push(item);
+      <section className="w-full py-16 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+
+          {/* Segment Filters */}
+          <div className="flex flex-wrap items-center gap-4 mb-10 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Género</label>
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="bg-gray-50 border-none rounded-lg px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="all">Todos los géneros</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Rango Etario</label>
+              <select
+                value={ageRange}
+                onChange={(e) => setAgeRange(e.target.value)}
+                className="bg-gray-50 border-none rounded-lg px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="all">Cualquier edad</option>
+                <option value="under_18">Menores de 18</option>
+                <option value="18-24">18-24 años</option>
+                <option value="25-34">25-34 años</option>
+                <option value="35-44">35-44 años</option>
+                <option value="45-54">45-54 años</option>
+                <option value="55-64">55-64 años</option>
+                <option value="65_plus">65+ años</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Comuna</label>
+              <select
+                value={commune}
+                onChange={(e) => setCommune(e.target.value)}
+                className="bg-gray-50 border-none rounded-lg px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="all">Sntgo (Todas)</option>
+                <option value="Las Condes">Las Condes</option>
+                <option value="Providencia">Providencia</option>
+                <option value="Santiago">Santiago Centro</option>
+                <option value="Vitacura">Vitacura</option>
+                <option value="Maipú">Maipú</option>
+                <option value="La Florida">La Florida</option>
+              </select>
+            </div>
+
+            <div className="ml-auto text-xs text-slate-400 font-medium">
+              Segmentación en tiempo real habilitada
+            </div>
+          </div>
+
+          {trendingFeed.length > 0 ? (
+            Object.entries(
+              trendingFeed.reduce((acc: Record<string, TrendingItem[]>, item: TrendingItem) => {
+                const category = "Global"; // Default category as TrendingItem doesn't have it explicitly
+                if (!acc[category]) acc[category] = [];
+                acc[category].push(item);
                 return acc;
               }, {})
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ).map(([category, items]: any) => {
+            ).map(([category, items]: [string, TrendingItem[]]) => {
               const top3 = items.slice(0, 3);
 
               return (
@@ -131,34 +193,46 @@ export default function Home() {
                   </h2>
 
                   <div className="grid md:grid-cols-3 gap-6">
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {top3.map((item: any) => (
+                    {top3.map((item) => (
                       <div
-                        key={item.option_id}
+                        key={item.id}
                         className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer"
-                        onClick={() => window.location.href = `/battle/${item.battle_id}`}
+                        onClick={() => window.location.href = `/battle/${item.id}`}
                       >
-                        <div className="text-sm text-gray-400 mb-2">
-                          #{item.rank_position}
+                        <div className="text-sm text-indigo-500 font-bold mb-2">
+                          Peso Acumulado: {item.trend_score.toFixed(1)}
                         </div>
                         <div className="text-lg font-semibold mb-2">
-                          {item.option_name}
+                          {item.title}
                         </div>
                         <div className="text-sm font-medium">
-                          {item.trend_status}
+                          {item.slug}
                         </div>
-                        <div className="text-xs text-gray-400 mt-2">
-                          Δ {item.delta_weight}
+                        <div className="text-xs text-gray-400 mt-2 flex justify-between items-center">
+                          <span>Signals: {item.total_signals}</span>
+                          {item.direction === 'up' && (
+                            <span className="text-emerald-600 font-bold">▲ +{item.variation_percent.toFixed(1)}%</span>
+                          )}
+                          {item.direction === 'down' && (
+                            <span className="text-rose-600 font-bold">▼ {item.variation_percent.toFixed(1)}%</span>
+                          )}
+                          {item.direction === 'stable' && (
+                            <span className="text-slate-400">— 0%</span>
+                          )}
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
               );
-            })}
-          </div>
-        </section>
-      )}
+            })
+          ) : (
+            <div className="text-center text-gray-500 py-10">
+              No hay tendencias disponibles para los filtros seleccionados.
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* 2. TENDENCIAS (Qualitative Only) */}
       <section className="relative z-10 w-full max-w-6xl mx-auto px-4">

@@ -6,6 +6,10 @@ import { DEPTH_QUESTIONS } from '../config/depthQuestions';
 import { depthService, DepthComparisonRow } from '../services/depthService';
 import { useAuth } from '../../auth';
 import { useToast } from '../../../components/ui/useToast';
+import { logger } from '../../../lib/logger';
+import { isProfileComplete } from '../../../lib/profileGuard';
+import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
+import { useNavigate } from 'react-router-dom';
 
 interface InsightPackProps {
     optionId: string;
@@ -17,11 +21,13 @@ interface InsightPackProps {
 
 const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battleOptions = [], onComplete, onCancel }) => {
     const { profile } = useAuth();
+    const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showAnalytics, setShowAnalytics] = useState(false);
     const [loadingAnalytics, setLoadingAnalytics] = useState(false);
     const [analyticsError, setAnalyticsError] = useState<string | null>(null);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [showProfileModal, setShowProfileModal] = useState(false);
 
     // Segmentación y Comparativa
     const [genderFilter, setGenderFilter] = useState<string | null>(null);
@@ -47,7 +53,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
             setComparisonData(data);
         } catch (err: unknown) {
             const error = err as Error;
-            console.error('Error loading analytics:', error);
+            logger.error('Error loading analytics:', error);
             setAnalyticsError(error.message || 'Error loading analytics');
         } finally {
             setLoadingAnalytics(false);
@@ -55,6 +61,19 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
     };
 
     const handleSurveyComplete = async (answers: Record<string, string | number>) => {
+        // 🛡️ PROFILE CHECK: Ensure minimal data for segmentation
+        const minimalProfile = {
+            age: profile?.demographics?.ageRange || null,
+            gender: profile?.demographics?.gender || null,
+            commune: profile?.demographics?.commune || null,
+        };
+
+        if (!isProfileComplete(minimalProfile)) {
+            logger.warn("Intento de emitir señal de profundidad sin perfil completo");
+            setShowProfileModal(true);
+            return;
+        }
+
         setIsSubmitting(true);
         try {
             const structuredAnswers = Object.entries(answers).map(([key, val]) => ({
@@ -67,7 +86,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
             await fetchAnalytics({ gender: genderFilter, age: ageFilter, region: regionFilter });
 
         } catch (error) {
-            console.error('Error saving depth structured answers:', error);
+            logger.error('Error saving depth structured answers:', error);
             showToast('Error al guardar la señal. Reintenta.', 'error');
         } finally {
             setIsSubmitting(false);
@@ -266,6 +285,16 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
                     fetchAnalytics({ gender: genderFilter, age: ageFilter, region: regionFilter });
                 }}
             />
+
+            {showProfileModal && (
+                <ProfileRequiredModal
+                    onClose={() => setShowProfileModal(false)}
+                    onCompleteProfile={() => {
+                        setShowProfileModal(false);
+                        navigate('/complete-profile');
+                    }}
+                />
+            )}
         </div>
     );
 };

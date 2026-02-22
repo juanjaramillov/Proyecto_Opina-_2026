@@ -1,4 +1,5 @@
 import { supabase } from '../../../supabase/client';
+import { logger } from '../../../lib/logger';
 
 export interface UserStats {
     total_signals: number;
@@ -39,6 +40,12 @@ export interface PersonalHistoryPoint {
     avg_score: number;
     module_type: 'depth' | 'versus';
     category_slug?: string;
+}
+
+export interface RawPersonalHistoryPoint {
+    created_at: string;
+    value_numeric: number | null;
+    module_type: string;
 }
 
 export const profileService = {
@@ -164,7 +171,7 @@ export const profileService = {
         });
 
         if (error) {
-            console.error('Error in getSegmentComparison:', error);
+            logger.error('Error in getSegmentComparison:', error);
             throw error;
         }
 
@@ -184,11 +191,11 @@ export const profileService = {
         });
 
         if (error) {
-            console.error('Error in getPersonalHistory:', error);
+            logger.error('Error in getPersonalHistory:', error);
             throw error;
         }
 
-        return (data as unknown as any[] || []).map(d => ({
+        return (data as unknown as RawPersonalHistoryPoint[] || []).map((d) => ({
             date: d.created_at,
             avg_score: d.value_numeric || 0,
             module_type: (d.module_type as 'depth' | 'versus') || 'depth'

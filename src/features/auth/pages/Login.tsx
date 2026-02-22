@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { authService } from "../services/authService";
 import { useAuthContext } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { logger } from "../../../lib/logger";
 
 export default function Login() {
     const { refreshProfile } = useAuthContext();
@@ -19,18 +20,18 @@ export default function Login() {
         setError(null);
 
         try {
-            console.log("=== LOGIN FLOW: Starting for ===", email.trim());
+            logger.log("=== LOGIN FLOW: Starting for ===", email.trim());
             await authService.loginWithEmail(email.trim(), password);
 
-            console.log("=== LOGIN FLOW: Auth Success, refreshing profile...");
+            logger.log("=== LOGIN FLOW: Auth Success, refreshing profile...");
             // Wait for context to update
             setIsSyncing(true);
             await refreshProfile();
 
-            console.log("=== LOGIN FLOW: Profile synced, checking tier and navigating...");
+            logger.log("=== LOGIN FLOW: Profile synced, checking tier and navigating...");
             navigate("/");
         } catch (err: any) {
-            console.error("=== LOGIN FLOW: Critical Error ===", err);
+            logger.error("=== LOGIN FLOW: Critical Error ===", err);
             setError(err.message || "Credenciales inválidas. Por favor intenta nuevamente.");
         } finally {
             setLoading(false);

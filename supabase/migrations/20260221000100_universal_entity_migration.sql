@@ -45,9 +45,10 @@ BEGIN
     SELECT DISTINCT ON (label) 
       bo.label, 
       bo.image_url, 
-      b.category as battle_category
+      c.slug as battle_category
     FROM public.battle_options bo
     JOIN public.battles b ON b.id = bo.battle_id
+    LEFT JOIN public.categories c ON c.id = b.category_id
   LOOP
     -- Insertar en entities
     INSERT INTO public.entities (type, name, slug, metadata)

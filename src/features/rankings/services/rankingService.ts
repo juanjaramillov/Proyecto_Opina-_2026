@@ -1,4 +1,5 @@
 import { supabase } from '../../../supabase/client';
+import { logger } from '../../../lib/logger';
 
 export interface RankSnapshot {
     id: string;
@@ -51,7 +52,7 @@ export const rankingService = {
             .order('snapshot_date', { ascending: false });
 
         if (error) {
-            console.error('Error fetching rankings:', error);
+            logger.error('Error fetching rankings:', error);
             throw error;
         }
 

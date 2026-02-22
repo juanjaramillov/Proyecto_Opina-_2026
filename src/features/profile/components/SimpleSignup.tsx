@@ -3,11 +3,14 @@ import { authService as profileService } from '../../auth';
 import { motion } from 'framer-motion';
 import { useToast } from '../../../components/ui/useToast';
 import { useNavigate } from 'react-router-dom';
+import { logger } from '../../../lib/logger';
+import { supabase } from '../../../supabase/client';
 
 export default function SimpleSignup() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [inviteCode, setInviteCode] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { showToast } = useToast();
     const navigate = useNavigate();
@@ -27,13 +30,37 @@ export default function SimpleSignup() {
             return;
         }
 
+        const isInviteOnly = import.meta.env.VITE_INVITE_ONLY === "true";
+        if (isInviteOnly && !inviteCode) {
+            showToast("Se requiere un código de invitación", "info");
+            return;
+        }
+
         setIsSubmitting(true);
         try {
+            if (isInviteOnly) {
+                const { data: isValid, error: inviteError } = await (supabase as any).rpc(
+                    "validate_invitation",
+                    { p_code: inviteCode.trim().toUpperCase() }
+                ) as { data: boolean; error: any };
+
+                if (inviteError) throw inviteError;
+                if (!isValid) {
+                    showToast("Código de invitación inválido o agotado", "error");
+                    setIsSubmitting(false);
+                    return;
+                }
+            }
+
             await profileService.registerWithEmail(email, password);
+
+            if (isInviteOnly) {
+                await (supabase as any).rpc("consume_invitation", { p_code: inviteCode.trim().toUpperCase() });
+            }
             showToast("¡Cuenta creada exitosamente!", "success");
             navigate('/complete-profile');
         } catch (error: any) {
-            console.error("Error creating account:", error);
+            logger.error("Error creating account:", error);
 
             let errorMsg = "No se pudo crear la cuenta. Reintenta.";
             if (error?.message?.includes('invalid format')) {
@@ -98,6 +125,22 @@ export default function SimpleSignup() {
                             required
                         />
                     </div>
+
+                    {import.meta.env.VITE_INVITE_ONLY === "true" && (
+                        <div className="space-y-1.5">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                                Código de Invitación <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={inviteCode}
+                                onChange={(e) => setInviteCode(e.target.value)}
+                                placeholder="Ej. OPINA-DEMO-001"
+                                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-ink uppercase"
+                                required
+                            />
+                        </div>
+                    )}
 
                     <div className="space-y-1.5">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">

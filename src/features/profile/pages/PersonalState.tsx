@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { userStateService, UserState } from '../services/userStateService';
+import { userStateService, UserState, UserStateBenchmarks, StateBenchmark } from '../services/userStateService';
 import { useToast } from '../../../components/ui/useToast';
 import { useNavigate } from 'react-router-dom';
+import { logger } from '../../../lib/logger';
 
 const METRICS = [
     { id: 'mood_score', label: 'Estado de Ánimo', emoji: '🎭', description: '¿Cómo te sientes hoy?' },
@@ -12,13 +13,13 @@ const METRICS = [
 ];
 
 export default function PersonalState() {
-    const [scores, setScores] = useState<Record<string, number>>({
+    const [scores, setScores] = useState<UserState>({
         mood_score: 5,
         economic_score: 5,
         job_score: 5,
         happiness_score: 5,
     });
-    const [benchmarks, setBenchmarks] = useState<any>(null);
+    const [benchmarks, setBenchmarks] = useState<UserStateBenchmarks | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const { showToast } = useToast();
@@ -30,13 +31,13 @@ export default function PersonalState() {
                 const data = await userStateService.getBenchmarks();
                 setBenchmarks(data);
             } catch (err) {
-                console.error('Error loading benchmarks:', err);
+                logger.error('Error loading benchmarks:', err);
             }
         };
         loadBenchmarks();
     }, []);
 
-    const handleScoreChange = (id: string, value: number) => {
+    const handleScoreChange = (id: keyof UserState, value: number) => {
         setScores(prev => ({ ...prev, [id]: value }));
     };
 
@@ -44,12 +45,12 @@ export default function PersonalState() {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            await userStateService.saveUserState(scores as unknown as UserState);
+            await userStateService.saveUserState(scores);
             setIsSuccess(true);
             showToast('Estado sincronizado con éxito. Tu privacidad está protegida.', 'success');
             setTimeout(() => navigate('/profile'), 2000);
         } catch (error) {
-            console.error('Failed to save state:', error);
+            logger.error('Failed to save state:', error);
             showToast('Error al sincronizar. Reintenta.', 'error');
         } finally {
             setIsSubmitting(false);
@@ -79,7 +80,7 @@ export default function PersonalState() {
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="grid gap-6">
                         {METRICS.map((metric, idx) => {
-                            const key = getMetricKey(metric.id);
+                            const key = getMetricKey(metric.id) as keyof StateBenchmark;
                             const countryAvg = benchmarks?.country?.[key];
                             const segmentAvg = benchmarks?.segment?.[key];
 
@@ -102,7 +103,7 @@ export default function PersonalState() {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <span className="text-2xl font-black text-indigo-600 block leading-none">{scores[metric.id]}</span>
+                                            <span className="text-2xl font-black text-indigo-600 block leading-none">{scores[metric.id as keyof UserState]}</span>
                                             {benchmarks && (
                                                 <div className="flex gap-2 mt-1 justify-end items-center">
                                                     <div className="flex items-center gap-1" title="Promedio País">
@@ -124,13 +125,13 @@ export default function PersonalState() {
                                             min="1"
                                             max="10"
                                             step="1"
-                                            value={scores[metric.id]}
-                                            onChange={(e) => handleScoreChange(metric.id, parseInt(e.target.value))}
+                                            value={scores[metric.id as keyof UserState]}
+                                            onChange={(e) => handleScoreChange(metric.id as keyof UserState, parseInt(e.target.value))}
                                             className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600 z-10"
                                         />
                                         <div className="absolute inset-0 pointer-events-none flex justify-between items-center px-1 opacity-20">
                                             {[...Array(10)].map((_, i) => (
-                                                <div key={i} className={`w-1 h-1 rounded-full ${scores[metric.id] > i ? 'bg-indigo-300' : 'bg-slate-300'}`} />
+                                                <div key={i} className={`w-1 h-1 rounded-full ${scores[metric.id as keyof UserState] > i ? 'bg-indigo-300' : 'bg-slate-300'}`} />
                                             ))}
                                         </div>
 
