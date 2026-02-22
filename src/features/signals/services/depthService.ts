@@ -8,6 +8,18 @@ const sb = supabase as unknown as SupabaseClient<Database>;
 export type DepthResponseRow = Database['public']['Functions']['get_depth_analytics']['Returns'][number];
 export type DepthComparisonRow = Database['public']['Functions']['get_depth_comparison']['Returns'][number];
 
+export interface DepthImmediateComparison {
+    global_avg: number;
+    segment_avg: number;
+    total_signals: number;
+    is_nps: boolean;
+    distribution: {
+        promoters: number;
+        passives: number;
+        detractors: number;
+    }
+}
+
 export const depthService = {
     async saveDepthStructured(
         optionId: string,
@@ -82,6 +94,23 @@ export const depthService = {
             acc[row.question_key].push(row);
             return acc;
         }, {});
+    },
+
+    async getDepthImmediateComparison(
+        questionKey: string,
+        segmentFilter?: string | null
+    ): Promise<DepthImmediateComparison | null> {
+        // @ts-expect-error - RPC is newly added, database types not yet generated
+        const { data, error } = await sb.rpc('get_depth_immediate_comparison', {
+            p_question_id: questionKey,
+            p_segment_filter: segmentFilter || null
+        });
+
+        if (error) {
+            logger.error('[DepthService] Error in getDepthImmediateComparison:', error);
+            return null;
+        }
+        return data as unknown as DepthImmediateComparison;
     },
 
     async getDepthTrend(params: {

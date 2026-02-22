@@ -67,7 +67,7 @@ export default function Dashboard() {
                                     <p className="text-xl font-black text-slate-900">{stat.signals_count}</p>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase">Peso Relativo</p>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase">Impacto Relativo</p>
                                     <p className="text-xl font-black text-secondary">{stat.weighted_sum.toFixed(1)}</p>
                                 </div>
                             </div>

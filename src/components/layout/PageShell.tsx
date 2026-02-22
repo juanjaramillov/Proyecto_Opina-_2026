@@ -48,15 +48,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
           {/* Gamification Badge - Only show to authenticated users */}
           {isAuthenticated && (
             <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl mr-auto ml-4 shadow-sm hover:shadow-md transition-shadow hidden min-[400px]:flex">
-              <div className="flex flex-col items-start justify-center">
-                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Poder</span>
-                <span className="text-sm font-black text-emerald-600 leading-none">
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                  {((profile as any)?.signal_weight || 1.0).toFixed(1)}x
-                </span>
-              </div>
-              <div className="w-px h-6 bg-slate-200"></div>
-              <div className="flex flex-col items-start justify-center">
+              <div className="flex flex-col items-start justify-center pr-2">
                 <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Lvl</span>
                 <span className="text-sm font-bold text-slate-700 leading-none">{Math.floor(signals / 10) + 1}</span>
               </div>

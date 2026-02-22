@@ -1,26 +1,28 @@
 export type AccountTier = "guest" | "registered" | "verified_basic" | "verified_full_ci";
 
 export type DemographicData = {
-    // Block A
-    ageRange?: string;
+    // Stage 1
+    name?: string;
+    birthYear?: number;
     gender?: string;
+
+    // Stage 2
     region?: string;
     commune?: string;
 
-    // Block B
-    educationLevel?: string;
-    jobStatus?: string;
+    // Stage 3
+    employmentStatus?: string;
     incomeRange?: string;
-
-    // Block C
-    householdSize?: string;
+    educationLevel?: string;
     housingType?: string;
-    jobSector?: string;
 
-    // Block D (Health/Profile Wizard)
-    healthSystem?: string;
-    clinicalAttention12m?: boolean;
-    name?: string; // Optional for profile sync
+    // Stage 4
+    purchaseBehavior?: string;
+    influenceLevel?: string;
+
+    // System Props
+    profileStage?: number;
+    signalWeight?: number;
 };
 
 export type AccountProfile = {

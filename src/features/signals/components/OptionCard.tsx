@@ -10,6 +10,7 @@ interface OptionCardProps {
     showResult: boolean;
     showPercentage?: boolean;
     percent: number | null;
+    momentum?: { percentage: number; variant_24h: number; total: number } | null;
     isLeft?: boolean;
     isChampion?: boolean;
     layout?: 'versus' | 'opinion' | 'topic';
@@ -29,6 +30,7 @@ export default function OptionCard({
     showResult,
     showPercentage,
     percent,
+    momentum,
     isLeft = false,
     isChampion = false,
     layout = 'versus',
@@ -41,17 +43,17 @@ export default function OptionCard({
             onClick={onClick}
             disabled={disabled}
             className={[
-                "group relative w-full text-left overflow-hidden transition-all duration-300",
+                "group relative w-full text-left overflow-hidden transition-all duration-500 will-change-[transform,box-shadow]",
                 layout === 'topic' ? "rounded-[1.5rem]" : "rounded-[2.5rem]",
                 "bg-white border",
-                disabled ? "cursor-default border-stroke opacity-90 pointer-events-none saturate-[.9]" : "cursor-pointer shadow-xl hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] hover:-translate-y-2 hover:scale-[1.01] active:scale-[0.98] border-transparent",
-                isSelected ? "ring-4 ring-offset-4 ring-offset-bg scale-[1.02] z-10" : "",
-                isChampion ? "ring-4 ring-amber-400 ring-offset-4 ring-offset-bg shadow-[0_0_40px_rgba(251,191,36,0.5)] scale-[1.03] z-20 border-amber-400" : "",
-                !disabled && !isSelected && !isChampion && layout === 'versus' ? (isLeft ? "hover:-rotate-1" : "hover:rotate-1") : ""
+                disabled ? "cursor-default border-stroke opacity-90 pointer-events-none saturate-[.9]" : "cursor-pointer shadow-lg hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] hover:-translate-y-3 hover:scale-[1.02] active:scale-[0.97] active:shadow-md border-transparent",
+                isSelected ? "ring-[6px] ring-offset-[6px] ring-offset-bg scale-[1.03] z-10 shadow-[0_20px_50px_rgba(16,185,129,0.3)]" : "",
+                isChampion ? "ring-[6px] ring-amber-400 ring-offset-[6px] ring-offset-bg shadow-[0_0_60px_rgba(251,191,36,0.6)] scale-[1.04] z-20 border-amber-400" : "",
+                !disabled && !isSelected && !isChampion && layout === 'versus' ? (isLeft ? "hover:-rotate-2 hover:origin-bottom-right" : "hover:rotate-2 hover:origin-bottom-left") : ""
             ].join(" ")}
             style={{
                 borderColor: isSelected ? (theme?.primary || '#10b981') : undefined,
-                boxShadow: isSelected ? `0 0 20px ${(theme?.primary || '#10b981')}40` : undefined,
+                boxShadow: isSelected ? `0 30px 60px -15px ${(theme?.primary || '#10b981')}60, 0 0 20px ${(theme?.primary || '#10b981')}40` : undefined,
                 outlineColor: isSelected ? (theme?.primary || '#10b981') : undefined
             }}
         >
@@ -130,24 +132,47 @@ export default function OptionCard({
                 )}
 
                 <AnimatePresence>
-                    {showResult && percent !== null && (showPercentage ?? true) && (
+                    {showResult && (percent !== null || momentum) && (showPercentage ?? true) && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.5, rotate: -5 }}
-                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                            className="absolute inset-0 flex flex-col items-center justify-center z-20"
+                            initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                            className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-slate-900/60 backdrop-blur-md p-4"
                         >
-                            <span className="text-6xl md:text-8xl font-black text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] tracking-tighter">
-                                {percent}%
+                            <span className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] tracking-tighter mix-blend-plus-lighter">
+                                {momentum ? momentum.percentage : percent}%
                             </span>
+
+                            {momentum && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 }}
+                                    className={`mt-2 px-4 py-1.5 rounded-full flex items-center gap-1.5 font-bold text-sm shadow-xl border ${momentum.variant_24h > 0
+                                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                                        : momentum.variant_24h < 0
+                                            ? 'bg-rose-500/20 text-rose-400 border-rose-500/30'
+                                            : 'bg-slate-500/20 text-slate-300 border-slate-500/30'
+                                        }`}
+                                >
+                                    <span className="material-symbols-outlined text-[16px]">
+                                        {momentum.variant_24h > 0 ? 'trending_up' : momentum.variant_24h < 0 ? 'trending_down' : 'trending_flat'}
+                                    </span>
+                                    <span>
+                                        {momentum.variant_24h > 0 ? '+' : ''}{momentum.variant_24h}% en 24h
+                                    </span>
+                                </motion.div>
+                            )}
+
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "100%" }}
-                                className="absolute bottom-0 left-0 h-2 bg-white/50"
+                                className="absolute bottom-0 left-0 h-2 bg-white/30"
                             >
                                 <motion.div
                                     initial={{ width: 0 }}
-                                    animate={{ width: `${percent}%` }}
-                                    className="h-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.5)]"
+                                    animate={{ width: `${momentum ? momentum.percentage : percent}%` }}
+                                    className={`h-full shadow-[0_0_20px_rgba(255,255,255,0.5)] ${momentum ? (momentum.variant_24h > 0 ? 'bg-emerald-400' : 'bg-white') : 'bg-white'}`}
                                 />
                             </motion.div>
                         </motion.div>

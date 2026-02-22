@@ -4,6 +4,7 @@ import { authService } from "../services/authService";
 import { useAuthContext } from "../context/AuthContext";
 import { supabase } from "../../../supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
+import AuthLayout from "../layout/AuthLayout";
 
 export default function Register() {
     const { refreshProfile } = useAuthContext();
@@ -39,10 +40,10 @@ export default function Register() {
         setLoading(true);
         try {
             if (isInviteOnly) {
-                const { data: isValid, error: inviteError } = await (supabase as any).rpc(
+                const { data: isValid, error: inviteError } = await (supabase as unknown as { rpc: (name: string, args: Record<string, unknown>) => Promise<{ data: boolean; error: Error | null }> }).rpc(
                     "validate_invitation",
                     { p_code: inviteCode.trim().toUpperCase() }
-                ) as { data: boolean; error: any };
+                );
 
                 if (inviteError) throw inviteError;
                 if (!isValid) {
@@ -55,7 +56,7 @@ export default function Register() {
             await authService.registerWithEmail(email.trim(), password);
 
             if (isInviteOnly) {
-                await (supabase as any).rpc("consume_invitation", { p_code: inviteCode.trim().toUpperCase() });
+                await (supabase as unknown as { rpc: (name: string, args: Record<string, unknown>) => Promise<void> }).rpc("consume_invitation", { p_code: inviteCode.trim().toUpperCase() });
             }
 
             // Wait for context and data sync
@@ -68,8 +69,13 @@ export default function Register() {
             } else {
                 navigate("/complete-profile");
             }
-        } catch (err: any) {
-            setError(err.message || "Error al crear la cuenta. Por favor intenta nuevamente.");
+        } catch (err: unknown) {
+            const error = err as Error;
+            if (error.message?.includes('already registered')) {
+                setError("Este correo electrónico ya está registrado.");
+            } else {
+                setError(error.message || "Error al crear la cuenta. Por favor intenta nuevamente.");
+            }
         } finally {
             setLoading(false);
             setIsSyncing(false);
@@ -77,121 +83,109 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-50 via-slate-50 to-white">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="max-w-md w-full bg-white rounded-3xl shadow-xl shadow-indigo-100/50 p-8 border border-white"
-            >
-                <div className="text-center mb-8">
-                    <div className="w-16 h-16 rounded-full bg-gradient-brand mx-auto mb-6 flex items-center justify-center shadow-lg shadow-primary/20">
-                        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
-                            <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                            <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                            <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                        </svg>
-                    </div>
-                    <h1 className="text-2xl font-black text-slate-900 tracking-tight">Crear Cuenta</h1>
-                    <p className="text-slate-500 mt-2">Únete a Opina+ y sé parte de la señal.</p>
+        <AuthLayout
+            title="Crear Cuenta"
+            subtitle="Únete a Opina+ y sé parte de la señal."
+        >
+
+            <form onSubmit={handleRegister} className="space-y-4">
+                <div>
+                    <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="tu@email.com"
+                        className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium text-slate-700"
+                        required
+                    />
                 </div>
 
-                <form onSubmit={handleRegister} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="tu@email.com"
-                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                        <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">
                             Contraseña
                         </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Mínimo 8 caracteres"
-                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700"
+                            placeholder="8+ caracteres"
+                            className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium text-slate-700"
                             required
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
-                            Confirmar Contraseña
+                        <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                            Confirmar
                         </label>
                         <input
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Repite tu contraseña"
-                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700"
+                            placeholder="8+ caracteres"
+                            className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium text-slate-700"
                             required
                         />
                     </div>
-
-                    {import.meta.env.VITE_INVITE_ONLY === "true" && (
-                        <div>
-                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
-                                Código de Invitación
-                            </label>
-                            <input
-                                type="text"
-                                value={inviteCode}
-                                onChange={(e) => setInviteCode(e.target.value)}
-                                placeholder="Ej: OPINA-DEMO-001"
-                                className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700 uppercase"
-                                required
-                            />
-                        </div>
-                    )}
-
-                    <button
-                        type="submit"
-                        disabled={loading || isSyncing || !email || !password || !confirmPassword}
-                        className="w-full py-4 mt-2 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-slate-200 active:scale-[0.98] flex items-center justify-center gap-2"
-                    >
-                        {loading || isSyncing ? (
-                            <>
-                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                {isSyncing ? "Sincronizando..." : "Creando..."}
-                            </>
-                        ) : (
-                            "Registrarme"
-                        )}
-                    </button>
-                </form>
-
-                <AnimatePresence>
-                    {error && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="mt-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 text-sm text-center font-medium overflow-hidden"
-                        >
-                            {error}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                <div className="mt-8 pt-8 border-t border-slate-50 text-center">
-                    <p className="text-sm text-slate-500 font-medium">
-                        ¿Ya tienes cuenta?{' '}
-                        <Link to="/login" className="text-indigo-600 font-bold hover:underline">
-                            Inicia Sesión
-                        </Link>
-                    </p>
                 </div>
-            </motion.div>
-        </div>
+
+                {import.meta.env.VITE_INVITE_ONLY === "true" && (
+                    <div>
+                        <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                            Código de Acceso
+                        </label>
+                        <input
+                            type="text"
+                            value={inviteCode}
+                            onChange={(e) => setInviteCode(e.target.value)}
+                            placeholder="Ej: OPINA-DEMO-001"
+                            className="w-full px-5 py-4 bg-indigo-50/30 border-2 border-indigo-100 rounded-2xl text-indigo-900 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-black uppercase tracking-wider"
+                            required
+                        />
+                    </div>
+                )}
+
+                <button
+                    type="submit"
+                    disabled={loading || isSyncing || !email || !password || !confirmPassword}
+                    className="w-full py-4 mt-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black uppercase tracking-wider text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-indigo-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
+                >
+                    {loading || isSyncing ? (
+                        <>
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            {isSyncing ? "Sincronizando..." : "Conectando..."}
+                        </>
+                    ) : (
+                        "Registrarme en la Red"
+                    )}
+                </button>
+            </form>
+
+            <AnimatePresence>
+                {error && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                        animate={{ opacity: 1, height: "auto", marginTop: 24 }}
+                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                        className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 text-sm text-center font-medium overflow-hidden"
+                    >
+                        {error}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <div className="mt-10 pt-8 border-t border-slate-100 text-center">
+                <p className="text-sm text-slate-500 font-medium">
+                    ¿Ya tienes cuenta?{' '}
+                    <Link to="/login" className="text-indigo-600 font-bold hover:underline transition-all">
+                        Inicia Sesión
+                    </Link>
+                </p>
+            </div>
+        </AuthLayout>
     );
 }

@@ -3,23 +3,21 @@ import { motion } from 'framer-motion';
 import SurveyEngine from './SurveyEngine';
 import RequestLoginModal from '../../auth/components/RequestLoginModal';
 import { DEPTH_QUESTIONS } from '../config/depthQuestions';
-import { depthService, DepthComparisonRow } from '../services/depthService';
+import { depthService, DepthImmediateComparison } from '../services/depthService';
 import { useAuth } from '../../auth';
 import { useToast } from '../../../components/ui/useToast';
 import { logger } from '../../../lib/logger';
-import { isProfileComplete } from '../../../lib/profileGuard';
 import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
 import { useNavigate } from 'react-router-dom';
 
 interface InsightPackProps {
     optionId: string;
     optionLabel: string;
-    battleOptions?: Array<{ id: string, label: string }>;
     onComplete: () => void;
     onCancel: () => void;
 }
 
-const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battleOptions = [], onComplete, onCancel }) => {
+const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComplete, onCancel }) => {
     const { profile } = useAuth();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,30 +28,28 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
     const [showProfileModal, setShowProfileModal] = useState(false);
 
     // Segmentación y Comparativa
-    const [genderFilter, setGenderFilter] = useState<string | null>(null);
-    const [ageFilter, setAgeFilter] = useState<string | null>(null);
-    const [regionFilter, setRegionFilter] = useState<string | null>(null);
-    const [comparisonData, setComparisonData] = useState<Record<string, DepthComparisonRow[]>>({});
+    const [comparisonData, setComparisonData] = useState<Record<string, DepthImmediateComparison>>({});
+    const [userAnswers, setUserAnswers] = useState<Record<string, string | number>>({});
 
     const { showToast } = useToast();
 
-    const competitorOptionId = battleOptions.find(opt => opt.id !== optionId)?.id;
+    // Mock segment filter based on profile to send to RPC
+    const segmentFilter = profile?.demographics?.region || null;
 
-    const fetchAnalytics = async (filters: { gender?: string | null, age?: string | null, region?: string | null }) => {
+    const fetchAnalytics = async (answers: Record<string, string | number>) => {
         setLoadingAnalytics(true);
         try {
-            const data = await depthService.getProcessedComparison({
-                optionA: optionId,
-                optionB: competitorOptionId || optionId,
-                gender: filters.gender,
-                ageBucket: filters.age,
-                region: filters.region
-            });
-
-            setComparisonData(data);
+            const results: Record<string, DepthImmediateComparison> = {};
+            for (const key of Object.keys(answers)) {
+                const data = await depthService.getDepthImmediateComparison(key, segmentFilter);
+                if (data) {
+                    results[key] = data;
+                }
+            }
+            setComparisonData(results);
         } catch (err: unknown) {
             const error = err as Error;
-            logger.error('Error loading analytics:', error);
+            logger.error('Error loading immediate analytics:', error);
             setAnalyticsError(error.message || 'Error loading analytics');
         } finally {
             setLoadingAnalytics(false);
@@ -61,14 +57,9 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
     };
 
     const handleSurveyComplete = async (answers: Record<string, string | number>) => {
-        // 🛡️ PROFILE CHECK: Ensure minimal data for segmentation
-        const minimalProfile = {
-            age: profile?.demographics?.ageRange || null,
-            gender: profile?.demographics?.gender || null,
-            commune: profile?.demographics?.commune || null,
-        };
-
-        if (!isProfileComplete(minimalProfile)) {
+        // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 2 for signaling
+        const currentStage = profile?.demographics?.profileStage || 0;
+        if (currentStage < 2) {
             logger.warn("Intento de emitir señal de profundidad sin perfil completo");
             setShowProfileModal(true);
             return;
@@ -82,8 +73,9 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
             }));
 
             await depthService.saveDepthStructured(optionId, structuredAnswers);
+            setUserAnswers(answers);
             setShowAnalytics(true);
-            await fetchAnalytics({ gender: genderFilter, age: ageFilter, region: regionFilter });
+            await fetchAnalytics(answers);
 
         } catch (error) {
             logger.error('Error saving depth structured answers:', error);
@@ -93,27 +85,16 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
         }
     };
 
-    // Refetch when filters change
-    const handleFilterChange = async (type: 'gender' | 'age' | 'region', value: string | null) => {
-        const newFilters = {
-            gender: type === 'gender' ? value : genderFilter,
-            age: type === 'age' ? value : ageFilter,
-            region: type === 'region' ? value : regionFilter
-        };
-
-        if (type === 'gender') setGenderFilter(value);
-        if (type === 'age') setAgeFilter(value);
-        if (type === 'region') setRegionFilter(value);
-
-        await fetchAnalytics(newFilters);
-    };
+    // No longer using manual filter select
+    // Automatically uses profile segment filter.
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
             <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden"
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className="bg-white rounded-[2.5rem] p-6 md:p-10 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto relative border border-slate-100"
             >
                 {showAnalytics ? (
                     <div className="p-6">
@@ -127,40 +108,14 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
                             </button>
                         </div>
 
-                        {/* Segmentación UI */}
-                        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 custom-scrollbar">
-                            <select
-                                value={genderFilter || ''}
-                                onChange={(e) => handleFilterChange('gender', e.target.value || null)}
-                                className="text-[10px] font-bold uppercase tracking-widest bg-slate-50 border border-slate-100 rounded-lg px-3 py-2 outline-none focus:border-primary/30 transition-all text-slate-500"
-                            >
-                                <option value="">Género</option>
-                                <option value="male">Hombres</option>
-                                <option value="female">Mujeres</option>
-                            </select>
-
-                            <select
-                                value={ageFilter || ''}
-                                onChange={(e) => handleFilterChange('age', e.target.value || null)}
-                                className="text-[10px] font-bold uppercase tracking-widest bg-slate-50 border border-slate-100 rounded-lg px-3 py-2 outline-none focus:border-primary/30 transition-all text-slate-500"
-                            >
-                                <option value="">Edad</option>
-                                <option value="18-24">18-24</option>
-                                <option value="25-34">25-34</option>
-                                <option value="35-44">35-44</option>
-                                <option value="45+">45+</option>
-                            </select>
-
-                            <select
-                                value={regionFilter || ''}
-                                onChange={(e) => handleFilterChange('region', e.target.value || null)}
-                                className="text-[10px] font-bold uppercase tracking-widest bg-slate-50 border border-slate-100 rounded-lg px-3 py-2 outline-none focus:border-primary/30 transition-all text-slate-500"
-                            >
-                                <option value="">Región</option>
-                                <option value="metropolitana">Metropolitana</option>
-                                <option value="valparaiso">Valparaíso</option>
-                                <option value="biobio">Biobío</option>
-                            </select>
+                        <div className="flex items-center gap-3 mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                                <span className="material-symbols-outlined">science</span>
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-black text-slate-800">Laboratorio de Inteligencia</h3>
+                                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Tu señal vs El Sistema</p>
+                            </div>
                         </div>
 
                         {loadingAnalytics && (
@@ -204,50 +159,82 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
                                     </div>
                                 )}
                                 <div className={`space-y-4 max-h-[55vh] overflow-y-auto pr-2 custom-scrollbar ${!profile?.canSeeInsights ? 'pointer-events-none grayscale opacity-40' : ''}`}>
-                                    {Object.entries(comparisonData).map(([questionKey, rows]) => {
-                                        const optionA = rows.find((r) => r.option_id === optionId);
-                                        const optionB = rows.find((r) => r.option_id === competitorOptionId);
-
-                                        const avgA = optionA?.avg_value ?? 0;
-                                        const avgB = optionB?.avg_value ?? 0;
-                                        const delta = Number(avgA) - Number(avgB);
+                                    {Object.entries(comparisonData).map(([questionKey, stats]) => {
+                                        const myAnswer = Number(userAnswers[questionKey] || 0);
 
                                         return (
                                             <div
                                                 key={questionKey}
-                                                className="bg-slate-50 rounded-2xl p-5 border border-slate-100"
+                                                className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group"
                                             >
-                                                <div className="flex justify-between items-center mb-3">
-                                                    <div className="text-xs font-black uppercase tracking-widest text-slate-400">
-                                                        {questionKey}
+                                                {/* Background Accent */}
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full blur-3xl -mr-10 -mt-10 opacity-50 group-hover:opacity-100 transition-opacity" />
+
+                                                <div className="relative z-10 flex justify-between items-center mb-6">
+                                                    <div className="text-[11px] font-black uppercase tracking-widest text-indigo-500">
+                                                        {questionKey.replace(/_/g, ' ')}
                                                     </div>
-                                                    <div className={`text-[10px] font-black px-2 py-0.5 rounded-full ${delta >= 0 ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
-                                                        {delta >= 0 ? '+' : ''}{delta.toFixed(1)} Δ
+                                                    <div className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                                        {stats.total_signals.toLocaleString()} señales
                                                     </div>
                                                 </div>
 
-                                                <div className="flex justify-between items-end">
-                                                    <div className="flex flex-col">
-                                                        <span className="text-[10px] font-bold text-slate-400 uppercase">{optionLabel}</span>
-                                                        <span className="text-2xl font-black text-slate-900">{Number(avgA).toFixed(1)}</span>
+                                                <div className="relative z-10 grid grid-cols-3 gap-4 mb-6">
+                                                    <div className="flex flex-col items-center justify-center p-3 bg-indigo-50 rounded-xl border border-indigo-100/50">
+                                                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1">Tu Emisión</span>
+                                                        <span className="text-3xl font-black text-indigo-600">{myAnswer.toFixed(1)}</span>
                                                     </div>
-                                                    <div className="text-slate-300 font-bold px-4">vs</div>
-                                                    <div className="flex flex-col text-right">
-                                                        <span className="text-[10px] font-bold text-slate-400 uppercase">Competidor</span>
-                                                        <span className="text-2xl font-black text-slate-400">{Number(avgB).toFixed(1)}</span>
+                                                    <div className="flex flex-col items-center justify-center p-3">
+                                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tu Segmento</span>
+                                                        <span className="text-2xl font-black text-slate-700">{stats.segment_avg.toFixed(1)}</span>
+                                                        {segmentFilter && <span className="text-[9px] font-bold text-slate-300 uppercase mt-0.5">({segmentFilter})</span>}
+                                                    </div>
+                                                    <div className="flex flex-col items-center justify-center p-3">
+                                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Global</span>
+                                                        <span className="text-2xl font-black text-slate-700">{stats.global_avg.toFixed(1)}</span>
                                                     </div>
                                                 </div>
 
                                                 {/* Progress bars comparison */}
-                                                <div className="mt-4 h-1.5 w-full bg-slate-200 rounded-full overflow-hidden flex">
-                                                    <div
-                                                        className="h-full bg-primary transition-all duration-700"
-                                                        style={{ width: `${(Number(avgA) / 10) * 100}%` }}
-                                                    />
-                                                    <div
-                                                        className="h-full bg-slate-300 transition-all duration-700 ml-auto"
-                                                        style={{ width: `${(Number(avgB) / 10) * 100}%` }}
-                                                    />
+                                                <div className="relative z-10 space-y-3">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-16 text-right text-[10px] font-bold text-slate-500 uppercase">Tú</div>
+                                                        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                                            <motion.div
+                                                                initial={{ width: 0 }}
+                                                                animate={{ width: `${(myAnswer / 10) * 100}%` }}
+                                                                className="h-full bg-indigo-500 rounded-full"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-16 text-right text-[10px] font-bold text-slate-400 uppercase">Segmento</div>
+                                                        <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                            <motion.div
+                                                                initial={{ width: 0 }}
+                                                                animate={{ width: `${(stats.segment_avg / 10) * 100}%` }}
+                                                                className="h-full bg-slate-400 rounded-full"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-16 text-right text-[10px] font-bold text-slate-400 uppercase">Global</div>
+                                                        <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                            <motion.div
+                                                                initial={{ width: 0 }}
+                                                                animate={{ width: `${(stats.global_avg / 10) * 100}%` }}
+                                                                className="h-full bg-slate-300 rounded-full"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Educational Tooltip/Message */}
+                                                <div className="relative z-10 mt-6 pt-4 border-t border-slate-100">
+                                                    <p className="text-[11px] font-medium text-slate-500 text-center flex items-center justify-center gap-1.5">
+                                                        <span className="material-symbols-outlined text-[14px] text-indigo-400">info</span>
+                                                        Estás aportando al índice de preferencia de {optionLabel}.
+                                                    </p>
                                                 </div>
                                             </div>
                                         );
@@ -282,7 +269,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, battle
                 onSuccess={() => {
                     setIsLoginModalOpen(false);
                     // Refresh analytics if we just logged in
-                    fetchAnalytics({ gender: genderFilter, age: ageFilter, region: regionFilter });
+                    fetchAnalytics(userAnswers);
                 }}
             />
 

@@ -42,7 +42,6 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
         try {
             await authService.updateProfileDemographics({
                 gender,
-                ageRange,
                 region
             });
             setStep('success');

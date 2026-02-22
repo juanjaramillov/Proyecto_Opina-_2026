@@ -17,6 +17,16 @@ export type BattleOption = {
     };
 };
 
+export type BattleMomentum = {
+    total_signals: number;
+    options: {
+        id: string;
+        percentage: number;
+        variant_24h: number;
+        total: number;
+    }[];
+};
+
 export type Battle = {
     id: string;
     title: string;

@@ -71,7 +71,7 @@ export default function PersonalState() {
                         <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
                         Motor de Estado • Fase 2: Interconexión
                     </motion.div>
-                    <h1 className="text-4xl font-black text-ink tracking-tight mb-4">Tu Pulso Personal</h1>
+                    <h1 className="text-4xl font-black text-ink tracking-tight mb-4">Tu Estado Personal</h1>
                     <p className="text-slate-500 font-medium max-w-md mx-auto leading-relaxed">
                         Registra tu estado actual y compáralo con el país y tu segmento demográfico en tiempo real.
                     </p>
@@ -188,7 +188,7 @@ export default function PersonalState() {
                         ) : isSuccess ? (
                             <>
                                 <span className="material-symbols-outlined font-black">verified</span>
-                                PULSO SINCRONIZADO
+                                ESTADO SINCRONIZADO
                             </>
                         ) : (
                             <>

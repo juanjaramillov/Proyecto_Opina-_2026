@@ -12,17 +12,17 @@ type QuestionConfig = {
 
 const QUESTIONS: QuestionConfig[] = [
     // BLOCK A
-    { key: 'ageRange', label: 'Rango de Edad', description: 'Para segmentar patrones generacionales.', priority: 'A', options: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'] },
+    { key: 'birthYear', label: 'Rango de Edad', description: 'Para segmentar patrones generacionales.', priority: 'A', options: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'] },
     { key: 'gender', label: 'Género', description: 'Para identificar brechas de opinión.', priority: 'A', options: ['Masculino', 'Femenino', 'Otro'] },
     { key: 'region', label: 'Región', description: 'Para entender el contexto territorial.', priority: 'A', options: ['RM', 'Valparaíso', 'Biobío', 'Norte', 'Sur'] },
 
     // BLOCK B
     { key: 'educationLevel', label: 'Nivel Educacional', description: 'Para correlacionar formación con visión.', priority: 'B', options: ['Media Incompleta', 'Media Completa', 'Técnica', 'Universitaria', 'Postgrado'] },
-    { key: 'jobStatus', label: 'Situación Laboral', description: 'Para medir el pulso económico real.', priority: 'B', options: ['Estudiante', 'Trabaja', 'Busca Trabajo', 'Jubilado', 'Dueña/o de Casa'] },
+    { key: 'employmentStatus', label: 'Situación Laboral', description: 'Para medir el contexto económico real.', priority: 'B', options: ['Estudiante', 'Trabaja', 'Busca Trabajo', 'Jubilado', 'Dueña/o de Casa'] },
     { key: 'incomeRange', label: 'Tramo de Ingreso', description: 'Dato anónimo para cruces socioeconómicos.', priority: 'B', options: ['-400k', '400k-800k', '800k-1.5M', '1.5M-3M', '+3M'] },
 
     // BLOCK C
-    { key: 'householdSize', label: 'Personas en el hogar', description: 'Para dimensionar núcleos familiares.', priority: 'C', options: ['1', '2', '3', '4', '5+'] },
+    { key: 'housingType', label: 'Tipo de Vivienda', description: 'Para dimensionar núcleos familiares.', priority: 'C', options: ['Arriendo', 'Propia'] },
 ];
 
 type Props = {

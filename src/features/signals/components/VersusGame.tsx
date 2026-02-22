@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVersusGame } from '../hooks/useVersusGame';
-import { useAuth } from '../../auth';
+
 import OptionCard from './OptionCard';
 import { Battle, BattleOption, ProgressiveBattle, VoteResult } from '../types';
 import SessionSummary from './SessionSummary';
@@ -36,7 +36,6 @@ type GameProps = {
 
 export default function VersusGame(props: GameProps) {
     const navigate = useNavigate();
-    const { profile } = useAuth();
 
     const {
         effectiveBattle,
@@ -52,6 +51,8 @@ export default function VersusGame(props: GameProps) {
         champion,
         isCompleted,
         sessionHistory,
+        momentum,
+        result,
         showAuthModal,
         setShowAuthModal,
         showProfileModal,
@@ -144,11 +145,13 @@ export default function VersusGame(props: GameProps) {
 
         await vote(optionId);
 
-        setTimeout(() => {
-            if (!props.enableAutoAdvance) {
+        // DO NOT show the final message anymore if autoAdvance is enabled
+        // since we are showing the algorithmic feedback in the card itself.
+        if (!props.enableAutoAdvance) {
+            setTimeout(() => {
                 setShowFinalMessage(true);
-            }
-        }, 1200);
+            }, 1200);
+        }
     };
 
     return (
@@ -224,10 +227,11 @@ export default function VersusGame(props: GameProps) {
                                 option={a}
                                 onClick={(e) => handleVote(a.id, e)}
                                 disabled={locked || lockedByLimit || !!props.isSubmitting}
-                                isSelected={selected === a.id}
-                                showResult={false}
+                                isSelected={selected === a.id || !!result}
+                                showResult={!!result || !!momentum}
                                 showPercentage={false}
                                 percent={null}
+                                momentum={momentum?.options.find(o => o.id === a.id)}
                                 isLeft={effectiveBattle.layout === 'versus'}
                                 layout={effectiveBattle.layout}
                                 theme={props.theme}
@@ -244,10 +248,11 @@ export default function VersusGame(props: GameProps) {
                                 option={b}
                                 onClick={(e) => handleVote(b.id, e)}
                                 disabled={locked || lockedByLimit || !!props.isSubmitting}
-                                isSelected={selected === b.id}
-                                showResult={false}
+                                isSelected={selected === b.id || !!result}
+                                showResult={!!result || !!momentum}
                                 showPercentage={false}
                                 percent={null}
+                                momentum={momentum?.options.find(o => o.id === b.id)}
                                 layout={effectiveBattle.layout}
                                 theme={props.theme}
                             />
@@ -275,7 +280,7 @@ export default function VersusGame(props: GameProps) {
                                         className="text-white font-black text-3xl px-4 py-2 rounded-full border-4 border-white shadow-xl transform -rotate-6 whitespace-nowrap overflow-hidden"
                                         style={{ backgroundColor: props.theme?.primary || '#10b981' }}
                                     >
-                                        +{((profile as { signal_weight?: number })?.signal_weight || 1.0).toFixed(1)}x Impacto
+                                        Registrada
                                     </div>
                                     <div className="absolute inset-0 bg-white opacity-20 blur-md rounded-full animate-pulse" />
                                 </motion.div>
@@ -290,7 +295,8 @@ export default function VersusGame(props: GameProps) {
                         </div>
                     </motion.div>
                 </AnimatePresence >
-            )}
+            )
+            }
 
             <AnimatePresence>
                 {showAuthModal && (
@@ -352,6 +358,6 @@ export default function VersusGame(props: GameProps) {
                     />
                 )}
             </AnimatePresence>
-        </div>
+        </div >
     );
 }

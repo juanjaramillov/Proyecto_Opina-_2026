@@ -3,19 +3,30 @@ import { computeAccountProfile } from './account';
 import { AccountProfile, AccountTier, DemographicData } from '../types';
 import { logger } from '../../../lib/logger';
 
-interface ProfileRow {
-    id: string;
-    full_name: string | null;
-    display_name: string | null;
+interface UserProfileRow {
+    user_id: string;
+    nickname: string | null;
     gender: string | null;
-    age: number | null;
-    commune: string | null;
-    health_system: string | null;
-    clinical_attention_12m: boolean | null;
-    profile_completeness: number | null;
-    profile_completed: boolean | null;
-    has_ci: boolean | null;
-    tier: string | null;
+    age_range: string | null; // Legacy
+    birth_year: number | null;
+    region: string | null;
+    comuna: string | null;
+    housing_type: string | null;
+    education_level: string | null;
+    employment_status: string | null;
+    income_range: string | null;
+    purchase_behavior: string | null;
+    influence_level: string | null;
+    interests: string[] | null;
+    profile_completion_percentage: number | null;
+    profile_stage: number;
+    signal_weight: number;
+    verified: boolean;
+}
+
+interface UserIdentityRow {
+    id: string;
+    is_identity_verified: boolean;
 }
 
 export const authService = {
@@ -63,9 +74,10 @@ export const authService = {
 
         // 3. REAL USER MODE (Continue if auth.user exists)
         if (auth?.user) {
-            // Parallel fetch for speed: Profile and Subscription
-            const [profileRes, subRes] = await Promise.all([
-                supabase.from('profiles').select('*').eq('id', auth.user.id).maybeSingle(),
+            // Parallel fetch for speed: Profile, Identity, and Subscription
+            const [profileRes, identityRes, subRes] = await Promise.all([
+                (supabase as any).from('user_profiles').select('*').eq('user_id', auth.user.id).maybeSingle(),
+                (supabase as any).from('users').select('is_identity_verified').eq('id', auth.user.id).maybeSingle(),
                 supabase.from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle()
             ]);
 
@@ -73,7 +85,8 @@ export const authService = {
                 logger.error("Fetch Profile Error:", profileRes.error);
             }
 
-            const profileData = profileRes.data as ProfileRow | null;
+            const profileData = profileRes.data as UserProfileRow | null;
+            const identityData = identityRes.data as UserIdentityRow | null;
             const subData = subRes.data;
 
             if (!profileData) {
@@ -94,34 +107,43 @@ export const authService = {
             const isPro = subData?.plan === 'pro_user';
             const isEnterprise = subData?.plan === 'enterprise';
 
-            // Evaluate completion based strictly on the new schema flags
-            const isProfileComplete =
-                profileData.profile_completed === true ||
-                (!!profileData.full_name && !!profileData.age && !!profileData.commune && !!profileData.gender && !!profileData.health_system);
+            const completionPercentage = profileData.profile_completion_percentage || 0;
+            const profileStage = profileData.profile_stage || 0;
+            const isProfileComplete = profileStage >= 2;
+            const hasCI = identityData?.is_identity_verified || false;
 
-            // Strict priority: Enterprise > Pro > DB Tier > Derived Tier
-            let finalTier: AccountTier = (profileData.tier as AccountTier) || 'registered';
+            // Strict priority: Enterprise > Pro > Verified Identity > Basic Verified > Registered
+            let finalTier: AccountTier = 'registered';
+
             if (isEnterprise || isPro) {
                 finalTier = 'verified_full_ci';
-            } else if (finalTier === 'guest') {
-                // If they are logged in and have a profile, they are AT LEAST registered
-                finalTier = isProfileComplete ? 'verified_basic' : 'registered';
+            } else if (hasCI) {
+                finalTier = 'verified_full_ci';
+            } else if (isProfileComplete) {
+                finalTier = 'verified_basic';
             }
 
             return computeAccountProfile({
                 tier: finalTier,
-                profileCompleteness: isProfileComplete ? 100 : (profileData.profile_completeness || 0),
+                profileCompleteness: completionPercentage,
                 isProfileComplete: isProfileComplete,
-                hasCI: profileData.has_ci || false,
-                displayName: profileData.display_name || profileData.full_name || auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
+                hasCI: hasCI,
+                displayName: profileData.nickname || auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
                 email: auth.user.email,
                 demographics: {
                     ...localDemographics,
-                    ageRange: profileData.age ? `${profileData.age}` : localDemographics.ageRange,
+                    birthYear: profileData.birth_year || localDemographics.birthYear,
                     gender: profileData.gender || localDemographics.gender,
-                    commune: profileData.commune || localDemographics.commune,
-                    healthSystem: profileData.health_system || localDemographics.healthSystem,
-                    clinicalAttention12m: profileData.clinical_attention_12m !== null ? profileData.clinical_attention_12m : localDemographics.clinicalAttention12m,
+                    region: profileData.region || localDemographics.region,
+                    commune: profileData.comuna || localDemographics.commune,
+                    employmentStatus: profileData.employment_status || localDemographics.employmentStatus,
+                    incomeRange: profileData.income_range || localDemographics.incomeRange,
+                    educationLevel: profileData.education_level || localDemographics.educationLevel,
+                    housingType: profileData.housing_type || localDemographics.housingType,
+                    purchaseBehavior: profileData.purchase_behavior || localDemographics.purchaseBehavior,
+                    influenceLevel: profileData.influence_level || localDemographics.influenceLevel,
+                    profileStage: profileData.profile_stage || localDemographics.profileStage,
+                    signalWeight: profileData.signal_weight || localDemographics.signalWeight,
                 }
             });
         }
@@ -162,15 +184,7 @@ export const authService = {
         window.dispatchEvent(new Event('opina:verification_update'));
     },
 
-    updateProfileDemographics: async (demographics: Partial<{
-        name: string;
-        gender: string;
-        ageRange: string;
-        region: string;
-        commune: string;
-        healthSystem: string;
-        clinicalAttention12m: boolean;
-    }>): Promise<void> => {
+    updateProfileDemographics: async (demographics: Partial<DemographicData>): Promise<void> => {
         // 1. Update local demographics
         const rawDemographics = localStorage.getItem('opina_demographics');
         const currentDemographics = rawDemographics ? JSON.parse(rawDemographics) : {};
@@ -190,27 +204,31 @@ export const authService = {
         // 3. Real Supabase update (if logged in)
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-            // Map ageRange string (e.g. "30-45", "60+") to an integer for the 'age' field
-            const ageInt = parseInt(demographics.ageRange?.split(/[-+]/)[0] || "0", 10);
+            // Remove undefined fields so Supabase only updates what we pass
+            const updatePayload: any = {
+                updated_at: new Date().toISOString()
+            };
+            if (demographics.name !== undefined) updatePayload.nickname = demographics.name;
+            if (demographics.birthYear !== undefined) updatePayload.birth_year = demographics.birthYear;
+            if (demographics.gender !== undefined) updatePayload.gender = demographics.gender;
+            if (demographics.region !== undefined) updatePayload.region = demographics.region;
+            if (demographics.commune !== undefined) updatePayload.comuna = demographics.commune;
+            if (demographics.employmentStatus !== undefined) updatePayload.employment_status = demographics.employmentStatus;
+            if (demographics.incomeRange !== undefined) updatePayload.income_range = demographics.incomeRange;
+            if (demographics.educationLevel !== undefined) updatePayload.education_level = demographics.educationLevel;
+            if (demographics.housingType !== undefined) updatePayload.housing_type = demographics.housingType;
+            if (demographics.purchaseBehavior !== undefined) updatePayload.purchase_behavior = demographics.purchaseBehavior;
+            if (demographics.influenceLevel !== undefined) updatePayload.influence_level = demographics.influenceLevel;
+            if (demographics.profileStage !== undefined) updatePayload.profile_stage = demographics.profileStage;
+            if (demographics.signalWeight !== undefined) updatePayload.signal_weight = demographics.signalWeight;
 
-            const { error } = await supabase
-                .from('profiles')
-                .upsert({
-                    id: user.id,
-                    full_name: demographics.name,
-                    gender: demographics.gender,
-                    age: ageInt,
-                    commune: demographics.commune,
-                    health_system: demographics.healthSystem,
-                    clinical_attention_12m: demographics.clinicalAttention12m,
-                    profile_completeness: 100,
-                    profile_completed: true,
-                    verification_level: 'basic',
-                    tier: 'verified_basic'
-                });
+            const { error } = await (supabase as any)
+                .from('user_profiles')
+                .update(updatePayload)
+                .eq('user_id', user.id);
 
             if (error) {
-                logger.error("[authService] Failed to update profile:", error);
+                logger.error("[authService] Failed to update user profile:", error);
                 throw error;
             }
         }
@@ -284,54 +302,29 @@ export const authService = {
         } catch { /* empty context is okay */ }
 
         // 2. Fetch current profile
-        const { data: profile, error } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
-        const profileData = profile as ProfileRow | null;
+        const { data: profile, error } = await (supabase as any).from('user_profiles').select('*').eq('user_id', user.id).maybeSingle();
+        const profileData = profile as UserProfileRow | null;
 
         if (error) {
-            logger.error("[authService] Error checking profile during sync:", error);
+            logger.error("[authService] Error checking user profile during sync:", error);
         }
 
         // 3. Update or Create if needed
-        // If profile doesn't exist, we MUST create it to avoid login loops
-        if (!profileData) {
-            const ageInt = parseInt(localDemographics.ageRange?.split(/[-+]/)[0] || "0", 10);
+        // Triggers handle basic creation, but we might need to sync local guest data upwards
+        if (!profileData || profileData.profile_stage < 4) {
+            const updatePayload: any = {
+                updated_at: new Date().toISOString()
+            };
+            if (localDemographics.name) updatePayload.nickname = profileData?.nickname || localDemographics.name;
+            if (localDemographics.birthYear) updatePayload.birth_year = profileData?.birth_year || localDemographics.birthYear;
+            if (localDemographics.gender) updatePayload.gender = profileData?.gender || localDemographics.gender;
+            if (localDemographics.region) updatePayload.region = profileData?.region || localDemographics.region;
+            if (localDemographics.commune) updatePayload.commune = profileData?.comuna || localDemographics.commune;
+            if (localDemographics.employmentStatus) updatePayload.employment_status = profileData?.employment_status || localDemographics.employmentStatus;
 
-            await supabase.from('profiles').insert({
-                id: user.id,
-                full_name: localDemographics.name || user.user_metadata?.full_name,
-                display_name: localDemographics.name || user.user_metadata?.display_name || user.email?.split('@')[0],
-                gender: localDemographics.gender,
-                age: ageInt,
-                commune: localDemographics.commune,
-                health_system: localDemographics.healthSystem,
-                clinical_attention_12m: localDemographics.clinicalAttention12m,
-                profile_completed: false,
-                profile_completeness: 0,
-                tier: 'registered'
-            });
-        } else if (!profileData.profile_completed && Object.keys(localDemographics).length > 0) {
-            // Existing but incomplete profile, and we have local data to sync
-            const ageInt = parseInt(localDemographics.ageRange?.split(/[-+]/)[0] || "0", 10);
-
-            const willBeComplete = !!(
-                (profileData.full_name || localDemographics.name) &&
-                (profileData.age || ageInt > 0) &&
-                (profileData.commune || localDemographics.commune) &&
-                (profileData.gender || localDemographics.gender) &&
-                (profileData.health_system || localDemographics.healthSystem)
-            );
-
-            await supabase.from('profiles').update({
-                full_name: profileData.full_name || localDemographics.name,
-                gender: profileData.gender || localDemographics.gender,
-                age: profileData.age || (ageInt > 0 ? ageInt : undefined),
-                commune: profileData.commune || localDemographics.commune,
-                health_system: profileData.health_system || localDemographics.healthSystem,
-                clinical_attention_12m: profileData.clinical_attention_12m ?? localDemographics.clinicalAttention12m,
-                profile_completed: willBeComplete,
-                profile_completeness: willBeComplete ? 100 : (profileData.profile_completeness || 0),
-                tier: willBeComplete ? 'verified_basic' : 'registered'
-            }).eq('id', user.id);
+            if (Object.keys(updatePayload).length > 1) { // more than just updated_at
+                await (supabase as any).from('user_profiles').update(updatePayload).eq('user_id', user.id);
+            }
         }
     },
 

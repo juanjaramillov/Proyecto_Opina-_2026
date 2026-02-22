@@ -25,7 +25,7 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
             id: 'loading-1',
             context: "Estado del Sistema",
             value: "Calibrando Señales",
-            label: "Estamos recuperando el pulso en tiempo real...",
+            label: "Estamos recuperando la señal en tiempo real...",
             source: "Opina+ System",
             path: "#",
             aiInsight: "La precisión requiere un segundo."

@@ -64,7 +64,7 @@ export function GuestConversionModal({ onClose, onRegister, isOpen }: GuestConve
                                 <div>
                                     <h4 className="font-bold text-slate-900 text-sm">Gana OpinaScore</h4>
                                     <p className="text-slate-500 text-xs mt-1">
-                                        Tu opinión validada aporta más peso a las clasificaciones de mercado globales.
+                                        Tu opinión validada tiene un mayor impacto en las tendencias de mercado globales.
                                     </p>
                                 </div>
                             </li>

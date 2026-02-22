@@ -2,11 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useToast } from '../../../components/ui/useToast';
 import { useAuth } from "../../auth";
 import { useSignalStore } from "../../../store/signalStore";
-import { Battle, BattleOption, ProgressiveBattle, VoteResult } from '../types';
+import { Battle, BattleOption, ProgressiveBattle, VoteResult, BattleMomentum } from '../types';
 import { logger } from '../../../lib/logger';
-import { isProfileComplete } from '../../../lib/profileGuard';
+import { supabase } from '../../../supabase/client';
 
-const SHOW_RESULT_MS = 400;
 const NEXT_INTERSTITIAL_MS = 200;
 
 interface UseVersusGameProps {
@@ -55,6 +54,7 @@ export function useVersusGame({
         pctA: number;
     }>>([]);
     const [lastWinner, setLastWinner] = useState<BattleOption | null>(null);
+    const [momentum, setMomentum] = useState<BattleMomentum | null>(null);
 
     const timeoutRef = useRef<number | null>(null);
 
@@ -103,6 +103,7 @@ export function useVersusGame({
     const goNext = () => {
         setResult(null);
         setShowInsight(false);
+        setMomentum(null);
 
         // Queue behavior
         if (mode !== 'progressive') {
@@ -131,15 +132,10 @@ export function useVersusGame({
             return;
         } */
 
-        // 🛡️ PROFILE CHECK: Ensure minimal data for segmentation
-        const minimalProfile = {
-            age: profile?.demographics?.ageRange || null,
-            gender: profile?.demographics?.gender || null,
-            commune: profile?.demographics?.commune || null,
-        };
-
-        if (!isProfileComplete(minimalProfile)) {
-            logger.warn("Intento de emitir señal sin perfil completo");
+        // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 2 for signaling
+        const currentStage = profile?.demographics?.profileStage || 0;
+        if (currentStage < 2) {
+            logger.warn("Intento de emitir señal con profile_stage < 2");
             setShowProfileModal(true);
             return;
         }
@@ -183,6 +179,21 @@ export function useVersusGame({
             if (enableAutoAdvance) {
                 resetTimers();
 
+                // Fetch Momentum Context Post-Vote
+                try {
+                    // @ts-expect-error - RPC is newly added, database types not yet generated
+                    const { data: momData, error: momError } = await supabase.rpc('get_battle_momentum', { p_battle_id: effectiveBattle.id });
+                    if (!momError && momData) {
+                        setMomentum(momData as BattleMomentum);
+                    }
+                } catch (e) {
+                    logger.warn("Failed to fetch momentum", e);
+                }
+
+                // Add an explicit delay here to allow the user to read the momentum feedback.
+                // 1800ms gives time to see the percentages/momentum before swiping
+                const delayMs = momentum ? 2000 : (autoNextMs ?? 1800);
+
                 timeoutRef.current = window.setTimeout(() => {
                     if (!disableInsights && effectiveBattle.insights?.length) {
                         setShowInsight(true);
@@ -193,7 +204,7 @@ export function useVersusGame({
                     } else {
                         goNext();
                     }
-                }, autoNextMs ?? SHOW_RESULT_MS);
+                }, delayMs);
             }
         } catch (err) {
             logger.error("Vote processing failed:", err);
@@ -224,6 +235,7 @@ export function useVersusGame({
         disableInsights,
         profile,
         sessionHistory,
+        momentum,
 
         // Dummies for VersusGame.tsx compatibility
         locked: false,

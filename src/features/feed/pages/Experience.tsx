@@ -337,7 +337,30 @@ export default function Experience() {
                                 </div>
                             </button>
 
-                            {/* 4. LUGARES (Placeholder) */}
+                            {/* 4. BIENESTAR */}
+                            <button
+                                onClick={() => navigate('/personal-state')}
+                                className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm transition-all text-left flex flex-col h-full group hover:shadow-lg hover:shadow-rose-500/10 hover:border-rose-500/50 hover:-translate-y-1 active:scale-[0.98]"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <span className="material-symbols-outlined text-2xl">favorite</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2">Módulo de Bienestar</h3>
+                                <p className="text-sm text-slate-500 mb-4">Ayuda a calibrar el motor sincronizando tu estado actual. 100% anónimo.</p>
+
+                                <div className="mt-auto flex items-center gap-3 pt-4 border-t border-slate-50">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="relative flex h-1.5 w-1.5">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                        </span>
+                                        <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">Activo</span>
+                                    </div>
+                                    <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">Personal & Privado</div>
+                                </div>
+                            </button>
+
+                            {/* 5. LUGARES (Placeholder) */}
                             <button
                                 onClick={() => handlePlaceholderClick('Lugares')}
                                 className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
@@ -350,7 +373,7 @@ export default function Experience() {
                                 <p className="text-sm text-slate-500">Califica experiencias en ubicaciones físicas.</p>
                             </button>
 
-                            {/* 5. SERVICIO (Placeholder) */}
+                            {/* 6. SERVICIO (Placeholder) */}
                             <button
                                 onClick={() => handlePlaceholderClick('Servicio')}
                                 className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
@@ -363,7 +386,7 @@ export default function Experience() {
                                 <p className="text-sm text-slate-500">Evalúa la calidad de atención y servicio.</p>
                             </button>
 
-                            {/* 6. NPS (Placeholder) */}
+                            {/* 7. NPS (Placeholder) */}
                             <button
                                 onClick={() => handlePlaceholderClick('NPS')}
                                 className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
@@ -374,6 +397,32 @@ export default function Experience() {
                                 </div>
                                 <h3 className="text-xl font-black text-slate-700 tracking-tight mb-2">NPS</h3>
                                 <p className="text-sm text-slate-500">Net Promoter Score. ¿Recomendarías esta marca?</p>
+                            </button>
+
+                            {/* 8. ACTUALIDAD (Placeholder/New) */}
+                            <button
+                                onClick={() => handlePlaceholderClick('Actualidad')}
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                            >
+                                <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
+                                <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
+                                    <span className="material-symbols-outlined text-2xl">newspaper</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-700 tracking-tight mb-2">Actualidad</h3>
+                                <p className="text-sm text-slate-500">Vota sobre noticias y temas del momento con opciones opuestas (ej. Sí / No).</p>
+                            </button>
+
+                            {/* 9. ESCÁNER (Placeholder/New) */}
+                            <button
+                                onClick={() => handlePlaceholderClick('Escáner de Productos')}
+                                className="bg-slate-50 p-6 rounded-2xl border border-slate-100 text-left flex flex-col h-full group opacity-50 cursor-default relative overflow-hidden"
+                            >
+                                <div className="absolute top-3 right-3 px-2 py-0.5 bg-slate-800 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">Próximamente</div>
+                                <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4">
+                                    <span className="material-symbols-outlined text-2xl">qr_code_scanner</span>
+                                </div>
+                                <h3 className="text-xl font-black text-slate-700 tracking-tight mb-2">Escáner</h3>
+                                <p className="text-sm text-slate-500">Escanea el código de barras de un producto para ver su ficha y valoración comunitaria.</p>
                             </button>
 
                         </div>
@@ -500,7 +549,6 @@ export default function Experience() {
                         <InsightPack
                             optionId={selectedOption.id}
                             optionLabel={selectedOption.label}
-                            battleOptions={battles.find(b => b.options.some(o => o.id === selectedOption.id))?.options}
                             onComplete={() => {
                                 setSelectedOption(null);
                                 setMode('menu');
