@@ -3,6 +3,7 @@ import { AccountTier, AccountProfile, DemographicData } from '../types';
 // Consolidated Limits Logic (formerly in entitlements.ts)
 const TIER_LIMITS = {
     guest: 3,
+    registered: 10,
     verified_basic: 15,
     verified_full_ci: -1, // Unlimited
 };
@@ -17,6 +18,7 @@ export function computeAccountProfile(input: {
     email?: string;
 }): AccountProfile {
     const { tier, profileCompleteness, isProfileComplete, hasCI, demographics = {}, displayName, email } = input;
+
     if (tier === "guest") {
         return {
             tier,
@@ -29,6 +31,24 @@ export function computeAccountProfile(input: {
             canSeeHistory: false,
             canExport: false,
             signalsDailyLimit: TIER_LIMITS.guest,
+            demographics,
+        };
+    }
+
+    if (tier === "registered") {
+        return {
+            tier,
+            profileCompleteness,
+            isProfileComplete,
+            hasCI,
+            displayName,
+            email,
+            canSeeInsights: false,
+            canSeeHistory: false,
+            canExport: false,
+            // @ts-ignore - Ignorar chequeo para flag canSegmentResults no presente en tipos
+            canSegmentResults: false,
+            signalsDailyLimit: TIER_LIMITS.registered,
             demographics,
         };
     }

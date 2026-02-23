@@ -98,7 +98,7 @@ BEGIN
       v_weight, v_trust_score, v_verified
     FROM public.profiles p
     LEFT JOIN public.user_stats us ON us.user_id = p.id
-    LEFT JOIN public.profiles u ON u.id = p.id
+    LEFT JOIN public.profiles u ON u.user_id = p.id
     WHERE p.id = v_user_id 
     LIMIT 1;
 
@@ -208,7 +208,7 @@ BEGIN
     public.calculate_recency_factor(now(), av.recency_half_life_days) as current_recency_factor,
     (us.signal_weight * (CASE WHEN u.identity_verified = true THEN av.verification_multiplier ELSE 1.0::numeric END) * public.calculate_recency_factor(now(), av.recency_half_life_days) * COALESCE(us.trust_score, 1.0)) as estimated_opinascore
   FROM public.user_stats us
-  JOIN public.profiles u ON u.id = us.user_id
+  JOIN public.profiles u ON u.user_id = us.user_id
   CROSS JOIN (SELECT version_name, verification_multiplier, recency_half_life_days FROM public.algorithm_versions WHERE is_active = true LIMIT 1) av
   WHERE us.user_id = p_user_id;
 END;

@@ -141,21 +141,39 @@ export const profileService = {
 
         const { data, error } = await (supabase as any)
             .from('user_profiles')
-            .select('updated_at')
+            .select('profile_stage,last_demographics_update,updated_at')
             .eq('user_id', user.id)
             .maybeSingle();
 
         if (error || !data) return { allowed: true, daysRemaining: 0 };
 
         const profile = data as any; // Bypass strict type check for now
-        if (!profile.updated_at) return { allowed: true, daysRemaining: 0 };
 
-        const lastUpdate = new Date(profile.last_demographic_update);
+        // Regla: Si profile_stage < 4 -> permitir (wizard en progreso)
+        if (typeof profile.profile_stage === 'number' && profile.profile_stage < 4) {
+            return { allowed: true, daysRemaining: 0 };
+        }
+
+        // Tomar lastUpdateISO
+        const lastUpdateISO = profile.last_demographics_update || profile.updated_at;
+
+        if (!lastUpdateISO) return { allowed: true, daysRemaining: 0 };
+
+        const lastUpdate = new Date(lastUpdateISO);
+        // Manejo robusto: Si es inválida -> permitir
+        if (isNaN(lastUpdate.getTime())) {
+            return { allowed: true, daysRemaining: 0 };
+        }
+
         const now = new Date();
         const diffDays = Math.ceil((now.getTime() - lastUpdate.getTime()) / (1000 * 3600 * 24));
 
-        if (diffDays >= 30) return { allowed: true, daysRemaining: 0 };
-        return { allowed: false, daysRemaining: 30 - diffDays };
+        if (diffDays >= 30) {
+            return { allowed: true, daysRemaining: 0 };
+        }
+
+        // Bloquear y devolver días restantes (asegurando >= 0)
+        return { allowed: false, daysRemaining: Math.max(0, 30 - diffDays) };
     },
 
     /**
@@ -200,3 +218,14 @@ export const profileService = {
         }));
     }
 };
+
+export function getNextDemographicsUpdateDate(lastUpdateISO: string | null | undefined): Date | null {
+    if (!lastUpdateISO) return null;
+    const lastUpdate = new Date(lastUpdateISO);
+    if (isNaN(lastUpdate.getTime())) return null;
+
+    // Añadir 30 días
+    const nextUpdate = new Date(lastUpdate.getTime());
+    nextUpdate.setDate(nextUpdate.getDate() + 30);
+    return nextUpdate;
+}

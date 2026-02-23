@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Battle } from '../types';
 
 interface SessionResult {
@@ -13,6 +14,8 @@ interface SessionSummaryProps {
 }
 
 export default function SessionSummary({ results, onReset }: SessionSummaryProps) {
+    const navigate = useNavigate();
+
     return (
         <div className="w-full max-w-2xl mx-auto py-12 px-4">
             <motion.div
@@ -80,7 +83,7 @@ export default function SessionSummary({ results, onReset }: SessionSummaryProps
                     SEGUIR APORTANDO
                 </button>
                 <button
-                    onClick={() => window.location.href = '/'}
+                    onClick={() => navigate('/')}
                     className="w-full sm:w-auto px-10 py-5 bg-white text-slate-400 text-lg font-bold rounded-2xl border border-stroke hover:text-slate-600 hover:border-slate-300 transition-all"
                 >
                     Panel Principal

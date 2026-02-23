@@ -80,7 +80,7 @@ const PROGRESSIVE_THEMES = {
 };
 
 // const BATCH_SIZE = SIGNALS_PER_BATCH;
-const BATCH_SIZE = 50; // 🧪 MODO PRUEBAS: Lotes extendidos
+const BATCH_SIZE = 12;
 
 type ExperienceMode = "menu" | "versus" | "progressive" | "insights";
 
@@ -110,14 +110,11 @@ export default function Experience() {
 
     // 2. EFFECTS
     // Enforce profile completion
-    // 🧪 MODO FIX 04: Redirección relajada. Se maneja por evento en VersusGame.
-    /*
     useEffect(() => {
         if (profile && !profile.isProfileComplete) {
             navigate("/complete-profile", { replace: true });
         }
     }, [profile, navigate]);
-    */
 
     // Start or resume session when in versus mode
     useEffect(() => {
@@ -141,8 +138,6 @@ export default function Experience() {
     };
 
     const handleVote = async (battleId: string, optionId: string, _opponentId: string): Promise<Record<string, number>> => {
-        // 🧪 MODO PRUEBAS: Límites desactivados por petición del usuario
-        /*
         if (profile && profile.signalsDailyLimit !== -1 && signalsToday >= profile.signalsDailyLimit) {
             if (profile.tier === 'guest') {
                 setIsLoginModalOpen(true);
@@ -152,7 +147,6 @@ export default function Experience() {
             }
             return {};
         }
-        */
 
         // Fire-and-forget signal save to eliminate UI friction
         signalService.saveSignalEvent({
@@ -181,7 +175,7 @@ export default function Experience() {
     };
 
     // 4. EARLY RETURNS
-    // if (profile && !profile.isProfileComplete) return null; // FIX 04: Quitamos el return nulo para permitir ver el Hub
+    if (profile && !profile.isProfileComplete) return null;
     if (loading && battles.length === 0) {
         return (
             <div className="min-h-screen bg-slate-50 py-20 px-4">

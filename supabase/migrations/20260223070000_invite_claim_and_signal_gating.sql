@@ -262,7 +262,7 @@ BEGIN
       v_verified
     FROM public.user_profiles up
     LEFT JOIN public.user_stats us ON us.user_id = up.user_id
-    LEFT JOIN public.users u ON u.id = up.user_id
+    LEFT JOIN public.users u ON u.user_id = up.user_id
     WHERE up.user_id = v_user_id
     LIMIT 1;
 
@@ -351,7 +351,7 @@ BEGIN
   SELECT COALESCE(profile_completeness, 0), COALESCE(u.signal_weight, 1.0)
   INTO v_profile_completion, v_user_weight
   FROM public.user_profiles p
-  JOIN public.users u ON u.id = p.user_id
+  JOIN public.users u ON u.user_id = p.user_id
   WHERE p.user_id = v_uid
   LIMIT 1;
 
@@ -448,7 +448,7 @@ BEGIN
   SELECT COALESCE(profile_completeness, 0), COALESCE(u.signal_weight, 1.0)
   INTO v_profile_completion, v_user_weight
   FROM public.user_profiles p
-  JOIN public.users u ON u.id = p.user_id
+  JOIN public.users u ON u.user_id = p.user_id
   WHERE p.user_id = v_uid
   LIMIT 1;
 

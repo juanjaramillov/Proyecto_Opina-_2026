@@ -34,7 +34,7 @@ BEGIN
         END
     INTO v_signal_integrity
     FROM public.signal_events se
-    JOIN public.profiles u ON se.user_id = u.id
+    JOIN public.profiles u ON se.user_id = u.user_id
     WHERE se.created_at > now() - interval '24 hours';
 
     -- 3. Promedio de completitud de perfil

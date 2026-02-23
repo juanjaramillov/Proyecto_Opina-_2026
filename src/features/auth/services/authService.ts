@@ -32,9 +32,8 @@ interface UserIdentityRow {
 export const authService = {
     /**
      * Deterministic logic to load an account profile.
-     * 1. Check for Demo/Local override.
-     * 2. Check for Real User session in Supabase.
-     * 3. Fallback to Guest mode.
+     * 1. Check for Real User session in Supabase.
+     * 2. Fallback to Guest mode.
      */
     getEffectiveProfile: async (): Promise<AccountProfile> => {
         // 1. CHECK FOR REAL USER SESSION FIRST
@@ -51,28 +50,7 @@ export const authService = {
             if (raw) localDemographics = JSON.parse(raw);
         } catch { /* empty */ }
 
-        // If real user is logged in, use it and ignore demo mode
-        if (auth?.user) {
-            // ... (rest of real user logic handled below)
-        } else {
-            // 2. DEMO/LOCAL OVERRIDE (Only if no real session)
-            const demoUserRaw = localStorage.getItem('opina_demo_user');
-            if (demoUserRaw) {
-                try {
-                    const parsed = JSON.parse(demoUserRaw);
-                    return computeAccountProfile({
-                        tier: 'verified_basic',
-                        profileCompleteness: 15,
-                        isProfileComplete: parsed.isProfileComplete || false,
-                        hasCI: false,
-                        displayName: parsed.displayName,
-                        email: parsed.email
-                    });
-                } catch { /* fail soft */ }
-            }
-        }
-
-        // 3. REAL USER MODE (Continue if auth.user exists)
+        // 2. REAL USER MODE (Continue if auth.user exists)
         if (auth?.user) {
             // Parallel fetch for speed: Profile, Identity, and Subscription
             const [profileRes, identityRes, subRes] = await Promise.all([
@@ -109,7 +87,7 @@ export const authService = {
 
             const completionPercentage = profileData.profile_completion_percentage || 0;
             const profileStage = profileData.profile_stage || 0;
-            const isProfileComplete = profileStage >= 2;
+            const isProfileComplete = profileStage >= 1;
             const hasCI = identityData?.is_identity_verified || false;
 
             // Strict priority: Enterprise > Pro > Verified Identity > Basic Verified > Registered
@@ -169,19 +147,85 @@ export const authService = {
         window.dispatchEvent(new Event('storage'));
     },
 
-    createSimpleProfile: async (name: string, email: string): Promise<void> => {
-        const userData = {
-            displayName: name,
-            email: email,
-            tier: 'guest',
-            isVerified: false,
-            createdAt: new Date().toISOString()
-        };
-        localStorage.setItem('opina_demo_user', JSON.stringify(userData));
+    getBootstrapStatus: async (): Promise<{ needsBootstrap: boolean; hasInvite: boolean; hasProfile: boolean }> => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { needsBootstrap: false, hasInvite: false, hasProfile: false };
 
-        // Trigger UI update
-        window.dispatchEvent(new Event('storage'));
-        window.dispatchEvent(new Event('opina:verification_update'));
+        const [inviteRes, profileRes] = await Promise.all([
+            supabase.from('users').select('invitation_code_id').eq('user_id', user.id).maybeSingle(),
+            supabase.from('user_profiles').select('user_id').eq('user_id', user.id).maybeSingle()
+        ]);
+
+        const hasInvite = !!inviteRes.data?.invitation_code_id;
+        const hasProfile = !!profileRes.data?.user_id;
+
+        return {
+            hasInvite,
+            hasProfile,
+            needsBootstrap: !(hasInvite && hasProfile)
+        };
+    },
+
+    bootstrapUserAfterSignup: async (nickname: string, invitationCode: string): Promise<void> => {
+        const cleanNickname = nickname.trim();
+        const cleanCode = invitationCode.trim();
+
+        if (cleanNickname.length < 3 || cleanCode.length < 4) {
+            throw new Error("Falta nickname o el código de invitación es muy corto");
+        }
+
+        const appVersion = (import.meta as any).env?.VITE_APP_VERSION ?? 'unknown';
+        const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown';
+
+        let rpcData: any = null;
+        let rpcError: any = null;
+
+        // Try v2 first
+        const v2Response = await (supabase.rpc as any)('bootstrap_user_after_signup_v2', {
+            p_nickname: cleanNickname,
+            p_invitation_code: cleanCode,
+            p_app_version: appVersion,
+            p_user_agent: userAgent
+        });
+
+        if (v2Response.error && (v2Response.error.code === '42883' || v2Response.error.message.includes('No function matches the given name'))) {
+            logger.warn('[authService] bootstrap_user_after_signup_v2 not found, falling back to v1');
+            // Fallback to v1
+            const v1Response = await (supabase.rpc as any)('bootstrap_user_after_signup', {
+                p_nickname: cleanNickname,
+                p_invitation_code: cleanCode
+            });
+            rpcData = v1Response.data;
+            rpcError = v1Response.error;
+        } else {
+            rpcData = v2Response.data;
+            rpcError = v2Response.error;
+        }
+
+        if (rpcError) {
+            logger.error('[authService] Error on bootstrap RPC call:', rpcError);
+            throw new Error("No se pudo validar el código. Intenta de nuevo.");
+        }
+
+        // Supabase RPC returns standard structure like { ok: boolean, error?: string } for custom logic
+        const responseData = rpcData as { ok: boolean; error?: string } | null;
+        if (responseData && responseData.ok !== true) {
+            const errCode = responseData.error || '';
+            switch (errCode) {
+                case 'RATE_LIMITED':
+                    throw new Error("Demasiados intentos. Espera 10 minutos y prueba de nuevo.");
+                case 'INVITE_INVALID':
+                case 'INVITE_ALREADY_USED':
+                    throw new Error("Código inválido o expirado.");
+                case 'NICKNAME_TOO_SHORT':
+                    throw new Error("El nickname debe tener al menos 3 caracteres.");
+                case 'UNAUTHORIZED':
+                    throw new Error("Tu sesión expiró. Vuelve a iniciar.");
+                case 'UNKNOWN_ERROR':
+                default:
+                    throw new Error("No se pudo validar el código. Intenta de nuevo.");
+            }
+        }
     },
 
     updateProfileDemographics: async (demographics: Partial<DemographicData>): Promise<void> => {
@@ -191,17 +235,7 @@ export const authService = {
         const nextDemographics = { ...currentDemographics, ...demographics };
         localStorage.setItem('opina_demographics', JSON.stringify(nextDemographics));
 
-        // 2. If in demo mode, persist to demo user as well
-        const rawUser = localStorage.getItem('opina_demo_user');
-        if (rawUser) {
-            const user = JSON.parse(rawUser);
-            localStorage.setItem('opina_demo_user', JSON.stringify({
-                ...user,
-                ...demographics
-            }));
-        }
-
-        // 3. Real Supabase update (if logged in)
+        // 2. Real Supabase update (if logged in)
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
             // Remove undefined fields so Supabase only updates what we pass
@@ -257,9 +291,6 @@ export const authService = {
             }
         }
 
-        // Clear demo mode if it was active
-        localStorage.removeItem('opina_demo_user');
-
         // Auto-sync after registration (Supabase might auto-login)
         await authService.syncProfileFromLocal();
     },
@@ -283,55 +314,14 @@ export const authService = {
             }
         }
 
-        // Clear demo mode if it was active
-        localStorage.removeItem('opina_demo_user');
-
-        // Auto-sync after login
-        await authService.syncProfileFromLocal();
-    },
-
-    syncProfileFromLocal: async (): Promise<void> => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        // 1. Get local demographics
-        let localDemographics: DemographicData = {};
-        try {
-            const raw = localStorage.getItem('opina_demographics');
-            if (raw) localDemographics = JSON.parse(raw);
-        } catch { /* empty context is okay */ }
-
-        // 2. Fetch current profile
-        const { data: profile, error } = await (supabase as any).from('user_profiles').select('*').eq('user_id', user.id).maybeSingle();
-        const profileData = profile as UserProfileRow | null;
-
-        if (error) {
-            logger.error("[authService] Error checking user profile during sync:", error);
-        }
-
-        // 3. Update or Create if needed
-        // Triggers handle basic creation, but we might need to sync local guest data upwards
-        if (!profileData || profileData.profile_stage < 4) {
-            const updatePayload: any = {
-                updated_at: new Date().toISOString()
-            };
-            if (localDemographics.name) updatePayload.nickname = profileData?.nickname || localDemographics.name;
-            if (localDemographics.birthYear) updatePayload.birth_year = profileData?.birth_year || localDemographics.birthYear;
-            if (localDemographics.gender) updatePayload.gender = profileData?.gender || localDemographics.gender;
-            if (localDemographics.region) updatePayload.region = profileData?.region || localDemographics.region;
-            if (localDemographics.commune) updatePayload.comuna = profileData?.comuna || localDemographics.commune;
-            if (localDemographics.employmentStatus) updatePayload.employment_status = profileData?.employment_status || localDemographics.employmentStatus;
-
-            if (Object.keys(updatePayload).length > 1) { // more than just updated_at
-                await (supabase as any).from('user_profiles').update(updatePayload).eq('user_id', user.id);
-            }
-        }
+        // Trigger UI update
+        window.dispatchEvent(new Event('storage'));
+        window.dispatchEvent(new Event('opina:verification_update'));
     },
 
     resetPasswordForEmail: async (email: string): Promise<void> => {
-        const redirectTo = `${window.location.origin}/reset-password`;
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo
+            redirectTo: `${window.location.origin}/reset-password`,
         });
         if (error) throw error;
     },
@@ -342,9 +332,49 @@ export const authService = {
     },
 
     signOut: async (): Promise<void> => {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-        localStorage.removeItem('opina_demo_user');
+        await supabase.auth.signOut();
+        // Clear local caches
+        localStorage.removeItem('opina_demographics');
+
         window.dispatchEvent(new Event('storage'));
+        window.dispatchEvent(new Event('opina:verification_update'));
+    },
+
+    // Utilities to fetch full models if needed
+    fetchFullProfile: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return null;
+
+        const { data, error } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .maybeSingle();
+
+        if (error) {
+            logger.error("Failed to fetch full profile", error);
+            return null;
+        }
+
+        return data;
+    },
+
+    syncProfileFromLocal: async (): Promise<void> => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        let localDemographics: Partial<DemographicData> = {};
+        try {
+            const raw = localStorage.getItem('opina_demographics');
+            if (raw) localDemographics = JSON.parse(raw);
+        } catch { /* empty */ }
+
+        if (Object.keys(localDemographics).length > 0) {
+            try {
+                await authService.updateProfileDemographics(localDemographics);
+            } catch (e) {
+                logger.error("[authService] Error syncing demographics to cloud", e);
+            }
+        }
     }
 };

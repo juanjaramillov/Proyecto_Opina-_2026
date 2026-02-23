@@ -40,6 +40,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex flex-col flex-1 w-full min-h-screen relative">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-indigo-600 focus:font-bold">Saltar al contenido</a>
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'glass-aurora bg-white/60 border-b border-white/20 py-4'}`}>
         <div className="w-full px-4 sm:px-8 xl:px-12 flex items-center justify-between gap-4">
 
@@ -69,7 +70,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
           {/* Mobile Menu Button */}
           <button
-            className="sm:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none"
+            className="sm:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 rounded-lg"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Navigation"
           >
@@ -101,7 +102,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               )
             })}
 
-            {/* ENLACE CORPORATIVO */}
+            {/* ENLACES ADMINISTRACION/B2B */}
             {isAuthenticated && (role === 'b2b' || role === 'admin') && (
               <NavLink
                 to="/b2b-dashboard"
@@ -111,6 +112,34 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               >
                 B2B Console
               </NavLink>
+            )}
+            {isAuthenticated && role === 'admin' && (
+              <>
+                <NavLink
+                  to="/admin/invitaciones"
+                  className={({ isActive }) =>
+                    `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-amber-500 text-white shadow-md' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'}`
+                  }
+                >
+                  Admin Invites
+                </NavLink>
+                <NavLink
+                  to="/admin/health"
+                  className={({ isActive }) =>
+                    `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-emerald-500 text-white shadow-md' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`
+                  }
+                >
+                  Health Checks
+                </NavLink>
+                <NavLink
+                  to="/admin/antifraude"
+                  className={({ isActive }) =>
+                    `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-red-500 text-white shadow-md' : 'bg-red-50 text-red-700 hover:bg-red-100'}`
+                  }
+                >
+                  Antifraude
+                </NavLink>
+              </>
             )}
             {!isAuthenticated && (
               <NavLink
@@ -157,6 +186,33 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 B2B Console
               </NavLink>
             )}
+            {isAuthenticated && role === 'admin' && (
+              <>
+                <NavLink
+                  to="/admin/invitaciones"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-amber-50 text-amber-700 border border-amber-200"
+                >
+                  Administrar Invitaciones
+                </NavLink>
+                <NavLink
+                  to="/admin/health"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-emerald-50 text-emerald-700 border border-emerald-200"
+                >
+                  Health Checks
+                </NavLink>
+              </>
+            )}
+            {isAuthenticated && role === 'admin' && (
+              <NavLink
+                to="/admin/health"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-emerald-50 text-emerald-700 border border-emerald-200"
+              >
+                Health Checks
+              </NavLink>
+            )}
             {!isAuthenticated && (
               <NavLink
                 to="/login"
@@ -170,7 +226,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
 
-      <main className="flex-1 flex flex-col relative w-full">
+      <main id="main-content" className="flex-1 flex flex-col relative w-full">
         {children}
       </main>
 

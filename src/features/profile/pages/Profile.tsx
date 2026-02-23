@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth, authService } from "../../auth";
-import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint } from "../services/profileService";
+import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint, getNextDemographicsUpdateDate } from "../services/profileService";
 import { AccountProfile } from "../../auth/types";
 import ProgressiveQuestion from "../components/ProgressiveQuestion";
 import SimpleSignup from "../components/SimpleSignup";
@@ -14,10 +14,30 @@ import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/consta
 import { AnimatePresence } from "framer-motion";
 import { logger } from "../../../lib/logger";
 
+import { InlineLoader } from '../../../components/ui/InlineLoader';
+import { EmptyState } from '../../../components/ui/EmptyState';
+import { notifyService } from "../../notifications/notifyService";
+
 export default function Profile() {
   const { profile, loading } = useAuth();
+  const navigate = useNavigate();
 
-  if (loading) return null;
+  if (loading) return <InlineLoader label="Cargando perfil principal..." />;
+
+  // Requirement 4: Si no hay profile cargado (null) y hay sesión (o no la hay pero llegamos aquí).
+  if (!profile) {
+    return (
+      <div className="container-ws section-y min-h-screen flex items-center justify-center">
+        <EmptyState
+          title="Completa tu perfil"
+          description="Necesitamos algunos datos para habilitar tus señales."
+          actionLabel="Completar ahora"
+          onAction={() => navigate('/complete-profile')}
+          icon="account_circle"
+        />
+      </div>
+    );
+  }
 
   return <ProfileContent profile={profile} />;
 }
@@ -51,6 +71,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
         setPersonalHistory(histData);
       } catch (err) {
         logger.error("Failed to load profile data:", err);
+        notifyService.error("No se pudo cargar la información del perfil.");
       } finally {
         setLoadingData(false);
       }
@@ -61,6 +82,10 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
   // Calculate Progress from userStats (from DB)
   const completedSignals = userStats?.total_signals || 0;
   const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD;
+
+  // Calculo de expiracion del cooldown demográfico
+  const lastUpdateISO = (profile?.demographics as any)?.last_demographics_update || (profile as any)?.updated_at;
+  const nextUpdateDate = getNextDemographicsUpdateDate(lastUpdateISO as string | undefined);
 
   const handleContinue = () => {
     const nextBatchIndex = Math.floor(completedSignals / SIGNALS_PER_BATCH);
@@ -74,6 +99,11 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
         {/* LEFT SIDEBAR: PROGRESSIVE PROFILING */}
         <div className="lg:col-span-4 order-2 lg:order-1 space-y-6">
           <ProgressiveQuestion currentData={profile?.demographics || {}} />
+          {nextUpdateDate && (
+            <p className="text-[10px] font-bold text-slate-400 text-center uppercase tracking-widest mt-2">
+              Próximo cambio disponible: {nextUpdateDate.toLocaleDateString()}
+            </p>
+          )}
 
           {/* PARTICIPATION SUMMARY */}
           <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
@@ -105,7 +135,11 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
             </h3>
             <div className="space-y-4">
               {history.length === 0 ? (
-                <p className="text-xs text-muted italic">No hay actividad reciente.</p>
+                <EmptyState
+                  title="Sin señales previas"
+                  description="No reportas actividad reciente."
+                  icon="history_toggle_off"
+                />
               ) : history.map((event) => (
                 <div key={event.id} className="flex gap-3 items-start border-l-2 border-slate-100 pl-3 py-1">
                   <div className="flex-1">
@@ -176,7 +210,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 {/* RESULTADOS */}
                 <button
                   onClick={() => !isLocked && navigate('/results')}
-                  className={`p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden group ${isLocked ? 'bg-slate-50 border-slate-100 cursor-not-allowed' : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xl hover:-translate-y-1 active:scale-[0.98]'}`}
+                  className={`p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 ${isLocked ? 'bg-slate-50 border-slate-100 cursor-not-allowed' : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xl hover:-translate-y-1 active:scale-[0.98]'}`}
                 >
                   <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${isLocked ? 'from-slate-200/50' : 'from-indigo-500/10'} to-transparent rounded-bl-full -z-0 group-hover:scale-110 transition-transform`}></div>
                   <div className="relative z-10">
@@ -197,7 +231,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 {/* RANKINGS */}
                 <button
                   onClick={() => navigate('/rankings')}
-                  className="p-5 rounded-2xl border text-left bg-white border-slate-200 hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] relative overflow-hidden group"
+                  className="p-5 rounded-2xl border text-left bg-white border-slate-200 hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-bl-full -z-0 group-hover:scale-110 transition-transform"></div>
                   <div className="relative z-10">
@@ -217,7 +251,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={handleContinue}
-                  className={`flex-1 px-6 py-5 rounded-2xl font-black text-white flex items-center justify-center gap-3 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-xl uppercase tracking-widest text-sm ${isLocked ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:shadow-indigo-500/30' : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:shadow-emerald-500/30'}`}
+                  className={`flex-1 px-6 py-5 rounded-2xl font-black text-white flex items-center justify-center gap-3 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-xl uppercase tracking-widest text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 ${isLocked ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:shadow-indigo-500/30' : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:shadow-emerald-500/30'}`}
                 >
                   {isLocked ? (
                     <>
@@ -257,12 +291,14 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                                 .eq('user_id', (profile as unknown as { id: string })?.id);
 
                               if (error) throw error;
-                              window.location.reload();
+                              notifyService.success("Identidad verificada (Demo)");
+                              setTimeout(() => window.location.reload(), 1500);
                             } catch (err) {
                               logger.error("Error verifying identity:", err);
+                              notifyService.error("Error al verificar la identidad demo.");
                             }
                           }}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-5 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-200"
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-5 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
                         >
                           Verificar identidad (Demo)
                         </button>
@@ -345,6 +381,45 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
             </section>
           )}
 
+          {/* PROGRESSION BENEFITS CARD */}
+          <section className="bg-white rounded-3xl p-6 shadow-sm border border-indigo-100 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 opacity-5">
+              <span className="material-symbols-outlined text-[80px] text-indigo-500">military_tech</span>
+            </div>
+            <div className="relative z-10">
+              <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span className="material-symbols-outlined text-indigo-500 text-lg">hotel_class</span>
+                Tus beneficios
+              </h3>
+
+              <ul className="space-y-3 mb-6">
+                <li className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-emerald-500 text-base mt-0.5">check_circle</span>
+                  <p className="text-xs text-slate-600 font-medium leading-relaxed">Más señales diarias mientras más completo tu perfil.</p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-emerald-500 text-base mt-0.5">check_circle</span>
+                  <p className="text-xs text-slate-600 font-medium leading-relaxed">Resultados y segmentación desbloqueados.</p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-emerald-500 text-base mt-0.5">check_circle</span>
+                  <p className="text-xs text-slate-600 font-medium leading-relaxed">Mayor peso de tu señal si verificas identidad (más adelante).</p>
+                </li>
+              </ul>
+
+              <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <span className="text-[10px] uppercase font-black tracking-widest text-slate-400">Estado</span>
+                <span className="text-xs font-bold text-indigo-600 text-right">
+                  {profile?.tier === 'guest' ? 'Invitado (0 señales)' :
+                    (profile?.demographics?.profileStage || 0) < 1 ? 'Perfil incompleto (0 señales)' :
+                      (profile?.demographics?.profileStage || 0) === 1 ? 'Básico (señales limitadas)' :
+                        'Perfil completo (mejor acceso a resultados)'}
+                  {(profile as any)?.is_identity_verified || (profile as any)?.identity_verified ? ' - Verificado (máximo peso)' : ''}
+                </span>
+              </div>
+            </div>
+          </section>
+
           {/* LOWER SECTION: LEVEL INDICATOR (Simplified) */}
           <div className="grid grid-cols-3 gap-4">
             <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'guest' ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100' : 'bg-white border-slate-100 opacity-50'}`}>
@@ -372,9 +447,10 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 navigate('/login');
               } catch (err) {
                 logger.error("Error signing out:", err);
+                notifyService.error("No se pudo cerrar la sesión.");
               }
             }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 font-bold text-sm transition-colors border border-transparent hover:border-rose-100"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 font-bold text-sm transition-colors border border-transparent hover:border-rose-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-rose-500"
           >
             <span className="material-symbols-outlined text-[20px]">logout</span>
             Cerrar Sesión

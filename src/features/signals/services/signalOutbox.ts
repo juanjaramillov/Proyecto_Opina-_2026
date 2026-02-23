@@ -24,6 +24,14 @@ function now() {
     return Date.now();
 }
 
+function emitSignalEvent() {
+    try {
+        window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
+    } catch {
+        // noop
+    }
+}
+
 function safeParse(json: string | null): OutboxJob[] {
     if (!json) return [];
     try {
@@ -55,14 +63,24 @@ function backoffMs(attempts: number): number {
     return Math.min(60 * 60 * 1000, base);
 }
 
-function isNonRetriableErrorMessage(msg: string): boolean {
+export function isNonRetriableSignalErrorMessage(msg: string): boolean {
     const m = msg.toUpperCase();
     return (
         m.includes('SIGNAL_LIMIT_REACHED') ||
         m.includes('PROFILE_MISSING') ||
         m.includes('BATTLE_NOT_ACTIVE') ||
-        m.includes('INVALID SIGNAL PAYLOAD')
+        m.includes('INVALID SIGNAL PAYLOAD') ||
+        m.includes('INVITE_REQUIRED') ||
+        m.includes('PROFILE_INCOMPLETE') ||
+        m.includes('COOLDOWN_ACTIVE')
     );
+}
+
+export function removeOutboxJob(id: string): void {
+    const queue = loadQueue();
+    const nextQueue = queue.filter(j => j.id !== id);
+    saveQueue(nextQueue);
+    emitSignalEvent();
 }
 
 export function getOutboxCount(): number {
@@ -104,6 +122,7 @@ export function enqueueInsertSignalEvent(args: Record<string, unknown>): { statu
 
     queue.unshift(job);
     saveQueue(prune(queue));
+    emitSignalEvent();
     return { status: 'queued', id };
 }
 
@@ -127,14 +146,23 @@ export async function flushSignalOutbox(maxJobs: number = 50): Promise<{ sent: n
 
         for (const job of due) {
             try {
-                const { error } = await (supabase.rpc as any)(job.rpc, job.args);
+                let res = await (supabase.rpc as any)(job.rpc, job.args);
+
+                if (res.error && String(res.error.message).includes('p_device_hash')) {
+                    const fallbackArgs = { ...job.args } as Record<string, any>;
+                    delete fallbackArgs.p_device_hash;
+                    res = await (supabase.rpc as any)(job.rpc, fallbackArgs);
+                }
+
+                let { error } = res;
 
                 if (error) {
                     const msg = error?.message ? String(error.message) : 'Unknown RPC error';
-                    if (isNonRetriableErrorMessage(msg)) {
+                    if (isNonRetriableSignalErrorMessage(msg)) {
                         // Drop definitivo
                         queue = queue.filter(j => j.id !== job.id);
                         saveQueue(queue);
+                        emitSignalEvent();
                         failed++;
                         logger.error('[Outbox] Drop non-retriable job', { id: job.id, msg });
                         continue;
@@ -149,11 +177,7 @@ export async function flushSignalOutbox(maxJobs: number = 50): Promise<{ sent: n
                 sent++;
 
                 // Notificar a la app que se sincronizó una señal pendiente
-                try {
-                    window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
-                } catch {
-                    // noop
-                }
+                emitSignalEvent();
             } catch (e: any) {
                 const msg = e?.message ? String(e.message) : 'Unknown error';
 

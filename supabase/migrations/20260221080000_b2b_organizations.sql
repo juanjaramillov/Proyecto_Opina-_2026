@@ -40,7 +40,7 @@ FOR SELECT
 TO authenticated
 USING (
   -- Los admins del sistema ven todo (basado en el rol de la tabla users implementado en FIX 11)
-  (EXISTS (SELECT 1 FROM auth.users WHERE auth.users.id = auth.uid() AND (auth.users.raw_user_meta_data->>'role') = 'admin'))
+  (EXISTS (SELECT 1 FROM auth.users WHERE id = auth.uid() AND (auth.users.raw_user_meta_data->>'role') = 'admin'))
   OR
   -- Usuarios ven snapshots de su organización
   organization_id IN (SELECT org_id FROM public.organization_members WHERE user_id = auth.uid())
@@ -55,7 +55,7 @@ CREATE POLICY "Access depth aggregates by org membership" ON public.depth_aggreg
 FOR SELECT
 TO authenticated
 USING (
-  (EXISTS (SELECT 1 FROM auth.users WHERE auth.users.id = auth.uid() AND (auth.users.raw_user_meta_data->>'role') = 'admin'))
+  (EXISTS (SELECT 1 FROM auth.users WHERE id = auth.uid() AND (auth.users.raw_user_meta_data->>'role') = 'admin'))
   OR
   organization_id IN (SELECT org_id FROM public.organization_members WHERE user_id = auth.uid())
 );

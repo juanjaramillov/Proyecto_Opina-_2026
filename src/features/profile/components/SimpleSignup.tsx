@@ -100,16 +100,17 @@ export default function SimpleSignup() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-1.5">
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
-                            Nombre Público <span className="text-red-500">*</span>
+                            Nickname público <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Ej. Juan Pérez"
+                            placeholder="Ej: AereoGeek, CactusAzul, etc."
                             className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-ink"
                             required
                         />
+                        <p className="text-[10px] text-slate-400 ml-1">No uses tu nombre real. Este nickname se verá en rankings y resultados.</p>
                     </div>
 
                     <div className="space-y-1.5">

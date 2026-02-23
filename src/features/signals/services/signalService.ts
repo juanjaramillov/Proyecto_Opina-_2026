@@ -3,6 +3,12 @@ import { Database } from '../../../supabase/database.types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { getAssetPathForOption } from '../config/brandAssets';
 import { logger } from '../../../lib/logger';
+import {
+    enqueueInsertSignalEvent,
+    flushSignalOutbox,
+    isNonRetriableSignalErrorMessage,
+    removeOutboxJob
+} from './signalOutbox';
 
 const sb = supabase as unknown as SupabaseClient<Database>;
 
@@ -107,23 +113,77 @@ export const signalService = {
             throw new Error('Invalid signal payload: missing battle_id or option_id');
         }
 
-        // 2. SECURE RPC CALL
-        // El RPC insert_signal_event maneja internamente:
-        // - Obtención de anon_id (get_or_create_anon_id)
-        // - Denormalización de segmentación (gender, age_bucket, region)
-        // - Resolución de battle_instance_id
-        // - Cálculo de pesos (user_stats)
-        const { error } = await sb.rpc('insert_signal_event', {
+        // Lógica Device Hash
+        let deviceHash = localStorage.getItem('opina_device_hash');
+        if (!deviceHash) {
+            deviceHash = crypto.randomUUID();
+            localStorage.setItem('opina_device_hash', deviceHash);
+        }
+
+        const args: Record<string, unknown> = {
             p_battle_id: payload.battle_id,
             p_option_id: payload.option_id,
             p_session_id: payload.session_id || undefined,
-            p_attribute_id: payload.attribute_id || undefined
-        });
+            p_attribute_id: payload.attribute_id || undefined,
+            p_device_hash: deviceHash
+        };
 
-        if (error) {
-            logger.error('[SignalService] RPC insert_signal_event failed:', error);
-            throw error;
+        // 3. ENCOLAR SIEMPRE
+        const { id } = enqueueInsertSignalEvent(args);
+
+        // 4. UI REFRESH INMEDIATO (optimistic)
+        try {
+            window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
+        } catch {
+            // noop
         }
+
+        // 5. INTENTO INMEDIATO BEST-EFFORT
+        try {
+            let res = await sb.rpc('insert_signal_event', {
+                ...args,
+                p_client_event_id: id
+            });
+
+            // Si falla por p_device_hash, reintento sin ese campo (fallback)
+            if (res.error && String(res.error.message).includes('p_device_hash')) {
+                const fallbackArgs = { ...args, p_client_event_id: id };
+                delete fallbackArgs.p_device_hash;
+                res = await sb.rpc('insert_signal_event', fallbackArgs);
+            }
+
+            const { error } = res;
+
+            if (error) {
+                const errorMsg = String(error.message);
+
+                if (isNonRetriableSignalErrorMessage(errorMsg)) {
+                    removeOutboxJob(id);
+                    try {
+                        window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
+                    } catch {
+                        // noop
+                    }
+                    throw error;
+                }
+
+                logger.warn('[SignalService] RPC insert_signal_event failed (transient)', errorMsg);
+            } else {
+                removeOutboxJob(id);
+            }
+        } catch (err: any) {
+            // Re-throw if it was already explicitly thrown for business rules
+            const errStr = err?.message ? String(err.message) : '';
+            if (isNonRetriableSignalErrorMessage(errStr)) {
+                throw err;
+            }
+            logger.warn('[SignalService] Submitting signal failed natively. Kept in Outbox', err);
+        }
+
+        // 6. FIRE AND FORGET
+        flushSignalOutbox(25).catch(err => {
+            logger.warn('[SignalService] Async Background flush warning', err);
+        });
     },
 
     // =========================

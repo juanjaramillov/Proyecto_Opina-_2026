@@ -68,8 +68,7 @@ BEGIN
 
     -- Extraer verification de users
     SELECT COALESCE(u.is_identity_verified, false) INTO v_verified
-    FROM public.users u
-    WHERE u.id = v_uid
+    FROM public.users u WHERE u.user_id = v_uid
     LIMIT 1;
 
     SELECT COALESCE(us.trust_score, 1.0) INTO v_trust

@@ -40,8 +40,18 @@ export default function ProgressiveQuestion({ currentData }: Props) {
         });
     }, [currentData]);
 
-    const handleAnswer = (key: keyof DemographicData, value: string) => {
-        profileService.saveDemographic(key, value);
+    const handleAnswer = async (key: keyof DemographicData, value: string) => {
+        try {
+            await profileService.saveDemographic(key, value);
+        } catch (error: any) {
+            if (error?.message?.includes('Demographics can only be updated every 30 days') || error?.code === 'P0001') {
+                import('react-hot-toast').then(({ toast }) => {
+                    toast.error("Solo puedes cambiar tu perfil cada 30 días.", { id: 'cooldown-error', duration: 4000 });
+                });
+            } else {
+                console.error("Error al guardar demográfica:", error);
+            }
+        }
     };
 
     return (

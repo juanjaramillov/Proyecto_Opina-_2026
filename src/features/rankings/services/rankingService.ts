@@ -4,17 +4,21 @@ import { logger } from '../../../lib/logger';
 export interface RankSnapshot {
     id: string;
     entity_id: string;
-    category_slug: string;
-    composite_index: number;
-    preference_score: number;
-    quality_score: number;
+    category_slug: string; // compatibility
+    composite_index: number; // compatibility
+    preference_score: number; // compatibility
+    quality_score: number; // compatibility
     snapshot_date: string;
-    segment_id: string;
+    segment_id: string; // compatibility
     trend?: 'up' | 'down' | 'stable';
     entity?: {
         name: string;
         image_url?: string;
     };
+    // Nuevas P6.4
+    module_type?: 'versus' | 'progressive';
+    score?: number;
+    signals_count?: number;
 }
 
 export interface Attribute {
@@ -35,53 +39,105 @@ export interface PublicRankingResponse {
     updatedAt: string;
 }
 
-type LatestRow = {
-    id: string;
-    entity_id: string;
-    category_slug: string;
-    composite_index: number;
-    preference_score: number;
-    quality_score: number;
-    snapshot_date: string;
-    segment_id: string;
-    trend: 'up' | 'down' | 'stable';
-    entity_name: string;
-    image_url: string | null;
-};
-
 export const rankingService = {
+
     /**
-     * Gets the latest rankings for a category and segment (already includes trend).
-     * Uses RPC to avoid downloading the entire history.
+     * P6.4: Lee directamente desde public_rank_snapshots filtrando por el bucket más reciente, 
+     * el módulo especificado, y el hash del segmento.
      */
-    async getLatestRankings(categorySlug: string, segmentId: string = 'global'): Promise<RankSnapshot[]> {
-        const { data, error } = await (supabase.rpc as any)('get_entity_rankings_latest', {
-            p_category_slug: categorySlug,
-            p_segment_id: segmentId
-        });
+    async getLatestRankings(
+        moduleType: 'versus' | 'progressive' = 'versus',
+        segmentHash: string = 'global',
+        limit: number = 50,
+        categorySlug?: string
+    ): Promise<{ snapshotBucket: string | null; rows: RankSnapshot[] }> {
+
+        // 1. Obtener latest bucket
+        const { data: bucketData, error: bucketError } = await supabase
+            .from('public_rank_snapshots')
+            .select('snapshot_bucket')
+            .order('snapshot_bucket', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+        if (bucketError) {
+            logger.error('Error fetching latest snapshot bucket:', bucketError);
+            throw bucketError;
+        }
+
+        if (!bucketData?.snapshot_bucket) {
+            return { snapshotBucket: null, rows: [] };
+        }
+
+        const latestBucket = bucketData.snapshot_bucket;
+
+        // 2. Query rows
+        let query = supabase
+            .from('public_rank_snapshots')
+            .select(`
+                id, 
+                snapshot_bucket, 
+                module_type, 
+                battle_id, 
+                option_id, 
+                score, 
+                signals_count, 
+                segment, 
+                segment_hash,
+                battle_options (
+                   label, 
+                   image_url,
+                   battles (
+                      categories ( slug )
+                   )
+                )
+            `)
+            .eq('snapshot_bucket', latestBucket)
+            .eq('module_type', moduleType)
+            .eq('segment_hash', segmentHash)
+            .order('score', { ascending: false })
+            .limit(limit);
+
+        const { data, error } = await query;
 
         if (error) {
-            logger.error('Error fetching rankings (RPC):', error);
+            logger.error('Error fetching snapshot rows:', error);
             throw error;
         }
 
-        const rows = (data as unknown as LatestRow[]) || [];
+        let rows = (data || []).map((r: any) => {
+            // Mapeo adaptativo para mantener interfaz original
+            // @ts-expect-error Supabase types are inexact for nested relations
+            const entityName = r.battle_options?.label || 'Desconocido';
+            // @ts-expect-error Supabase types are inexact for nested relations
+            const catSlug = r.battle_options?.battles?.categories?.slug || 'unknown';
+            return {
+                id: r.id as string,
+                entity_id: r.option_id as string, // Usamos la opción como entidad rankeada
+                category_slug: catSlug,
+                composite_index: Number(r.score || 0),
+                preference_score: Number(r.score || 0),
+                quality_score: 0,
+                snapshot_date: r.snapshot_bucket,
+                segment_id: r.segment_hash,
+                trend: 'stable' as const, // temporal default
+                entity: {
+                    name: entityName,
+                    image_url: r.battle_options?.image_url
+                },
+                module_type: r.module_type,
+                score: r.score,
+                signals_count: r.signals_count
+            } as RankSnapshot;
+        });
 
-        return rows.map(r => ({
-            id: r.id,
-            entity_id: r.entity_id,
-            category_slug: r.category_slug,
-            composite_index: Number(r.composite_index),
-            preference_score: Number(r.preference_score),
-            quality_score: Number(r.quality_score),
-            snapshot_date: r.snapshot_date,
-            segment_id: r.segment_id,
-            trend: r.trend,
-            entity: {
-                name: r.entity_name,
-                image_url: r.image_url || undefined
-            }
-        }));
+        // Filtrado por categoría en memoria (si se incluyó en la llamada)
+        // en el futuro debería buscarse una forma más directa con JOIN a entities o agregando category_id en snapshots
+        if (categorySlug) {
+            rows = rows.filter(r => r.category_slug === categorySlug);
+        }
+
+        return { snapshotBucket: latestBucket, rows };
     },
 
     /**
@@ -96,25 +152,5 @@ export const rankingService = {
 
         if (error || !data) return null;
         return data as Attribute;
-    },
-
-    /**
-     * Legacy/Compatibility: Public ranking data.
-     */
-    async getPublicRanking(categoryId: string, _segmentHash: string): Promise<PublicRankingResponse | null> {
-        const { data: cat } = await supabase.from('categories').select('slug').eq('id', categoryId).maybeSingle();
-        if (!cat) return null;
-
-        const rankings = await this.getLatestRankings(cat.slug);
-
-        return {
-            ranking: rankings.map((r, idx) => ({
-                option_id: r.entity_id,
-                position: idx + 1,
-                trend: r.trend || 'stable'
-            })),
-            totalSignals: 0,
-            updatedAt: rankings[0]?.snapshot_date || new Date().toISOString()
-        };
     }
 };

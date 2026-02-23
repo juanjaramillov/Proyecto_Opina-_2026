@@ -137,4 +137,14 @@ export const mySignalsService = {
 
         return (data as string) || null
     },
+
+    async getMyTotalVersusSignalsCount(): Promise<number> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data, error } = await (supabase.rpc as any)('count_my_versus_signals');
+        if (error) {
+            logger.error('count_my_versus_signals error:', error);
+            return 0;
+        }
+        return Number(data) || 0;
+    },
 }

@@ -164,15 +164,16 @@ export default function ProfileWizard() {
                     {step === 1 && (
                         <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Tu Nombre o Apodo</label>
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Tu Nickname</label>
                                 <input
                                     type="text"
                                     value={formData.name || ""}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    placeholder="¿Cómo te llamas?"
+                                    placeholder="Elige un nickname (no tu nombre real)"
                                     className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700"
                                     required
                                 />
+                                <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real no se muestra. Usa un nickname.</p>
                             </div>
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Año de Nacimiento</label>

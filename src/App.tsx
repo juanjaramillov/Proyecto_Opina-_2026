@@ -19,6 +19,9 @@ import ProfileWizard from "./features/auth/components/ProfileWizard";
 import PersonalState from "./features/profile/pages/PersonalState";
 import IntelligencePage from "./features/intelligence/IntelligencePage";
 import B2BDashboard from "./features/b2b/pages/B2BDashboard";
+import AdminInvites from "./features/admin/pages/AdminInvites";
+import AdminHealth from "./features/admin/pages/AdminHealth";
+import AdminAntifraud from "./features/admin/pages/AdminAntifraud";
 import Rankings from "./features/rankings/pages/Rankings";
 import PublicRankingPage from './features/rankings/pages/PublicRankingPage';
 import AboutUs from "./pages/static/AboutUs";
@@ -52,14 +55,35 @@ export default function App() {
           <Route path="/personal-state" element={<ProtectedRoute><PersonalState /></ProtectedRoute>} />
           <Route path="/intelligence" element={
             <ProtectedRoute>
-              <RoleProtectedRoute allowedRoles={['admin', 'enterprise']}>
+              <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
                 <IntelligencePage />
+              </RoleProtectedRoute>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/invitaciones" element={
+            <ProtectedRoute>
+              <RoleProtectedRoute allowedRoles={['admin']}>
+                <AdminInvites />
+              </RoleProtectedRoute>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/health" element={
+            <ProtectedRoute>
+              <RoleProtectedRoute allowedRoles={['admin']}>
+                <AdminHealth />
+              </RoleProtectedRoute>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/antifraude" element={
+            <ProtectedRoute>
+              <RoleProtectedRoute allowedRoles={['admin']}>
+                <AdminAntifraud />
               </RoleProtectedRoute>
             </ProtectedRoute>
           } />
           <Route path="/b2b-dashboard" element={
             <ProtectedRoute>
-              <RoleProtectedRoute allowedRoles={['admin', 'enterprise']}>
+              <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
                 <B2BDashboard />
               </RoleProtectedRoute>
             </ProtectedRoute>

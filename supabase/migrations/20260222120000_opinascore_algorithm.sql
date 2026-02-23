@@ -56,7 +56,7 @@ BEGIN
       v_verified
     FROM public.profiles p
     LEFT JOIN public.user_stats us ON us.user_id = p.id
-    LEFT JOIN public.profiles u ON u.id = p.id
+    LEFT JOIN public.profiles u ON u.user_id = p.id
     WHERE p.id = v_user_id 
     LIMIT 1;
 
@@ -153,7 +153,7 @@ BEGIN
     public.calculate_recency_factor(now()) as current_recency_factor,
     (us.signal_weight * (CASE WHEN u.identity_verified = true THEN 1.3 ELSE 1.0 END) * public.calculate_recency_factor(now())) as estimated_opinascore
   FROM public.user_stats us
-  JOIN public.profiles u ON u.id = us.user_id
+  JOIN public.profiles u ON u.user_id = us.user_id
   WHERE us.user_id = p_user_id;
 END;
 $$;

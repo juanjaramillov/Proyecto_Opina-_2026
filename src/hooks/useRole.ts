@@ -31,7 +31,11 @@ export function useRole() {
                 .single()
 
             if (mounted) {
-                setRole((data?.role as Role) || 'user')
+                let fetchedRole = data?.role as string || 'user';
+                // Compat map
+                if (fetchedRole === 'enterprise') fetchedRole = 'b2b';
+
+                setRole(fetchedRole as Role);
                 setLoading(false)
             }
 

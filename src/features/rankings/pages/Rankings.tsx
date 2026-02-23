@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { rankingService, RankSnapshot } from '../services/rankingService';
+import { adminConfigService } from '../../admin/services/adminConfigService';
 import { supabase } from '../../../supabase/client';
-import { SkeletonRankingTopCard } from '../../../components/ui/Skeleton';
+import { useAuth } from '../../auth/hooks/useAuth';
+import { InlineLoader } from '../../../components/ui/InlineLoader';
+import { EmptyState } from '../../../components/ui/EmptyState';
 import { logger } from '../../../lib/logger';
 
 interface Category {
@@ -11,15 +14,22 @@ interface Category {
     name: string;
 }
 
+type ModuleType = 'versus' | 'progressive';
+
 const Rankings: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [activeCategorySlug, setActiveCategorySlug] = useState<string>('streaming');
+    const [moduleType, setModuleType] = useState<ModuleType>('versus');
     const [ranking, setRanking] = useState<RankSnapshot[]>([]);
     const [loading, setLoading] = useState(true);
     const [updatedAt, setUpdatedAt] = useState('');
+    const [analyticsMode, setAnalyticsMode] = useState<'all' | 'clean' | null>(null);
 
-    const [segmentId, setSegmentId] = useState<string>('global');
-    const [openFilters, setOpenFilters] = useState(false);
+    const { profile } = useAuth();
+    const isAdmin = (profile as any)?.role === 'admin';
+
+    const [segmentId, setSegmentId] = useState<string>('global'); // Por ahora fijo en global
+    const [openFilters, setOpenFilters] = useState(false); // filters UI
 
     // 1. Fetch Categories on mount
     useEffect(() => {
@@ -36,15 +46,17 @@ const Rankings: React.FC = () => {
         fetchCategories();
     }, []);
 
-    // 2. Load Ranking when category or segment changes
+    // 2. Load Ranking when category, moduleType or segment changes
     useEffect(() => {
         const loadRanking = async () => {
             setLoading(true);
             try {
-                const data = await rankingService.getLatestRankings(activeCategorySlug, segmentId);
-                setRanking(data);
-                if (data.length > 0) {
-                    setUpdatedAt(data[0].snapshot_date);
+                const response = await rankingService.getLatestRankings(moduleType, segmentId, 50, activeCategorySlug);
+                setRanking(response.rows);
+                if (response.snapshotBucket) {
+                    setUpdatedAt(response.snapshotBucket);
+                } else {
+                    setUpdatedAt('');
                 }
             } catch (err) {
                 logger.error('Failed to load ranking:', err);
@@ -53,7 +65,23 @@ const Rankings: React.FC = () => {
             }
         };
         loadRanking();
-    }, [activeCategorySlug, segmentId]);
+    }, [activeCategorySlug, moduleType, segmentId]);
+
+    // 3. Load Analytics Mode if admin
+    useEffect(() => {
+        if (!isAdmin) return;
+        let mounted = true;
+        const loadMode = async () => {
+            try {
+                const mode = await adminConfigService.getAnalyticsMode();
+                if (mounted) setAnalyticsMode(mode);
+            } catch (err: any) {
+                // Fallo silencioso
+            }
+        };
+        loadMode();
+        return () => { mounted = false; };
+    }, [isAdmin]);
 
     const activeCategory = categories.find(c => c.slug === activeCategorySlug);
 
@@ -90,6 +118,16 @@ const Rankings: React.FC = () => {
                                     {updatedAt ? `Últ. snapshot: ${new Date(updatedAt).toLocaleString('es-CL', { hour12: false, dateStyle: 'short', timeStyle: 'short' })}` : '--:--'}
                                 </div>
                             </div>
+
+                            {isAdmin && analyticsMode && (
+                                <div className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded border text-[10px] font-black uppercase tracking-wider ${analyticsMode === 'clean' ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+                                    <span className="material-symbols-outlined text-[14px]">
+                                        {analyticsMode === 'clean' ? 'filter_alt' : 'filter_alt_off'}
+                                    </span>
+                                    <span>Clean {analyticsMode === 'clean' ? 'ON' : 'OFF'}</span>
+                                </div>
+                            )}
+
                             <button
                                 onClick={() => {
                                     const baseUrl = window.location.origin;
@@ -106,20 +144,39 @@ const Rankings: React.FC = () => {
                     </div>
                 </header>
 
-                {/* CATEGORY TABS */}
-                <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-none">
-                    {categories.map(cat => (
+                {/* CONTROL MODULE & TABS */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    {/* CATEGORY TABS */}
+                    <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-none max-w-full">
+                        {categories.map(cat => (
+                            <button
+                                key={cat.id}
+                                onClick={() => setActiveCategorySlug(cat.slug)}
+                                className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all active:scale-95 border ${activeCategorySlug === cat.slug
+                                    ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
+                                    : 'bg-white border-slate-100 text-muted hover:border-indigo-200'
+                                    }`}
+                            >
+                                {cat.name}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* MODULE TOGGLE */}
+                    <div className="flex bg-slate-200/50 p-1 rounded-xl shrink-0">
                         <button
-                            key={cat.id}
-                            onClick={() => setActiveCategorySlug(cat.slug)}
-                            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all active:scale-95 border ${activeCategorySlug === cat.slug
-                                ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
-                                : 'bg-white border-slate-100 text-muted hover:border-indigo-200'
-                                }`}
+                            onClick={() => setModuleType('versus')}
+                            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'versus' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                         >
-                            {cat.name}
+                            Versus
                         </button>
-                    ))}
+                        <button
+                            onClick={() => setModuleType('progressive')}
+                            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'progressive' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            Progresivo
+                        </button>
+                    </div>
                 </div>
 
                 {/* SEGMENT FILTERS */}
@@ -173,18 +230,15 @@ const Rankings: React.FC = () => {
                 {/* MAIN RANKING CONTENT */}
                 <div className="space-y-6">
                     {loading ? (
-                        <div className="space-y-4 w-full">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                                <SkeletonRankingTopCard />
-                                <SkeletonRankingTopCard />
-                                <SkeletonRankingTopCard />
-                            </div>
+                        <div className="bg-white rounded-[40px] border border-slate-100 shadow-sm overflow-hidden flex items-center justify-center p-12">
+                            <InlineLoader label="Cargando rankings..." />
                         </div>
                     ) : ranking.length === 0 ? (
-                        <div className="text-center py-20 bg-white rounded-[40px] border border-dashed border-slate-200">
-                            <span className="material-symbols-outlined text-4xl text-slate-200 mb-4">query_stats</span>
-                            <h3 className="text-lg font-black text-ink">Sin datos para este segmento</h3>
-                        </div>
+                        <EmptyState
+                            title="Aún no hay rankings"
+                            description="Cuando existan más señales, aparecerán aquí."
+                            icon="query_stats"
+                        />
                     ) : (
                         <div className="space-y-4">
                             {/* TOP 3 DESTACADO */}

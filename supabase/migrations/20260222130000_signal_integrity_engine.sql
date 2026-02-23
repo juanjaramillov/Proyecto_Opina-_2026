@@ -90,7 +90,7 @@ BEGIN
       v_verified
     FROM public.profiles p
     LEFT JOIN public.user_stats us ON us.user_id = p.id
-    LEFT JOIN public.profiles u ON u.id = p.id
+    LEFT JOIN public.profiles u ON u.user_id = p.id
     WHERE p.id = v_user_id 
     LIMIT 1;
 

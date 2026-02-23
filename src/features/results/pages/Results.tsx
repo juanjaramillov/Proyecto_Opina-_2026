@@ -23,13 +23,25 @@ ChartJS.register(
 import InsightAuto from "../../feed/components/InsightAuto";
 import DepthAnalyticsPanel from "../../signals/components/DepthAnalyticsPanel";
 import Select from "../../../components/ui/Select";
+import { InlineLoader } from '../../../components/ui/InlineLoader';
+import { EmptyState } from '../../../components/ui/EmptyState';
+import { notifyService } from "../../notifications/notifyService";
 import { useAuth } from "../../auth";
 import { useSignalStore } from "../../../store/signalStore";
+import { adminConfigService } from "../../admin/services/adminConfigService";
 import RequestLoginModal from "../../auth/components/RequestLoginModal";
 import { motion } from "framer-motion";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
-import { resultsAggService, SegmentFilters, CategoryOverviewRow } from "../services/resultsAggService";
+import { resultsService } from "../services/resultsService";
+import { RankSnapshot } from "../../rankings/services/rankingService";
 import { mySignalsService, MyRecentSignalRow } from "../services/mySignalsService";
+import { getOutboxCount } from "../../signals/services/signalOutbox";
+
+export type SegmentFilters = {
+  gender?: string | null
+  age_bucket?: string | null
+  region?: string | null
+}
 
 const Results: React.FC = () => {
   const [filters, setFilters] = useState<SegmentFilters & { category: string }>({
@@ -45,12 +57,16 @@ const Results: React.FC = () => {
 
   const [loading, setLoading] = useState(true);
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
-  const [results, setResults] = useState<CategoryOverviewRow[]>([]);
+  const [results, setResults] = useState<RankSnapshot[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [mySignalsLoading, setMySignalsLoading] = useState(true);
   const [mySignals, setMySignals] = useState<MyRecentSignalRow[]>([]);
   const [aggLastRefreshedAt, setAggLastRefreshedAt] = useState<string | null>(null);
+  const [mySignalsCount, setMySignalsCount] = useState<number | null>(null);
   const [refreshTick, setRefreshTick] = useState(0);
+
+  const isAdmin = (profile as any)?.role === 'admin';
+  const [analyticsMode, setAnalyticsMode] = useState<'all' | 'clean' | null>(null);
 
   React.useEffect(() => {
     const onEmit = () => setRefreshTick((t) => t + 1);
@@ -68,31 +84,39 @@ const Results: React.FC = () => {
       setMySignalsLoading(true);
       setError(null);
 
+      // Calcular segmentHash P6.4
+      let segmentHash = 'global';
+      if (filters.gender && filters.region) {
+        segmentHash = `gender:${filters.gender}|region:${filters.region}`;
+      } else if (filters.gender) {
+        segmentHash = `gender:${filters.gender}`;
+      } else if (filters.region) {
+        segmentHash = `region:${filters.region}`;
+      }
+
       try {
-        const [overviewRes, mySignalsRes, refreshRes] = await Promise.allSettled([
-          resultsAggService.getCategoryOverview(filters.category, 14, {
-            region: filters.region,
-            gender: filters.gender,
-            age_bucket: filters.age_bucket
-          }),
+        const [overviewRes, mySignalsRes, countRes] = await Promise.allSettled([
+          resultsService.getLatestResults('versus', segmentHash, 10), // Limitamos a un top
           mySignalsService.getMyRecentVersusSignals(12),
-          mySignalsService.getAggLastRefreshedAt(filters.category),
+          mySignalsService.getMyTotalVersusSignalsCount(),
         ]);
 
         if (!mounted) return;
 
         if (overviewRes.status === 'fulfilled') {
-          const data = overviewRes.value;
-          setResults(data);
+          const resRows = overviewRes.value.rows.filter(r => r.category_slug === filters.category);
+          setResults(resRows);
+          setAggLastRefreshedAt(overviewRes.value.snapshotBucket);
 
           setSelectedEntityId((prev) => {
-            if (data.length === 0) return null;
-            if (prev && data.some(r => r.entity_id === prev)) return prev;
-            return data[0].entity_id;
+            if (resRows.length === 0) return null;
+            if (prev && resRows.some(r => r.entity_id === prev)) return prev;
+            return resRows[0].entity_id;
           });
         } else {
           setError("No se pudieron cargar los datos de análisis.");
           setResults([]);
+          setAggLastRefreshedAt(null);
         }
 
         if (mySignalsRes.status === 'fulfilled') {
@@ -101,13 +125,16 @@ const Results: React.FC = () => {
           setMySignals([]);
         }
 
-        if (refreshRes.status === 'fulfilled') {
-          setAggLastRefreshedAt(refreshRes.value);
+        if (countRes.status === 'fulfilled') {
+          setMySignalsCount(countRes.value);
         } else {
-          setAggLastRefreshedAt(null);
+          setMySignalsCount(null);
         }
-      } catch (_err) {
-        if (mounted) setError("No se pudieron cargar los datos de análisis.");
+      } catch {
+        if (mounted) {
+          setError("No se pudieron cargar los datos de análisis.");
+          notifyService.error("No se pudieron cargar los datos de análisis.");
+        }
       } finally {
         if (mounted) {
           setLoading(false);
@@ -117,20 +144,45 @@ const Results: React.FC = () => {
     };
 
     loadData();
-    return () => { mounted = false; };
-  }, [filters.category, filters.region, filters.gender, filters.age_bucket, refreshTick]);
 
-  // LOGIC: Use store only for summary progress
-  const signals = useSignalStore(s => s.signals);
+    return () => {
+      mounted = false;
+    };
+  }, [filters, selectedEntityId, refreshTick]);
+
+  // Load Analytics Mode if admin
+  React.useEffect(() => {
+    if (!isAdmin) return;
+    let mounted = true;
+    const loadMode = async () => {
+      try {
+        const mode = await adminConfigService.getAnalyticsMode();
+        if (mounted) setAnalyticsMode(mode);
+      } catch (err) {
+        // Fallo silencioso
+      }
+    };
+    loadMode();
+    return () => { mounted = false; };
+  }, [isAdmin]);
+
+  // LOGIC: Use store only as fallback
+  const localSignals = useSignalStore(s => s.signals);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const pendingCount = React.useMemo(() => getOutboxCount(), [refreshTick]);
+
+  const completedSignals =
+    mySignalsCount === null
+      ? localSignals
+      : (mySignalsCount + pendingCount);
 
   // Threshold Logic
-  const completedSignals = signals;
   // Unlock if user is registered/verified, OR if they reached the local session threshold.
   const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD && (!profile || profile.tier === 'guest');
   const progressPercent = Math.min((completedSignals / MIN_SIGNALS_THRESHOLD) * 100, 100);
 
   const handleContinue = () => {
-    const nextBatchIndex = Math.floor(signals / SIGNALS_PER_BATCH);
+    const nextBatchIndex = Math.floor(completedSignals / SIGNALS_PER_BATCH);
     navigate('/experience', { state: { nextBatch: nextBatchIndex } });
   };
 
@@ -142,7 +194,7 @@ const Results: React.FC = () => {
     return {
       sampleN: totalVolume,
       consensus: maxPreference.toFixed(1),
-      avgQuality: results.length > 0 ? (results.reduce((acc, r) => acc + Number(r.depth_nota_avg || 0), 0) / results.length).toFixed(1) : 0,
+      avgQuality: results.length > 0 ? (results.reduce((acc, r) => acc + Number(r.quality_score || 0), 0) / results.length).toFixed(1) : 0,
       volatility: "Media" as const,
       drivers: ["Calidad", "Frecuencia"] as [string, string],
       deltaPts: 2.1
@@ -153,7 +205,7 @@ const Results: React.FC = () => {
     if (results.length === 0) return null;
 
     return {
-      labels: results.map(r => r.entity_name),
+      labels: results.map(r => r.entity?.name || 'Unknown'),
       datasets: [
         {
           data: results.map(r => r.preference_score),
@@ -213,6 +265,14 @@ const Results: React.FC = () => {
             <p className="text-sm text-muted font-medium mt-1">
               Actualizado cada 3 horas (<span className="font-mono text-ink text-xs">{lastUpdate}</span>)
             </p>
+            {isAdmin && analyticsMode && (
+              <div className={`mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded border text-[10px] font-black uppercase tracking-wider ${analyticsMode === 'clean' ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+                <span className="material-symbols-outlined text-[14px]">
+                  {analyticsMode === 'clean' ? 'filter_alt' : 'filter_alt_off'}
+                </span>
+                <span>Clean {analyticsMode === 'clean' ? 'ON' : 'OFF'}</span>
+              </div>
+            )}
           </div>
 
           <div className={`flex flex-wrap gap-3 items-end transition-opacity duration-500 ${(isLocked || !profile?.canSeeInsights) ? 'opacity-50 pointer-events-none grayscale' : ''}`}>
@@ -299,6 +359,11 @@ const Results: React.FC = () => {
               <div className="w-48 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                 <div className="h-full bg-indigo-600 transition-all duration-1000" style={{ width: `${progressPercent}%` }} />
               </div>
+              {(!profile || profile.tier === 'guest' || (profile.demographics?.profileStage || 0) < 1) && (
+                <p className="mt-4 text-[11px] text-slate-500 font-bold uppercase tracking-wider text-center px-4">
+                  Completa tu perfil para desbloquear resultados y segmentación.
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -425,7 +490,7 @@ const Results: React.FC = () => {
                         className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold text-ink outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                       >
                         {results.map(r => (
-                          <option key={r.entity_id} value={r.entity_id}>{r.entity_name}</option>
+                          <option key={r.entity_id} value={r.entity_id}>{r.entity?.name || 'Unknown'}</option>
                         ))}
                       </select>
                     </div>
@@ -442,21 +507,14 @@ const Results: React.FC = () => {
                 {/* Disabled temporarily until profile data endpoint is connected */}
                 {/* <ProfileRadiography data={mockResults.profileSummary} /> */}
 
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 text-center flex flex-col items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center mb-4">
-                    <span className="material-symbols-outlined text-3xl text-slate-300">query_stats</span>
-                  </div>
-                  <h3 className="font-black text-ink mb-2">Construyendo Base Comparativa</h3>
-                  <p className="text-xs text-muted font-medium max-w-[220px] mb-6 leading-relaxed">
-                    Estamos integrando más señales para generar comparativas históricas. Sigue participando para acelerar el análisis.
-                  </p>
-                  <button
-                    onClick={handleContinue}
-                    className="px-6 py-3 bg-white border-2 border-slate-100 text-ink rounded-xl text-xs font-black uppercase tracking-wider hover:border-slate-200 hover:bg-slate-50 transition-all flex items-center gap-2"
-                  >
-                    <span className="material-symbols-outlined text-sm">add_circle</span>
-                    Sumar más señales
-                  </button>
+                <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col items-center justify-center">
+                  <EmptyState
+                    title="Construyendo Base Comparativa"
+                    description="Estamos integrando más señales para generar comparativas históricas. Sigue participando para acelerar el análisis."
+                    actionLabel="Sumar más señales"
+                    onAction={handleContinue}
+                    icon="query_stats"
+                  />
                 </div>
 
                 {/* Recent Signals List */}
@@ -472,12 +530,16 @@ const Results: React.FC = () => {
                     {mockSessionBatch.map((result, idx) => ( ... ))}
                      */}
                     {mySignalsLoading ? (
-                      <div className="text-center text-slate-400 text-xs py-4">
-                        Cargando…
-                      </div>
+                      <InlineLoader label="Recuperando señales registradas..." />
                     ) : mySignals.length === 0 ? (
-                      <div className="text-center text-slate-400 text-xs py-4">
-                        Aún no hay señales registradas.
+                      <div className="p-2 border border-dashed border-slate-200 rounded-xl">
+                        <EmptyState
+                          title="Desbloquea resultados"
+                          description="Completa tu perfil para ver resultados y segmentación."
+                          actionLabel="Completar perfil"
+                          onAction={() => window.location.href = '/complete-profile'}
+                          icon="lock_open"
+                        />
                       </div>
                     ) : (
                       <div className="space-y-4">

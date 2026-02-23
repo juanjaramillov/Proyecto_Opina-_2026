@@ -57,10 +57,10 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
     };
 
     const handleSurveyComplete = async (answers: Record<string, string | number>) => {
-        // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 2 for signaling
+        // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 1 for signaling
         const currentStage = profile?.demographics?.profileStage || 0;
-        if (currentStage < 2) {
-            logger.warn("Intento de emitir señal de profundidad sin perfil completo");
+        if (!profile || profile.tier === 'guest' || currentStage < 1) {
+            showToast("Completa tu perfil para emitir señales.", "error");
             setShowProfileModal(true);
             return;
         }

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useToast } from '../../../components/ui/useToast';
 import { useAuth } from "../../auth";
 import { useSignalStore } from "../../../store/signalStore";
+import { notifyService, formatKnownError } from '../../notifications/notifyService';
 import { Battle, BattleOption, ProgressiveBattle, VoteResult, BattleMomentum } from '../types';
 import { logger } from '../../../lib/logger';
 import { supabase } from '../../../supabase/client';
@@ -40,7 +40,6 @@ export function useVersusGame({
     isSubmitting = false,
 }: UseVersusGameProps) {
     const { profile } = useAuth();
-    const { showToast } = useToast();
     const addSignal = useSignalStore((s) => s.addSignal);
 
     const [idx, setIdx] = useState(0);
@@ -132,10 +131,10 @@ export function useVersusGame({
             return;
         } */
 
-        // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 2 for signaling
+        // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 1 for signaling
         const currentStage = profile?.demographics?.profileStage || 0;
-        if (currentStage < 2) {
-            logger.warn("Intento de emitir señal con profile_stage < 2");
+        if (!profile || profile.tier === 'guest' || currentStage < 1) {
+            notifyService.error("Completa tu perfil para emitir señales.");
             setShowProfileModal(true);
             return;
         }
@@ -145,6 +144,20 @@ export function useVersusGame({
 
         try {
             const r = await onVote(effectiveBattle.id, optionId, opponent?.id || 'unknown');
+
+            if (r.error) {
+                const knownMsg = formatKnownError(r.error);
+                if (knownMsg) {
+                    notifyService.error(knownMsg);
+                } else {
+                    const msg = String(r.error).toUpperCase();
+                    if (msg.includes('PROFILE_INCOMPLETE') || msg.includes('PROFILE_MISSING') || msg.includes('INVITE_REQUIRED') || msg.includes('SIGNAL_LIMIT_REACHED') || msg.includes('BATTLE_NOT_ACTIVE') || msg.includes('INVALID SIGNAL PAYLOAD')) {
+                        notifyService.error(String(r.error));
+                    }
+                }
+                setResult(r);
+                return;
+            }
 
             const choiceLabel = effectiveBattle.options.find(o => o.id === optionId)?.label || 'unknown';
 
@@ -207,7 +220,8 @@ export function useVersusGame({
             }
         } catch (err) {
             logger.error("Vote processing failed:", err);
-            showToast('No pudimos registrar tu señal. Revisa tu conexión e intenta nuevamente.', 'error');
+            const msg = formatKnownError(err) ?? 'No se pudo registrar tu señal.';
+            notifyService.error(msg);
             // We do NOT call setResult, so the UI stays in 'voting' phase for the same battle.
         }
     };

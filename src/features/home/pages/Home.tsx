@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import RightNowCarousel, { GenericSlide } from "../components/RightNowCarousel";
 import { platformService, RecentActivity } from "../../signals/services/platformService";
 import { TrendingItem } from "../../../types/trending";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [recentActivity, setRecentActivity] = useState<RecentActivity | null>(null);
   const [trendingFeed, setTrendingFeed] = useState<TrendingItem[]>([]);
 
@@ -90,7 +92,7 @@ export default function Home() {
 
           {/* CTA principal */}
           <button
-            onClick={() => window.location.href = '/experience'}
+            onClick={() => navigate('/experience')}
             className="group relative inline-flex items-center justify-center px-12 py-5 rounded-full text-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 transition-all duration-300 shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/50 hover:-translate-y-1 active:scale-[0.98] overflow-hidden"
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
@@ -213,7 +215,7 @@ export default function Home() {
                       <div
                         key={item.id}
                         className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer"
-                        onClick={() => window.location.href = `/battle/${item.slug}`}
+                        onClick={() => navigate(`/battle/${item.slug}`)}
                       >
                         <div className="text-sm text-indigo-500 font-bold mb-2">
                           Puntuación de Tendencia: {item.trend_score.toFixed(1)}

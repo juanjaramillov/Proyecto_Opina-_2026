@@ -6,7 +6,7 @@
 
 -- 1) TABLA PRIVADA EXTENDIDA: public.users
 CREATE TABLE IF NOT EXISTS public.users (
-  id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email text NOT NULL,
   invitation_code_id uuid, -- Reference to invitation_codes.id if needed
   is_identity_verified boolean DEFAULT false,
@@ -119,7 +119,7 @@ SELECT
   p.updated_at,
   now()
 FROM public.profiles p
-INNER JOIN public.users u ON p.id = u.id -- Solo si la identidad base existe
+INNER JOIN public.users u ON p.id = u.user_id -- Solo si la identidad base existe
 ON CONFLICT (user_id) DO NOTHING;
 
 
