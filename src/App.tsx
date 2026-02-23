@@ -24,9 +24,12 @@ import PublicRankingPage from './features/rankings/pages/PublicRankingPage';
 import AboutUs from "./pages/static/AboutUs";
 import NotFound from "./pages/NotFound";
 
+import { Analytics } from '@vercel/analytics/react';
+
 export default function App() {
   return (
     <AuthProvider>
+      <Analytics />
       <Routes>
         <Route element={<MainLayout />}>
           {/* Public Routes */}
