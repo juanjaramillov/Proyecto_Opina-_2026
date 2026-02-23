@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PageShell from '../../../components/layout/PageShell';
 import { b2bAnalyticsService, SnapshotRow } from '../services/b2bAnalyticsService';
 import { useAuth } from '../../auth';
+import { InsightsView } from '../components/InsightsView';
 
 export default function B2BDashboard() {
     const { profile } = useAuth();
@@ -12,6 +13,9 @@ export default function B2BDashboard() {
     const [error, setError] = useState<string | null>(null);
     const [rows, setRows] = useState<SnapshotRow[]>([]);
     const [bucket, setBucket] = useState<string | null>(null);
+
+    // View State
+    const [activeTab, setActiveTab] = useState<'data' | 'insights'>('data');
 
     // Filters
     const [moduleType, setModuleType] = useState<'versus' | 'progressive'>('versus');
@@ -180,58 +184,86 @@ export default function B2BDashboard() {
                                 Snapshot: {bucket ? new Date(bucket).toLocaleString() : 'N/A'}
                             </p>
                         </div>
-                        <button
-                            onClick={handleExportCSV}
-                            disabled={rows.length === 0}
-                            className="px-4 py-2 bg-slate-800 hover:bg-slate-900 disabled:bg-slate-300 text-white rounded-lg text-sm font-bold transition-all flex items-center gap-2"
-                        >
-                            <span className="material-symbols-outlined text-[18px]">download</span>
-                            Exportar CSV
-                        </button>
+
+                        <div className="flex w-full sm:w-auto mt-2 sm:mt-0 items-center justify-between sm:justify-end gap-3 flex-wrap">
+                            {/* TABS */}
+                            <div className="inline-flex bg-slate-100 p-1 rounded-xl">
+                                <button
+                                    onClick={() => setActiveTab('data')}
+                                    className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all flex items-center gap-2 ${activeTab === 'data' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">table_rows</span>
+                                    Datos
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('insights')}
+                                    className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all flex items-center gap-2 ${activeTab === 'insights' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">insights</span>
+                                    Insights
+                                </button>
+                            </div>
+
+                            <button
+                                onClick={handleExportCSV}
+                                disabled={rows.length === 0}
+                                className="px-4 py-2 bg-slate-800 hover:bg-slate-900 disabled:bg-slate-300 text-white rounded-lg text-sm font-bold transition-all flex items-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-[18px]">download</span>
+                                Exportar CSV
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="bg-slate-50 text-slate-500 text-[10px] uppercase font-black tracking-widest border-b border-slate-100">
-                                    <th className="p-4 rounded-tl-xl whitespace-nowrap">Battle</th>
-                                    <th className="p-4 whitespace-nowrap">Option</th>
-                                    <th className="p-4">Score</th>
-                                    <th className="p-4 whitespace-nowrap">Signals</th>
-                                    <th className="p-4 whitespace-nowrap">Segment</th>
-                                    <th className="p-4 whitespace-nowrap hidden md:table-cell">Battle ID</th>
-                                    <th className="p-4 whitespace-nowrap hidden md:table-cell">Option ID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {loading && rows.length === 0 && (
-                                    <tr>
-                                        <td colSpan={5} className="p-8 text-center text-slate-400 italic font-medium">Cargando inteligencia...</td>
+                    {/* CONTENT AREA */}
+                    {activeTab === 'insights' ? (
+                        <div className="bg-slate-50 p-6">
+                            <InsightsView data={rows} />
+                        </div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-slate-50 text-slate-500 text-[10px] uppercase font-black tracking-widest border-b border-slate-100">
+                                        <th className="p-4 rounded-tl-xl whitespace-nowrap">Battle</th>
+                                        <th className="p-4 whitespace-nowrap">Option</th>
+                                        <th className="p-4">Score</th>
+                                        <th className="p-4 whitespace-nowrap">Signals</th>
+                                        <th className="p-4 whitespace-nowrap">Segment</th>
+                                        <th className="p-4 whitespace-nowrap hidden md:table-cell">Battle ID</th>
+                                        <th className="p-4 whitespace-nowrap hidden md:table-cell">Option ID</th>
                                     </tr>
-                                )}
-                                {!loading && rows.length === 0 && (
-                                    <tr>
-                                        <td colSpan={5} className="p-8 text-center text-slate-500 font-medium">
-                                            No hay resultados para esta mezcla de módulo y segmento.
-                                        </td>
-                                    </tr>
-                                )}
-                                {rows.map((row, i) => (
-                                    <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors text-sm font-medium text-slate-700">
-                                        <td className="p-4 font-bold text-slate-800">{row.battle_title || row.battle_id}</td>
-                                        <td className="p-4">{row.option_label || row.option_id}</td>
-                                        <td className="p-4 font-bold text-indigo-600">{Number(row.score).toFixed(2)}</td>
-                                        <td className="p-4">{row.signals_count}</td>
-                                        <td className="p-4">
-                                            <span className="bg-slate-100 px-2 py-1 rounded text-xs text-slate-600">{row.segment_hash}</span>
-                                        </td>
-                                        <td className="p-4 font-mono text-xs text-slate-400 truncate max-w-[120px] hidden md:table-cell" title={row.battle_id}>{row.battle_id}</td>
-                                        <td className="p-4 font-mono text-xs text-slate-400 truncate max-w-[120px] hidden md:table-cell" title={row.option_id}>{row.option_id}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    {loading && rows.length === 0 && (
+                                        <tr>
+                                            <td colSpan={5} className="p-8 text-center text-slate-400 italic font-medium">Cargando inteligencia...</td>
+                                        </tr>
+                                    )}
+                                    {!loading && rows.length === 0 && (
+                                        <tr>
+                                            <td colSpan={5} className="p-8 text-center text-slate-500 font-medium">
+                                                No hay resultados para esta mezcla de módulo y segmento.
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {rows.map((row, i) => (
+                                        <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors text-sm font-medium text-slate-700">
+                                            <td className="p-4 font-bold text-slate-800">{row.battle_title || row.battle_id}</td>
+                                            <td className="p-4">{row.option_label || row.option_id}</td>
+                                            <td className="p-4 font-bold text-indigo-600">{Number(row.score).toFixed(2)}</td>
+                                            <td className="p-4">{row.signals_count}</td>
+                                            <td className="p-4">
+                                                <span className="bg-slate-100 px-2 py-1 rounded text-xs text-slate-600">{row.segment_hash}</span>
+                                            </td>
+                                            <td className="p-4 font-mono text-xs text-slate-400 truncate max-w-[120px] hidden md:table-cell" title={row.battle_id}>{row.battle_id}</td>
+                                            <td className="p-4 font-mono text-xs text-slate-400 truncate max-w-[120px] hidden md:table-cell" title={row.option_id}>{row.option_id}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </div>
 
             </div>
