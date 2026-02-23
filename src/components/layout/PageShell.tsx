@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../features/auth";
 import { useRole } from "../../hooks/useRole";
@@ -28,36 +28,58 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
   const isAuthenticated = profile && profile.tier !== 'guest';
+
+  // Cerrar el menú móvil al cambiar de ruta
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="flex flex-col flex-1 w-full min-h-screen relative">
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'glass-aurora bg-white/60 border-b border-white/20 py-4'}`}>
-        <div className="w-full px-4 sm:px-8 xl:px-12 flex flex-wrap items-center justify-between gap-4">
-          {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-2 group hover:opacity-90 transition shrink-0">
-            <div className="h-8 w-8 rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-primary/20 transition-transform duration-300 group-hover:scale-105">
-              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full p-1">
-                <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
-              </svg>
-            </div>
-            <span className="text-xl font-black text-slate-900 tracking-tight hidden sm:block">Opina+</span>
-          </NavLink>
+        <div className="w-full px-4 sm:px-8 xl:px-12 flex items-center justify-between gap-4">
 
-          {/* Gamification Badge - Only show to authenticated users */}
-          {isAuthenticated && (
-            <div className="flex items-center gap-3 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl mr-auto ml-4 shadow-sm hover:shadow-md transition-shadow hidden min-[400px]:flex">
-              <div className="flex flex-col items-start justify-center pr-2">
-                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Lvl</span>
-                <span className="text-sm font-bold text-slate-700 leading-none">{getUserLevel(signals).level}</span>
+          {/* Logo & Level (Left side) */}
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            <NavLink to="/" className="flex items-center gap-2 group hover:opacity-90 transition" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="h-8 w-8 rounded-xl bg-gradient-brand flex items-center justify-center shadow-lg shadow-primary/20 transition-transform duration-300 group-hover:scale-105">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full p-1">
+                  <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                  <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                  <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                </svg>
               </div>
-            </div>
-          )}
+              <span className="text-xl font-black text-slate-900 tracking-tight hidden sm:block">Opina+</span>
+            </NavLink>
 
-          {/* Nav - DEBUG MODE: Wrapping enabled */}
-          <nav className={`flex flex-wrap items-center gap-2 md:gap-4 justify-end w-full sm:w-auto mt-2 sm:mt-0 ${!isAuthenticated ? 'ml-auto' : ''}`}>
+            {/* Gamification Badge - Only show to authenticated users */}
+            {isAuthenticated && (
+              <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex flex-col items-start justify-center pr-1 sm:pr-2">
+                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Lvl</span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-700 leading-none">{getUserLevel(signals).level}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="sm:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Navigation"
+          >
+            <span className="material-symbols-outlined text-2xl">
+              {isMobileMenuOpen ? 'close' : 'menu'}
+            </span>
+          </button>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden sm:flex items-center gap-4 justify-end">
             {MENU_ITEMS.map((item) => {
               if (item.id === 'profile' && !isAuthenticated) return null;
               const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
@@ -68,7 +90,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   to={item.route}
                   className={({ isActive }) =>
                     [
-                      "text-xs sm:text-sm font-bold transition-colors whitespace-nowrap px-1 flex items-center gap-1",
+                      "text-sm font-bold transition-colors whitespace-nowrap px-1 flex items-center gap-1",
                       isActive ? "text-primary" : "text-slate-500 hover:text-primary",
                     ].join(" ")
                   }
@@ -80,7 +102,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             })}
 
             {/* ENLACE CORPORATIVO */}
-            {isAuthenticated && (role === 'enterprise' || role === 'admin') && (
+            {isAuthenticated && (role === 'b2b' || role === 'admin') && (
               <NavLink
                 to="/b2b-dashboard"
                 className={({ isActive }) =>
@@ -93,13 +115,59 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             {!isAuthenticated && (
               <NavLink
                 to="/login"
-                className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all active:scale-95 ml-2"
+                className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all active:scale-95 ml-2"
               >
                 Unirme / Iniciar Sesión
               </NavLink>
             )}
           </nav>
         </div>
+
+        {/* Mobile Navigation Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-lg sm:hidden flex flex-col z-40 py-2 animate-in slide-in-from-top-2 duration-200">
+            {MENU_ITEMS.map((item) => {
+              if (item.id === 'profile' && !isAuthenticated) return null;
+              const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
+
+              return (
+                <NavLink
+                  key={item.id}
+                  to={item.route}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `px-4 py-3 text-sm font-bold transition-colors flex items-center justify-between border-b border-slate-50 last:border-0 ${isActive ? "text-primary bg-slate-50" : "text-slate-600 hover:text-primary hover:bg-slate-50"}`
+                  }
+                >
+                  <div className="flex items-center gap-2">
+                    {item.label}
+                    {isLocked && <span className="material-symbols-outlined text-[14px] opacity-50">lock</span>}
+                  </div>
+                  <span className="material-symbols-outlined text-sm opacity-50">chevron_right</span>
+                </NavLink>
+              )
+            })}
+
+            {isAuthenticated && (role === 'b2b' || role === 'admin') && (
+              <NavLink
+                to="/b2b-dashboard"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mx-4 my-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-indigo-50 text-indigo-700"
+              >
+                B2B Console
+              </NavLink>
+            )}
+            {!isAuthenticated && (
+              <NavLink
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mx-4 my-2 px-4 py-3 bg-indigo-600 text-white text-center rounded-xl text-sm font-bold shadow-md"
+              >
+                Unirme / Iniciar Sesión
+              </NavLink>
+            )}
+          </div>
+        )}
       </header>
 
       <main className="flex-1 flex flex-col relative w-full">

@@ -33,7 +33,7 @@ export default function Home() {
     value: item.title,
     label: `Señal detectada con un score de ${item.trend_score.toFixed(1)}`,
     source: "Opina+ Live Engine",
-    path: `/battle/${item.id}`,
+    path: `/battle/${item.slug}`,
     aiInsight: "Patrón de opinión consolidado en este segmento."
   }));
 
@@ -213,7 +213,7 @@ export default function Home() {
                       <div
                         key={item.id}
                         className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer"
-                        onClick={() => window.location.href = `/battle/${item.id}`}
+                        onClick={() => window.location.href = `/battle/${item.slug}`}
                       >
                         <div className="text-sm text-indigo-500 font-bold mb-2">
                           Puntuación de Tendencia: {item.trend_score.toFixed(1)}

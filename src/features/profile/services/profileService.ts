@@ -165,8 +165,7 @@ export const profileService = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return [];
 
-        // @ts-expect-error: RPC not yet in Database types
-        const { data, error } = await supabase.rpc('calculate_user_segment_comparison', {
+        const { data, error } = await (supabase.rpc as any)('calculate_user_segment_comparison', {
             p_user_id: user.id
         });
 
@@ -185,8 +184,7 @@ export const profileService = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return [];
 
-        // @ts-expect-error: RPC not yet in Database types
-        const { data, error } = await supabase.rpc('get_user_personal_history', {
+        const { data, error } = await (supabase.rpc as any)('get_user_personal_history', {
             p_user_id: user.id
         });
 

@@ -1,5 +1,5 @@
 import { supabase } from '../../../supabase/client';
-import { Database } from '../../../types/database.types';
+import { Database } from '../../../supabase/database.types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { getAssetPathForOption } from '../config/brandAssets';
 import { logger } from '../../../lib/logger';
@@ -116,8 +116,8 @@ export const signalService = {
         const { error } = await sb.rpc('insert_signal_event', {
             p_battle_id: payload.battle_id,
             p_option_id: payload.option_id,
-            p_session_id: payload.session_id || null,
-            p_attribute_id: payload.attribute_id || null
+            p_session_id: payload.session_id || undefined,
+            p_attribute_id: payload.attribute_id || undefined
         });
 
         if (error) {
@@ -132,7 +132,7 @@ export const signalService = {
     resolveBattleContext: async (battleSlug: string): Promise<BattleContextResponse> => {
         if (!hasSupabaseEnv()) return { ok: false, error: 'Missing Supabase env' };
 
-        const { data, error } = await sb.rpc('resolve_battle_context', {
+        const { data, error } = await (sb.rpc as any)('resolve_battle_context', {
             p_battle_slug: battleSlug,
         });
 
@@ -150,7 +150,7 @@ export const signalService = {
     ): Promise<ShareOfPreferenceRow[]> => {
         if (!hasSupabaseEnv()) return [];
 
-        const { data, error } = await sb.rpc('kpi_share_of_preference', {
+        const { data, error } = await (sb.rpc as any)('kpi_share_of_preference', {
             p_battle_id: battleId,
             p_start_date: startDate || undefined,
             p_end_date: endDate || undefined,
@@ -171,11 +171,11 @@ export const signalService = {
     ): Promise<TrendVelocityRow[]> => {
         if (!hasSupabaseEnv()) return [];
 
-        const { data, error } = await sb.rpc('kpi_trend_velocity', {
+        const { data, error } = await (sb.rpc as any)('kpi_trend_velocity', {
             p_battle_id: battleId,
             p_bucket: bucket,
-            p_start_date: startDate ?? null,
-            p_end_date: endDate ?? null,
+            p_start_date: startDate || undefined,
+            p_end_date: endDate || undefined,
         });
 
         if (error) {
@@ -192,10 +192,10 @@ export const signalService = {
     ): Promise<EngagementQualityRow[]> {
         if (!hasSupabaseEnv()) return [];
 
-        const { data, error } = await sb.rpc('kpi_engagement_quality', {
+        const { data, error } = await (sb.rpc as any)('kpi_engagement_quality', {
             p_battle_id: battleId,
-            p_start_date: startDate ?? null,
-            p_end_date: endDate ?? null,
+            p_start_date: startDate || undefined,
+            p_end_date: endDate || undefined,
         });
 
         if (error) {
@@ -226,9 +226,10 @@ export const signalService = {
             description: b.description || null,
             created_at: b.created_at,
             category: b.category || null,
-            options: (b.options || []).map((opt: { id: string; label: string; image_url: string | null }) => ({
+            options: (b.options || []).map((opt: { id: string; label: string; image_url: string | null; category?: string | null }) => ({
                 ...opt,
                 image_url: getAssetPathForOption(opt.label, opt.image_url),
+                category: opt.category || null,
                 type: 'brand',
                 imageFit: 'contain'
             }))

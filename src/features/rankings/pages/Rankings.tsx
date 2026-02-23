@@ -69,17 +69,26 @@ const Rankings: React.FC = () => {
                     </div>
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                         <div>
-                            <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-ink leading-tight">
-                                Ranking de <span className="text-indigo-600 capitalize">{activeCategory?.name || 'Cargando...'}</span>
+                            <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-ink leading-tight flex items-center gap-3">
+                                Ranking de {activeCategory ? (
+                                    <span className="text-indigo-600 capitalize">{activeCategory.name}</span>
+                                ) : (
+                                    <div className="h-10 md:h-12 w-48 bg-slate-200 rounded-xl animate-pulse inline-block" />
+                                )}
                             </h1>
                             <p className="text-muted font-medium mt-2 max-w-xl">
                                 Análisis dinámico basado en señales de calidad, preferencia y volumen.
                             </p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-100 shadow-sm text-[10px] font-black uppercase tracking-wider text-muted">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                {updatedAt ? `Actualizado: ${new Date(updatedAt).toLocaleDateString()}` : '--:--'}
+                            <div className="flex flex-col items-end gap-1 bg-white px-3 py-2 rounded-xl border border-slate-100 shadow-sm text-[10px] font-black uppercase tracking-wider text-muted">
+                                <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                    Actualizado cada 3 horas
+                                </div>
+                                <div className="text-[9px] text-slate-400 lowercase tracking-normal">
+                                    {updatedAt ? `Últ. snapshot: ${new Date(updatedAt).toLocaleString('es-CL', { hour12: false, dateStyle: 'short', timeStyle: 'short' })}` : '--:--'}
+                                </div>
                             </div>
                             <button
                                 onClick={() => {

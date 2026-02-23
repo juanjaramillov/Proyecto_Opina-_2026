@@ -28,11 +28,11 @@ import { useSignalStore } from "../../../store/signalStore";
 import RequestLoginModal from "../../auth/components/RequestLoginModal";
 import { motion } from "framer-motion";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
-import { analyticsService, AdvancedResult, AnalyticsFilters } from "../services/analyticsService";
+import { resultsAggService, SegmentFilters, CategoryOverviewRow } from "../services/resultsAggService";
 import { logger } from "../../../lib/logger";
 
 const Results: React.FC = () => {
-  const [filters, setFilters] = useState<AnalyticsFilters & { category: string }>({
+  const [filters, setFilters] = useState<SegmentFilters & { category: string }>({
     region: undefined,
     gender: undefined,
     age_bucket: undefined,
@@ -46,7 +46,7 @@ const Results: React.FC = () => {
   // REAL DATA STATE
   const [loading, setLoading] = useState(true);
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
-  const [results, setResults] = useState<AdvancedResult[]>([]);
+  const [results, setResults] = useState<CategoryOverviewRow[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch Data on Filter Change
@@ -56,7 +56,7 @@ const Results: React.FC = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const data = await analyticsService.getAdvancedResults(filters.category, {
+        const data = await resultsAggService.getCategoryOverview(filters.category, 14, {
           region: filters.region,
           gender: filters.gender,
           age_bucket: filters.age_bucket
@@ -85,7 +85,8 @@ const Results: React.FC = () => {
 
   // Threshold Logic
   const completedSignals = signals;
-  const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD;
+  // Unlock if user is registered/verified, OR if they reached the local session threshold.
+  const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD && (!profile || profile.tier === 'guest');
   const progressPercent = Math.min((completedSignals / MIN_SIGNALS_THRESHOLD) * 100, 100);
 
   const handleContinue = () => {
@@ -95,13 +96,13 @@ const Results: React.FC = () => {
 
   // KPI Calculations
   const kpis = React.useMemo(() => {
-    const totalVolume = results.reduce((acc, r) => acc + Number(r.total_signals), 0);
-    const maxPreference = results.length > 0 ? Math.max(...results.map(r => r.preference_rate)) : 0;
+    const totalVolume = results.reduce((acc, r) => acc + Number(r.signals_count), 0);
+    const maxPreference = results.length > 0 ? Math.max(...results.map(r => r.preference_score)) : 0;
 
     return {
       sampleN: totalVolume,
       consensus: maxPreference.toFixed(1),
-      avgQuality: results.length > 0 ? (results.reduce((acc, r) => acc + Number(r.avg_quality), 0) / results.length).toFixed(1) : 0,
+      avgQuality: results.length > 0 ? (results.reduce((acc, r) => acc + Number(r.depth_nota_avg || 0), 0) / results.length).toFixed(1) : 0,
       volatility: "Media" as const,
       drivers: ["Calidad", "Frecuencia"] as [string, string],
       deltaPts: 2.1
@@ -115,7 +116,7 @@ const Results: React.FC = () => {
       labels: results.map(r => r.entity_name),
       datasets: [
         {
-          data: results.map(r => r.preference_rate),
+          data: results.map(r => r.preference_score),
           backgroundColor: [
             "#6366F1",
             "#8B5CF6",
@@ -166,18 +167,18 @@ const Results: React.FC = () => {
             </div>
             <h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">
               {isLocked ? "Calibrando Sistema" : "Dashboard de Señales"}
-              <span className="text-muted font-medium text-lg ml-2">v0.9</span>
+              <span className="text-muted font-medium text-lg ml-2">v1.0 (Live Aggs)</span>
             </h1>
             <p className="text-sm text-muted font-medium mt-1">
-              Última sincronización: <span className="font-mono text-ink">{lastUpdate}</span>
+              Actualizado cada 3 horas (<span className="font-mono text-ink text-xs">{lastUpdate}</span>)
             </p>
           </div>
 
           <div className={`flex flex-wrap gap-3 items-end transition-opacity duration-500 ${(isLocked || !profile?.canSeeInsights) ? 'opacity-50 pointer-events-none grayscale' : ''}`}>
             <Select
               label="Región"
-              value={filters.region}
-              onChange={(e) => setFilters((p) => ({ ...p, region: e.target.value }))}
+              value={filters.region || ""}
+              onChange={(e) => setFilters((p) => ({ ...p, region: e.target.value || null }))}
             >
               <option value="">Todas</option>
               <option value="RM">RM</option>
@@ -187,8 +188,8 @@ const Results: React.FC = () => {
 
             <Select
               label="Género"
-              value={filters.gender}
-              onChange={(e) => setFilters((p) => ({ ...p, gender: e.target.value }))}
+              value={filters.gender || ""}
+              onChange={(e) => setFilters((p) => ({ ...p, gender: e.target.value || null }))}
             >
               <option value="">Todos</option>
               <option value="male">Hombre</option>
@@ -198,8 +199,8 @@ const Results: React.FC = () => {
 
             <Select
               label="Categoría"
-              value={filters.category}
-              onChange={(e) => setFilters((p) => ({ ...p, category: e.target.value }))}
+              value={filters.category || ""}
+              onChange={(e) => setFilters((p) => ({ ...p, category: e.target.value || "streaming" }))}
             >
               <option value="streaming">Streaming</option>
               <option value="bebidas">Bebidas</option>
@@ -340,7 +341,11 @@ const Results: React.FC = () => {
                   {/* Chart Container */}
                   <div className="bg-white/5 backdrop-blur-xl p-6 rounded-2xl flex justify-center">
                     {(() => {
-                      if (loading && results.length === 0) return <div className="text-sm text-slate-400 py-10">Cargando datos...</div>;
+                      if (loading && results.length === 0) return (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-48 h-48 rounded-full border-4 border-slate-100 border-t-indigo-500 animate-spin" />
+                        </div>
+                      );
                       if (error && results.length === 0) return <div className="text-sm text-red-100 py-10 bg-red-400/10 rounded-xl">{error}</div>;
                       if (!chartData) return <div className="text-sm text-slate-400 py-10">No hay datos suficientes aún.</div>;
 

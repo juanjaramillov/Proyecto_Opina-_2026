@@ -181,8 +181,7 @@ export function useVersusGame({
 
                 // Fetch Momentum Context Post-Vote
                 try {
-                    // @ts-expect-error - RPC is newly added, database types not yet generated
-                    const { data: momData, error: momError } = await supabase.rpc('get_battle_momentum', { p_battle_id: effectiveBattle.id });
+                    const { data: momData, error: momError } = await (supabase.rpc as any)('get_battle_momentum', { p_battle_id: effectiveBattle.id });
                     if (!momError && momData) {
                         setMomentum(momData as BattleMomentum);
                     }

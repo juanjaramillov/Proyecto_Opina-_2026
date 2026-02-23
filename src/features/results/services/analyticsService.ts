@@ -21,12 +21,11 @@ export const analyticsService = {
      * Fetches advanced results for a category with optional demographic filters.
      */
     async getAdvancedResults(categorySlug: string, filters: AnalyticsFilters = {}): Promise<AdvancedResult[]> {
-        // @ts-expect-error: RPC not yet in Database types
         const { data, error } = await supabase.rpc('get_advanced_results', {
             p_category_slug: categorySlug,
-            p_gender: filters.gender || null,
-            p_age_bucket: filters.age_bucket || null,
-            p_region: filters.region || null
+            p_gender: filters.gender || undefined,
+            p_age_bucket: filters.age_bucket || undefined,
+            p_region: filters.region || undefined
         });
 
         if (error) {

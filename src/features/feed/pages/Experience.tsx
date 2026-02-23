@@ -4,6 +4,7 @@ import VersusGame from "../../signals/components/VersusGame";
 import { useSignalStore } from "../../../store/signalStore";
 // import { SIGNALS_PER_BATCH } from "../../../config/constants";
 import { useLocation, useNavigate } from "react-router-dom";
+import { DepthSelector } from '../../signals/components/DepthSelector';
 import { useToast } from "../../../components/ui/useToast";
 
 import { signalService, ActiveBattle } from "../../signals/services/signalService";
@@ -519,28 +520,11 @@ export default function Experience() {
 
                     {/* INSIGHTS MODE (Profundidad) */}
                     {mode === 'insights' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-8 duration-500">
-                            {battles.flatMap(b => b.options).map(opt => (
-                                <button
-                                    key={opt.id}
-                                    onClick={() => handleOptionSelect(opt)}
-                                    className="bg-white p-4 rounded-xl border border-slate-100 hover:border-emerald-500 hover:shadow-lg transition-all active:scale-[0.98] text-left group flex items-center gap-4"
-                                >
-                                    <div className="w-12 h-12 rounded-lg bg-slate-50 overflow-hidden flex-shrink-0">
-                                        {opt.image_url ? (
-                                            <img src={opt.image_url} alt={opt.label} className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform" />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-100">
-                                                <span className="material-symbols-outlined">image</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-slate-900 truncate max-w-[150px]">{opt.label}</h4>
-                                        <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest">Profundizar</p>
-                                    </div>
-                                </button>
-                            ))}
+                        <div className="w-full max-w-2xl mx-auto">
+                            <DepthSelector
+                                options={battles.flatMap(b => b.options)}
+                                onSelect={handleOptionSelect}
+                            />
                         </div>
                     )}
 

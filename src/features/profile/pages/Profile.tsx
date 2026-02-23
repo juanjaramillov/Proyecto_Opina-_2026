@@ -252,10 +252,9 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                               const { error } = await (supabase as unknown as { from: (t: string) => { update: (data: unknown) => { eq: (col: string, val: unknown) => Promise<{ error: Error | null }> } } })
                                 .from("users")
                                 .update({
-                                  identity_verified: true,
-                                  identity_verified_at: new Date().toISOString(),
+                                  is_identity_verified: true,
                                 })
-                                .eq('id', (profile as unknown as { id: string })?.id);
+                                .eq('user_id', (profile as unknown as { id: string })?.id);
 
                               if (error) throw error;
                               window.location.reload();

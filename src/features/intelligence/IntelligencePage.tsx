@@ -59,7 +59,9 @@ export default function IntelligencePage() {
     const [suspiciousUsers, setSuspiciousUsers] = useState<SuspiciousUser[]>([]);
     const [alerts, setAlerts] = useState<PlatformAlert[]>([]);
     const [loading, setLoading] = useState(true);
-    const { orgName, orgRole } = useRole();
+    const { role } = useRole();
+    const orgName = role === 'b2b' ? 'B2B Partner' : null;
+    const orgRole = role === 'admin' ? 'Admin' : (role === 'b2b' ? 'Analyst' : null);
     const [searchTerm, setSearchTerm] = useState("");
 
     // Filtros de Segmentación

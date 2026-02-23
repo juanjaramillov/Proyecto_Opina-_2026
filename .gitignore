@@ -28,3 +28,6 @@ pnpm-debug.log*
 # System files & backups
 __MACOSX/
 *.zip
+
+# Supabase
+supabase/migrations/_history/

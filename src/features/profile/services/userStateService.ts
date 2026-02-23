@@ -33,7 +33,7 @@ export interface UserHistoryEntry {
  */
 export const userStateService = {
     async saveUserState(state: UserState): Promise<void> {
-        const { error } = await supabase.rpc('insert_user_state', {
+        const { error } = await (supabase.rpc as any)('insert_user_state', {
             p_mood_score: state.mood_score,
             p_economic_score: state.economic_score,
             p_job_score: state.job_score,

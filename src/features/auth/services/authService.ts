@@ -76,9 +76,9 @@ export const authService = {
         if (auth?.user) {
             // Parallel fetch for speed: Profile, Identity, and Subscription
             const [profileRes, identityRes, subRes] = await Promise.all([
-                (supabase as any).from('user_profiles').select('*').eq('user_id', auth.user.id).maybeSingle(),
-                (supabase as any).from('users').select('is_identity_verified').eq('id', auth.user.id).maybeSingle(),
-                supabase.from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle()
+                supabase.from('user_profiles').select('*').eq('user_id', auth.user.id).maybeSingle(),
+                supabase.from('users').select('is_identity_verified').eq('user_id', auth.user.id).maybeSingle(),
+                (supabase as any).from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle()
             ]);
 
             if (profileRes.error) {
@@ -319,7 +319,7 @@ export const authService = {
             if (localDemographics.birthYear) updatePayload.birth_year = profileData?.birth_year || localDemographics.birthYear;
             if (localDemographics.gender) updatePayload.gender = profileData?.gender || localDemographics.gender;
             if (localDemographics.region) updatePayload.region = profileData?.region || localDemographics.region;
-            if (localDemographics.commune) updatePayload.commune = profileData?.comuna || localDemographics.commune;
+            if (localDemographics.commune) updatePayload.comuna = profileData?.comuna || localDemographics.commune;
             if (localDemographics.employmentStatus) updatePayload.employment_status = profileData?.employment_status || localDemographics.employmentStatus;
 
             if (Object.keys(updatePayload).length > 1) { // more than just updated_at

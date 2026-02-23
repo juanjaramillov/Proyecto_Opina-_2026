@@ -1,70 +1,52 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../supabase/client";
+import { useEffect, useState } from 'react'
+import { supabase } from '../supabase/client'
 
-interface UserRoleData {
-    role: string;
-}
-
-interface OrgMemberData {
-    org_id: string;
-    role: string;
-    organizations: {
-        name: string;
-    } | null;
-}
+type Role = 'user' | 'admin' | 'b2b'
 
 export function useRole() {
-    const [role, setRole] = useState<string | null>(null);
-    const [orgId, setOrgId] = useState<string | null>(null);
-    const [orgRole, setOrgRole] = useState<string | null>(null);
-    const [orgName, setOrgName] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [role, setRole] = useState<Role>('user')
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const fetchAccessData = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+        let mounted = true
 
-            if (!session) {
-                setRole(null);
-                setLoading(false);
-                return;
+        async function run() {
+            setLoading(true)
+
+            const { data: authData, error: authErr } = await supabase.auth.getUser()
+            if (authErr || !authData?.user) {
+                if (mounted) {
+                    setRole('user')
+                    setLoading(false)
+                }
+                return
             }
 
-            try {
-                // 1. Obtener rol global
-                const { data: userData, error: userError } = await (supabase as any)
-                    .from("users")
-                    .select("role")
-                    .eq("id", session.user.id)
-                    .single();
+            const uid = authData.user.id
 
-                if (!userError && userData) {
-                    setRole((userData as UserRoleData).role);
-                }
+            const { data, error } = await (supabase as any)
+                .from('users')
+                .select('role')
+                .eq('user_id', uid)
+                .single()
 
-                // 2. Obtener membresía de organización
-                const { data: memberData, error: memberError } = await (supabase as any)
-                    .from("organization_members")
-                    .select("org_id, role, organizations(name)")
-                    .eq("user_id", session.user.id)
-                    .maybeSingle();
-
-                if (!memberError && memberData) {
-                    const member = memberData as OrgMemberData;
-                    setOrgId(member.org_id);
-                    setOrgRole(member.role);
-                    setOrgName(member.organizations?.name || null);
-                }
-            } catch (error) {
-                console.error("[useRole] Error fetching access data:", error);
-                setRole("user");
+            if (mounted) {
+                setRole((data?.role as Role) || 'user')
+                setLoading(false)
             }
 
-            setLoading(false);
-        };
+            if (error) {
+                // si no existe fila aún, rol por defecto
+                if (mounted) setRole('user')
+            }
+        }
 
-        fetchAccessData();
-    }, []);
+        run()
 
-    return { role, orgId, orgRole, orgName, loading };
+        return () => {
+            mounted = false
+        }
+    }, [])
+
+    return { role, loading }
 }

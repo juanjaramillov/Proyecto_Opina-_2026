@@ -130,25 +130,25 @@ export interface ClientPlanStatus {
 
 export const platformService = {
     getLiveStats: async (): Promise<PlatformStats | null> => {
-        const { data, error } = await sb.rpc('get_live_platform_stats');
+        const { data, error } = await (sb.rpc as any)('get_live_platform_stats');
 
         if (error) {
             logger.error('[PlatformService] Error fetching live stats:', error);
             return null;
         }
 
-        return (data?.[0] as PlatformStats) || null;
+        return ((data as any)?.[0] as PlatformStats) || null;
     },
 
     getRecentActivity: async (): Promise<RecentActivity | null> => {
-        const { data, error } = await sb.rpc('get_recent_signal_activity');
+        const { data, error } = await (sb.rpc as any)('get_recent_signal_activity');
 
         if (error) {
             logger.error('[PlatformService] Error fetching recent activity:', error);
             return null;
         }
 
-        return (data?.[0] as RecentActivity) || null;
+        return ((data as any)?.[0] as RecentActivity) || null;
     },
 
     getTrendingFeedGrouped: async (): Promise<unknown[]> => {

@@ -35,62 +35,57 @@ export interface PublicRankingResponse {
     updatedAt: string;
 }
 
+type LatestRow = {
+    id: string;
+    entity_id: string;
+    category_slug: string;
+    composite_index: number;
+    preference_score: number;
+    quality_score: number;
+    snapshot_date: string;
+    segment_id: string;
+    trend: 'up' | 'down' | 'stable';
+    entity_name: string;
+    image_url: string | null;
+};
+
 export const rankingService = {
     /**
-     * Gets the latest rankings for a category and calculates trends.
+     * Gets the latest rankings for a category and segment (already includes trend).
+     * Uses RPC to avoid downloading the entire history.
      */
     async getLatestRankings(categorySlug: string, segmentId: string = 'global'): Promise<RankSnapshot[]> {
-        const { data, error } = await supabase
-            // @ts-expect-error: entity_rank_snapshots is a new table not yet in Database types
-            .from('entity_rank_snapshots')
-            .select(`
-                *,
-                entity:entities(name, image_url)
-            `)
-            .eq('category_slug', categorySlug)
-            .eq('segment_id', segmentId)
-            .order('snapshot_date', { ascending: false });
+        const { data, error } = await (supabase.rpc as any)('get_entity_rankings_latest', {
+            p_category_slug: categorySlug,
+            p_segment_id: segmentId
+        });
 
         if (error) {
-            logger.error('Error fetching rankings:', error);
+            logger.error('Error fetching rankings (RPC):', error);
             throw error;
         }
 
-        if (!data || data.length === 0) return [];
+        const rows = (data as unknown as LatestRow[]) || [];
 
-        interface RawRankRecord extends RankSnapshot {
-            entity: { name: string; image_url?: string };
-        }
-
-        const rawData = data as unknown as RawRankRecord[];
-
-        // Get unique entities from the latest snapshot batch
-        const latestDate = rawData[0].snapshot_date;
-        const currentRankings = rawData.filter(r => r.snapshot_date === latestDate);
-
-        // Find previous snapshots to calculate trend
-        const previousRankings = rawData.filter(r => r.snapshot_date !== latestDate);
-
-        return currentRankings.map(curr => {
-            const prev = previousRankings.find(p => p.entity_id === curr.entity_id);
-            let trend: 'up' | 'down' | 'stable' = 'stable';
-
-            if (prev) {
-                if (curr.composite_index > prev.composite_index) trend = 'up';
-                else if (curr.composite_index < prev.composite_index) trend = 'down';
+        return rows.map(r => ({
+            id: r.id,
+            entity_id: r.entity_id,
+            category_slug: r.category_slug,
+            composite_index: Number(r.composite_index),
+            preference_score: Number(r.preference_score),
+            quality_score: Number(r.quality_score),
+            snapshot_date: r.snapshot_date,
+            segment_id: r.segment_id,
+            trend: r.trend,
+            entity: {
+                name: r.entity_name,
+                image_url: r.image_url || undefined
             }
-
-            return {
-                ...curr,
-                trend,
-                entity: curr.entity
-            };
-        });
+        }));
     },
 
     /**
-     * Legacy/Compatibility: Gets an attribute by slug.
-     * In V12 we use categories, but this keeps PublicRankingPage working.
+     * Compatibility: Gets an attribute (category) by slug.
      */
     async getAttributeBySlug(slug: string): Promise<Attribute | null> {
         const { data, error } = await supabase
@@ -104,10 +99,9 @@ export const rankingService = {
     },
 
     /**
-     * Legacy/Compatibility: Gets public ranking data.
+     * Legacy/Compatibility: Public ranking data.
      */
     async getPublicRanking(categoryId: string, _segmentHash: string): Promise<PublicRankingResponse | null> {
-        // We use the category slug if available, otherwise we map back
         const { data: cat } = await supabase.from('categories').select('slug').eq('id', categoryId).maybeSingle();
         if (!cat) return null;
 
@@ -119,7 +113,7 @@ export const rankingService = {
                 position: idx + 1,
                 trend: r.trend || 'stable'
             })),
-            totalSignals: rankings.reduce((acc, r) => acc + (r.preference_score * 10 || 5), 0), // Mocked signals count
+            totalSignals: 0,
             updatedAt: rankings[0]?.snapshot_date || new Date().toISOString()
         };
     }

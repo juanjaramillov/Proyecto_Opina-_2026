@@ -6,7 +6,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { logger } from "../../../lib/logger";
 import AuthLayout from "../layout/AuthLayout";
 import { DemographicData } from "../types";
-
+import { useToast } from "../../../components/ui/useToast";
 const REGIONS = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "Metropolitana", "O'Higgins", "Maule", "Ñuble", "Biobío", "Araucanía", "Los Ríos", "Los Lagos", "Aysén", "Magallanes"];
 
 const COMUNAS_SANTIAGO = [
@@ -33,6 +33,7 @@ const INFLUENCE_LEVEL_OPTIONS = ["Líder de opinión (recomiendo)", "Consultado 
 export default function ProfileWizard() {
     const { profile, refreshProfile } = useAuthContext();
     const navigate = useNavigate();
+    const { showToast } = useToast();
 
     // Initialize starting step based on backend data if available, otherwise step 1
     const initialStage = profile?.demographics?.profileStage || 0;
@@ -105,8 +106,11 @@ export default function ProfileWizard() {
                 setStep(s => s + 1);
             }
 
-        } catch (error) {
+        } catch (error: any) {
             logger.error("Error submitting step:", error);
+            showToast(error.message || "Ocurrió un error al guardar tu perfil. Intenta nuevamente.", "error");
+            setLoading(false);
+            return; // Detener avance
         }
         setLoading(false);
     };

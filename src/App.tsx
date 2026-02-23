@@ -8,6 +8,7 @@ import RoleProtectedRoute from "./components/auth/RoleProtectedRoute";
 import Home from "./features/home/pages/Home";
 import Experience from "./features/feed/pages/Experience";
 import Profile from "./features/profile/pages/Profile";
+import BattlePage from "./features/signals/pages/BattlePage";
 import Results from "./features/results/pages/Results";
 import Dashboard from "./features/results/pages/Dashboard";
 import Register from "./features/auth/pages/Register";
@@ -40,6 +41,7 @@ export default function App() {
 
           {/* Protected Routes */}
           <Route path="/experience" element={<ProtectedRoute><Experience /></ProtectedRoute>} />
+          <Route path="/battle/:battleSlug" element={<ProtectedRoute><BattlePage /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/rankings" element={<ProtectedRoute><Rankings /></ProtectedRoute>} />

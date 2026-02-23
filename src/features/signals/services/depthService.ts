@@ -1,5 +1,5 @@
 import { supabase } from '../../../supabase/client';
-import { Database } from '../../../types/database.types';
+import { Database } from '../../../supabase/database.types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '../../../lib/logger';
 
@@ -46,9 +46,9 @@ export const depthService = {
     ): Promise<DepthResponseRow[]> {
         const { data, error } = await sb.rpc('get_depth_analytics', {
             p_option_id: optionId,
-            p_gender: filters?.gender || null,
-            p_age_bucket: filters?.age_bucket || null,
-            p_region: filters?.region || null
+            p_gender: filters?.gender || undefined,
+            p_age_bucket: filters?.age_bucket || undefined,
+            p_region: filters?.region || undefined
         });
 
         if (error) {
@@ -68,9 +68,9 @@ export const depthService = {
         const { data, error } = await sb.rpc('get_depth_comparison', {
             p_option_a: params.optionA,
             p_option_b: params.optionB,
-            p_gender: params.gender || null,
-            p_age_bucket: params.ageBucket || null,
-            p_region: params.region || null
+            p_gender: params.gender || undefined,
+            p_age_bucket: params.ageBucket || undefined,
+            p_region: params.region || undefined
         });
 
         if (error) {
@@ -100,10 +100,9 @@ export const depthService = {
         questionKey: string,
         segmentFilter?: string | null
     ): Promise<DepthImmediateComparison | null> {
-        // @ts-expect-error - RPC is newly added, database types not yet generated
         const { data, error } = await sb.rpc('get_depth_immediate_comparison', {
             p_question_id: questionKey,
-            p_segment_filter: segmentFilter || null
+            p_segment_filter: segmentFilter || undefined
         });
 
         if (error) {
@@ -125,9 +124,9 @@ export const depthService = {
             p_option_id: params.optionId,
             p_question_key: params.questionKey,
             p_bucket: params.bucket || 'day',
-            p_gender: params.gender || null,
-            p_age_bucket: params.ageBucket || null,
-            p_region: params.region || null
+            p_gender: params.gender || undefined,
+            p_age_bucket: params.ageBucket || undefined,
+            p_region: params.region || undefined
         });
 
         if (error) {
