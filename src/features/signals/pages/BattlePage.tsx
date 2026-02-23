@@ -79,7 +79,7 @@ export default function BattlePage() {
         signalService.saveSignalEvent({ battle_id: battleId, option_id: optionId })
             .catch((err) => {
                 logger.error('Failed to save signal:', err)
-                showToast('No se pudo registrar la señal. Intenta de nuevo.', 'error')
+                showToast('No se pudo registrar la señal.', 'error')
             })
 
         return {}

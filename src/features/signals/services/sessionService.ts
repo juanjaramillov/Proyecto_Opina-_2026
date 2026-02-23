@@ -1,3 +1,4 @@
+import { getQueuedVotesForSession } from './signalOutbox';
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 
@@ -107,12 +108,24 @@ export const sessionService = {
                 .select('option_id')
                 .eq('session_id', sessionId);
 
-            if (!votes || votes.length === 0) return null;
+            // 1a. Añadir los votos en el outbox local
+            const queuedVotes = getQueuedVotesForSession(sessionId);
+
+            if ((!votes || votes.length === 0) && queuedVotes.length === 0) return null;
 
             // 2. Identificar la más votada
             const counts: Record<string, number> = {};
-            votes.forEach((v: any) => {
-                if (v.option_id) counts[v.option_id] = (counts[v.option_id] || 0) + 1;
+
+            // Database votes
+            if (votes) {
+                votes.forEach((v: any) => {
+                    if (v.option_id) counts[v.option_id] = (counts[v.option_id] || 0) + 1;
+                });
+            }
+
+            // Local queued votes
+            queuedVotes.forEach(optionId => {
+                counts[optionId] = (counts[optionId] || 0) + 1;
             });
 
             const winnerId = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];

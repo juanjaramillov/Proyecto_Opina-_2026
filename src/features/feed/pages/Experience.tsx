@@ -160,7 +160,12 @@ export default function Experience() {
             option_id: optionId
         }).catch(err => {
             logger.error("Failed to save vote:", err);
-            showToast("Tu voto offline se sincronizará luego.", "info");
+            // Ya no informamos "offline se sincronizará luego" aquí
+            // puesto que saveSignalEvent SIEMPRE encola con éxito sin lanzar excepción,
+            // (los errores de encolamiento lanzan excepción pero no los de flush).
+            // Si llega aquí, es porque fue explícitamente rechazado de encolarse
+            // (ej. límite alcanzado u error grave).
+            showToast("No se pudo registrar la señal.", "error");
         });
 
         // Resolve immediately for local ultra-fast UI transition

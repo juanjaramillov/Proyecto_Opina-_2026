@@ -29,7 +29,7 @@ import RequestLoginModal from "../../auth/components/RequestLoginModal";
 import { motion } from "framer-motion";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
 import { resultsAggService, SegmentFilters, CategoryOverviewRow } from "../services/resultsAggService";
-import { logger } from "../../../lib/logger";
+import { mySignalsService, MyRecentSignalRow } from "../services/mySignalsService";
 
 const Results: React.FC = () => {
   const [filters, setFilters] = useState<SegmentFilters & { category: string }>({
@@ -43,42 +43,82 @@ const Results: React.FC = () => {
   const { profile } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // REAL DATA STATE
   const [loading, setLoading] = useState(true);
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
   const [results, setResults] = useState<CategoryOverviewRow[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mySignalsLoading, setMySignalsLoading] = useState(true);
+  const [mySignals, setMySignals] = useState<MyRecentSignalRow[]>([]);
+  const [aggLastRefreshedAt, setAggLastRefreshedAt] = useState<string | null>(null);
+  const [refreshTick, setRefreshTick] = useState(0);
 
-  // Fetch Data on Filter Change
+  React.useEffect(() => {
+    const onEmit = () => setRefreshTick((t) => t + 1);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    window.addEventListener('opina:signal_emitted', onEmit as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return () => window.removeEventListener('opina:signal_emitted', onEmit as any);
+  }, []);
+
   React.useEffect(() => {
     let mounted = true;
 
     const loadData = async () => {
       setLoading(true);
-      try {
-        const data = await resultsAggService.getCategoryOverview(filters.category, 14, {
-          region: filters.region,
-          gender: filters.gender,
-          age_bucket: filters.age_bucket
-        });
+      setMySignalsLoading(true);
+      setError(null);
 
-        if (mounted) {
+      try {
+        const [overviewRes, mySignalsRes, refreshRes] = await Promise.allSettled([
+          resultsAggService.getCategoryOverview(filters.category, 14, {
+            region: filters.region,
+            gender: filters.gender,
+            age_bucket: filters.age_bucket
+          }),
+          mySignalsService.getMyRecentVersusSignals(12),
+          mySignalsService.getAggLastRefreshedAt(filters.category),
+        ]);
+
+        if (!mounted) return;
+
+        if (overviewRes.status === 'fulfilled') {
+          const data = overviewRes.value;
           setResults(data);
-          if (data.length > 0 && !selectedEntityId) {
-            setSelectedEntityId(data[0].entity_id);
-          }
+
+          setSelectedEntityId((prev) => {
+            if (data.length === 0) return null;
+            if (prev && data.some(r => r.entity_id === prev)) return prev;
+            return data[0].entity_id;
+          });
+        } else {
+          setError("No se pudieron cargar los datos de análisis.");
+          setResults([]);
         }
-      } catch (err) {
-        logger.error("Failed to load advanced results:", err);
+
+        if (mySignalsRes.status === 'fulfilled') {
+          setMySignals(mySignalsRes.value);
+        } else {
+          setMySignals([]);
+        }
+
+        if (refreshRes.status === 'fulfilled') {
+          setAggLastRefreshedAt(refreshRes.value);
+        } else {
+          setAggLastRefreshedAt(null);
+        }
+      } catch (_err) {
         if (mounted) setError("No se pudieron cargar los datos de análisis.");
       } finally {
-        if (mounted) setLoading(false);
+        if (mounted) {
+          setLoading(false);
+          setMySignalsLoading(false);
+        }
       }
     };
 
     loadData();
     return () => { mounted = false; };
-  }, [filters, selectedEntityId]);
+  }, [filters.category, filters.region, filters.gender, filters.age_bucket, refreshTick]);
 
   // LOGIC: Use store only for summary progress
   const signals = useSignalStore(s => s.signals);
@@ -148,10 +188,11 @@ const Results: React.FC = () => {
   }), []);
 
   const lastUpdate = React.useMemo(() => {
-    const d = new Date();
+    if (!aggLastRefreshedAt) return "—";
+    const d = new Date(aggLastRefreshedAt);
     const pad = (n: number) => String(n).padStart(2, "0");
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  }, []);
+  }, [aggLastRefreshedAt]);
 
 
   return (
@@ -430,9 +471,49 @@ const Results: React.FC = () => {
                     {/*
                     {mockSessionBatch.map((result, idx) => ( ... ))}
                      */}
-                    <div className="text-center text-slate-400 text-xs py-4">
-                      Historial de señales detallado próximamente.
-                    </div>
+                    {mySignalsLoading ? (
+                      <div className="text-center text-slate-400 text-xs py-4">
+                        Cargando…
+                      </div>
+                    ) : mySignals.length === 0 ? (
+                      <div className="text-center text-slate-400 text-xs py-4">
+                        Aún no hay señales registradas.
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {mySignals.slice(0, 8).map((s) => {
+                          const dt = new Date(s.created_at);
+                          const stamp = dt.toLocaleString("es-CL", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+
+                          return (
+                            <div key={`${s.created_at}-${s.option_id}`} className="flex items-start gap-3">
+                              <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center">
+                                {s.image_url ? (
+                                  <img src={s.image_url} alt={s.entity_name || s.option_label || "Señal"} className="w-full h-full object-contain p-1" />
+                                ) : (
+                                  <span className="material-symbols-outlined text-slate-300">bolt</span>
+                                )}
+                              </div>
+
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between gap-2">
+                                  <p className="text-xs font-black text-ink truncate">
+                                    {s.entity_name || s.option_label || "Señal"}
+                                  </p>
+                                  <span className="text-[10px] font-bold text-muted whitespace-nowrap">
+                                    {stamp}{s.pending ? " · Pendiente" : ""}
+                                  </span>
+                                </div>
+
+                                <p className="text-[11px] text-muted font-medium truncate">
+                                  {s.battle_title ? `${s.battle_title} · ${s.option_label || ""}` : (s.option_label || "")}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
 

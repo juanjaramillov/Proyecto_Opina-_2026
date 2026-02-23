@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import { logger } from './lib/logger';
 import { ToastProvider } from './components/ui/ToastProvider';
+import { startSignalOutbox } from './features/signals/services/signalOutbox';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean, error: Error | null }> {
     constructor(props: { children: ReactNode }) {
@@ -94,6 +95,7 @@ if ((!supabaseUrl || !supabaseAnonKey || supabaseUrl === 'YOUR_SUPABASE_URL' || 
         </div>
     );
 } else {
+    startSignalOutbox();
     root.render(
         <React.StrictMode>
             <BrowserRouter>
