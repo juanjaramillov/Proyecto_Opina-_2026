@@ -14,6 +14,8 @@ export interface RecentActivity {
     signals_last_3h: number;
     verified_signals_last_3h: number;
     unique_users_last_3h: number;
+    total_signals?: number;
+    active_users_24h?: number;
 }
 
 export interface SystemHealth {

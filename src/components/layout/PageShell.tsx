@@ -102,17 +102,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               )
             })}
 
-            {/* ENLACES ADMINISTRACION/B2B */}
-            {isAuthenticated && (role === 'b2b' || role === 'admin') && (
-              <NavLink
-                to="/b2b"
-                className={({ isActive }) =>
-                  `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-indigo-600 text-white shadow-md' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'}`
-                }
-              >
-                Portal B2B
-              </NavLink>
-            )}
+            {/* ENLACES ADMINISTRACION */}
             {isAuthenticated && role === 'admin' && (
               <>
                 <NavLink
@@ -177,15 +167,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               )
             })}
 
-            {isAuthenticated && (role === 'b2b' || role === 'admin') && (
-              <NavLink
-                to="/b2b"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 my-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-indigo-50 text-indigo-700 border border-indigo-200"
-              >
-                Portal B2B
-              </NavLink>
-            )}
+
             {isAuthenticated && role === 'admin' && (
               <>
                 <NavLink

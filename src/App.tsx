@@ -81,13 +81,6 @@ export default function App() {
               </RoleProtectedRoute>
             </ProtectedRoute>
           } />
-          <Route path="/b2b" element={
-            <ProtectedRoute>
-              <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
-                <B2BDashboard />
-              </RoleProtectedRoute>
-            </ProtectedRoute>
-          } />
 
           {/* Fallback */}
           <Route path="*" element={<NotFound />} />

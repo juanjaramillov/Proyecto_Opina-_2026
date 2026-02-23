@@ -62,31 +62,47 @@ export default function Home() {
 
           {/* Título principal */}
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[1.1] mb-6">
-            Tu opinión es una{" "}
+            Descubre cómo piensa tu{" "}
             <span className="bg-gradient-to-br from-indigo-600 via-indigo-500 to-emerald-400 bg-clip-text text-transparent relative">
-              señal
+              generación
               <div className="absolute -bottom-2 left-0 right-0 h-3 bg-indigo-500/20 blur-md rounded-full"></div>
             </span>.
           </h1>
 
           {/* Segunda línea */}
-          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-800 mb-8 tracking-tight">
-            El sistema la convierte en{" "}
+          <h2 className="text-2xl md:text-4xl font-extrabold text-slate-600 mb-8 tracking-tight max-w-3xl mx-auto leading-relaxed">
+            Sube de nivel, compara tus ideas con miles de personas y haz que tu voz defina las{" "}
             <span className="bg-gradient-to-br from-indigo-500 to-emerald-400 bg-clip-text text-transparent border-b-4 border-emerald-200">
-              inteligencia
+              tendencias del futuro
             </span>.
           </h2>
 
-          {/* Subtítulo dinámico con Data */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 max-w-2xl mx-auto mb-12">
-            <p className="text-lg text-slate-600 font-medium">
-              Cada preferencia suma precisión.
-            </p>
+          {/* Estadísticas de la Comunidad B2C */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 max-w-3xl mx-auto mb-12">
+
             {recentActivity && (
-              <div className="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 shadow-inner">
-                <span className="text-2xl font-black text-indigo-600">+{recentActivity.signals_last_3h?.toLocaleString()}</span>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 leading-tight text-left">Señales<br />hoy</span>
-              </div>
+              <>
+                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-indigo-100 shadow-lg w-full md:w-auto">
+                  <span className="text-4xl font-black bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
+                    {recentActivity.active_users_24h?.toLocaleString() || '15,000+'}
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Usuarios Activos</span>
+                </div>
+
+                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-emerald-100 shadow-lg w-full md:w-auto">
+                  <span className="text-4xl font-black bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
+                    {recentActivity.total_signals?.toLocaleString() || '2.5M+'}
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Señales Procesadas</span>
+                </div>
+
+                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-amber-100 shadow-lg w-full md:w-auto">
+                  <span className="text-4xl font-black bg-gradient-to-r from-amber-500 to-amber-400 bg-clip-text text-transparent">
+                    +{recentActivity.signals_last_3h?.toLocaleString() || '1,200'}
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Nuevas Hoy</span>
+                </div>
+              </>
             )}
           </div>
 
@@ -97,7 +113,7 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
             <span className="relative flex items-center gap-2">
-              Emitir señal <span className="text-2xl leading-none group-hover:translate-x-1 transition-transform">→</span>
+              Jugar y descubrir <span className="text-2xl leading-none group-hover:translate-x-1 transition-transform">→</span>
             </span>
           </button>
 
