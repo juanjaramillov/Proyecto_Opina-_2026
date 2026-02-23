@@ -6,8 +6,8 @@ import { InsightsView } from '../components/InsightsView';
 
 export default function B2BDashboard() {
     const { profile } = useAuth();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const isB2B = (profile as any)?.role === 'admin' || (profile as any)?.role === 'b2b';
+    // TEMPORARY: Quitando restricción de rol B2B temporalmente
+    const isB2B = true;
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
