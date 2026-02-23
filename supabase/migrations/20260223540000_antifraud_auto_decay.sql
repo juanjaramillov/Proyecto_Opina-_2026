@@ -55,7 +55,7 @@ BEGIN
   PERFORM cron.schedule(
     'antifraud_auto_decay_daily',
     '30 3 * * *',
-    $$SELECT public.antifraud_auto_decay();$$
+    'SELECT public.antifraud_auto_decay()'
   );
 END $$;
 

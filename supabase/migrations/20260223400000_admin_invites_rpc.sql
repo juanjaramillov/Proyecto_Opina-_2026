@@ -17,7 +17,7 @@ AS $$
   SELECT EXISTS (
     SELECT 1
     FROM public.profiles p
-    WHERE p.id = auth.uid()
+    WHERE p.user_id = auth.uid()
       AND COALESCE(p.role, 'user') = 'admin'
   );
 $$;

@@ -1,262 +1,237 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageShell from '../../../components/layout/PageShell';
-import { platformService } from '../../signals/services/platformService';
-import {
-    Key,
-    ShieldCheck,
-    Server,
-    FileText,
-    Download,
-    Eye,
-    EyeOff,
-    Copy,
-    CheckCircle2,
-    Activity
-} from 'lucide-react';
-import { useAuth } from '../../auth/hooks/useAuth';
-
-interface B2BDashboardData {
-    client_id: string;
-    client_name: string;
-    api_key: string;
-    requests_used: number;
-    plan_name: string;
-    request_limit: number;
-    monthly_price: number;
-    features: {
-        segment_access?: boolean;
-        depth_access?: boolean;
-    };
-}
-
-interface ExecutiveReport {
-    id: string;
-    report_type: 'executive' | 'benchmark';
-    battle_slug?: string;
-    report_period_days: number;
-    generated_at: string;
-}
+import { b2bAnalyticsService, SnapshotRow } from '../services/b2bAnalyticsService';
+import { useAuth } from '../../auth';
 
 export default function B2BDashboard() {
     const { profile } = useAuth();
-    const [dashboardData, setDashboardData] = useState<B2BDashboardData | null>(null);
-    const [reports, setReports] = useState<ExecutiveReport[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [showKey, setShowKey] = useState(false);
-    const [copied, setCopied] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const isB2B = (profile as any)?.role === 'admin' || (profile as any)?.role === 'b2b';
 
-    useEffect(() => {
-        if (profile) {
-            loadDashboard();
-        }
-    }, [profile]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [rows, setRows] = useState<SnapshotRow[]>([]);
+    const [bucket, setBucket] = useState<string | null>(null);
 
-    const loadDashboard = async () => {
-        setIsLoading(true);
+    // Filters
+    const [moduleType, setModuleType] = useState<'versus' | 'progressive'>('versus');
+    const [segmentHash, setSegmentHash] = useState<string>('global');
+    const [limit, setLimit] = useState<number>(100);
+
+    const loadData = async () => {
+        if (!isB2B) return;
+        setLoading(true);
+        setError(null);
         try {
-            const data = await platformService.getB2BDashboardStatus();
-            setDashboardData(data as unknown as B2BDashboardData);
-
-            if (data) {
-                const reps = await platformService.listExecutiveReports();
-                setReports(reps as unknown as ExecutiveReport[]);
-            }
-        } catch (error) {
-            console.error("Error loading B2B dashboard", error);
+            const res = await b2bAnalyticsService.listRankings({
+                moduleType,
+                segmentHash,
+                limit
+            });
+            setRows(res.rows);
+            setBucket(res.bucket);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (err: any) {
+            setError(err.message || 'Error desconocido.');
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
-    const handleCopyKey = () => {
-        if (dashboardData?.api_key) {
-            navigator.clipboard.writeText(dashboardData.api_key);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
+    // Load inicial
+    useEffect(() => {
+        loadData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isB2B]);
+
+    const handleExportCSV = () => {
+        if (rows.length === 0) return;
+
+        const headers = ['snapshot_bucket', 'module_type', 'battle_id', 'battle_title', 'option_id', 'option_label', 'score', 'signals_count', 'segment_hash'];
+        const csvRows = [];
+        // Add Header row
+        csvRows.push(headers.join(','));
+
+        for (const row of rows) {
+            const values = headers.map(header => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const val = (row as any)[header] ?? '';
+                // Escape comillas y envolver en comillas si hay comas
+                const escaped = String(val).replace(/"/g, '""');
+                return `"${escaped}"`;
+            });
+            csvRows.push(values.join(','));
         }
+
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+
+        const safeSegment = segmentHash.replace(/[^a-z0-9]/gi, '_');
+        const safeBucket = bucket ? new Date(bucket).toISOString().split('T')[0] : 'latest';
+        const filename = `rankings_${moduleType}_${safeSegment}_${safeBucket}.csv`;
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     };
 
-    if (isLoading) {
+    if (!isB2B) {
         return (
             <PageShell>
-                <div className="flex items-center justify-center h-64">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                <div className="p-8 text-center mt-20">
+                    <h2 className="text-2xl font-bold text-slate-800">Acceso Denegado</h2>
+                    <p className="text-slate-500 mt-2">No tienes permisos para acceder al portal B2B.</p>
                 </div>
             </PageShell>
         );
     }
-
-    if (!dashboardData) {
-        return (
-            <PageShell>
-                <div className="max-w-4xl mx-auto py-12">
-                    <div className="bg-slate-50 border border-slate-200 rounded-3xl p-12 text-center">
-                        <ShieldCheck className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                        <h2 className="text-2xl font-black text-slate-900 mb-2">Acceso Corporativo No Detectado</h2>
-                        <p className="text-slate-500 max-w-md mx-auto">
-                            Tu cuenta actual no está vinculada a un perfil de cliente API. Si representas a una organización,
-                            por favor contacta a soporte para habilitar tu entorno empresarial.
-                        </p>
-                    </div>
-                </div>
-            </PageShell>
-        );
-    }
-
-    const usagePercentage = Math.min(100, Math.round((dashboardData.requests_used / dashboardData.request_limit) * 100));
 
     return (
         <PageShell>
-            <div className="max-w-6xl mx-auto py-8">
-
-                {/* HEAD */}
+            <div className="max-w-7xl mx-auto p-4 md:p-8 pb-32">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">{dashboardData.client_name}</h1>
-                    <p className="text-slate-500 font-medium">Panel de control de integración y consumo API</p>
+                    <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-indigo-700">
+                        Portal B2B
+                    </div>
+                    <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-slate-900">
+                        B2B — Rankings
+                    </h1>
+                    <p className="text-slate-500 mt-2 font-medium">Extrae inteligencia agregada de public_rank_snapshots.</p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-                    {/* PLAN INFO */}
-                    <div className="lg:col-span-1 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+                {/* Filters */}
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-end mb-8">
+                    <div className="w-full md:w-auto flex-1">
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Módulo</label>
+                        <select
+                            value={moduleType}
+                            onChange={e => setModuleType(e.target.value as 'versus' | 'progressive')}
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                        >
+                            <option value="versus">Versus</option>
+                            <option value="progressive">Progresivo</option>
+                        </select>
+                    </div>
+
+                    <div className="w-full md:w-auto flex-1">
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Segment Preset</label>
+                        <select
+                            value={segmentHash}
+                            onChange={e => setSegmentHash(e.target.value)}
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                        >
+                            <option value="global">Global</option>
+                            <option value="gender:male">Hombres</option>
+                            <option value="gender:female">Mujeres</option>
+                            <option value="region:RM">Región Metropolitana</option>
+                            <option value="gender:male|region:RM">Hombres RM</option>
+                        </select>
+                    </div>
+
+                    <div className="w-full md:w-auto flex-1">
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Manual Hash</label>
+                        <input
+                            type="text"
+                            value={segmentHash}
+                            onChange={e => setSegmentHash(e.target.value)}
+                            placeholder="ej. gender:other"
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-mono text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                        />
+                    </div>
+
+                    <div className="w-full md:w-auto w-24">
+                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Top N</label>
+                        <input
+                            type="number"
+                            min={10} max={500}
+                            value={limit}
+                            onChange={e => setLimit(Number(e.target.value))}
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 text-center focus:ring-2 focus:ring-indigo-500"
+                        />
+                    </div>
+
+                    <button
+                        onClick={loadData}
+                        disabled={loading}
+                        className="w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
+                    >
+                        {loading ? <span className="material-symbols-outlined animate-spin">refresh</span> : 'Cargar'}
+                    </button>
+                </div>
+
+                {error && (
+                    <div className="p-4 bg-rose-50 text-rose-700 rounded-2xl font-medium mb-6 flex gap-3 items-center">
+                        <span className="material-symbols-outlined">warning</span>
+                        {error}
+                    </div>
+                )}
+
+                {/* Data View */}
+                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div className="px-6 py-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50/50">
                         <div>
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
-                                    <ShieldCheck className="w-6 h-6" />
-                                </div>
-                                <span className="px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs uppercase tracking-widest rounded-full">
-                                    {dashboardData.plan_name}
-                                </span>
-                            </div>
-
-                            <div className="mb-2">
-                                <span className="text-4xl font-black text-slate-900">${dashboardData.monthly_price}</span>
-                                <span className="text-slate-500 font-medium">/mes</span>
-                            </div>
-                            <p className="text-sm text-slate-500 mb-6">Suscripción activa gestionada por Opina+ B2B.</p>
+                            <h2 className="font-bold text-slate-800 text-lg">Resultados del Reporte</h2>
+                            <p className="text-xs text-slate-500 mt-1 font-mono">
+                                Snapshot: {bucket ? new Date(bucket).toLocaleString() : 'N/A'}
+                            </p>
                         </div>
-
-                        <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                                <CheckCircle2 className={`w-5 h-5 ${dashboardData.features?.segment_access ? 'text-emerald-500' : 'text-slate-300'}`} />
-                                <span className="text-sm font-bold text-slate-700">Segmentación Demográfica</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <CheckCircle2 className={`w-5 h-5 ${dashboardData.features?.depth_access ? 'text-emerald-500' : 'text-slate-300'}`} />
-                                <span className="text-sm font-bold text-slate-700">Insights de Profundidad</span>
-                            </div>
-                        </div>
+                        <button
+                            onClick={handleExportCSV}
+                            disabled={rows.length === 0}
+                            className="px-4 py-2 bg-slate-800 hover:bg-slate-900 disabled:bg-slate-300 text-white rounded-lg text-sm font-bold transition-all flex items-center gap-2"
+                        >
+                            <span className="material-symbols-outlined text-[18px]">download</span>
+                            Exportar CSV
+                        </button>
                     </div>
 
-                    {/* USAGE AND KEYS */}
-                    <div className="lg:col-span-2 flex flex-col gap-8">
-
-                        {/* USAGE KIP */}
-                        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                            <div className="flex items-center gap-3 mb-6">
-                                <Activity className="w-5 h-5 text-slate-400" />
-                                <h3 className="text-lg font-black text-slate-900">Consumo de Cuota API</h3>
-                            </div>
-
-                            <div className="flex justify-between items-end mb-2">
-                                <div>
-                                    <div className="text-sm font-bold text-slate-500">Llamadas realizadas</div>
-                                    <div className="text-2xl font-black text-slate-900">
-                                        {dashboardData.requests_used.toLocaleString()} <span className="text-sm text-slate-400 font-medium">/ {dashboardData.request_limit.toLocaleString()}</span>
-                                    </div>
-                                </div>
-                                <div className="text-lg font-black text-indigo-600">{usagePercentage}%</div>
-                            </div>
-                            <div className="w-full bg-slate-100 rounded-full h-3 mb-2 overflow-hidden">
-                                <div
-                                    className={`h-3 rounded-full ${usagePercentage > 90 ? 'bg-rose-500' : usagePercentage > 75 ? 'bg-amber-400' : 'bg-emerald-500'}`}
-                                    style={{ width: `${usagePercentage}%` }}
-                                ></div>
-                            </div>
-                            <p className="text-xs font-medium text-slate-500 text-right">Se reinicia el día 1 de cada mes</p>
-                        </div>
-
-                        {/* API KEY */}
-                        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                            <div className="flex items-center gap-3 mb-4">
-                                <Key className="w-5 h-5 text-slate-400" />
-                                <h3 className="text-lg font-black text-slate-900">Credenciales de Integración</h3>
-                            </div>
-                            <p className="text-sm text-slate-500 mb-4">Utiliza esta llave en el header <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700 text-xs">x-api-key</code> para autenticar tus peticiones.</p>
-
-                            <div className="flex items-center gap-2">
-                                <div className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 font-mono text-sm text-slate-700 tracking-wider">
-                                    {showKey ? dashboardData.api_key : '•'.repeat(Math.min(dashboardData.api_key.length, 30))}
-                                </div>
-                                <button
-                                    onClick={() => setShowKey(!showKey)}
-                                    className="p-3 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors"
-                                >
-                                    {showKey ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                                </button>
-                                <button
-                                    onClick={handleCopyKey}
-                                    className="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-colors flex items-center justify-center min-w-[48px]"
-                                >
-                                    {copied ? <CheckCircle2 className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                {/* REPORTS TABLE */}
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                    <div className="flex items-center gap-3 mb-6">
-                        <FileText className="w-5 h-5 text-slate-400" />
-                        <h3 className="text-lg font-black text-slate-900">Repositorio de Inteligencia</h3>
-                    </div>
-
-                    {reports.length === 0 ? (
-                        <div className="text-center py-8">
-                            <Server className="w-12 h-12 text-slate-200 mx-auto mb-3" />
-                            <p className="text-slate-500 font-medium text-sm">No se han generado reportes ejecutivos todavía.</p>
-                        </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="border-b border-slate-100">
-                                        <th className="pb-3 pt-2 px-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Tipo</th>
-                                        <th className="pb-3 pt-2 px-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Contenido (Batalla)</th>
-                                        <th className="pb-3 pt-2 px-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Periodo</th>
-                                        <th className="pb-3 pt-2 px-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Generado</th>
-                                        <th className="pb-3 pt-2 px-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Acción</th>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-slate-50 text-slate-500 text-[10px] uppercase font-black tracking-widest border-b border-slate-100">
+                                    <th className="p-4 rounded-tl-xl whitespace-nowrap">Battle</th>
+                                    <th className="p-4 whitespace-nowrap">Option</th>
+                                    <th className="p-4">Score</th>
+                                    <th className="p-4 whitespace-nowrap">Signals</th>
+                                    <th className="p-4 whitespace-nowrap">Segment</th>
+                                    <th className="p-4 whitespace-nowrap hidden md:table-cell">Battle ID</th>
+                                    <th className="p-4 whitespace-nowrap hidden md:table-cell">Option ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {loading && rows.length === 0 && (
+                                    <tr>
+                                        <td colSpan={5} className="p-8 text-center text-slate-400 italic font-medium">Cargando inteligencia...</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {reports.map((report) => (
-                                        <tr key={report.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                                            <td className="py-4 px-4">
-                                                <span className={`px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest ${report.report_type === 'benchmark'
-                                                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/50'
-                                                        : 'bg-indigo-50 text-indigo-700 border border-indigo-200/50'
-                                                    }`}>
-                                                    {report.report_type === 'benchmark' ? 'Benchmark' : 'Executive'}
-                                                </span>
-                                            </td>
-                                            <td className="py-4 px-4 font-bold text-slate-900">
-                                                {report.report_type === 'benchmark' ? <span className="text-slate-500 italic">Global Market Aggregation</span> : report.battle_slug}
-                                            </td>
-                                            <td className="py-4 px-4 text-sm text-slate-500 font-medium">{report.report_period_days} días</td>
-                                            <td className="py-4 px-4 text-sm text-slate-500 font-medium">{new Date(report.generated_at).toLocaleDateString()}</td>
-                                            <td className="py-4 px-4 text-right">
-                                                <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg transition-colors">
-                                                    <Download className="w-3.5 h-3.5" />
-                                                    JSON
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                )}
+                                {!loading && rows.length === 0 && (
+                                    <tr>
+                                        <td colSpan={5} className="p-8 text-center text-slate-500 font-medium">
+                                            No hay resultados para esta mezcla de módulo y segmento.
+                                        </td>
+                                    </tr>
+                                )}
+                                {rows.map((row, i) => (
+                                    <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors text-sm font-medium text-slate-700">
+                                        <td className="p-4 font-bold text-slate-800">{row.battle_title || row.battle_id}</td>
+                                        <td className="p-4">{row.option_label || row.option_id}</td>
+                                        <td className="p-4 font-bold text-indigo-600">{Number(row.score).toFixed(2)}</td>
+                                        <td className="p-4">{row.signals_count}</td>
+                                        <td className="p-4">
+                                            <span className="bg-slate-100 px-2 py-1 rounded text-xs text-slate-600">{row.segment_hash}</span>
+                                        </td>
+                                        <td className="p-4 font-mono text-xs text-slate-400 truncate max-w-[120px] hidden md:table-cell" title={row.battle_id}>{row.battle_id}</td>
+                                        <td className="p-4 font-mono text-xs text-slate-400 truncate max-w-[120px] hidden md:table-cell" title={row.option_id}>{row.option_id}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>

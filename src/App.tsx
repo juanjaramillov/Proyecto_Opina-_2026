@@ -81,7 +81,7 @@ export default function App() {
               </RoleProtectedRoute>
             </ProtectedRoute>
           } />
-          <Route path="/b2b-dashboard" element={
+          <Route path="/b2b" element={
             <ProtectedRoute>
               <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
                 <B2BDashboard />

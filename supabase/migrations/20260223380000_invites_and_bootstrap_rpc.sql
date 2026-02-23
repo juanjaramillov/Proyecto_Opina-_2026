@@ -12,6 +12,14 @@ CREATE TABLE IF NOT EXISTS public.invitation_codes (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- Si la tabla estaba preexistente, CREATE TABLE IF NOT EXISTS se saltará crear columnas.
+-- Aseguramos la existencia de las columnas requeridas por este feature flag
+ALTER TABLE public.invitation_codes ADD COLUMN IF NOT EXISTS assigned_alias text NULL;
+ALTER TABLE public.invitation_codes ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'active';
+ALTER TABLE public.invitation_codes ADD COLUMN IF NOT EXISTS expires_at timestamptz NULL;
+ALTER TABLE public.invitation_codes ADD COLUMN IF NOT EXISTS used_by_user_id uuid NULL;
+ALTER TABLE public.invitation_codes ADD COLUMN IF NOT EXISTS used_at timestamptz NULL;
+
 -- code único (case-insensitive básico)
 CREATE UNIQUE INDEX IF NOT EXISTS invitation_codes_code_uq
   ON public.invitation_codes ((upper(code)));

@@ -84,7 +84,7 @@ BEGIN
   PERFORM cron.schedule(
     'refresh_rank_snapshots_3h',
     '0 */3 * * *',
-    $$SELECT public.refresh_public_rank_snapshots_3h();$$
+    'SELECT public.refresh_public_rank_snapshots_3h()'
   );
 END $$;
 
