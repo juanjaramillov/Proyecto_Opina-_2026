@@ -110,7 +110,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-indigo-600 text-white shadow-md' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'}`
                 }
               >
-                B2B Console
+                Portal B2B
               </NavLink>
             )}
             {isAuthenticated && role === 'admin' && (
@@ -181,9 +181,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <NavLink
                 to="/b2b"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 my-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-indigo-50 text-indigo-700"
+                className="mx-4 my-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-indigo-50 text-indigo-700 border border-indigo-200"
               >
-                B2B Console
+                Portal B2B
               </NavLink>
             )}
             {isAuthenticated && role === 'admin' && (
@@ -193,7 +193,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-amber-50 text-amber-700 border border-amber-200"
                 >
-                  Administrar Invitaciones
+                  Admin Invitaciones
                 </NavLink>
                 <NavLink
                   to="/admin/health"
@@ -202,16 +202,14 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 >
                   Health Checks
                 </NavLink>
+                <NavLink
+                  to="/admin/antifraude"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-red-50 text-red-700 border border-red-200"
+                >
+                  Antifraude
+                </NavLink>
               </>
-            )}
-            {isAuthenticated && role === 'admin' && (
-              <NavLink
-                to="/admin/health"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-emerald-50 text-emerald-700 border border-emerald-200"
-              >
-                Health Checks
-              </NavLink>
             )}
             {!isAuthenticated && (
               <NavLink
