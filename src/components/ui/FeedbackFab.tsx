@@ -24,9 +24,9 @@ export default function FeedbackFab() {
             : `Hola! Estoy probando Opina+ y quiero reportar feedback.\n\nURL: {url}\n\nQué pasó:\n- \n\nQué esperaba:\n- \n\nDispositivo/Navegador:\n- `;
 
         return base
-            .replaceAll("{url}", url)
-            .replaceAll("{path}", location.pathname)
-            .replaceAll("{nickname}", "");
+            .split("{url}").join(url)
+            .split("{path}").join(location.pathname)
+            .split("{nickname}").join("");
     }, [location.pathname, templateEnv]);
 
     const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
