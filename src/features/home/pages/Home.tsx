@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import RightNowCarousel, { GenericSlide } from "../components/RightNowCarousel";
 import { platformService, RecentActivity } from "../../signals/services/platformService";
 import { TrendingItem } from "../../../types/trending";
+import { useAuth } from "../../auth";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { profile } = useAuth();
   const [recentActivity, setRecentActivity] = useState<RecentActivity | null>(null);
   const [trendingFeed, setTrendingFeed] = useState<TrendingItem[]>([]);
 
@@ -26,7 +28,12 @@ export default function Home() {
     }
 
     loadFeed();
-  }, [ageRange, gender, commune]); // Add filters to dependency array to re-fetch when they change
+  }, [ageRange, gender, commune]);
+
+  // CTA logic
+  const isAuthenticated = profile && profile.tier !== 'guest';
+  const mainCtaText = isAuthenticated ? "Jugar y descubrir →" : "Unirte y empezar →";
+  const mainCtaPath = isAuthenticated ? "/experience" : "/register";
 
   // Map trending feed item to GenericSlide format
   const slidesData: GenericSlide[] = trendingFeed.slice(0, 5).map((item, idx) => ({
@@ -38,6 +45,8 @@ export default function Home() {
     path: `/battle/${item.slug}`,
     aiInsight: "Patrón de opinión consolidado en este segmento."
   }));
+
+  const SELECT_CLS = "w-full sm:w-auto px-4 py-3 bg-white border-2 border-slate-100 rounded-xl outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-700 text-sm appearance-none shadow-sm cursor-pointer hover:border-slate-200";
 
   return (
     <div className="space-y-16 md:space-y-24 relative overflow-hidden pb-12 w-full bg-white">
@@ -80,7 +89,7 @@ export default function Home() {
           {/* Estadísticas de la Comunidad B2C */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 max-w-3xl mx-auto mb-12">
 
-            {recentActivity && (
+            {recentActivity ? (
               <>
                 <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-indigo-100 shadow-lg w-full md:w-auto">
                   <span className="text-4xl font-black bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
@@ -103,19 +112,28 @@ export default function Home() {
                   <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Nuevas Hoy</span>
                 </div>
               </>
+            ) : (
+              <div className="h-[100px] w-full max-w-md mx-auto animate-pulse bg-slate-100 rounded-2xl"></div>
             )}
           </div>
 
-          {/* CTA principal */}
-          <button
-            onClick={() => navigate('/experience')}
-            className="group relative inline-flex items-center justify-center px-12 py-5 rounded-full text-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 transition-all duration-300 shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/50 hover:-translate-y-1 active:scale-[0.98] overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-            <span className="relative flex items-center gap-2">
-              Jugar y descubrir <span className="text-2xl leading-none group-hover:translate-x-1 transition-transform">→</span>
-            </span>
-          </button>
+          {/* CTA principal ÚNICO */}
+          <div className="flex justify-center mb-8">
+            <button
+              onClick={() => navigate(mainCtaPath)}
+              className="group relative inline-flex items-center justify-center px-12 py-5 rounded-full text-xl font-black text-white bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 transition-all duration-300 shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/50 hover:-translate-y-1 active:scale-[0.98] overflow-hidden uppercase tracking-wider"
+            >
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+              <span className="relative flex items-center gap-2">
+                {mainCtaText}
+              </span>
+            </button>
+          </div>
+          {!isAuthenticated && (
+            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+              ¿Ya tienes cuenta? <button onClick={() => navigate('/login')} className="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-300 hover:decoration-indigo-600 transition-colors">Inicia sesión aquí</button>
+            </p>
+          )}
 
           {/* Social proof / Mini Charts */}
           <div className="mt-24 max-w-4xl mx-auto">
@@ -147,65 +165,66 @@ export default function Home() {
         </div>
       </section>
 
-      {/* RECENT ACTIVITY SECTION IS NOW INTEGRATED IN HERO */}
-
       {/* TRENDING FEED GROUPED */}
-      <section className="w-full py-16 bg-gray-50">
+      <section className="w-full py-16 bg-slate-50/50 border-t border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
 
-          {/* Segment Filters */}
-          <div className="flex flex-wrap items-center gap-4 mb-10 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Género</label>
-              <select
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                className="bg-gray-50 border-none rounded-lg px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="all">Todos los géneros</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Otro">Otro</option>
-              </select>
+          <div className="mb-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h2 className="text-3xl font-black text-slate-900 tracking-tight">Tendencias por Segmento</h2>
+              <p className="text-sm font-medium text-slate-500 mt-1">Filtra la inteligencia colectiva en tiempo real.</p>
             </div>
 
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Rango Etario</label>
-              <select
-                value={ageRange}
-                onChange={(e) => setAgeRange(e.target.value)}
-                className="bg-gray-50 border-none rounded-lg px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="all">Cualquier edad</option>
-                <option value="under_18">Menores de 18</option>
-                <option value="18-24">18-24 años</option>
-                <option value="25-34">25-34 años</option>
-                <option value="35-44">35-44 años</option>
-                <option value="45-54">45-54 años</option>
-                <option value="55-64">55-64 años</option>
-                <option value="65_plus">65+ años</option>
-              </select>
-            </div>
+            {/* Segment Filters (Premiumized) */}
+            <div className="flex flex-wrap items-center justify-center md:justify-end gap-3 w-full md:w-auto">
+              <div className="relative">
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className={SELECT_CLS}
+                >
+                  <option value="all">Todo género</option>
+                  <option value="Masculino">Hombres</option>
+                  <option value="Femenino">Mujeres</option>
+                  <option value="Otro">Otro</option>
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+              </div>
 
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Comuna</label>
-              <select
-                value={commune}
-                onChange={(e) => setCommune(e.target.value)}
-                className="bg-gray-50 border-none rounded-lg px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="all">Sntgo (Todas)</option>
-                <option value="Las Condes">Las Condes</option>
-                <option value="Providencia">Providencia</option>
-                <option value="Santiago">Santiago Centro</option>
-                <option value="Vitacura">Vitacura</option>
-                <option value="Maipú">Maipú</option>
-                <option value="La Florida">La Florida</option>
-              </select>
-            </div>
+              <div className="relative">
+                <select
+                  value={ageRange}
+                  onChange={(e) => setAgeRange(e.target.value)}
+                  className={SELECT_CLS}
+                >
+                  <option value="all">Toda edad</option>
+                  <option value="under_18">-18 años</option>
+                  <option value="18-24">18-24 años</option>
+                  <option value="25-34">25-34 años</option>
+                  <option value="35-44">35-44 años</option>
+                  <option value="45-54">45-54 años</option>
+                  <option value="55-64">55-64 años</option>
+                  <option value="65_plus">65+ años</option>
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+              </div>
 
-            <div className="ml-auto text-xs text-slate-400 font-medium">
-              Segmentación en tiempo real habilitada
+              <div className="relative">
+                <select
+                  value={commune}
+                  onChange={(e) => setCommune(e.target.value)}
+                  className={SELECT_CLS}
+                >
+                  <option value="all">Todo RM</option>
+                  <option value="Las Condes">Las Condes</option>
+                  <option value="Providencia">Providencia</option>
+                  <option value="Santiago">Stgo Centro</option>
+                  <option value="Vitacura">Vitacura</option>
+                  <option value="Maipú">Maipú</option>
+                  <option value="La Florida">La Florida</option>
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+              </div>
             </div>
           </div>
 
@@ -222,37 +241,36 @@ export default function Home() {
 
               return (
                 <div key={category} className="mb-12">
-                  <h2 className="text-2xl font-bold mb-6">
-                    {category}
-                  </h2>
-
-                  <div className="grid md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {top3.map((item) => (
                       <div
                         key={item.id}
-                        className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer"
+                        className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col h-full"
                         onClick={() => navigate(`/battle/${item.slug}`)}
                       >
-                        <div className="text-sm text-indigo-500 font-bold mb-2">
-                          Puntuación de Tendencia: {item.trend_score.toFixed(1)}
-                        </div>
-                        <div className="text-lg font-semibold mb-2">
-                          {item.title}
-                        </div>
-                        <div className="text-sm font-medium">
-                          {item.slug}
-                        </div>
-                        <div className="text-xs text-gray-400 mt-2 flex justify-between items-center">
-                          <span>Signals: {item.total_signals}</span>
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-100">
+                            <span className="material-symbols-outlined text-[14px] text-indigo-500">local_fire_department</span>
+                            <span className="text-[11px] font-black text-indigo-700 tracking-wider">SCORE {item.trend_score.toFixed(1)}</span>
+                          </div>
                           {item.direction === 'up' && (
-                            <span className="text-emerald-600 font-bold">▲ +{item.variation_percent.toFixed(1)}%</span>
+                            <span className="text-[11px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">+{item.variation_percent.toFixed(1)}%</span>
                           )}
                           {item.direction === 'down' && (
-                            <span className="text-rose-600 font-bold">▼ {item.variation_percent.toFixed(1)}%</span>
+                            <span className="text-[11px] font-black text-rose-600 bg-rose-50 px-2 py-1 rounded-md">-{item.variation_percent.toFixed(1)}%</span>
                           )}
-                          {item.direction === 'stable' && (
-                            <span className="text-slate-400">— 0%</span>
-                          )}
+                        </div>
+
+                        <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight group-hover:text-indigo-600 transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
+                          {item.slug}
+                        </p>
+
+                        <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-medium text-slate-500">
+                          <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">bolt</span> {item.total_signals} señales</span>
+                          <span className="text-indigo-600 font-bold group-hover:underline flex items-center gap-1">Ver insights <span className="material-symbols-outlined text-[14px]">arrow_forward</span></span>
                         </div>
                       </div>
                     ))}
@@ -261,8 +279,12 @@ export default function Home() {
               );
             })
           ) : (
-            <div className="text-center text-gray-500 py-10">
-              No hay tendencias disponibles para los filtros seleccionados.
+            <div className="text-center bg-white border border-slate-100 rounded-3xl p-12 shadow-sm">
+              <span className="material-symbols-outlined text-4xl text-slate-300 mb-4 block">filter_alt_off</span>
+              <h3 className="text-lg font-bold text-slate-800 mb-2">No hay suficientes datos</h3>
+              <p className="text-slate-500 font-medium max-w-sm mx-auto">
+                Este cruce de filtros es muy específico. Intenta ampliar el rango de edad o comuna para ver tendencias emergentes.
+              </p>
             </div>
           )}
         </div>

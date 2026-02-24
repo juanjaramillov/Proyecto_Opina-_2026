@@ -5,6 +5,7 @@ import { useRole } from "../../hooks/useRole";
 import { useSignalStore } from "../../store/signalStore";
 import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
 import { getUserLevel } from "../../lib/levelSystem";
+import FeedbackFab from "../ui/FeedbackFab";
 
 const MENU_ITEMS = [
   { id: 'participa', label: 'Participa', route: '/experience' },
@@ -13,7 +14,6 @@ const MENU_ITEMS = [
   { id: 'profile', label: 'Perfil', route: '/profile' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
-
 
 export default function PageShell({ children }: { children: React.ReactNode }) {
   // Simplified user check logic, relying on profile or extending later
@@ -209,6 +209,8 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
       <main id="main-content" className="flex-1 flex flex-col relative w-full">
         {children}
       </main>
+
+      <FeedbackFab />
 
       <footer className="w-full border-t border-aurora-primary/10 bg-white/50 backdrop-blur-sm py-6 mt-auto">
         <div className="w-full px-4 sm:px-8 xl:px-12 mx-auto text-center space-y-2">
