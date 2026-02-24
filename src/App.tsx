@@ -39,6 +39,7 @@ export default function App() {
         <Analytics />
         <Routes>
           <Route path="/access" element={<AccessGatePage />} />
+          <Route path="/admin-login" element={<Login />} />
           <Route element={<AccessGuardLayout />}>
             <Route element={<MainLayout />}>
               {/* Public Routes */}
