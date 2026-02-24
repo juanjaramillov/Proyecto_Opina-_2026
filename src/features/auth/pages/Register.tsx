@@ -1,61 +1,77 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../supabase/client";
+import { signupCooldown } from "../services/signupCooldown";
+import CheckEmail from "./CheckEmail";
 
 export default function Register() {
     const nav = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState<string | null>(null);
     const [err, setErr] = useState<string | null>(null);
+
+    const [needsEmailConfirm, setNeedsEmailConfirm] = useState(false);
+    const [signupEmail, setSignupEmail] = useState("");
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErr(null);
-        setMsg(null);
 
         const e1 = email.trim();
         if (!e1) return setErr("Ingresa tu email.");
         if (password.length < 8) return setErr("La contraseña debe tener al menos 8 caracteres.");
 
+        if (signupCooldown.isActive()) {
+            return setErr(`Espera ${signupCooldown.secondsLeft()}s antes de intentar de nuevo.`);
+        }
+
         setLoading(true);
+        signupCooldown.start(30);
+
         try {
             const { data, error } = await supabase.auth.signUp({
                 email: e1,
                 password,
                 options: {
-                    // Mantén redirectTo si tu proyecto lo usa para confirmación
+                    // Si en tu proyecto tienes confirmación por email activada,
+                    // Supabase podría usar redirectTo para el link.
                     // redirectTo: window.location.origin + "/login",
                 },
             });
 
             if (error) throw error;
 
-            // Caso A: requiere confirmación de email
-            // Supabase puede devolver user pero sin sesión inmediata
             const hasSession = Boolean(data?.session);
+
+            // Si no hay sesión inmediata => requiere confirmación email
             if (!hasSession) {
-                setMsg("Cuenta creada. Revisa tu email para confirmar y luego inicia sesión.");
+                setSignupEmail(e1);
+                setNeedsEmailConfirm(true);
                 return;
             }
 
-            // Caso B: sesión inmediata
+            // Sesión inmediata => onboarding
             nav("/complete-profile", { replace: true });
-        } catch (e: unknown) {
-            setErr((e as Error)?.message ?? "No se pudo crear la cuenta.");
+        } catch (e: any) {
+            setErr(e?.message ?? "No se pudo crear la cuenta.");
         } finally {
             setLoading(false);
         }
     };
+
+    if (needsEmailConfirm) {
+        return <CheckEmail email={signupEmail} />;
+    }
 
     return (
         <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
             <div className="w-full max-w-md bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
                 <h1 className="text-xl font-black text-slate-900">Crear cuenta</h1>
                 <p className="text-sm text-slate-500 font-medium mt-1">
-                    Crea tu cuenta y luego elige tu Nickname (anónimo).
+                    Después elegirás tu Nickname (anónimo).
                 </p>
 
                 <form onSubmit={onSubmit} className="space-y-4 mt-6">
@@ -84,7 +100,6 @@ export default function Register() {
                     </div>
 
                     {err && <p className="text-sm text-red-600 font-medium">{err}</p>}
-                    {msg && <p className="text-sm text-slate-700 font-medium">{msg}</p>}
 
                     <button
                         type="submit"

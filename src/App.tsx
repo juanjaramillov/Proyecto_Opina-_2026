@@ -47,7 +47,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/complete-profile" element={<ProfileWizard />} />
+              <Route path="/complete-profile" element={<ProtectedRoute><ProfileWizard /></ProtectedRoute>} />
               <Route path="/clinicas-santiago/:attributeSlug" element={<PublicRankingPage />} />
               <Route path="/about" element={<AboutUs />} />
 

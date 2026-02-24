@@ -61,6 +61,9 @@ export default function ProtectedRoute({ children }: { children: JSX.Element }) 
     }
 
     if (!profileOk) {
+        if (loc.pathname === '/complete-profile') {
+            return children;
+        }
         return <Navigate to="/complete-profile" replace />;
     }
 
