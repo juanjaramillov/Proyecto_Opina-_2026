@@ -30,6 +30,9 @@ const HOUSING_OPTIONS = ["Propia pagada", "Propia pagando (Dividendo)", "Arrenda
 const PURCHASE_BEHAVIOR_OPTIONS = ["Planificador", "Impulsivo", "Cazador de ofertas", "Basado en calidad/marca"];
 const INFLUENCE_LEVEL_OPTIONS = ["Líder de opinión (recomiendo)", "Consultado a veces", "Sigo recomendaciones"];
 
+const INPUT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-600/10 outline-none transition-all font-medium text-slate-700";
+const SELECT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-600/10 transition-all font-bold text-slate-700";
+
 export default function ProfileWizard() {
     const { profile, refreshProfile } = useAuthContext();
     const navigate = useNavigate();
@@ -170,7 +173,7 @@ export default function ProfileWizard() {
                                     value={formData.name || ""}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     placeholder="Elige un nickname (no tu nombre real)"
-                                    className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700"
+                                    className={INPUT}
                                     required
                                 />
                                 <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real no se muestra. Usa un nickname.</p>
@@ -184,7 +187,7 @@ export default function ProfileWizard() {
                                     value={formData.birthYear || ""}
                                     onChange={(e) => setFormData({ ...formData, birthYear: parseInt(e.target.value) })}
                                     placeholder="Ej. 1990"
-                                    className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white outline-none transition-all font-medium text-slate-700"
+                                    className={INPUT}
                                 />
                             </div>
                             <div className="space-y-3">
@@ -216,7 +219,7 @@ export default function ProfileWizard() {
                                 <select
                                     value={formData.region || ""}
                                     onChange={(e) => setFormData({ ...formData, region: e.target.value, commune: "" })}
-                                    className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700"
+                                    className={SELECT}
                                 >
                                     <option value="">Selecciona tu región...</option>
                                     {REGIONS.map(c => <option key={c} value={c}>{c}</option>)}
@@ -228,7 +231,7 @@ export default function ProfileWizard() {
                                     <select
                                         value={formData.commune || ""}
                                         onChange={(e) => setFormData({ ...formData, commune: e.target.value })}
-                                        className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700"
+                                        className={SELECT}
                                     >
                                         <option value="">Selecciona tu comuna...</option>
                                         {COMUNAS_SANTIAGO.map(c => <option key={c} value={c}>{c}</option>)}
@@ -242,28 +245,28 @@ export default function ProfileWizard() {
                         <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nivel Educacional</label>
-                                <select value={formData.educationLevel || ""} onChange={(e) => setFormData({ ...formData, educationLevel: e.target.value })} className="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700 text-sm">
+                                <select value={formData.educationLevel || ""} onChange={(e) => setFormData({ ...formData, educationLevel: e.target.value })} className={SELECT}>
                                     <option value="">Seleccionar...</option>
                                     {EDUCATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Situación Laboral</label>
-                                <select value={formData.employmentStatus || ""} onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })} className="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700 text-sm">
+                                <select value={formData.employmentStatus || ""} onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })} className={SELECT}>
                                     <option value="">Seleccionar...</option>
                                     {EMPLOYMENT_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Ingresos del Hogar</label>
-                                <select value={formData.incomeRange || ""} onChange={(e) => setFormData({ ...formData, incomeRange: e.target.value })} className="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700 text-sm">
+                                <select value={formData.incomeRange || ""} onChange={(e) => setFormData({ ...formData, incomeRange: e.target.value })} className={SELECT}>
                                     <option value="">Seleccionar...</option>
                                     {INCOME_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Situación de Vivienda</label>
-                                <select value={formData.housingType || ""} onChange={(e) => setFormData({ ...formData, housingType: e.target.value })} className="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700 text-sm">
+                                <select value={formData.housingType || ""} onChange={(e) => setFormData({ ...formData, housingType: e.target.value })} className={SELECT}>
                                     <option value="">Seleccionar...</option>
                                     {HOUSING_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
@@ -275,14 +278,14 @@ export default function ProfileWizard() {
                         <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Comportamiento de Compra</label>
-                                <select value={formData.purchaseBehavior || ""} onChange={(e) => setFormData({ ...formData, purchaseBehavior: e.target.value })} className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700">
+                                <select value={formData.purchaseBehavior || ""} onChange={(e) => setFormData({ ...formData, purchaseBehavior: e.target.value })} className={SELECT}>
                                     <option value="">¿Cómo sueles comprar?</option>
                                     {PURCHASE_BEHAVIOR_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nivel de Influencia</label>
-                                <select value={formData.influenceLevel || ""} onChange={(e) => setFormData({ ...formData, influenceLevel: e.target.value })} className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-600 transition-all font-bold text-slate-700">
+                                <select value={formData.influenceLevel || ""} onChange={(e) => setFormData({ ...formData, influenceLevel: e.target.value })} className={SELECT}>
                                     <option value="">¿Qué tanto influyes en otros?</option>
                                     {INFLUENCE_LEVEL_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
@@ -310,7 +313,7 @@ export default function ProfileWizard() {
                                 (step === 4 && !isStep4Valid) ||
                                 loading
                             }
-                            className="flex-[2] py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black tracking-wider uppercase text-sm transition-all disabled:opacity-30 shadow-xl shadow-indigo-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="btn-primary w-full py-4 rounded-2xl font-black tracking-wider uppercase text-sm disabled:opacity-30 shadow-xl shadow-indigo-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
                         >
                             {loading ? (
                                 <>
@@ -325,7 +328,7 @@ export default function ProfileWizard() {
                         <button
                             onClick={() => submitStep(true)}
                             disabled={loading}
-                            className="w-full py-3 text-slate-400 hover:text-slate-600 font-bold tracking-wide uppercase text-xs transition-all"
+                            className="w-full py-3 text-slate-500 hover:text-slate-700 font-bold tracking-wide uppercase text-xs transition-all"
                         >
                             Saltar este paso por ahora (Ir al Inicio)
                         </button>

@@ -18,7 +18,7 @@ import ResetPassword from "./features/auth/pages/ResetPassword";
 import ProfileWizard from "./features/auth/components/ProfileWizard";
 import PersonalState from "./features/profile/pages/PersonalState";
 import IntelligencePage from "./features/intelligence/IntelligencePage";
-import B2BDashboard from "./features/b2b/pages/B2BDashboard";
+
 import AdminInvites from "./features/admin/pages/AdminInvites";
 import AdminHealth from "./features/admin/pages/AdminHealth";
 import AdminAntifraud from "./features/admin/pages/AdminAntifraud";

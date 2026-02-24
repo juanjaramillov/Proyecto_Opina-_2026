@@ -143,13 +143,13 @@ export const signalService = {
             let res = await sb.rpc('insert_signal_event', {
                 ...args,
                 p_client_event_id: id
-            });
+            } as any);
 
             // Si falla por p_device_hash, reintento sin ese campo (fallback)
             if (res.error && String(res.error.message).includes('p_device_hash')) {
                 const fallbackArgs = { ...args, p_client_event_id: id };
-                delete fallbackArgs.p_device_hash;
-                res = await sb.rpc('insert_signal_event', fallbackArgs);
+                delete (fallbackArgs as any).p_device_hash;
+                res = await sb.rpc('insert_signal_event', fallbackArgs as any);
             }
 
             const { error } = res;

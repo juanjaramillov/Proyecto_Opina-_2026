@@ -65,11 +65,11 @@ export const rankingService = {
             throw bucketError;
         }
 
-        if (!bucketData?.snapshot_bucket) {
+        if (!(bucketData as any)?.snapshot_bucket) {
             return { snapshotBucket: null, rows: [] };
         }
 
-        const latestBucket = bucketData.snapshot_bucket;
+        const latestBucket = (bucketData as any).snapshot_bucket;
 
         // 2. Query rows
         let query = supabase
@@ -107,9 +107,7 @@ export const rankingService = {
 
         let rows = (data || []).map((r: any) => {
             // Mapeo adaptativo para mantener interfaz original
-            // @ts-expect-error Supabase types are inexact for nested relations
             const entityName = r.battle_options?.label || 'Desconocido';
-            // @ts-expect-error Supabase types are inexact for nested relations
             const catSlug = r.battle_options?.battles?.categories?.slug || 'unknown';
             return {
                 id: r.id as string,
@@ -152,5 +150,28 @@ export const rankingService = {
 
         if (error || !data) return null;
         return data as Attribute;
+    },
+
+    /**
+     * Compatibility: Gets public ranking
+     */
+    async getPublicRanking(
+        _attributeId: string,
+        segmentHash: string = 'global'
+    ): Promise<PublicRankingResponse | null> {
+        const res = await this.getLatestRankings('versus', segmentHash || 'global', 100);
+        if (!res.rows.length) return null;
+
+        const ranking: RankingItem[] = res.rows.map((row, idx) => ({
+            option_id: row.entity_id,
+            position: idx + 1,
+            trend: row.trend || 'stable'
+        }));
+
+        return {
+            ranking,
+            totalSignals: res.rows.reduce((acc, row) => acc + (row.signals_count || 0), 0),
+            updatedAt: res.snapshotBucket || new Date().toISOString()
+        };
     }
 };

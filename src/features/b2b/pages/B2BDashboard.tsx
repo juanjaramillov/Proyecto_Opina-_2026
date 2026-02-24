@@ -5,7 +5,7 @@ import { useAuth } from '../../auth';
 import { InsightsView } from '../components/InsightsView';
 
 export default function B2BDashboard() {
-    const { profile } = useAuth();
+    useAuth();
     // TEMPORARY: Quitando restricción de rol B2B temporalmente
     const isB2B = true;
 

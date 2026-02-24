@@ -1,56 +1,56 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
-import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
 import AuthLayout from "../layout/AuthLayout";
+import { AuthNotice, AuthPrimaryButton, AuthTextInput } from "../components/AuthControls";
 
 export default function ResetPassword() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState(false);
+    const [notice, setNotice] = useState<{ variant: "success" | "error" | "info"; message: string } | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Enforce the user has a valid access token in URL
         supabase.auth.getSession().then(({ data: { session } }) => {
-            logger.log("=== RESET PASSWORD: Link validation session status:", !!session);
+            logger.log("=== RESET PASSWORD: session:", !!session);
             if (!session) {
-                logger.warn("=== RESET PASSWORD: No active session found. The link may be expired or invalid.");
+                setNotice({
+                    variant: "info",
+                    message:
+                        "Ojo: el enlace puede estar expirado o inválido. Si falla, pide otro (sí, es fome).",
+                });
             }
         });
     }, []);
 
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
+        setNotice(null);
 
         if (password.length < 8) {
-            setError("La contraseña debe tener al menos 8 caracteres.");
+            setNotice({ variant: "error", message: "La contraseña debe tener al menos 8 caracteres." });
             return;
         }
 
         if (password !== confirmPassword) {
-            setError("Las contraseñas no coinciden.");
+            setNotice({ variant: "error", message: "Las contraseñas no coinciden." });
             return;
         }
 
         setLoading(true);
         try {
-            logger.log("=== RESET PASSWORD: Attempting password update...");
             await authService.updateUserPassword(password);
-            logger.log("=== RESET PASSWORD: Password updated successfully");
-            setSuccess(true);
-            setTimeout(() => {
-                navigate("/");
-            }, 3000);
+
+            setNotice({ variant: "success", message: "Contraseña actualizada. Te llevamos al inicio." });
+
+            setTimeout(() => navigate("/"), 1500);
         } catch (err: unknown) {
-            const error = err as Error;
-            logger.error("=== RESET PASSWORD: Error during update", error);
-            setError(error.message || "Error al actualizar la contraseña. Reintenta.");
+            const e = err as Error;
+            logger.error("=== RESET PASSWORD: Error", e);
+            setNotice({ variant: "error", message: e.message || "Error al actualizar. Reintenta." });
         } finally {
             setLoading(false);
         }
@@ -58,75 +58,40 @@ export default function ResetPassword() {
 
     return (
         <AuthLayout
-            title="Nueva Contraseña"
-            subtitle="Crea una nueva contraseña segura para tu cuenta."
+            title="Nueva contraseña"
+            subtitle="8+ caracteres. No “12345678”. Te estoy mirando."
         >
-            {!success ? (
-                <form onSubmit={handleUpdate} className="space-y-4">
-                    <div>
-                        <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">
-                            Nueva Contraseña
-                        </label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="8+ caracteres"
-                            className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium text-slate-700"
-                            required
-                        />
-                    </div>
+            <form onSubmit={handleUpdate} className="space-y-4">
+                <AuthTextInput
+                    label="Nueva contraseña"
+                    type="password"
+                    value={password}
+                    onChange={setPassword}
+                    placeholder="8+ caracteres"
+                    required
+                    autoComplete="new-password"
+                />
 
-                    <div>
-                        <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">
-                            Confirmar Contraseña
-                        </label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Repite tu contraseña"
-                            className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium text-slate-700"
-                            required
-                        />
-                    </div>
+                <AuthTextInput
+                    label="Confirmar contraseña"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={setConfirmPassword}
+                    placeholder="Repite tu contraseña"
+                    required
+                    autoComplete="new-password"
+                />
 
-                    <button
-                        type="submit"
-                        disabled={loading || !password || !confirmPassword}
-                        className="w-full py-4 mt-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black uppercase tracking-wider text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-indigo-600/20 active:scale-[0.98]"
-                    >
-                        {loading ? "Actualizando..." : "Actualizar Contraseña"}
-                    </button>
-                </form>
-            ) : (
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-center py-6 bg-emerald-50 rounded-2xl border border-emerald-100 mt-4"
+                <AuthPrimaryButton
+                    disabled={!password || !confirmPassword}
+                    loading={loading}
+                    loadingLabel="Actualizando..."
                 >
-                    <div className="w-16 h-16 rounded-full bg-emerald-100 mx-auto mb-4 flex items-center justify-center text-emerald-600">
-                        <span className="material-symbols-outlined text-3xl">check_circle</span>
-                    </div>
-                    <h3 className="text-lg font-black text-slate-900 mb-2">¡Contraseña Actualizada!</h3>
-                    <p className="text-sm text-slate-600">
-                        Redirigiendo al inicio de sesión...
-                    </p>
-                </motion.div>
-            )}
+                    Actualizar contraseña
+                </AuthPrimaryButton>
+            </form>
 
-            <AnimatePresence>
-                {error && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                        animate={{ opacity: 1, height: "auto", marginTop: 24 }}
-                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                        className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 text-sm text-center font-medium overflow-hidden"
-                    >
-                        {error}
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            <AuthNotice message={notice?.message} variant={notice?.variant || "info"} />
         </AuthLayout>
     );
 }

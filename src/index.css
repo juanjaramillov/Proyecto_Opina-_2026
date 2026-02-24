@@ -211,10 +211,11 @@
     padding-right: 2.5rem;
     background: var(--brand-accent);
     box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.25);
+  }
 
-    .header-lined {
-      @apply border-b border-slate-200 pb-3 mb-6;
-    }
+  /* ✅ Header con línea inferior (antes estaba “escondido” dentro de btn-hero, como si fuera SCSS) */
+  .header-lined {
+    @apply border-b border-slate-200 pb-3 mb-6;
   }
 }
 

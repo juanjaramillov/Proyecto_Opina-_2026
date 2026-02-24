@@ -17,19 +17,20 @@ export default function NotFound() {
                     </h1>
 
                     <p className="mt-3 text-text-secondary">
-                        Si llegaste acá, fue porque alguien puso un link raro… o porque tú estás explorando como
-                        corresponde 😄
+                        Si llegaste acá, fue porque alguien puso un link raro… o porque tú estás explorando como corresponde 😄
                     </p>
 
                     <div className="mt-6 flex flex-wrap gap-2">
                         <Link to="/" className="btn-primary">
                             Volver al inicio
                         </Link>
-                        <Link to="/versus" className="btn-secondary">
-                            Ir a batallas
+
+                        <Link to="/experience" className="btn-secondary">
+                            Ir al Hub
                         </Link>
+
                         <Link to="/profile" className="btn-ghost">
-                            Ver mi señal
+                            Mi perfil
                         </Link>
                     </div>
 

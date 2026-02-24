@@ -17,6 +17,7 @@ import { logger } from "../../../lib/logger";
 import { InlineLoader } from '../../../components/ui/InlineLoader';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { notifyService } from "../../notifications/notifyService";
+import PageHeader from "../../../components/ui/PageHeader";
 
 export default function Profile() {
   const { profile, loading } = useAuth();
@@ -93,7 +94,15 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
   };
 
   return (
-    <div className="container-ws section-y min-h-screen">
+    <div className="container-ws section-y min-h-screen space-y-6">
+
+      <PageHeader
+        variant="simple"
+        eyebrow={<span className="badge badge-primary">Cuenta</span>}
+        title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Perfil</h1>}
+        subtitle={<p className="text-sm text-muted font-medium">Tu panel de control: progreso, datos y actividad. Sin “presentaciones”, solo señales.</p>}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
         {/* LEFT SIDEBAR: PROGRESSIVE PROFILING */}
