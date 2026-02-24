@@ -168,7 +168,7 @@ export default function IntelligencePage() {
                     <p className="text-slate-500 mt-1">
                         {orgName
                             ? `Vista corporativa para ${orgName} (${orgRole}).`
-                            : "Monitoreo estratégico y patrones de opinión en tiempo real."}
+                            : "Monitoreo estratégico y patrones de opinión (snapshots cada 3 horas)."}
                     </p>
                 </div>
 

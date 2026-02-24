@@ -1,5 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./features/auth";
+import AccessGatePage from "./features/access/pages/AccessGate";
+import AccessGuardLayout from "./features/access/components/AccessGuardLayout";
+import { MotionConfig } from "framer-motion";
 import MainLayout from "./components/layout/MainLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleProtectedRoute from "./components/auth/RoleProtectedRoute";
@@ -32,60 +35,65 @@ import { Analytics } from '@vercel/analytics/react';
 export default function App() {
   return (
     <AuthProvider>
-      <Analytics />
-      <Routes>
-        <Route element={<MainLayout />}>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/complete-profile" element={<ProfileWizard />} />
-          <Route path="/clinicas-santiago/:attributeSlug" element={<PublicRankingPage />} />
-          <Route path="/about" element={<AboutUs />} />
+      <MotionConfig reducedMotion="user">
+        <Analytics />
+        <Routes>
+          <Route path="/access" element={<AccessGatePage />} />
+          <Route element={<AccessGuardLayout />}>
+            <Route element={<MainLayout />}>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/complete-profile" element={<ProfileWizard />} />
+              <Route path="/clinicas-santiago/:attributeSlug" element={<PublicRankingPage />} />
+              <Route path="/about" element={<AboutUs />} />
 
-          {/* Protected Routes */}
-          <Route path="/experience" element={<ProtectedRoute><Experience /></ProtectedRoute>} />
-          <Route path="/battle/:battleSlug" element={<ProtectedRoute><BattlePage /></ProtectedRoute>} />
-          <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/rankings" element={<ProtectedRoute><Rankings /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/personal-state" element={<ProtectedRoute><PersonalState /></ProtectedRoute>} />
-          <Route path="/intelligence" element={
-            <ProtectedRoute>
-              <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
-                <IntelligencePage />
-              </RoleProtectedRoute>
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/invitaciones" element={
-            <ProtectedRoute>
-              <RoleProtectedRoute allowedRoles={['admin']}>
-                <AdminInvites />
-              </RoleProtectedRoute>
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/health" element={
-            <ProtectedRoute>
-              <RoleProtectedRoute allowedRoles={['admin']}>
-                <AdminHealth />
-              </RoleProtectedRoute>
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/antifraude" element={
-            <ProtectedRoute>
-              <RoleProtectedRoute allowedRoles={['admin']}>
-                <AdminAntifraud />
-              </RoleProtectedRoute>
-            </ProtectedRoute>
-          } />
+              {/* Protected Routes */}
+              <Route path="/experience" element={<ProtectedRoute><Experience /></ProtectedRoute>} />
+              <Route path="/battle/:battleSlug" element={<ProtectedRoute><BattlePage /></ProtectedRoute>} />
+              <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/rankings" element={<ProtectedRoute><Rankings /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/personal-state" element={<ProtectedRoute><PersonalState /></ProtectedRoute>} />
+              <Route path="/intelligence" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
+                    <IntelligencePage />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/invitaciones" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin']}>
+                    <AdminInvites />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/health" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin']}>
+                    <AdminHealth />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/antifraude" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin']}>
+                    <AdminAntifraud />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
 
-          {/* Fallback */}
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+              {/* Fallback */}
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Route>
+        </Routes>
+      </MotionConfig>
     </AuthProvider>
   );
 }

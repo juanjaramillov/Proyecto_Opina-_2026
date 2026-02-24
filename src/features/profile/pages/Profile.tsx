@@ -4,14 +4,12 @@ import { useAuth, authService } from "../../auth";
 import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint, getNextDemographicsUpdateDate } from "../services/profileService";
 import { AccountProfile } from "../../auth/types";
 import ProgressiveQuestion from "../components/ProgressiveQuestion";
-import SimpleSignup from "../components/SimpleSignup";
 import SegmentComparisonCard from "../components/SegmentComparisonCard";
 import PersonalHistoryChart from "../components/PersonalHistoryChart";
 import { UserLevelCard } from "../../../components/UserLevelCard";
 import { VerifiedBadge } from "../../../components/auth/VerifiedBadge";
 import { supabase } from "../../../supabase/client";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
-import { AnimatePresence } from "framer-motion";
 import { logger } from "../../../lib/logger";
 
 import { InlineLoader } from '../../../components/ui/InlineLoader';
@@ -51,11 +49,9 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
   const [history, setHistory] = useState<ActivityEvent[]>([]);
   const [comparisons, setComparisons] = useState<SegmentComparison[]>([]);
   const [personalHistory, setPersonalHistory] = useState<PersonalHistoryPoint[]>([]);
-  const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
     const loadAllProfileData = async () => {
-      setLoadingData(true);
       try {
         const [stats, summary, activity, compData, histData] = await Promise.all([
           profileService.getUserStats(),
@@ -73,8 +69,6 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
       } catch (err) {
         logger.error("Failed to load profile data:", err);
         notifyService.error("No se pudo cargar la información del perfil.");
-      } finally {
-        setLoadingData(false);
       }
     };
     loadAllProfileData();
@@ -122,7 +116,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
             </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-muted font-medium">Versus ganados</span>
+                <span className="text-muted font-medium">Versus respondidos</span>
                 <span className="font-mono font-black text-ink">{participation.versus_count}</span>
               </div>
               <div className="flex justify-between items-center text-sm">
@@ -205,14 +199,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 </div>
               </div>
 
-              {/* GUEST SIGNUP PROMPT */}
-              <AnimatePresence>
-                {profile?.tier === 'guest' && !profile?.displayName && !loadingData && (
-                  <div className="mb-8">
-                    <SimpleSignup />
-                  </div>
-                )}
-              </AnimatePresence>
+              {/* GUEST SIGNUP PROMPT REMOVED (Handled via Register Flow) */}
 
               {/* UNLOCK GRID */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">

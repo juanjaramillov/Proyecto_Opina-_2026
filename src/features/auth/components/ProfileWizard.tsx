@@ -6,6 +6,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { logger } from "../../../lib/logger";
 import AuthLayout from "../layout/AuthLayout";
 import { DemographicData } from "../types";
+import { supabase } from "../../../supabase/client";
 import { useToast } from "../../../components/ui/useToast";
 const REGIONS = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "Metropolitana", "O'Higgins", "Maule", "Ñuble", "Biobío", "Araucanía", "Los Ríos", "Los Lagos", "Aysén", "Magallanes"];
 
@@ -59,48 +60,60 @@ export default function ProfileWizard() {
         influenceLevel: profile?.demographics?.influenceLevel || ""
     });
 
+    const [nicknameErr, setNicknameErr] = useState<string | null>(null);
+
     const submitStep = async (isSkip: boolean = false) => {
+        setNicknameErr(null);
         setLoading(true);
         try {
-            // Determine the stage properties to save based on the current step
-            let payload: Partial<DemographicData> = {};
+            // STEP 1: Guardar nickname al RPC (Obligatorio y Único)
             if (step === 1) {
-                payload = {
-                    name: formData.name,
-                    birthYear: formData.birthYear,
-                    gender: formData.gender,
-                    profileStage: 1,
-                    signalWeight: 1.0
-                };
-            } else if (step === 2) {
-                payload = {
-                    region: formData.region,
-                    commune: formData.commune,
-                    profileStage: 2,
-                    signalWeight: 1.0
-                };
-            } else if (step === 3 && !isSkip) {
-                payload = {
-                    employmentStatus: formData.employmentStatus,
-                    incomeRange: formData.incomeRange,
-                    educationLevel: formData.educationLevel,
-                    housingType: formData.housingType,
-                    profileStage: 3,
-                    signalWeight: 1.5
-                };
-            } else if (step === 4 && !isSkip) {
-                payload = {
-                    purchaseBehavior: formData.purchaseBehavior,
-                    influenceLevel: formData.influenceLevel,
-                    profileStage: 4,
-                    signalWeight: 1.7
-                };
-            }
+                const nick = formData.name?.trim() || "";
+                if (!nick) {
+                    setNicknameErr("El Nickname es obligatorio.");
+                    setLoading(false);
+                    return;
+                }
+                const { error: rpcErr } = await (supabase as any).rpc("set_nickname_once", {
+                    p_nickname: nick,
+                });
+                if (rpcErr) throw rpcErr;
 
-            // Only update backend if there is data to update (not entirely skipping without changes)
-            if (Object.keys(payload).length > 0) {
-                await authService.updateProfileDemographics(payload);
+                // Si todo va bien, refrescamos el contexto de perfil
                 await refreshProfile();
+            } else {
+                // Determine the stage properties to save based on the current step
+                let payload: Partial<DemographicData> = {};
+                if (step === 2) {
+                    payload = {
+                        region: formData.region,
+                        commune: formData.commune,
+                        profileStage: 2,
+                        signalWeight: 1.0
+                    };
+                } else if (step === 3 && !isSkip) {
+                    payload = {
+                        employmentStatus: formData.employmentStatus,
+                        incomeRange: formData.incomeRange,
+                        educationLevel: formData.educationLevel,
+                        housingType: formData.housingType,
+                        profileStage: 3,
+                        signalWeight: 1.5
+                    };
+                } else if (step === 4 && !isSkip) {
+                    payload = {
+                        purchaseBehavior: formData.purchaseBehavior,
+                        influenceLevel: formData.influenceLevel,
+                        profileStage: 4,
+                        signalWeight: 1.7
+                    };
+                }
+
+                // Only update backend if there is data to update (not entirely skipping without changes)
+                if (Object.keys(payload).length > 0) {
+                    await authService.updateProfileDemographics(payload);
+                    await refreshProfile();
+                }
             }
 
             if (isSkip || step === 4) {
@@ -111,7 +124,15 @@ export default function ProfileWizard() {
 
         } catch (error: any) {
             logger.error("Error submitting step:", error);
-            showToast(error.message || "Ocurrió un error al guardar tu perfil. Intenta nuevamente.", "error");
+            // Handle specific PostgreSQL unique constraint or RPC exceptions nicely
+            const errMsg = error.message || "";
+            if (step === 1 && (errMsg.includes('unique constraint') || errMsg.includes('Nickname ya definido'))) {
+                setNicknameErr("El nickname ya está en uso o ya fue definido anteriormente.");
+            } else if (step === 1 && errMsg.includes('Nickname debe tener')) {
+                setNicknameErr("Nickname debe tener entre 3 y 18 caracteres y usar letras, números o _ -.");
+            } else {
+                showToast(errMsg || "Ocurrió un error al guardar tu perfil. Intenta nuevamente.", "error");
+            }
             setLoading(false);
             return; // Detener avance
         }
@@ -127,8 +148,8 @@ export default function ProfileWizard() {
         }
     };
 
-    const isStep1Valid = !!(formData.name?.trim() && formData.birthYear && formData.gender);
-    const isStep2Valid = !!(formData.region && (formData.region !== "Metropolitana" || formData.commune));
+    const isStep1Valid = !!(formData.name?.trim());
+    const isStep2Valid = !!(formData.birthYear && formData.gender && formData.region && (formData.region !== "Metropolitana" || formData.commune));
     const isStep3Valid = !!(formData.employmentStatus && formData.incomeRange && formData.educationLevel && formData.housingType);
     const isStep4Valid = !!(formData.purchaseBehavior && formData.influenceLevel);
 
@@ -176,8 +197,16 @@ export default function ProfileWizard() {
                                     className={INPUT}
                                     required
                                 />
-                                <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real no se muestra. Usa un nickname.</p>
+                                <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real no se muestra. Usa un nickname único (3-18 caracteres).</p>
+                                {nicknameErr && <p className="text-sm text-red-600 font-medium ml-1 mt-1">{nicknameErr}</p>}
                             </div>
+                            {/* DEMOGRAPHICS MOVED TO LATER SECTIONS (DELETED FROM STEP 1 FOR SIMPLICITY HERE) */}
+                        </motion.div>
+                    )}
+
+                    {step === 2 && (
+                        <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                            <h2 className="text-xl font-bold text-slate-900 mb-2">Genial, {formData.name}</h2>
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Año de Nacimiento</label>
                                 <input
@@ -208,12 +237,6 @@ export default function ProfileWizard() {
                                     ))}
                                 </div>
                             </div>
-                        </motion.div>
-                    )}
-
-                    {step === 2 && (
-                        <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                            <h2 className="text-xl font-bold text-slate-900 mb-2">Genial, {formData.name}</h2>
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Región</label>
                                 <select

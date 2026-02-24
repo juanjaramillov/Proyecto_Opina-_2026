@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import RightNowCarousel, { GenericSlide } from "../components/RightNowCarousel";
 import { platformService, RecentActivity } from "../../signals/services/platformService";
 import { TrendingItem } from "../../../types/trending";
 import { useAuth } from "../../auth";
 
 export default function Home() {
-  const navigate = useNavigate();
   const { profile } = useAuth();
   const [recentActivity, setRecentActivity] = useState<RecentActivity | null>(null);
   const [trendingFeed, setTrendingFeed] = useState<TrendingItem[]>([]);
@@ -28,7 +27,29 @@ export default function Home() {
     }
 
     loadFeed();
+    loadFeed();
   }, [ageRange, gender, commune]);
+
+  const lastSnapshotAt = useMemo(() => {
+    if (!trendingFeed?.length) return null;
+    let max = 0;
+    for (const item of trendingFeed) {
+      const snapItem = item as unknown as { snapshot_at?: string };
+      if (!snapItem.snapshot_at) continue;
+      const t = new Date(snapItem.snapshot_at).getTime();
+      if (t > max) max = t;
+    }
+    return max ? new Date(max).toISOString() : null;
+  }, [trendingFeed]);
+
+  const lastSnapshotLabel = useMemo(() => {
+    if (!lastSnapshotAt) return "—";
+    return new Date(lastSnapshotAt).toLocaleString("es-CL", {
+      hour12: false,
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  }, [lastSnapshotAt]);
 
   // CTA logic
   const isAuthenticated = profile && profile.tier !== 'guest';
@@ -63,9 +84,15 @@ export default function Home() {
           {/* Micro badge */}
           <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-50 text-xs font-black tracking-widest uppercase text-emerald-600 mb-8 border border-emerald-100 shadow-sm relative overflow-hidden group">
             <div className="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-colors"></div>
-            <span className="relative flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Motor activo en tiempo real
+            <span className="relative flex flex-col items-center gap-0.5">
+              <span className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Actualizado cada 3 horas
+              </span>
+
+              <span className="text-[10px] font-bold tracking-normal text-emerald-700/70">
+                Últ. snapshot: {lastSnapshotLabel}
+              </span>
             </span>
           </div>
 
@@ -109,7 +136,7 @@ export default function Home() {
                   <span className="text-4xl font-black bg-gradient-to-r from-amber-500 to-amber-400 bg-clip-text text-transparent">
                     +{recentActivity.signals_last_3h?.toLocaleString() || '1,200'}
                   </span>
-                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Nuevas Hoy</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Últimas 3h</span>
                 </div>
               </>
             ) : (
@@ -119,19 +146,19 @@ export default function Home() {
 
           {/* CTA principal ÚNICO */}
           <div className="flex justify-center mb-8">
-            <button
-              onClick={() => navigate(mainCtaPath)}
-              className="group relative inline-flex items-center justify-center px-12 py-5 rounded-full text-xl font-black text-white bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 transition-all duration-300 shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/50 hover:-translate-y-1 active:scale-[0.98] overflow-hidden uppercase tracking-wider"
+            <Link
+              to={mainCtaPath}
+              className="group relative inline-flex items-center justify-center px-12 py-5 rounded-full text-xl font-black text-white bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 transition-all duration-300 shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/50 hover:-translate-y-1 active:scale-[0.98] overflow-hidden uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
               <span className="relative flex items-center gap-2">
                 {mainCtaText}
               </span>
-            </button>
+            </Link>
           </div>
           {!isAuthenticated && (
             <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
-              ¿Ya tienes cuenta? <button onClick={() => navigate('/login')} className="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-300 hover:decoration-indigo-600 transition-colors">Inicia sesión aquí</button>
+              ¿Ya tienes cuenta? <Link to="/login" className="text-indigo-600 hover:text-indigo-800 underline decoration-indigo-300 hover:decoration-indigo-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 rounded-sm">Inicia sesión aquí</Link>
             </p>
           )}
 
@@ -184,9 +211,9 @@ export default function Home() {
                   className={SELECT_CLS}
                 >
                   <option value="all">Todo género</option>
-                  <option value="Masculino">Hombres</option>
-                  <option value="Femenino">Mujeres</option>
-                  <option value="Otro">Otro</option>
+                  <option value="male">Hombres</option>
+                  <option value="female">Mujeres</option>
+                  <option value="other">Otro</option>
                 </select>
                 <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
               </div>
@@ -243,10 +270,11 @@ export default function Home() {
                 <div key={category} className="mb-12">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {top3.map((item) => (
-                      <div
+                      <Link
                         key={item.id}
-                        className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col h-full"
-                        onClick={() => navigate(`/battle/${item.slug}`)}
+                        to={`/battle/${item.slug}`}
+                        className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                        aria-label={`Ir a la batalla de ${item.title}`}
                       >
                         <div className="flex justify-between items-start mb-4">
                           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-100">
@@ -272,7 +300,7 @@ export default function Home() {
                           <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">bolt</span> {item.total_signals} señales</span>
                           <span className="text-indigo-600 font-bold group-hover:underline flex items-center gap-1">Ver insights <span className="material-symbols-outlined text-[14px]">arrow_forward</span></span>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 </div>

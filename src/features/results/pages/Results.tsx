@@ -45,13 +45,54 @@ export type SegmentFilters = {
   region?: string | null
 }
 
+const DEFAULT_FILTERS: SegmentFilters & { category: string } = {
+  region: undefined,
+  gender: undefined,
+  age_bucket: undefined,
+  category: "streaming",
+};
+
+const labelGender = (v?: string | null) => {
+  if (!v) return null;
+  if (v === "male") return "Hombres";
+  if (v === "female") return "Mujeres";
+  if (v === "other") return "Otro";
+  return v;
+};
+
+const labelRegion = (v?: string | null) => {
+  if (!v) return null;
+  if (v === "Metropolitana") return "RM";
+  return v;
+};
+
+const labelAge = (v?: string | null) => {
+  if (!v) return null;
+  if (v === "18-24") return "18–24";
+  if (v === "25-34") return "25–34";
+  if (v === "35-44") return "35–44";
+  if (v === "45-54") return "45–54";
+  if (v === "55+") return "55+";
+  return v;
+};
+
 const Results: React.FC = () => {
-  const [filters, setFilters] = useState<SegmentFilters & { category: string }>({
-    region: undefined,
-    gender: undefined,
-    age_bucket: undefined,
-    category: "streaming", // Default category
-  });
+  const [filters, setFilters] = useState<SegmentFilters & { category: string }>(DEFAULT_FILTERS);
+
+  const isDefaultFilters =
+    (!filters.region || filters.region === null) &&
+    (!filters.gender || filters.gender === null) &&
+    filters.category === "streaming";
+
+  const resetFilters = () => {
+    setFilters(DEFAULT_FILTERS);
+  };
+
+  const activeChips = [
+    filters.gender ? `Género: ${labelGender(filters.gender)}` : null,
+    filters.region ? `Región: ${labelRegion(filters.region)}` : null,
+    filters.age_bucket ? `Edad: ${labelAge(filters.age_bucket)}` : null,
+  ].filter(Boolean) as string[];
 
   const navigate = useNavigate();
   const { profile } = useAuth();
@@ -63,7 +104,7 @@ const Results: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [mySignalsLoading, setMySignalsLoading] = useState(true);
   const [mySignals, setMySignals] = useState<MyRecentSignalRow[]>([]);
-  const [aggLastRefreshedAt, setAggLastRefreshedAt] = useState<string | null>(null);
+
   const [mySignalsCount, setMySignalsCount] = useState<number | null>(null);
   const [refreshTick, setRefreshTick] = useState(0);
 
@@ -108,7 +149,7 @@ const Results: React.FC = () => {
         if (overviewRes.status === 'fulfilled') {
           const resRows = overviewRes.value.rows.filter(r => r.category_slug === filters.category);
           setResults(resRows);
-          setAggLastRefreshedAt(overviewRes.value.snapshotBucket);
+
 
           setSelectedEntityId((prev) => {
             if (resRows.length === 0) return null;
@@ -118,7 +159,7 @@ const Results: React.FC = () => {
         } else {
           setError("No se pudieron cargar los datos de análisis.");
           setResults([]);
-          setAggLastRefreshedAt(null);
+
         }
 
         if (mySignalsRes.status === 'fulfilled') {
@@ -150,7 +191,7 @@ const Results: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, [filters, selectedEntityId, refreshTick]);
+  }, [filters, refreshTick]);
 
   // Load Analytics Mode if admin
   React.useEffect(() => {
@@ -190,37 +231,58 @@ const Results: React.FC = () => {
 
   // KPI Calculations
   const kpis = React.useMemo(() => {
-    const totalVolume = results.reduce((acc, r) => acc + Number(r.signals_count), 0);
-    const maxPreference = results.length > 0 ? Math.max(...results.map(r => r.preference_score)) : 0;
+    const totalSignals = results.reduce((acc, r) => acc + Number(r.signals_count || 0), 0);
+
+    const shares =
+      totalSignals > 0
+        ? results.map((r) => (Number(r.signals_count || 0) / totalSignals) * 100)
+        : [];
+
+    const sorted = [...shares].sort((a, b) => b - a);
+    const topShare = sorted.length ? sorted[0] : 0;
+    const deltaPts = sorted.length >= 2 ? sorted[0] - sorted[1] : 0;
+
+    const mean = shares.length ? shares.reduce((a, b) => a + b, 0) / shares.length : 0;
+    const variance = shares.length
+      ? shares.reduce((acc, x) => acc + Math.pow(x - mean, 2), 0) / shares.length
+      : 0;
+    const stdev = Math.sqrt(variance);
+
+    const volatility: "Baja" | "Media" | "Alta" =
+      stdev < 6 ? "Baja" : stdev < 12 ? "Media" : "Alta";
+
+    const consensusLabel =
+      topShare >= 60 ? "Consenso alto" : topShare >= 45 ? "Consenso medio" : "Opinión dividida";
+
+    const intensityLabel =
+      deltaPts < 3 ? "Muy parejo" : deltaPts < 8 ? "Competido" : "Dominante";
 
     return {
-      sampleN: totalVolume,
-      consensus: maxPreference.toFixed(1),
-      avgQuality: results.length > 0 ? (results.reduce((acc, r) => acc + Number(r.quality_score || 0), 0) / results.length).toFixed(1) : 0,
-      volatility: "Media" as const,
-      drivers: ["Calidad", "Frecuencia"] as [string, string],
-      deltaPts: 2.1
+      sampleN: totalSignals,
+      consensusPct: Number(topShare.toFixed(1)),
+      consensusLabel,
+      deltaPts: Number(deltaPts.toFixed(1)),
+      intensityLabel,
+      volatility,
+      drivers: ["Distribución", "Volumen"] as [string, string],
     };
   }, [results]);
 
   const chartData = React.useMemo(() => {
-    if (results.length === 0) return null;
+    const totalSignals = results.reduce((acc, r) => acc + Number(r.signals_count || 0), 0);
+    if (results.length === 0 || totalSignals <= 0) return null;
+
+    const values = results.map((r) => (Number(r.signals_count || 0) / totalSignals) * 100);
 
     return {
-      labels: results.map(r => r.entity?.name || 'Unknown'),
+      labels: results.map((r) => r.entity?.name || "Desconocido"),
       datasets: [
         {
-          data: results.map(r => r.preference_score),
-          backgroundColor: [
-            "#6366F1",
-            "#8B5CF6",
-            "#EC4899",
-            "#14B8A6",
-            "#F59E0B"
-          ],
-          borderWidth: 0
-        }
-      ]
+          data: values,
+          backgroundColor: ["#6366F1", "#8B5CF6", "#EC4899", "#14B8A6", "#F59E0B"],
+          borderWidth: 0,
+        },
+      ],
     };
   }, [results]);
 
@@ -232,22 +294,43 @@ const Results: React.FC = () => {
         position: "bottom" as const,
         labels: {
           color: "#64748B",
-          font: {
-            family: "'Inter', sans-serif",
-            weight: 700
+          font: { family: "'Inter', sans-serif", weight: 700 }
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) => {
+            const v = typeof ctx.parsed === "number" ? ctx.parsed : (ctx.parsed?.y ?? 0);
+            return `${ctx.label}: ${Number(v).toFixed(1)}%`;
           }
         }
       }
     }
   }), []);
 
-  const lastUpdate = React.useMemo(() => {
-    if (!aggLastRefreshedAt) return "—";
-    const d = new Date(aggLastRefreshedAt);
-    const pad = (n: number) => String(n).padStart(2, "0");
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  }, [aggLastRefreshedAt]);
+  const lastSnapshotAt = React.useMemo(() => {
+    if (!results?.length) return null;
+    let max = 0;
 
+    for (const r of results as any[]) {
+      const raw = r?.snapshot_at ?? r?.snapshotAt ?? r?.snapshotAtIso ?? r?.created_at ?? null;
+      if (!raw) continue;
+      const t = new Date(raw).getTime();
+      if (!Number.isFinite(t)) continue;
+      if (t > max) max = t;
+    }
+
+    return max ? new Date(max).toISOString() : null;
+  }, [results]);
+
+  const lastSnapshotLabel = React.useMemo(() => {
+    if (!lastSnapshotAt) return "—";
+    return new Date(lastSnapshotAt).toLocaleString("es-CL", {
+      hour12: false,
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  }, [lastSnapshotAt]);
 
   return (
     <div className="container-ws section-y space-y-6 pb-32">
@@ -266,9 +349,33 @@ const Results: React.FC = () => {
           </h1>
         }
         subtitle={
-          <p className="text-sm text-muted font-medium">
-            Actualizado cada 3 horas (<span className="font-mono text-ink text-xs">{lastUpdate}</span>)
-          </p>
+          <div>
+            <div className="mt-2 text-[11px] font-bold text-muted flex items-center gap-2">
+              <span className="material-symbols-outlined text-[16px]">schedule</span>
+              Actualizado cada 3 horas
+              <span className="opacity-60">·</span>
+              Últ. snapshot: {lastSnapshotLabel}
+            </div>
+
+            {activeChips.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {activeChips.map((txt) => (
+                  <span
+                    key={txt}
+                    className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-[11px] font-black tracking-wide"
+                  >
+                    {txt}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {activeChips.length === 0 && (
+              <div className="mt-3 text-[11px] font-bold text-muted">
+                Sin filtros (Global)
+              </div>
+            )}
+          </div>
         }
         meta={
           <>
@@ -292,7 +399,7 @@ const Results: React.FC = () => {
                 onChange={(e) => setFilters((p) => ({ ...p, region: e.target.value || null }))}
               >
                 <option value="">Todas</option>
-                <option value="RM">RM</option>
+                <option value="Metropolitana">RM</option>
                 <option value="Valparaíso">Valparaíso</option>
                 <option value="Biobío">Biobío</option>
               </Select>
@@ -320,9 +427,15 @@ const Results: React.FC = () => {
                 <option value="retail">Retail</option>
               </Select>
 
-              <button className="h-[42px] px-4 rounded-xl bg-ink text-white text-[11px] font-black hover:opacity-90 transition-all shadow-lg uppercase tracking-[0.14em] flex items-center gap-2">
-                <span className="material-symbols-outlined text-[16px]">filter_list</span>
-                Filtrar
+              <button
+                type="button"
+                onClick={resetFilters}
+                disabled={isDefaultFilters}
+                className={`h-[42px] px-4 rounded-xl bg-ink text-white text-[11px] font-black hover:opacity-90 transition-all shadow-lg uppercase tracking-[0.14em] flex items-center gap-2 ${isDefaultFilters ? "opacity-40 cursor-not-allowed hover:opacity-40" : ""
+                  }`}
+              >
+                <span className="material-symbols-outlined text-[16px]">restart_alt</span>
+                Restablecer
               </button>
             </div>
 
@@ -397,9 +510,9 @@ const Results: React.FC = () => {
               <div>
                 <p className="text-[10px] font-black text-muted uppercase tracking-[0.18em] mb-1">Volumen</p>
                 <div className="text-3xl font-black text-ink">{kpis.sampleN.toLocaleString("es-CL")}</div>
-                <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-1 mt-1">
-                  <span className="material-symbols-outlined text-[14px]">trending_up</span>
-                  +12% vs ayer
+                <div className="text-[11px] font-bold text-muted flex items-center gap-1 mt-1">
+                  <span className="material-symbols-outlined text-[14px]">schedule</span>
+                  Señales del snapshot
                 </div>
               </div>
             </div>
@@ -413,10 +526,10 @@ const Results: React.FC = () => {
               </div>
               <div>
                 <p className="text-[10px] font-black text-muted uppercase tracking-[0.18em] mb-1">Consenso</p>
-                <div className="text-3xl font-black text-ink">{kpis.consensus}%</div>
-                <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-1 mt-1">
-                  <span className="material-symbols-outlined text-[14px]">check_circle</span>
-                  Alta Fiabilidad
+                <div className="text-3xl font-black text-ink">{kpis.consensusPct}%</div>
+                <div className="text-[11px] font-bold text-muted flex items-center gap-1 mt-1">
+                  <span className="material-symbols-outlined text-[14px]">hub</span>
+                  {kpis.consensusLabel}
                 </div>
               </div>
             </div>
@@ -432,8 +545,8 @@ const Results: React.FC = () => {
                 <p className="text-[10px] font-black text-muted uppercase tracking-[0.18em] mb-1">Intensidad</p>
                 <div className="text-3xl font-black text-ink">+{kpis.deltaPts} pts</div>
                 <div className="text-[11px] font-bold text-muted flex items-center gap-1 mt-1">
-                  <span className="material-symbols-outlined text-[14px]">remove</span>
-                  Estable
+                  <span className="material-symbols-outlined text-[14px]">swap_horiz</span>
+                  {kpis.intensityLabel}
                 </div>
               </div>
             </div>
@@ -449,8 +562,8 @@ const Results: React.FC = () => {
               <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h3 className="font-black text-ink text-lg tracking-tight">Distribución de Preferencias</h3>
-                    <p className="text-xs text-muted font-medium">Desglose porcentual por entidad</p>
+                    <h3 className="font-black text-ink text-lg tracking-tight">Distribución de Señales</h3>
+                    <p className="text-xs text-muted font-medium">Share (%) de señales en el snapshot</p>
                   </div>
                   <button className="text-muted hover:text-ink transition">
                     <span className="material-symbols-outlined">more_horiz</span>

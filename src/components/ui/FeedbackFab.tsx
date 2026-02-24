@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
+import { accessGate } from "../../features/access/services/accessGate";
 
 export default function FeedbackFab() {
     const location = useLocation();
@@ -10,24 +11,26 @@ export default function FeedbackFab() {
     const waFromEnv = (import.meta.env.VITE_FEEDBACK_WHATSAPP_NUMBER as string | undefined) || "";
     const waFallback = import.meta.env.DEV ? "56991284219" : "";
     const waNumber = waFromEnv || waFallback;
-
-    // En admin no mostramos el FAB
-    if (location.pathname.startsWith("/admin")) return null;
-    if (!enabled || !waNumber) return null;
-
     const templateEnv = (import.meta.env.VITE_FEEDBACK_WHATSAPP_TEMPLATE as string | undefined) || "";
 
     const message = useMemo(() => {
+        const tokenId = accessGate.getTokenId() ?? 'NO_TOKEN';
         const url = typeof window !== "undefined" ? window.location.href : "";
+        const ts = new Date().toISOString();
+
         const base = templateEnv.trim()
             ? templateEnv
-            : `Hola! Estoy probando Opina+ y quiero reportar feedback.\n\nURL: {url}\n\nQué pasó:\n- \n\nQué esperaba:\n- \n\nDispositivo/Navegador:\n- `;
+            : `Feedback Opina+\ntoken: ${tokenId}\nurl: ${url}\nts: ${ts}\n\nDescribe el problema o sugerencia:\n- `;
 
         return base
             .split("{url}").join(url)
             .split("{path}").join(location.pathname)
             .split("{nickname}").join("");
     }, [location.pathname, templateEnv]);
+
+    // En admin no mostramos el FAB
+    if (location.pathname.startsWith("/admin")) return null;
+    if (!enabled || !waNumber) return null;
 
     const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
 

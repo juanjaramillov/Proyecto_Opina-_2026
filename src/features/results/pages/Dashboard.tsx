@@ -33,7 +33,7 @@ export default function Dashboard() {
             <header className="flex justify-between items-end">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900">B2B Intelligence</h1>
-                    <p className="text-slate-500">Panel de monitoreo de señales agregadas en tiempo real.</p>
+                    <p className="text-slate-500">Panel de monitoreo de señales agregadas (actualizado cada 3 horas).</p>
                 </div>
                 <div className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-bold border border-emerald-100">
                     SISTEMA ONLINE

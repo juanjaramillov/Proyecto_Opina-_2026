@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 export type GenericSlide = {
@@ -14,7 +14,6 @@ export type GenericSlide = {
 };
 
 export default function RightNowCarousel({ readOnly = false, data = [] }: { readOnly?: boolean, data?: GenericSlide[] }) {
-    const navigate = useNavigate();
     const [current, setCurrent] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -25,7 +24,7 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
             id: 'loading-1',
             context: "Estado del Sistema",
             value: "Calibrando Señales",
-            label: "Estamos recuperando la señal en tiempo real...",
+            label: "Estamos sincronizando el último snapshot...",
             source: "Opina+ System",
             path: "#",
             aiInsight: "La precisión requiere un segundo."
@@ -50,13 +49,10 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
     const isBrand = !!activeSlide.logoUrl;
     const isStat = /%|\d/.test(activeSlide.value) && activeSlide.value.length < 8; // Number or short text
 
-    return (
-        <section
-            className={`relative w-full aspect-[16/10] md:aspect-[21/9] max-w-5xl mx-auto overflow-hidden group card ${readOnly ? '' : 'cursor-pointer card-hover'}`}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onClick={() => !readOnly && navigate(activeSlide.path)}
-        >
+    const containerClasses = `relative w-full aspect-[16/10] md:aspect-[21/9] max-w-5xl mx-auto overflow-hidden group card ${readOnly ? '' : 'cursor-pointer card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white'}`;
+
+    const content = (
+        <>
             {/* Dynamic Backgrounds based on variant - MORE IMPACTFUL GRADIENTS */}
             <div className={`absolute inset-0 z-0 transition-colors duration-700 bg-white`}>
                 {/* Visual Depth Elements - Animated */}
@@ -168,6 +164,30 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
                     className={`h-full ${isBrand ? 'bg-slate-800' : isStat ? 'bg-primary' : 'bg-accent'}`}
                 />
             </div >
-        </section >
+        </>
+    );
+
+    if (readOnly) {
+        return (
+            <section
+                className={containerClasses}
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+            >
+                {content}
+            </section>
+        );
+    }
+
+    return (
+        <Link
+            to={activeSlide.path}
+            className={containerClasses}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            aria-label={`Ver detalle de ${activeSlide.context}`}
+        >
+            {content}
+        </Link>
     );
 }

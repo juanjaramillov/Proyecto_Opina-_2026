@@ -16,14 +16,14 @@ CREATE TABLE IF NOT EXISTS public.users (
 
 -- RLS: public.users es estrictamente privada
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can only read own private data" ON public.users FOR SELECT USING (id = auth.uid());
-CREATE POLICY "Users can only update own private data" ON public.users FOR UPDATE USING (id = auth.uid());
+CREATE POLICY "Users can only read own private data" ON public.users FOR SELECT USING (user_id = auth.uid());
+CREATE POLICY "Users can only update own private data" ON public.users FOR UPDATE USING (user_id = auth.uid());
 -- Solo el Backend (Service Role) o el Trigger interno debe insertar aquí.
 
 
 -- 2) TABLA SEGMENTABLE (B2B): public.user_profiles
 CREATE TABLE IF NOT EXISTS public.user_profiles (
-  user_id uuid PRIMARY KEY REFERENCES public.users(id) ON DELETE CASCADE,
+  user_id uuid PRIMARY KEY REFERENCES public.users(user_id) ON DELETE CASCADE,
   nickname text UNIQUE,
   age_range text,
   gender text,
@@ -82,7 +82,7 @@ CREATE OR REPLACE TRIGGER on_user_profile_updated
 
 -- 4) MIGRACIÓN DE DATOS (Legacy `profiles` -> New Schema)
 -- Migramos a public.users
-INSERT INTO public.users (id, email, is_identity_verified, created_at)
+INSERT INTO public.users (user_id, email, is_identity_verified, created_at)
 SELECT 
   au.id, 
   au.email, 
@@ -90,7 +90,7 @@ SELECT
   p.updated_at 
 FROM auth.users au
 LEFT JOIN public.profiles p ON p.id = au.id
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (user_id) DO NOTHING;
 
 -- Migramos a public.user_profiles (Mapeando columnas legacy)
 INSERT INTO public.user_profiles (
@@ -129,7 +129,7 @@ CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
   -- Insert Private Identity
-  INSERT INTO public.users (id, email)
+  INSERT INTO public.users (user_id, email)
   VALUES (NEW.id, coalesce(NEW.email, ''));
   
   -- Insert Empty Segmentable Profile

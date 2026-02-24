@@ -8,6 +8,7 @@ import { InlineLoader } from '../../../components/ui/InlineLoader';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { logger } from '../../../lib/logger';
 import PageHeader from "../../../components/ui/PageHeader";
+import { useToast } from "../../../components/ui/useToast";
 
 interface Category {
     id: string;
@@ -18,19 +19,35 @@ interface Category {
 type ModuleType = 'versus' | 'progressive';
 
 const Rankings: React.FC = () => {
+    const initialParams = new URLSearchParams(window.location.search);
+    const initialCategory = initialParams.get("category") || "streaming";
+    const initialModule = (initialParams.get("module") === "progressive" ? "progressive" : "versus") as ModuleType;
+    const initialSegment = initialParams.get("segment") || "global";
+
     const [categories, setCategories] = useState<Category[]>([]);
-    const [activeCategorySlug, setActiveCategorySlug] = useState<string>('streaming');
-    const [moduleType, setModuleType] = useState<ModuleType>('versus');
+    const [activeCategorySlug, setActiveCategorySlug] = useState<string>(initialCategory);
+    const [moduleType, setModuleType] = useState<ModuleType>(initialModule);
     const [ranking, setRanking] = useState<RankSnapshot[]>([]);
     const [loading, setLoading] = useState(true);
-    const [updatedAt, setUpdatedAt] = useState('');
+
     const [analyticsMode, setAnalyticsMode] = useState<'all' | 'clean' | null>(null);
 
     const { profile } = useAuth();
     const isAdmin = (profile as any)?.role === 'admin';
 
-    const [segmentId, setSegmentId] = useState<string>('global'); // Por ahora fijo en global
+    const [segmentId, setSegmentId] = useState<string>(initialSegment);
     const [openFilters, setOpenFilters] = useState(false); // filters UI
+
+    const { showToast } = useToast();
+
+    const SEGMENTS = [
+        { id: "global", label: "Global" },
+        { id: "gender:female", label: "Mujeres" },
+        { id: "gender:male", label: "Hombres" },
+        { id: "region:Metropolitana", label: "RM" },
+        { id: "gender:male|region:Metropolitana", label: "Hombres RM" }
+    ];
+    const segmentLabel = SEGMENTS.find(s => s.id === segmentId)?.label || segmentId;
 
     // 1. Fetch Categories on mount
     useEffect(() => {
@@ -38,10 +55,14 @@ const Rankings: React.FC = () => {
             const { data } = await supabase.from('categories').select('id, slug, name');
             if (data) {
                 setCategories(data as Category[]);
-                if (data.length > 0) {
-                    const streaming = (data as Category[]).find(c => c.slug === 'streaming');
-                    setActiveCategorySlug(streaming ? streaming.slug : data[0].slug);
-                }
+                setActiveCategorySlug(prev => {
+                    const exists = (data as Category[]).some(c => c.slug === prev);
+                    if (!exists) {
+                        const streaming = (data as Category[]).find(c => c.slug === 'streaming');
+                        return streaming ? streaming.slug : (data as Category[])[0].slug;
+                    }
+                    return prev;
+                });
             }
         };
         fetchCategories();
@@ -54,11 +75,7 @@ const Rankings: React.FC = () => {
             try {
                 const response = await rankingService.getLatestRankings(moduleType, segmentId, 50, activeCategorySlug);
                 setRanking(response.rows);
-                if (response.snapshotBucket) {
-                    setUpdatedAt(response.snapshotBucket);
-                } else {
-                    setUpdatedAt('');
-                }
+
             } catch (err) {
                 logger.error('Failed to load ranking:', err);
             } finally {
@@ -84,6 +101,41 @@ const Rankings: React.FC = () => {
         return () => { mounted = false; };
     }, [isAdmin]);
 
+    // 4. Sync URL with state
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        params.set("category", activeCategorySlug);
+        params.set("module", moduleType);
+        params.set("segment", segmentId);
+
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.replaceState(null, "", newUrl);
+    }, [activeCategorySlug, moduleType, segmentId]);
+
+    const lastSnapshotAt = React.useMemo(() => {
+        if (!ranking?.length) return null;
+        let max = 0;
+
+        for (const r of ranking as any[]) {
+            const raw = r?.snapshot_at ?? r?.snapshotAt ?? r?.created_at ?? null;
+            if (!raw) continue;
+            const t = new Date(raw).getTime();
+            if (!Number.isFinite(t)) continue;
+            if (t > max) max = t;
+        }
+
+        return max ? new Date(max).toISOString() : null;
+    }, [ranking]);
+
+    const lastSnapshotLabel = React.useMemo(() => {
+        if (!lastSnapshotAt) return "—";
+        return new Date(lastSnapshotAt).toLocaleString("es-CL", {
+            hour12: false,
+            dateStyle: "short",
+            timeStyle: "short",
+        });
+    }, [lastSnapshotAt]);
+
     const activeCategory = categories.find(c => c.slug === activeCategorySlug);
 
     return (
@@ -107,21 +159,21 @@ const Rankings: React.FC = () => {
                     </h1>
                 }
                 subtitle={
-                    <p className="text-muted font-medium mt-1 max-w-xl">
-                        Análisis dinámico basado en señales de calidad, preferencia y volumen.
-                    </p>
+                    <div>
+                        <p className="text-muted font-medium mt-1 max-w-xl">
+                            Análisis dinámico basado en señales de calidad, preferencia y volumen.
+                        </p>
+                        <div className="mt-2 text-[11px] font-bold text-muted flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[16px]">schedule</span>
+                            Actualizado cada 3 horas
+                            <span className="opacity-60">·</span>
+                            Últ. snapshot: {lastSnapshotLabel}
+                        </div>
+                    </div>
                 }
                 meta={
                     <div className="flex flex-col gap-2">
-                        <div className="flex flex-col items-end gap-1 bg-white px-3 py-2 rounded-xl border border-slate-100 shadow-sm text-[10px] font-black uppercase tracking-wider text-muted">
-                            <div className="flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                Actualizado cada 3 horas
-                            </div>
-                            <div className="text-[9px] text-slate-400 lowercase tracking-normal">
-                                {updatedAt ? `Últ. snapshot: ${new Date(updatedAt).toLocaleString("es-CL", { hour12: false, dateStyle: "short", timeStyle: "short" })}` : "--:--"}
-                            </div>
-                        </div>
+
 
                         {isAdmin && analyticsMode && (
                             <div className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded border text-[10px] font-black uppercase tracking-wider ${analyticsMode === "clean" ? "bg-indigo-50 border-indigo-200 text-indigo-700" : "bg-slate-50 border-slate-200 text-slate-500"}`}>
@@ -135,11 +187,21 @@ const Rankings: React.FC = () => {
                 }
                 actions={
                     <button
-                        onClick={() => {
+                        onClick={async () => {
                             const baseUrl = window.location.origin;
-                            const shareUrl = `${baseUrl}/rankings/${activeCategorySlug}?segment=${segmentId}`;
-                            navigator.clipboard.writeText(shareUrl);
-                            alert("Link de ranking copiado");
+                            const shareUrl = `${baseUrl}/rankings?category=${encodeURIComponent(activeCategorySlug)}&module=${encodeURIComponent(moduleType)}&segment=${encodeURIComponent(segmentId)}`;
+                            try {
+                                await navigator.clipboard.writeText(shareUrl);
+                                showToast("Link copiado", "success");
+                            } catch {
+                                const el = document.createElement("textarea");
+                                el.value = shareUrl;
+                                document.body.appendChild(el);
+                                el.select();
+                                document.execCommand("copy");
+                                document.body.removeChild(el);
+                                showToast("Link copiado", "success");
+                            }
                         }}
                         className="flex items-center justify-center gap-2 px-3 py-2 bg-ink text-white rounded-xl text-[10px] font-black uppercase tracking-wider hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-indigo-100"
                     >
@@ -194,7 +256,7 @@ const Rankings: React.FC = () => {
                         <span className="material-symbols-outlined text-slate-400">tune</span>
                         <span className="text-sm font-bold text-ink">Filtrar por Segmento</span>
                         <span className="bg-indigo-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
-                            {segmentId}
+                            {segmentLabel}
                         </span>
                     </div>
                     <span className={`material-symbols-outlined transition-transform ${openFilters ? 'rotate-180' : ''}`}>
@@ -214,14 +276,14 @@ const Rankings: React.FC = () => {
                                 <div className="space-y-2">
                                     <p className="text-[10px] font-black uppercase tracking-widest text-muted">Segmentos Principales</p>
                                     <div className="flex flex-wrap gap-2">
-                                        {['global', 'female', 'male', 'young', 'adult'].map(s => (
+                                        {SEGMENTS.map(s => (
                                             <button
-                                                key={s}
-                                                onClick={() => setSegmentId(s)}
-                                                className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all active:scale-95 capitalize ${segmentId === s ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-slate-100 text-muted'
+                                                key={s.id}
+                                                onClick={() => setSegmentId(s.id)}
+                                                className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all active:scale-95 capitalize ${segmentId === s.id ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-slate-100 text-muted'
                                                     }`}
                                             >
-                                                {s}
+                                                {s.label}
                                             </button>
                                         ))}
                                     </div>

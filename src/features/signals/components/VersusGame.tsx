@@ -69,6 +69,16 @@ export default function VersusGame(props: GameProps) {
         setClickPosition(null);
     }, [effectiveBattle?.id]);
 
+    const resetGame = async () => {
+        setShowFinalMessage(false);
+        setClickPosition(null);
+        if (props.onQueueComplete) {
+            props.onQueueComplete();
+        } else {
+            navigate('/');
+        }
+    };
+
     if (showFinalMessage) {
         return (
             <motion.div
@@ -91,7 +101,7 @@ export default function VersusGame(props: GameProps) {
                 </p>
                 <div className="flex flex-col gap-3 w-full max-w-xs">
                     <button
-                        onClick={() => window.location.reload()}
+                        onClick={resetGame}
                         className="w-full px-8 py-4 bg-primary text-white font-black rounded-2xl hover:bg-primary-dark transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
                     >
                         CONTINUAR OPINANDO
@@ -111,7 +121,7 @@ export default function VersusGame(props: GameProps) {
         return (
             <SessionSummary
                 results={sessionHistory}
-                onReset={() => window.location.reload()}
+                onReset={resetGame}
             />
         );
     }
