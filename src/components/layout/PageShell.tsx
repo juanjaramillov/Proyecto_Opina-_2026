@@ -15,6 +15,7 @@ const MENU_ITEMS = [
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
+
 export default function PageShell({ children }: { children: React.ReactNode }) {
   // Simplified user check logic, relying on profile or extending later
   const { profile } = useAuth();
@@ -37,6 +38,12 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+
+  // ✅ Feedback WhatsApp: se muestra solo si hay número y NO estamos en /admin
+  const feedbackEnabled = import.meta.env.VITE_FEEDBACK_WHATSAPP_ENABLED !== "false";
+  const waNumber = (import.meta.env.VITE_FEEDBACK_WHATSAPP_NUMBER as string | undefined) || "";
+  const isAdminRoute = location.pathname.startsWith("/admin");
+  const showFeedbackFab = feedbackEnabled && !!waNumber && !isAdminRoute;
 
   return (
     <div className="flex flex-col flex-1 w-full min-h-screen relative">
@@ -131,6 +138,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 </NavLink>
               </>
             )}
+
             {!isAuthenticated && (
               <NavLink
                 to="/login"
@@ -167,7 +175,6 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               )
             })}
 
-
             {isAuthenticated && role === 'admin' && (
               <>
                 <NavLink
@@ -193,6 +200,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 </NavLink>
               </>
             )}
+
             {!isAuthenticated && (
               <NavLink
                 to="/login"
@@ -210,7 +218,8 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <FeedbackFab />
+      {/* ✅ Floating Feedback (WhatsApp) */}
+      {showFeedbackFab ? <FeedbackFab /> : null}
 
       <footer className="w-full border-t border-aurora-primary/10 bg-white/50 backdrop-blur-sm py-6 mt-auto">
         <div className="w-full px-4 sm:px-8 xl:px-12 mx-auto text-center space-y-2">
