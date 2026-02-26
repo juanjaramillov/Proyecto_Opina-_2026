@@ -91,7 +91,7 @@ export const profileService = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { versus_count: 0, progressive_count: 0, depth_count: 0 };
 
-        const { data, error } = await supabase.rpc('get_my_participation_summary');
+        const { data, error } = await (supabase as any).rpc('get_my_participation_summary');
         if (error) throw error;
 
         const row = (data as any)?.[0] as any;
@@ -113,7 +113,7 @@ export const profileService = {
 
         const safeLimit = Math.max(1, Math.min(limit, 100));
 
-        const { data, error } = await supabase.rpc('get_my_activity_history', {
+        const { data, error } = await (supabase as any).rpc('get_my_activity_history', {
             p_limit: safeLimit
         });
 

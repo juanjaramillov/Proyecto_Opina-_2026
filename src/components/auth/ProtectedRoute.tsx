@@ -44,7 +44,7 @@ export default function ProtectedRoute({ children }: { children: JSX.Element }) 
                 .eq("user_id", session.user.id)
                 .maybeSingle();
 
-            const adminStatus = (userRow?.role ?? "") === "admin";
+            const adminStatus = ((userRow as any)?.role ?? "") === "admin";
             setIsAdmin(adminStatus);
 
             if (adminStatus) {

@@ -38,7 +38,7 @@ export const analyticsService = {
      * (signal_events no permite SELECT directo por RLS, por eso usamos RPC).
      */
     async getDepthDistribution(optionId: string, questionKey: string = 'nota_general') {
-        const { data, error } = await supabase.rpc('get_depth_distribution_values', {
+        const { data, error } = await (supabase as any).rpc('get_depth_distribution_values', {
             p_option_id: optionId,
             p_context_id: questionKey
         });

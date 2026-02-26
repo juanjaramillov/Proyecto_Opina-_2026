@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { BattleOption } from '../../types';
 
@@ -11,8 +10,7 @@ interface ChampionLaneProps {
     isSelected?: boolean;
 }
 
-export default function ChampionLane({ option, wins, goal, onClick, isVoting, isSelected }: ChampionLaneProps) {
-    const isAtRisk = false; // Could add logic if wins == 0
+export default function ChampionLane({ option, wins, onClick, isVoting, isSelected }: ChampionLaneProps) {
 
     return (
         <button

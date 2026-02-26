@@ -87,7 +87,7 @@ export const sessionService = {
     finalizeAttributes: async (sessionId: string): Promise<string | null> => {
         try {
             // 1) Contar votos de la sesión vía RPC (signal_events no permite SELECT directo por RLS)
-            const { data: rows, error } = await supabase.rpc('get_session_vote_counts', {
+            const { data: rows, error } = await (supabase as any).rpc('get_session_vote_counts', {
                 p_session_id: sessionId
             });
 
