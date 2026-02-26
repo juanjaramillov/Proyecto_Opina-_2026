@@ -10,6 +10,7 @@ import RoleProtectedRoute from "./components/auth/RoleProtectedRoute";
 // Core Pages
 import Home from "./features/home/pages/Home";
 import Experience from "./features/feed/pages/Experience";
+import ModuleEntry from "./features/feed/pages/ModuleEntry";
 import Profile from "./features/profile/pages/Profile";
 import BattlePage from "./features/signals/pages/BattlePage";
 import Results from "./features/results/pages/Results";
@@ -31,8 +32,12 @@ import AboutUs from "./pages/static/AboutUs";
 import NotFound from "./pages/NotFound";
 
 import { Analytics } from '@vercel/analytics/react';
+import { useSessionTracker } from './hooks/useSessionTracker';
 
 export default function App() {
+  // Mount the global session tracker
+  useSessionTracker();
+
   return (
     <AuthProvider>
       <MotionConfig reducedMotion="user">
@@ -54,6 +59,7 @@ export default function App() {
 
               {/* Protected Routes */}
               <Route path="/experience" element={<ProtectedRoute><Experience /></ProtectedRoute>} />
+              <Route path="/m/:slug" element={<ProtectedRoute><ModuleEntry /></ProtectedRoute>} />
               <Route path="/battle/:battleSlug" element={<ProtectedRoute><BattlePage /></ProtectedRoute>} />
               <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

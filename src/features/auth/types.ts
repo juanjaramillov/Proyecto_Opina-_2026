@@ -29,6 +29,7 @@ export type AccountProfile = {
     // Identity info
     displayName?: string;
     email?: string;
+    role?: string;
 
     // Completitud de perfil (0 a 100)
     profileCompleteness: number;

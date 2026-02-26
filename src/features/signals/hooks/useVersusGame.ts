@@ -133,7 +133,9 @@ export function useVersusGame({
 
         // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 1 for signaling
         const currentStage = profile?.demographics?.profileStage || 0;
-        if (!profile || profile.tier === 'guest' || currentStage < 1) {
+        const isAdmin = profile?.role === 'admin';
+
+        if (!isAdmin && (!profile || profile.tier === 'guest' || currentStage < 1)) {
             notifyService.error("Completa tu perfil para emitir señales.");
             setShowProfileModal(true);
             return;

@@ -4,14 +4,12 @@ import { useAuth } from "../../features/auth";
 import { useRole } from "../../hooks/useRole";
 import { useSignalStore } from "../../store/signalStore";
 import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
-import { getUserLevel } from "../../lib/levelSystem";
 import FeedbackFab from "../ui/FeedbackFab";
 
 const MENU_ITEMS = [
   { id: 'participa', label: 'Participa', route: '/experience' },
   { id: 'results', label: 'Resultados', route: '/results' },
   { id: 'rankings', label: 'Rankings', route: '/rankings' },
-  { id: 'profile', label: 'Perfil', route: '/profile' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
@@ -33,6 +31,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   const isAuthenticated = profile && profile.tier !== 'guest';
+
+  const nextMilestone = Math.ceil((signals + 1) / 10) * 10;
+  const toNext = nextMilestone - signals;
 
   // Cerrar el menú móvil al cambiar de ruta
   useEffect(() => {
@@ -64,15 +65,6 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <span className="text-xl font-black text-slate-900 tracking-tight hidden sm:block">Opina+</span>
             </NavLink>
 
-            {/* Gamification Badge - Only show to authenticated users */}
-            {isAuthenticated && (
-              <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex flex-col items-start justify-center pr-1 sm:pr-2">
-                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Lvl</span>
-                  <span className="text-xs sm:text-sm font-bold text-slate-700 leading-none">{getUserLevel(signals).level}</span>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -87,9 +79,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden sm:flex items-center gap-4 justify-end">
+          <nav className="hidden sm:flex items-center gap-2 lg:gap-4 justify-end flex-nowrap overflow-x-auto no-scrollbar">
+            {/* Desktop Menu Mapping */}
             {MENU_ITEMS.map((item) => {
-              if (item.id === 'profile' && !isAuthenticated) return null;
               const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
 
               return (
@@ -109,13 +101,37 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               )
             })}
 
+            {isAuthenticated ? (
+              <NavLink
+                to="/profile"
+                className="flex items-center gap-1.5 ml-2 lg:ml-4 px-2 py-1.5 lg:px-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-all font-bold text-slate-700 text-sm active:scale-95 group shrink-0"
+              >
+                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
+                  {(profile?.displayName || 'U').charAt(0)}
+                </div>
+                <span>{profile?.displayName || 'Usuario'}</span>
+                <div className="flex items-center gap-1 bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-md border border-amber-200/50 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-amber-200" title={`Faltan ${toNext} señales para tu próximo hito`}>
+                  <span className="material-symbols-outlined text-[12px] text-amber-600">star</span>
+                  <span>Faltan {toNext}</span>
+                </div>
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/login"
+                className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all active:scale-95 ml-4 flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-[18px]">login</span>
+                Iniciar Sesión
+              </NavLink>
+            )}
+
             {/* ENLACES ADMINISTRACION */}
-            {isAuthenticated && role === 'admin' && (
+            {isAuthenticated && (role === 'admin' || (profile as any)?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
               <>
                 <NavLink
                   to="/admin/invitaciones"
                   className={({ isActive }) =>
-                    `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-amber-500 text-white shadow-md' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'}`
+                    `px-2 py-1.5 ml-1 lg:ml-2 rounded-lg text-xs font-black transition-all whitespace-nowrap shrink-0 ${isActive ? 'bg-amber-500 text-white shadow-md' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'}`
                   }
                 >
                   Admin Invites
@@ -123,7 +139,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 <NavLink
                   to="/admin/health"
                   className={({ isActive }) =>
-                    `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-emerald-500 text-white shadow-md' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`
+                    `px-2 py-1.5 ml-1 lg:ml-2 rounded-lg text-xs font-black transition-all whitespace-nowrap shrink-0 ${isActive ? 'bg-emerald-500 text-white shadow-md' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`
                   }
                 >
                   Health Checks
@@ -131,21 +147,12 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 <NavLink
                   to="/admin/antifraude"
                   className={({ isActive }) =>
-                    `px-3 py-1.5 ml-2 rounded-lg text-xs font-black transition-all ${isActive ? 'bg-red-500 text-white shadow-md' : 'bg-red-50 text-red-700 hover:bg-red-100'}`
+                    `px-2 py-1.5 ml-1 lg:ml-2 rounded-lg text-xs font-black transition-all whitespace-nowrap shrink-0 ${isActive ? 'bg-red-500 text-white shadow-md' : 'bg-red-50 text-red-700 hover:bg-red-100'}`
                   }
                 >
                   Antifraude
                 </NavLink>
               </>
-            )}
-
-            {!isAuthenticated && (
-              <NavLink
-                to="/login"
-                className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all active:scale-95 ml-2"
-              >
-                Unirme / Iniciar Sesión
-              </NavLink>
             )}
           </nav>
         </div>
@@ -154,7 +161,6 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
         {isMobileMenuOpen && (
           <div className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-lg sm:hidden flex flex-col z-40 py-2 animate-in slide-in-from-top-2 duration-200">
             {MENU_ITEMS.map((item) => {
-              if (item.id === 'profile' && !isAuthenticated) return null;
               const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
 
               return (
@@ -175,7 +181,37 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               )
             })}
 
-            {isAuthenticated && role === 'admin' && (
+            {isAuthenticated ? (
+              <NavLink
+                to="/profile"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mx-4 mt-2 mb-2 px-4 py-3 text-sm font-bold text-slate-700 transition-colors flex items-center justify-between rounded-xl bg-slate-50 border border-slate-100 active:scale-[0.98]"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
+                    {(profile?.displayName || 'U').charAt(0)}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-black text-ink">{profile?.displayName || 'Mi Perfil'}</span>
+                    <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Faltan {toNext} para premio</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center w-8 h-8 bg-amber-100 text-amber-600 rounded-lg border border-amber-200">
+                  <span className="material-symbols-outlined text-[18px]">redeem</span>
+                </div>
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mx-4 my-2 px-4 py-3 flex items-center justify-center gap-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-indigo-700 transition-colors"
+              >
+                <span className="material-symbols-outlined text-[18px]">login</span>
+                Iniciar Sesión
+              </NavLink>
+            )}
+
+            {isAuthenticated && (role === 'admin' || (profile as any)?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
               <>
                 <NavLink
                   to="/admin/invitaciones"
@@ -199,16 +235,6 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   Antifraude
                 </NavLink>
               </>
-            )}
-
-            {!isAuthenticated && (
-              <NavLink
-                to="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 my-2 px-4 py-3 bg-indigo-600 text-white text-center rounded-xl text-sm font-bold shadow-md"
-              >
-                Unirme / Iniciar Sesión
-              </NavLink>
             )}
           </div>
         )}

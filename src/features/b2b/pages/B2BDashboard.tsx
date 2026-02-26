@@ -1,31 +1,70 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../../../supabase/client";
 import PageShell from '../../../components/layout/PageShell';
 import { b2bAnalyticsService, SnapshotRow } from '../services/b2bAnalyticsService';
-import { useAuth } from '../../auth';
 import { InsightsView } from '../components/InsightsView';
 
 export default function B2BDashboard() {
-    useAuth();
-    // TEMPORARY: Quitando restricción de rol B2B temporalmente
-    const isB2B = true;
+    const nav = useNavigate();
+    const [loadingAccess, setLoadingAccess] = useState(true);
+    const [allowed, setAllowed] = useState(false);
+    const [accessErr, setAccessErr] = useState<string | null>(null);
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    // States from original dashboard
+    const [loadingData, setLoadingData] = useState(false);
+    const [dataError, setDataError] = useState<string | null>(null);
     const [rows, setRows] = useState<SnapshotRow[]>([]);
     const [bucket, setBucket] = useState<string | null>(null);
 
-    // View State
     const [activeTab, setActiveTab] = useState<'data' | 'insights'>('data');
-
-    // Filters
     const [moduleType, setModuleType] = useState<'versus' | 'progressive'>('versus');
     const [segmentHash, setSegmentHash] = useState<string>('global');
     const [limit, setLimit] = useState<number>(100);
 
+    useEffect(() => {
+        let alive = true;
+
+        const run = async () => {
+            setLoadingAccess(true);
+            setAccessErr(null);
+
+            try {
+                const { data: s } = await supabase.auth.getSession();
+                const session = s?.session;
+
+                // Si no hay sesión, no debería entrar a B2B
+                if (!session) {
+                    if (!alive) return;
+                    setAllowed(false);
+                    setLoadingAccess(false);
+                    return;
+                }
+
+                const { data, error } = await (supabase as any).rpc("is_b2b_user");
+                if (error) throw error;
+
+                if (!alive) return;
+                setAllowed(Boolean(data));
+                setLoadingAccess(false);
+            } catch (e: any) {
+                if (!alive) return;
+                setAccessErr(e?.message ?? "No se pudo validar acceso B2B.");
+                setAllowed(false);
+                setLoadingAccess(false);
+            }
+        };
+
+        run();
+        return () => {
+            alive = false;
+        };
+    }, []);
+
     const loadData = async () => {
-        if (!isB2B) return;
-        setLoading(true);
-        setError(null);
+        if (!allowed) return;
+        setLoadingData(true);
+        setDataError(null);
         try {
             const res = await b2bAnalyticsService.listRankings({
                 moduleType,
@@ -34,33 +73,30 @@ export default function B2BDashboard() {
             });
             setRows(res.rows);
             setBucket(res.bucket);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
-            setError(err.message || 'Error desconocido.');
+            setDataError(err.message || 'Error desconocido.');
         } finally {
-            setLoading(false);
+            setLoadingData(false);
         }
     };
 
-    // Load inicial
     useEffect(() => {
-        loadData();
+        if (allowed) {
+            loadData();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isB2B]);
+    }, [allowed]);
 
     const handleExportCSV = () => {
         if (rows.length === 0) return;
 
         const headers = ['snapshot_bucket', 'module_type', 'battle_id', 'battle_title', 'option_id', 'option_label', 'score', 'signals_count', 'segment_hash'];
         const csvRows = [];
-        // Add Header row
         csvRows.push(headers.join(','));
 
         for (const row of rows) {
             const values = headers.map(header => {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const val = (row as any)[header] ?? '';
-                // Escape comillas y envolver en comillas si hay comas
                 const escaped = String(val).replace(/"/g, '""');
                 return `"${escaped}"`;
             });
@@ -84,14 +120,44 @@ export default function B2BDashboard() {
         URL.revokeObjectURL(url);
     };
 
-    if (!isB2B) {
+    if (loadingAccess) {
         return (
-            <PageShell>
-                <div className="p-8 text-center mt-20">
-                    <h2 className="text-2xl font-bold text-slate-800">Acceso Denegado</h2>
-                    <p className="text-slate-500 mt-2">No tienes permisos para acceder al portal B2B.</p>
+            <div className="min-h-screen bg-white flex items-center justify-center">
+                <div className="text-slate-500 font-bold">Cargando...</div>
+            </div>
+        );
+    }
+
+    // Acceso restringido
+    if (!allowed) {
+        return (
+            <div className="min-h-screen bg-white flex items-center justify-center px-4">
+                <div className="w-full max-w-md bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
+                    <h1 className="text-xl font-black text-slate-900">Acceso restringido</h1>
+                    <p className="text-sm text-slate-500 font-medium mt-2">
+                        Este módulo es solo para cuentas B2B/autorizadas.
+                    </p>
+
+                    {accessErr && (
+                        <p className="text-sm text-rose-600 font-medium mt-3">{accessErr}</p>
+                    )}
+
+                    <div className="mt-6 flex gap-3">
+                        <button
+                            onClick={() => nav("/", { replace: true })}
+                            className="flex-1 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition-all"
+                        >
+                            Volver al inicio
+                        </button>
+                        <button
+                            onClick={() => nav("/login", { replace: true })}
+                            className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-700 font-black hover:bg-slate-50 transition-all"
+                        >
+                            Iniciar sesión
+                        </button>
+                    </div>
                 </div>
-            </PageShell>
+            </div>
         );
     }
 
@@ -161,17 +227,17 @@ export default function B2BDashboard() {
 
                     <button
                         onClick={loadData}
-                        disabled={loading}
+                        disabled={loadingData}
                         className="w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
                     >
-                        {loading ? <span className="material-symbols-outlined animate-spin">refresh</span> : 'Cargar'}
+                        {loadingData ? <span className="material-symbols-outlined animate-spin">refresh</span> : 'Cargar'}
                     </button>
                 </div>
 
-                {error && (
+                {dataError && (
                     <div className="p-4 bg-rose-50 text-rose-700 rounded-2xl font-medium mb-6 flex gap-3 items-center">
                         <span className="material-symbols-outlined">warning</span>
-                        {error}
+                        {dataError}
                     </div>
                 )}
 
@@ -235,12 +301,12 @@ export default function B2BDashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {loading && rows.length === 0 && (
+                                    {loadingData && rows.length === 0 && (
                                         <tr>
                                             <td colSpan={5} className="p-8 text-center text-slate-400 italic font-medium">Cargando inteligencia...</td>
                                         </tr>
                                     )}
-                                    {!loading && rows.length === 0 && (
+                                    {!loadingData && rows.length === 0 && (
                                         <tr>
                                             <td colSpan={5} className="p-8 text-center text-slate-500 font-medium">
                                                 No hay resultados para esta mezcla de módulo y segmento.

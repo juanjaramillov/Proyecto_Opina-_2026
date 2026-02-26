@@ -8,6 +8,8 @@ import AuthLayout from "../layout/AuthLayout";
 import { DemographicData } from "../types";
 import { supabase } from "../../../supabase/client";
 import { useToast } from "../../../components/ui/useToast";
+import { accessGate } from "../../access/services/accessGate";
+
 const REGIONS = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "Metropolitana", "O'Higgins", "Maule", "Ñuble", "Biobío", "Araucanía", "Los Ríos", "Los Lagos", "Aysén", "Magallanes"];
 
 const COMUNAS_SANTIAGO = [
@@ -34,12 +36,31 @@ const INFLUENCE_LEVEL_OPTIONS = ["Líder de opinión (recomiendo)", "Consultado 
 const INPUT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-600/10 outline-none transition-all font-medium text-slate-700";
 const SELECT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-600/10 transition-all font-bold text-slate-700";
 
+function getInviteCodeFromGate(): string | null {
+    const tokenId = accessGate.getTokenId();
+    if (!tokenId) return null;
+
+    const raw = tokenId.startsWith("CODE:") ? tokenId.slice(5) : tokenId;
+    const code = raw.trim().toUpperCase();
+
+    // si fuese UUID antiguo u otro formato raro, no sirve para bootstrap por código
+    if (!code || code.length < 4 || code.includes("-") && code.length === 36) return null;
+
+    return code;
+}
+
+function validateNickname(nick: string): string | null {
+    const v = nick.trim();
+    if (v.length < 3 || v.length > 18) return "Nickname debe tener entre 3 y 18 caracteres.";
+    if (!/^[a-zA-Z0-9_-]+$/.test(v)) return 'Nickname solo puede usar letras, números, "_" o "-".';
+    return null;
+}
+
 export default function ProfileWizard() {
     const { profile, refreshProfile } = useAuthContext();
     const navigate = useNavigate();
     const { showToast } = useToast();
 
-    // Initialize starting step based on backend data if available, otherwise step 1
     const initialStage = profile?.demographics?.profileStage || 0;
     const startingStep = initialStage >= 4 ? 4 : initialStage + 1;
 
@@ -65,8 +86,9 @@ export default function ProfileWizard() {
     const submitStep = async (isSkip: boolean = false) => {
         setNicknameErr(null);
         setLoading(true);
+
         try {
-            // STEP 1: Guardar nickname al RPC (Obligatorio y Único)
+            // STEP 1: Nickname + CLAIM INVITACIÓN + stage=1
             if (step === 1) {
                 const nick = formData.name?.trim() || "";
                 if (!nick) {
@@ -74,18 +96,50 @@ export default function ProfileWizard() {
                     setLoading(false);
                     return;
                 }
-                const { error: rpcErr } = await (supabase as any).rpc("set_nickname_once", {
-                    p_nickname: nick,
-                });
-                if (rpcErr) throw rpcErr;
 
-                // Si todo va bien, refrescamos el contexto de perfil
+                const nickErr = validateNickname(nick);
+                if (nickErr) {
+                    setNicknameErr(nickErr);
+                    setLoading(false);
+                    return;
+                }
+
+                // 1) Ver si ya tiene invite amarrada
+                const bs = await authService.getBootstrapStatus();
+
+                if (!bs.hasInvite) {
+                    const inviteCode = getInviteCodeFromGate();
+                    if (!inviteCode) {
+                        setNicknameErr("No encontramos tu código de invitación. Vuelve a /access e ingrésalo de nuevo.");
+                        setLoading(false);
+                        return;
+                    }
+
+                    // Claim real (marca invitation_codes.used_by_user_id + users.invitation_code_id)
+                    await authService.bootstrapUserAfterSignup(nick, inviteCode);
+                } else {
+                    // Si ya tiene invite, solo setear nickname (una sola vez)
+                    const { error: rpcErr } = await (supabase as any).rpc("set_nickname_once", {
+                        p_nickname: nick,
+                    });
+                    if (rpcErr) throw rpcErr;
+                }
+
+                // 2) Alinear con backend: profile_stage >= 1 para poder emitir señales
+                await authService.updateProfileDemographics({
+                    profileStage: 1,
+                    signalWeight: 1.0
+                });
+
                 await refreshProfile();
             } else {
-                // Determine the stage properties to save based on the current step
+                // Updates por etapa
                 let payload: Partial<DemographicData> = {};
+
                 if (step === 2) {
                     payload = {
+                        birthYear: formData.birthYear,
+                        gender: formData.gender,
                         region: formData.region,
                         commune: formData.commune,
                         profileStage: 2,
@@ -109,7 +163,6 @@ export default function ProfileWizard() {
                     };
                 }
 
-                // Only update backend if there is data to update (not entirely skipping without changes)
                 if (Object.keys(payload).length > 0) {
                     await authService.updateProfileDemographics(payload);
                     await refreshProfile();
@@ -117,25 +170,28 @@ export default function ProfileWizard() {
             }
 
             if (isSkip || step === 4) {
-                navigate("/"); // Done or skipped optional
+                navigate("/");
             } else {
-                setStep(s => s + 1);
+                setStep((s) => s + 1);
             }
-
         } catch (error: any) {
             logger.error("Error submitting step:", error);
-            // Handle specific PostgreSQL unique constraint or RPC exceptions nicely
             const errMsg = error.message || "";
-            if (step === 1 && (errMsg.includes('unique constraint') || errMsg.includes('Nickname ya definido'))) {
+
+            if (step === 1 && (errMsg.includes("unique constraint") || errMsg.toLowerCase().includes("duplicate") || errMsg.includes("Nickname ya definido"))) {
                 setNicknameErr("El nickname ya está en uso o ya fue definido anteriormente.");
-            } else if (step === 1 && errMsg.includes('Nickname debe tener')) {
-                setNicknameErr("Nickname debe tener entre 3 y 18 caracteres y usar letras, números o _ -.");
+            } else if (step === 1 && (errMsg.includes("Nickname debe tener") || errMsg.includes("Nickname solo puede usar"))) {
+                setNicknameErr(errMsg);
+            } else if (step === 1 && errMsg.includes("INVITE")) {
+                setNicknameErr("Código inválido / expirado / ya usado. Vuelve a /access e ingresa otro.");
             } else {
                 showToast(errMsg || "Ocurrió un error al guardar tu perfil. Intenta nuevamente.", "error");
             }
+
             setLoading(false);
-            return; // Detener avance
+            return;
         }
+
         setLoading(false);
     };
 
@@ -153,38 +209,34 @@ export default function ProfileWizard() {
     const isStep3Valid = !!(formData.employmentStatus && formData.incomeRange && formData.educationLevel && formData.housingType);
     const isStep4Valid = !!(formData.purchaseBehavior && formData.influenceLevel);
 
-    const stepTitles = [
-        "Activa tu señal",
-        "Tu contexto importa",
-        "Potencia tu señal",
-        "Define tu influencia"
-    ];
+    const stepTitles = ["Activa tu señal", "Tu contexto importa", "Potencia tu señal", "Define tu influencia"];
 
     return (
         <AuthLayout
             title={
-                < div >
+                <div>
                     <span className="text-xs font-black text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full mb-4 inline-block">
                         Paso {step} de 4
                     </span>
                     <h1 className="text-3xl font-black text-slate-900 mt-2 tracking-tight">
                         {stepTitles[step - 1]}
                     </h1>
-                </div >
+                </div>
             }
             subtitle={
-                < div className="flex flex-col gap-2 mt-2" >
+                <div className="flex flex-col gap-2 mt-2">
                     <span className="text-slate-500 font-medium">
-                        {step === 1 && "Ingresa tus datos básicos para comenzar a opinar."}
-                        {step === 2 && "Saber de dónde opinas le da contexto a tus señales."}
+                        {step === 1 && "Elige tu Nickname (anónimo) y activa tu cuenta con invitación."}
+                        {step === 2 && "Saber de dónde y quién opina le da contexto a tus señales."}
                         {step === 3 && "Opcional: Detalla tu perfil sociodemográfico para entender mejor tu contexto."}
                         {step === 4 && "Opcional: Cuéntanos cómo consumes para perfilar mejor tu influencia."}
                     </span>
-                </div >
+                </div>
             }
         >
             <div className="w-full">
                 <AnimatePresence mode="wait">
+
                     {step === 1 && (
                         <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <div className="space-y-3">
@@ -200,13 +252,13 @@ export default function ProfileWizard() {
                                 <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real no se muestra. Usa un nickname único (3-18 caracteres).</p>
                                 {nicknameErr && <p className="text-sm text-red-600 font-medium ml-1 mt-1">{nicknameErr}</p>}
                             </div>
-                            {/* DEMOGRAPHICS MOVED TO LATER SECTIONS (DELETED FROM STEP 1 FOR SIMPLICITY HERE) */}
                         </motion.div>
                     )}
 
                     {step === 2 && (
                         <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <h2 className="text-xl font-bold text-slate-900 mb-2">Genial, {formData.name}</h2>
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Año de Nacimiento</label>
                                 <input
@@ -219,6 +271,7 @@ export default function ProfileWizard() {
                                     className={INPUT}
                                 />
                             </div>
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Identidad de Género</label>
                                 <div className="grid grid-cols-3 gap-3">
@@ -231,12 +284,14 @@ export default function ProfileWizard() {
                                             key={g.id}
                                             onClick={() => setFormData({ ...formData, gender: g.id })}
                                             className={`p-4 rounded-2xl border-2 transition-all font-bold text-sm ${formData.gender === g.id ? "border-indigo-600 bg-indigo-50 text-indigo-700" : "border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200"}`}
+                                            type="button"
                                         >
                                             {g.label}
                                         </button>
                                     ))}
                                 </div>
                             </div>
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Región</label>
                                 <select
@@ -248,6 +303,7 @@ export default function ProfileWizard() {
                                     {REGIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
+
                             {formData.region === "Metropolitana" && (
                                 <div className="space-y-3">
                                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Comuna (RM)</label>
@@ -266,6 +322,7 @@ export default function ProfileWizard() {
 
                     {step === 3 && (
                         <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nivel Educacional</label>
                                 <select value={formData.educationLevel || ""} onChange={(e) => setFormData({ ...formData, educationLevel: e.target.value })} className={SELECT}>
@@ -273,6 +330,7 @@ export default function ProfileWizard() {
                                     {EDUCATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Situación Laboral</label>
                                 <select value={formData.employmentStatus || ""} onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })} className={SELECT}>
@@ -280,6 +338,7 @@ export default function ProfileWizard() {
                                     {EMPLOYMENT_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Ingresos del Hogar</label>
                                 <select value={formData.incomeRange || ""} onChange={(e) => setFormData({ ...formData, incomeRange: e.target.value })} className={SELECT}>
@@ -287,6 +346,7 @@ export default function ProfileWizard() {
                                     {INCOME_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Situación de Vivienda</label>
                                 <select value={formData.housingType || ""} onChange={(e) => setFormData({ ...formData, housingType: e.target.value })} className={SELECT}>
@@ -294,11 +354,13 @@ export default function ProfileWizard() {
                                     {HOUSING_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
+
                         </motion.div>
                     )}
 
                     {step === 4 && (
                         <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Comportamiento de Compra</label>
                                 <select value={formData.purchaseBehavior || ""} onChange={(e) => setFormData({ ...formData, purchaseBehavior: e.target.value })} className={SELECT}>
@@ -306,6 +368,7 @@ export default function ProfileWizard() {
                                     {PURCHASE_BEHAVIOR_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
+
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nivel de Influencia</label>
                                 <select value={formData.influenceLevel || ""} onChange={(e) => setFormData({ ...formData, influenceLevel: e.target.value })} className={SELECT}>
@@ -314,15 +377,9 @@ export default function ProfileWizard() {
                                 </select>
                             </div>
 
-                            <div className="mt-8 bg-amber-50 border-2 border-amber-200 rounded-3xl p-6 text-center">
-                                <h3 className="font-black text-slate-900 text-xl mb-2">Conviértete en Usuario Verificado</h3>
-                                <p className="text-slate-600 font-medium mb-4 text-sm">Verifica tu identidad con tu Cédula para desbloquear el máximo nivel de influencia en Opina+.</p>
-                                <button type="button" className="w-full py-4 bg-amber-100 text-amber-800 rounded-2xl font-bold border-2 border-amber-300 hover:bg-amber-200 transition-colors">
-                                    Verificar Identidad (Próximamente)
-                                </button>
-                            </div>
                         </motion.div>
                     )}
+
                 </AnimatePresence>
 
                 <div className="flex flex-col gap-3 mt-10">
@@ -341,7 +398,7 @@ export default function ProfileWizard() {
                             {loading ? (
                                 <>
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    "Guardando..."
+                                    Guardando...
                                 </>
                             ) : step === 4 ? "Finalizar Configuración" : "Guardar y Continuar"}
                         </button>
@@ -366,7 +423,8 @@ export default function ProfileWizard() {
                         ¿No es tu cuenta? <span className="underline decoration-indigo-200">Cerrar Sesión</span>
                     </button>
                 </div>
+
             </div>
-        </AuthLayout >
+        </AuthLayout>
     );
 }

@@ -17,9 +17,6 @@ export interface AnalyticsFilters {
 }
 
 export const analyticsService = {
-    /**
-     * Fetches advanced results for a category with optional demographic filters.
-     */
     async getAdvancedResults(categorySlug: string, filters: AnalyticsFilters = {}): Promise<AdvancedResult[]> {
         const { data, error } = await supabase.rpc('get_advanced_results', {
             p_category_slug: categorySlug,
@@ -37,15 +34,14 @@ export const analyticsService = {
     },
 
     /**
-     * Fetches depth distribution for a specific question/mark.
+     * Fetches depth distribution values for a specific question/mark.
+     * (signal_events no permite SELECT directo por RLS, por eso usamos RPC).
      */
     async getDepthDistribution(optionId: string, questionKey: string = 'nota_general') {
-        const { data, error } = await supabase
-            .from('signal_events')
-            .select('value_numeric')
-            .eq('option_id', optionId)
-            .eq('context_id', questionKey)
-            .eq('module_type', 'depth');
+        const { data, error } = await supabase.rpc('get_depth_distribution_values', {
+            p_option_id: optionId,
+            p_context_id: questionKey
+        });
 
         if (error) throw error;
         return data;

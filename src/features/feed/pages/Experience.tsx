@@ -19,6 +19,7 @@ import { logger } from "../../../lib/logger";
 import PageHeader from "../../../components/ui/PageHeader";
 import { PageState } from "../../../components/ui/StateBlocks";
 import ExperienceModuleCard from "../components/ExperienceModuleCard";
+import { MODULES } from "../modulesConfig";
 
 const PROGRESSIVE_THEMES = {
     streaming: {
@@ -106,9 +107,11 @@ export default function Experience() {
 
     const [mode, setMode] = useState<ExperienceMode>(typeof requestedBatch === "number" ? "versus" : "menu");
 
+    const battlesAsGame = useMemo(() => battles as unknown as Battle[], [battles]);
+
     // Enforce profile completion
     useEffect(() => {
-        if (profile && !profile.isProfileComplete) {
+        if (profile && !profile.isProfileComplete && profile.role !== 'admin') {
             navigate("/complete-profile", { replace: true });
         }
     }, [profile, navigate]);
@@ -157,11 +160,7 @@ export default function Experience() {
         navigate("/results", { state: { batchIndex } });
     };
 
-    const handlePlaceholderClick = (name: string) => {
-        showToast(`"${name}" viene pronto. Sí, está en el backlog.`, "info");
-    };
-
-    if (profile && !profile.isProfileComplete) return null;
+    if (profile && !profile.isProfileComplete && profile.role !== 'admin') return null;
 
     const headerSubtitle =
         mode === "menu"
@@ -176,9 +175,6 @@ export default function Experience() {
         profile?.signalsDailyLimit === -1
             ? "∞"
             : (profile?.signalsDailyLimit ?? "?").toString();
-
-    // Move useMemo here to fix conditional hook call
-    const battlesAsGame = useMemo(() => battles as unknown as Battle[], [battles]);
 
     // Loading: show skeleton cards, but with the same PageHeader as the rest of the app
     if (loading && battles.length === 0) {
@@ -284,88 +280,60 @@ export default function Experience() {
 
             {/* HUB MENU */}
             {mode === "menu" ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
+                    {/* Active Modules - Featured Bento Layout */}
+                    <div>
+                        <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 px-1">
+                            <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)] animate-pulse"></span>
+                            Módulos Disponibles
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {MODULES.filter(m => m.status === 'active').map((mod) => (
+                                <ExperienceModuleCard
+                                    key={mod.key}
+                                    title={mod.title}
+                                    description={mod.description}
+                                    icon={mod.icon}
+                                    tone={mod.tone}
+                                    tags={mod.tags}
+                                    status={mod.status}
+                                    variant="standard"
+                                    onClick={() => {
+                                        if (mod.key === "personal") navigate("/personal-state");
+                                        else setMode(mod.key as ExperienceMode);
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </div>
 
-                    <ExperienceModuleCard
-                        title="Versus"
-                        description="Comparaciones rápidas 1 vs 1. Calibra tus preferencias fundamentales."
-                        icon="swords"
-                        tone="primary"
-                        onClick={() => setMode("versus")}
-                        footerLeft="Activo"
-                        footerRight="Rápido"
-                    />
-
-                    <ExperienceModuleCard
-                        title="Versus Progresivo"
-                        description="Modo torneo. Una opción sigue ganando hasta coronar al ganador."
-                        icon="rocket_launch"
-                        tone="secondary"
-                        onClick={() => setMode("progressive")}
-                        footerLeft="Beta"
-                        footerRight="Torneo"
-                    />
-
-                    <ExperienceModuleCard
-                        title="Profundidad"
-                        description="5 preguntas rápidas para refinar la inteligencia colectiva sobre una opción."
-                        icon="insights"
-                        tone="emerald"
-                        onClick={() => setMode("insights")}
-                        footerLeft="Activo"
-                        footerRight="Insights"
-                    />
-
-                    <ExperienceModuleCard
-                        title="Bienestar"
-                        description="Sincroniza tu estado actual. 100% anónimo. (De verdad.)"
-                        icon="favorite"
-                        tone="rose"
-                        onClick={() => navigate("/personal-state")}
-                        footerLeft="Activo"
-                        footerRight="Privado"
-                    />
-
-                    <ExperienceModuleCard
-                        title="Lugares"
-                        description="Califica experiencias en ubicaciones físicas."
-                        icon="location_on"
-                        tone="slate"
-                        disabled
-                        badge="Próximamente"
-                        onClick={() => handlePlaceholderClick("Lugares")}
-                    />
-
-                    <ExperienceModuleCard
-                        title="Servicio"
-                        description="Evalúa la calidad de atención y servicio."
-                        icon="support_agent"
-                        tone="slate"
-                        disabled
-                        badge="Próximamente"
-                        onClick={() => handlePlaceholderClick("Servicio")}
-                    />
-
-                    <ExperienceModuleCard
-                        title="Actualidad"
-                        description="Vota sobre temas del momento con opciones opuestas (sí/no, A/B)."
-                        icon="newspaper"
-                        tone="slate"
-                        disabled
-                        badge="Próximamente"
-                        onClick={() => handlePlaceholderClick("Actualidad")}
-                    />
-
-                    <ExperienceModuleCard
-                        title="Escáner"
-                        description="Escanea un producto para ver ficha y valoración comunitaria."
-                        icon="qr_code_scanner"
-                        tone="slate"
-                        disabled
-                        badge="Próximamente"
-                        onClick={() => handlePlaceholderClick("Escáner")}
-                    />
-
+                    {/* Soon Modules - Compact Layout */}
+                    <div>
+                        <div className="flex items-center gap-3 mb-2 px-1">
+                            <h2 className="text-xl font-black text-slate-900">El Laboratorio</h2>
+                            <span className="px-2 py-1 bg-indigo-50 text-indigo-600 rounded-md text-[10px] font-black uppercase tracking-wider">
+                                Próximamente
+                            </span>
+                        </div>
+                        <p className="text-sm text-slate-500 mb-6 px-1">
+                            Explora los prototipos de las próximas experiencias que estamos construyendo.
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {MODULES.filter(m => m.status === 'soon').map((mod) => (
+                                <ExperienceModuleCard
+                                    key={mod.key}
+                                    title={mod.title}
+                                    description={mod.description}
+                                    icon={mod.icon}
+                                    tone={mod.tone}
+                                    tags={mod.tags}
+                                    status={mod.status}
+                                    variant="compact"
+                                    onClick={() => navigate(`/m/${mod.slug}`)}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
             ) : null}
 
@@ -442,7 +410,7 @@ export default function Experience() {
                                     industry: t.industry,
                                     theme: t.theme,
                                     candidates: battlesAsGame
-                                        .filter((b) => b.industry === t.industry)
+                                        .filter((b) => (b.category as any)?.slug === t.industry || b.industry === t.industry)
                                         .flatMap((b) => b.options)
                                         .filter((v, i, a) => a.findIndex((o) => o.id === v.id) === i)
                                         .slice(0, 16),

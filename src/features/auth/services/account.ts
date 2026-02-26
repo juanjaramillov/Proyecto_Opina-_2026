@@ -2,9 +2,9 @@ import { AccountTier, AccountProfile, DemographicData } from '../types';
 
 // Consolidated Limits Logic (formerly in entitlements.ts)
 const TIER_LIMITS = {
-    guest: 3,
-    registered: 10,
-    verified_basic: 15,
+    guest: -1,
+    registered: -1,
+    verified_basic: -1,
     verified_full_ci: -1, // Unlimited
 };
 
@@ -16,8 +16,9 @@ export function computeAccountProfile(input: {
     demographics?: DemographicData;
     displayName?: string;
     email?: string;
+    role?: string;
 }): AccountProfile {
-    const { tier, profileCompleteness, isProfileComplete, hasCI, demographics = {}, displayName, email } = input;
+    const { tier, profileCompleteness, isProfileComplete, hasCI, demographics = {}, displayName, email, role } = input;
 
     if (tier === "guest") {
         return {
@@ -32,6 +33,7 @@ export function computeAccountProfile(input: {
             canExport: false,
             signalsDailyLimit: TIER_LIMITS.guest,
             demographics,
+            role,
         };
     }
 
@@ -50,6 +52,7 @@ export function computeAccountProfile(input: {
             canSegmentResults: false,
             signalsDailyLimit: TIER_LIMITS.registered,
             demographics,
+            role,
         };
     }
 
@@ -66,6 +69,7 @@ export function computeAccountProfile(input: {
             canExport: false,
             signalsDailyLimit: TIER_LIMITS.verified_basic,
             demographics,
+            role,
         };
     }
 
@@ -82,5 +86,6 @@ export function computeAccountProfile(input: {
         canExport: true,
         signalsDailyLimit: TIER_LIMITS.verified_full_ci,
         demographics,
+        role,
     };
 }

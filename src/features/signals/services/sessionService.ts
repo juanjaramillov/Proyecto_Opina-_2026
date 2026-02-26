@@ -11,29 +11,22 @@ export interface UserSession {
 }
 
 export const sessionService = {
-    /**
-     * Inicia una nueva sesión para el usuario actual.
-     * Selecciona 3 atributos aleatorios de los 5 disponibles.
-     */
     startNewSession: async (): Promise<UserSession | null> => {
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return null;
 
-            // 1. Obtener todos los atributos disponibles
             const { data: allAttributes } = await (supabase as any)
                 .from('attributes')
                 .select('id');
 
             if (!allAttributes || allAttributes.length === 0) return null;
 
-            // 2. Seleccionar 3 aleatorios
             const selected = allAttributes
                 .sort(() => 0.5 - Math.random())
                 .slice(0, 3)
                 .map((a: any) => a.id);
 
-            // 3. Crear registro en la DB
             const { data: session, error } = await (supabase as any)
                 .from('user_sessions')
                 .insert({
@@ -54,9 +47,6 @@ export const sessionService = {
         }
     },
 
-    /**
-     * Obtiene la sesión activa actual del usuario.
-     */
     getActiveSession: async (): Promise<UserSession | null> => {
         try {
             const { data: { user } } = await supabase.auth.getUser();
@@ -79,9 +69,6 @@ export const sessionService = {
         }
     },
 
-    /**
-     * Marca un atributo como completado en la sesión.
-     */
     completeAttribute: async (sessionId: string, attributeId: string): Promise<void> => {
         const { data: current } = await (supabase as any)
             .from('user_sessions')
@@ -97,40 +84,40 @@ export const sessionService = {
             .eq('id', sessionId);
     },
 
-    /**
-     * Calcula y guarda la clínica dominante al final de los atributos.
-     */
     finalizeAttributes: async (sessionId: string): Promise<string | null> => {
         try {
-            // 1. Contar votos de la sesión en signal_events
-            const { data: votes } = await (supabase as any)
-                .from('signal_events')
-                .select('option_id')
-                .eq('session_id', sessionId);
-
-            // 1a. Añadir los votos en el outbox local
-            const queuedVotes = getQueuedVotesForSession(sessionId);
-
-            if ((!votes || votes.length === 0) && queuedVotes.length === 0) return null;
-
-            // 2. Identificar la más votada
-            const counts: Record<string, number> = {};
-
-            // Database votes
-            if (votes) {
-                votes.forEach((v: any) => {
-                    if (v.option_id) counts[v.option_id] = (counts[v.option_id] || 0) + 1;
-                });
-            }
-
-            // Local queued votes
-            queuedVotes.forEach(optionId => {
-                counts[optionId] = (counts[optionId] || 0) + 1;
+            // 1) Contar votos de la sesión vía RPC (signal_events no permite SELECT directo por RLS)
+            const { data: rows, error } = await supabase.rpc('get_session_vote_counts', {
+                p_session_id: sessionId
             });
 
-            const winnerId = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+            if (error) throw error;
 
-            // 3. Persistir dominante
+            // 1a) Añadir los votos en el outbox local
+            const queuedVotes = getQueuedVotesForSession(sessionId);
+
+            const voteRows = (rows || []) as Array<{ option_id: string | null; votes_count: number }>;
+
+            if (voteRows.length === 0 && queuedVotes.length === 0) return null;
+
+            const counts: Record<string, number> = {};
+
+            voteRows.forEach((r) => {
+                if (!r.option_id) return;
+                const k = String(r.option_id);
+                counts[k] = (counts[k] || 0) + Number(r.votes_count || 0);
+            });
+
+            queuedVotes.forEach(optionId => {
+                const k = String(optionId);
+                counts[k] = (counts[k] || 0) + 1;
+            });
+
+            const winnerEntry = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+            if (!winnerEntry) return null;
+
+            const winnerId = winnerEntry[0];
+
             await (supabase as any)
                 .from('user_sessions')
                 .update({ dominant_clinic_id: winnerId })
@@ -143,9 +130,6 @@ export const sessionService = {
         }
     },
 
-    /**
-     * Finaliza la sesión después de la profundidad.
-     */
     completeDepth: async (sessionId: string): Promise<void> => {
         await (supabase as any)
             .from('user_sessions')

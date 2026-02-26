@@ -30,7 +30,7 @@ export default function AccessGatePage() {
         e.preventDefault();
         setErr(null);
 
-        const normalized = code.trim();
+        const normalized = code.trim().toUpperCase();
         if (!normalized) {
             setErr('Ingresa tu código.');
             return;
@@ -38,18 +38,24 @@ export default function AccessGatePage() {
 
         setLoading(true);
         try {
-            const { data, error } = await (supabase as any)
-                .rpc('consume_access_gate_code', { p_code: normalized })
-                .single();
+            // 1) Validar en modo anon (NO consumir / NO claim)
+            const { data: isValid, error: vErr } = await (supabase as any).rpc('validate_invitation', {
+                p_code: normalized,
+            });
+            if (vErr) throw vErr;
 
-            if (error) throw error;
-            const tokenId = data?.token_id;
-            if (!tokenId) throw new Error('No se pudo validar el código.');
+            if (!isValid) {
+                setErr('Código inválido, expirado o revocado.');
+                return;
+            }
 
-            accessGate.grant(tokenId, Number.isFinite(daysValid) ? daysValid : 30);
+            // 2) Guardar pase local para permitir navegar el piloto (sin quemar el código)
+            accessGate.grant(`CODE:${normalized}`, Number.isFinite(daysValid) ? daysValid : 30);
+
+            // 3) Entrar
             nav(nextPath, { replace: true });
         } catch (e: any) {
-            setErr(e?.message ?? 'Código inválido.');
+            setErr(e?.message ?? 'No se pudo validar el código.');
         } finally {
             setLoading(false);
         }
@@ -72,7 +78,7 @@ export default function AccessGatePage() {
                             <input
                                 value={code}
                                 onChange={(e) => setCode(e.target.value)}
-                                placeholder="Ej: OP-1a2b3c4d"
+                                placeholder="Ej: OP-1A2B3C4D"
                                 className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-900 uppercase"
                                 autoFocus
                             />
@@ -89,7 +95,11 @@ export default function AccessGatePage() {
 
                         <button
                             type="button"
-                            onClick={() => { accessGate.revoke(); setCode(''); setErr(null); }}
+                            onClick={() => {
+                                accessGate.revoke();
+                                setCode('');
+                                setErr(null);
+                            }}
                             className="w-full py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-all"
                         >
                             Cambiar código

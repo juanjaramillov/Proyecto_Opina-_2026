@@ -53,10 +53,11 @@ export const authService = {
         // 2. REAL USER MODE (Continue if auth.user exists)
         if (auth?.user) {
             // Parallel fetch for speed: Profile, Identity, and Subscription
-            const [profileRes, identityRes, subRes] = await Promise.all([
+            const [profileRes, identityRes, subRes, userRes] = await Promise.all([
                 supabase.from('user_profiles').select('*').eq('user_id', auth.user.id).maybeSingle(),
                 supabase.from('users').select('is_identity_verified').eq('user_id', auth.user.id).maybeSingle(),
-                (supabase as any).from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle()
+                (supabase as any).from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle(),
+                (supabase as any).from('users').select('role').eq('user_id', auth.user.id).maybeSingle()
             ]);
 
             if (profileRes.error) {
@@ -66,6 +67,7 @@ export const authService = {
             const profileData = profileRes.data as UserProfileRow | null;
             const identityData = identityRes.data as UserIdentityRow | null;
             const subData = subRes.data;
+            const role = userRes.data?.role as string | undefined;
 
             if (!profileData) {
                 // If user exists in Auth but profiles fetch failed (new signup edge case before trigger finishes, or RLS block)
@@ -77,6 +79,7 @@ export const authService = {
                     hasCI: false,
                     displayName: auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
                     email: auth.user.email,
+                    role: role,
                     demographics: localDemographics
                 });
             }
@@ -108,6 +111,7 @@ export const authService = {
                 hasCI: hasCI,
                 displayName: profileData.nickname || auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
                 email: auth.user.email,
+                role: role,
                 demographics: {
                     ...localDemographics,
                     birthYear: profileData.birth_year || localDemographics.birthYear,

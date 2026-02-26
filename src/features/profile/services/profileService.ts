@@ -48,6 +48,14 @@ export interface RawPersonalHistoryPoint {
     module_type: string;
 }
 
+export function getNextDemographicsUpdateDate(lastUpdateISO?: string): Date | null {
+    if (!lastUpdateISO) return null;
+    const date = new Date(lastUpdateISO);
+    if (isNaN(date.getTime())) return null;
+    date.setDate(date.getDate() + 30);
+    return date;
+}
+
 export const profileService = {
     /**
      * Gets general user stats (loyalty, weight, level).
@@ -63,7 +71,6 @@ export const profileService = {
             .maybeSingle();
 
         if (error) throw error;
-
         if (!data) return null;
 
         const stats = data as { total_signals?: number; level?: number; signal_weight?: number; last_signal_at?: string | null };
@@ -78,58 +85,41 @@ export const profileService = {
 
     /**
      * Gets summary of participation by module.
+     * (signal_events no permite SELECT directo por RLS, por eso usamos RPC)
      */
     async getParticipationSummary(): Promise<ParticipationSummary> {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { versus_count: 0, progressive_count: 0, depth_count: 0 };
 
-        const { data, error } = await supabase
-            .from('signal_events')
-            .select('module_type, signal_id')
-            .eq('user_id', user.id);
-
+        const { data, error } = await supabase.rpc('get_my_participation_summary');
         if (error) throw error;
 
-        // Group by module and count unique signal_id (to avoid counting every depth answer as a separate participation)
-        const rawData = (data || []) as Array<{ module_type: string | null; signal_id: string }>;
-
-        const summaryMap = rawData.reduce((acc: Record<string, Set<string>>, curr) => {
-            const key = `${curr.module_type || 'unknown'}_unique`;
-            if (!acc[key]) acc[key] = new Set();
-            acc[key].add(curr.signal_id);
-            return acc;
-        }, {});
+        const row = (data as any)?.[0] as any;
 
         return {
-            versus_count: summaryMap.versus_unique?.size || 0,
-            progressive_count: summaryMap.progressive_unique?.size || 0,
-            depth_count: summaryMap.depth_unique?.size || 0,
+            versus_count: Number(row?.versus_count ?? 0),
+            progressive_count: Number(row?.progressive_count ?? 0),
+            depth_count: Number(row?.depth_count ?? 0),
         };
     },
 
     /**
      * Gets chronological activity history.
+     * (signal_events no permite SELECT directo por RLS, por eso usamos RPC)
      */
     async getActivityHistory(limit: number = 20): Promise<ActivityEvent[]> {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return [];
 
-        // Fetch unique signal entries with their module and entity data
-        const { data, error } = await supabase
-            .from('signal_events')
-            .select(`
-                id,
-                created_at,
-                module_type,
-                option_id,
-                battle_id
-            `)
-            .eq('user_id', user.id)
-            .order('created_at', { ascending: false })
-            .limit(limit);
+        const safeLimit = Math.max(1, Math.min(limit, 100));
+
+        const { data, error } = await supabase.rpc('get_my_activity_history', {
+            p_limit: safeLimit
+        });
 
         if (error) throw error;
-        return (data || []) as ActivityEvent[];
+
+        return ((data as any) || []) as ActivityEvent[];
     },
 
     /**
@@ -147,20 +137,16 @@ export const profileService = {
 
         if (error || !data) return { allowed: true, daysRemaining: 0 };
 
-        const profile = data as any; // Bypass strict type check for now
+        const profile = data as any;
 
-        // Regla: Si profile_stage < 4 -> permitir (wizard en progreso)
         if (typeof profile.profile_stage === 'number' && profile.profile_stage < 4) {
             return { allowed: true, daysRemaining: 0 };
         }
 
-        // Tomar lastUpdateISO
         const lastUpdateISO = profile.last_demographics_update || profile.updated_at;
-
         if (!lastUpdateISO) return { allowed: true, daysRemaining: 0 };
 
         const lastUpdate = new Date(lastUpdateISO);
-        // Manejo robusto: Si es inválida -> permitir
         if (isNaN(lastUpdate.getTime())) {
             return { allowed: true, daysRemaining: 0 };
         }
@@ -172,7 +158,6 @@ export const profileService = {
             return { allowed: true, daysRemaining: 0 };
         }
 
-        // Bloquear y devolver días restantes (asegurando >= 0)
         return { allowed: false, daysRemaining: Math.max(0, 30 - diffDays) };
     },
 
@@ -188,7 +173,7 @@ export const profileService = {
         });
 
         if (error) {
-            logger.error('Error in getSegmentComparison:', error);
+            logger.error('Error fetching segment comparison:', error);
             throw error;
         }
 
@@ -196,36 +181,22 @@ export const profileService = {
     },
 
     /**
-     * Gets user's historical evolution data.
+     * Gets personal history chart points (user evolution over time).
      */
     async getPersonalHistory(): Promise<PersonalHistoryPoint[]> {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return [];
-
-        const { data, error } = await (supabase.rpc as any)('get_user_personal_history', {
-            p_user_id: user.id
-        });
+        const { data, error } = await supabase.rpc('get_user_personal_history');
 
         if (error) {
-            logger.error('Error in getPersonalHistory:', error);
+            logger.error('Error fetching personal history:', error);
             throw error;
         }
 
-        return (data as unknown as RawPersonalHistoryPoint[] || []).map((d) => ({
-            date: d.created_at,
-            avg_score: d.value_numeric || 0,
-            module_type: (d.module_type as 'depth' | 'versus') || 'depth'
+        const rawData = (data as unknown as RawPersonalHistoryPoint[]) || [];
+
+        return rawData.map((p) => ({
+            date: new Date(p.created_at).toISOString().slice(0, 10),
+            avg_score: p.value_numeric ? Number(p.value_numeric) : 0,
+            module_type: (p.module_type === 'depth' ? 'depth' : 'versus')
         }));
     }
 };
-
-export function getNextDemographicsUpdateDate(lastUpdateISO: string | null | undefined): Date | null {
-    if (!lastUpdateISO) return null;
-    const lastUpdate = new Date(lastUpdateISO);
-    if (isNaN(lastUpdate.getTime())) return null;
-
-    // Añadir 30 días
-    const nextUpdate = new Date(lastUpdate.getTime());
-    nextUpdate.setDate(nextUpdate.getDate() + 30);
-    return nextUpdate;
-}

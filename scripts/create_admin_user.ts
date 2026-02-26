@@ -1,4 +1,5 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = process.env.SUPABASE_URL!;
@@ -26,36 +27,29 @@ async function main() {
             email_confirm: true,
         });
 
+    let userId: string | null = created?.user?.id ?? null;
+
     if (createErr) {
-        // Si ya existe, intenta buscarlo
+        // Si ya existe, buscarlo
         const { data: list, error: listErr } =
-            await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 200 });
+            await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 500 });
 
         if (listErr) throw listErr;
 
         const existing = list.users.find((u) => u.email === ADMIN_EMAIL);
         if (!existing) throw createErr;
 
-        console.log("Admin ya existe en Auth:", existing.id);
-
-        // 2) Set rol admin en tabla public.users
-        const { error: upErr } = await supabaseAdmin
-            .from("users")
-            .update({ role: "admin" })
-            .eq("user_id", existing.id);
-
-        if (upErr) throw upErr;
-
-        console.log("Rol admin seteado en public.users");
-        return;
+        userId = existing.id;
+        console.log("Admin ya existe en Auth:", userId);
+    } else {
+        console.log("Admin creado en Auth:", userId);
     }
 
-    const userId = created.user?.id;
-    if (!userId) throw new Error("No se obtuvo user id al crear admin.");
+    if (!userId) throw new Error("No se obtuvo user id del admin.");
 
-    console.log("Admin creado en Auth:", userId);
-
-    // 2) Set rol admin en tabla public.users
+    // 2) Set rol admin en tabla de app
+    // SUPOSICIÓN: public.users tiene id = auth.user.id y columna role
+    // Ajustado a user_id para coincidir con el esquema local
     const { error: upErr } = await supabaseAdmin
         .from("users")
         .update({ role: "admin" })
