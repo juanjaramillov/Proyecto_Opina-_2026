@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { analyticsService } from "../services/analyticsService";
 import { profileService } from "../../profile/services/profileService";
 import { logger } from "../../../lib/logger";
+import { SkeletonRankingRow } from "../../../components/ui/Skeleton";
+import { EmptyState } from "../../../components/ui/EmptyState";
 
 // --- Chip removible (simple) ---
 function FilterChip({
@@ -67,9 +69,9 @@ export default function ResultsPage() {
       // Si tú ya tienes un "threshold" real (ej: 30 señales), reemplaza este cálculo por tu fuente real.
       // Aquí dejamos el hook con user_stats, porque NO es signal_events (y ya lo tienes).
       const stats = await profileService.getUserStats();
-      const totalSignals = stats?.total_signals ?? 0;
-      const isLocked = totalSignals < 30;
-      setLocked(isLocked);
+      // const totalSignals = stats?.total_signals ?? 0;
+      // const isLocked = totalSignals < 30;
+      setLocked(false); // Restriction removed by user request
 
       // Cargar resultados (si está locked igual cargamos, pero se ve difuminado)
       const data = await analyticsService.getAdvancedResults("general", {
@@ -112,7 +114,7 @@ export default function ResultsPage() {
           <button
             type="button"
             onClick={() => nav("/experience")}
-            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-md hover:shadow-lg active:scale-95"
           >
             Ir a participar
           </button>
@@ -186,15 +188,22 @@ export default function ResultsPage() {
                 <p className="text-sm text-slate-500 font-medium mt-1">Ordenado por preferencia.</p>
 
                 {loading ? (
-                  <div className="mt-6 text-slate-500 font-bold">Cargando...</div>
+                  <div className="mt-6 bg-white rounded-3xl border border-slate-100 shadow-sm divide-y divide-slate-50 overflow-hidden">
+                    <SkeletonRankingRow />
+                    <SkeletonRankingRow />
+                    <SkeletonRankingRow />
+                    <SkeletonRankingRow />
+                    <SkeletonRankingRow />
+                  </div>
                 ) : err ? (
                   <div className="mt-6 text-rose-600 font-bold">{err}</div>
                 ) : results.length === 0 ? (
-                  <div className="mt-6 border border-slate-200 rounded-2xl p-6 text-center">
-                    <p className="text-slate-700 font-black">Sin datos aún</p>
-                    <p className="text-slate-500 font-medium text-sm mt-1">
-                      Aún no hay señales suficientes para estos filtros.
-                    </p>
+                  <div className="mt-6">
+                    <EmptyState
+                      title="Sin datos suficientes"
+                      description="No hay información suficiente para los filtros seleccionados. Intenta ampliar tu búsqueda."
+                      icon="analytics"
+                    />
                   </div>
                 ) : (
                   <div className="mt-6 space-y-3">
@@ -220,20 +229,20 @@ export default function ResultsPage() {
                 <p className="text-sm text-slate-500 font-medium mt-1">Tu actividad reciente.</p>
 
                 {loading ? (
-                  <div className="mt-6 text-slate-500 font-bold">Cargando...</div>
+                  <div className="mt-6 bg-white rounded-3xl border border-slate-100 shadow-sm divide-y divide-slate-50 overflow-hidden">
+                    <SkeletonRankingRow />
+                    <SkeletonRankingRow />
+                    <SkeletonRankingRow />
+                  </div>
                 ) : myActivity.length === 0 ? (
-                  <div className="mt-6 border border-slate-200 rounded-2xl p-6 text-center">
-                    <p className="text-slate-700 font-black">Aún no tienes señales</p>
-                    <p className="text-slate-500 font-medium text-sm mt-1">
-                      Participa en un versus para empezar a construir tu historial.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => nav("/experience")}
-                      className="mt-4 w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition"
-                    >
-                      Participar
-                    </button>
+                  <div className="mt-6">
+                    <EmptyState
+                      title="Aún no tienes señales"
+                      description="Participa en un versus para dejar tu marca y empezar a construir tu historial."
+                      icon="history"
+                      actionLabel="Ir a participar"
+                      onAction={() => nav("/experience")}
+                    />
                   </div>
                 ) : (
                   <div className="mt-6 space-y-3">
@@ -258,13 +267,11 @@ export default function ResultsPage() {
               <div className="w-full max-w-md bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl p-8 shadow-sm text-center">
                 <div className="w-14 h-14 mx-auto rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-2xl">🔒</div>
                 <h3 className="mt-4 text-xl font-black text-slate-900">Desbloquea Resultados</h3>
-                <p className="mt-2 text-sm text-slate-600 font-medium">
-                  Cuando acumules 30 señales, podrás ver resultados completos y segmentados.
-                </p>
+                Resultados disponibles para todos los usuarios.
                 <button
                   type="button"
                   onClick={() => nav("/experience")}
-                  className="mt-6 w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition"
+                  className="mt-6 w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-lg hover:shadow-xl active:scale-95"
                 >
                   Ir a participar
                 </button>

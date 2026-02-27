@@ -17,8 +17,9 @@ export function computeAccountProfile(input: {
     displayName?: string;
     email?: string;
     role?: string;
+    invitation_code_id?: string;
 }): AccountProfile {
-    const { tier, profileCompleteness, isProfileComplete, hasCI, demographics = {}, displayName, email, role } = input;
+    const { tier, profileCompleteness, isProfileComplete, hasCI, demographics = {}, displayName, email, role, invitation_code_id } = input;
 
     if (tier === "guest") {
         return {
@@ -34,6 +35,7 @@ export function computeAccountProfile(input: {
             signalsDailyLimit: TIER_LIMITS.guest,
             demographics,
             role,
+            invitation_code_id,
         };
     }
 
@@ -53,6 +55,7 @@ export function computeAccountProfile(input: {
             signalsDailyLimit: TIER_LIMITS.registered,
             demographics,
             role,
+            invitation_code_id,
         };
     }
 
@@ -70,6 +73,7 @@ export function computeAccountProfile(input: {
             signalsDailyLimit: TIER_LIMITS.verified_basic,
             demographics,
             role,
+            invitation_code_id,
         };
     }
 
@@ -87,5 +91,6 @@ export function computeAccountProfile(input: {
         signalsDailyLimit: TIER_LIMITS.verified_full_ci,
         demographics,
         role,
+        invitation_code_id,
     };
 }

@@ -17,7 +17,7 @@ export const sessionService = {
             if (!user) return null;
 
             const { data: allAttributes } = await (supabase as any)
-                .from('attributes')
+                .from('category_attributes')
                 .select('id');
 
             if (!allAttributes || allAttributes.length === 0) return null;

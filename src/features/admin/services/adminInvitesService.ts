@@ -9,6 +9,7 @@ export interface InviteRow {
     expires_at: string | null;
     used_at: string | null;
     used_by_user_id: string | null;
+    used_by_nickname: string | null;
     created_at: string;
     total_interactions: number | null;
     total_time_spent_seconds: number | null;

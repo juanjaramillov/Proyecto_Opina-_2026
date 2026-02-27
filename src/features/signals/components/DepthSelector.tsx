@@ -19,6 +19,17 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
     const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
+    // Format known category slugs to human-readable text
+    const formatCategory = (cat: string) => {
+        if (!cat) return 'General';
+        const known: Record<string, string> = {
+            "salud-clinicas-privadas-scl": "Clínicas Privadas",
+            "salud-farmacias-scl": "Farmacias",
+        };
+        if (known[cat]) return known[cat];
+        return cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    };
+
     // Group options by their category, defaulting to "General" if not provided
     // Also filter based on search query
     const groupedOptions = useMemo(() => {
@@ -26,15 +37,16 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
         const groups: Record<string, DepthOption[]> = {};
 
         options.forEach(opt => {
-            if (query && !opt.label.toLowerCase().includes(query) && !(opt.category || 'General').toLowerCase().includes(query)) {
+            const displayCategory = formatCategory(opt.category || '');
+
+            if (query && !opt.label.toLowerCase().includes(query) && !displayCategory.toLowerCase().includes(query)) {
                 return;
             }
 
-            const category = opt.category || 'General';
-            if (!groups[category]) {
-                groups[category] = [];
+            if (!groups[displayCategory]) {
+                groups[displayCategory] = [];
             }
-            groups[category].push(opt);
+            groups[displayCategory].push(opt);
         });
 
         // Sort categories alphabetically

@@ -98,13 +98,21 @@ export default function AccessGatePage() {
                             onClick={() => {
                                 accessGate.revoke();
                                 setCode('');
-                                setErr(null);
                             }}
-                            className="w-full py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-all"
+                            className="w-full py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold transition-all disabled:opacity-50"
                         >
-                            Cambiar código
+                            Limpiar
                         </button>
                     </form>
+
+                    <div className="mt-8 text-center pt-6 border-t border-slate-100">
+                        <button
+                            onClick={() => nav('/admin-login')}
+                            className="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                            Ingreso Administradores
+                        </button>
+                    </div>
                 </div>
 
                 <p className="text-[10px] text-slate-400 text-center mt-4 font-bold uppercase tracking-widest opacity-70">

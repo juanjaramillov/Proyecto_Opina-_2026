@@ -80,7 +80,7 @@ export default function CrownedWinner({ champion, totalRounds, onPlayAgain, onEx
                         onClick={onPlayAgain}
                         className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all"
                     >
-                        Jugar otro torneo
+                        Participar en otro torneo
                     </button>
                     <button
                         onClick={onExit}

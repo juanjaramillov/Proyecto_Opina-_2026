@@ -59,10 +59,25 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
 
                     // Obtener siguiente retador secuencial evitando colisiones con el campeón
                     let nextCandIndex = nextRoundNum % candidates.length;
-                    while (candidates[nextCandIndex].id === winningOption?.id) {
+                    let iterations = 0;
+
+                    while (
+                        candidates[nextCandIndex] &&
+                        candidates[nextCandIndex].id === winningOption?.id &&
+                        iterations < candidates.length
+                    ) {
                         nextCandIndex = (nextCandIndex + 1) % candidates.length;
+                        iterations++;
                     }
-                    setChallengerOption(candidates[nextCandIndex]);
+
+                    if (candidates[nextCandIndex]) {
+                        setChallengerOption(candidates[nextCandIndex]);
+                    } else {
+                        // Fallback de seguridad
+                        setIsCrowned(true);
+                        setTimeout(() => onComplete(winningOption), 2000);
+                        return;
+                    }
                 }
                 setIsVoting(false);
             }, 600); // 600ms de feedback visual en la tarjeta

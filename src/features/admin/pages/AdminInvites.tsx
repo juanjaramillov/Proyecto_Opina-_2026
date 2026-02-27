@@ -321,6 +321,7 @@ export default function AdminInvites() {
                                             onChange={toggleSelectAll}
                                         />
                                     </th>
+                                    <th className="px-2 py-3 w-6 text-center"></th>
                                     <th className="px-4 py-3 font-bold whitespace-nowrap">Código</th>
                                     <th className="px-4 py-3 font-bold">Alias</th>
                                     <th className="px-4 py-3 font-bold">Estado</th>
@@ -335,7 +336,7 @@ export default function AdminInvites() {
                             <tbody className="divide-y divide-slate-100">
                                 {invites.length === 0 ? (
                                     <tr>
-                                        <td colSpan={10} className="px-4 py-8 text-center text-slate-500 italic">No hay invitaciones registradas.</td>
+                                        <td colSpan={11} className="px-4 py-8 text-center text-slate-500 italic">No hay invitaciones registradas.</td>
                                     </tr>
                                 ) : (
                                     invites.map((invite) => (
@@ -348,8 +349,25 @@ export default function AdminInvites() {
                                                     onChange={() => toggleSelect(invite.id)}
                                                 />
                                             </td>
+                                            <td className="px-2 py-3 text-center">
+                                                <div
+                                                    className={`w-2.5 h-2.5 rounded-full mx-auto ${invite.used_by_user_id
+                                                        ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000)
+                                                            ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                                                            : 'bg-red-500 bg-opacity-80'
+                                                        : 'bg-slate-200'
+                                                        }`}
+                                                    title={invite.used_by_user_id ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000 ? `Online` : 'Offline') : 'No usada'}
+                                                />
+                                            </td>
                                             <td className="px-4 py-3 font-mono font-medium text-slate-900 whitespace-nowrap">{invite.code}</td>
-                                            <td className="px-4 py-3 text-slate-600">{invite.assigned_alias || '-'}</td>
+                                            <td className="px-4 py-3 text-slate-600">
+                                                {invite.used_by_nickname ? (
+                                                    <span className="font-bold text-indigo-600">{invite.used_by_nickname}</span>
+                                                ) : (
+                                                    '-'
+                                                )}
+                                            </td>
                                             <td className="px-4 py-3">
                                                 <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${invite.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
                                                     invite.status === 'used' ? 'bg-cyan-100 text-cyan-800' :
@@ -359,7 +377,9 @@ export default function AdminInvites() {
                                                     {invite.status.toUpperCase()}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs">{invite.expires_at ? new Date(invite.expires_at).toLocaleString() : 'Nunca'}</td>
+                                            <td className="px-4 py-3 text-slate-500 text-xs whitespace-nowrap">
+                                                {invite.expires_at ? new Date(invite.expires_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }) : 'Nunca'}
+                                            </td>
                                             <td className="px-4 py-3 text-slate-500 text-xs font-mono" title={invite.used_by_user_id || undefined}>
                                                 {invite.used_by_user_id ? `${invite.used_by_user_id.substring(0, 8)}...` : '-'}
                                                 {invite.used_at && <div className="text-[10px] text-slate-400 mt-1">{new Date(invite.used_at).toLocaleDateString()}</div>}

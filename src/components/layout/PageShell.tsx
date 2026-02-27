@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../features/auth";
 import { useRole } from "../../hooks/useRole";
 import { useSignalStore } from "../../store/signalStore";
@@ -28,7 +28,19 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
+  const adminMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (adminMenuRef.current && !adminMenuRef.current.contains(event.target as Node)) {
+        setIsAdminMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const isAuthenticated = profile && profile.tier !== 'guest';
 
@@ -40,11 +52,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // ✅ Feedback WhatsApp: se muestra solo si hay número y NO estamos en /admin
-  const feedbackEnabled = import.meta.env.VITE_FEEDBACK_WHATSAPP_ENABLED !== "false";
-  const waNumber = (import.meta.env.VITE_FEEDBACK_WHATSAPP_NUMBER as string | undefined) || "";
+  // ✅ Feedback WhatsApp: se oculta en /admin. FeedbackFab maneja sus propias variables de entorno
   const isAdminRoute = location.pathname.startsWith("/admin");
-  const showFeedbackFab = feedbackEnabled && !!waNumber && !isAdminRoute;
+  const showFeedbackFab = !isAdminRoute;
 
   return (
     <div className="flex flex-col flex-1 w-full min-h-screen relative">
@@ -79,7 +89,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden sm:flex items-center gap-2 lg:gap-4 justify-end flex-nowrap overflow-x-auto no-scrollbar">
+          <nav className="hidden sm:flex items-center gap-2 lg:gap-4 justify-end flex-nowrap">
             {/* Desktop Menu Mapping */}
             {MENU_ITEMS.map((item) => {
               const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
@@ -127,32 +137,41 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
             {/* ENLACES ADMINISTRACION */}
             {isAuthenticated && (role === 'admin' || (profile as any)?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
-              <>
-                <NavLink
-                  to="/admin/invitaciones"
-                  className={({ isActive }) =>
-                    `px-2 py-1.5 ml-1 lg:ml-2 rounded-lg text-xs font-black transition-all whitespace-nowrap shrink-0 ${isActive ? 'bg-amber-500 text-white shadow-md' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'}`
-                  }
+              <div className="relative ml-1 lg:ml-2 flex items-center h-full" ref={adminMenuRef}>
+                <button
+                  onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
+                  className="px-3 py-1.5 rounded-xl text-xs font-black transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1 active:scale-95 shadow-sm border border-slate-200"
                 >
-                  Admin Invites
-                </NavLink>
-                <NavLink
-                  to="/admin/health"
-                  className={({ isActive }) =>
-                    `px-2 py-1.5 ml-1 lg:ml-2 rounded-lg text-xs font-black transition-all whitespace-nowrap shrink-0 ${isActive ? 'bg-emerald-500 text-white shadow-md' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`
-                  }
-                >
-                  Health Checks
-                </NavLink>
-                <NavLink
-                  to="/admin/antifraude"
-                  className={({ isActive }) =>
-                    `px-2 py-1.5 ml-1 lg:ml-2 rounded-lg text-xs font-black transition-all whitespace-nowrap shrink-0 ${isActive ? 'bg-red-500 text-white shadow-md' : 'bg-red-50 text-red-700 hover:bg-red-100'}`
-                  }
-                >
-                  Antifraude
-                </NavLink>
-              </>
+                  <span className="material-symbols-outlined text-[14px]">admin_panel_settings</span>
+                  Admin
+                  <span className={`material-symbols-outlined text-[14px] transition-transform ${isAdminMenuOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                </button>
+                <div className={`absolute top-full right-0 mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl transition-all duration-200 z-[100] overflow-hidden flex flex-col pt-1 ${isAdminMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}>
+                  <div className="px-4 py-2 bg-slate-50/50 border-b border-slate-100">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Panel de Control</p>
+                  </div>
+                  <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">vpn_key</span>
+                    Invitaciones
+                  </NavLink>
+                  <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
+                    Health Checks
+                  </NavLink>
+                  <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">local_police</span>
+                    Antifraude
+                  </NavLink>
+                  <NavLink to="/admin/modules-demand" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">bar_chart</span>
+                    Demanda Módulos
+                  </NavLink>
+                  <NavLink to="/admin/modules-priority" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">sort</span>
+                    Prioridad Módulos
+                  </NavLink>
+                </div>
+              </div>
             )}
           </nav>
         </div>
@@ -212,29 +231,31 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             )}
 
             {isAuthenticated && (role === 'admin' || (profile as any)?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
-              <>
-                <NavLink
-                  to="/admin/invitaciones"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-amber-50 text-amber-700 border border-amber-200"
-                >
-                  Admin Invitaciones
-                </NavLink>
-                <NavLink
-                  to="/admin/health"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-emerald-50 text-emerald-700 border border-emerald-200"
-                >
-                  Health Checks
-                </NavLink>
-                <NavLink
-                  to="/admin/antifraude"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="mx-4 mb-2 px-4 py-2 text-center rounded-lg text-sm font-black bg-red-50 text-red-700 border border-red-200"
-                >
-                  Antifraude
-                </NavLink>
-              </>
+              <div className="mx-4 mb-4 mt-2 bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden p-2">
+                <p className="px-3 pt-2 pb-2 text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">admin_panel_settings</span> Panel Admin</p>
+                <div className="flex flex-col gap-1 mt-1">
+                  <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">vpn_key</span>
+                    Invitaciones
+                  </NavLink>
+                  <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
+                    Health Checks
+                  </NavLink>
+                  <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">local_police</span>
+                    Antifraude
+                  </NavLink>
+                  <NavLink to="/admin/modules-demand" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">bar_chart</span>
+                    Demanda de Módulos
+                  </NavLink>
+                  <NavLink to="/admin/modules-priority" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                    <span className="material-symbols-outlined text-[16px]">sort</span>
+                    Prioridad de Módulos
+                  </NavLink>
+                </div>
+              </div>
             )}
           </div>
         )}

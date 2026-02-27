@@ -53,7 +53,7 @@ export default function Home() {
 
   // CTA logic
   const isAuthenticated = profile && profile.tier !== 'guest';
-  const mainCtaText = isAuthenticated ? "Jugar y descubrir →" : "Unirte y empezar →";
+  const mainCtaText = isAuthenticated ? "Participar y descubrir →" : "Unirte y empezar →";
   const mainCtaPath = isAuthenticated ? "/experience" : "/register";
 
   // Map trending feed item to GenericSlide format

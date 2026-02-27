@@ -22,66 +22,203 @@ import ExperienceModuleCard from "../components/ExperienceModuleCard";
 import { MODULES } from "../modulesConfig";
 
 const PROGRESSIVE_THEMES = {
+    // 1. Aerolíneas
+    aerolineas: {
+        id: "tournament-aerolineas",
+        title: "Batalla en los Cielos",
+        subtitle: "¿Cuál es tu aerolínea preferida?",
+        industry: "transporte-aerolineas",
+        theme: {
+            primary: "#0ea5e9", // sky-500
+            accent: "#7dd3fc", // sky-300
+            bgGradient: "from-sky-50 to-white",
+            icon: "flight",
+        },
+    },
+    // 2. Bancos
+    bancos: {
+        id: "tournament-bancos",
+        title: "Finanzas Master",
+        subtitle: "¿En qué banco confías más?",
+        industry: "finanzas-bancos",
+        theme: {
+            primary: "#1d4ed8", // blue-700
+            accent: "#60a5fa", // blue-400
+            bgGradient: "from-blue-50 to-white",
+            icon: "account_balance",
+        },
+    },
+    // 3. Autos
+    autos: {
+        id: "tournament-autos",
+        title: "Motor Draft",
+        subtitle: "¿Cuál es la marca que te mueve?",
+        industry: "transporte-autos",
+        theme: {
+            primary: "#ef4444", // red-500
+            accent: "#fca5a5", // red-300
+            bgGradient: "from-red-50 to-white",
+            icon: "directions_car",
+        },
+    },
+    // 4. Comida Rápida
+    comidarapida: {
+        id: "tournament-comidarapida",
+        title: "Reyes del Fast Food",
+        subtitle: "¿Qué antojo domina hoy?",
+        industry: "gastronomia-comida-rapida",
+        theme: {
+            primary: "#f59e0b", // amber-500
+            accent: "#fcd34d", // amber-300
+            bgGradient: "from-amber-50 to-white",
+            icon: "fastfood",
+        },
+    },
+    // 5. Supermercados
+    supermercados: {
+        id: "tournament-supermercados",
+        title: "Guerra del Carrito",
+        subtitle: "¿Dónde haces tus compras?",
+        industry: "retail-supermercados",
+        theme: {
+            primary: "#10b981", // emerald-500
+            accent: "#6ee7b7", // emerald-300
+            bgGradient: "from-emerald-50 to-white",
+            icon: "shopping_cart",
+        },
+    },
+    // 6. Streaming Video
     streaming: {
         id: "tournament-streaming",
-        title: "La Guerra del Streaming",
+        title: "Guerra del Streaming",
         subtitle: "¿Cuál es tu plataforma definitiva?",
-        industry: "streaming",
+        industry: "entretencion-streaming-video",
         theme: {
-            primary: "#8b5cf6",
-            accent: "#a78bfa",
+            primary: "#8b5cf6", // violet-500
+            accent: "#a78bfa", // violet-400
             bgGradient: "from-violet-50 to-white",
             icon: "movie",
         },
     },
-    bebidas: {
-        id: "tournament-bebidas",
-        title: "Battle of the Brands",
-        subtitle: "¿Cuál es tu bebida indispensable?",
-        industry: "bebidas",
+    // 7. Streaming Audio
+    audio: {
+        id: "tournament-audio",
+        title: "Batalla Musical",
+        subtitle: "¿Quién pone el ritmo de tu día?",
+        industry: "entretencion-streaming-audio",
         theme: {
-            primary: "#ef4444",
-            accent: "#f87171",
-            bgGradient: "from-red-50 to-white",
-            icon: "local_drink",
+            primary: "#ec4899", // pink-500
+            accent: "#f472b6", // pink-400
+            bgGradient: "from-pink-50 to-white",
+            icon: "headphones",
         },
     },
-    vacaciones: {
-        id: "tournament-vacaciones",
-        title: "Destino de Ensueño",
-        subtitle: "¿A dónde te escaparías mañana?",
-        industry: "vacaciones",
+    // 8. Ropa
+    ropa: {
+        id: "tournament-ropa",
+        title: "Moda y Deporte",
+        subtitle: "¿Con qué marca te vistes?",
+        industry: "retail-ropa",
         theme: {
-            primary: "#0ea5e9",
-            accent: "#38bdf8",
-            bgGradient: "from-sky-50 to-white",
-            icon: "beach_access",
+            primary: "#64748b", // slate-500
+            accent: "#cbd5e1", // slate-300
+            bgGradient: "from-slate-50 to-white",
+            icon: "checkroom",
         },
     },
+    // 9. Apps Movilidad
+    movilidad: {
+        id: "tournament-movilidad",
+        title: "Delivery & Rides",
+        subtitle: "¿Cuál es la app que te salva?",
+        industry: "apps-delivery-movilidad",
+        theme: {
+            primary: "#f97316", // orange-500
+            accent: "#fdba74", // orange-300
+            bgGradient: "from-orange-50 to-white",
+            icon: "two_wheeler",
+        },
+    },
+    // 10. Startphones/Tecnología
     smartphones: {
         id: "tournament-smartphones",
         title: "Duelo de Gigantes Tech",
-        subtitle: "¿Qué smartphone domina tu vida?",
-        industry: "smartphones",
+        subtitle: "¿Qué ecosistema domina tu vida?",
+        industry: "tecnologia-marcas",
         theme: {
-            primary: "#3b82f6",
-            accent: "#60a5fa",
+            primary: "#3b82f6", // blue-500
+            accent: "#60a5fa", // blue-400
             bgGradient: "from-blue-50 to-white",
             icon: "smartphone",
         },
     },
+    // 11. Bebidas
+    bebidas: {
+        id: "tournament-bebidas",
+        title: "Battle of the Brands",
+        subtitle: "¿Cuál es tu bebida indispensable?",
+        industry: "consumo-bebidas",
+        theme: {
+            primary: "#e11d48", // rose-600
+            accent: "#fb7185", // rose-400
+            bgGradient: "from-rose-50 to-white",
+            icon: "local_drink",
+        },
+    },
+    // 12. Fútbol
+    futbol: {
+        id: "tournament-futbol",
+        title: "Pasión de Multitudes",
+        subtitle: "¿Quién es el rey de la cancha?",
+        industry: "deportes-futbol",
+        theme: {
+            primary: "#22c55e", // green-500
+            accent: "#86efac", // green-300
+            bgGradient: "from-green-50 to-white",
+            icon: "sports_soccer",
+        },
+    },
+    // 13. Sagas
+    sagas: {
+        id: "tournament-sagas",
+        title: "Universos Épicos",
+        subtitle: "¿A qué mundo perteneces?",
+        industry: "entretencion-sagas",
+        theme: {
+            primary: "#d946ef", // fuchsia-500
+            accent: "#f0abfc", // fuchsia-300
+            bgGradient: "from-fuchsia-50 to-white",
+            icon: "auto_stories",
+        },
+    },
+    // 14. Ciudades/Turismo
+    vacaciones: {
+        id: "tournament-vacaciones",
+        title: "Destino de Ensueño",
+        subtitle: "¿A dónde te escaparías mañana?",
+        industry: "turismo-ciudades",
+        theme: {
+            primary: "#0284c7", // lightBlue-600
+            accent: "#7dd3fc", // lightBlue-300
+            bgGradient: "from-sky-50 to-white",
+            icon: "flight_takeoff",
+        },
+    },
+    /*
+    // Nota: Salud Pública / Privada ya no es progresivo per se en V12 pero se podría incluir
     salud: {
         id: "tournament-salud",
         title: "Excelencia Médica",
         subtitle: "¿Cuál es la mejor clínica?",
-        industry: "salud",
+        industry: "salud-clinicas-privadas-scl",
         theme: {
-            primary: "#10b981",
-            accent: "#34d399",
-            bgGradient: "from-emerald-50 to-white",
+            primary: "#14b8a6", // teal-500
+            accent: "#5eead4", // teal-300
+            bgGradient: "from-teal-50 to-white",
             icon: "medical_services",
         },
     },
+    */
 };
 
 const BATCH_SIZE = 12;
@@ -263,7 +400,7 @@ export default function Experience() {
                         <div className="flex gap-2">
                             <button
                                 onClick={() => navigate("/results")}
-                                className="h-10 px-4 rounded-xl bg-ink text-white font-bold text-sm transition-all hover:opacity-90 active:scale-95"
+                                className="h-10 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 text-white font-bold text-sm transition-all shadow-md hover:shadow-lg active:scale-95"
                             >
                                 Ver resultados
                             </button>
@@ -289,20 +426,24 @@ export default function Experience() {
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {MODULES.filter(m => m.status === 'active').map((mod) => (
-                                <ExperienceModuleCard
-                                    key={mod.key}
-                                    title={mod.title}
-                                    description={mod.description}
-                                    icon={mod.icon}
-                                    tone={mod.tone}
-                                    tags={mod.tags}
-                                    status={mod.status}
-                                    variant="standard"
-                                    onClick={() => {
-                                        if (mod.key === "personal") navigate("/personal-state");
-                                        else setMode(mod.key as ExperienceMode);
-                                    }}
-                                />
+                                <div key={mod.key} className="flex flex-col h-full">
+                                    <ExperienceModuleCard
+                                        title={mod.title}
+                                        description={mod.description}
+                                        icon={mod.icon}
+                                        tone={mod.tone}
+                                        tags={mod.tags}
+                                        status={mod.status}
+                                        variant="standard"
+                                        onClick={() => {
+                                            if (mod.key === "personal") navigate("/personal-state");
+                                            else setMode(mod.key as ExperienceMode);
+                                        }}
+                                    />
+
+
+
+                                </div>
                             ))}
                         </div>
                     </div>

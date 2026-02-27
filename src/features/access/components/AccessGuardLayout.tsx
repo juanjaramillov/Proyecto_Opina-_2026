@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { supabase } from "../../../supabase/client";
 import { accessGate } from "../services/accessGate";
+import { useAuth } from "../../auth";
 
 function looksLikeUuid(x: string) {
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(x);
@@ -21,31 +22,17 @@ export default function AccessGuardLayout() {
     const [gateChecked, setGateChecked] = useState(false);
     const [tokenValid, setTokenValid] = useState(true);
 
+    const { profile, loading: authLoading } = useAuth();
+
     useEffect(() => {
         let alive = true;
 
         const run = async () => {
             try {
-                // 1) Sesión
-                const { data } = await supabase.auth.getSession();
-                const session = data?.session;
+                if (authLoading) return;
 
-                // 2) Si hay sesión: leer rol + si ya tiene invite amarrado (invitation_code_id)
-                let admin = false;
-                let inviteBound = false;
-
-                if (session) {
-                    const { data: u, error } = await (supabase as any)
-                        .from("users")
-                        .select("role, invitation_code_id")
-                        .eq("user_id", session.user.id)
-                        .maybeSingle();
-
-                    if (!error) {
-                        admin = (u?.role ?? "") === "admin";
-                        inviteBound = !!u?.invitation_code_id;
-                    }
-                }
+                const admin = profile?.role === "admin";
+                const inviteBound = !!profile?.invitation_code_id;
 
                 if (!alive) return;
 
@@ -120,7 +107,7 @@ export default function AccessGuardLayout() {
         return () => {
             alive = false;
         };
-    }, []);
+    }, [authLoading, profile]);
 
     if (loading) return null;
 

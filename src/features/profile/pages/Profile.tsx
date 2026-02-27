@@ -446,7 +446,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 notifyService.error("No se pudo cerrar la sesión.");
               }
             }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 font-bold text-sm transition-colors border border-transparent hover:border-rose-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-rose-500"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-slate-500 hover:bg-slate-50 font-bold text-sm transition-colors border border-transparent hover:border-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-500 hover:text-slate-700"
           >
             <span className="material-symbols-outlined text-[20px]">logout</span>
             Cerrar Sesión

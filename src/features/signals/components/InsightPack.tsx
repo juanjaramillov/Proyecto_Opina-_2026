@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import SurveyEngine from './SurveyEngine';
+import DepthWizard from '../../profundidad/DepthWizard';
 import RequestLoginModal from '../../auth/components/RequestLoginModal';
 import { DEPTH_QUESTIONS } from '../config/depthQuestions';
 import { depthService, DepthImmediateComparison } from '../services/depthService';
@@ -20,8 +20,6 @@ interface InsightPackProps {
 const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComplete, onCancel }) => {
     const { profile } = useAuth();
     const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [showAnalytics, setShowAnalytics] = useState(false);
     const [loadingAnalytics, setLoadingAnalytics] = useState(false);
     const [analyticsError, setAnalyticsError] = useState<string | null>(null);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -56,7 +54,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
         }
     };
 
-    const handleSurveyComplete = async (answers: Record<string, string | number>) => {
+    const handleSurveyCompleteReturn = async (answers: Record<string, string | number>) => {
         // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 1 for signaling
         const currentStage = profile?.demographics?.profileStage || 0;
         const isAdmin = profile?.role === 'admin';
@@ -64,10 +62,9 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
         if (!isAdmin && (!profile || profile.tier === 'guest' || currentStage < 1)) {
             showToast("Completa tu perfil para emitir señales.", "error");
             setShowProfileModal(true);
-            return;
+            throw new Error("Profile incomplete");
         }
 
-        setIsSubmitting(true);
         try {
             const structuredAnswers = Object.entries(answers).map(([key, val]) => ({
                 question_key: key,
@@ -76,19 +73,18 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
 
             await depthService.saveDepthStructured(optionId, structuredAnswers);
             setUserAnswers(answers);
-            setShowAnalytics(true);
-            await fetchAnalytics(answers);
+
+            // Background fetch
+            fetchAnalytics(answers).catch(e => logger.error('Background fetch error:', e));
 
         } catch (error) {
             logger.error('Error saving depth structured answers:', error);
             showToast('Error al guardar la señal. Reintenta.', 'error');
-        } finally {
-            setIsSubmitting(false);
+            throw error;
         }
     };
 
-    // No longer using manual filter select
-    // Automatically uses profile segment filter.
+    const [showAnalyticsResults, setShowAnalyticsResults] = useState(false);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
@@ -98,7 +94,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 className="bg-white rounded-[2.5rem] p-6 md:p-10 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto relative border border-slate-100"
             >
-                {showAnalytics ? (
+                {showAnalyticsResults ? (
                     <div className="p-6">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-black text-slate-900 leading-tight">Métrica Comparativa</h2>
@@ -169,7 +165,6 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                                                 key={questionKey}
                                                 className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group"
                                             >
-                                                {/* Background Accent */}
                                                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full blur-3xl -mr-10 -mt-10 opacity-50 group-hover:opacity-100 transition-opacity" />
 
                                                 <div className="relative z-10 flex justify-between items-center mb-6">
@@ -197,7 +192,6 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                                                     </div>
                                                 </div>
 
-                                                {/* Progress bars comparison */}
                                                 <div className="relative z-10 space-y-3">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-16 text-right text-[10px] font-bold text-slate-500 uppercase">Tú</div>
@@ -231,7 +225,6 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                                                     </div>
                                                 </div>
 
-                                                {/* Educational Tooltip/Message */}
                                                 <div className="relative z-10 mt-6 pt-4 border-t border-slate-100">
                                                     <p className="text-[11px] font-medium text-slate-500 text-center flex items-center justify-center gap-1.5">
                                                         <span className="material-symbols-outlined text-[14px] text-indigo-400">info</span>
@@ -255,12 +248,16 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                         )}
                     </div>
                 ) : (
-                    <SurveyEngine
-                        questions={DEPTH_QUESTIONS}
-                        title={optionLabel}
-                        onComplete={handleSurveyComplete}
+                    <DepthWizard
+                        questions={DEPTH_QUESTIONS.slice(0, 5)}
+                        packTitle={optionLabel}
+                        onSave={handleSurveyCompleteReturn}
                         onCancel={onCancel}
-                        isSubmitting={isSubmitting}
+                        onComplete={() => {
+                            // After wizard complete, we could show analytics if perms allowed,
+                            // but usually we just finish. For now, let's keep it simple.
+                            onComplete();
+                        }}
                     />
                 )}
             </motion.div>
@@ -270,7 +267,6 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                 onClose={() => setIsLoginModalOpen(false)}
                 onSuccess={() => {
                     setIsLoginModalOpen(false);
-                    // Refresh analytics if we just logged in
                     fetchAnalytics(userAnswers);
                 }}
             />

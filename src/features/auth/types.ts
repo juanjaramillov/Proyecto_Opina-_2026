@@ -30,6 +30,7 @@ export type AccountProfile = {
     displayName?: string;
     email?: string;
     role?: string;
+    invitation_code_id?: string;
 
     // Completitud de perfil (0 a 100)
     profileCompleteness: number;

@@ -5,6 +5,7 @@ import { adminConfigService } from '../../admin/services/adminConfigService';
 import { supabase } from '../../../supabase/client';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { InlineLoader } from '../../../components/ui/InlineLoader';
+import { SkeletonRankingTopCard, SkeletonRankingRow } from '../../../components/ui/Skeleton';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { logger } from '../../../lib/logger';
 import PageHeader from "../../../components/ui/PageHeader";
@@ -297,8 +298,19 @@ const Rankings: React.FC = () => {
             {/* MAIN RANKING CONTENT */}
             <div className="space-y-6">
                 {loading ? (
-                    <div className="bg-white rounded-[40px] border border-slate-100 shadow-sm overflow-hidden flex items-center justify-center p-12">
-                        <InlineLoader label="Cargando rankings..." />
+                    <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                            <SkeletonRankingTopCard />
+                            <SkeletonRankingTopCard />
+                            <SkeletonRankingTopCard />
+                        </div>
+                        <div className="bg-white rounded-[40px] border border-slate-100 shadow-sm divide-y divide-slate-50 overflow-hidden">
+                            <SkeletonRankingRow />
+                            <SkeletonRankingRow />
+                            <SkeletonRankingRow />
+                            <SkeletonRankingRow />
+                            <SkeletonRankingRow />
+                        </div>
                     </div>
                 ) : ranking.length === 0 ? (
                     <EmptyState

@@ -22,10 +22,14 @@ import ResetPassword from "./features/auth/pages/ResetPassword";
 import ProfileWizard from "./features/auth/components/ProfileWizard";
 import PersonalState from "./features/profile/pages/PersonalState";
 import IntelligencePage from "./features/intelligence/IntelligencePage";
+import DepthHub from "./features/profundidad/pages/DepthHub";
+import DepthRun from "./features/profundidad/pages/DepthRun";
 
 import AdminInvites from "./features/admin/pages/AdminInvites";
 import AdminHealth from "./features/admin/pages/AdminHealth";
 import AdminAntifraud from "./features/admin/pages/AdminAntifraud";
+import ModulesDemandPage from "./features/admin/pages/ModulesDemandPage";
+import ModulesPriorityPage from "./features/admin/pages/ModulesPriorityPage";
 import Rankings from "./features/rankings/pages/Rankings";
 import PublicRankingPage from './features/rankings/pages/PublicRankingPage';
 import AboutUs from "./pages/static/AboutUs";
@@ -60,6 +64,8 @@ export default function App() {
               {/* Protected Routes */}
               <Route path="/experience" element={<ProtectedRoute><Experience /></ProtectedRoute>} />
               <Route path="/m/:slug" element={<ProtectedRoute><ModuleEntry /></ProtectedRoute>} />
+              <Route path="/depth/:battleSlug" element={<ProtectedRoute><DepthHub /></ProtectedRoute>} />
+              <Route path="/depth/run/:battleSlug/:optionId" element={<ProtectedRoute><DepthRun /></ProtectedRoute>} />
               <Route path="/battle/:battleSlug" element={<ProtectedRoute><BattlePage /></ProtectedRoute>} />
               <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -91,6 +97,20 @@ export default function App() {
                 <ProtectedRoute>
                   <RoleProtectedRoute allowedRoles={['admin']}>
                     <AdminAntifraud />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/demanda" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin']}>
+                    <ModulesDemandPage />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/prioridad" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin']}>
+                    <ModulesPriorityPage />
                   </RoleProtectedRoute>
                 </ProtectedRoute>
               } />

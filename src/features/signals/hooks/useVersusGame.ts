@@ -85,7 +85,14 @@ export function useVersusGame({
             } as Battle;
         }
 
-        return battles[idx];
+        const baseBattle = battles[idx];
+        if (!baseBattle || !baseBattle.options || baseBattle.options.length < 2) return baseBattle;
+
+        const shuffled = [...baseBattle.options].sort(() => 0.5 - Math.random());
+        return {
+            ...baseBattle,
+            options: [shuffled[0], shuffled[1]]
+        } as Battle;
     }, [battles, idx, mode, progressiveData, lastWinner]);
 
     const resetTimers = () => {

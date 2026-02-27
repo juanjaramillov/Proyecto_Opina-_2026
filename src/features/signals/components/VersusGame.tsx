@@ -140,8 +140,9 @@ export default function VersusGame(props: GameProps) {
         );
     }
 
-    const a = effectiveBattle.options[0];
-    const b = effectiveBattle.options[1];
+    const options = effectiveBattle.options || [];
+    const a = options[0];
+    const b = options[1];
 
     const handleVote = async (optionId: string, e?: React.MouseEvent) => {
         if (props.isSubmitting) return;
@@ -232,41 +233,53 @@ export default function VersusGame(props: GameProps) {
                                 />
                             </div>
                         )}
-                        <div className={`relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 px-4 pb-4 transition-opacity duration-300 ${props.isSubmitting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
-                            <OptionCard
-                                option={a}
-                                onClick={(e) => handleVote(a.id, e)}
-                                disabled={locked || lockedByLimit || !!props.isSubmitting}
-                                isSelected={selected === a.id || !!result}
-                                showResult={!!result || !!momentum}
-                                showPercentage={false}
-                                percent={null}
-                                momentum={momentum?.options.find(o => o.id === a.id)}
-                                isLeft={effectiveBattle.layout === 'versus'}
-                                layout={effectiveBattle.layout}
-                                theme={props.theme}
-                            />
 
-                            {effectiveBattle.layout === 'versus' && (
-                                <div
-                                    className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-white rounded-full items-center justify-center font-black text-sm border-8 border-white shadow-[0_15px_40px_rgba(0,0,0,0.15)] select-none"
-                                    style={{ color: props.theme?.primary || '#10b981' }}
-                                >VS</div>
-                            )}
+                        {/* Error handling interior si no hay opciones */}
+                        {(!a && !b) ? (
+                            <div className="p-8 text-center text-slate-500 bg-slate-50 rounded-3xl mx-4 mb-4 border border-slate-100">
+                                Hay un problema de datos con esta señal. No hay opciones configuradas.
+                            </div>
+                        ) : (
+                            <div className={`relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 px-4 pb-4 transition-opacity duration-300 ${props.isSubmitting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
+                                {a && (
+                                    <OptionCard
+                                        option={a}
+                                        onClick={(e) => handleVote(a.id, e)}
+                                        disabled={locked || lockedByLimit || !!props.isSubmitting}
+                                        isSelected={selected === a.id || !!result}
+                                        showResult={!!result || !!momentum}
+                                        showPercentage={false}
+                                        percent={null}
+                                        momentum={momentum?.options.find(o => o.id === a.id)}
+                                        isLeft={effectiveBattle.layout === 'versus'}
+                                        layout={effectiveBattle.layout}
+                                        theme={props.theme}
+                                    />
+                                )}
 
-                            <OptionCard
-                                option={b}
-                                onClick={(e) => handleVote(b.id, e)}
-                                disabled={locked || lockedByLimit || !!props.isSubmitting}
-                                isSelected={selected === b.id || !!result}
-                                showResult={!!result || !!momentum}
-                                showPercentage={false}
-                                percent={null}
-                                momentum={momentum?.options.find(o => o.id === b.id)}
-                                layout={effectiveBattle.layout}
-                                theme={props.theme}
-                            />
-                        </div>
+                                {effectiveBattle.layout === 'versus' && a && b && (
+                                    <div
+                                        className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-white rounded-full items-center justify-center font-black text-sm border-8 border-white shadow-[0_15px_40px_rgba(0,0,0,0.15)] select-none"
+                                        style={{ color: props.theme?.primary || '#10b981' }}
+                                    >VS</div>
+                                )}
+
+                                {b && (
+                                    <OptionCard
+                                        option={b}
+                                        onClick={(e) => handleVote(b.id, e)}
+                                        disabled={locked || lockedByLimit || !!props.isSubmitting}
+                                        isSelected={selected === b.id || !!result}
+                                        showResult={!!result || !!momentum}
+                                        showPercentage={false}
+                                        percent={null}
+                                        momentum={momentum?.options.find(o => o.id === b.id)}
+                                        layout={effectiveBattle.layout}
+                                        theme={props.theme}
+                                    />
+                                )}
+                            </div>
+                        )}
 
                         <AnimatePresence>
                             {clickPosition && (

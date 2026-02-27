@@ -57,7 +57,7 @@ export const authService = {
                 supabase.from('user_profiles').select('*').eq('user_id', auth.user.id).maybeSingle(),
                 supabase.from('users').select('is_identity_verified').eq('user_id', auth.user.id).maybeSingle(),
                 (supabase as any).from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle(),
-                (supabase as any).from('users').select('role').eq('user_id', auth.user.id).maybeSingle()
+                (supabase as any).from('users').select('role, invitation_code_id').eq('user_id', auth.user.id).maybeSingle()
             ]);
 
             if (profileRes.error) {
@@ -68,6 +68,7 @@ export const authService = {
             const identityData = identityRes.data as UserIdentityRow | null;
             const subData = subRes.data;
             const role = userRes.data?.role as string | undefined;
+            const invitationCodeId = userRes.data?.invitation_code_id as string | undefined;
 
             if (!profileData) {
                 // If user exists in Auth but profiles fetch failed (new signup edge case before trigger finishes, or RLS block)
@@ -80,6 +81,7 @@ export const authService = {
                     displayName: auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
                     email: auth.user.email,
                     role: role,
+                    invitation_code_id: invitationCodeId,
                     demographics: localDemographics
                 });
             }
@@ -112,6 +114,7 @@ export const authService = {
                 displayName: profileData.nickname || auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
                 email: auth.user.email,
                 role: role,
+                invitation_code_id: invitationCodeId,
                 demographics: {
                     ...localDemographics,
                     birthYear: profileData.birth_year || localDemographics.birthYear,
