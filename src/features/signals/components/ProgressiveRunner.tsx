@@ -97,6 +97,7 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isVoting, isCrowned, championOption, challengerOption]);
 
     if (!candidates || candidates.length < 2) {
@@ -121,7 +122,17 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
     };
 
     if (isCrowned && championOption) {
-        return <CrownedWinner champion={championOption} totalRounds={round} onPlayAgain={handlePlayAgain} onExit={handleExit} />;
+        return (
+            <div className={`w-full max-w-5xl mx-auto p-4 md:p-8 rounded-[2rem] bg-gradient-to-b ${theme.bgGradient} relative min-h-[80vh] flex flex-col items-center justify-center`}>
+                <div className="w-full max-w-md">
+                    <CrownedWinner title={championOption.label} subtitle={`¡Coronado tras ${round} rondas!`} />
+                </div>
+                <div className="mt-8 flex gap-4">
+                    <button onClick={handleExit} className="px-6 py-3 rounded-xl text-slate-500 font-bold hover:bg-white/50 transition-colors">Salir al inicio</button>
+                    <button onClick={handlePlayAgain} className="px-6 py-3 rounded-xl bg-slate-900 text-white font-bold shadow-lg hover:bg-slate-800 transition-colors">Nuevo Torneo</button>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -171,23 +182,27 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
                     </div>
 
                     {championOption && (
-                        <div className="w-full">
+                        <div
+                            className={`w-full cursor-pointer transition-all duration-300 ${isVoting ? 'opacity-50 pointer-events-none' : 'hover:scale-[1.02] active:scale-[0.98]'}`}
+                            onClick={() => handleVote(championOption.id)}
+                        >
                             <ChampionLane
-                                option={championOption}
-                                wins={champWins}
-                                goal={SESSION_GOAL}
-                                onClick={() => handleVote(championOption.id)}
-                                isVoting={isVoting}
+                                title={championOption.label}
+                                subtitle={`Racha: ${champWins}/${SESSION_GOAL} victorias`}
+                                imageUrl={championOption.imageUrl || championOption.image_url || undefined}
                             />
                         </div>
                     )}
 
                     {challengerOption && (
-                        <div className="w-full">
+                        <div
+                            className={`w-full cursor-pointer transition-all duration-300 ${isVoting ? 'opacity-50 pointer-events-none' : 'hover:scale-[1.02] active:scale-[0.98]'}`}
+                            onClick={() => handleVote(challengerOption.id)}
+                        >
                             <ChallengerLane
-                                option={challengerOption}
-                                onClick={() => handleVote(challengerOption.id)}
-                                isVoting={isVoting}
+                                title={challengerOption.label}
+                                subtitle="Nuevo retador"
+                                imageUrl={challengerOption.imageUrl || challengerOption.image_url || undefined}
                             />
                         </div>
                     )}
