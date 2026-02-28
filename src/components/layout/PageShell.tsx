@@ -10,6 +10,7 @@ const MENU_ITEMS = [
   { id: 'participa', label: 'Participa', route: '/experience' },
   { id: 'results', label: 'Resultados', route: '/results' },
   { id: 'rankings', label: 'Rankings', route: '/rankings' },
+  { id: 'empresas', label: 'Empresas', route: '/intelligence' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 

@@ -158,6 +158,32 @@ export default function IntelligencePage() {
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10">
+            {/* CTA Empresas B2B */}
+            <div className="mb-4 rounded-2xl border border-gray-200 bg-white p-4">
+                <div className="text-sm font-semibold text-gray-900">
+                    Inteligencia para empresas
+                </div>
+                <div className="mt-1 text-sm text-gray-600">
+                    Cruces por segmento, evolución temporal y rankings verificados. Si quieres un snapshot comercial o demo, pídelo acá.
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                    <a
+                        href="mailto:contacto@opina.plus?subject=Opina%2B%20-%20Solicitud%20Demo%20B2B&body=Hola%2C%20quiero%20una%20demo%20B2B%20y%20un%20snapshot%20comercial.%0A%0AIndustria%3A%20%0APa%C3%ADs%3A%20%0AObjetivo%3A%20%0ASegmentos%20de%20inter%C3%A9s%3A%20%0AVentana%20de%20tiempo%3A%20"
+                        className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-100"
+                    >
+                        Solicitar demo / snapshot
+                    </a>
+
+                    <a
+                        href="/about"
+                        className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+                    >
+                        Cómo funciona
+                    </a>
+                </div>
+            </div>
+
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
