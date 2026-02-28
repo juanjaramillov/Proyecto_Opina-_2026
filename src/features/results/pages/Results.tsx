@@ -1,5 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../../../supabase/client";
+
+type MyRecentVersusSignal = {
+  created_at: string;
+  battle_id: string;
+  battle_title: string | null;
+  option_id: string;
+  option_label: string | null;
+  entity_id: string | null;
+  entity_name: string | null;
+  image_url: string | null;
+  signal_weight: number | null;
+};
 import { analyticsService } from "../services/analyticsService";
 import { profileService } from "../../profile/services/profileService";
 import { logger } from "../../../lib/logger";
@@ -44,7 +57,29 @@ export default function ResultsPage() {
 
   // data
   const [results, setResults] = useState<any[]>([]);
-  const [myActivity, setMyActivity] = useState<any[]>([]);
+
+  const [mySignals, setMySignals] = useState<MyRecentVersusSignal[]>([]);
+  const [mySignalsLoading, setMySignalsLoading] = useState(false);
+  const [mySignalsError, setMySignalsError] = useState<string | null>(null);
+
+  async function loadMySignals() {
+    try {
+      setMySignalsLoading(true);
+      setMySignalsError(null);
+
+      const { data, error } = await (supabase as any).rpc("get_my_recent_versus_signals", {
+        p_limit: 20,
+      });
+
+      if (error) throw error;
+
+      setMySignals((data ?? []) as MyRecentVersusSignal[]);
+    } catch (e: any) {
+      setMySignalsError("No se pudieron cargar tus señales.");
+    } finally {
+      setMySignalsLoading(false);
+    }
+  }
 
   const activeChips = useMemo(() => {
     const chips: Array<{ key: string; label: string; remove: () => void }> = [];
@@ -81,10 +116,6 @@ export default function ResultsPage() {
       } as any);
 
       setResults(data || []);
-
-      // Mis señales previas (RPC seguro)
-      const activity = await profileService.getActivityHistory(12);
-      setMyActivity(activity || []);
     } catch (e: any) {
       logger.error(e);
       setErr(e?.message ?? "No se pudieron cargar los resultados.");
@@ -95,6 +126,7 @@ export default function ResultsPage() {
 
   useEffect(() => {
     load();
+    loadMySignals();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gender, region, ageBucket]);
 
@@ -225,33 +257,72 @@ export default function ResultsPage() {
 
               {/* Panel 2: Mis señales previas */}
               <div className="border border-slate-200 rounded-3xl p-6">
-                <h2 className="text-lg font-black text-slate-900">Mis señales previas</h2>
-                <p className="text-sm text-slate-500 font-medium mt-1">Tu actividad reciente.</p>
-
-                {loading ? (
-                  <div className="mt-6 bg-white rounded-3xl border border-slate-100 shadow-sm divide-y divide-slate-50 overflow-hidden">
-                    <SkeletonRankingRow />
-                    <SkeletonRankingRow />
-                    <SkeletonRankingRow />
+                <div className="mb-3 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-lg font-black text-slate-900">Mis señales</h2>
+                    <p className="text-sm text-slate-500 font-medium mt-1">Tu historial real.</p>
                   </div>
-                ) : myActivity.length === 0 ? (
+                  <button
+                    type="button"
+                    onClick={loadMySignals}
+                    className="text-xs font-bold text-slate-700 hover:text-slate-900"
+                  >
+                    Actualizar
+                  </button>
+                </div>
+
+                {mySignalsLoading && (
+                  <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-600">
+                    Cargando tus señales...
+                  </div>
+                )}
+
+                {mySignalsError && (
+                  <div className="mt-6 rounded-2xl border border-red-200 bg-white p-4 text-sm text-red-700">
+                    {mySignalsError}
+                  </div>
+                )}
+
+                {!mySignalsLoading && !mySignalsError && mySignals.length === 0 && (
                   <div className="mt-6">
                     <EmptyState
                       title="Aún no tienes señales"
-                      description="Participa en un versus para dejar tu marca y empezar a construir tu historial."
+                      description="Participa en un versus para dejar tu marca."
                       icon="history"
                       actionLabel="Ir a participar"
                       onAction={() => nav("/experience")}
                     />
                   </div>
-                ) : (
-                  <div className="mt-6 space-y-3">
-                    {myActivity.slice(0, 8).map((a: any) => (
-                      <div key={a.id} className="border border-slate-200 rounded-2xl p-4">
-                        <p className="text-slate-900 font-black">{a.module_type}</p>
-                        <p className="text-xs text-slate-500 font-bold mt-1">
-                          {new Date(a.created_at).toLocaleString()}
-                        </p>
+                )}
+
+                {!mySignalsLoading && !mySignalsError && mySignals.length > 0 && (
+                  <div className="mt-6 space-y-2">
+                    {mySignals.map((s) => (
+                      <div key={`${s.created_at}-${s.option_id}`} className="rounded-2xl border border-gray-200 bg-white p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                            {s.image_url ? (
+                              <img src={s.image_url} alt={s.entity_name ?? s.option_label ?? "Señal"} className="h-full w-full object-cover" />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">•</div>
+                            )}
+                          </div>
+
+                          <div className="min-w-0 flex-1">
+                            <div className="text-sm font-semibold text-gray-900">
+                              {s.battle_title ?? "Versus"}
+                            </div>
+
+                            <div className="mt-1 text-sm text-gray-700">
+                              Elegiste: <span className="font-semibold">{s.option_label ?? s.entity_name ?? "Opción"}</span>
+                            </div>
+
+                            <div className="mt-1 text-xs text-gray-500">
+                              {new Date(s.created_at).toLocaleString()}
+                              {typeof s.signal_weight === "number" ? ` • Peso: ${s.signal_weight.toFixed(2)}` : ""}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
