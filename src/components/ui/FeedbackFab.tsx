@@ -1,9 +1,9 @@
-import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import { accessGate } from "../../features/access/services/accessGate";
+import { useAuth } from "../../features/auth/hooks/useAuth";
 
 export default function FeedbackFab() {
     const location = useLocation();
+    const { profile } = useAuth();
 
     const enabled = import.meta.env.VITE_FEEDBACK_WHATSAPP_ENABLED !== "false";
 
@@ -12,30 +12,49 @@ export default function FeedbackFab() {
     const waFallback = import.meta.env.DEV ? "56991284219" : "";
     const waNumber = waFromEnv || waFallback;
 
-    const message = useMemo(() => {
-        const tokenId = accessGate.getTokenId() ?? "NO_TOKEN";
+    function buildWhatsAppMessage() {
+        const now = new Date();
+        const ts = now.toISOString();
 
-        const text =
-            `Hola equipo de Opina+ 👋\n\n` +
-            `Tengo algunos comentarios o consultas sobre la plataforma.\n` +
-            `[ID: ${tokenId.substring(0, 6)}]`;
+        const url = window.location.href;
 
-        return text;
-    }, []);
+        // Identificador local
+        const anon = localStorage.getItem("opina_anon_id") || localStorage.getItem("anon_id");
+        const accessPass = localStorage.getItem("opina_access_pass") || "";
+        const uid = profile?.id || "";
+
+        const who =
+            accessPass === "admin"
+                ? `admin:${uid || "unknown"}`
+                : anon
+                    ? `anon:${anon}`
+                    : uid
+                        ? `user:${uid}`
+                        : "unknown";
+
+        return [
+            "Opina+ Feedback",
+            `who=${who}`,
+            `ts=${ts}`,
+            `url=${url}`,
+            "",
+            "Describe el problema / sugerencia:",
+        ].join("\n");
+    }
 
     // En admin no mostramos el FAB
     if (location.pathname.startsWith("/admin")) return null;
     if (!enabled || !waNumber) return null;
 
-    const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
-
     const handleFeedbackClick = async () => {
+        const message = buildWhatsAppMessage();
         try {
             await navigator.clipboard.writeText(message);
         } catch (err) {
             console.error('Failed to copy feedback text to clipboard', err);
         }
-        window.open(href, "_blank");
+        const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+        window.open(waUrl, "_blank");
     };
 
     return (
