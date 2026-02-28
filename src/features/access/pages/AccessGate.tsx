@@ -12,6 +12,13 @@ function getNext(search: string) {
 export default function AccessGatePage() {
     const nav = useNavigate();
     const loc = useLocation();
+
+    const [user, setUser] = useState<any>(null);
+    useEffect(() => {
+        supabase.auth.getUser().then(({ data }) => {
+            if (data?.user) setUser(data.user);
+        });
+    }, []);
     const nextPath = useMemo(() => getNext(loc.search), [loc.search]);
 
     const [code, setCode] = useState('');
@@ -92,6 +99,38 @@ export default function AccessGatePage() {
                         >
                             {loading ? 'Validando...' : 'Entrar'}
                         </button>
+
+                        {/* Admin bypass (solo si hay sesión y el usuario es admin) */}
+                        {user?.id && (
+                            <div style={{ marginTop: 12 }}>
+                                <button
+                                    type="button"
+                                    onClick={async () => {
+                                        // Requiere que exista tabla users con role y que el usuario ya esté autenticado
+                                        const { data, error } = await supabase
+                                            .from("users")
+                                            .select("role")
+                                            .eq("user_id", user.id)
+                                            .single();
+
+                                        if (error) {
+                                            alert("No se pudo validar rol admin.");
+                                            return;
+                                        }
+
+                                        if (data?.role === "admin") {
+                                            localStorage.setItem("opina_access_pass", "admin");
+                                            window.location.href = "/";
+                                        } else {
+                                            alert("Solo admins pueden saltar el acceso.");
+                                        }
+                                    }}
+                                    className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-semibold"
+                                >
+                                    Ingreso administrador
+                                </button>
+                            </div>
+                        )}
                     </form>
 
                     <div className="mt-8 text-center pt-6 border-t border-slate-100">
