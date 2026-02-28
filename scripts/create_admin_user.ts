@@ -1,18 +1,53 @@
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = process.env.SUPABASE_URL!;
-const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+/**
+ * Local-only secrets for admin scripts live in: env.server.local (NOT committed).
+ * Copy env.server.example -> env.server.local and fill values.
+ */
+dotenv.config({ path: "env.server.local" });
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL!;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+type CliArgs = {
+    email?: string;
+    password?: string;
+};
+
+function parseCliArgs(argv: string[]): CliArgs {
+    const out: CliArgs = {};
+    for (let i = 0; i < argv.length; i++) {
+        const a = argv[i];
+        if (a === "--email" && argv[i + 1]) {
+            out.email = argv[++i];
+            continue;
+        }
+        if (a === "--password" && argv[i + 1]) {
+            out.password = argv[++i];
+            continue;
+        }
+    }
+    return out;
+}
+
+function usageAndExit(): never {
+    console.error("Uso:");
+    console.error('  npm run create:admin -- --email "admin@tu-dominio.com" --password "TuPasswordFuerte"');
+    process.exit(1);
+}
 
 async function main() {
-    if (!SUPABASE_URL || !SERVICE_ROLE_KEY || !ADMIN_EMAIL || !ADMIN_PASSWORD) {
-        throw new Error(
-            "Faltan variables: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ADMIN_EMAIL, ADMIN_PASSWORD"
-        );
+    const args = parseCliArgs(process.argv.slice(2));
+    const ADMIN_EMAIL = args.email;
+    const ADMIN_PASSWORD = args.password;
+
+    if (!SUPABASE_URL || !SERVICE_ROLE_KEY) {
+        console.error("Faltan variables en env.server.local: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY");
+        process.exit(1);
+    }
+    if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+        usageAndExit();
     }
 
     const supabaseAdmin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
@@ -48,8 +83,6 @@ async function main() {
     if (!userId) throw new Error("No se obtuvo user id del admin.");
 
     // 2) Set rol admin en tabla de app
-    // SUPOSICIÓN: public.users tiene id = auth.user.id y columna role
-    // Ajustado a user_id para coincidir con el esquema local
     const { error: upErr } = await supabaseAdmin
         .from("users")
         .update({ role: "admin" })

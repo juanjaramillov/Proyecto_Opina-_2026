@@ -94,9 +94,9 @@ const PROGRESSIVE_THEMES = {
         subtitle: "¿Cuál es tu plataforma definitiva?",
         industry: "entretencion-streaming-video",
         theme: {
-            primary: "#8b5cf6", // violet-500
-            accent: "#a78bfa", // violet-400
-            bgGradient: "from-violet-50 to-white",
+            primary: "#8b5cf6", // secondary-500
+            accent: "#a78bfa", // secondary-400
+            bgGradient: "from-secondary-50 to-white",
             icon: "movie",
         },
     },
@@ -185,9 +185,9 @@ const PROGRESSIVE_THEMES = {
         subtitle: "¿A qué mundo perteneces?",
         industry: "entretencion-sagas",
         theme: {
-            primary: "#d946ef", // fuchsia-500
-            accent: "#f0abfc", // fuchsia-300
-            bgGradient: "from-fuchsia-50 to-white",
+            primary: "#d946ef", // secondary-500
+            accent: "#f0abfc", // secondary-300
+            bgGradient: "from-secondary-50 to-white",
             icon: "auto_stories",
         },
     },
@@ -373,7 +373,7 @@ export default function Experience() {
                             Señales hoy: {signalsToday}
                         </div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                            <span className="material-symbols-outlined text-[14px] text-indigo-500">shield</span>
+                            <span className="material-symbols-outlined text-[14px] text-primary-500">shield</span>
                             Límite: {limitLabel}
                         </div>
                         {profile?.tier ? (
@@ -400,7 +400,7 @@ export default function Experience() {
                         <div className="flex gap-2">
                             <button
                                 onClick={() => navigate("/results")}
-                                className="h-10 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 text-white font-bold text-sm transition-all shadow-md hover:shadow-lg active:scale-95"
+                                className="h-10 px-4 rounded-xl bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-bold text-sm transition-all shadow-md hover:shadow-lg active:scale-95"
                             >
                                 Ver resultados
                             </button>
@@ -421,7 +421,7 @@ export default function Experience() {
                     {/* Active Modules - Featured Bento Layout */}
                     <div>
                         <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 px-1">
-                            <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)] animate-pulse"></span>
+                            <span className="w-2 h-2 rounded-full bg-primary-500 shadow-[0_0_8px_rgba(99,102,241,0.8)] animate-pulse"></span>
                             Módulos Disponibles
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -452,7 +452,7 @@ export default function Experience() {
                     <div>
                         <div className="flex items-center gap-3 mb-2 px-1">
                             <h2 className="text-xl font-black text-slate-900">El Laboratorio</h2>
-                            <span className="px-2 py-1 bg-indigo-50 text-indigo-600 rounded-md text-[10px] font-black uppercase tracking-wider">
+                            <span className="px-2 py-1 bg-primary-50 text-primary-600 rounded-md text-[10px] font-black uppercase tracking-wider">
                                 Próximamente
                             </span>
                         </div>
@@ -507,7 +507,7 @@ export default function Experience() {
             {mode === "progressive" ? (
                 <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-6">
                     {!selectedTheme ? (
-                        <div className="max-w-4xl mx-auto space-y-6">
+                        <div className="max-w-5xl xl:max-w-6xl mx-auto space-y-6">
                             <div className="text-center space-y-2">
                                 <h2 className="text-2xl md:text-3xl font-black text-ink">
                                     Elige tu <span className="text-gradient-brand">Torneo</span>
@@ -573,7 +573,7 @@ export default function Experience() {
             {/* INSIGHTS MODE */}
             {mode === "insights" ? (
                 <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-6">
-                    <div className="w-full max-w-2xl mx-auto">
+                    <div className="w-full max-w-4xl xl:max-w-5xl mx-auto">
                         <DepthSelector
                             options={battlesAsGame.flatMap((b) => b.options)}
                             onSelect={handleOptionSelect}
@@ -595,11 +595,7 @@ export default function Experience() {
                 />
             ) : null}
 
-            <div className="pt-2 text-center opacity-40">
-                <p className="text-xs text-slate-500">
-                    Las señales valen más con mejor perfil y verificación. ({signalsToday}/{limitLabel})
-                </p>
-            </div>
+
 
             <RequestLoginModal
                 isOpen={isLoginModalOpen}

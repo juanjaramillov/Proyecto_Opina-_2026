@@ -62,7 +62,7 @@ export default function ModulesDemandPage() {
                     value={data?.total_views || 0}
                     icon="visibility"
                     loading={loading}
-                    color="text-indigo-600"
+                    color="text-primary-600"
                 />
                 <Card
                     label="Total Clicks (Interés)"
@@ -115,7 +115,7 @@ export default function ModulesDemandPage() {
                                         <div className="flex items-center gap-2">
                                             <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                                                 <div
-                                                    className="h-full bg-indigo-500 rounded-full"
+                                                    className="h-full bg-primary-500 rounded-full"
                                                     style={{ width: `${Math.min(m.ctr, 100)}%` }}
                                                 />
                                             </div>

@@ -27,7 +27,7 @@ export function GuestConversionModal({ onClose, onRegister, isOpen }: GuestConve
                     className="relative w-full max-w-md bg-white rounded-[32px] shadow-2xl overflow-hidden"
                 >
                     {/* Header Banner */}
-                    <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-center text-white relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-primary-500 to-secondary-600 p-8 text-center text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10" />
                         <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/10 rounded-full blur-xl -ml-8 -mb-8" />
 
@@ -36,7 +36,7 @@ export function GuestConversionModal({ onClose, onRegister, isOpen }: GuestConve
                                 <span className="material-symbols-rounded text-3xl">verified</span>
                             </div>
                             <h2 className="text-2xl font-black tracking-tight mb-2">Haz oficial tu opinión</h2>
-                            <p className="text-indigo-100 text-sm font-medium">
+                            <p className="text-primary-100 text-sm font-medium">
                                 Has estado construyendo señal valiosa. Regístrate para reclamar tus niveles.
                             </p>
                         </div>

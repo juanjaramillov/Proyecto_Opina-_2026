@@ -79,7 +79,7 @@ export default function AccessGatePage() {
                                 value={code}
                                 onChange={(e) => setCode(e.target.value)}
                                 placeholder="Ej: OP-1A2B3C4D"
-                                className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-900 uppercase"
+                                className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900 uppercase"
                                 autoFocus
                             />
                             {err && <p className="text-sm text-red-600 mt-2 font-medium">{err}</p>}
@@ -88,20 +88,9 @@ export default function AccessGatePage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition-all disabled:opacity-50 shadow-sm"
+                            className="w-full py-3.5 rounded-xl bg-primary hover:opacity-90 text-white font-black transition-all disabled:opacity-50 shadow-sm"
                         >
                             {loading ? 'Validando...' : 'Entrar'}
-                        </button>
-
-                        <button
-                            type="button"
-                            onClick={() => {
-                                accessGate.revoke();
-                                setCode('');
-                            }}
-                            className="w-full py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold transition-all disabled:opacity-50"
-                        >
-                            Limpiar
                         </button>
                     </form>
 

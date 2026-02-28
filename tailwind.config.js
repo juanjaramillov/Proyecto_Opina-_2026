@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
+
 export default {
     content: [
         "./index.html",
@@ -18,10 +20,21 @@ export default {
 
                 stroke: "var(--stroke)",
 
-                // Unified Brand System
-                primary: "var(--primary)",
-                secondary: "var(--secondary)",
-                accent: "var(--primary)",
+                // Resto del color del sistema ya importado por Tailwind, no sobreescribir los default de indigo o violet.
+
+                // Unified Brand System (using full palettes)
+                primary: {
+                    ...colors.blue,
+                    DEFAULT: '#2563EB', // blue-600
+                },
+                secondary: {
+                    ...colors.teal,
+                    DEFAULT: '#0D9488', // teal-600
+                },
+                accent: {
+                    ...colors.blue,
+                    DEFAULT: '#2563EB',
+                },
 
                 danger: "#EF4444",
                 warning: "#F59E0B",
@@ -49,7 +62,7 @@ export default {
                 "2xl": "1.25rem",
             },
             maxWidth: {
-                ws: "80rem",
+                ws: "100rem",
             },
         },
     },

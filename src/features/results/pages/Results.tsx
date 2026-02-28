@@ -68,7 +68,7 @@ export default function ResultsPage() {
       // --- Regla de lock actual (mantén tu lógica real si existe en tu app) ---
       // Si tú ya tienes un "threshold" real (ej: 30 señales), reemplaza este cálculo por tu fuente real.
       // Aquí dejamos el hook con user_stats, porque NO es signal_events (y ya lo tienes).
-      const stats = await profileService.getUserStats();
+      await profileService.getUserStats();
       // const totalSignals = stats?.total_signals ?? 0;
       // const isLocked = totalSignals < 30;
       setLocked(false); // Restriction removed by user request
@@ -114,7 +114,7 @@ export default function ResultsPage() {
           <button
             type="button"
             onClick={() => nav("/experience")}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-md hover:shadow-lg active:scale-95"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-md hover:shadow-lg active:scale-95"
           >
             Ir a participar
           </button>
@@ -142,7 +142,7 @@ export default function ResultsPage() {
             <select
               value={gender ?? ""}
               onChange={(e) => setGender(e.target.value || undefined)}
-              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10"
+              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
               <option value="">Género (Todos)</option>
               <option value="male">Hombre</option>
@@ -153,7 +153,7 @@ export default function ResultsPage() {
             <select
               value={region ?? ""}
               onChange={(e) => setRegion(e.target.value || undefined)}
-              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10"
+              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
               <option value="">Región (Todas)</option>
               <option value="Metropolitana">Metropolitana</option>
@@ -164,7 +164,7 @@ export default function ResultsPage() {
             <select
               value={ageBucket ?? ""}
               onChange={(e) => setAgeBucket(e.target.value || undefined)}
-              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10"
+              className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
               <option value="">Edad (Todas)</option>
               <option value="18-24">18-24</option>
@@ -271,7 +271,7 @@ export default function ResultsPage() {
                 <button
                   type="button"
                   onClick={() => nav("/experience")}
-                  className="mt-6 w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-lg hover:shadow-xl active:scale-95"
+                  className="mt-6 w-full py-3.5 rounded-xl bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-lg hover:shadow-xl active:scale-95"
                 >
                   Ir a participar
                 </button>

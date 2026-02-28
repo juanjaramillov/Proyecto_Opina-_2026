@@ -73,7 +73,7 @@ const DepthWizard: React.FC<DepthWizardProps> = ({
         <div className="w-full max-w-2xl mx-auto bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-slate-100 min-h-[500px] flex flex-col">
             {!isFinished && (
                 <div className="mb-6">
-                    <h1 className="text-sm font-black text-indigo-500 uppercase tracking-widest mb-4">
+                    <h1 className="text-sm font-black text-primary-500 uppercase tracking-widest mb-4">
                         {packTitle}
                     </h1>
                     <DepthHUD

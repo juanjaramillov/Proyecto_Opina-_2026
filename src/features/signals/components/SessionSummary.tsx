@@ -64,8 +64,8 @@ export default function SessionSummary({ results, onReset }: SessionSummaryProps
                                     </div>
                                 </div>
 
-                                <div className="px-4 py-2 bg-indigo-50 rounded-xl border border-indigo-100">
-                                    <span className="text-[10px] font-black text-indigo-500 uppercase tracking-tighter">
+                                <div className="px-4 py-2 bg-primary-50 rounded-xl border border-primary-100">
+                                    <span className="text-[10px] font-black text-primary-500 uppercase tracking-tighter">
                                         Elección: {item.myVote}
                                     </span>
                                 </div>

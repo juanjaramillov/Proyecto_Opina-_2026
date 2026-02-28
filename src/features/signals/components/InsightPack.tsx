@@ -84,6 +84,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
         }
     };
 
+    // @ts-expect-error - feature toggle en desarrollo
     const [showAnalyticsResults, setShowAnalyticsResults] = useState(false);
 
     return (
@@ -107,7 +108,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                         </div>
 
                         <div className="flex items-center gap-3 mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                            <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
                                 <span className="material-symbols-outlined">science</span>
                             </div>
                             <div>
@@ -165,10 +166,10 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                                                 key={questionKey}
                                                 className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group"
                                             >
-                                                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full blur-3xl -mr-10 -mt-10 opacity-50 group-hover:opacity-100 transition-opacity" />
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-full blur-3xl -mr-10 -mt-10 opacity-50 group-hover:opacity-100 transition-opacity" />
 
                                                 <div className="relative z-10 flex justify-between items-center mb-6">
-                                                    <div className="text-[11px] font-black uppercase tracking-widest text-indigo-500">
+                                                    <div className="text-[11px] font-black uppercase tracking-widest text-primary-500">
                                                         {questionKey.replace(/_/g, ' ')}
                                                     </div>
                                                     <div className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
@@ -177,9 +178,9 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                                                 </div>
 
                                                 <div className="relative z-10 grid grid-cols-3 gap-4 mb-6">
-                                                    <div className="flex flex-col items-center justify-center p-3 bg-indigo-50 rounded-xl border border-indigo-100/50">
-                                                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1">Tu Emisión</span>
-                                                        <span className="text-3xl font-black text-indigo-600">{myAnswer.toFixed(1)}</span>
+                                                    <div className="flex flex-col items-center justify-center p-3 bg-primary-50 rounded-xl border border-primary-100/50">
+                                                        <span className="text-[10px] font-bold text-primary-400 uppercase tracking-wider mb-1">Tu Emisión</span>
+                                                        <span className="text-3xl font-black text-primary-600">{myAnswer.toFixed(1)}</span>
                                                     </div>
                                                     <div className="flex flex-col items-center justify-center p-3">
                                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tu Segmento</span>
@@ -199,7 +200,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                                                             <motion.div
                                                                 initial={{ width: 0 }}
                                                                 animate={{ width: `${(myAnswer / 10) * 100}%` }}
-                                                                className="h-full bg-indigo-500 rounded-full"
+                                                                className="h-full bg-primary-500 rounded-full"
                                                             />
                                                         </div>
                                                     </div>
@@ -227,7 +228,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
 
                                                 <div className="relative z-10 mt-6 pt-4 border-t border-slate-100">
                                                     <p className="text-[11px] font-medium text-slate-500 text-center flex items-center justify-center gap-1.5">
-                                                        <span className="material-symbols-outlined text-[14px] text-indigo-400">info</span>
+                                                        <span className="material-symbols-outlined text-[14px] text-primary-400">info</span>
                                                         Estás aportando al índice de preferencia de {optionLabel}.
                                                     </p>
                                                 </div>

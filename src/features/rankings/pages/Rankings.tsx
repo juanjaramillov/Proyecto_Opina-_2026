@@ -4,7 +4,7 @@ import { rankingService, RankSnapshot } from '../services/rankingService';
 import { adminConfigService } from '../../admin/services/adminConfigService';
 import { supabase } from '../../../supabase/client';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { InlineLoader } from '../../../components/ui/InlineLoader';
+
 import { SkeletonRankingTopCard, SkeletonRankingRow } from '../../../components/ui/Skeleton';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { logger } from '../../../lib/logger';
@@ -144,7 +144,7 @@ const Rankings: React.FC = () => {
 
             <PageHeader
                 eyebrow={
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[11px] font-black uppercase tracking-widest text-indigo-600">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-[11px] font-black uppercase tracking-widest text-primary-600">
                         <span className="material-symbols-outlined text-[16px]">military_tech</span>
                         Snapshot Opina+ · Ponderado por relevancia
                     </div>
@@ -153,7 +153,7 @@ const Rankings: React.FC = () => {
                     <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-ink leading-tight">
                         Ranking de{" "}
                         {activeCategory ? (
-                            <span className="text-indigo-600 capitalize">{activeCategory.name}</span>
+                            <span className="text-primary-600 capitalize">{activeCategory.name}</span>
                         ) : (
                             <span className="inline-block h-8 w-44 bg-slate-200 rounded-xl animate-pulse align-middle" />
                         )}
@@ -177,7 +177,7 @@ const Rankings: React.FC = () => {
 
 
                         {isAdmin && analyticsMode && (
-                            <div className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded border text-[10px] font-black uppercase tracking-wider ${analyticsMode === "clean" ? "bg-indigo-50 border-indigo-200 text-indigo-700" : "bg-slate-50 border-slate-200 text-slate-500"}`}>
+                            <div className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded border text-[10px] font-black uppercase tracking-wider ${analyticsMode === "clean" ? "bg-primary-50 border-primary-200 text-primary-700" : "bg-slate-50 border-slate-200 text-slate-500"}`}>
                                 <span className="material-symbols-outlined text-[14px]">
                                     {analyticsMode === "clean" ? "filter_alt" : "filter_alt_off"}
                                 </span>
@@ -204,7 +204,7 @@ const Rankings: React.FC = () => {
                                 showToast("Link copiado", "success");
                             }
                         }}
-                        className="flex items-center justify-center gap-2 px-3 py-2 bg-ink text-white rounded-xl text-[10px] font-black uppercase tracking-wider hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-indigo-100"
+                        className="flex items-center justify-center gap-2 px-3 py-2 bg-ink text-white rounded-xl text-[10px] font-black uppercase tracking-wider hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary-100"
                     >
                         <span className="material-symbols-outlined text-[16px]">share</span>
                         Compartir
@@ -221,8 +221,8 @@ const Rankings: React.FC = () => {
                             key={cat.id}
                             onClick={() => setActiveCategorySlug(cat.slug)}
                             className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all active:scale-95 border ${activeCategorySlug === cat.slug
-                                ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
-                                : 'bg-white border-slate-100 text-muted hover:border-indigo-200'
+                                ? 'bg-primary-600 border-primary-600 text-white shadow-lg'
+                                : 'bg-white border-slate-100 text-muted hover:border-primary-200'
                                 }`}
                         >
                             {cat.name}
@@ -234,13 +234,13 @@ const Rankings: React.FC = () => {
                 <div className="flex bg-slate-200/50 p-1 rounded-xl shrink-0">
                     <button
                         onClick={() => setModuleType('versus')}
-                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'versus' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'versus' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         Versus
                     </button>
                     <button
                         onClick={() => setModuleType('progressive')}
-                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'progressive' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'progressive' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         Progresivo
                     </button>
@@ -256,7 +256,7 @@ const Rankings: React.FC = () => {
                     <div className="flex items-center gap-3">
                         <span className="material-symbols-outlined text-slate-400">tune</span>
                         <span className="text-sm font-bold text-ink">Filtrar por Segmento</span>
-                        <span className="bg-indigo-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                        <span className="bg-primary-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
                             {segmentLabel}
                         </span>
                     </div>
@@ -281,7 +281,7 @@ const Rankings: React.FC = () => {
                                             <button
                                                 key={s.id}
                                                 onClick={() => setSegmentId(s.id)}
-                                                className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all active:scale-95 capitalize ${segmentId === s.id ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-slate-100 text-muted'
+                                                className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all active:scale-95 capitalize ${segmentId === s.id ? 'bg-primary-50 border-primary-200 text-primary-700' : 'bg-white border-slate-100 text-muted'
                                                     }`}
                                             >
                                                 {s.label}
@@ -329,11 +329,11 @@ const Rankings: React.FC = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.1 }}
                                     className={`relative p-8 rounded-[40px] border transition-all ${idx === 0
-                                        ? 'bg-ink text-white border-indigo-500 shadow-2xl scale-105 z-10'
+                                        ? 'bg-ink text-white border-primary-500 shadow-2xl scale-105 z-10'
                                         : 'bg-white border-slate-100 text-ink shadow-xl'
                                         }`}
                                 >
-                                    <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-xl font-black text-indigo-600 border-4 border-indigo-50">
+                                    <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-xl font-black text-primary-600 border-4 border-primary-50">
                                         {idx + 1}
                                     </div>
 
@@ -367,7 +367,7 @@ const Rankings: React.FC = () => {
                             {ranking.slice(3).map((item, idx) => (
                                 <div key={item.entity_id} className="px-8 py-5 flex items-center justify-between hover:bg-slate-50 transition-colors group">
                                     <div className="flex items-center gap-6">
-                                        <span className="w-6 text-sm font-black text-slate-300 group-hover:text-indigo-600 transition-colors">
+                                        <span className="w-6 text-sm font-black text-slate-300 group-hover:text-primary-600 transition-colors">
                                             {idx + 4}
                                         </span>
                                         <div className="w-10 h-10 rounded-lg bg-slate-50 p-2 border border-slate-100 overflow-hidden">

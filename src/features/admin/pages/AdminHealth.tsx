@@ -117,7 +117,7 @@ export default function AdminHealth() {
                             onChange={(e) => setDryRunSignal(!e.target.checked)}
                             disabled={running}
                         />
-                        <div className={`block w-14 h-8 rounded-full transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-indigo-500 ${!dryRunSignal ? 'bg-rose-500' : 'bg-slate-200 group-hover:bg-slate-300'}`}></div>
+                        <div className={`block w-14 h-8 rounded-full transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-primary-500 ${!dryRunSignal ? 'bg-rose-500' : 'bg-slate-200 group-hover:bg-slate-300'}`}></div>
                         <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform ${!dryRunSignal ? 'transform translate-x-6' : ''}`}></div>
                     </div>
                     <div className="flex flex-col">
@@ -146,7 +146,7 @@ export default function AdminHealth() {
                 <div className="p-5 rounded-2xl border bg-white border-slate-100 shadow-sm flex flex-col justify-between">
                     <div>
                         <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2">
-                            <span className="material-symbols-outlined text-indigo-500 text-lg">data_usage</span>
+                            <span className="material-symbols-outlined text-primary-500 text-lg">data_usage</span>
                             Modo de analítica
                         </h3>
                         <p className="text-xs text-slate-500 mt-1">
@@ -164,7 +164,7 @@ export default function AdminHealth() {
                             {analyticsMode === null ? (
                                 <span className="text-sm text-slate-400 italic">Cargando...</span>
                             ) : (
-                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase ${analyticsMode === 'clean' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-700'}`}>
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase ${analyticsMode === 'clean' ? 'bg-primary-100 text-primary-700' : 'bg-slate-100 text-slate-700'}`}>
                                     {analyticsMode}
                                 </span>
                             )}
@@ -181,7 +181,7 @@ export default function AdminHealth() {
                         <button
                             onClick={() => handleSetMode('clean')}
                             disabled={updatingMode || analyticsMode === 'clean'}
-                            className="flex-1 py-1.5 px-3 bg-indigo-50 hover:bg-indigo-100 disabled:opacity-50 text-indigo-700 text-xs font-semibold rounded-lg transition-colors focus:ring-2 focus:ring-indigo-400"
+                            className="flex-1 py-1.5 px-3 bg-primary-50 hover:bg-primary-100 disabled:opacity-50 text-primary-700 text-xs font-semibold rounded-lg transition-colors focus:ring-2 focus:ring-primary-400"
                         >
                             Set CLEAN
                         </button>
@@ -200,8 +200,8 @@ export default function AdminHealth() {
 
                     if (status === 'running') {
                         icon = 'progress_activity';
-                        iconColor = 'text-indigo-400 animate-spin';
-                        boxColors = 'bg-indigo-50/50 border-indigo-100';
+                        iconColor = 'text-primary-400 animate-spin';
+                        boxColors = 'bg-primary-50/50 border-primary-100';
                     } else if (status && status !== 'pending') {
                         if ((status as HealthCheckResult).ok) {
                             icon = 'check_circle';

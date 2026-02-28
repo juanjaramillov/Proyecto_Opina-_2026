@@ -57,7 +57,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
         });
     };
     const toneColors: Record<string, string> = {
-        indigo: 'bg-indigo-50 text-indigo-600 ring-indigo-50/50',
+        primary: 'bg-primary-50 text-primary-600 ring-primary-50/50',
         rose: 'bg-rose-50 text-rose-600 ring-rose-50/50',
         amber: 'bg-amber-50 text-amber-600 ring-amber-50/50',
         emerald: 'bg-emerald-50 text-emerald-600 ring-emerald-50/50',
@@ -65,7 +65,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
     };
 
     const toneButton: Record<string, string> = {
-        indigo: 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200',
+        primary: 'bg-primary-600 hover:bg-primary-700 shadow-primary-200',
         rose: 'bg-rose-600 hover:bg-rose-700 shadow-rose-200',
         amber: 'bg-amber-600 hover:bg-amber-700 shadow-amber-200',
         emerald: 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200',
@@ -141,7 +141,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
                 {/* Overlay Indicator */}
                 <div className="absolute top-4 right-4 z-20">
                     <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-sm">
-                        <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
+                        <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
                         <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Vista Conceptual</span>
                     </div>
                 </div>

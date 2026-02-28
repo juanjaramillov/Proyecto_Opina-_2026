@@ -42,10 +42,10 @@ export default function DepthAnalyticsPanel({ optionId }: Props) {
     }, [optionId, gender, ageBucket, region]);
 
     return (
-        <div className="card p-8 bg-gradient-to-br from-slate-900 to-indigo-950 border-none shadow-2xl relative overflow-hidden group">
+        <div className="card p-8 bg-gradient-to-br from-slate-900 to-primary-950 border-none shadow-2xl relative overflow-hidden group">
             {/* Background Decor */}
             <div className="absolute -right-20 -top-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
-            <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all duration-700" />
+            <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl group-hover:bg-primary-500/20 transition-all duration-700" />
 
             <header className="relative z-10 mb-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-white/70">

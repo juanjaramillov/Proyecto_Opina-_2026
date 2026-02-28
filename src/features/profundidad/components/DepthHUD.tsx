@@ -14,7 +14,7 @@ const DepthHUD: React.FC<DepthHUDProps> = ({ currentStep, totalSteps, onExit }) 
         <div className="w-full flex flex-col gap-4 mb-8">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="px-3 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-indigo-200">
+                    <div className="px-3 py-1 bg-primary-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-primary-200">
                         Modo: Profundidad
                     </div>
                     <div className="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-full">
@@ -39,7 +39,7 @@ const DepthHUD: React.FC<DepthHUDProps> = ({ currentStep, totalSteps, onExit }) 
             <div className="space-y-2">
                 <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                     <motion.div
-                        className="h-full bg-indigo-600"
+                        className="h-full bg-primary-600"
                         initial={{ width: 0 }}
                         animate={{ width: `${progress}%` }}
                         transition={{ type: "spring", stiffness: 100, damping: 20 }}

@@ -70,8 +70,8 @@ export default function LoginPage() {
             subtitle={
                 <div className="flex flex-col gap-2">
                     {reasonText && (
-                        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl px-4 py-3">
-                            <p className="text-sm font-bold text-indigo-700">{reasonText}</p>
+                        <div className="bg-primary-50 border border-primary-100 rounded-2xl px-4 py-3">
+                            <p className="text-sm font-bold text-primary-700">{reasonText}</p>
                         </div>
                     )}
                     <span className="text-slate-500 font-medium">
@@ -88,7 +88,7 @@ export default function LoginPage() {
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="tu@email.com"
                         type="email"
                         required
@@ -102,7 +102,7 @@ export default function LoginPage() {
                     <input
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="••••••••"
                         type="password"
                         required
@@ -114,7 +114,7 @@ export default function LoginPage() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition-all disabled:opacity-50 shadow-sm"
+                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all disabled:opacity-50 shadow-sm"
                 >
                     {loading ? "Entrando..." : "Entrar"}
                 </button>
@@ -122,7 +122,7 @@ export default function LoginPage() {
                 <div className="text-center pt-2">
                     <p className="text-sm text-slate-500 font-medium">
                         ¿No tienes cuenta?{" "}
-                        <Link to={`/register?next=${encodeURIComponent(nextPath)}`} className="font-black text-indigo-700 hover:text-indigo-800">
+                        <Link to={`/register?next=${encodeURIComponent(nextPath)}`} className="font-black text-primary-700 hover:text-primary-800">
                             Crear cuenta
                         </Link>
                     </p>

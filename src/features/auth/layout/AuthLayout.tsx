@@ -18,7 +18,7 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
                 className="w-full max-w-md relative z-10"
             >
                 <div className="mb-10 text-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-brand mx-auto mb-6 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <div className="w-16 h-16 rounded-full bg-gradient-brand mx-auto mb-6 flex items-center justify-center shadow-lg shadow-primary-500/20">
                         <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
                             <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
                             <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />

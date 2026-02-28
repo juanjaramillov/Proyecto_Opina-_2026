@@ -29,7 +29,7 @@ const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, su
                     <ul className="space-y-3 text-left">
                         {summary.map((item, idx) => (
                             <li key={idx} className="flex gap-3 text-sm font-bold text-slate-700">
-                                <span className="text-indigo-500 font-black">•</span>
+                                <span className="text-primary-500 font-black">•</span>
                                 {item}
                             </li>
                         ))}
@@ -41,7 +41,7 @@ const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, su
                 {onNextPack && (
                     <button
                         onClick={onNextPack}
-                        className="w-full py-5 bg-indigo-600 text-white rounded-[1.5rem] font-black text-sm uppercase tracking-widest shadow-xl shadow-indigo-100 hover:shadow-2xl hover:-translate-y-0.5 transition-all active:scale-95"
+                        className="w-full py-5 bg-primary-600 text-white rounded-[1.5rem] font-black text-sm uppercase tracking-widest shadow-xl shadow-primary-100 hover:shadow-2xl hover:-translate-y-0.5 transition-all active:scale-95"
                     >
                         Siguiente pack
                     </button>

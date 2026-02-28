@@ -29,7 +29,7 @@ const PreviewContextCheck: React.FC<PreviewContextCheckProps> = ({ checkins }) =
                         <div className="w-full h-1.5 bg-slate-50 rounded-full overflow-hidden">
                             <div
                                 className={`h-full rounded-full transition-all duration-1000 ${item.value > 80 ? 'bg-rose-500' :
-                                        item.value > 50 ? 'bg-indigo-500' :
+                                        item.value > 50 ? 'bg-primary-500' :
                                             'bg-emerald-500'
                                     }`}
                                 style={{ width: `${item.value}%` }}

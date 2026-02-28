@@ -145,7 +145,7 @@ export default function B2BDashboard() {
                     <div className="mt-6 flex gap-3">
                         <button
                             onClick={() => nav("/", { replace: true })}
-                            className="flex-1 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition-all"
+                            className="flex-1 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all"
                         >
                             Volver al inicio
                         </button>
@@ -165,7 +165,7 @@ export default function B2BDashboard() {
         <PageShell>
             <div className="max-w-7xl mx-auto p-4 md:p-8 pb-32">
                 <div className="mb-8">
-                    <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-indigo-700">
+                    <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-primary-50 border border-primary-100 text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-primary-700">
                         Portal B2B
                     </div>
                     <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-slate-900">
@@ -181,7 +181,7 @@ export default function B2BDashboard() {
                         <select
                             value={moduleType}
                             onChange={e => setModuleType(e.target.value as 'versus' | 'progressive')}
-                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 focus:ring-2 focus:ring-primary-500"
                         >
                             <option value="versus">Versus</option>
                             <option value="progressive">Progresivo</option>
@@ -193,7 +193,7 @@ export default function B2BDashboard() {
                         <select
                             value={segmentHash}
                             onChange={e => setSegmentHash(e.target.value)}
-                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 focus:ring-2 focus:ring-primary-500"
                         >
                             <option value="global">Global</option>
                             <option value="gender:male">Hombres</option>
@@ -210,7 +210,7 @@ export default function B2BDashboard() {
                             value={segmentHash}
                             onChange={e => setSegmentHash(e.target.value)}
                             placeholder="ej. gender:other"
-                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-mono text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-mono text-sm text-slate-800 focus:ring-2 focus:ring-primary-500"
                         />
                     </div>
 
@@ -221,14 +221,14 @@ export default function B2BDashboard() {
                             min={10} max={500}
                             value={limit}
                             onChange={e => setLimit(Number(e.target.value))}
-                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 text-center focus:ring-2 focus:ring-indigo-500"
+                            className="w-full bg-slate-50 border-none rounded-xl py-3 px-4 font-semibold text-slate-800 text-center focus:ring-2 focus:ring-primary-500"
                         />
                     </div>
 
                     <button
                         onClick={loadData}
                         disabled={loadingData}
-                        className="w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
+                        className="w-full md:w-auto px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-300 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
                     >
                         {loadingData ? <span className="material-symbols-outlined animate-spin">refresh</span> : 'Cargar'}
                     </button>
@@ -317,7 +317,7 @@ export default function B2BDashboard() {
                                         <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors text-sm font-medium text-slate-700">
                                             <td className="p-4 font-bold text-slate-800">{row.battle_title || row.battle_id}</td>
                                             <td className="p-4">{row.option_label || row.option_id}</td>
-                                            <td className="p-4 font-bold text-indigo-600">{Number(row.score).toFixed(2)}</td>
+                                            <td className="p-4 font-bold text-primary-600">{Number(row.score).toFixed(2)}</td>
                                             <td className="p-4">{row.signals_count}</td>
                                             <td className="p-4">
                                                 <span className="bg-slate-100 px-2 py-1 rounded text-xs text-slate-600">{row.segment_hash}</span>

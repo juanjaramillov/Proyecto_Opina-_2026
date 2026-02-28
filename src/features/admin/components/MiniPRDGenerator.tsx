@@ -76,7 +76,7 @@ Implementar el módulo "${moduleName}" para capturar señales específicas de lo
                     </button>
                     <button
                         onClick={handleDownload}
-                        className="px-3 py-1.5 bg-indigo-600 rounded-xl text-xs font-bold text-white hover:bg-indigo-700 transition flex items-center gap-1"
+                        className="px-3 py-1.5 bg-primary-600 rounded-xl text-xs font-bold text-white hover:bg-primary-700 transition flex items-center gap-1"
                     >
                         <span className="material-symbols-outlined text-sm">download</span>
                         Descargar

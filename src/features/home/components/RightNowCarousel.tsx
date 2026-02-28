@@ -87,7 +87,7 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
                         {isBrand && (
                             <div className="flex flex-col items-center justify-center w-full h-full">
                                 <div className="relative group/logo mb-3 shrink-0">
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-transparent opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500 rounded-2xl blur-xl" />
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/10 to-transparent opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500 rounded-2xl blur-xl" />
                                     <img
                                         src={activeSlide.logoUrl}
                                         alt={activeSlide.value}
@@ -108,7 +108,7 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
                         {isStat && !isBrand && (
                             <div className="flex flex-col items-center justify-center w-full h-full">
                                 <h2 className="font-marketing text-[5rem] md:text-[8rem] font-black leading-[0.8] tracking-tighter select-none drop-shadow-sm">
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-b from-primary to-indigo-600">
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-b from-primary to-primary-600">
                                         {activeSlide.value}
                                     </span>
                                 </h2>
@@ -134,7 +134,7 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
                         {/* AI Insight Inside Motion Div to crossfade */}
                         {activeSlide.aiInsight && (
                             <div className="w-full mt-auto pt-2 flex justify-center z-20 shrink-0">
-                                <div className="px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-50 shadow-sm flex items-center gap-2 max-w-[95%]">
+                                <div className="px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-primary-50 shadow-sm flex items-center gap-2 max-w-[95%]">
                                     <span className="text-base">✨</span>
                                     <span className="text-[11px] md:text-[13px] font-semibold text-primary leading-tight text-center line-clamp-2">
                                         {activeSlide.aiInsight}

@@ -42,10 +42,8 @@ export default function VersusGame(props: GameProps) {
         locked,
         lockedByLimit,
         selected,
-        phase,
         idx,
         total,
-        streak,
         vote,
         next,
         champion,
@@ -168,14 +166,7 @@ export default function VersusGame(props: GameProps) {
     return (
         <div className="w-full">
             <div className="px-4 pt-4 pb-6 text-center">
-                {!props.hideProgress && (
-                    <div className="inline-flex items-center gap-2 mb-2 px-3 py-1 rounded-full bg-surface2 border border-stroke shadow-sm relative z-50">
-                        <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">
-                            {effectiveBattle.type === 'separator' ? 'Pausa' : (props.mode === 'survival' ? `Racha: ${streak}` : effectiveBattle.subtitle?.includes("Paso") ? effectiveBattle.subtitle : `Señal ${idx + 1} / ${total}`)}
-                        </span>
-                        {phase === 'next' && <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />}
-                    </div>
-                )}
+                {/* Title and subtitle only at the top */}
 
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -183,9 +174,9 @@ export default function VersusGame(props: GameProps) {
                         initial={{ opacity: 0, y: 5 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
-                        className="text-2xl md:text-3xl font-bold text-ink leading-tight"
+                        className="text-2xl md:text-3xl font-bold text-ink leading-tight capitalize"
                     >
-                        {effectiveBattle.title}
+                        {effectiveBattle.title.replace(/-/g, ' ')}
                     </motion.div>
                 </AnimatePresence>
 
@@ -223,6 +214,37 @@ export default function VersusGame(props: GameProps) {
                         transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                         className="relative"
                     >
+                        {/* Instruction + Progress immediately above cards */}
+                        {!props.hideProgress && (
+                            <div className="mx-auto w-full max-w-3xl text-center mb-8">
+                                <div className="mb-5">
+                                    <h2 className="text-base sm:text-lg font-semibold text-slate-900">
+                                        Elige tu preferencia
+                                    </h2>
+                                    <p className="mt-1 text-sm text-slate-500">
+                                        Esto calibra tu perfil y mejora tus resultados.
+                                    </p>
+                                </div>
+
+                                <div className="mx-auto mb-6 w-full max-w-md">
+                                    <div className="flex items-center justify-between text-xs text-slate-500 mb-2 px-1">
+                                        <span>Progreso</span>
+                                        <span>{idx + 1} / {total}</span>
+                                    </div>
+
+                                    <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+                                        <div
+                                            className="h-full rounded-full bg-primary-500 transition-all duration-500 ease-out"
+                                            style={{ width: `${Math.min(100, Math.max(0, ((idx) / total) * 100))}%` }}
+                                        />
+                                    </div>
+
+                                    <div className="mt-2 text-xs text-slate-500 text-center">
+                                        Te faltan <span className="font-medium text-slate-700">{Math.max(0, total - idx)}</span> para completar los cuestionarios.
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         {props.isSubmitting && (
                             <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-[2px] bg-white/10 rounded-[3rem]">
                                 <motion.div
@@ -240,7 +262,7 @@ export default function VersusGame(props: GameProps) {
                                 Hay un problema de datos con esta señal. No hay opciones configuradas.
                             </div>
                         ) : (
-                            <div className={`relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 px-4 pb-4 transition-opacity duration-300 ${props.isSubmitting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
+                            <div className={`relative max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 px-4 pb-4 transition-opacity duration-300 ${props.isSubmitting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
                                 {a && (
                                     <OptionCard
                                         option={a}
@@ -248,7 +270,7 @@ export default function VersusGame(props: GameProps) {
                                         disabled={locked || lockedByLimit || !!props.isSubmitting}
                                         isSelected={selected === a.id || !!result}
                                         showResult={!!result || !!momentum}
-                                        showPercentage={false}
+                                        showPercentage={true}
                                         percent={null}
                                         momentum={momentum?.options.find(o => o.id === a.id)}
                                         isLeft={effectiveBattle.layout === 'versus'}
@@ -271,7 +293,7 @@ export default function VersusGame(props: GameProps) {
                                         disabled={locked || lockedByLimit || !!props.isSubmitting}
                                         isSelected={selected === b.id || !!result}
                                         showResult={!!result || !!momentum}
-                                        showPercentage={false}
+                                        showPercentage={true}
                                         percent={null}
                                         momentum={momentum?.options.find(o => o.id === b.id)}
                                         layout={effectiveBattle.layout}
@@ -280,6 +302,26 @@ export default function VersusGame(props: GameProps) {
                                 )}
                             </div>
                         )}
+
+                        {/* Comentario de Insight simulado por IA después de votar */}
+                        <AnimatePresence>
+                            {(result || momentum) && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    className="max-w-2xl mx-auto mt-6 px-6 py-4 bg-gradient-to-br from-primary-50 to-emerald-50 border border-primary-100 rounded-2xl shadow-sm flex items-start gap-4"
+                                >
+                                    <div className="p-2 bg-white rounded-full shadow-sm">
+                                        <span className="material-symbols-outlined text-primary-500 text-xl">psychology</span>
+                                    </div>
+                                    <div className="text-left text-sm text-slate-700 leading-relaxed font-medium">
+                                        <span className="font-bold text-primary-700 mr-2">Insight de la comunidad:</span>
+                                        El {momentum ? Math.max(...momentum.options.map(o => o.percentage)) : 0}% de los encuestados han elegido la opción ganadora. Esta tendencia refleja una fuerte preferencia en este segmento.
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
                         <AnimatePresence>
                             {clickPosition && (
@@ -337,17 +379,17 @@ export default function VersusGame(props: GameProps) {
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             className="relative bg-white rounded-[32px] p-8 md:p-10 max-w-md w-full shadow-2xl border border-slate-100 text-center"
                         >
-                            <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-indigo-600">
+                            <div className="w-20 h-20 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-6 text-primary-600">
                                 <span className="material-symbols-outlined text-4xl">verified_user</span>
                             </div>
                             <h2 className="text-2xl font-black text-ink mb-4">Señal Protegida</h2>
                             <p className="text-slate-500 mb-8 leading-relaxed">
-                                Para que tu señal tenga <span className="text-indigo-600 font-bold">impacto real</span> y se sume a la inteligencia colectiva, necesitas validar tu identidad.
+                                Para que tu señal tenga <span className="text-primary-600 font-bold">impacto real</span> y se sume a la inteligencia colectiva, necesitas validar tu identidad.
                             </p>
                             <div className="space-y-3">
                                 <button
                                     onClick={() => navigate('/profile')}
-                                    className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black text-lg shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                                    className="w-full py-4 bg-primary-600 text-white rounded-2xl font-black text-lg shadow-lg shadow-primary-100 hover:bg-primary-700 transition-all hover:scale-[1.02] active:scale-[0.98]"
                                 >
                                     INICIAR SESIÓN
                                 </button>

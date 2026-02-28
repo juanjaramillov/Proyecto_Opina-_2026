@@ -51,7 +51,7 @@ export default function ExperienceModuleCard({
             <button
                 type="button"
                 onClick={onClick}
-                className="group relative flex items-center p-4 rounded-2xl bg-slate-50 border border-slate-100/50 hover:bg-white hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 overflow-hidden w-full"
+                className="group relative flex items-center p-4 rounded-2xl bg-slate-50 border border-slate-100/50 hover:bg-white hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 overflow-hidden w-full"
             >
                 {/* Ícono Izquierdo */}
                 <div className="w-12 h-12 shrink-0 rounded-xl bg-slate-200/50 text-slate-400 flex items-center justify-center mr-4 group-hover:bg-slate-100 group-hover:text-slate-500 transition-colors">
@@ -69,7 +69,7 @@ export default function ExperienceModuleCard({
 
                 {/* Tag Right */}
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                    <span className="px-2 py-1 bg-slate-100 text-slate-400 rounded-md text-[9px] font-black uppercase tracking-wider group-hover:bg-indigo-50 group-hover:text-indigo-500 transition-colors flex items-center gap-1">
+                    <span className="px-2 py-1 bg-slate-100 text-slate-400 rounded-md text-[9px] font-black uppercase tracking-wider group-hover:bg-primary-50 group-hover:text-primary-500 transition-colors flex items-center gap-1">
                         Mockup <span className="material-symbols-outlined text-[10px]">visibility</span>
                     </span>
                 </div>
@@ -85,15 +85,15 @@ export default function ExperienceModuleCard({
 
     // Asignación de bordes e iluminación según el tono
     // Aquí hardcodeamos un par de clases basadas en el tone para evitar interpolación compleja en Tailwind
-    let premiumClasses = "bg-white border hover:border-indigo-200 border-slate-100";
-    let glowClass = "from-indigo-500/0 via-indigo-500/5 to-indigo-500/0";
+    let premiumClasses = "bg-white border hover:border-primary-200 border-slate-100";
+    let glowClass = "from-primary-500/0 via-primary-500/5 to-primary-500/0";
 
     if (tone === "primary") {
         premiumClasses = "bg-gradient-to-b from-white to-blue-50/30 border border-blue-100 hover:border-blue-300 shadow-sm shadow-blue-900/5";
         glowClass = "from-blue-400/0 via-blue-400/20 to-blue-400/0";
     } else if (tone === "secondary") {
-        premiumClasses = "bg-gradient-to-b from-white to-purple-50/30 border border-purple-100 hover:border-purple-300 shadow-sm shadow-purple-900/5";
-        glowClass = "from-purple-400/0 via-purple-400/20 to-purple-400/0";
+        premiumClasses = "bg-gradient-to-b from-white to-secondary-50/30 border border-secondary-100 hover:border-secondary-300 shadow-sm shadow-secondary-900/5";
+        glowClass = "from-secondary-400/0 via-secondary-400/20 to-secondary-400/0";
     } else if (tone === "emerald") {
         premiumClasses = "bg-gradient-to-b from-white to-emerald-50/30 border border-emerald-100 hover:border-emerald-300 shadow-sm shadow-emerald-900/5";
         glowClass = "from-emerald-400/0 via-emerald-400/20 to-emerald-400/0";
@@ -135,7 +135,7 @@ export default function ExperienceModuleCard({
 
                 {/* Botón CTA Falso/Visual */}
                 <div className={`flex items-center gap-2 font-black text-sm transition-colors ${tone === 'primary' ? 'text-blue-600 group-hover:text-blue-700' :
-                    tone === 'secondary' ? 'text-purple-600 group-hover:text-purple-700' :
+                    tone === 'secondary' ? 'text-secondary-600 group-hover:text-secondary-700' :
                         tone === 'emerald' ? 'text-emerald-600 group-hover:text-emerald-700' :
                             'text-slate-600'
                     }`}>

@@ -27,7 +27,7 @@ export default function ModulesPriorityPage() {
     return (
         <div className="container-ws section-y space-y-8 animate-in fade-in duration-500">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end p-8 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end p-8 bg-gradient-to-br from-slate-900 to-primary-950 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-12 opacity-10">
                     <span className="material-symbols-outlined text-[10rem]">rocket_launch</span>
                 </div>
@@ -117,7 +117,7 @@ export default function ModulesPriorityPage() {
                                         </div>
                                     </td>
                                     <td className="px-8 py-6 text-center">
-                                        <span className={`text-xl font-black ${i === 0 ? 'text-indigo-600' : 'text-slate-900'}`}>{m.score}</span>
+                                        <span className={`text-xl font-black ${i === 0 ? 'text-primary-600' : 'text-slate-900'}`}>{m.score}</span>
                                     </td>
                                     <td className="px-8 py-6 font-bold text-slate-600">
                                         {m.clicks} <span className="text-[10px] font-black text-slate-300 ml-1">CLICKS</span>
@@ -132,8 +132,8 @@ export default function ModulesPriorityPage() {
                                     </td>
                                     <td className="px-8 py-6">
                                         <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider ${m.insight === 'Alta intención' ? 'bg-emerald-100 text-emerald-700' :
-                                            m.insight === 'Muy prometedor' ? 'bg-indigo-100 text-indigo-700' :
-                                                m.insight === 'Nicho potente' ? 'bg-purple-100 text-purple-700' :
+                                            m.insight === 'Muy prometedor' ? 'bg-primary-100 text-primary-700' :
+                                                m.insight === 'Nicho potente' ? 'bg-secondary-100 text-secondary-700' :
                                                     m.insight === 'Curiosidad, falta gancho' ? 'bg-slate-100 text-slate-500' : 'bg-slate-100 text-slate-400'
                                             }`}>
                                             {m.insight}

@@ -144,7 +144,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                         className="p-8 flex-1 flex flex-col"
                     >
                         <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-indigo-600">
+                            <div className="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary-600">
                                 <span className="material-symbols-rounded text-3xl">fingerprint</span>
                             </div>
                             <h2 id="onboarding-title" className="text-2xl font-black text-slate-900 tracking-tight">Identidad</h2>
@@ -157,7 +157,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             <button
                                 onClick={() => handleOAuth('google')}
                                 disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 py-3.5 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 py-3.5 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                             >
                                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-5 h-5" alt="G" />
                                 Continuar con Google
@@ -165,7 +165,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             <button
                                 onClick={() => handleOAuth('apple')}
                                 disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 bg-black py-3.5 rounded-2xl font-bold text-white hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                className="w-full flex items-center justify-center gap-3 bg-black py-3.5 rounded-2xl font-bold text-white hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                             >
                                 <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.21-.93 3.69-.74 2.4.29 4.1.84 4.87 2.21-.19.04-2.82 1.54-2.79 5.86.06 4.38 3.86 5.84 4.07 5.92-.02.04-.6 1.99-1.39 3.03-.78 1.04-1.61 2.08-3.53 1.95zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.17 2.25-2.05 4.19-3.74 4.25z" /></svg>
                                 Continuar con Apple
@@ -181,13 +181,13 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                         <div className="mb-4 flex gap-2">
                             <button
                                 onClick={() => { setMode('register'); setErrorMsg(''); }}
-                                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-indigo-500 ${mode === 'register' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${mode === 'register' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
                             >
                                 Crear cuenta
                             </button>
                             <button
                                 onClick={() => { setMode('login'); setErrorMsg(''); }}
-                                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-indigo-500 ${mode === 'login' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${mode === 'login' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
                             >
                                 Ingresar
                             </button>
@@ -204,7 +204,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                             placeholder="Elige un nickname (no tu nombre real)"
                                             value={nickname}
                                             onChange={(e) => setNickname(e.target.value)}
-                                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                         />
                                     </div>
                                     <div>
@@ -215,7 +215,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                             placeholder="Código de invitación"
                                             value={inviteCode}
                                             onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
-                                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                         />
                                     </div>
                                 </>
@@ -228,7 +228,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                     placeholder="tu@email.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                 />
                             </div>
                             <div>
@@ -239,7 +239,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                     placeholder="Tu contraseña secreta"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                 />
                             </div>
 
@@ -252,7 +252,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             <button
                                 onClick={handleEmailAuth}
                                 disabled={!email || !password || (mode === 'register' && (!nickname || !inviteCode)) || loading}
-                                className="w-full bg-indigo-600 py-3.5 rounded-2xl font-black text-white shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                className="w-full bg-primary-600 py-3.5 rounded-2xl font-black text-white shadow-lg shadow-primary-200 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                             >
                                 {loading ? 'Cargando...' : (mode === 'register' ? 'Registrarme' : 'Entrar')}
                             </button>
@@ -295,7 +295,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                             key={g}
                                             aria-labelledby="gender-label"
                                             onClick={() => setGender(g)}
-                                            className={`py-2.5 rounded-xl text-xs font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-indigo-500 ${gender === g ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-indigo-200'
+                                            className={`py-2.5 rounded-xl text-xs font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${gender === g ? 'bg-primary-600 border-primary-600 text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-primary-200'
                                                 }`}
                                         >
                                             {g}
@@ -310,7 +310,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                     id="ageRange"
                                     value={ageRange}
                                     onChange={(e) => setAgeRange(e.target.value)}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                                 >
                                     <option value="">Seleccionar...</option>
                                     <option value="18-24">18 - 24 años</option>
@@ -327,7 +327,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                     id="region"
                                     value={region}
                                     onChange={(e) => setRegion(e.target.value)}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                                 >
                                     <option value="">Seleccionar...</option>
                                     <option value="rm">Región Metropolitana</option>
@@ -340,7 +340,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             <button
                                 onClick={handleDemographics}
                                 disabled={!gender || !ageRange || !region || loading}
-                                className="w-full bg-slate-900 py-4 rounded-2xl font-black text-white shadow-xl transition-all active:scale-[0.98] disabled:opacity-30 mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                                className="w-full bg-slate-900 py-4 rounded-2xl font-black text-white shadow-xl transition-all active:scale-[0.98] disabled:opacity-30 mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                             >
                                 {loading ? 'Guardando...' : 'Completar Verificación'}
                             </button>
@@ -370,24 +370,24 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                         </div>
                         <h2 id="onboarding-title" className="text-3xl font-black text-slate-900 tracking-tighter">¡Verificado!</h2>
                         <p className="text-slate-500 font-medium mt-3 leading-relaxed">
-                            Has desbloqueado el acceso completo a <span className="text-indigo-600 font-bold text-sm">Power Rankings</span> y
-                            tu límite diario ha subido a <span className="text-indigo-600 font-bold text-sm">15 señales</span>.
+                            Has desbloqueado el acceso completo a <span className="text-primary-600 font-bold text-sm">Power Rankings</span> y
+                            tu límite diario ha subido a <span className="text-primary-600 font-bold text-sm">15 señales</span>.
                         </p>
 
                         <div className="grid grid-cols-2 gap-3 w-full mt-10">
                             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <div className="text-indigo-600 font-black text-xl mb-1">15</div>
+                                <div className="text-primary-600 font-black text-xl mb-1">15</div>
                                 <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Señales/Día</div>
                             </div>
                             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <div className="text-indigo-600 font-black text-xl mb-1">ON</div>
+                                <div className="text-primary-600 font-black text-xl mb-1">ON</div>
                                 <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Insights</div>
                             </div>
                         </div>
 
                         <button
                             onClick={onSuccess}
-                            className="w-full bg-indigo-600 py-4 rounded-2xl font-black text-white shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] mt-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
+                            className="w-full bg-primary-600 py-4 rounded-2xl font-black text-white shadow-lg shadow-primary-200 transition-all active:scale-[0.98] mt-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                         >
                             Continuar Explorando
                         </button>
@@ -398,7 +398,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
             <div className="p-4 bg-slate-50 flex items-center justify-center">
                 <button
                     onClick={onClose}
-                    className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 p-2 rounded-lg"
+                    className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 p-2 rounded-lg"
                 >
                     Cerrar
                 </button>

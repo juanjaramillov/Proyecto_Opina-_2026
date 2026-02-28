@@ -14,7 +14,7 @@ export function AuthNotice({
         variant === "success"
             ? "bg-emerald-50 border-emerald-100 text-emerald-700"
             : variant === "info"
-                ? "bg-indigo-50 border-indigo-100 text-indigo-700"
+                ? "bg-primary-50 border-primary-100 text-primary-700"
                 : "bg-rose-50 border-rose-100 text-rose-600";
 
     const icon =
@@ -73,8 +73,8 @@ export function AuthTextInput({
 
     const toneCls =
         tone === "invite"
-            ? "bg-indigo-50/30 border-indigo-100 text-indigo-900 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 font-black uppercase tracking-wider"
-            : "bg-slate-50/50 border-slate-100 text-slate-700 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10";
+            ? "bg-primary-50/30 border-primary-100 text-primary-900 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/10 font-black uppercase tracking-wider"
+            : "bg-slate-50/50 border-slate-100 text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/10";
 
     return (
         <div className="space-y-2">
@@ -131,7 +131,7 @@ export function AuthSelect({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 required={required}
-                className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-700"
+                className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl outline-none focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/10 transition-all font-bold text-slate-700"
             >
                 <option value="">{placeholder}</option>
                 {options.map((o) => (
@@ -161,7 +161,7 @@ export function AuthPrimaryButton({
         <button
             type="submit"
             disabled={disabled || loading}
-            className="btn-primary w-full py-4 rounded-2xl font-black uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-indigo-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
+            className="btn-primary w-full py-4 rounded-2xl font-black uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-primary-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
         >
             {loading ? (
                 <>

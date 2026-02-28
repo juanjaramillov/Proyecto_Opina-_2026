@@ -18,12 +18,12 @@ export function UserLevelCard({ totalSignals }: Props) {
     return (
         <div className="bg-slate-900 rounded-[2rem] p-8 shadow-2xl border border-slate-800 relative overflow-hidden group hover:shadow-[0_20px_40px_rgba(79,70,229,0.2)] transition-all duration-500">
             {/* Background Decorative Element */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-500/20 to-emerald-500/10 rounded-bl-full -z-0 group-hover:scale-110 blur-2xl transition-transform duration-700" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary-500/20 to-emerald-500/10 rounded-bl-full -z-0 group-hover:scale-110 blur-2xl transition-transform duration-700" />
 
             <div className="relative z-10">
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-4 border border-indigo-500/30">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/20 text-primary-400 text-[10px] font-black uppercase tracking-widest mb-4 border border-primary-500/30">
                             <span className="material-symbols-outlined text-[14px]">account_tree</span>
                             Panel de Influencia
                         </div>
@@ -59,14 +59,14 @@ export function UserLevelCard({ totalSignals }: Props) {
                                 initial={{ width: 0 }}
                                 animate={{ width: `${Math.min(100, progress)}%` }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
-                                className="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full rounded-full shadow-[0_0_10px_rgba(52,211,153,0.5)] relative overflow-hidden"
+                                className="bg-gradient-to-r from-primary-500 to-emerald-400 h-full rounded-full shadow-[0_0_10px_rgba(52,211,153,0.5)] relative overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-white/20 w-full animate-[shimmer_2s_infinite] -translate-x-full" />
                             </motion.div>
                         </div>
 
                         <div className="flex items-center gap-2 text-[11px] text-slate-400 bg-slate-800/80 p-3 rounded-xl border border-slate-700/50 mt-4 backdrop-blur-md">
-                            <span className="material-symbols-outlined text-sm text-indigo-400">info</span>
+                            <span className="material-symbols-outlined text-sm text-primary-400">info</span>
                             <span>Sigue acumulando señales para subir al siguiente nivel de influencia.</span>
                         </div>
                     </div>

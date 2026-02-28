@@ -52,13 +52,14 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // ✅ Feedback WhatsApp: se oculta en /admin. FeedbackFab maneja sus propias variables de entorno
+  // ✅ Feedback WhatsApp: se oculta en /admin, y pantallas activas de votación
   const isAdminRoute = location.pathname.startsWith("/admin");
-  const showFeedbackFab = !isAdminRoute;
+  const isVotingRoute = location.pathname.includes("/torneo") || location.pathname.includes("/versus");
+  const showFeedbackFab = !isAdminRoute && !isVotingRoute;
 
   return (
     <div className="flex flex-col flex-1 w-full min-h-screen relative">
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-indigo-600 focus:font-bold">Saltar al contenido</a>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-primary-600 focus:font-bold">Saltar al contenido</a>
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'glass-aurora bg-white/60 border-b border-white/20 py-4'}`}>
         <div className="w-full px-4 sm:px-8 xl:px-12 flex items-center justify-between gap-4">
 
@@ -79,7 +80,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
           {/* Mobile Menu Button */}
           <button
-            className="sm:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 rounded-lg"
+            className="sm:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 rounded-lg"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Navigation"
           >
@@ -116,7 +117,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 to="/profile"
                 className="flex items-center gap-1.5 ml-2 lg:ml-4 px-2 py-1.5 lg:px-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-all font-bold text-slate-700 text-sm active:scale-95 group shrink-0"
               >
-                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
                   {(profile?.displayName || 'U').charAt(0)}
                 </div>
                 <span>{profile?.displayName || 'Usuario'}</span>
@@ -128,7 +129,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             ) : (
               <NavLink
                 to="/login"
-                className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all active:scale-95 ml-4 flex items-center gap-2"
+                className="px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-700 hover:shadow-lg transition-all active:scale-95 ml-4 flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">login</span>
                 Iniciar Sesión
@@ -150,23 +151,23 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   <div className="px-4 py-2 bg-slate-50/50 border-b border-slate-100">
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Panel de Control</p>
                   </div>
-                  <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
                   </NavLink>
-                  <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
                     Health Checks
                   </NavLink>
-                  <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
                   </NavLink>
-                  <NavLink to="/admin/modules-demand" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/modules-demand" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">bar_chart</span>
                     Demanda Módulos
                   </NavLink>
-                  <NavLink to="/admin/modules-priority" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/modules-priority" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">sort</span>
                     Prioridad Módulos
                   </NavLink>
@@ -207,7 +208,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 className="mx-4 mt-2 mb-2 px-4 py-3 text-sm font-bold text-slate-700 transition-colors flex items-center justify-between rounded-xl bg-slate-50 border border-slate-100 active:scale-[0.98]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
                     {(profile?.displayName || 'U').charAt(0)}
                   </div>
                   <div className="flex flex-col">
@@ -223,7 +224,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <NavLink
                 to="/login"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 my-2 px-4 py-3 flex items-center justify-center gap-2 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-indigo-700 transition-colors"
+                className="mx-4 my-2 px-4 py-3 flex items-center justify-center gap-2 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-700 transition-colors"
               >
                 <span className="material-symbols-outlined text-[18px]">login</span>
                 Iniciar Sesión
@@ -234,23 +235,23 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <div className="mx-4 mb-4 mt-2 bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden p-2">
                 <p className="px-3 pt-2 pb-2 text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">admin_panel_settings</span> Panel Admin</p>
                 <div className="flex flex-col gap-1 mt-1">
-                  <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
                   </NavLink>
-                  <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
                     Health Checks
                   </NavLink>
-                  <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
                   </NavLink>
-                  <NavLink to="/admin/modules-demand" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/modules-demand" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">bar_chart</span>
                     Demanda de Módulos
                   </NavLink>
-                  <NavLink to="/admin/modules-priority" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-white hover:text-indigo-600'}`}>
+                  <NavLink to="/admin/modules-priority" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">sort</span>
                     Prioridad de Módulos
                   </NavLink>

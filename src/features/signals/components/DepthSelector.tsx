@@ -99,13 +99,13 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
                 <div className="flex items-center gap-2 min-h-[32px]">
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Selección:</span>
                     {selectedOption ? (
-                        <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-full animate-in zoom-in duration-200">
+                        <div className="inline-flex items-center gap-2 bg-primary-50 border border-primary-100 px-3 py-1.5 rounded-full animate-in zoom-in duration-200">
                             {selectedOption.image_url ? (
                                 <img src={selectedOption.image_url} alt="" className="w-4 h-4 object-contain" />
                             ) : (
-                                <div className="w-4 h-4 rounded-full bg-indigo-200 flex flex-shrink-0" />
+                                <div className="w-4 h-4 rounded-full bg-primary-200 flex flex-shrink-0" />
                             )}
-                            <span className="text-xs font-bold text-indigo-700">{selectedOption.label}</span>
+                            <span className="text-xs font-bold text-primary-700">{selectedOption.label}</span>
                         </div>
                     ) : (
                         <span className="text-xs font-medium text-slate-400 italic">Ninguna seleccionada</span>
@@ -164,12 +164,12 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
                                                         key={opt.id}
                                                         onClick={() => handleSelectOption(opt)}
                                                         className={`w-full flex items-center gap-4 p-3 rounded-lg border text-left transition-all ${isSelected
-                                                            ? 'bg-indigo-50 border-indigo-200 shadow-inner'
+                                                            ? 'bg-primary-50 border-primary-200 shadow-inner'
                                                             : 'border-transparent hover:bg-slate-50 hover:border-slate-200'
                                                             }`}
                                                     >
                                                         {/* Radio Indicator */}
-                                                        <div className={`w-4 h-4 rounded-full border flex flex-shrink-0 items-center justify-center transition-colors ${isSelected ? 'border-indigo-500 bg-indigo-500' : 'border-slate-300'}`}>
+                                                        <div className={`w-4 h-4 rounded-full border flex flex-shrink-0 items-center justify-center transition-colors ${isSelected ? 'border-primary-500 bg-primary-500' : 'border-slate-300'}`}>
                                                             {isSelected && <div className="w-1.5 h-1.5 bg-white rounded-full scale-100 animate-in zoom-in" />}
                                                         </div>
 
@@ -184,7 +184,7 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
 
                                                         {/* Details */}
                                                         <div className="flex-1 min-w-0">
-                                                            <h4 className={`font-bold truncate ${isSelected ? 'text-indigo-900' : 'text-slate-700'}`}>{opt.label}</h4>
+                                                            <h4 className={`font-bold truncate ${isSelected ? 'text-primary-900' : 'text-slate-700'}`}>{opt.label}</h4>
                                                             <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mt-0.5">Profundizar</p>
                                                         </div>
                                                     </button>

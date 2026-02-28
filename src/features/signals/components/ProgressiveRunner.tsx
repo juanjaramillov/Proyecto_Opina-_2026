@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { BattleOption, ProgressiveBattle, VoteResult } from '../types';
 
-import ProgressiveHUD from './progressive/ProgressiveHUD';
 import ChampionLane from './progressive/ChampionLane';
 import ChallengerLane from './progressive/ChallengerLane';
-import CoronationProgress from './progressive/CoronationProgress';
 import CrownedWinner from './progressive/CrownedWinner';
 
 interface ProgressiveRunnerProps {
@@ -105,7 +103,7 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
         return (
             <div className={`min-h-[40vh] flex flex-col items-center justify-center p-8 rounded-[3rem] bg-gradient-to-b ${theme.bgGradient}`}>
                 <p className="text-slate-500 font-bold">No hay suficientes opciones para iniciar este torneo.</p>
-                <button onClick={() => window.location.reload()} className="mt-4 text-indigo-500 font-bold underline">Reintentar</button>
+                <button onClick={() => window.location.reload()} className="mt-4 text-primary-500 font-bold underline">Reintentar</button>
             </div>
         );
     };
@@ -128,16 +126,35 @@ export default function ProgressiveRunner({ progressiveData, onComplete, onVote 
 
     return (
         <div className={`w-full max-w-5xl mx-auto p-4 md:p-8 rounded-[2rem] bg-gradient-to-b ${theme.bgGradient} relative min-h-[80vh] flex flex-col`}>
-            {/* Cabecera del Torneo */}
-            <ProgressiveHUD
-                round={round}
-                champWins={champWins}
-                goal={SESSION_GOAL}
-                onExit={handleExit}
-            />
+            {/* Instruction + Progress */}
+            <div className="mx-auto w-full max-w-3xl text-center">
+                <div className="mb-5">
+                    <h2 className="text-base sm:text-lg font-semibold text-slate-900">
+                        Elige tu preferencia
+                    </h2>
+                    <p className="mt-1 text-sm text-slate-500">
+                        Esto calibra tu perfil y mejora tus resultados.
+                    </p>
+                </div>
 
-            {/* Progreso de la Corona */}
-            <CoronationProgress champWins={champWins} goal={SESSION_GOAL} />
+                <div className="mx-auto mb-6 w-full max-w-md">
+                    <div className="flex items-center justify-between text-xs text-slate-500">
+                        <span>Progreso</span>
+                        <span>{round}/{SESSION_GOAL}</span>
+                    </div>
+
+                    <div className="mt-2 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+                        <div
+                            className="h-full rounded-full bg-slate-900/70 transition-all"
+                            style={{ width: `${Math.min(100, Math.max(0, ((round - 1) / SESSION_GOAL) * 100))}%` }}
+                        />
+                    </div>
+
+                    <div className="mt-2 text-xs text-slate-500">
+                        Te faltan <span className="font-medium text-slate-700">{Math.max(0, SESSION_GOAL - round + 1)}</span> para completar el torneo.
+                    </div>
+                </div>
+            </div>
 
             {/* Layout de Batalla (Campeón vs Retador) */}
             <div className="flex-1 mt-4 relative">

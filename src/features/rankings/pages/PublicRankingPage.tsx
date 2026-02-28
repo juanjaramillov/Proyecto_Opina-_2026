@@ -137,7 +137,7 @@ const PublicRankingPage: React.FC = () => {
 
             <PageHeader
                 eyebrow={
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[10px] font-black uppercase tracking-widest text-indigo-600">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-[10px] font-black uppercase tracking-widest text-primary-600">
                         <span className="material-symbols-outlined text-[14px]">public</span>
                         Snapshot público · Santiago
                     </div>
@@ -159,7 +159,7 @@ const PublicRankingPage: React.FC = () => {
                             {updatedLabel ? `Actualizado: ${updatedLabel}` : 'Actualizado periódicamente'}
                         </div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                            <span className="material-symbols-outlined text-[14px] text-indigo-500">bar_chart</span>
+                            <span className="material-symbols-outlined text-[14px] text-primary-500">bar_chart</span>
                             {totalSignals.toLocaleString('es-CL')} señales
                         </div>
                     </div>
@@ -212,14 +212,14 @@ const PublicRankingPage: React.FC = () => {
                             className={[
                                 'relative p-8 rounded-[40px] border-2 flex flex-col items-center text-center transition-all',
                                 isFirst
-                                    ? 'bg-gradient-brand border-transparent text-white shadow-xl shadow-indigo-100 scale-[1.03] z-10'
+                                    ? 'bg-gradient-brand border-transparent text-white shadow-xl shadow-primary-100 scale-[1.03] z-10'
                                     : 'bg-white border-slate-100 text-slate-900',
                             ].join(' ')}
                         >
                             <div
                                 className={[
                                     'w-12 h-12 rounded-full flex items-center justify-center font-black text-xl mb-4',
-                                    isFirst ? 'bg-white/20 text-white' : 'bg-indigo-50 text-indigo-600',
+                                    isFirst ? 'bg-white/20 text-white' : 'bg-primary-50 text-primary-600',
                                 ].join(' ')}
                             >
                                 {idx + 1}
@@ -270,11 +270,11 @@ const PublicRankingPage: React.FC = () => {
             ) : null}
 
             <footer className="text-center space-y-6 pt-6">
-                <div className="bg-indigo-50 border border-indigo-100 p-8 rounded-[40px] max-w-2xl mx-auto">
-                    <p className="text-indigo-900 font-medium italic mb-2">
+                <div className="bg-primary-50 border border-primary-100 p-8 rounded-[40px] max-w-2xl mx-auto">
+                    <p className="text-primary-900 font-medium italic mb-2">
                         “Resultados basados en señales declaradas por usuarios registrados en la plataforma.”
                     </p>
-                    <p className="text-indigo-600/60 text-xs font-black uppercase tracking-widest">Metodología Opina+ · Santiago</p>
+                    <p className="text-primary-600/60 text-xs font-black uppercase tracking-widest">Metodología Opina+ · Santiago</p>
                 </div>
 
                 <div className="pt-2">

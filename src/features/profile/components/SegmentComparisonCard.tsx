@@ -36,7 +36,7 @@ const SegmentComparisonCard: React.FC<Props> = ({ data }) => {
         >
             {/* Coherence Badge */}
             <div className="absolute top-0 right-0 p-4">
-                <div className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border ${data.coherence_level === 'Alta' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
+                <div className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border ${data.coherence_level === 'Alta' ? 'bg-primary-50 text-primary-600 border-primary-100' :
                         data.coherence_level === 'Media' ? 'bg-slate-50 text-slate-500 border-slate-100' :
                             'bg-amber-50 text-amber-600 border-amber-100'
                     }`}>
@@ -45,7 +45,7 @@ const SegmentComparisonCard: React.FC<Props> = ({ data }) => {
             </div>
 
             <div className="mb-4">
-                <h4 className="text-lg font-black text-ink group-hover:text-indigo-600 transition-colors tracking-tight">
+                <h4 className="text-lg font-black text-ink group-hover:text-primary-600 transition-colors tracking-tight">
                     {data.entity_name}
                 </h4>
                 <div className="mt-2 inline-flex items-baseline gap-1">

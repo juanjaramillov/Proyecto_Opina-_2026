@@ -66,9 +66,9 @@ export default function PersonalState() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-indigo-600"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-primary-600"
                     >
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
                         Motor de Estado • Fase 2: Interconexión
                     </motion.div>
                     <h1 className="text-4xl font-black text-ink tracking-tight mb-4">Tu Estado Personal</h1>
@@ -90,7 +90,7 @@ export default function PersonalState() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:border-indigo-100 transition-all group"
+                                    className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:border-primary-100 transition-all group"
                                 >
                                     <div className="flex justify-between items-start mb-6">
                                         <div className="flex items-center gap-4">
@@ -103,7 +103,7 @@ export default function PersonalState() {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <span className="text-2xl font-black text-indigo-600 block leading-none">{scores[metric.id as keyof UserState]}</span>
+                                            <span className="text-2xl font-black text-primary-600 block leading-none">{scores[metric.id as keyof UserState]}</span>
                                             {benchmarks && (
                                                 <div className="flex gap-2 mt-1 justify-end items-center">
                                                     <div className="flex items-center gap-1" title="Promedio País">
@@ -127,11 +127,11 @@ export default function PersonalState() {
                                             step="1"
                                             value={scores[metric.id as keyof UserState]}
                                             onChange={(e) => handleScoreChange(metric.id as keyof UserState, parseInt(e.target.value))}
-                                            className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600 z-10"
+                                            className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-primary-600 z-10"
                                         />
                                         <div className="absolute inset-0 pointer-events-none flex justify-between items-center px-1 opacity-20">
                                             {[...Array(10)].map((_, i) => (
-                                                <div key={i} className={`w-1 h-1 rounded-full ${scores[metric.id as keyof UserState] > i ? 'bg-indigo-300' : 'bg-slate-300'}`} />
+                                                <div key={i} className={`w-1 h-1 rounded-full ${scores[metric.id as keyof UserState] > i ? 'bg-primary-300' : 'bg-slate-300'}`} />
                                             ))}
                                         </div>
 
@@ -167,9 +167,9 @@ export default function PersonalState() {
                         })}
                     </div>
 
-                    <div className="bg-indigo-50/50 rounded-2xl p-4 border border-indigo-100 flex items-start gap-3">
-                        <span className="material-symbols-outlined text-indigo-500 text-sm mt-0.5">info</span>
-                        <p className="text-[11px] text-indigo-700 leading-relaxed font-medium">
+                    <div className="bg-primary-50/50 rounded-2xl p-4 border border-primary-100 flex items-start gap-3">
+                        <span className="material-symbols-outlined text-primary-500 text-sm mt-0.5">info</span>
+                        <p className="text-[11px] text-primary-700 leading-relaxed font-medium">
                             Los marcadores de <b>País (Gris)</b> y <b>Pares (Verde)</b> te ayudan a entender tu estado en contexto.
                             Tu anonimato está garantizado ya que solo se procesan promedios agregados.
                         </p>
@@ -180,7 +180,7 @@ export default function PersonalState() {
                         whileTap={{ scale: 0.98 }}
                         type="submit"
                         disabled={isSubmitting || isSuccess}
-                        className={`w-full py-5 rounded-2xl font-black text-white shadow-xl transition-all flex items-center justify-center gap-2 ${isSuccess ? 'bg-emerald-500 shadow-emerald-200' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-100'
+                        className={`w-full py-5 rounded-2xl font-black text-white shadow-xl transition-all flex items-center justify-center gap-2 ${isSuccess ? 'bg-emerald-500 shadow-emerald-200' : 'bg-primary-600 hover:bg-primary-700 shadow-primary-100'
                             }`}
                     >
                         {isSubmitting ? (

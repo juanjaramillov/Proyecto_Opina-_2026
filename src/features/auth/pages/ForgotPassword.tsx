@@ -65,7 +65,7 @@ export default function ForgotPassword() {
 
             <div className="mt-10 pt-8 border-t border-slate-100 text-center">
                 <p className="text-sm text-slate-500 font-medium">
-                    <Link to="/login" className="text-indigo-600 font-bold hover:underline">
+                    <Link to="/login" className="text-primary-600 font-bold hover:underline">
                         Volver al inicio de sesión
                     </Link>
                 </p>

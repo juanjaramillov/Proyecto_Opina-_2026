@@ -79,7 +79,7 @@ export default function RegisterPage() {
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="tu@email.com"
                         type="email"
                         required
@@ -93,7 +93,7 @@ export default function RegisterPage() {
                     <input
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="Mínimo 8 caracteres"
                         type="password"
                         required
@@ -107,7 +107,7 @@ export default function RegisterPage() {
                     <input
                         value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="Repite tu contraseña"
                         type="password"
                         required
@@ -119,7 +119,7 @@ export default function RegisterPage() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black transition-all disabled:opacity-50 shadow-sm"
+                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all disabled:opacity-50 shadow-sm"
                 >
                     {loading ? "Creando..." : "Crear cuenta"}
                 </button>
@@ -127,7 +127,7 @@ export default function RegisterPage() {
                 <div className="text-center pt-2">
                     <p className="text-sm text-slate-500 font-medium">
                         ¿Ya tienes cuenta?{" "}
-                        <Link to={`/login?next=${encodeURIComponent(nextPath)}`} className="font-black text-indigo-700 hover:text-indigo-800">
+                        <Link to={`/login?next=${encodeURIComponent(nextPath)}`} className="font-black text-primary-700 hover:text-primary-800">
                             Iniciar sesión
                         </Link>
                     </p>

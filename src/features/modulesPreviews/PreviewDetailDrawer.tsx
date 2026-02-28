@@ -24,7 +24,7 @@ const PreviewDetailDrawer: React.FC<PreviewDetailDrawerProps> = ({
             animate={{ opacity: 1, x: 0 }}
             className="hidden lg:flex flex-col w-80 shrink-0 bg-slate-50 border border-slate-100 rounded-[2rem] p-6 shadow-inner"
         >
-            <div className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Ficha de Detalle</div>
+            <div className="text-[10px] font-black text-primary-500 uppercase tracking-widest mb-4">Ficha de Detalle</div>
 
             <div className="w-full h-40 bg-slate-200 rounded-2xl mb-6 relative overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center text-slate-400">
@@ -34,7 +34,7 @@ const PreviewDetailDrawer: React.FC<PreviewDetailDrawerProps> = ({
 
             <h3 className="text-xl font-black text-slate-900 mb-1">{title}</h3>
             <div className="flex items-center gap-2 mb-4">
-                <span className="px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded-md text-[9px] font-black uppercase tracking-widest">{category}</span>
+                <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-md text-[9px] font-black uppercase tracking-widest">{category}</span>
                 <span className="flex items-center gap-1 text-[10px] font-black text-amber-500">
                     <span className="material-symbols-outlined text-[14px] fill-current">star</span>
                     {rating}

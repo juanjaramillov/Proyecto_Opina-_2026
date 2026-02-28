@@ -111,7 +111,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
           {/* PARTICIPATION SUMMARY */}
           <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
             <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-indigo-500 text-lg">analytics</span>
+              <span className="material-symbols-outlined text-primary-500 text-lg">analytics</span>
               Actividad
             </h3>
             <div className="space-y-4">
@@ -133,7 +133,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
           {/* ACTIVITY FEED (MINI) */}
           <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
             <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-indigo-500 text-lg">history</span>
+              <span className="material-symbols-outlined text-primary-500 text-lg">history</span>
               Reciente
             </h3>
             <div className="space-y-4">
@@ -169,14 +169,14 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
           <section className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none transition-transform duration-700 hover:rotate-12 hover:scale-110">
-              <span className="material-symbols-outlined text-[150px] text-indigo-600">hub</span>
+              <span className="material-symbols-outlined text-[150px] text-primary-600">hub</span>
             </div>
 
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center shadow-inner">
-                    <span className="material-symbols-outlined text-indigo-600 text-2xl">person_filled</span>
+                  <div className="w-14 h-14 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center shadow-inner">
+                    <span className="material-symbols-outlined text-primary-600 text-2xl">person_filled</span>
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
@@ -206,16 +206,16 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 {/* RESULTADOS */}
                 <button
                   onClick={() => !isLocked && navigate('/results')}
-                  className={`p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 ${isLocked ? 'bg-slate-50 border-slate-100 cursor-not-allowed' : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xl hover:-translate-y-1 active:scale-[0.98]'}`}
+                  className={`p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 ${isLocked ? 'bg-slate-50 border-slate-100 cursor-not-allowed' : 'bg-white border-slate-200 hover:border-primary-300 hover:shadow-xl hover:-translate-y-1 active:scale-[0.98]'}`}
                 >
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${isLocked ? 'from-slate-200/50' : 'from-indigo-500/10'} to-transparent rounded-bl-full -z-0 group-hover:scale-110 transition-transform`}></div>
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${isLocked ? 'from-slate-200/50' : 'from-primary-500/10'} to-transparent rounded-bl-full -z-0 group-hover:scale-110 transition-transform`}></div>
                   <div className="relative z-10">
                     <div className="flex justify-between items-start mb-3">
                       <span className="font-black text-sm text-slate-800 uppercase tracking-wider">Análisis & Tendencias</span>
                       {isLocked ? (
                         <span className="material-symbols-outlined text-slate-300 bg-white p-1 rounded-full shadow-sm">lock</span>
                       ) : (
-                        <span className="material-symbols-outlined text-white bg-indigo-500 p-1.5 rounded-xl shadow-md group-hover:rotate-12 transition-transform">monitoring</span>
+                        <span className="material-symbols-outlined text-white bg-primary-500 p-1.5 rounded-xl shadow-md group-hover:rotate-12 transition-transform">monitoring</span>
                       )}
                     </div>
                     <p className="text-xs text-slate-500 font-medium leading-relaxed">
@@ -247,7 +247,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={handleContinue}
-                  className={`flex-1 px-6 py-5 rounded-2xl font-black text-white flex items-center justify-center gap-3 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-xl uppercase tracking-widest text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 ${isLocked ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:shadow-indigo-500/30' : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:shadow-emerald-500/30'}`}
+                  className={`flex-1 px-6 py-5 rounded-2xl font-black text-white flex items-center justify-center gap-3 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-xl uppercase tracking-widest text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 ${isLocked ? 'bg-gradient-to-r from-primary-600 to-primary-500 hover:shadow-primary-500/30' : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:shadow-emerald-500/30'}`}
                 >
                   {isLocked ? (
                     <>
@@ -313,7 +313,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-black text-ink tracking-tight flex items-center gap-2">
-                    <span className="material-symbols-outlined text-indigo-600">psychology</span>
+                    <span className="material-symbols-outlined text-primary-600">psychology</span>
                     Tu posición en el segmento
                   </h3>
                   <p className="text-sm text-muted font-medium mt-1">
@@ -332,14 +332,14 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
               </div>
 
               {/* COHERENCE HIGHLIGHT */}
-              <div className="bg-indigo-600 rounded-3xl p-6 text-white relative overflow-hidden shadow-xl shadow-indigo-100/50">
+              <div className="bg-primary-600 rounded-3xl p-6 text-white relative overflow-hidden shadow-xl shadow-primary-100/50">
                 <div className="absolute right-0 top-0 p-8 opacity-10">
                   <span className="material-symbols-outlined text-[100px]">verified_user</span>
                 </div>
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div className="max-w-md">
                     <h4 className="text-lg font-black mb-1">Tu Coherencia como Informante</h4>
-                    <p className="text-indigo-100 text-xs font-medium leading-relaxed">
+                    <p className="text-primary-100 text-xs font-medium leading-relaxed">
                       Analizamos la relación entre tus elecciones en Versus y tus valoraciones en Análisis Profundo. Una alta consistencia avala tu fiabilidad en el sistema.
                     </p>
                   </div>
@@ -357,16 +357,16 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
           {/* PERSONAL HISTORY / EVOLUTION (Placeholder for Chart) */}
           {!isLocked && personalHistory.length > 0 && (
             <section className="bg-slate-900 rounded-[2rem] p-8 shadow-xl border border-slate-800 relative overflow-hidden group hover:shadow-[0_20px_40px_rgba(30,41,59,0.5)] transition-all duration-500">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-0"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl -z-0"></div>
               <div className="relative z-10">
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-sm font-black text-white uppercase tracking-widest flex items-center gap-2">
-                    <span className="material-symbols-outlined text-indigo-400">stacked_line_chart</span>
+                    <span className="material-symbols-outlined text-primary-400">stacked_line_chart</span>
                     Evolución del Estado Personal
                   </h3>
                   <div className="inline-flex gap-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary-500"></span>
                     <span className="w-2 h-2 rounded-full bg-rose-500"></span>
                   </div>
                 </div>
@@ -378,13 +378,13 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
           )}
 
           {/* PROGRESSION BENEFITS CARD */}
-          <section className="bg-white rounded-3xl p-6 shadow-sm border border-indigo-100 relative overflow-hidden">
+          <section className="bg-white rounded-3xl p-6 shadow-sm border border-primary-100 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-5">
-              <span className="material-symbols-outlined text-[80px] text-indigo-500">military_tech</span>
+              <span className="material-symbols-outlined text-[80px] text-primary-500">military_tech</span>
             </div>
             <div className="relative z-10">
               <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-indigo-500 text-lg">hotel_class</span>
+                <span className="material-symbols-outlined text-primary-500 text-lg">hotel_class</span>
                 Tus beneficios
               </h3>
 
@@ -405,7 +405,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
 
               <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <span className="text-[10px] uppercase font-black tracking-widest text-slate-400">Estado</span>
-                <span className="text-xs font-bold text-indigo-600 text-right">
+                <span className="text-xs font-bold text-primary-600 text-right">
                   {profile?.tier === 'guest' ? 'Invitado (0 señales)' :
                     (profile?.demographics?.profileStage || 0) < 1 ? 'Perfil incompleto (0 señales)' :
                       (profile?.demographics?.profileStage || 0) === 1 ? 'Básico (señales limitadas)' :
@@ -418,15 +418,15 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
 
           {/* LOWER SECTION: LEVEL INDICATOR (Simplified) */}
           <div className="grid grid-cols-3 gap-4">
-            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'guest' ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100' : 'bg-white border-slate-100 opacity-50'}`}>
+            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'guest' ? 'bg-primary-50 border-primary-200 ring-2 ring-primary-100' : 'bg-white border-slate-100 opacity-50'}`}>
               <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nivel 1</div>
               <div className="font-bold text-sm text-ink">Observador</div>
             </div>
-            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'verified_basic' ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100' : 'bg-white border-slate-100 opacity-50'}`}>
+            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'verified_basic' ? 'bg-primary-50 border-primary-200 ring-2 ring-primary-100' : 'bg-white border-slate-100 opacity-50'}`}>
               <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nivel 2</div>
               <div className="font-bold text-sm text-ink">Validado</div>
             </div>
-            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'verified_full_ci' ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100' : 'bg-white border-slate-100 opacity-50'}`}>
+            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'verified_full_ci' ? 'bg-primary-50 border-primary-200 ring-2 ring-primary-100' : 'bg-white border-slate-100 opacity-50'}`}>
               <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nivel 3</div>
               <div className="font-bold text-sm text-ink">Referente</div>
             </div>

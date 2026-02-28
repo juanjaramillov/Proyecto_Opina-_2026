@@ -5,12 +5,16 @@
 @layer base {
 
   :root {
+    /* ✅ BRAND COLOR OPINA+ (Original Logo) */
+    --brand-opina-blue: #2563EB;
+    --brand-opina-teal: #10b981;
+
     /* ✅ BRAND ACCENT GLOBAL DEFINITION - STRICT FROM THEME */
-    --brand-accent: linear-gradient(to right, #4f46e5, #10b981);
-    --brand-accent-solid: #4f46e5;
+    --brand-accent: linear-gradient(to right, var(--brand-opina-blue), var(--brand-opina-teal));
+    --brand-accent-solid: #2563EB;
 
     /* ✅ DESIGN TOKENS */
-    --primary: #4f46e5;
+    --primary: #2563EB;
     --secondary: #10b981;
     --ink: #0F172A;
     --surface2: #F8FAFC;
@@ -31,7 +35,8 @@
   }
 
   ::selection {
-    @apply bg-indigo-600/20 text-indigo-900;
+    background-color: rgba(37, 99, 235, 0.2);
+    @apply text-primary;
   }
 }
 
@@ -107,7 +112,7 @@
     @apply text-primary;
   }
 
-  /* ✅ BRAND COLOR: Unified */
+  /* ✅ BRAND COLOR: Unified Open+ Logo and CTAs */
   .text-gradient-brand {
     background: var(--brand-accent);
     -webkit-background-clip: text;
@@ -123,11 +128,11 @@
   /* ✅ AURORA UTILITIES - Simplified/Removed colors */
   .bg-aurora {
     background-color: rgba(79, 70, 229, 0.05);
-    /* Very subtle indigo tint */
+    /* Very subtle primary tint */
   }
 
   .text-aurora {
-    @apply text-indigo-600;
+    @apply text-primary;
   }
 
   .glass-aurora {
@@ -136,7 +141,7 @@
   }
 
   .container-ws {
-    @apply max-w-ws mx-auto px-4 sm:px-6 lg:px-8;
+    @apply w-full mx-auto px-4 sm:px-8 xl:px-12;
   }
 
   /* ✅ ANTI-AIRE: secciones más compactas */
@@ -169,7 +174,11 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold tracking-tight transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold tracking-tight transition-all duration-300 focus:outline-none focus:ring-4 active:scale-[0.98];
+  }
+
+  .btn:focus {
+    --tw-ring-color: rgba(37, 99, 235, 0.2);
   }
 
   .btn-primary {
@@ -183,7 +192,7 @@
   }
 
   .btn-ghost {
-    @apply btn bg-transparent text-ink hover:bg-surface2 hover:text-indigo-600;
+    @apply btn bg-transparent text-ink hover:bg-surface2 hover:text-primary;
   }
 
   .badge {
@@ -191,11 +200,15 @@
   }
 
   .badge-primary {
-    @apply badge bg-indigo-50 text-indigo-600 border-indigo-100;
+    @apply badge text-primary;
+    background-color: rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.2);
   }
 
   .badge-accent {
-    @apply badge bg-indigo-50 text-indigo-600 border-indigo-100;
+    @apply badge text-primary;
+    background-color: rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.2);
   }
 
   /* ✅ Tu panel glass (lo estabas usando en Home) */
@@ -203,14 +216,17 @@
     @apply rounded-3xl bg-white/70 backdrop-blur-md border border-white/50 shadow-premium;
   }
 
-  /* ✅ HERO CTA: Unique to Home, larger, solid color */
   .btn-hero {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl text-white text-lg font-bold tracking-tight shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:opacity-90 active:scale-95 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 border-0;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl text-white text-lg font-bold tracking-tight shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:opacity-90 active:scale-95 focus:outline-none focus:ring-4 border-0;
     height: 3.5rem;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     background: var(--brand-accent);
     box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.25);
+  }
+
+  .btn-hero:focus {
+    --tw-ring-color: rgba(37, 99, 235, 0.2);
   }
 
   /* ✅ Header con línea inferior (antes estaba “escondido” dentro de btn-hero, como si fuera SCSS) */

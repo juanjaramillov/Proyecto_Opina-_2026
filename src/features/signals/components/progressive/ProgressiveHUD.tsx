@@ -11,7 +11,7 @@ export default function ProgressiveHUD({ round, champWins, goal, onExit }: Progr
         <div className="w-full flex flex-col md:flex-row items-center justify-between mb-8 gap-4 bg-white/60 backdrop-blur-md border border-slate-100/50 p-4 rounded-3xl shadow-sm">
             {/* Chips Container */}
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                <span className="px-3 py-1.5 bg-indigo-50 text-indigo-700 font-black text-[10px] md:text-xs uppercase tracking-widest rounded-xl border border-indigo-100">
+                <span className="px-3 py-1.5 bg-primary-50 text-primary-700 font-black text-[10px] md:text-xs uppercase tracking-widest rounded-xl border border-primary-100">
                     MODO: TORNEO
                 </span>
                 <span className="px-3 py-1.5 bg-slate-100 text-slate-600 font-bold text-[10px] md:text-xs uppercase tracking-widest rounded-xl border border-slate-200">

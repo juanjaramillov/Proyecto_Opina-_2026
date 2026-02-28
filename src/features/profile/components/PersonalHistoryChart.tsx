@@ -42,7 +42,7 @@ const PersonalHistoryChart: React.FC<Props> = ({ data }) => {
             {
                 label: 'Valoración Media',
                 data: scores,
-                borderColor: '#6366f1', // indigo-500
+                borderColor: '#6366f1', // primary-500
                 backgroundColor: 'rgba(99, 102, 241, 0.1)',
                 borderWidth: 3,
                 pointBackgroundColor: '#fff',

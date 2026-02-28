@@ -34,6 +34,7 @@ export type BattleContextResponse = {
         id: string;
         label: string;
         image_url: string;
+        brand_domain?: string | null;
         sort_order: number;
     }>;
 };
@@ -75,6 +76,7 @@ export type ActiveBattle = {
         id: string;
         label: string;
         image_url: string | null;
+        brand_domain?: string | null;
     }>;
 };
 
@@ -286,9 +288,10 @@ export const signalService = {
             description: b.description || null,
             created_at: b.created_at,
             category: b.category || null,
-            options: (b.options || []).map((opt: { id: string; label: string; image_url: string | null; category?: string | null }) => ({
+            options: (b.options || []).map((opt: { id: string; label: string; image_url: string | null; brand_domain?: string | null; category?: string | null }) => ({
                 ...opt,
                 image_url: getAssetPathForOption(opt.label, opt.image_url),
+                brand_domain: opt.brand_domain || null,
                 category: opt.category || null,
                 type: 'brand',
                 imageFit: 'contain'

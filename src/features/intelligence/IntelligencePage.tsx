@@ -162,7 +162,7 @@ export default function IntelligencePage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                        {orgName && <Building2 className="w-8 h-8 text-indigo-600" />}
+                        {orgName && <Building2 className="w-8 h-8 text-primary-600" />}
                         {orgName ? `Panel: ${orgName} ` : "Intelligence Panel"}
                     </h1>
                     <p className="text-slate-500 mt-1">
@@ -177,7 +177,7 @@ export default function IntelligencePage() {
                         onClick={loadData}
                         className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
                     >
-                        <Clock className="w-4 h-4 text-indigo-500" />
+                        <Clock className="w-4 h-4 text-primary-500" />
                         Refrescar Datos
                     </button>
                     <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" title="Sistema Online"></div>
@@ -194,7 +194,7 @@ export default function IntelligencePage() {
                 <select
                     value={ageRange}
                     onChange={(e) => setAgeRange(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-primary-500"
                 >
                     <option value="all">Todas las edades</option>
                     <option value="18-24">18-24 años</option>
@@ -206,7 +206,7 @@ export default function IntelligencePage() {
                 <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-primary-500"
                 >
                     <option value="all">Todos los géneros</option>
                     <option value="male">Masculino</option>
@@ -217,7 +217,7 @@ export default function IntelligencePage() {
                 <select
                     value={commune}
                     onChange={(e) => setCommune(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-primary-500"
                 >
                     <option value="all">Todas las comunas</option>
                     <option value="Santiago">Santiago</option>
@@ -229,7 +229,7 @@ export default function IntelligencePage() {
                 {(ageRange !== 'all' || gender !== 'all' || commune !== 'all') && (
                     <button
                         onClick={() => { setAgeRange('all'); setGender('all'); setCommune('all'); }}
-                        className="text-indigo-600 text-xs font-bold hover:underline"
+                        className="text-primary-600 text-xs font-bold hover:underline"
                     >
                         Limpiar Filtros
                     </button>
@@ -241,8 +241,8 @@ export default function IntelligencePage() {
                 <StatCard
                     title="Señales (24h)"
                     value={stats?.signals_24h || 0}
-                    icon={<Activity className="w-5 h-5 text-indigo-600" />}
-                    color="indigo"
+                    icon={<Activity className="w-5 h-5 text-primary-600" />}
+                    color="primary"
                 />
                 <StatCard
                     title="Usuarios Activos"
@@ -268,7 +268,7 @@ export default function IntelligencePage() {
             {/* ACTIVATION & RETENTION KPIs */}
             <div className="mb-10">
                 <div className="flex items-center gap-2 mb-6">
-                    <div className="h-6 w-1 bg-indigo-600 rounded-full"></div>
+                    <div className="h-6 w-1 bg-primary-600 rounded-full"></div>
                     <h2 className="text-lg font-bold text-slate-900">Métricas de Tracción</h2>
                 </div>
 
@@ -276,22 +276,22 @@ export default function IntelligencePage() {
                     <StatCard
                         title="DAU (Diarios)"
                         value={kpis?.dau || 0}
-                        icon={<Users className="w-5 h-5 text-indigo-500" />}
-                        color="indigo"
+                        icon={<Users className="w-5 h-5 text-primary-500" />}
+                        color="primary"
                         subtitle="Unique active users today"
                     />
                     <StatCard
                         title="WAU (Semanales)"
                         value={kpis?.wau || 0}
-                        icon={<Users className="w-5 h-5 text-indigo-500" />}
-                        color="indigo"
+                        icon={<Users className="w-5 h-5 text-primary-500" />}
+                        color="primary"
                         subtitle="Last 7 days"
                     />
                     <StatCard
                         title="MAU (Mensuales)"
                         value={kpis?.mau || 0}
-                        icon={<Users className="w-5 h-5 text-indigo-500" />}
-                        color="indigo"
+                        icon={<Users className="w-5 h-5 text-primary-500" />}
+                        color="primary"
                         subtitle="Last 30 days"
                     />
                 </div>
@@ -317,8 +317,8 @@ export default function IntelligencePage() {
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-3 bg-indigo-50 rounded-2xl">
-                                    <TrendingUp className="w-6 h-6 text-indigo-600" />
+                                <div className="p-3 bg-primary-50 rounded-2xl">
+                                    <TrendingUp className="w-6 h-6 text-primary-600" />
                                 </div>
                                 <div>
                                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D7</p>
@@ -349,7 +349,7 @@ export default function IntelligencePage() {
                             <input
                                 type="text"
                                 placeholder="Buscar batalla..."
-                                className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-indigo-500 transition"
+                                className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-primary-500 transition"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -378,7 +378,7 @@ export default function IntelligencePage() {
                                         <tr
                                             key={item.id}
                                             onClick={() => loadDepthData(item)}
-                                            className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedBattle?.id === item.id ? 'bg-indigo-50/30' : ''}`}
+                                            className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedBattle?.id === item.id ? 'bg-primary-50/30' : ''}`}
                                         >
                                             <td className="px-6 py-4">
                                                 <div className="font-semibold text-slate-900">{item.title}</div>
@@ -392,7 +392,7 @@ export default function IntelligencePage() {
                                                 <VariationBadge variation={item.variation_percent} direction={item.direction} />
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-2 text-slate-300 group-hover:text-indigo-500 transition">
+                                                <button className="p-2 text-slate-300 group-hover:text-primary-500 transition">
                                                     <ChevronRight className="w-5 h-5" />
                                                 </button>
                                             </td>
@@ -430,7 +430,7 @@ export default function IntelligencePage() {
                                 label="Profile Density"
                                 value={`${health?.profile_completeness_avg || 0}% `}
                                 desc="Promedio completitud perfiles"
-                                color="indigo"
+                                color="primary"
                             />
 
                             <div className="pt-4 border-t border-slate-50 grid grid-cols-2 gap-4">
@@ -511,10 +511,10 @@ export default function IntelligencePage() {
                     {/* PLATFORM ALERTS SECTION */}
                     <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                         <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <Bell className="w-5 h-5 text-indigo-500" />
+                            <Bell className="w-5 h-5 text-primary-500" />
                             Alertas del Sistema
                             {alerts.filter(a => !a.is_read).length > 0 && (
-                                <span className="bg-indigo-100 text-indigo-600 text-[10px] px-2 py-0.5 rounded-full">
+                                <span className="bg-primary-100 text-primary-600 text-[10px] px-2 py-0.5 rounded-full">
                                     {alerts.filter(a => !a.is_read).length}
                                 </span>
                             )}
@@ -525,7 +525,7 @@ export default function IntelligencePage() {
                                 alerts.map((alert) => (
                                     <div
                                         key={alert.id}
-                                        className={`p-4 rounded-2xl border transition-all ${alert.is_read ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-indigo-100 shadow-sm'
+                                        className={`p-4 rounded-2xl border transition-all ${alert.is_read ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-primary-100 shadow-sm'
                                             }`}
                                     >
                                         <div className="flex items-start justify-between gap-3">
@@ -549,7 +549,7 @@ export default function IntelligencePage() {
                                             {!alert.is_read && (
                                                 <button
                                                     onClick={() => handleMarkAlertAsRead(alert.id)}
-                                                    className="p-1.5 hover:bg-indigo-50 text-indigo-400 rounded-lg transition"
+                                                    className="p-1.5 hover:bg-primary-50 text-primary-400 rounded-lg transition"
                                                     title="Marcar como leída"
                                                 >
                                                     <ShieldCheck className="w-3.5 h-3.5" />
@@ -639,13 +639,13 @@ export default function IntelligencePage() {
                                 </div>
 
                                 {/* POLARIZATION CARD */}
-                                <div className={`p-6 rounded-3xl border ${polarization?.classification === 'polarized' ? 'bg-indigo-50 border-indigo-100' : polarization?.classification === 'competitive' ? 'bg-violet-50 border-violet-100' : 'bg-blue-50 border-blue-100'}`}>
+                                <div className={`p-6 rounded-3xl border ${polarization?.classification === 'polarized' ? 'bg-primary-50 border-primary-100' : polarization?.classification === 'competitive' ? 'bg-secondary-50 border-secondary-100' : 'bg-blue-50 border-blue-100'}`}>
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center gap-2">
-                                            <PieChart className={`w-4 h-4 ${polarization?.classification === 'polarized' ? 'text-indigo-500' : polarization?.classification === 'competitive' ? 'text-violet-500' : 'text-blue-500'}`} />
+                                            <PieChart className={`w-4 h-4 ${polarization?.classification === 'polarized' ? 'text-primary-500' : polarization?.classification === 'competitive' ? 'text-secondary-500' : 'text-blue-500'}`} />
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Índice de Polarización</span>
                                         </div>
-                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${polarization?.classification === 'polarized' ? 'bg-indigo-100 text-indigo-600' : polarization?.classification === 'competitive' ? 'bg-violet-100 text-violet-600' : 'bg-blue-100 text-blue-600'}`}>
+                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${polarization?.classification === 'polarized' ? 'bg-primary-100 text-primary-600' : polarization?.classification === 'competitive' ? 'bg-secondary-100 text-secondary-600' : 'bg-blue-100 text-blue-600'}`}>
                                             {polarization?.classification || 'Consensus'}
                                         </span>
                                     </div>
@@ -656,7 +656,7 @@ export default function IntelligencePage() {
                                 {/* SEGMENT INFLUENCE CARD */}
                                 <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                                     <div className="flex items-center gap-2 mb-6">
-                                        <Users className="w-4 h-4 text-indigo-500" />
+                                        <Users className="w-4 h-4 text-primary-500" />
                                         <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Top Influencers ({daysBack}D)</h4>
                                     </div>
 
@@ -673,7 +673,7 @@ export default function IntelligencePage() {
                                                         </span>
                                                     </div>
                                                     <div className="text-right">
-                                                        <div className="text-xs font-black text-indigo-600">{seg.contribution_percent.toFixed(1)}%</div>
+                                                        <div className="text-xs font-black text-primary-600">{seg.contribution_percent.toFixed(1)}%</div>
                                                         <div className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Impacto</div>
                                                     </div>
                                                 </div>
@@ -743,7 +743,7 @@ export default function IntelligencePage() {
                                                         if (selectedBattle) loadDepthData(selectedBattle, d);
                                                     }}
                                                     className={`px-3 py-1 text-[10px] font-black rounded-lg transition-all ${daysBack === d
-                                                        ? 'bg-indigo-600 text-white shadow-md'
+                                                        ? 'bg-primary-600 text-white shadow-md'
                                                         : 'text-slate-400 hover:text-slate-600'
                                                         }`}
                                                 >
@@ -810,7 +810,7 @@ export default function IntelligencePage() {
                                         {temporalComparison.map((comp, idx) => (
                                             <div key={comp.option_id} className="bg-white p-3 rounded-2xl shadow-sm border border-slate-50">
                                                 <div className="flex items-center gap-2 mb-2">
-                                                    <div className={`w-2 h-2 rounded-full ${idx === 0 ? 'bg-indigo-600' : 'bg-emerald-500'}`}></div>
+                                                    <div className={`w-2 h-2 rounded-full ${idx === 0 ? 'bg-primary-600' : 'bg-emerald-500'}`}></div>
                                                     <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Opción {idx + 1}</span>
                                                 </div>
                                                 <div className="text-sm font-black text-slate-900 mb-1">{comp.current_score.toLocaleString()}</div>
@@ -831,7 +831,7 @@ export default function IntelligencePage() {
                                             <div key={idx} className="bg-slate-50/50 border border-slate-100 rounded-3xl p-6">
                                                 <div className="flex items-center justify-between mb-4">
                                                     <span className="text-xs font-black text-slate-300 uppercase italic">Insight #{idx + 1}</span>
-                                                    <span className="text-[10px] font-bold text-indigo-400 bg-indigo-50 px-2 py-0.5 rounded uppercase">
+                                                    <span className="text-[10px] font-bold text-primary-400 bg-primary-50 px-2 py-0.5 rounded uppercase">
                                                         {insight.total_responses} respuestas
                                                     </span>
                                                 </div>
@@ -846,7 +846,7 @@ export default function IntelligencePage() {
                                                 </div>
                                                 <div className="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
                                                     <div
-                                                        className="h-full bg-indigo-500 rounded-full"
+                                                        className="h-full bg-primary-500 rounded-full"
                                                         style={{ width: `${(insight.average_score / 10) * 100}% ` }}
                                                     ></div>
                                                 </div>
@@ -887,13 +887,13 @@ interface StatCardProps {
     title: string;
     value: string | number;
     icon: React.ReactNode;
-    color: "indigo" | "emerald" | "amber" | "slate";
+    color: "primary" | "emerald" | "amber" | "slate";
     subtitle?: string;
 }
 
 function StatCard({ title, value, icon, color, subtitle }: StatCardProps) {
     const colorMap: Record<string, string> = {
-        indigo: "bg-indigo-50 border-indigo-100",
+        primary: "bg-primary-50 border-primary-100",
         emerald: "bg-emerald-50 border-emerald-100",
         amber: "bg-amber-50 border-amber-100",
         slate: "bg-slate-50 border-slate-100",
@@ -946,7 +946,7 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
                 {time && <div className="text-[10px] text-slate-400 font-medium">{time}</div>}
             </div>
             <span className={`text - [10px] font - bold px - 2 py - 0.5 rounded - md ${status === 'Activo' || status === 'Optimal' ? 'bg-emerald-100 text-emerald-700' :
-                status === 'Programado' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'
+                status === 'Programado' ? 'bg-primary-100 text-primary-700' : 'bg-slate-100 text-slate-500'
                 } `}>
                 {status}
             </span>
@@ -957,7 +957,7 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
 function HealthMetric({ label, value, desc, color }: { label: string, value: string, desc: string, color: string }) {
     const colorClasses: Record<string, string> = {
         emerald: "text-emerald-600",
-        indigo: "text-indigo-600"
+        primary: "text-primary-600"
     };
 
     return (

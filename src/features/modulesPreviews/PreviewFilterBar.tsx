@@ -59,7 +59,7 @@ const PreviewFilterBar: React.FC<PreviewFilterBarProps> = ({
 
             <div className="flex flex-wrap gap-2">
                 {categories.map((cat, i) => (
-                    <div key={i} className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition cursor-default ${i === 0 ? 'bg-indigo-50 border-indigo-200 text-indigo-600' : 'bg-white border-slate-100 text-slate-400 opacity-60'}`}>
+                    <div key={i} className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition cursor-default ${i === 0 ? 'bg-primary-50 border-primary-200 text-primary-600' : 'bg-white border-slate-100 text-slate-400 opacity-60'}`}>
                         {cat}
                     </div>
                 ))}

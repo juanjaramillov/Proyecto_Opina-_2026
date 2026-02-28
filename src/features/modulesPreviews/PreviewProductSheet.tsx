@@ -25,7 +25,7 @@ const PreviewProductSheet: React.FC<PreviewProductSheetProps> = ({ product }) =>
 
             <div className="flex-1 space-y-8 text-left">
                 <div>
-                    <div className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-1">{product.brand} · {product.category}</div>
+                    <div className="text-[10px] font-black text-primary-500 uppercase tracking-widest mb-1">{product.brand} · {product.category}</div>
                     <h2 className="text-3xl font-black text-slate-900 leading-tight mb-3">{product.name}</h2>
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-1 px-3 py-1 bg-amber-50 rounded-full border border-amber-100">
@@ -63,7 +63,7 @@ const PreviewProductSheet: React.FC<PreviewProductSheetProps> = ({ product }) =>
                     <ul className="space-y-3">
                         {product.conclusions.map((c, i) => (
                             <li key={i} className="flex items-start gap-3 text-sm font-bold leading-relaxed">
-                                <span className={`w-1.5 h-1.5 rounded-full mt-2 shrink-0 ${i === 0 ? 'bg-indigo-400' : 'bg-slate-500'}`} />
+                                <span className={`w-1.5 h-1.5 rounded-full mt-2 shrink-0 ${i === 0 ? 'bg-primary-400' : 'bg-slate-500'}`} />
                                 {c}
                             </li>
                         ))}

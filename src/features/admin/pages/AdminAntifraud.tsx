@@ -112,7 +112,7 @@ const AdminAntifraud: React.FC = () => {
                     <button
                         onClick={fetchFlags}
                         disabled={loading}
-                        className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-xl shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition w-full sm:w-auto"
+                        className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-xl shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 transition w-full sm:w-auto"
                     >
                         {loading ? 'Refrescando...' : 'Refrescar Lista'}
                     </button>
@@ -175,7 +175,7 @@ const AdminAntifraud: React.FC = () => {
                                             <div className="flex items-center justify-end gap-3">
                                                 <button
                                                     onClick={() => toggleExpand(flag.id, flag.device_hash)}
-                                                    className="text-indigo-600 hover:text-indigo-900 transition-colors bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-md"
+                                                    className="text-primary-600 hover:text-primary-900 transition-colors bg-primary-50 hover:bg-primary-100 px-2.5 py-1 rounded-md"
                                                 >
                                                     {expandedRowId === flag.id ? 'Ocultar' : 'Detalles'}
                                                 </button>
@@ -226,7 +226,7 @@ const AdminAntifraud: React.FC = () => {
 
                                                             {loadingSummary[flag.device_hash] ? (
                                                                 <div className="p-4 flex items-center justify-center text-slate-500 bg-white border border-slate-200 rounded-lg shadow-sm">
-                                                                    <div className="w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                                                    <div className="w-5 h-5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mr-2"></div>
                                                                     Cargando métricas...
                                                                 </div>
                                                             ) : summaries[flag.device_hash] ? (
@@ -238,7 +238,7 @@ const AdminAntifraud: React.FC = () => {
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1 border-b border-slate-100">
                                                                             <span className="text-slate-500">Señales (últimas 24h):</span>
-                                                                            <span className="font-medium text-indigo-600">{summaries[flag.device_hash].signals_24h}</span>
+                                                                            <span className="font-medium text-primary-600">{summaries[flag.device_hash].signals_24h}</span>
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1 border-b border-slate-100">
                                                                             <span className="text-slate-500">Señales vel. (últimos 10m):</span>

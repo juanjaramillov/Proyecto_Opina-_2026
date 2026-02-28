@@ -83,8 +83,8 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             onClick={() => handleSelection(val)}
                             disabled={isSubmitting}
                             className={`flex-1 min-w-[40px] aspect-square rounded-2xl border-2 font-black text-lg transition-all active:scale-95 ${localValue === val
-                                ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200'
-                                : 'bg-white border-slate-100 text-slate-800 hover:border-indigo-200 hover:bg-indigo-50'
+                                ? 'bg-primary-600 border-primary-600 text-white shadow-lg shadow-primary-200'
+                                : 'bg-white border-slate-100 text-slate-800 hover:border-primary-200 hover:bg-primary-50'
                                 }`}
                         >
                             {val}
@@ -107,12 +107,12 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             onClick={() => handleSelection(opt)}
                             disabled={isSubmitting}
                             className={`w-full p-4 text-left rounded-2xl border-2 font-bold transition-all flex justify-between items-center group active:scale-[0.98] ${localValue === opt
-                                ? 'bg-indigo-50 border-indigo-600 text-indigo-900'
+                                ? 'bg-primary-50 border-primary-600 text-primary-900'
                                 : 'bg-white border-slate-100 text-slate-600 hover:border-slate-200 hover:bg-slate-50'
                                 }`}
                         >
                             {opt}
-                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${localValue === opt ? 'border-indigo-600 bg-indigo-600' : 'border-slate-200'}`}>
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${localValue === opt ? 'border-primary-600 bg-primary-600' : 'border-slate-200'}`}>
                                 {localValue === opt && <div className="w-2 h-2 bg-white rounded-full" />}
                             </div>
                         </button>
@@ -131,8 +131,8 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             onClick={() => handleSelection(opt)}
                             disabled={isSubmitting}
                             className={`p-6 rounded-2xl border-2 font-black text-xl transition-all active:scale-95 ${localValue === opt
-                                ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200'
-                                : 'bg-white border-slate-100 text-slate-800 hover:border-indigo-200 hover:bg-indigo-50'
+                                ? 'bg-primary-600 border-primary-600 text-white shadow-lg shadow-primary-200'
+                                : 'bg-white border-slate-100 text-slate-800 hover:border-primary-200 hover:bg-primary-50'
                                 }`}
                         >
                             {opt}
@@ -150,7 +150,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                         onChange={(e) => handleSelection(e.target.value.slice(0, 140))}
                         placeholder="Si quieres, una frase..."
                         disabled={isSubmitting || isAutoAdvancing}
-                        className="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:bg-white focus:outline-none transition-all text-slate-800 font-medium min-h-[120px] resize-none"
+                        className="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-primary-500 focus:bg-white focus:outline-none transition-all text-slate-800 font-medium min-h-[120px] resize-none"
                     />
                     <div className="flex justify-end">
                         <span className={`text-[10px] font-black tracking-widest ${(String(localValue || "").length) >= 140 ? 'text-rose-500' : 'text-slate-400'}`}>
@@ -203,7 +203,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                         onClick={() => onAnswer(localValue)}
                         disabled={isSubmitting || isAutoAdvancing || (localValue === undefined)}
                         className={`py-3 px-6 rounded-2xl font-black text-sm uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 shadow-md ${localValue !== undefined
-                            ? 'bg-indigo-600 text-white shadow-indigo-200'
+                            ? 'bg-primary-600 text-white shadow-primary-200'
                             : 'bg-slate-100 text-slate-400 border-2 border-transparent shadow-none'
                             }`}
                     >

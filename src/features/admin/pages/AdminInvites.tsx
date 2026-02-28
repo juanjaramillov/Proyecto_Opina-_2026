@@ -162,13 +162,13 @@ export default function AdminInvites() {
             <div className="flex bg-white rounded-xl shadow-sm border border-slate-100 p-1 mb-6 max-w-sm">
                 <button
                     onClick={() => setTab('invites')}
-                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-indigo-500 ${tab === 'invites' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${tab === 'invites' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
                 >
                     Invitaciones
                 </button>
                 <button
                     onClick={() => setTab('redemptions')}
-                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-indigo-500 ${tab === 'redemptions' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${tab === 'redemptions' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
                 >
                     Redemptions
                 </button>
@@ -311,9 +311,9 @@ export default function AdminInvites() {
                 <div className="overflow-x-auto">
                     {tab === 'invites' ? (
                         <table className="w-full text-sm text-left">
-                            <thead className="text-xs text-slate-500 uppercase tracking-widest bg-slate-50/50">
+                            <thead className="text-[10px] md:text-xs text-slate-500 uppercase tracking-wider bg-slate-50/50">
                                 <tr>
-                                    <th className="px-4 py-3 font-bold rounded-tl-xl w-10 text-center">
+                                    <th className="px-2 py-3 font-bold rounded-tl-xl w-8 text-center">
                                         <input
                                             type="checkbox"
                                             className="w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
@@ -321,16 +321,16 @@ export default function AdminInvites() {
                                             onChange={toggleSelectAll}
                                         />
                                     </th>
-                                    <th className="px-2 py-3 w-6 text-center"></th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Código</th>
-                                    <th className="px-4 py-3 font-bold">Alias</th>
-                                    <th className="px-4 py-3 font-bold">Estado</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Expira (UTC)</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Usado Por</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">Interacciones</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">Tiempo(s)</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">Sesiones</th>
-                                    <th className="px-4 py-3 font-bold rounded-tr-xl text-right">Acciones</th>
+                                    <th className="px-1 py-3 w-6 text-center"></th>
+                                    <th className="px-2 py-3 font-bold whitespace-nowrap text-center">Código</th>
+                                    <th className="px-2 py-3 font-bold text-center">Alias</th>
+                                    <th className="px-2 py-3 font-bold text-center">Estado</th>
+                                    <th className="px-2 py-3 font-bold whitespace-nowrap text-center">Expira</th>
+                                    <th className="px-2 py-3 font-bold whitespace-nowrap text-center">Usado Por</th>
+                                    <th className="px-2 py-3 font-bold text-center" title="Interacciones">Int.</th>
+                                    <th className="px-2 py-3 font-bold text-center" title="Tiempo (s)">Seg.</th>
+                                    <th className="px-2 py-3 font-bold text-center" title="Sesiones">Ses.</th>
+                                    <th className="px-2 py-3 font-bold rounded-tr-xl whitespace-nowrap text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -341,7 +341,7 @@ export default function AdminInvites() {
                                 ) : (
                                     invites.map((invite) => (
                                         <tr key={invite.id} className={`hover:bg-slate-50/50 transition-colors ${selectedInvites.has(invite.id) ? 'bg-cyan-50/30' : ''}`}>
-                                            <td className="px-4 py-3 text-center">
+                                            <td className="px-2 py-3 text-center">
                                                 <input
                                                     type="checkbox"
                                                     className="w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
@@ -349,9 +349,9 @@ export default function AdminInvites() {
                                                     onChange={() => toggleSelect(invite.id)}
                                                 />
                                             </td>
-                                            <td className="px-2 py-3 text-center">
+                                            <td className="px-1 py-3 text-center">
                                                 <div
-                                                    className={`w-2.5 h-2.5 rounded-full mx-auto ${invite.used_by_user_id
+                                                    className={`w-2 h-2 rounded-full mx-auto ${invite.used_by_user_id
                                                         ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000)
                                                             ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
                                                             : 'bg-red-500 bg-opacity-80'
@@ -360,16 +360,16 @@ export default function AdminInvites() {
                                                     title={invite.used_by_user_id ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000 ? `Online` : 'Offline') : 'No usada'}
                                                 />
                                             </td>
-                                            <td className="px-4 py-3 font-mono font-medium text-slate-900 whitespace-nowrap">{invite.code}</td>
-                                            <td className="px-4 py-3 text-slate-600">
+                                            <td className="px-2 py-3 font-mono font-medium text-slate-900 whitespace-nowrap text-[11px] lg:text-sm text-center">{invite.code}</td>
+                                            <td className="px-2 py-3 text-slate-600 text-center text-[11px] lg:text-xs">
                                                 {invite.used_by_nickname ? (
-                                                    <span className="font-bold text-indigo-600">{invite.used_by_nickname}</span>
+                                                    <span className="font-bold text-primary-600">{invite.used_by_nickname}</span>
                                                 ) : (
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="px-4 py-3">
-                                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${invite.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
+                                            <td className="px-2 py-3 text-center">
+                                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold ${invite.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
                                                     invite.status === 'used' ? 'bg-cyan-100 text-cyan-800' :
                                                         invite.status === 'revoked' ? 'bg-red-100 text-red-800' :
                                                             'bg-slate-100 text-slate-800'
@@ -377,39 +377,39 @@ export default function AdminInvites() {
                                                     {invite.status.toUpperCase()}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs whitespace-nowrap">
+                                            <td className="px-2 py-3 text-slate-500 text-[10px] md:text-xs whitespace-nowrap text-center">
                                                 {invite.expires_at ? new Date(invite.expires_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }) : 'Nunca'}
                                             </td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs font-mono" title={invite.used_by_user_id || undefined}>
+                                            <td className="px-2 py-3 text-slate-500 text-[10px] md:text-xs font-mono whitespace-nowrap text-center" title={invite.used_by_user_id || undefined}>
                                                 {invite.used_by_user_id ? `${invite.used_by_user_id.substring(0, 8)}...` : '-'}
-                                                {invite.used_at && <div className="text-[10px] text-slate-400 mt-1">{new Date(invite.used_at).toLocaleDateString()}</div>}
+                                                {invite.used_at && <span className="text-[9px] md:text-[10px] text-slate-400 ml-1">({new Date(invite.used_at).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' })})</span>}
                                             </td>
-                                            <td className="px-4 py-3 text-center">
-                                                <span className="font-mono text-sm font-bold text-slate-700">{invite.total_interactions ?? '-'}</span>
+                                            <td className="px-2 py-3 text-center">
+                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_interactions ?? '-'}</span>
                                             </td>
-                                            <td className="px-4 py-3 text-center">
-                                                <span className="font-mono text-xs text-slate-500">{invite.total_time_spent_seconds ?? '-'}</span>
+                                            <td className="px-2 py-3 text-center">
+                                                <span className="font-mono text-[10px] md:text-xs text-slate-500">{invite.total_time_spent_seconds ?? '-'}</span>
                                             </td>
-                                            <td className="px-4 py-3 text-center">
-                                                <span className="font-mono text-sm font-bold text-slate-700">{invite.total_sessions ?? '-'}</span>
+                                            <td className="px-2 py-3 text-center">
+                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_sessions ?? '-'}</span>
                                             </td>
-                                            <td className="px-4 py-3 text-right whitespace-nowrap">
+                                            <td className="px-2 py-3 text-center whitespace-nowrap">
                                                 {confirmRowAction?.id === invite.id ? (
-                                                    <div className="flex items-center justify-end gap-2 animate-in fade-in zoom-in-95">
-                                                        <span className="text-[10px] font-bold text-slate-500 uppercase">
+                                                    <div className="flex items-center justify-center gap-1.5 animate-in fade-in zoom-in-95">
+                                                        <span className="text-[9px] font-bold text-slate-500 uppercase hidden sm:inline">
                                                             ¿Seguro?
                                                         </span>
                                                         <button
                                                             onClick={() => setConfirmRowAction(null)}
                                                             disabled={loading}
-                                                            className="px-2 py-0.5 rounded text-[10px] font-bold text-slate-500 bg-slate-100 hover:bg-slate-200"
+                                                            className="px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-500 bg-slate-100 hover:bg-slate-200"
                                                         >
                                                             NO
                                                         </button>
                                                         <button
                                                             onClick={() => handleStatusChange(invite.id, invite.status, confirmRowAction.action)}
                                                             disabled={loading}
-                                                            className={`px-2 py-0.5 rounded text-[10px] font-bold text-white ${confirmRowAction.action === 'delete' ? 'bg-red-600 hover:bg-red-700' :
+                                                            className={`px-1.5 py-0.5 rounded text-[10px] font-bold text-white ${confirmRowAction.action === 'delete' ? 'bg-red-600 hover:bg-red-700' :
                                                                 confirmRowAction.action === 'revoked' ? 'bg-amber-600 hover:bg-amber-700' :
                                                                     'bg-emerald-600 hover:bg-emerald-700'
                                                                 }`}
@@ -418,12 +418,12 @@ export default function AdminInvites() {
                                                         </button>
                                                     </div>
                                                 ) : (
-                                                    <div className="flex items-center justify-end gap-2">
+                                                    <div className="flex items-center justify-center gap-1 flex-nowrap">
                                                         {invite.status !== 'revoked' && (
                                                             <button
                                                                 onClick={() => setConfirmRowAction({ id: invite.id, action: 'revoked' })}
                                                                 disabled={loading}
-                                                                className="text-xs font-bold text-red-600 hover:text-red-700 disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-red-500 rounded px-1"
+                                                                className="text-[10px] font-bold text-red-600 hover:text-red-700 disabled:opacity-50 focus:outline-none rounded px-1"
                                                             >
                                                                 REVOCAR
                                                             </button>
@@ -432,7 +432,7 @@ export default function AdminInvites() {
                                                             <button
                                                                 onClick={() => handleStatusChange(invite.id, invite.status, 'active')}
                                                                 disabled={loading}
-                                                                className="text-xs font-bold text-emerald-600 hover:text-emerald-700 disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-emerald-500 rounded px-1"
+                                                                className="text-[10px] font-bold text-emerald-600 hover:text-emerald-700 disabled:opacity-50 focus:outline-none rounded px-1"
                                                             >
                                                                 REACTIVAR
                                                             </button>
@@ -440,10 +440,10 @@ export default function AdminInvites() {
                                                         <button
                                                             onClick={() => setConfirmRowAction({ id: invite.id, action: 'delete' })}
                                                             disabled={loading}
-                                                            className="text-xs font-bold text-slate-400 hover:text-red-600 disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-500 rounded px-1"
+                                                            className="text-slate-400 hover:text-red-600 disabled:opacity-50 focus:outline-none rounded px-1 flex items-center justify-center"
                                                             title="Eliminar permanentemente"
                                                         >
-                                                            <span className="material-symbols-outlined text-[16px] align-middle">delete</span>
+                                                            <span className="material-symbols-outlined text-[15px]">delete</span>
                                                         </button>
                                                     </div>
                                                 )}

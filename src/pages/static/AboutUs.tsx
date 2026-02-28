@@ -45,7 +45,7 @@ function AppButton({
                 "inline-flex items-center justify-center",
                 "h-12 px-8 rounded-full",
                 "bg-gradient-brand text-white font-bold",
-                "shadow-lg shadow-indigo-500/25",
+                "shadow-lg shadow-primary-500/25",
                 "transition-transform transition-all duration-200",
                 "hover:shadow-xl hover:shadow-primary/40 hover:opacity-90 hover:scale-[1.02] hover:-translate-y-0.5",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
@@ -242,7 +242,7 @@ export default function AboutUs() {
                                     Compartes tu experiencia honesta sobre una marca, lugar o tema.
                                 </p>
                             </div>
-                            <TimelineIcon activeColorClass="text-indigo-600">
+                            <TimelineIcon activeColorClass="text-primary-600">
                                 <MessageSquare size={22} strokeWidth={1.75} />
                             </TimelineIcon>
                             <div className={`md:w-1/2 md:pl-16 hidden md:block ${T.italicNote}`}>
