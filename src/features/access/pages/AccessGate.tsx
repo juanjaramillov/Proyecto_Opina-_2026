@@ -94,7 +94,6 @@ export default function AccessGatePage() {
                             {loading ? 'Validando...' : 'Entrar'}
                         </button>
 
-                        {/* Admin bypass (solo si hay sesión y el usuario es admin) */}
                         {/* Admin bypass (visible para todos, valida rol en el click) */}
                         <div style={{ marginTop: 12 }}>
                             <button
@@ -104,7 +103,7 @@ export default function AccessGatePage() {
                                     const { data: { user: currentUser } } = await supabase.auth.getUser();
 
                                     if (!currentUser) {
-                                        alert("Debes iniciar sesión con una cuenta autorizada primero. (Usa el link de abajo)");
+                                        nav('/admin-login');
                                         return;
                                     }
 
@@ -129,19 +128,10 @@ export default function AccessGatePage() {
                                 }}
                                 className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
                             >
-                                Reclamar Ingreso Administrador
+                                Ingreso Administrador
                             </button>
                         </div>
                     </form>
-
-                    <div className="mt-8 text-center pt-6 border-t border-slate-100">
-                        <button
-                            onClick={() => nav('/admin-login')}
-                            className="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors"
-                        >
-                            Ingreso Administradores
-                        </button>
-                    </div>
                 </div>
 
                 <p className="text-[10px] text-slate-400 text-center mt-4 font-bold uppercase tracking-widest opacity-70">
