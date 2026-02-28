@@ -163,11 +163,11 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
                   </NavLink>
-                  <NavLink to="/admin/modules-demand" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/demanda" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">bar_chart</span>
                     Demanda Módulos
                   </NavLink>
-                  <NavLink to="/admin/modules-priority" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/prioridad" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">sort</span>
                     Prioridad Módulos
                   </NavLink>
@@ -247,11 +247,11 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
                   </NavLink>
-                  <NavLink to="/admin/modules-demand" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
+                  <NavLink to="/admin/demanda" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">bar_chart</span>
                     Demanda de Módulos
                   </NavLink>
-                  <NavLink to="/admin/modules-priority" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
+                  <NavLink to="/admin/prioridad" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">sort</span>
                     Prioridad de Módulos
                   </NavLink>
