@@ -15,6 +15,40 @@ export default function AccessGatePage() {
 
     const nextPath = useMemo(() => getNext(loc.search), [loc.search]);
 
+    const [checkingAdmin, setCheckingAdmin] = useState(false);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        async function run() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user?.id) return;
+
+            setCheckingAdmin(true);
+            const { data, error } = await (supabase as any)
+                .from("users")
+                .select("role")
+                .eq("user_id", user.id)
+                .single();
+
+            if (cancelled) return;
+
+            setCheckingAdmin(false);
+
+            if (!error && data?.role === "admin") {
+                // Marca pase y entra
+                localStorage.setItem("opina_access_pass", "admin");
+                window.location.href = "/";
+            }
+        }
+
+        run();
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState<string | null>(null);
@@ -70,6 +104,12 @@ export default function AccessGatePage() {
                     <p className="text-sm text-slate-500 font-medium mt-1">
                         Ingresa tu código para entrar al piloto.
                     </p>
+
+                    {checkingAdmin && (
+                        <div className="mt-4 mb-4 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-center text-slate-600 font-semibold shadow-sm">
+                            Verificando acceso de administrador...
+                        </div>
+                    )}
 
                     <form onSubmit={submit} className="space-y-4 mt-6">
                         <div>
