@@ -18,6 +18,7 @@ import { profileService } from "../../profile/services/profileService";
 import { logger } from "../../../lib/logger";
 import { SkeletonRankingRow } from "../../../components/ui/Skeleton";
 import { EmptyState } from "../../../components/ui/EmptyState";
+import { SEG_AGE_BUCKETS, SEG_GENDERS, SEG_REGIONS, normalizeAllToNull } from "../../../lib/segmentation";
 
 // --- Chip removible (simple) ---
 function FilterChip({
@@ -169,40 +170,30 @@ export default function ResultsPage() {
             )}
           </div>
 
-          {/* Controles (mantén tus selects existentes si los tienes; aquí va lo mínimo) */}
+          {/* Controles */}
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
             <select
-              value={gender ?? ""}
-              onChange={(e) => setGender(e.target.value || undefined)}
+              value={gender ?? "all"}
+              onChange={(e) => setGender(normalizeAllToNull(e.target.value) ?? undefined)}
               className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
-              <option value="">Género (Todos)</option>
-              <option value="male">Hombre</option>
-              <option value="female">Mujer</option>
-              <option value="other">Otro</option>
+              {SEG_GENDERS.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
 
             <select
-              value={region ?? ""}
-              onChange={(e) => setRegion(e.target.value || undefined)}
+              value={region ?? "all"}
+              onChange={(e) => setRegion(normalizeAllToNull(e.target.value) ?? undefined)}
               className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
-              <option value="">Región (Todas)</option>
-              <option value="Metropolitana">Metropolitana</option>
-              <option value="Valparaíso">Valparaíso</option>
-              <option value="Biobío">Biobío</option>
+              {SEG_REGIONS.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
 
             <select
-              value={ageBucket ?? ""}
-              onChange={(e) => setAgeBucket(e.target.value || undefined)}
+              value={ageBucket ?? "all"}
+              onChange={(e) => setAgeBucket(normalizeAllToNull(e.target.value) ?? undefined)}
               className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
-              <option value="">Edad (Todas)</option>
-              <option value="18-24">18-24</option>
-              <option value="25-34">25-34</option>
-              <option value="35-44">35-44</option>
-              <option value="45+">45+</option>
+              {SEG_AGE_BUCKETS.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
           </div>
         </div>
