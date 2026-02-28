@@ -118,9 +118,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 className="flex items-center gap-1.5 ml-2 lg:ml-4 px-2 py-1.5 lg:px-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-all font-bold text-slate-700 text-sm active:scale-95 group shrink-0"
               >
                 <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
-                  {(profile?.displayName || 'U').charAt(0)}
+                  {role === 'admin' ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                 </div>
-                <span>{profile?.displayName || 'Usuario'}</span>
+                <span>{role === 'admin' ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Usuario')}</span>
                 <div className="flex items-center gap-1 bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-md border border-amber-200/50 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-amber-200" title={`Faltan ${toNext} señales para tu próximo hito`}>
                   <span className="material-symbols-outlined text-[12px] text-amber-600">star</span>
                   <span>Faltan {toNext}</span>
@@ -209,10 +209,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
-                    {(profile?.displayName || 'U').charAt(0)}
+                    {role === 'admin' ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-black text-ink">{profile?.displayName || 'Mi Perfil'}</span>
+                    <span className="text-sm font-black text-ink">{role === 'admin' ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
                     <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Faltan {toNext} para premio</span>
                   </div>
                 </div>

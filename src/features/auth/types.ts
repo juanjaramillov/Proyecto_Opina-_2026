@@ -28,6 +28,7 @@ export type DemographicData = {
 export type AccountProfile = {
     // Identity info
     displayName?: string;
+    nickname?: string;
     email?: string;
     role?: string;
     invitation_code_id?: string;
