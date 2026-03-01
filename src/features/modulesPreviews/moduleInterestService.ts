@@ -11,24 +11,20 @@ export const moduleInterestService = {
         metadata: ModuleSignalMetadata
     ): Promise<void> => {
         try {
-            // Get or create device hash for anonymous tracking
-            let deviceHash = localStorage.getItem('opina_device_hash');
-            if (!deviceHash) {
-                deviceHash = crypto.randomUUID();
-                localStorage.setItem('opina_device_hash', deviceHash);
-            }
+            // DG-B02: Telemetría va por RPC, no por signal_events (tabla protegida)
+            const clientEventId = crypto.randomUUID();
 
-            const { error } = await supabase.from('signal_events').insert({
-                event_type: eventType,
-                entity_type: 'module',
-                entity_id: metadata.module_slug,
-                meta: metadata as any,
-                anon_id: deviceHash,
-                signal_id: crypto.randomUUID()
+            const { error } = await (supabase as any).rpc('track_module_interest', {
+                p_module_key: metadata.module_slug,
+                p_event_type: eventType ?? 'open',
+                p_client_event_id: clientEventId,
+                p_device_hash: localStorage.getItem('opina_device_hash'),
+                p_metadata: metadata ?? {}
             });
 
             if (error) {
-                logger.error(`[ModuleInterestService] Error tracking ${eventType}:`, error);
+                // No romper UX por telemetría
+                console.warn('[moduleInterest] track_module_interest failed', error);
             }
         } catch (err) {
             logger.error(`[ModuleInterestService] Critical error tracking ${eventType}:`, err);

@@ -84,17 +84,24 @@ export const rankingService = {
                 signals_count, 
                 segment, 
                 segment_hash,
-                battle_options (
+                battle_options!inner (
                    label, 
                    image_url,
-                   battles (
-                      categories ( slug )
+                   battles!inner (
+                      categories!inner ( slug )
                    )
                 )
             `)
             .eq('snapshot_bucket', latestBucket)
             .eq('module_type', moduleType)
-            .eq('segment_hash', segmentHash)
+            .eq('segment_hash', segmentHash);
+
+        // ✅ PERF-01: filtrar por categoría en la BD (no en memoria)
+        if (categorySlug) {
+            query = query.eq('battle_options.battles.categories.slug', categorySlug);
+        }
+
+        query = query
             .order('score', { ascending: false })
             .limit(limit);
 
@@ -105,7 +112,7 @@ export const rankingService = {
             throw error;
         }
 
-        let rows = (data || []).map((r: any) => {
+        const rows = (data || []).map((r: any) => {
             // Mapeo adaptativo para mantener interfaz original
             const entityName = r.battle_options?.label || 'Desconocido';
             const catSlug = r.battle_options?.battles?.categories?.slug || 'unknown';
@@ -128,12 +135,6 @@ export const rankingService = {
                 signals_count: r.signals_count
             } as RankSnapshot;
         });
-
-        // Filtrado por categoría en memoria (si se incluyó en la llamada)
-        // en el futuro debería buscarse una forma más directa con JOIN a entities o agregando category_id en snapshots
-        if (categorySlug) {
-            rows = rows.filter(r => r.category_slug === categorySlug);
-        }
 
         return { snapshotBucket: latestBucket, rows };
     },

@@ -21,7 +21,7 @@ export default function FeedbackFab() {
         // Identificador local
         const anon = localStorage.getItem("opina_anon_id") || localStorage.getItem("anon_id");
         const accessPass = localStorage.getItem("opina_access_pass") || "";
-        const uid = profile?.id || "";
+        const uid = profile?.nickname || profile?.email || "";
 
         const who =
             accessPass === "admin"

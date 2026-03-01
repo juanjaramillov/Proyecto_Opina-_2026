@@ -46,7 +46,7 @@ const DepthHUD: React.FC<DepthHUDProps> = ({ currentStep, totalSteps, onExit }) 
                     />
                 </div>
                 <p className="text-xs font-bold text-slate-500 italic">
-                    "5 preguntas para afinar tu señal. Sin discursos."
+                    "10 preguntas para afinar tu señal. Sin discursos."
                 </p>
             </div>
         </div>

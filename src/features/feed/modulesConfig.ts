@@ -39,7 +39,7 @@ export const MODULES: OpinaModule[] = [
         key: "insights",
         slug: "profundidad",
         title: "Profundidad",
-        description: "5 preguntas rápidas para refinar la inteligencia colectiva sobre una opción.",
+        description: "10 preguntas rápidas para refinar la inteligencia colectiva sobre una opción.",
         status: "active",
         icon: "insights",
         tone: "emerald",

@@ -39,23 +39,17 @@ export default {
                 danger: "#EF4444",
                 warning: "#F59E0B",
 
-                // Aurora mapped to brand primary for consistency
-                aurora: {
-                    primary: "#4f46e5",
-                    secondary: "#818CF8",
-                    accent: "#4338ca",
-                    bg: "#FFFFFF",
-                },
+
             },
             backgroundImage: {
-                'brand-gradient': 'linear-gradient(to right, #4f46e5, #10b981)',
+                'brand-gradient': 'linear-gradient(to right, #2563EB, #10b981)',
             },
             boxShadow: {
                 card: "0 4px 14px rgba(0,0,0,0.06)",
                 lift: "0 8px 24px rgba(0,0,0,0.08)",
-                premium: "0 12px 40px rgba(79, 70, 229, 0.25)", // Indigo shadow
-                aurora: "0 10px 40px -10px rgba(79, 70, 229, 0.3)",
-                glass: "0 8px 32px 0 rgba(79, 70, 229, 0.1)",
+                premium: "0 20px 40px rgba(0, 0, 0, 0.10)", // Consistent premium shadow
+                aurora: "0 10px 40px -10px rgba(0, 0, 0, 0.10)",
+                glass: "0 8px 32px 0 rgba(0, 0, 0, 0.05)",
             },
             borderRadius: {
                 xl: "1rem",

@@ -30,6 +30,7 @@ export type BattleMomentum = {
 
 export type Battle = {
     id: string;
+    slug?: string;
     title: string;
     subtitle?: string;
     totalVotes?: number;

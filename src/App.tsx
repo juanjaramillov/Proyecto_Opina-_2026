@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { AuthProvider } from "./features/auth";
 import AccessGatePage from "./features/access/pages/AccessGate";
 import AccessGuardLayout from "./features/access/components/AccessGuardLayout";
@@ -41,6 +42,21 @@ import { useSessionTracker } from './hooks/useSessionTracker';
 export default function App() {
   // Mount the global session tracker
   useSessionTracker();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const ce = e as CustomEvent;
+      const to = ce?.detail?.to;
+      if (typeof to === 'string' && to.length > 0) {
+        navigate(to);
+      }
+    };
+
+    window.addEventListener('opina:navigate', handler as EventListener);
+    return () => window.removeEventListener('opina:navigate', handler as EventListener);
+  }, [navigate]);
 
   return (
     <AuthProvider>

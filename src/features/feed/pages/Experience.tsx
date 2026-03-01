@@ -18,8 +18,9 @@ import { logger } from "../../../lib/logger";
 
 import PageHeader from "../../../components/ui/PageHeader";
 import { PageState } from "../../../components/ui/StateBlocks";
-import ExperienceModuleCard from "../components/ExperienceModuleCard";
-import { MODULES } from "../modulesConfig";
+import HubIcon from "../../../components/ui/HubIcon";
+import { ArrowLeftRight, TrendingUp, Layers, Users, Zap, BarChart3, Boxes, type LucideIcon } from "lucide-react";
+import { motion } from "framer-motion";
 
 const PROGRESSIVE_THEMES = {
     // 1. Aerolíneas
@@ -225,6 +226,102 @@ const BATCH_SIZE = 12;
 
 type ExperienceMode = "menu" | "versus" | "progressive" | "insights";
 
+function AnimatedNumber({
+    value,
+    durationMs = 700,
+}: {
+    value: number;
+    durationMs?: number;
+}) {
+    const [display, setDisplay] = useState(0);
+
+    // respeta reduced motion
+    const prefersReducedMotion = useMemo(() => {
+        if (typeof window === "undefined") return true;
+        return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }, []);
+
+    useEffect(() => {
+        const target = Number.isFinite(value) ? value : 0;
+
+        if (prefersReducedMotion) {
+            setDisplay(target);
+            return;
+        }
+
+        let raf = 0;
+        const start = performance.now();
+        const from = display; // anima desde el valor actual (evita saltos)
+        const delta = target - from;
+
+        const tick = (t: number) => {
+            const p = Math.min(1, (t - start) / durationMs);
+            // easeOutCubic suave
+            const eased = 1 - Math.pow(1 - p, 3);
+            const next = Math.round(from + delta * eased);
+            setDisplay(next);
+            if (p < 1) raf = requestAnimationFrame(tick);
+        };
+
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value, durationMs, prefersReducedMotion]);
+
+    return <>{new Intl.NumberFormat("es-CL").format(display)}</>;
+}
+
+function SparkBars24h({
+    rows,
+}: {
+    rows: Array<{ label: string; signals: number; depth: number }>;
+}) {
+    const max = Math.max(1, ...rows.map(r => (r.signals || 0) + (r.depth || 0)));
+
+    return (
+        <div className="mt-4">
+            <div className="flex items-end gap-[3px] h-12">
+                {rows.map((r, i) => {
+                    const total = (r.signals || 0) + (r.depth || 0);
+                    const h = Math.round((total / max) * 48);
+
+                    // segmento depth (arriba) y signals (abajo)
+                    const depthH = total > 0 ? Math.max(1, Math.round(((r.depth || 0) / max) * 48)) : 0;
+                    const signalsH = Math.max(0, h - depthH);
+
+                    return (
+                        <div
+                            key={i}
+                            className="opina-bar w-[6px] flex flex-col justify-end origin-bottom"
+                            style={{
+                                animation: `opinaBarIn 260ms ease-out ${i * 12}ms both`
+                            }}
+                        >
+                            {/* signals */}
+                            <div
+                                className="rounded-t-[6px] bg-slate-200"
+                                style={{ height: signalsH }}
+                                title={`${r.label}: señales ${r.signals || 0} / profundidad ${r.depth || 0}`}
+                            />
+                            {/* depth (overlay/stack) */}
+                            <div
+                                className="rounded-b-[6px] bg-gradient-to-b from-primary-600/80 to-emerald-500/80"
+                                style={{ height: depthH }}
+                                title={`${r.label}: señales ${r.signals || 0} / profundidad ${r.depth || 0}`}
+                            />
+                        </div>
+                    );
+                })}
+            </div>
+
+            <div className="mt-2 flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
+                <span>h-23</span>
+                <span>ahora</span>
+            </div>
+        </div>
+    );
+}
+
 export default function Experience() {
     const { battles, loading } = useActiveBattles();
     const { profile } = useAuth();
@@ -244,7 +341,62 @@ export default function Experience() {
 
     const [mode, setMode] = useState<ExperienceMode>(typeof requestedBatch === "number" ? "versus" : "menu");
 
+    const fmt = (n: number) => new Intl.NumberFormat("es-CL").format(Number.isFinite(n) ? n : 0);
+
+    const [hubTopNow, setHubTopNow] = useState<{
+        top_versus: { slug: string; title: string; signals_24h: number } | null;
+        top_tournament: { slug: string; title: string; signals_24h: number } | null;
+    } | null>(null);
+
+    const [hubStats, setHubStats] = useState<{
+        active_users_24h: number;
+        signals_24h: number;
+        depth_answers_24h: number;
+        active_battles: number;
+    } | null>(null);
+
+    const [hubSeries24h, setHubSeries24h] = useState<Array<{
+        bucket_start: string;
+        label: string;
+        signals: number;
+        depth: number;
+    }>>([]);
+
+    useEffect(() => {
+        let mounted = true;
+        (async () => {
+            const [top, stats, series] = await Promise.all([
+                signalService.getHubTopNow24h(),
+                signalService.getHubLiveStats24h(),
+                signalService.getHubSignalTimeseries24h()
+            ]);
+            if (mounted) {
+                setHubTopNow(top);
+                setHubStats(stats);
+                setHubSeries24h(series || []);
+            }
+        })();
+        return () => { mounted = false; };
+    }, []);
+
     const battlesAsGame = useMemo(() => battles as unknown as Battle[], [battles]);
+
+    const previewVersus = useMemo(() => {
+        const slugFromTop = hubTopNow?.top_versus?.slug;
+        const fromTop = slugFromTop ? (battles || []).find((b) => b.slug === slugFromTop) : null;
+
+        if (fromTop) return fromTop;
+
+        // Fallback: primer versus activo (asegura preview siempre lleno)
+        return (battles || []).find((b) => (b.slug || "").startsWith("versus-")) || null;
+    }, [hubTopNow, battles]);
+
+    const previewOptions = useMemo(() => {
+        const opts = (previewVersus as Battle | null)?.options || [];
+        const arr = Array.isArray(opts) ? opts : [];
+        // Asegurar 2 opciones
+        return arr.slice(0, 2);
+    }, [previewVersus]);
 
     // Enforce profile completion
     useEffect(() => {
@@ -359,33 +511,75 @@ export default function Experience() {
         );
     }
 
+    const vContainer = {
+        hidden: {},
+        show: {
+            transition: { staggerChildren: 0.08, delayChildren: 0.04 }
+        }
+    };
+
+    const vItem = {
+        hidden: { opacity: 0, y: 10 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
+    };
+
+    const vHero = {
+        hidden: { opacity: 0, y: 8 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
+    };
+
+    const vPanel = {
+        hidden: { opacity: 0, y: 10 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut", delay: 0.06 } }
+    };
+
+    const CTA_PRIMARY_FULL =
+        "w-full h-12 rounded-2xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white font-black text-sm " +
+        "shadow-[0_10px_25px_rgba(16,185,129,0.18)] hover:shadow-[0_14px_32px_rgba(59,130,246,0.18)] " +
+        "hover:opacity-95 transition-all active:scale-[0.98]";
+
+
+    const CTA_SECONDARY_FULL =
+        "w-full h-12 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 font-black text-sm " +
+        "transition-all active:scale-[0.98]";
+
+    const CTA_HERO_PRIMARY =
+        "h-[52px] md:h-[56px] px-6 md:px-7 rounded-2xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white " +
+        "font-black text-sm md:text-base shadow-[0_12px_28px_rgba(16,185,129,0.18)] " +
+        "hover:shadow-[0_16px_34px_rgba(59,130,246,0.18)] hover:opacity-95 transition-all active:scale-95";
+
+    const CTA_HERO_SECONDARY =
+        "h-[52px] md:h-[56px] px-6 md:px-7 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 " +
+        "text-slate-900 font-black text-sm md:text-base transition-all active:scale-95";
+
     return (
         <div className="container-ws section-y space-y-8 pb-24">
 
-            <PageHeader
-                eyebrow={<span className="badge badge-primary">Hub</span>}
-                title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Tu opinión es una señal</h1>}
-                subtitle={<p className="text-sm text-muted font-medium">{headerSubtitle}</p>}
-                meta={
-                    <div className="flex flex-wrap gap-2">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                            <span className="material-symbols-outlined text-[14px] text-emerald-500">bolt</span>
-                            Señales hoy: {signalsToday}
-                        </div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                            <span className="material-symbols-outlined text-[14px] text-primary-500">shield</span>
-                            Límite: {limitLabel}
-                        </div>
-                        {profile?.tier ? (
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                                <span className="material-symbols-outlined text-[14px]">person</span>
-                                Tier: {profile.tier}
+            {/* PAGE HEADER */}
+            {mode === "menu" ? (
+                <PageHeader
+                    eyebrow={<span className="badge badge-primary">Hub</span>}
+                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Tu opinión es una señal</h1>}
+                    subtitle={<p className="text-sm text-muted font-medium">{headerSubtitle}</p>}
+                    meta={
+                        <div className="flex flex-wrap gap-2">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                <span className="material-symbols-outlined text-[14px] text-emerald-500">bolt</span>
+                                Señales hoy: {fmt(signalsToday)}
                             </div>
-                        ) : null}
-                    </div>
-                }
-                actions={
-                    mode !== "menu" ? (
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                <span className="material-symbols-outlined text-[14px] text-primary-500">shield</span>
+                                Límite: {limitLabel}
+                            </div>
+                            {profile?.tier ? (
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                    <span className="material-symbols-outlined text-[14px]">person</span>
+                                    Tier: {profile.tier}
+                                </div>
+                            ) : null}
+                        </div>
+                    }
+                    actions={
                         <button
                             onClick={() => {
                                 setSelectedOption(null);
@@ -396,86 +590,276 @@ export default function Experience() {
                         >
                             ← Volver al Hub
                         </button>
-                    ) : (
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => navigate("/results")}
-                                className="h-10 px-4 rounded-xl bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-bold text-sm transition-all shadow-md hover:shadow-lg active:scale-95"
-                            >
-                                Ver resultados
-                            </button>
-                            <button
-                                onClick={() => navigate("/profile")}
-                                className="h-10 px-4 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-sm transition-all hover:bg-slate-50 active:scale-95"
-                            >
-                                Mi perfil
-                            </button>
-                        </div>
-                    )
-                }
-            />
+                    }
+                />
+            ) : null}
 
-            {/* HUB MENU */}
+            {/* NEW HUB MENU HERO & CARDS */}
             {mode === "menu" ? (
-                <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
-                    {/* Active Modules - Featured Bento Layout */}
-                    <div>
-                        <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 px-1">
-                            <span className="w-2 h-2 rounded-full bg-primary-500 shadow-[0_0_8px_rgba(99,102,241,0.8)] animate-pulse"></span>
-                            Módulos Disponibles
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {MODULES.filter(m => m.status === 'active').map((mod) => (
-                                <div key={mod.key} className="flex flex-col h-full">
-                                    <ExperienceModuleCard
-                                        title={mod.title}
-                                        description={mod.description}
-                                        icon={mod.icon}
-                                        tone={mod.tone}
-                                        tags={mod.tags}
-                                        status={mod.status}
-                                        variant="standard"
-                                        onClick={() => {
-                                            if (mod.key === "personal") navigate("/personal-state");
-                                            else setMode(mod.key as ExperienceMode);
-                                        }}
-                                    />
+                <motion.div initial="hidden" animate="show" variants={vContainer} className="space-y-6 md:space-y-12 pb-12">
 
-
-
-                                </div>
-                            ))}
+                    {/* HUB HERO ROW: TEXT + 24H PANEL */}
+                    <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 md:p-8 items-stretch">
+                        {/* Decorative Background Pattern */}
+                        <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10 opina-pattern">
+                            <div className="absolute -top-12 -right-12 w-96 h-96 bg-primary-100/30 rounded-full blur-3xl"></div>
+                            <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl"></div>
                         </div>
-                    </div>
 
-                    {/* Soon Modules - Compact Layout */}
-                    <div>
-                        <div className="flex items-center gap-3 mb-2 px-1">
-                            <h2 className="text-xl font-black text-slate-900">El Laboratorio</h2>
-                            <span className="px-2 py-1 bg-primary-50 text-primary-600 rounded-md text-[10px] font-black uppercase tracking-wider">
-                                Próximamente
-                            </span>
-                        </div>
-                        <p className="text-sm text-slate-500 mb-6 px-1">
-                            Explora los prototipos de las próximas experiencias que estamos construyendo.
-                        </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {MODULES.filter(m => m.status === 'soon').map((mod) => (
-                                <ExperienceModuleCard
-                                    key={mod.key}
-                                    title={mod.title}
-                                    description={mod.description}
-                                    icon={mod.icon}
-                                    tone={mod.tone}
-                                    tags={mod.tags}
-                                    status={mod.status}
-                                    variant="compact"
-                                    onClick={() => navigate(`/m/${mod.slug}`)}
+                        {/* Visual Connector (SVG) */}
+                        <div className="pointer-events-none absolute inset-0 hidden lg:block">
+                            <svg width="100%" height="100%" viewBox="0 0 1200 360" preserveAspectRatio="none" className="opacity-[0.08]">
+                                <defs>
+                                    <linearGradient id="opinaConnector" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0%" stopColor="rgb(37,99,235)" /> {/* blue-600 */}
+                                        <stop offset="100%" stopColor="rgb(16,185,129)" /> {/* emerald-500 */}
+                                    </linearGradient>
+                                </defs>
+
+                                {/* Línea principal */}
+                                <path
+                                    className="opina-drawline"
+                                    d="M140 170 C 360 120, 520 240, 760 170 C 900 130, 980 150, 1060 165"
+                                    fill="none" stroke="url(#opinaConnector)" strokeWidth="2" strokeLinecap="round" strokeDasharray="12 10"
+                                    style={{
+                                        strokeDashoffset: 220,
+                                        animation: "opinaDraw 420ms ease-out 60ms forwards"
+                                    }}
                                 />
-                            ))}
+
+                                {/* Nodos */}
+                                <circle cx="140" cy="170" r="5" fill="rgb(37,99,235)" />
+                                <circle cx="760" cy="170" r="5" fill="rgb(16,185,129)" />
+                                <circle cx="1060" cy="165" r="5" fill="rgb(15,23,42)" />
+                            </svg>
                         </div>
+
+                        {/* Left: Message */}
+                        <motion.div variants={vHero} className="lg:col-span-8 flex flex-col justify-between min-h-[260px] space-y-5 max-w-2xl py-2 md:py-6">
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-50 border border-primary-100 text-primary-700 text-xs font-bold tracking-wide uppercase mb-2 shadow-sm w-fit">
+                                <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
+                                Hub Activo
+                            </div>
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-ink leading-[1.02]">
+                                Tu opinión<br />es una <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-500">señal</span>
+                            </h1>
+                            <p className="mt-4 text-base md:text-lg font-medium text-slate-600 leading-relaxed max-w-[56ch]">
+                                Transforma tus preferencias en data que mueve el mercado. Rápido, anónimo y sin encuestas eternas.
+                            </p>
+
+                            <div className="flex items-center gap-4 pt-4">
+                                <button
+                                    onClick={() => setMode("versus")}
+                                    className={CTA_HERO_PRIMARY}
+                                >
+                                    Emitir una señal
+                                </button>
+                                <button
+                                    onClick={() => navigate("/results")}
+                                    className={CTA_HERO_SECONDARY}
+                                >
+                                    Ver resultados
+                                </button>
+                            </div>
+                        </motion.div>
+
+                        {/* Right: Live Panel 24h & Top */}
+                        <motion.div variants={vPanel} className="lg:col-span-4 h-full">
+                            {(() => {
+                                const s = hubStats || { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0 };
+
+                                const StatCard = ({ icon, label, value }: { icon: LucideIcon; label: string; value: number }) => (
+                                    <div className="group relative rounded-[20px] border border-slate-100 bg-white p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
+                                        <div className="absolute inset-0 rounded-[20px] opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-br from-primary-500/10 to-emerald-500/10 pointer-events-none" />
+
+                                        <div className="relative flex items-center justify-between">
+                                            <HubIcon Icon={icon} size={40} />
+
+                                            <div className="text-right">
+                                                <div className="text-2xl font-black text-ink tracking-tight">
+                                                    <AnimatedNumber value={value} />
+                                                </div>
+                                                <div className="text-[11px] font-black uppercase tracking-widest text-slate-400">{label}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+
+                                return (
+                                    <div className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_12px_40px_rgba(15,23,42,0.05)] w-full h-full min-h-[260px] flex flex-col">
+
+                                        <div className="flex-1 flex flex-col justify-start">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                                        <span className="material-symbols-outlined text-[14px] text-emerald-600">monitoring</span>
+                                                        Live Stats (24h)
+                                                    </span>
+                                                </div>
+
+                                                <div className="inline-flex items-center gap-2 text-[11px] font-bold text-slate-500">
+                                                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                                    Actualizado
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-4 grid grid-cols-2 gap-3 flex-grow">
+                                                <StatCard icon={Users} label="Activos 24h" value={s.active_users_24h} />
+                                                <StatCard icon={Zap} label="Señales 24h" value={s.signals_24h} />
+                                                <StatCard icon={BarChart3} label="Profundidad 24h" value={s.depth_answers_24h} />
+                                                <StatCard icon={Boxes} label="Batallas activas" value={s.active_battles} />
+                                            </div>
+
+                                            {hubSeries24h.length ? (
+                                                <SparkBars24h rows={hubSeries24h.map(r => ({ label: r.label, signals: r.signals, depth: r.depth }))} />
+                                            ) : (
+                                                <div className="mt-4 text-xs font-medium text-slate-500">Aún no hay suficiente actividad para graficar.</div>
+                                            )}
+                                        </div>
+
+                                        {/* Top ahora (24h) — integrado y no vacío */}
+                                        <div className="mt-4 pt-4 border-t border-slate-100">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Top ahora (24h)</div>
+
+                                            <div className="mt-2 flex flex-col gap-2">
+                                                {hubTopNow?.top_versus ? (
+                                                    <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 border border-slate-100 px-3 py-2">
+                                                        <div className="flex items-center gap-2 min-w-0">
+                                                            <span className="material-symbols-outlined text-[18px] text-primary-600">swap_horiz</span>
+                                                            <div className="text-xs font-bold text-slate-700 truncate">{hubTopNow.top_versus.title}</div>
+                                                        </div>
+                                                        <div className="text-[11px] font-black text-slate-700">{fmt(hubTopNow.top_versus.signals_24h)}</div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-xs font-medium text-slate-500">Aún no hay suficientes señales en 24h.</div>
+                                                )}
+
+                                                {hubTopNow?.top_tournament ? (
+                                                    <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 border border-slate-100 px-3 py-2">
+                                                        <div className="flex items-center gap-2 min-w-0">
+                                                            <span className="material-symbols-outlined text-[18px] text-emerald-600">trending_up</span>
+                                                            <div className="text-xs font-bold text-slate-700 truncate">{hubTopNow.top_tournament.title}</div>
+                                                        </div>
+                                                        <div className="text-[11px] font-black text-slate-700">{fmt(hubTopNow.top_tournament.signals_24h)}</div>
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                );
+                            })()}
+                        </motion.div>
                     </div>
-                </div>
+
+                    {/* GRIDS - 3 Columns Desktop */}
+                    <motion.div variants={vContainer} className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+
+                        {/* Versus Card (Large) */}
+                        <motion.div variants={vItem} className="md:col-span-2 relative group overflow-hidden bg-white rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 p-8 lg:col-span-2 min-h-[360px] flex flex-col">
+                            {/* Decorative Orb */}
+                            <div className="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-primary-400/20 to-emerald-400/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700 ease-out"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col justify-between">
+                                <div className="flex-1">
+                                    <div className="mb-6 w-max">
+                                        <HubIcon Icon={ArrowLeftRight} size={64} />
+                                    </div>
+                                    <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-2">Señal Rápida</h2>
+                                    <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-md">
+                                        Compara marcas cara a cara. A vs B. Sin matices, solo instinto. El motor principal de Opina+.
+                                    </p>
+
+                                    <div className="mt-6 rounded-[24px] border border-slate-100 bg-white/70 backdrop-blur p-4">
+                                        <div className="flex items-center justify-between gap-3">
+                                            <div>
+                                                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Ahora activo (24h)</div>
+                                                <div className="mt-1 text-sm font-black text-ink">
+                                                    {previewVersus?.title || "Aún no hay batallas activas"}
+                                                </div>
+                                            </div>
+
+                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                                <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500" />
+                                                Versus
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-4 grid grid-cols-3 items-center gap-3">
+                                            {/* Opción A */}
+                                            <div className="rounded-2xl border border-slate-100 bg-white p-3">
+                                                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Opción A</div>
+                                                <div className="mt-1 text-sm font-black text-slate-900 truncate">{previewOptions?.[0]?.label ? previewOptions[0].label : "Cargando…"}</div>
+                                            </div>
+
+                                            {/* VS */}
+                                            <div className="flex items-center justify-center">
+                                                <div className="rounded-full px-3 py-1 text-[11px] font-black tracking-widest bg-gradient-to-r from-blue-600 to-emerald-500 text-white">VS</div>
+                                            </div>
+
+                                            {/* Opción B */}
+                                            <div className="rounded-2xl border border-slate-100 bg-white p-3">
+                                                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Opción B</div>
+                                                <div className="mt-1 text-sm font-black text-slate-900 truncate">{previewOptions?.[1]?.label ? previewOptions[1].label : "Cargando…"}</div>
+                                            </div>
+                                        </div>
+
+                                        <button onClick={() => setMode("versus")} className={CTA_PRIMARY_FULL + " mt-4"}>
+                                            Emitir una señal
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Columna Derecha (2 chicas) */}
+                        <div className="flex flex-col gap-6">
+
+                            {/* Progressive Card */}
+                            <motion.div variants={vItem} className="relative group overflow-hidden bg-white rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 p-6 flex flex-col h-full min-h-[170px]">
+                                <div className="absolute -bottom-16 -right-16 w-40 h-40 bg-gradient-to-tl from-purple-400/20 to-pink-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                                <div className="relative z-10 flex-1">
+                                    <div className="mb-4 w-max">
+                                        <HubIcon Icon={TrendingUp} size={48} />
+                                    </div>
+                                    <h3 className="text-xl font-black text-slate-900 mb-1">Competencia</h3>
+                                    <p className="text-slate-500 text-sm font-medium leading-relaxed">
+                                        Filtra a los ganadores en un modelo de llaves (16x16) por industria.
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => setMode("progressive")}
+                                    className={CTA_SECONDARY_FULL}
+                                >
+                                    Ver ranking
+                                </button>
+                            </motion.div>
+
+                            {/* Insights Card */}
+                            <motion.div variants={vItem} className="relative group overflow-hidden bg-white rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 p-6 flex flex-col h-full min-h-[170px]">
+                                <div className="absolute -bottom-16 -right-16 w-40 h-40 bg-gradient-to-tl from-cyan-400/20 to-blue-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                                <div className="relative z-10 flex-1">
+                                    <div className="mb-4 w-max">
+                                        <HubIcon Icon={Layers} size={48} />
+                                    </div>
+                                    <h3 className="text-xl font-black text-slate-900 mb-1">Profundidad</h3>
+                                    <p className="text-slate-500 text-sm font-medium leading-relaxed">
+                                        Elige una marca y exprésate sobre ella. 10 atributos clave en segundos.
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => setMode("insights")}
+                                    className={CTA_SECONDARY_FULL}
+                                >
+                                    Analizar marca
+                                </button>
+                            </motion.div>
+
+                        </div>
+                    </motion.div>
+
+
+                </motion.div>
             ) : null}
 
             {/* VERSUS MODE */}
@@ -551,7 +935,7 @@ export default function Experience() {
                                     industry: t.industry,
                                     theme: t.theme,
                                     candidates: battlesAsGame
-                                        .filter((b) => (b.category as any)?.slug === t.industry || b.industry === t.industry)
+                                        .filter((b) => (b.category as { slug?: string })?.slug === t.industry || b.industry === t.industry)
                                         .flatMap((b) => b.options)
                                         .filter((v, i, a) => a.findIndex((o) => o.id === v.id) === i)
                                         .slice(0, 16),

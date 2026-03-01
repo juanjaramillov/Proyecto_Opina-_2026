@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import DepthWizard from '../../profundidad/DepthWizard';
 import RequestLoginModal from '../../auth/components/RequestLoginModal';
-import { DEPTH_QUESTIONS } from '../config/depthQuestions';
 import { depthService, DepthImmediateComparison } from '../services/depthService';
 import { useAuth } from '../../auth';
 import { useToast } from '../../../components/ui/useToast';
 import { logger } from '../../../lib/logger';
 import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../../supabase/client';
 
 interface InsightPackProps {
     optionId: string;
@@ -28,6 +28,67 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
     // Segmentación y Comparativa
     const [comparisonData, setComparisonData] = useState<Record<string, DepthImmediateComparison>>({});
     const [userAnswers, setUserAnswers] = useState<Record<string, string | number>>({});
+    const [depthQuestions, setDepthQuestions] = useState<any[]>([]);
+    const [loadingDefs, setLoadingDefs] = useState(true);
+
+    React.useEffect(() => {
+        let mounted = true;
+
+        async function loadDepthDefs() {
+            setLoadingDefs(true);
+            try {
+                // optionId here acts as the brand_id or is used to lookup the brand_id
+                // Since this component is called with optionId which is often battle_option.id, we may need true brand_id.
+                // Assuming depth definitions are mapped by optionId in the context or entity_id
+                // For direct optionId -> brand_id relation, let's fetch the battle_option first if needed, 
+                // BUT the instructions assume optionId is what we have or we use optionId directly if it's the entity_id
+
+                // Fetch option to get brand_id if optionId is a battle_option id
+                const { data: optionData } = await supabase
+                    .from('battle_options')
+                    .select('brand_id')
+                    .eq('id', optionId)
+                    .single();
+
+                const actualBrandId = optionData?.brand_id;
+                if (!actualBrandId) {
+                    if (mounted) {
+                        setDepthQuestions([]);
+                        setLoadingDefs(false);
+                    }
+                    return;
+                }
+
+                const { data, error } = await supabase
+                    .from("depth_definitions")
+                    .select("question_key, question_text, question_type, options, position")
+                    .eq("entity_id", actualBrandId)
+                    .order("position", { ascending: true });
+
+                if (error) throw error;
+
+                const defs = (data || []).map((d: any) => ({
+                    id: d.question_key,
+                    type: d.question_type || (Array.isArray(d.options) && d.options.length ? "choice" : "scale_1_5"),
+                    question: d.question_text,
+                    options: Array.isArray(d.options) ? d.options : [],
+                }));
+
+                if (mounted) {
+                    setDepthQuestions(defs);
+                    setLoadingDefs(false);
+                }
+            } catch (e) {
+                if (mounted) {
+                    setDepthQuestions([]);
+                    setLoadingDefs(false);
+                }
+            }
+        }
+
+        loadDepthDefs();
+        return () => { mounted = false; };
+    }, [optionId]);
 
     const { showToast } = useToast();
 
@@ -86,6 +147,47 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
 
     // @ts-expect-error - feature toggle en desarrollo
     const [showAnalyticsResults, setShowAnalyticsResults] = useState(false);
+
+    if (loadingDefs) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    className="bg-white rounded-[2.5rem] p-8 flex flex-col items-center justify-center max-w-sm w-full shadow-2xl relative border border-slate-100 text-center"
+                >
+                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+                    <p className="font-bold text-slate-500">Cargando profundidad...</p>
+                </motion.div>
+            </div>
+        );
+    }
+
+    if (!showAnalyticsResults && depthQuestions.length < 10) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    className="bg-white rounded-[2.5rem] p-6 md:p-10 max-w-sm w-full shadow-2xl relative border border-slate-100 text-center"
+                >
+                    <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="material-symbols-outlined text-3xl">warning</span>
+                    </div>
+                    <h3 className="text-xl font-black text-slate-800 mb-2">Faltan preguntas</h3>
+                    <p className="text-sm text-slate-500 mb-6">Esta opción aún no tiene suficientes preguntas de Profundidad (mínimo 10).</p>
+                    <button
+                        onClick={onCancel}
+                        className="w-full py-4 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-all active:scale-[0.98]"
+                    >
+                        Volver
+                    </button>
+                </motion.div>
+            </div>
+        );
+    }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
@@ -250,7 +352,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                     </div>
                 ) : (
                     <DepthWizard
-                        questions={DEPTH_QUESTIONS.slice(0, 5)}
+                        questions={depthQuestions}
                         packTitle={optionLabel}
                         onSave={handleSurveyCompleteReturn}
                         onCancel={onCancel}

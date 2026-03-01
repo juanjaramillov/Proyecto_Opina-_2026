@@ -189,13 +189,13 @@ export default function DepthRun() {
         );
     }
 
-    if (questions.length < 6) {
+    if (questions.length < 10) {
         return (
             <div className="container-ws section-y">
                 <PageState
                     type="empty"
                     title="Faltan preguntas"
-                    description="Esta opción aún no tiene suficientes preguntas de Profundidad (mínimo 6)."
+                    description="Esta opción aún no tiene suficientes preguntas de Profundidad (mínimo 10)."
                     icon="warning"
                     primaryAction={{ label: "Volver", onClick: () => navigate(`/depth/${battleSlug}`) }}
                 />

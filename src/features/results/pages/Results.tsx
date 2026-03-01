@@ -131,6 +131,22 @@ export default function ResultsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gender, region, ageBucket]);
 
+  // --- DG-B01: refresco post-señal (confianza) ---
+  useEffect(() => {
+    const handler = () => {
+      // Recarga ranking + mis señales usando filtros actuales
+      load();
+      loadMySignals();
+    };
+
+    window.addEventListener('opina:signal_emitted', handler as EventListener);
+
+    return () => {
+      window.removeEventListener('opina:signal_emitted', handler as EventListener);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gender, region, ageBucket]);
+
   // --- UI ---
   return (
     <div className="min-h-screen bg-white">

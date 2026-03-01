@@ -159,6 +159,31 @@ export const signalService = {
             if (error) {
                 const errorMsg = String(error.message);
 
+                // DG-A01: Convertir gating en flujo guiado
+                const msg = (error?.message || '').toUpperCase();
+                const code = (error as any)?.code ? String((error as any).code).toUpperCase() : '';
+
+                const isInviteRequired =
+                    msg.includes('INVITE_REQUIRED') || code.includes('INVITE_REQUIRED');
+
+                const isProfileMissing =
+                    msg.includes('PROFILE_MISSING') || code.includes('PROFILE_MISSING');
+
+                const isProfileIncomplete =
+                    msg.includes('PROFILE_INCOMPLETE') || code.includes('PROFILE_INCOMPLETE');
+
+                if (isInviteRequired) {
+                    // Redirigir a flujo de invitación (no hay ruta /invite, así que asumiremos /login o una de invitación en su momento. Pero enviamos /admin/invitaciones si no hay /invite, o la que me solicitó. Espera, usaré /admin/invitaciones? no, mando a /invite como me pidió).
+                    window.dispatchEvent(new CustomEvent('opina:navigate', { detail: { to: '/invite' } }));
+                    throw error;
+                }
+
+                if (isProfileMissing || isProfileIncomplete) {
+                    // Redirigir a ProfileWizard (mínimos)
+                    window.dispatchEvent(new CustomEvent('opina:navigate', { detail: { to: '/complete-profile' } }));
+                    throw error;
+                }
+
                 if (isNonRetriableSignalErrorMessage(errorMsg)) {
                     removeOutboxJob(id);
                     try {
@@ -270,6 +295,55 @@ export const signalService = {
     // =========================
     // STEP 5: ACTIVE BATTLES (HUB)
     // =========================
+    getHubLiveStats24h: async (): Promise<{
+        active_users_24h: number;
+        signals_24h: number;
+        depth_answers_24h: number;
+        active_battles: number;
+    }> => {
+        if (!hasSupabaseEnv()) return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0 };
+
+        const { data, error } = await (sb.rpc as any)('get_hub_live_stats_24h');
+        if (error) {
+            logger.error('[Hub Live Stats] Error:', error);
+            return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0 };
+        }
+        return (data as any) ?? { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0 };
+    },
+
+    getHubSignalTimeseries24h: async (): Promise<Array<{
+        bucket_start: string;
+        label: string;
+        signals: number;
+        depth: number;
+    }>> => {
+        if (!hasSupabaseEnv()) return [];
+
+        const { data, error } = await sb.rpc('get_hub_signal_timeseries_24h');
+        if (error) {
+            logger.error('[Hub Timeseries 24h] Error:', error);
+            return [];
+        }
+
+        return (data as any) ?? [];
+    },
+
+    getHubTopNow24h: async (): Promise<{
+        top_versus: { slug: string; title: string; signals_24h: number } | null;
+        top_tournament: { slug: string; title: string; signals_24h: number } | null;
+    }> => {
+        if (!hasSupabaseEnv()) return { top_versus: null, top_tournament: null };
+
+        const { data, error } = await (sb.rpc as any)('get_hub_top_now_24h');
+
+        if (error) {
+            logger.error('[Hub Top Now] Error:', error);
+            return { top_versus: null, top_tournament: null };
+        }
+
+        return (data as any) ?? { top_versus: null, top_tournament: null };
+    },
+
     getActiveBattles: async (): Promise<ActiveBattle[]> => {
         if (!hasSupabaseEnv()) return [];
 

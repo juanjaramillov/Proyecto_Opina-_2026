@@ -142,6 +142,8 @@ export default function VersusGame(props: GameProps) {
     const a = options[0];
     const b = options[1];
 
+    const selectedOption = selected === a?.id ? a : (selected === b?.id ? b : null);
+
     const handleVote = async (optionId: string, e?: React.MouseEvent) => {
         if (props.isSubmitting) return;
 
@@ -164,7 +166,7 @@ export default function VersusGame(props: GameProps) {
     };
 
     return (
-        <div className="w-full">
+        <div className="w-full max-w-5xl mx-auto px-4 md:px-6 pb-24 pt-8 md:pt-10 space-y-8">
             <div className="px-4 pt-4 pb-6 text-center">
                 {/* Title and subtitle only at the top */}
 
@@ -174,15 +176,46 @@ export default function VersusGame(props: GameProps) {
                         initial={{ opacity: 0, y: 5 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
-                        className="text-2xl md:text-3xl font-bold text-ink leading-tight capitalize"
                     >
-                        {effectiveBattle.title.replace(/-/g, ' ')}
+                        <div className="text-center">
+                            {(() => {
+                                const formatTitle = (str: string) => {
+                                    const minorWords = ['del', 'de', 'la', 'el', 'los', 'las', 'y', 'o', 'en', 'a', 'un', 'una', 'por'];
+                                    return str.split(' ').map((word, index) => {
+                                        if (index > 0 && minorWords.includes(word.toLowerCase())) {
+                                            return word.toLowerCase();
+                                        }
+                                        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                                    }).join(' ');
+                                };
+                                const titleStr = formatTitle(effectiveBattle.title.replace(/[-_]/g, ' '));
+                                const words = titleStr.split(' ');
+                                const lastWord = words.pop() || '';
+                                const firstPart = words.join(' ');
+                                return (
+                                    <>
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                            <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500" />
+                                            Versus activo
+                                        </div>
+
+                                        <h1 className="mt-5 text-4xl md:text-5xl font-black tracking-tight text-ink leading-[1.05]">
+                                            {firstPart} <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500">{lastWord}</span>
+                                        </h1>
+                                    </>
+                                );
+                            })()}
+
+                            <p className="mt-3 text-base md:text-lg font-medium text-slate-600">
+                                Elige una opción. Deja tu señal.
+                            </p>
+
+                            <div className="mt-2 text-sm font-medium text-slate-500">
+                                Sin discursos. Con datos.
+                            </div>
+                        </div>
                     </motion.div>
                 </AnimatePresence>
-
-                {effectiveBattle.subtitle && (
-                    <div className="text-base text-text-secondary font-medium mt-1">{effectiveBattle.subtitle}</div>
-                )}
 
                 {effectiveBattle.layout === 'opinion' && effectiveBattle.mainImageUrl && (
                     <motion.div
@@ -200,167 +233,188 @@ export default function VersusGame(props: GameProps) {
                 )}
             </div>
 
-            {effectiveBattle.type === 'separator' ? (
-                <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-                    <button onClick={next} className="px-8 py-3 bg-primary text-white rounded-xl font-bold">Continuar</button>
-                </div>
-            ) : (
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={effectiveBattle.id + (champion?.id || '')}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-                        className="relative"
-                    >
-                        {/* Instruction + Progress immediately above cards */}
-                        {!props.hideProgress && (
-                            <div className="mx-auto w-full max-w-3xl text-center mb-8">
-                                <div className="mb-5">
-                                    <h2 className="text-base sm:text-lg font-semibold text-slate-900">
-                                        Elige tu preferencia
-                                    </h2>
-                                    <p className="mt-1 text-sm text-slate-500">
-                                        Esto calibra tu perfil y mejora tus resultados.
-                                    </p>
-                                </div>
-
-                                <div className="mx-auto mb-6 w-full max-w-md">
-                                    <div className="flex items-center justify-between text-xs text-slate-500 mb-2 px-1">
+            {
+                effectiveBattle.type === 'separator' ? (
+                    <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
+                        <button onClick={next} className="px-8 py-3 bg-primary text-white rounded-xl font-bold">Continuar</button>
+                    </div>
+                ) : (
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={effectiveBattle.id + (champion?.id || '')}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                            className="relative"
+                        >
+                            {/* Instruction + Progress immediately above cards */}
+                            {!props.hideProgress && (
+                                <div className="max-w-xl mx-auto mb-8">
+                                    <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
                                         <span>Progreso</span>
-                                        <span>{idx + 1} / {total}</span>
+                                        <span>{idx + 1}/{total}</span>
                                     </div>
 
-                                    <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+                                    <div className="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden">
                                         <div
-                                            className="h-full rounded-full bg-primary-500 transition-all duration-500 ease-out"
-                                            style={{ width: `${Math.min(100, Math.max(0, ((idx) / total) * 100))}%` }}
+                                            className="h-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500 ease-out"
+                                            style={{ width: `${Math.round(((idx) / Math.max(1, total)) * 100)}%` }}
                                         />
                                     </div>
 
-                                    <div className="mt-2 text-xs text-slate-500 text-center">
-                                        Te faltan <span className="font-medium text-slate-700">{Math.max(0, total - idx)}</span> para completar los cuestionarios.
+                                    <div className="mt-2 text-[11px] font-medium text-slate-500 text-center">
+                                        Tu señal se cruza con tu perfil para detectar patrones.
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                        {props.isSubmitting && (
-                            <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-[2px] bg-white/10 rounded-[3rem]">
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                    className="w-12 h-12 border-4 border-t-transparent rounded-full"
-                                    style={{ borderColor: props.theme?.primary || '#10b981', borderTopColor: 'transparent' }}
-                                />
-                            </div>
-                        )}
-
-                        {/* Error handling interior si no hay opciones */}
-                        {(!a && !b) ? (
-                            <div className="p-8 text-center text-slate-500 bg-slate-50 rounded-3xl mx-4 mb-4 border border-slate-100">
-                                Hay un problema de datos con esta señal. No hay opciones configuradas.
-                            </div>
-                        ) : (
-                            <div className={`relative max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 px-4 pb-4 transition-opacity duration-300 ${props.isSubmitting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
-                                {a && (
-                                    <OptionCard
-                                        option={a}
-                                        onClick={(e) => handleVote(a.id, e)}
-                                        disabled={locked || lockedByLimit || !!props.isSubmitting}
-                                        isSelected={selected === a.id || !!result}
-                                        showResult={!!result || !!momentum}
-                                        showPercentage={true}
-                                        percent={null}
-                                        momentum={momentum?.options.find(o => o.id === a.id)}
-                                        isLeft={effectiveBattle.layout === 'versus'}
-                                        layout={effectiveBattle.layout}
-                                        theme={props.theme}
-                                    />
-                                )}
-
-                                {effectiveBattle.layout === 'versus' && a && b && (
-                                    <div
-                                        className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-white rounded-full items-center justify-center font-black text-sm border-8 border-white shadow-[0_15px_40px_rgba(0,0,0,0.15)] select-none"
-                                        style={{ color: props.theme?.primary || '#10b981' }}
-                                    >VS</div>
-                                )}
-
-                                {b && (
-                                    <OptionCard
-                                        option={b}
-                                        onClick={(e) => handleVote(b.id, e)}
-                                        disabled={locked || lockedByLimit || !!props.isSubmitting}
-                                        isSelected={selected === b.id || !!result}
-                                        showResult={!!result || !!momentum}
-                                        showPercentage={true}
-                                        percent={null}
-                                        momentum={momentum?.options.find(o => o.id === b.id)}
-                                        layout={effectiveBattle.layout}
-                                        theme={props.theme}
-                                    />
-                                )}
-                            </div>
-                        )}
-
-                        {/* Comentario de Insight simulado por IA después de votar */}
-                        <AnimatePresence>
-                            {(result || momentum) && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    className="max-w-2xl mx-auto mt-6 px-6 py-4 bg-gradient-to-br from-primary-50 to-emerald-50 border border-primary-100 rounded-2xl shadow-sm flex items-start gap-4"
-                                >
-                                    <div className="p-2 bg-white rounded-full shadow-sm">
-                                        <span className="material-symbols-outlined text-primary-500 text-xl">psychology</span>
-                                    </div>
-                                    <div className="text-left text-sm text-slate-700 leading-relaxed font-medium">
-                                        <span className="font-bold text-primary-700 mr-2">Insight de la comunidad:</span>
-                                        El {momentum ? Math.max(...momentum.options.map(o => o.percentage)) : 0}% de los encuestados han elegido la opción ganadora. Esta tendencia refleja una fuerte preferencia en este segmento.
-                                    </div>
-                                </motion.div>
                             )}
-                        </AnimatePresence>
+                            {props.isSubmitting && (
+                                <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-[2px] bg-white/10 rounded-[3rem]">
+                                    <motion.div
+                                        animate={{ rotate: 360 }}
+                                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                        className="w-12 h-12 border-4 border-t-transparent rounded-full"
+                                        style={{ borderColor: props.theme?.primary || '#10b981', borderTopColor: 'transparent' }}
+                                    />
+                                </div>
+                            )}
 
-                        <AnimatePresence>
-                            {clickPosition && (
-                                <motion.div
-                                    initial={{
-                                        opacity: 1,
-                                        top: clickPosition.y - 40,
-                                        left: clickPosition.x - 40,
-                                        scale: 0.5
-                                    }}
-                                    animate={{
-                                        opacity: [1, 1, 0],
-                                        top: clickPosition.y - 120,
-                                        scale: [1, 1.2, 1]
-                                    }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 1.2, ease: "easeOut" }}
-                                    className="fixed z-[999] pointer-events-none drop-shadow-2xl"
-                                >
-                                    <div
-                                        className="text-white font-black text-3xl px-4 py-2 rounded-full border-4 border-white shadow-xl transform -rotate-6 whitespace-nowrap overflow-hidden"
-                                        style={{ backgroundColor: props.theme?.primary || '#10b981' }}
+                            {/* Error handling interior si no hay opciones */}
+                            {(!a && !b) ? (
+                                <div className="p-8 text-center text-slate-500 bg-slate-50 rounded-3xl mx-4 mb-4 border border-slate-100">
+                                    Hay un problema de datos con esta señal. No hay opciones configuradas.
+                                </div>
+                            ) : (
+                                <div className={`relative mt-6 w-full mx-auto transition-opacity duration-300 ${props.isSubmitting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
+                                    {/* VS badge central MASIVO - Out of the box */}
+                                    {effectiveBattle.layout === 'versus' && a && b && (
+                                        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
+                                            <div className="h-20 w-20 md:h-28 md:w-28 rounded-full bg-slate-900/95 backdrop-blur-xl border-[6px] md:border-8 border-white shadow-[0_30px_80px_rgba(15,23,42,0.5)] flex items-center justify-center transform transition-transform duration-700 hover:scale-110">
+                                                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600/30 to-emerald-500/30 blur-md" />
+                                                <span className="relative text-2xl md:text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-emerald-300 italic">VS</span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 relative z-20">
+                                        {a && (
+                                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: "easeOut" }} className="w-full flex">
+                                                <OptionCard
+                                                    option={a}
+                                                    onClick={(e) => handleVote(a.id, e)}
+                                                    disabled={locked || lockedByLimit || !!props.isSubmitting}
+                                                    isSelected={selected === a.id || !!result}
+                                                    showResult={!!result || !!momentum}
+                                                    showPercentage={true}
+                                                    percent={null}
+                                                    momentum={momentum?.options.find(o => o.id === a.id)}
+                                                    layout={effectiveBattle.layout}
+                                                    theme={props.theme}
+                                                />
+                                            </motion.div>
+                                        )}
+
+                                        {b && (
+                                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: "easeOut", delay: 0.05 }} className="w-full flex">
+                                                <OptionCard
+                                                    option={b}
+                                                    onClick={(e) => handleVote(b.id, e)}
+                                                    disabled={locked || lockedByLimit || !!props.isSubmitting}
+                                                    isSelected={selected === b.id || !!result}
+                                                    showResult={!!result || !!momentum}
+                                                    showPercentage={true}
+                                                    percent={null}
+                                                    momentum={momentum?.options.find(o => o.id === b.id)}
+                                                    layout={effectiveBattle.layout}
+                                                    theme={props.theme}
+                                                />
+                                            </motion.div>
+                                        )}
+                                    </div>
+
+                                    {/* CTA post-selección a Profundidad */}
+                                    {selectedOption && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="mt-6 max-w-3xl mx-auto rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_14px_50px_rgba(15,23,42,0.06)] relative z-20"
+                                        >
+                                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                                <div>
+                                                    <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Siguiente paso</div>
+                                                    <div className="mt-1 text-sm md:text-base font-bold text-ink">
+                                                        ¿Por qué {selectedOption.label}? (10 preguntas rápidas)
+                                                    </div>
+                                                    <div className="mt-1 text-sm font-medium text-slate-500">
+                                                        Esto mejora la calidad del dato y tus resultados.
+                                                    </div>
+                                                </div>
+
+                                                <button
+                                                    onClick={() => navigate(`/depth/run/${effectiveBattle.slug || effectiveBattle.id}/${selectedOption.id}`)}
+                                                    className="h-12 px-6 rounded-2xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white font-black text-sm shadow-[0_12px_28px_rgba(16,185,129,0.18)] hover:opacity-95 transition-all active:scale-95 whitespace-nowrap"
+                                                >
+                                                    Aportar contexto
+                                                </button>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Comentario de Insight simulado por IA después de votar */}
+                            <AnimatePresence>
+                                {(result || momentum) && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        className="max-w-2xl mx-auto mt-6 px-6 py-4 bg-gradient-to-br from-primary-50 to-emerald-50 border border-primary-100 rounded-2xl shadow-sm flex items-start gap-4"
                                     >
-                                        Registrada
-                                    </div>
-                                    <div className="absolute inset-0 bg-white opacity-20 blur-md rounded-full animate-pulse" />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                                        <div className="p-2 bg-white rounded-full shadow-sm">
+                                            <span className="material-symbols-outlined text-primary-500 text-xl">psychology</span>
+                                        </div>
+                                        <div className="text-left text-sm text-slate-700 leading-relaxed font-medium">
+                                            <span className="font-bold text-primary-700 mr-2">Insight de la comunidad:</span>
+                                            El {momentum ? Math.max(...momentum.options.map(o => o.percentage)) : 0}% de los encuestados han elegido la opción ganadora. Esta tendencia refleja una fuerte preferencia en este segmento.
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
-                        <div className="text-center mt-4 opacity-40">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
-                                <span className="material-symbols-outlined text-[14px]">query_stats</span>
-                                Tu voto se cruza con tu perfil (Edad, Zona) para detectar patrones
-                            </p>
-                        </div>
-                    </motion.div>
-                </AnimatePresence >
-            )
+                            <AnimatePresence>
+                                {clickPosition && (
+                                    <motion.div
+                                        initial={{
+                                            opacity: 1,
+                                            top: clickPosition.y - 40,
+                                            left: clickPosition.x - 40,
+                                            scale: 0.5
+                                        }}
+                                        animate={{
+                                            opacity: [1, 1, 0],
+                                            top: clickPosition.y - 120,
+                                            scale: [1, 1.2, 1]
+                                        }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 1.2, ease: "easeOut" }}
+                                        className="fixed z-[999] pointer-events-none drop-shadow-2xl"
+                                    >
+                                        <div
+                                            className="text-white font-black text-3xl px-4 py-2 rounded-full border-4 border-white shadow-xl transform -rotate-6 whitespace-nowrap overflow-hidden"
+                                            style={{ backgroundColor: props.theme?.primary || '#10b981' }}
+                                        >
+                                            Registrada
+                                        </div>
+                                        <div className="absolute inset-0 bg-white opacity-20 blur-md rounded-full animate-pulse" />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* Tooltip profile hints incorporated directly into progress bar top UI */}
+                        </motion.div>
+                    </AnimatePresence >
+                )
             }
 
             <AnimatePresence>

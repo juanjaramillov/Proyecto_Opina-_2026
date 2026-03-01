@@ -83,6 +83,34 @@
   }
 }
 
+@keyframes opinaFloat {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes opinaDrift {
+  0% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
+}
+
 @layer utilities {
   .animate-blob {
     animation: blob 14s infinite ease-in-out;
@@ -110,6 +138,14 @@
 
   .grad-text {
     @apply text-primary;
+  }
+
+  .orb-icon {
+    animation: opinaFloat 4.8s ease-in-out infinite;
+  }
+
+  .opina-pattern {
+    animation: opinaDrift 14s ease-in-out infinite;
   }
 
   /* ✅ BRAND COLOR: Unified Open+ Logo and CTAs */
@@ -262,7 +298,37 @@
   /* Clases propias */
   .animate-blob,
   .fade-up,
-  .pulse-soft {
+  .pulse-soft,
+  .opina-drawline,
+  .opina-bar {
     animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ====== Animations Hub / WOW ====== */
+/* Dibujo de línea */
+@keyframes opinaDraw {
+  from {
+    stroke-dashoffset: 220;
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Aparición de barras */
+@keyframes opinaBarIn {
+  from {
+    transform: scaleY(0.2);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleY(1);
+    opacity: 1;
   }
 }
