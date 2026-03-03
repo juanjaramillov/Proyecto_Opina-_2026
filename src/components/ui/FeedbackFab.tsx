@@ -6,6 +6,7 @@ export default function FeedbackFab() {
     const enabled = import.meta.env.VITE_FEEDBACK_WHATSAPP_ENABLED !== "false";
 
     // Número desde env (PROD). En DEV/preview usamos fallback para que lo veas.
+    // Sync trigger: forced redeploy logic
     const waFromEnv = (import.meta.env.VITE_FEEDBACK_WHATSAPP_NUMBER as string | undefined) || "";
     const waFallback = import.meta.env.DEV ? "56991284219" : "";
     const waNumber = waFromEnv || waFallback;
