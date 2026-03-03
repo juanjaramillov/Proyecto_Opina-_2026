@@ -31,10 +31,16 @@ export default function TrendingInsightsCarousel({ data, filters }: TrendingInsi
 
     if (data.length === 0) {
         return (
-            <div className="w-full aspect-[21/9] max-w-5xl mx-auto rounded-3xl border border-slate-100 bg-white/50 flex flex-col items-center justify-center p-8 text-center shadow-sm">
-                <span className="material-symbols-outlined text-4xl text-slate-300 mb-4 animate-pulse">radar</span>
-                <h3 className="text-xl font-black text-slate-800 mb-2">Buscando señales...</h3>
-                <p className="text-slate-500 font-medium">No hay suficientes datos para este cruce de filtros exacto.</p>
+            <div className="w-full relative overflow-hidden aspect-[4/3] md:aspect-[21/9] max-w-6xl mx-auto rounded-[2.5rem] border border-slate-200/60 bg-gradient-to-br from-white to-slate-50 flex flex-col items-center justify-center p-8 text-center shadow-lg shadow-blue-500/5">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMzcsIDk5LCAyMzUsIDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
+                <div className="relative z-10 flex flex-col items-center">
+                    <div className="relative flex items-center justify-center w-20 h-20 mb-6">
+                        <div className="absolute inset-0 border-[3px] border-dashed border-slate-300 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                        <span className="material-symbols-outlined text-4xl text-primary-400 animate-pulse">radar</span>
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-800 mb-2 tracking-tight">Buscando señales...</h3>
+                    <p className="text-slate-500 font-medium">No hay suficientes datos procesados para este cruce exacto.</p>
+                </div>
             </div>
         );
     }

@@ -53,10 +53,10 @@ export default function Home() {
 
   // CTA logic
   const isAuthenticated = profile && profile.tier !== 'guest';
-  const mainCtaText = isAuthenticated ? "Participar y descubrir →" : "Unirte y empezar →";
+  const mainCtaText = isAuthenticated ? "Señalar y ver tendencia →" : "Unirte y empezar →";
   const mainCtaPath = isAuthenticated ? "/experience" : "/register";
 
-  const SELECT_CLS = "w-full sm:w-auto px-4 py-3 bg-white border-2 border-slate-100 rounded-xl outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all font-bold text-slate-700 text-sm appearance-none shadow-sm cursor-pointer hover:border-slate-200";
+  const SELECT_CLS = "w-full sm:w-auto px-4 py-3 bg-white border-2 border-slate-100 rounded-xl outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all duration-200 font-bold text-slate-700 text-sm appearance-none shadow-sm cursor-pointer hover:border-slate-200 hover:shadow-md";
 
   return (
     <div className="space-y-16 md:space-y-24 relative overflow-hidden pb-12 w-full bg-white">
@@ -65,41 +65,37 @@ export default function Home() {
       <section className="relative w-full min-h-[85vh] flex items-center justify-center bg-white px-6 py-32 overflow-hidden">
         {/* Fondo sutil tipo señal (muy leve, no llamativo) */}
         <div className="absolute inset-0 pointer-events-none opacity-5">
-          <div className="w-full h-full bg-[radial-gradient(circle_at_center,_rgba(79,70,229,0.15)_0%,_transparent_60%)]"></div>
+          <div className="w-full h-full bg-[radial-gradient(circle_at_center,_rgba(37,99,235,0.15)_0%,_transparent_60%)]"></div>
         </div>
 
         <div className="relative max-w-4xl mx-auto text-center">
 
           {/* Micro badge */}
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-50 text-xs font-black tracking-widest uppercase text-emerald-600 mb-8 border border-emerald-100 shadow-sm relative overflow-hidden group">
-            <div className="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-colors"></div>
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-emerald-50/50 backdrop-blur-md text-xs font-black tracking-widest uppercase text-emerald-700 mb-8 border border-emerald-500/10 shadow-sm shadow-emerald-500/5 relative overflow-hidden transition-all hover:bg-emerald-500/10">
             <span className="relative flex flex-col items-center gap-0.5">
               <span className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Actualizado cada 3 horas
+                Actualización Continua
               </span>
-
-              <span className="text-[10px] font-bold tracking-normal text-emerald-700/70">
-                Últ. snapshot: {lastSnapshotLabel}
-              </span>
+              {lastSnapshotLabel !== "—" && (
+                <span className="text-[10px] font-bold tracking-normal text-emerald-700/70">
+                  Último snapshot: {lastSnapshotLabel}
+                </span>
+              )}
             </span>
           </div>
 
           {/* Título principal */}
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[1.1] mb-6">
-            Descubre cómo piensa tu{" "}
-            <span className="bg-gradient-to-br from-primary-600 via-primary-500 to-emerald-400 bg-clip-text text-transparent relative">
-              generación
+            Tendencias reales. <span className="bg-gradient-to-br from-primary-600 via-primary-500 to-emerald-400 bg-clip-text text-transparent relative">
+              Opiniones…
               <div className="absolute -bottom-2 left-0 right-0 h-3 bg-primary-500/20 blur-md rounded-full"></div>
-            </span>.
+            </span> ordenadas.
           </h1>
 
           {/* Segunda línea */}
           <h2 className="text-2xl md:text-4xl font-extrabold text-slate-600 mb-8 tracking-tight max-w-3xl mx-auto leading-relaxed">
-            Sube de nivel, compara tus ideas con miles de personas y haz que tu voz defina las{" "}
-            <span className="bg-gradient-to-br from-primary-500 to-emerald-400 bg-clip-text text-transparent border-b-4 border-emerald-200">
-              tendencias del futuro
-            </span>.
+            Señales agregadas que forman tendencias. Filtra por segmento y compara sin inventar.
           </h2>
 
           {/* Estadísticas de la Comunidad B2C */}
@@ -107,23 +103,23 @@ export default function Home() {
 
             {recentActivity ? (
               <>
-                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-primary-100 shadow-lg w-full md:w-auto">
+                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-primary-100 shadow-lg shadow-primary-500/10 w-full md:w-auto transition-transform hover:-translate-y-1 duration-200">
                   <span className="text-4xl font-black bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
                     {recentActivity.active_users_24h?.toLocaleString() || '15,000+'}
                   </span>
                   <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Usuarios Activos</span>
                 </div>
 
-                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-emerald-100 shadow-lg w-full md:w-auto">
+                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-emerald-100 shadow-lg shadow-emerald-500/10 w-full md:w-auto transition-transform hover:-translate-y-1 duration-200">
                   <span className="text-4xl font-black bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
                     {recentActivity.total_signals?.toLocaleString() || '2.5M+'}
                   </span>
                   <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Señales Procesadas</span>
                 </div>
 
-                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-amber-100 shadow-lg w-full md:w-auto">
-                  <span className="text-4xl font-black bg-gradient-to-r from-amber-500 to-amber-400 bg-clip-text text-transparent">
-                    +{recentActivity.signals_last_3h?.toLocaleString() || '1,200'}
+                <div className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-2xl border border-blue-100 shadow-lg shadow-blue-500/10 w-full md:w-auto transition-transform hover:-translate-y-1 duration-200">
+                  <span className="text-4xl font-black bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+                    {recentActivity.signals_last_3h === 0 ? "—" : `+${recentActivity.signals_last_3h?.toLocaleString() || '1,200'}`}
                   </span>
                   <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">Últimas 3h</span>
                 </div>
@@ -147,13 +143,14 @@ export default function Home() {
           </div>
           {!isAuthenticated && (
             <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
-              ¿Ya tienes cuenta? <Link to="/login" className="text-primary-600 hover:text-primary-800 underline decoration-primary-300 hover:decoration-primary-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50 rounded-sm">Inicia sesión aquí</Link>
+              ¿Ya tienes cuenta? <Link to="/login" className="text-primary-600 hover:text-primary-800 underline decoration-primary-300 hover:decoration-primary-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50 rounded-sm">Entra por acá</Link>
             </p>
           )}
 
           {/* Social proof / Mini Charts */}
           <div className="mt-24 max-w-4xl mx-auto">
-            <p className="text-[10px] text-slate-400 mb-8 font-black uppercase tracking-[0.3em]">Top Tendencias Actuales</p>
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Tendencias ahora</h2>
+            <p className="text-sm font-medium text-slate-500 mt-1 mb-8">Cambia con cada señal (y con cada snapshot).</p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {trendingFeed.slice(0, 3).map((item, idx) => (
@@ -188,7 +185,7 @@ export default function Home() {
           <div className="mb-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h2 className="text-3xl font-black text-slate-900 tracking-tight">Tendencias por Segmento</h2>
-              <p className="text-sm font-medium text-slate-500 mt-1">Filtra la inteligencia colectiva en tiempo real.</p>
+              <p className="text-sm font-medium text-slate-500 mt-1">Filtra la tendencia agregada en tiempo real.</p>
             </div>
 
             {/* Segment Filters (Premiumized) */}
@@ -199,7 +196,7 @@ export default function Home() {
                   onChange={(e) => setGender(e.target.value)}
                   className={SELECT_CLS}
                 >
-                  <option value="all">Todo género</option>
+                  <option value="all">Todos</option>
                   <option value="male">Hombres</option>
                   <option value="female">Mujeres</option>
                   <option value="other">Otro</option>
@@ -213,7 +210,7 @@ export default function Home() {
                   onChange={(e) => setAgeRange(e.target.value)}
                   className={SELECT_CLS}
                 >
-                  <option value="all">Toda edad</option>
+                  <option value="all">Todas las edades</option>
                   <option value="under_18">-18 años</option>
                   <option value="18-24">18-24 años</option>
                   <option value="25-34">25-34 años</option>
@@ -231,7 +228,7 @@ export default function Home() {
                   onChange={(e) => setCommune(e.target.value)}
                   className={SELECT_CLS}
                 >
-                  <option value="all">Todo RM</option>
+                  <option value="all">Toda la RM</option>
                   <option value="Las Condes">Las Condes</option>
                   <option value="Providencia">Providencia</option>
                   <option value="Santiago">Stgo Centro</option>
@@ -255,13 +252,13 @@ export default function Home() {
       <section className="relative z-10 max-w-2xl mx-auto px-6 text-center pb-12">
         <div className="w-12 h-0.5 bg-slate-100 mx-auto mb-8"></div>
         <p className="text-lg text-slate-500 font-medium italic">
-          "Cada opinión suma. No hay respuestas correctas, solo nuevas formas de ver el mundo."
+          "{`Cada señal suma. No hay verdad absoluta: hay tendencias.`}"
         </p>
       </section>
 
       {/* FOOTER TEASER - Minimal */}
       <section className="relative z-10 max-w-7xl mx-auto px-4 text-center pb-8 opacity-30">
-        <p className="text-[10px] text-text-muted font-bold uppercase tracking-[0.2em]">Opina+ Beta</p>
+        <p className="text-[10px] text-text-muted font-bold uppercase tracking-[0.2em]">Opina+ (beta)</p>
       </section>
     </div>
   );

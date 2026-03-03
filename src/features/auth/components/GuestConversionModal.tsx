@@ -58,7 +58,7 @@ export function GuestConversionModal({ onClose, onRegister, isOpen }: GuestConve
                             </li>
 
                             <li className="flex items-start gap-4">
-                                <div className="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+                                <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
                                     <span className="material-symbols-rounded text-sm font-bold">trending_up</span>
                                 </div>
                                 <div>

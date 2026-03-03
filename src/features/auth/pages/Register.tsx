@@ -60,7 +60,7 @@ export default function RegisterPage() {
             nav("/complete-profile", { replace: true });
         } catch (e: any) {
             logger.error(e);
-            setErr(e?.message ?? "No se pudo crear la cuenta.");
+            setErr(e?.message ?? "Algo falló. Intenta de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -69,7 +69,7 @@ export default function RegisterPage() {
     return (
         <AuthLayout
             title="Crear cuenta"
-            subtitle="Crea tu cuenta para participar y acceder a tus resultados."
+            subtitle="En 30 segundos. Sin formulario infinito."
         >
             <form onSubmit={submit} className="space-y-4">
                 <div>
@@ -80,7 +80,7 @@ export default function RegisterPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
-                        placeholder="tu@email.com"
+                        placeholder="tu@correo.com"
                         type="email"
                         required
                     />
@@ -94,7 +94,7 @@ export default function RegisterPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
-                        placeholder="Mínimo 8 caracteres"
+                        placeholder="••••••••"
                         type="password"
                         required
                     />
@@ -102,13 +102,13 @@ export default function RegisterPage() {
 
                 <div>
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
-                        Confirmar contraseña
+                        Repite tu contraseña
                     </label>
                     <input
                         value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
                         className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
-                        placeholder="Repite tu contraseña"
+                        placeholder="••••••••"
                         type="password"
                         required
                     />
@@ -119,16 +119,16 @@ export default function RegisterPage() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all disabled:opacity-50 shadow-sm"
+                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all hover:shadow-lg hover:shadow-primary-500/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 shadow-sm"
                 >
-                    {loading ? "Creando..." : "Crear cuenta"}
+                    {loading ? "Un segundo…" : "Crear cuenta"}
                 </button>
 
                 <div className="text-center pt-2">
                     <p className="text-sm text-slate-500 font-medium">
                         ¿Ya tienes cuenta?{" "}
                         <Link to={`/login?next=${encodeURIComponent(nextPath)}`} className="font-black text-primary-700 hover:text-primary-800">
-                            Iniciar sesión
+                            Entrar
                         </Link>
                     </p>
                 </div>

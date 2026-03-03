@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { BrandLogo } from '../../../components/ui/BrandLogo';
 
 export interface DepthOption {
     id: string;
@@ -16,7 +16,6 @@ interface DepthSelectorProps {
 
 export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect }) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
     // Format known category slugs to human-readable text
@@ -30,35 +29,16 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
         return cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     };
 
-    // Group options by their category, defaulting to "General" if not provided
-    // Also filter based on search query
-    const groupedOptions = useMemo(() => {
+    // Filter based on search query
+    const filteredOptions = useMemo(() => {
         const query = searchQuery.toLowerCase().trim();
-        const groups: Record<string, DepthOption[]> = {};
+        if (!query) return options;
 
-        options.forEach(opt => {
+        return options.filter(opt => {
             const displayCategory = formatCategory(opt.category || '');
-
-            if (query && !opt.label.toLowerCase().includes(query) && !displayCategory.toLowerCase().includes(query)) {
-                return;
-            }
-
-            if (!groups[displayCategory]) {
-                groups[displayCategory] = [];
-            }
-            groups[displayCategory].push(opt);
+            return opt.label.toLowerCase().includes(query) || displayCategory.toLowerCase().includes(query);
         });
-
-        // Sort categories alphabetically
-        return Object.keys(groups).sort((a, b) => a.localeCompare(b)).reduce((acc, key) => {
-            acc[key] = groups[key];
-            return acc;
-        }, {} as Record<string, DepthOption[]>);
     }, [options, searchQuery]);
-
-    const handleToggleCategory = (category: string) => {
-        setExpandedCategory(prev => prev === category ? null : category);
-    };
 
     const handleSelectOption = (opt: DepthOption) => {
         setSelectedOptionId(opt.id);
@@ -69,7 +49,7 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
         }, 150);
     };
 
-    const totalResults = Object.values(groupedOptions).reduce((acc, group) => acc + group.length, 0);
+    const totalResults = filteredOptions.length;
     const selectedOption = options.find(o => o.id === selectedOptionId);
 
     return (
@@ -124,80 +104,47 @@ export const DepthSelector: React.FC<DepthSelectorProps> = ({ options, onSelect 
                 </div>
             )}
 
-            {/* Accordion List */}
-            <div className="space-y-3 pb-8">
-                {Object.entries(groupedOptions).map(([category, opts]) => {
-                    const isExpanded = expandedCategory === category || (searchQuery.length > 0 && opts.length > 0);
-
-                    return (
-                        <div key={category} className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-sm transition-all">
-                            {/* Accordion Header */}
+            {/* Grid of Results */}
+            {totalResults > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 pb-8">
+                    {filteredOptions.map(opt => {
+                        const isSelected = selectedOptionId === opt.id;
+                        return (
                             <button
-                                onClick={() => handleToggleCategory(category)}
-                                className={`w-full flex items-center justify-between p-4 transition-colors ${isExpanded ? 'bg-slate-50/50 border-b border-slate-100' : 'hover:bg-slate-50'}`}
+                                key={opt.id}
+                                onClick={() => handleSelectOption(opt)}
+                                className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all text-center
+                                    ${isSelected
+                                        ? 'bg-primary-50 border-primary-500 shadow-md ring-2 ring-primary-500/20'
+                                        : 'bg-white border-slate-100 hover:border-slate-300 hover:shadow-lg hover:-translate-y-1'
+                                    }`}
                             >
-                                <div className="flex items-center gap-3">
-                                    <h3 className="font-black text-slate-800 capitalize tracking-tight">{category}</h3>
-                                    <span className="px-2 py-0.5 bg-slate-100 text-slate-500 rounded-md text-[10px] font-bold">
-                                        {opts.length}
-                                    </span>
+                                {/* Thumbnail */}
+                                <div className={`w-16 h-16 rounded-xl flex-shrink-0 overflow-hidden flex items-center justify-center transition-transform ${isSelected ? 'scale-110 shadow-sm bg-white' : 'bg-slate-50 group-hover:scale-105'}`}>
+                                    <BrandLogo
+                                        name={opt.label}
+                                        imageUrl={opt.image_url || (opt as any).imageUrl}
+                                        brandDomain={(opt as any).brand_domain}
+                                        className="w-full h-full object-contain p-2 mix-blend-multiply"
+                                    />
                                 </div>
-                                <span className={`material-symbols-outlined text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
-                                    expand_more
-                                </span>
+
+                                {/* Details */}
+                                <div className="w-full">
+                                    <h4 className={`font-black text-sm line-clamp-2 leading-tight ${isSelected ? 'text-primary-900' : 'text-slate-800'}`}>
+                                        {opt.label}
+                                    </h4>
+                                </div>
+
+                                {/* Action indicator */}
+                                <div className={`mt-2 w-full py-1.5 rounded-lg text-[10px] font-black tracking-widest uppercase transition-colors ${isSelected ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                    {isSelected ? 'Seleccionado' : 'Profundizar'}
+                                </div>
                             </button>
-
-                            {/* Accordion Content */}
-                            <AnimatePresence initial={false}>
-                                {isExpanded && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                                    >
-                                        <div className="p-2 flex flex-col gap-1">
-                                            {opts.map(opt => {
-                                                const isSelected = selectedOptionId === opt.id;
-                                                return (
-                                                    <button
-                                                        key={opt.id}
-                                                        onClick={() => handleSelectOption(opt)}
-                                                        className={`w-full flex items-center gap-4 p-3 rounded-lg border text-left transition-all ${isSelected
-                                                            ? 'bg-primary-50 border-primary-200 shadow-inner'
-                                                            : 'border-transparent hover:bg-slate-50 hover:border-slate-200'
-                                                            }`}
-                                                    >
-                                                        {/* Radio Indicator */}
-                                                        <div className={`w-4 h-4 rounded-full border flex flex-shrink-0 items-center justify-center transition-colors ${isSelected ? 'border-primary-500 bg-primary-500' : 'border-slate-300'}`}>
-                                                            {isSelected && <div className="w-1.5 h-1.5 bg-white rounded-full scale-100 animate-in zoom-in" />}
-                                                        </div>
-
-                                                        {/* Thumbnail */}
-                                                        <div className={`w-10 h-10 rounded-lg flex-shrink-0 overflow-hidden flex items-center justify-center ${isSelected ? 'bg-white' : 'bg-slate-100'}`}>
-                                                            {opt.image_url ? (
-                                                                <img src={opt.image_url} alt={opt.label} className="w-full h-full object-contain p-1.5" />
-                                                            ) : (
-                                                                <span className="material-symbols-outlined text-[18px] text-slate-400">image</span>
-                                                            )}
-                                                        </div>
-
-                                                        {/* Details */}
-                                                        <div className="flex-1 min-w-0">
-                                                            <h4 className={`font-bold truncate ${isSelected ? 'text-primary-900' : 'text-slate-700'}`}>{opt.label}</h4>
-                                                            <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mt-0.5">Profundizar</p>
-                                                        </div>
-                                                    </button>
-                                                )
-                                            })}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    );
-                })}
-            </div>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 };

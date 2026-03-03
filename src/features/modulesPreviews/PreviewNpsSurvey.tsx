@@ -19,7 +19,7 @@ const PreviewNpsSurvey: React.FC<PreviewNpsSurveyProps> = ({ question, followUps
                             disabled
                             className={`flex-1 h-12 md:h-16 rounded-xl md:rounded-2xl border font-black text-xs md:text-lg transition-all opacity-40 cursor-not-allowed
                                 ${n <= 6 ? 'bg-rose-50 border-rose-100 text-rose-500' :
-                                    n <= 8 ? 'bg-amber-50 border-amber-100 text-amber-500' :
+                                    n <= 8 ? 'bg-blue-50 border-blue-100 text-blue-600' :
                                         'bg-emerald-50 border-emerald-100 text-emerald-500'}`}
                         >
                             {n}

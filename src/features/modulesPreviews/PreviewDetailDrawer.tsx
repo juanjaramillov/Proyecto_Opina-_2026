@@ -35,7 +35,7 @@ const PreviewDetailDrawer: React.FC<PreviewDetailDrawerProps> = ({
             <h3 className="text-xl font-black text-slate-900 mb-1">{title}</h3>
             <div className="flex items-center gap-2 mb-4">
                 <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-md text-[9px] font-black uppercase tracking-widest">{category}</span>
-                <span className="flex items-center gap-1 text-[10px] font-black text-amber-500">
+                <span className="flex items-center gap-1 text-[10px] font-black text-blue-600">
                     <span className="material-symbols-outlined text-[14px] fill-current">star</span>
                     {rating}
                 </span>

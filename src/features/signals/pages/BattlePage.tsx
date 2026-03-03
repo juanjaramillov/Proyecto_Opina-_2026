@@ -81,7 +81,7 @@ export default function BattlePage() {
             .saveSignalEvent({ battle_id: battleId, option_id: optionId })
             .catch((err) => {
                 logger.error("Failed to save signal:", err);
-                showToast("No se pudo registrar la señal. (Sí, lo sé…)", "error");
+                showToast("No se pudo registrar tu señal. Intenta de nuevo.", "error");
             });
 
         return {};
@@ -90,7 +90,7 @@ export default function BattlePage() {
     if (loading) {
         return (
             <div className="container-ws section-y">
-                <PageState type="loading" loadingLabel="Cargando batalla..." />
+                <PageState type="loading" loadingLabel="Cargando batalla…" />
             </div>
         );
     }
@@ -100,11 +100,11 @@ export default function BattlePage() {
             <div className="container-ws section-y">
                 <PageState
                     type="error"
-                    title="No se pudo cargar la batalla"
-                    description={error || "Error desconocido."}
+                    title="Algo se cayó"
+                    description={error || "No pudimos cargar esta batalla. Refresca o vuelve más tarde."}
                     icon="cloud_off"
-                    primaryAction={{ label: "Volver al Hub", onClick: () => navigate("/experience") }}
-                    secondaryAction={{ label: "Ir al Home", onClick: () => navigate("/") }}
+                    primaryAction={{ label: "Reintentar", onClick: () => window.location.reload() }}
+                    secondaryAction={{ label: "Volver a Participa", onClick: () => navigate("/experience") }}
                 />
             </div>
         );
@@ -123,7 +123,7 @@ export default function BattlePage() {
                 }
                 subtitle={
                     <p className="text-sm text-muted font-medium">
-                        Elige una opción. Rápido. Sin tesis. (Para eso está el doctorado.)
+                        Dos opciones. Una señal.
                     </p>
                 }
                 actions={
@@ -136,7 +136,7 @@ export default function BattlePage() {
                 }
             />
 
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-6">
+            <div className="bg-white rounded-3xl border border-slate-100 shadow-lg shadow-primary-500/10 p-4 md:p-6 transition-shadow hover:shadow-xl hover:shadow-primary-500/15">
                 <VersusGame
                     battles={battles}
                     onVote={handleVote}

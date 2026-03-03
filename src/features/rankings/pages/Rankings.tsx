@@ -10,6 +10,7 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { logger } from '../../../lib/logger';
 import PageHeader from "../../../components/ui/PageHeader";
 import { useToast } from "../../../components/ui/useToast";
+import { BrandLogo } from '../../../components/ui/BrandLogo';
 
 interface Category {
     id: string;
@@ -42,10 +43,10 @@ const Rankings: React.FC = () => {
     const { showToast } = useToast();
 
     const SEGMENTS = [
-        { id: "global", label: "Global" },
+        { id: "global", label: "Todos" },
         { id: "gender:female", label: "Mujeres" },
         { id: "gender:male", label: "Hombres" },
-        { id: "region:Metropolitana", label: "RM" },
+        { id: "region:Metropolitana", label: "Toda la RM" },
         { id: "gender:male|region:Metropolitana", label: "Hombres RM" }
     ];
     const segmentLabel = SEGMENTS.find(s => s.id === segmentId)?.label || segmentId;
@@ -162,20 +163,21 @@ const Rankings: React.FC = () => {
                 subtitle={
                     <div>
                         <p className="text-muted font-medium mt-1 max-w-xl">
-                            Análisis dinámico basado en señales de calidad, preferencia y volumen.
+                            Lo que va ganando, por segmento. Cambia con cada señal.
                         </p>
                         <div className="mt-2 text-[11px] font-bold text-muted flex items-center gap-2">
                             <span className="material-symbols-outlined text-[16px]">schedule</span>
-                            Actualizado cada 3 horas
+                            Se actualiza cada 3 horas.
                             <span className="opacity-60">·</span>
-                            Últ. snapshot: {lastSnapshotLabel}
+                            Último snapshot: {lastSnapshotLabel}
+                        </div>
+                        <div className="mt-1 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                            Estás viendo data agregada (no opiniones individuales).
                         </div>
                     </div>
                 }
                 meta={
                     <div className="flex flex-col gap-2">
-
-
                         {isAdmin && analyticsMode && (
                             <div className={`flex items-center justify-center gap-1.5 px-3 py-1 rounded border text-[10px] font-black uppercase tracking-wider ${analyticsMode === "clean" ? "bg-primary-50 border-primary-200 text-primary-700" : "bg-slate-50 border-slate-200 text-slate-500"}`}>
                                 <span className="material-symbols-outlined text-[14px]">
@@ -255,7 +257,7 @@ const Rankings: React.FC = () => {
                 >
                     <div className="flex items-center gap-3">
                         <span className="material-symbols-outlined text-slate-400">tune</span>
-                        <span className="text-sm font-bold text-ink">Filtrar por Segmento</span>
+                        <span className="text-sm font-bold text-ink">Filtros</span>
                         <span className="bg-primary-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
                             {segmentLabel}
                         </span>
@@ -314,9 +316,11 @@ const Rankings: React.FC = () => {
                     </div>
                 ) : ranking.length === 0 ? (
                     <EmptyState
-                        title="Aún no hay rankings"
-                        description="Cuando existan más señales, aparecerán aquí."
+                        title="No hay resultados con estos filtros"
+                        description="Prueba ampliar el segmento. A veces la data no alcanza."
                         icon="query_stats"
+                        onAction={() => setSegmentId("global")}
+                        actionLabel="Resetear filtros"
                     />
                 ) : (
                     <div className="space-y-4">
@@ -339,10 +343,9 @@ const Rankings: React.FC = () => {
 
                                     <div className="flex flex-col items-center text-center gap-4">
                                         <div className={`w-20 h-20 rounded-2xl p-4 flex items-center justify-center bg-white ${idx !== 0 ? 'shadow-sm border border-slate-50' : ''}`}>
-                                            <img
-                                                src={item.entity?.image_url || '/images/defaults/entity.png'}
-                                                alt={item.entity?.name}
-                                                className="w-full h-full object-contain"
+                                            <BrandLogo
+                                                name={item.entity?.name || 'Entidad'}
+                                                imageUrl={item.entity?.image_url}
                                             />
                                         </div>
                                         <div className="space-y-1">
@@ -371,7 +374,7 @@ const Rankings: React.FC = () => {
                                             {idx + 4}
                                         </span>
                                         <div className="w-10 h-10 rounded-lg bg-slate-50 p-2 border border-slate-100 overflow-hidden">
-                                            <img src={item.entity?.image_url || '/images/defaults/entity.png'} alt={item.entity?.name} className="w-full h-full object-contain" />
+                                            <BrandLogo name={item.entity?.name || 'Entidad'} imageUrl={item.entity?.image_url} fallbackClassName="w-full h-full flex items-center justify-center text-[8px] text-slate-400 font-bold text-center" />
                                         </div>
                                         <span className="font-bold text-slate-700">{item.entity?.name}</span>
                                     </div>

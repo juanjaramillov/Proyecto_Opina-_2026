@@ -85,7 +85,7 @@ const AdminAntifraud: React.FC = () => {
             case 'warn':
                 return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">Warn</span>;
             default:
-                return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">{severity}</span>;
+                return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800">{severity}</span>;
         }
     };
 
@@ -96,7 +96,7 @@ const AdminAntifraud: React.FC = () => {
         if (active) {
             return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Active Warning</span>;
         }
-        return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">Inactive</span>;
+        return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800">Inactive</span>;
     };
 
     return (
@@ -246,7 +246,7 @@ const AdminAntifraud: React.FC = () => {
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1 border-b border-slate-100">
                                                                             <span className="text-slate-500">Usuarios Distintos (24h):</span>
-                                                                            <span className={`font-medium ${summaries[flag.device_hash].distinct_users_24h! > 2 ? 'text-amber-600' : 'text-slate-700'}`}>{summaries[flag.device_hash].distinct_users_24h}</span>
+                                                                            <span className={`font-medium ${summaries[flag.device_hash].distinct_users_24h! > 2 ? 'text-blue-600' : 'text-slate-700'}`}>{summaries[flag.device_hash].distinct_users_24h}</span>
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1">
                                                                             <span className="text-slate-500">Batallas Votadas (24h):</span>

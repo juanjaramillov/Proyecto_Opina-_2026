@@ -17,7 +17,7 @@ const ComparisonRow = ({ label, value, userScore }: { label: string, value: numb
             <span className="text-muted font-medium">{label}</span>
             <div className="flex items-center gap-2">
                 <span className="font-mono font-black text-ink">{value.toFixed(1)}</span>
-                <span className={`flex items-center font-bold px-1 rounded ${isAbove ? 'text-emerald-500' : isBelow ? 'text-amber-500' : 'text-slate-300'
+                <span className={`flex items-center font-bold px-1 rounded ${isAbove ? 'text-emerald-500' : isBelow ? 'text-blue-600' : 'text-slate-300'
                     }`}>
                     {isAbove ? '↑' : isBelow ? '↓' : '='}
                     <span className="ml-0.5">{Math.abs(diff).toFixed(1)}</span>
@@ -38,7 +38,7 @@ const SegmentComparisonCard: React.FC<Props> = ({ data }) => {
             <div className="absolute top-0 right-0 p-4">
                 <div className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border ${data.coherence_level === 'Alta' ? 'bg-primary-50 text-primary-600 border-primary-100' :
                         data.coherence_level === 'Media' ? 'bg-slate-50 text-slate-500 border-slate-100' :
-                            'bg-amber-50 text-amber-600 border-amber-100'
+                            'bg-blue-50 text-blue-600 border-blue-100'
                     }`}>
                     Coherencia {data.coherence_level}
                 </div>

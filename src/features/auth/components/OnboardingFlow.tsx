@@ -197,15 +197,16 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             {mode === 'register' && (
                                 <>
                                     <div>
-                                        <label htmlFor="nickname" className="sr-only">Elige un nickname (no tu nombre real)</label>
+                                        <label htmlFor="nickname" className="sr-only">Nickname</label>
                                         <input
                                             id="nickname"
                                             type="text"
-                                            placeholder="Elige un nickname (no tu nombre real)"
+                                            placeholder="Nickname"
                                             value={nickname}
                                             onChange={(e) => setNickname(e.target.value)}
                                             className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                         />
+                                        <p className="mt-1 ml-2 text-[10px] text-slate-400 font-medium">Tu identidad real se guarda aparte. Aquí manda tu nickname.</p>
                                     </div>
                                     <div>
                                         <label htmlFor="inviteCode" className="sr-only">Código de invitación</label>
@@ -271,7 +272,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                         className="p-8 flex-1 flex flex-col"
                     >
                         <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-amber-600">
+                            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-600">
                                 <span className="material-symbols-rounded text-3xl">diversity_3</span>
                             </div>
                             <h2 id="onboarding-title" className="text-2xl font-black text-slate-900 tracking-tight">Tu Perfil</h2>
@@ -288,7 +289,8 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
 
                         <div className="space-y-5">
                             <div>
-                                <div id="gender-label" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Género</div>
+                                <div id="gender-label" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Género</div>
+                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Opcional. Pero ayuda a leer mejor la data.</p>
                                 <div className="grid grid-cols-3 gap-2">
                                     {['Hombre', 'Mujer', 'Otro'].map(g => (
                                         <button
@@ -305,14 +307,15 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             </div>
 
                             <div>
-                                <label htmlFor="ageRange" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Rango Etario</label>
+                                <label htmlFor="ageRange" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Edad</label>
+                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Para segmentar tendencias. No para juzgarte.</p>
                                 <select
                                     id="ageRange"
                                     value={ageRange}
                                     onChange={(e) => setAgeRange(e.target.value)}
                                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                                 >
-                                    <option value="">Seleccionar...</option>
+                                    <option value="">Selecciona…</option>
                                     <option value="18-24">18 - 24 años</option>
                                     <option value="25-34">25 - 34 años</option>
                                     <option value="35-44">35 - 44 años</option>
@@ -322,14 +325,15 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             </div>
 
                             <div>
-                                <label htmlFor="region" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Región</label>
+                                <label htmlFor="region" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">¿Dónde estás?</label>
+                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Tranquilo: solo usamos esto para segmentar.</p>
                                 <select
                                     id="region"
                                     value={region}
                                     onChange={(e) => setRegion(e.target.value)}
                                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                                 >
-                                    <option value="">Seleccionar...</option>
+                                    <option value="">Selecciona…</option>
                                     <option value="rm">Región Metropolitana</option>
                                     <option value="valpo">Valparaíso</option>
                                     <option value="biobio">Biobío</option>
@@ -342,7 +346,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                 disabled={!gender || !ageRange || !region || loading}
                                 className="w-full bg-slate-900 py-4 rounded-2xl font-black text-white shadow-xl transition-all active:scale-[0.98] disabled:opacity-30 mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                             >
-                                {loading ? 'Guardando...' : 'Completar Verificación'}
+                                {loading ? 'Un segundo…' : 'Listo'}
                             </button>
                         </div>
                     </motion.div>
@@ -368,10 +372,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                 check_circle
                             </motion.span>
                         </div>
-                        <h2 id="onboarding-title" className="text-3xl font-black text-slate-900 tracking-tighter">¡Verificado!</h2>
+                        <h2 id="onboarding-title" className="text-3xl font-black text-slate-900 tracking-tighter">Listo. Ya puedes señalar.</h2>
                         <p className="text-slate-500 font-medium mt-3 leading-relaxed">
-                            Has desbloqueado el acceso completo a <span className="text-primary-600 font-bold text-sm">Power Rankings</span> y
-                            tu límite diario ha subido a <span className="text-primary-600 font-bold text-sm">15 señales</span>.
+                            Tu perfil quedó guardado. Puedes editarlo cuando quieras (y desbloqueaste más peso y <span className="text-primary-600 font-bold text-sm">15 señales</span>).
                         </p>
 
                         <div className="grid grid-cols-2 gap-3 w-full mt-10">
@@ -389,7 +392,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             onClick={onSuccess}
                             className="w-full bg-primary-600 py-4 rounded-2xl font-black text-white shadow-lg shadow-primary-200 transition-all active:scale-[0.98] mt-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                         >
-                            Continuar Explorando
+                            Ir a Señala →
                         </button>
                     </motion.div>
                 )}

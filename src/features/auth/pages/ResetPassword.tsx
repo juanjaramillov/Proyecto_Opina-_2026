@@ -44,13 +44,13 @@ export default function ResetPassword() {
         try {
             await authService.updateUserPassword(password);
 
-            setNotice({ variant: "success", message: "Contraseña actualizada. Te llevamos al inicio." });
+            setNotice({ variant: "success", message: "Contraseña actualizada." });
 
             setTimeout(() => navigate("/"), 1500);
         } catch (err: unknown) {
             const e = err as Error;
             logger.error("=== RESET PASSWORD: Error", e);
-            setNotice({ variant: "error", message: e.message || "Error al actualizar. Reintenta." });
+            setNotice({ variant: "error", message: e.message || "Algo falló. Intenta de nuevo." });
         } finally {
             setLoading(false);
         }
@@ -63,7 +63,7 @@ export default function ResetPassword() {
         >
             <form onSubmit={handleUpdate} className="space-y-4">
                 <AuthTextInput
-                    label="Nueva contraseña"
+                    label="Contraseña nueva"
                     type="password"
                     value={password}
                     onChange={setPassword}
@@ -73,7 +73,7 @@ export default function ResetPassword() {
                 />
 
                 <AuthTextInput
-                    label="Confirmar contraseña"
+                    label="Repite la contraseña"
                     type="password"
                     value={confirmPassword}
                     onChange={setConfirmPassword}
@@ -85,9 +85,9 @@ export default function ResetPassword() {
                 <AuthPrimaryButton
                     disabled={!password || !confirmPassword}
                     loading={loading}
-                    loadingLabel="Actualizando..."
+                    loadingLabel="Un segundo…"
                 >
-                    Actualizar contraseña
+                    Guardar y entrar
                 </AuthPrimaryButton>
             </form>
 

@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { BattleOption } from '../types';
-import React, { useState } from 'react';
+import React from 'react';
+import { BrandLogo } from '../../../components/ui/BrandLogo';
 
 interface OptionCardProps {
     option: BattleOption;
@@ -37,38 +38,18 @@ export default function OptionCard({
     // Fallback: Si no tiene URL ni type, asumimos 'brand' para usar los logos automáticos
     const type = option.type || ((option.image_url || option.imageUrl) ? 'image' : 'brand');
 
-    const [logoIndex, setLogoIndex] = useState(0);
-
-    const guessBrandDomain = (name: string) => {
-        const known: Record<string, string> = {
-            "falabella": "falabella.com", "paris": "paris.cl", "ripley": "ripley.com",
-            "mercado libre": "mercadolibre.com", "lider": "lider.cl", "jumbo": "jumbo.cl",
-            "santa isabel": "santaisabel.cl", "tottus": "tottus.cl",
-            "mcdonalds": "mcdonalds.com", "mcdonald's": "mcdonalds.com", "burger king": "burgerking.com",
-            "latam": "latamairlines.com", "sky": "skyairline.com", "jetsmart": "jetsmart.com",
-            "coca cola": "coca-cola.com", "pepsi": "pepsi.com", "sprite": "sprite.com",
-            "spotify": "spotify.com", "apple": "apple.com", "apple music": "apple.com",
-            "netflix": "netflix.com", "hbo": "hbo.com", "hbo max": "max.com", "disney": "disney.com", "prime video": "primevideo.com",
-            "uber": "uber.com", "didi": "didiglobal.com", "cabify": "cabify.com"
-        };
-        const clean = name.toLowerCase().trim();
-        if (known[clean]) return known[clean];
-        // Guess fallback mapping appending .com
-        return `${clean.replace(/[^a-z0-9]/g, "")}.com`;
-    };
-
     return (
         <button
             onClick={onClick}
             disabled={disabled}
-            className={`group relative w-full text-center flex flex-col justify-between rounded-[32px] border-[3px] bg-white shadow-xl transition-all duration-300 ease-out overflow-hidden hover:-translate-y-1 hover:shadow-2xl ${isSelected ? "border-emerald-500 ring-4 ring-emerald-500/20 ring-offset-2" : "border-slate-200/80 hover:border-slate-300"} ${disabled ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-amber-400 ring-offset-2 z-20 border-amber-400" : ""}`}
+            className={`group relative w-full text-center flex flex-col justify-between rounded-[32px] border-[3px] bg-white shadow-xl transition-all duration-300 ease-out overflow-hidden hover:-translate-y-1 hover:shadow-2xl ${isSelected ? "border-emerald-500 ring-4 ring-emerald-500/20 ring-offset-2" : "border-slate-200/80 hover:border-slate-300"} ${disabled ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-blue-600 ring-offset-2 z-20 border-blue-600 shadow-[0_15px_45px_rgba(37,99,235,0.2)]" : ""}`}
         >
             {/* 2) Halo Opina+ (hover/selected) */}
             <div className={`pointer-events-none absolute inset-0 rounded-[32px] opacity-0 transition-opacity duration-300 bg-gradient-to-br from-blue-600/14 to-emerald-500/14 ${isSelected ? "opacity-100" : "group-hover:opacity-100"}`} />
             <div className={`pointer-events-none absolute -inset-[2px] rounded-[34px] opacity-0 transition-opacity duration-300 bg-gradient-to-r from-blue-600 to-emerald-500 ${isSelected ? "opacity-100" : "group-hover:opacity-60"}`} style={{ filter: "blur(10px)", zIndex: -1 }} />
 
             {isChampion && (
-                <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 text-white px-3 py-1.5 rounded-full shadow-lg border-2 border-white animate-bounce-slow">
+                <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-gradient-to-r from-blue-600 to-emerald-500 text-white px-3 py-1.5 rounded-full shadow-lg border-2 border-white animate-bounce-slow">
                     <span className="material-symbols-outlined text-lg">emoji_events</span>
                     <span className="text-xs font-black uppercase tracking-wider">Campeón</span>
                 </div>
@@ -116,38 +97,13 @@ export default function OptionCard({
                             />
 
                             <div className="flex items-center justify-center w-full h-[180px] md:h-[260px] p-6 relative">
-                                {(() => {
-                                    const brandDomain = (option.brand_domain || "").trim();
-                                    const brandfetchUrl = brandDomain ? `https://cdn.brandfetch.io/${brandDomain}` : null;
-                                    const clearbitUrl = `https://logo.clearbit.com/${guessBrandDomain(option.label)}?size=512`;
-
-                                    const urlsToTry = [
-                                        option.image_url || option.imageUrl,
-                                        brandfetchUrl,
-                                        clearbitUrl
-                                    ].filter(Boolean) as string[];
-
-                                    const currentUrl = logoIndex < urlsToTry.length ? urlsToTry[logoIndex] : null;
-
-                                    return currentUrl ? (
-                                        <img
-                                            key={currentUrl}
-                                            src={currentUrl}
-                                            alt={option.label}
-                                            loading="lazy"
-                                            draggable={false}
-                                            onError={() => {
-                                                setLogoIndex(prev => prev + 1);
-                                            }}
-                                            className={`relative z-10 w-full h-full object-contain mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-30 grayscale blur-[2px]" : ""} ${option.imageClassName || ''}`}
-                                        />
-                                    ) : (
-                                        <div className="relative z-10 flex items-center gap-2 px-3 py-2 rounded-full bg-white border border-slate-100 shadow-sm">
-                                            <span className="inline-block w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500" />
-                                            <span className="text-xs font-black text-slate-800">{option.label}</span>
-                                        </div>
-                                    );
-                                })()}
+                                <BrandLogo
+                                    name={option.label}
+                                    imageUrl={option.image_url || option.imageUrl}
+                                    brandDomain={option.brand_domain}
+                                    className={`relative z-10 w-full h-full object-contain mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-30 grayscale blur-[2px]" : ""} ${option.imageClassName || ''}`}
+                                    fallbackClassName="relative z-10 flex items-center gap-2 px-3 py-2 rounded-full bg-white border border-slate-100 shadow-sm text-xs font-black text-slate-800"
+                                />
                             </div>
                         </div>
                     </div>
@@ -265,7 +221,7 @@ export default function OptionCard({
                     !showResult && (
                         <div className="mt-2 text-[13px] font-bold text-slate-400 flex items-center justify-center gap-1.5 transition-colors group-hover:text-blue-500 w-full">
                             <span className="material-symbols-outlined text-[16px]">touch_app</span>
-                            Emitir una señal (1 toque).
+                            Señalar
                         </div>
                     )
                 )}

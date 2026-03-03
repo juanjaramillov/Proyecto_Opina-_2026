@@ -7,6 +7,7 @@ import SEO from '../../../components/common/SEO';
 import { motion } from 'framer-motion';
 import PageHeader from '../../../components/ui/PageHeader';
 import { PageState } from '../../../components/ui/StateBlocks';
+import { BrandLogo } from '../../../components/ui/BrandLogo';
 
 const PublicRankingPage: React.FC = () => {
     const { attributeSlug } = useParams<{ attributeSlug: string }>();
@@ -226,7 +227,7 @@ const PublicRankingPage: React.FC = () => {
                             </div>
 
                             <div className={['w-20 h-20 rounded-2xl p-4 mb-4', isFirst ? 'bg-white' : 'bg-slate-50 border border-slate-100'].join(' ')}>
-                                <img src={clinic?.image_url || undefined} alt={clinic?.label} className="w-full h-full object-contain" />
+                                <BrandLogo name={clinic?.label || 'Clínica'} imageUrl={clinic?.image_url} />
                             </div>
 
                             <h2 className="font-black text-xl tracking-tight leading-tight">{clinic?.label}</h2>
@@ -251,7 +252,7 @@ const PublicRankingPage: React.FC = () => {
                                         <span className="text-2xl font-black text-slate-200 w-6">{item.position}</span>
 
                                         <div className="w-12 h-12 rounded-xl bg-slate-50 p-2 border border-slate-100">
-                                            <img src={clinic?.image_url || undefined} alt={clinic?.label} className="w-full h-full object-contain" />
+                                            <BrandLogo name={clinic?.label || 'Clínica'} imageUrl={clinic?.image_url} className="w-full h-full object-contain" fallbackClassName="w-full h-full flex items-center justify-center text-[8px] text-slate-400 font-bold text-center" />
                                         </div>
 
                                         <span className="font-bold text-slate-700 text-lg">{clinic?.label}</span>

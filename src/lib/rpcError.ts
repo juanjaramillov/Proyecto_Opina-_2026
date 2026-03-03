@@ -36,7 +36,7 @@ export function normalizeRpcError(err: any): Normalized {
             code: "PROFILE_INCOMPLETE",
             title: "Completa tu perfil",
             description: "Para que tu señal tenga valor y quede registrada, primero completa tu perfil.",
-            ctaLabel: "Completar perfil",
+            ctaLabel: "Subir peso de señal",
             ctaPath: "/profile",
         };
     }

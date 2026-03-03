@@ -63,12 +63,24 @@ export default function Dashboard() {
 
                             <div className="grid grid-cols-2 gap-4 border-t border-slate-50 pt-4">
                                 <div>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase">Señales</p>
-                                    <p className="text-xl font-black text-slate-900">{stat.signals_count}</p>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Señales</p>
+                                    <p className="text-xl font-black text-slate-900 leading-none">{stat.signals_count}</p>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase">Impacto Relativo</p>
-                                    <p className="text-xl font-black text-secondary">{stat.weighted_sum.toFixed(1)}</p>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Impacto Relativo</p>
+                                    <div className="flex items-end gap-2">
+                                        <p className="text-xl font-black text-primary-600 leading-none">{stat.weighted_sum.toFixed(1)}</p>
+                                        {/* Graphic bar indicator */}
+                                        <div className="flex h-4 w-6 items-end gap-[2px] opacity-70 mb-0.5">
+                                            {[1, 2, 3].map(barIndex => (
+                                                <div
+                                                    key={barIndex}
+                                                    className={`w-1.5 rounded-t-[1px] ${stat.weighted_sum > barIndex * 15 ? 'bg-primary-500' : 'bg-slate-200'}`}
+                                                    style={{ height: `${30 + barIndex * 20}%` }}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

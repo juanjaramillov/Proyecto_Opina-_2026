@@ -23,7 +23,7 @@ type GameProps = {
     enableAutoAdvance?: boolean;
     hideProgress?: boolean;
     isQueueFinite?: boolean;
-    onQueueComplete?: () => void;
+    onQueueComplete?: (history: any[]) => void;
     disableInsights?: boolean;
     isSubmitting?: boolean;
     theme?: {
@@ -71,7 +71,7 @@ export default function VersusGame(props: GameProps) {
         setShowFinalMessage(false);
         setClickPosition(null);
         if (props.onQueueComplete) {
-            props.onQueueComplete();
+            props.onQueueComplete(sessionHistory);
         } else {
             navigate('/');
         }
@@ -93,16 +93,16 @@ export default function VersusGame(props: GameProps) {
                 >
                     <span className="material-symbols-outlined text-5xl">check_circle</span>
                 </motion.div>
-                <h3 className="text-3xl font-black text-ink mb-3 tracking-tight">Opinión Registrada</h3>
+                <h3 className="text-3xl font-black text-ink mb-3 tracking-tight">Señal registrada.</h3>
                 <p className="text-text-secondary max-w-sm mx-auto mb-10 text-lg leading-relaxed">
-                    Tu punto de vista ha sido sumado <span className="text-primary font-bold">anónimamente</span>. Gracias por construir señal.
+                    Gracias. Tu señal ya cuenta.
                 </p>
                 <div className="flex flex-col gap-3 w-full max-w-xs">
                     <button
                         onClick={resetGame}
                         className="w-full px-8 py-4 bg-primary text-white font-black rounded-2xl hover:bg-primary-dark transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
                     >
-                        CONTINUAR OPINANDO
+                        Siguiente batalla →
                     </button>
                     <button
                         onClick={() => navigate('/results')}
@@ -130,10 +130,15 @@ export default function VersusGame(props: GameProps) {
                 <div className="w-20 h-20 rounded-full bg-surface shadow-sm flex items-center justify-center mb-6 text-text-muted">
                     <span className="material-symbols-outlined text-4xl">inbox</span>
                 </div>
-                <h3 className="text-2xl font-bold text-ink mb-2">Sin contenido activo</h3>
+                <h3 className="text-2xl font-bold text-ink mb-2">No hay batalla disponible</h3>
                 <p className="text-text-secondary max-w-md">
-                    No hay versus disponibles en este momento. Vuelve más tarde cuando la comunidad cree nuevas señales.
+                    Estamos armando la próxima. Vuelve en un rato.
                 </p>
+                <div className="mt-8">
+                    <button onClick={() => navigate('/experience')} className="px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark transition-all">
+                        Volver a Participa
+                    </button>
+                </div>
             </div>
         );
     }
@@ -196,7 +201,7 @@ export default function VersusGame(props: GameProps) {
                                     <>
                                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
                                             <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500" />
-                                            Versus activo
+                                            Versus
                                         </div>
 
                                         <h1 className="mt-5 text-4xl md:text-5xl font-black tracking-tight text-ink leading-[1.05]">
@@ -207,11 +212,11 @@ export default function VersusGame(props: GameProps) {
                             })()}
 
                             <p className="mt-3 text-base md:text-lg font-medium text-slate-600">
-                                Elige una opción. Deja tu señal.
+                                Dos opciones. Una señal.
                             </p>
 
                             <div className="mt-2 text-sm font-medium text-slate-500">
-                                Sin discursos. Con datos.
+                                Toca una carta para señalar. Cambia de idea en la siguiente batalla.
                             </div>
                         </div>
                     </motion.div>
@@ -236,7 +241,7 @@ export default function VersusGame(props: GameProps) {
             {
                 effectiveBattle.type === 'separator' ? (
                     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-                        <button onClick={next} className="px-8 py-3 bg-primary text-white rounded-xl font-bold">Continuar</button>
+                        <button onClick={next} className="px-8 py-3 bg-primary text-white rounded-xl font-bold">Siguiente batalla →</button>
                     </div>
                 ) : (
                     <AnimatePresence mode="wait">
@@ -286,17 +291,20 @@ export default function VersusGame(props: GameProps) {
                                 </div>
                             ) : (
                                 <div className={`relative mt-6 w-full mx-auto transition-opacity duration-300 ${props.isSubmitting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
-                                    {/* VS badge central MASIVO - Out of the box */}
-                                    {effectiveBattle.layout === 'versus' && a && b && (
+                                    {/* VS badge central MASIVO - Corporativo Opina+ */}
+                                    {a && b && (
                                         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
-                                            <div className="h-20 w-20 md:h-28 md:w-28 rounded-full bg-slate-900/95 backdrop-blur-xl border-[6px] md:border-8 border-white shadow-[0_30px_80px_rgba(15,23,42,0.5)] flex items-center justify-center transform transition-transform duration-700 hover:scale-110">
-                                                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600/30 to-emerald-500/30 blur-md" />
-                                                <span className="relative text-2xl md:text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-emerald-300 italic">VS</span>
-                                            </div>
+                                            <motion.div
+                                                initial={{ scale: 0.8, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-gradient-to-br from-blue-600 to-emerald-500 border-[6px] md:border-8 border-white shadow-[0_25px_65px_rgba(37,99,235,0.35)] flex items-center justify-center transform transition-transform duration-700 hover:scale-110"
+                                            >
+                                                <span className="relative text-2xl md:text-3xl font-black tracking-tighter text-white italic drop-shadow-md">VS</span>
+                                            </motion.div>
                                         </div>
                                     )}
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 relative z-20">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 relative z-20">
                                         {a && (
                                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: "easeOut" }} className="w-full flex">
                                                 <OptionCard
@@ -362,21 +370,34 @@ export default function VersusGame(props: GameProps) {
                                 </div>
                             )}
 
-                            {/* Comentario de Insight simulado por IA después de votar */}
+                            {/* Comentario de Insight simulado por IA después de votar - PREMIUM V2 */}
                             <AnimatePresence>
                                 {(result || momentum) && (
                                     <motion.div
-                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="max-w-2xl mx-auto mt-6 px-6 py-4 bg-gradient-to-br from-primary-50 to-emerald-50 border border-primary-100 rounded-2xl shadow-sm flex items-start gap-4"
+                                        className="relative max-w-2xl mx-auto mt-10 p-[2px] rounded-3xl bg-gradient-to-r from-blue-600 via-primary-500 to-emerald-500 shadow-[0_20px_70px_rgba(37,99,235,0.15)] group"
                                     >
-                                        <div className="p-2 bg-white rounded-full shadow-sm">
-                                            <span className="material-symbols-outlined text-primary-500 text-xl">psychology</span>
-                                        </div>
-                                        <div className="text-left text-sm text-slate-700 leading-relaxed font-medium">
-                                            <span className="font-bold text-primary-700 mr-2">Insight de la comunidad:</span>
-                                            El {momentum ? Math.max(...momentum.options.map(o => o.percentage)) : 0}% de los encuestados han elegido la opción ganadora. Esta tendencia refleja una fuerte preferencia en este segmento.
+                                        <div className="bg-white rounded-[22px] px-8 py-6 flex items-start gap-5 relative overflow-hidden">
+                                            {/* Decorative background glow */}
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-500/10 to-transparent blur-3xl -z-10" />
+
+                                            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-600 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform duration-500">
+                                                <span className="material-symbols-outlined text-white text-2xl">psychology</span>
+                                            </div>
+
+                                            <div className="text-left">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-600">Señal Detectada</span>
+                                                    <div className="h-1 w-1 rounded-full bg-slate-300" />
+                                                    <span className="text-[10px] font-bold text-slate-400">AI Collective Intelligence</span>
+                                                </div>
+                                                <h4 className="text-xl font-black text-ink mb-2">Insight de la comunidad</h4>
+                                                <div className="text-base text-slate-600 leading-relaxed font-medium">
+                                                    El <span className="text-blue-600 font-bold">{momentum ? Math.max(...momentum.options.map(o => o.percentage)) : 0}%</span> de los encuestados han elegido la opción ganadora. Esta tendencia refleja una fuerte preferencia en este segmento y sugiere un cambio en el comportamiento colectivo.
+                                                </div>
+                                            </div>
                                         </div>
                                     </motion.div>
                                 )}

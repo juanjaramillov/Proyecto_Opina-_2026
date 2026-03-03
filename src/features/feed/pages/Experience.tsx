@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useActiveBattles } from "../../../hooks/useActiveBattles";
+import { IndustrySelector } from "../components/IndustrySelector";
 import VersusGame from "../../signals/components/VersusGame";
 import { useSignalStore } from "../../../store/signalStore";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -20,211 +21,50 @@ import PageHeader from "../../../components/ui/PageHeader";
 import { PageState } from "../../../components/ui/StateBlocks";
 import HubIcon from "../../../components/ui/HubIcon";
 import { ArrowLeftRight, TrendingUp, Layers, Users, Zap, BarChart3, Boxes, type LucideIcon } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-const PROGRESSIVE_THEMES = {
-    // 1. Aerolíneas
-    aerolineas: {
-        id: "tournament-aerolineas",
-        title: "Batalla en los Cielos",
-        subtitle: "¿Cuál es tu aerolínea preferida?",
-        industry: "transporte-aerolineas",
-        theme: {
-            primary: "#0ea5e9", // sky-500
-            accent: "#7dd3fc", // sky-300
-            bgGradient: "from-sky-50 to-white",
-            icon: "flight",
-        },
-    },
-    // 2. Bancos
-    bancos: {
-        id: "tournament-bancos",
-        title: "Finanzas Master",
-        subtitle: "¿En qué banco confías más?",
-        industry: "finanzas-bancos",
-        theme: {
-            primary: "#1d4ed8", // blue-700
-            accent: "#60a5fa", // blue-400
-            bgGradient: "from-blue-50 to-white",
-            icon: "account_balance",
-        },
-    },
-    // 3. Autos
-    autos: {
-        id: "tournament-autos",
-        title: "Motor Draft",
-        subtitle: "¿Cuál es la marca que te mueve?",
-        industry: "transporte-autos",
-        theme: {
-            primary: "#ef4444", // red-500
-            accent: "#fca5a5", // red-300
-            bgGradient: "from-red-50 to-white",
-            icon: "directions_car",
-        },
-    },
-    // 4. Comida Rápida
-    comidarapida: {
-        id: "tournament-comidarapida",
-        title: "Reyes del Fast Food",
-        subtitle: "¿Qué antojo domina hoy?",
-        industry: "gastronomia-comida-rapida",
-        theme: {
-            primary: "#f59e0b", // amber-500
-            accent: "#fcd34d", // amber-300
-            bgGradient: "from-amber-50 to-white",
-            icon: "fastfood",
-        },
-    },
-    // 5. Supermercados
-    supermercados: {
-        id: "tournament-supermercados",
-        title: "Guerra del Carrito",
-        subtitle: "¿Dónde haces tus compras?",
-        industry: "retail-supermercados",
-        theme: {
-            primary: "#10b981", // emerald-500
-            accent: "#6ee7b7", // emerald-300
-            bgGradient: "from-emerald-50 to-white",
-            icon: "shopping_cart",
-        },
-    },
-    // 6. Streaming Video
-    streaming: {
-        id: "tournament-streaming",
-        title: "Guerra del Streaming",
-        subtitle: "¿Cuál es tu plataforma definitiva?",
-        industry: "entretencion-streaming-video",
-        theme: {
-            primary: "#8b5cf6", // secondary-500
-            accent: "#a78bfa", // secondary-400
-            bgGradient: "from-secondary-50 to-white",
-            icon: "movie",
-        },
-    },
-    // 7. Streaming Audio
-    audio: {
-        id: "tournament-audio",
-        title: "Batalla Musical",
-        subtitle: "¿Quién pone el ritmo de tu día?",
-        industry: "entretencion-streaming-audio",
-        theme: {
-            primary: "#ec4899", // pink-500
-            accent: "#f472b6", // pink-400
-            bgGradient: "from-pink-50 to-white",
-            icon: "headphones",
-        },
-    },
-    // 8. Ropa
-    ropa: {
-        id: "tournament-ropa",
-        title: "Moda y Deporte",
-        subtitle: "¿Con qué marca te vistes?",
-        industry: "retail-ropa",
-        theme: {
-            primary: "#64748b", // slate-500
-            accent: "#cbd5e1", // slate-300
-            bgGradient: "from-slate-50 to-white",
-            icon: "checkroom",
-        },
-    },
-    // 9. Apps Movilidad
-    movilidad: {
-        id: "tournament-movilidad",
-        title: "Delivery & Rides",
-        subtitle: "¿Cuál es la app que te salva?",
-        industry: "apps-delivery-movilidad",
-        theme: {
-            primary: "#f97316", // orange-500
-            accent: "#fdba74", // orange-300
-            bgGradient: "from-orange-50 to-white",
-            icon: "two_wheeler",
-        },
-    },
-    // 10. Startphones/Tecnología
-    smartphones: {
-        id: "tournament-smartphones",
-        title: "Duelo de Gigantes Tech",
-        subtitle: "¿Qué ecosistema domina tu vida?",
-        industry: "tecnologia-marcas",
-        theme: {
-            primary: "#3b82f6", // blue-500
-            accent: "#60a5fa", // blue-400
-            bgGradient: "from-blue-50 to-white",
-            icon: "smartphone",
-        },
-    },
-    // 11. Bebidas
-    bebidas: {
-        id: "tournament-bebidas",
-        title: "Battle of the Brands",
-        subtitle: "¿Cuál es tu bebida indispensable?",
-        industry: "consumo-bebidas",
-        theme: {
-            primary: "#e11d48", // rose-600
-            accent: "#fb7185", // rose-400
-            bgGradient: "from-rose-50 to-white",
-            icon: "local_drink",
-        },
-    },
-    // 12. Fútbol
-    futbol: {
-        id: "tournament-futbol",
-        title: "Pasión de Multitudes",
-        subtitle: "¿Quién es el rey de la cancha?",
-        industry: "deportes-futbol",
-        theme: {
-            primary: "#22c55e", // green-500
-            accent: "#86efac", // green-300
-            bgGradient: "from-green-50 to-white",
-            icon: "sports_soccer",
-        },
-    },
-    // 13. Sagas
-    sagas: {
-        id: "tournament-sagas",
-        title: "Universos Épicos",
-        subtitle: "¿A qué mundo perteneces?",
-        industry: "entretencion-sagas",
-        theme: {
-            primary: "#d946ef", // secondary-500
-            accent: "#f0abfc", // secondary-300
-            bgGradient: "from-secondary-50 to-white",
-            icon: "auto_stories",
-        },
-    },
-    // 14. Ciudades/Turismo
-    vacaciones: {
-        id: "tournament-vacaciones",
-        title: "Destino de Ensueño",
-        subtitle: "¿A dónde te escaparías mañana?",
-        industry: "turismo-ciudades",
-        theme: {
-            primary: "#0284c7", // lightBlue-600
-            accent: "#7dd3fc", // lightBlue-300
-            bgGradient: "from-sky-50 to-white",
-            icon: "flight_takeoff",
-        },
-    },
-    /*
-    // Nota: Salud Pública / Privada ya no es progresivo per se en V12 pero se podría incluir
-    salud: {
-        id: "tournament-salud",
-        title: "Excelencia Médica",
-        subtitle: "¿Cuál es la mejor clínica?",
-        industry: "salud-clinicas-privadas-scl",
-        theme: {
-            primary: "#14b8a6", // teal-500
-            accent: "#5eead4", // teal-300
-            bgGradient: "from-teal-50 to-white",
-            icon: "medical_services",
-        },
-    },
-    */
-};
+import { PARENT_INDUSTRIES } from "../data/industries";
 
 const BATCH_SIZE = 12;
 
 type ExperienceMode = "menu" | "versus" | "progressive" | "insights";
+
+const EXPERIENCE_NAV_ITEMS = [
+    { id: 'versus', label: 'Versus', icon: 'dynamic_feed', activeColor: 'text-primary-600' },
+    { id: 'progressive', label: 'Progresivos', icon: 'trending_up', activeColor: 'text-emerald-600' },
+    { id: 'insights', label: 'Profundidad', icon: 'layers', activeColor: 'text-violet-600' }
+] as const;
+
+function ExperienceNavigation({
+    currentMode,
+    onChange
+}: {
+    currentMode: ExperienceMode,
+    onChange: (mode: ExperienceMode) => void
+}) {
+    return (
+        <div className="w-full flex justify-center overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+            <div className="inline-flex items-center gap-1 p-1.5 bg-slate-100 rounded-full min-w-max border border-slate-200">
+                {EXPERIENCE_NAV_ITEMS.map(item => {
+                    const isActive = currentMode === item.id;
+                    return (
+                        <button
+                            key={item.id}
+                            onClick={() => onChange(item.id)}
+                            className={`flex items-center gap-2 h-10 px-5 rounded-full font-bold text-sm transition-all focus:outline-none whitespace-nowrap select-none ${isActive
+                                ? `bg-white shadow-sm ring-1 ring-slate-900/5 ${item.activeColor}`
+                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/50'
+                                }`}
+                        >
+                            <span className={`material-symbols-outlined text-[18px] transition-colors ${isActive ? item.activeColor : ''}`}>{item.icon}</span>
+                            <span className={`transition-colors ${isActive ? item.activeColor : ''}`}>{item.label}</span>
+                        </button>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
 
 function AnimatedNumber({
     value,
@@ -332,7 +172,12 @@ export default function Experience() {
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<BattleOption | null>(null);
-    const [selectedTheme, setSelectedTheme] = useState<keyof typeof PROGRESSIVE_THEMES | null>(null);
+    const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+    const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
+    const [versusIndustry, setVersusIndustry] = useState<string | 'mix'>('mix');
+
+    const [showBatchResults, setShowBatchResults] = useState(false);
+    const [batchSessionHistory, setBatchSessionHistory] = useState<Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number; }>>([]);
 
     const requestedBatch = (location.state as { nextBatch?: number })?.nextBatch;
     const computedBatch = Math.floor(signals / BATCH_SIZE);
@@ -381,15 +226,50 @@ export default function Experience() {
 
     const battlesAsGame = useMemo(() => battles as unknown as Battle[], [battles]);
 
+    const filteredVersusBattles = useMemo(() => {
+        if (versusIndustry === 'mix') return battlesAsGame;
+        return battlesAsGame.filter(b => {
+            // Check if the battle slug matches the subcategory slug EXACTLY, or if it matches ANY subcategory slug in the parent
+            const categorySlug = b.category ? (b.category as { slug?: string }).slug : null;
+
+            // If the filter is a parent category (doesn't exist directly on slugs in db, it spans multiple subcats)
+            const parent = PARENT_INDUSTRIES[versusIndustry];
+            if (parent) {
+                if (selectedSubcategoryId) {
+                    // Match the exact requested subcategory
+                    const subcat = parent.subcategories.find(s => s.id === selectedSubcategoryId);
+                    return subcat ? categorySlug === subcat.slug : false;
+                } else {
+                    // Match ANY of its subcategories
+                    return parent.subcategories.some(sub => sub.slug === categorySlug);
+                }
+            }
+
+            // Fallback for direct matches
+            return categorySlug === versusIndustry;
+        });
+    }, [battlesAsGame, versusIndustry, selectedSubcategoryId]);
+
+    const battlesForQueue = useMemo(() => {
+        if (filteredVersusBattles.length === 0) return [];
+        if (versusIndustry === 'mix') return filteredVersusBattles.slice(0, 10);
+
+        const queue: Battle[] = [];
+        for (let i = 0; i < 10; i++) {
+            queue.push(filteredVersusBattles[i % filteredVersusBattles.length]);
+        }
+        return queue;
+    }, [filteredVersusBattles, versusIndustry]);
+
     const previewVersus = useMemo(() => {
         const slugFromTop = hubTopNow?.top_versus?.slug;
-        const fromTop = slugFromTop ? (battles || []).find((b) => b.slug === slugFromTop) : null;
+        const fromTop = slugFromTop ? (battlesAsGame || []).find((b) => b.slug === slugFromTop) : null;
 
         if (fromTop) return fromTop;
 
         // Fallback: primer versus activo (asegura preview siempre lleno)
-        return (battles || []).find((b) => (b.slug || "").startsWith("versus-")) || null;
-    }, [hubTopNow, battles]);
+        return (battlesAsGame || [])[0] || null;
+    }, [hubTopNow, battlesAsGame]);
 
     const previewOptions = useMemo(() => {
         const opts = (previewVersus as Battle | null)?.options || [];
@@ -445,8 +325,9 @@ export default function Experience() {
         return {};
     };
 
-    const handleBatchComplete = () => {
-        navigate("/results", { state: { batchIndex } });
+    const handleBatchComplete = (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number; }>) => {
+        setBatchSessionHistory(history || []);
+        setShowBatchResults(true);
     };
 
     if (profile && !profile.isProfileComplete && profile.role !== 'admin') return null;
@@ -471,7 +352,7 @@ export default function Experience() {
             <div className="container-ws section-y space-y-6 pb-24">
                 <PageHeader
                     eyebrow={<span className="badge badge-primary">Hub</span>}
-                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Experience</h1>}
+                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Participa</h1>}
                     subtitle={<p className="text-sm text-muted font-medium">Cargando experiencias… (sí, estamos vivos).</p>}
                     meta={
                         <div className="flex flex-wrap gap-2">
@@ -543,23 +424,20 @@ export default function Experience() {
         "w-full h-12 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 font-black text-sm " +
         "transition-all active:scale-[0.98]";
 
-    const CTA_HERO_PRIMARY =
-        "h-[52px] md:h-[56px] px-6 md:px-7 rounded-2xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white " +
-        "font-black text-sm md:text-base shadow-[0_12px_28px_rgba(16,185,129,0.18)] " +
-        "hover:shadow-[0_16px_34px_rgba(59,130,246,0.18)] hover:opacity-95 transition-all active:scale-95";
 
-    const CTA_HERO_SECONDARY =
-        "h-[52px] md:h-[56px] px-6 md:px-7 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 " +
-        "text-slate-900 font-black text-sm md:text-base transition-all active:scale-95";
 
     return (
         <div className="container-ws section-y space-y-8 pb-24">
 
-            {/* PAGE HEADER */}
-            {mode === "menu" ? (
+            {/* PAGE HEADER for other modes */}
+            {mode !== "menu" ? (
                 <PageHeader
                     eyebrow={<span className="badge badge-primary">Hub</span>}
-                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Tu opinión es una señal</h1>}
+                    title={
+                        <h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">
+                            Elige tu forma de señalar
+                        </h1>
+                    }
                     subtitle={<p className="text-sm text-muted font-medium">{headerSubtitle}</p>}
                     meta={
                         <div className="flex flex-wrap gap-2">
@@ -593,6 +471,17 @@ export default function Experience() {
                     }
                 />
             ) : null}
+
+            {mode !== "menu" && (
+                <ExperienceNavigation
+                    currentMode={mode}
+                    onChange={(m) => {
+                        setSelectedOption(null);
+                        setSelectedTheme(null);
+                        setMode(m);
+                    }}
+                />
+            )}
 
             {/* NEW HUB MENU HERO & CARDS */}
             {mode === "menu" ? (
@@ -641,22 +530,22 @@ export default function Experience() {
                                 Hub Activo
                             </div>
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-ink leading-[1.02]">
-                                Tu opinión<br />es una <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-500">señal</span>
+                                Elige tu forma<br />de <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-500">señalar</span>
                             </h1>
-                            <p className="mt-4 text-base md:text-lg font-medium text-slate-600 leading-relaxed max-w-[56ch]">
-                                Transforma tus preferencias en data que mueve el mercado. Rápido, anónimo y sin encuestas eternas.
+                            <p className="mt-4 text-base md:text-lg font-medium text-slate-600 leading-relaxed max-w-[60ch]">
+                                Versus para decidir rápido. Profundidad para explicar. Rankings para ver cómo va la cosa.
                             </p>
 
                             <div className="flex items-center gap-4 pt-4">
                                 <button
                                     onClick={() => setMode("versus")}
-                                    className={CTA_HERO_PRIMARY}
+                                    className="h-[52px] md:h-[56px] px-6 md:px-7 rounded-2xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white font-black text-sm md:text-base shadow-[0_12px_28px_rgba(16,185,129,0.18)] hover:shadow-[0_16px_34px_rgba(59,130,246,0.18)] hover:opacity-95 transition-all active:scale-95"
                                 >
                                     Emitir una señal
                                 </button>
                                 <button
                                     onClick={() => navigate("/results")}
-                                    className={CTA_HERO_SECONDARY}
+                                    className="h-[52px] md:h-[56px] px-6 md:px-7 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 font-black text-sm md:text-base transition-all active:scale-95"
                                 >
                                     Ver resultados
                                 </button>
@@ -765,9 +654,9 @@ export default function Experience() {
                                     <div className="mb-6 w-max">
                                         <HubIcon Icon={ArrowLeftRight} size={64} />
                                     </div>
-                                    <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-2">Señal Rápida</h2>
+                                    <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-2">Versus</h2>
                                     <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-md">
-                                        Compara marcas cara a cara. A vs B. Sin matices, solo instinto. El motor principal de Opina+.
+                                        Dos opciones. Una señal. Cero excusas.
                                     </p>
 
                                     <div className="mt-6 rounded-[24px] border border-slate-100 bg-white/70 backdrop-blur p-4">
@@ -805,7 +694,7 @@ export default function Experience() {
                                         </div>
 
                                         <button onClick={() => setMode("versus")} className={CTA_PRIMARY_FULL + " mt-4"}>
-                                            Emitir una señal
+                                            Ir a Versus →
                                         </button>
                                     </div>
                                 </div>
@@ -822,16 +711,16 @@ export default function Experience() {
                                     <div className="mb-4 w-max">
                                         <HubIcon Icon={TrendingUp} size={48} />
                                     </div>
-                                    <h3 className="text-xl font-black text-slate-900 mb-1">Competencia</h3>
+                                    <h3 className="text-xl font-black text-slate-900 mb-1">Versus Progresivo</h3>
                                     <p className="text-slate-500 text-sm font-medium leading-relaxed">
-                                        Filtra a los ganadores en un modelo de llaves (16x16) por industria.
+                                        El ganador sigue peleando. Tú solo decides quién merece el trono.
                                     </p>
                                 </div>
                                 <button
                                     onClick={() => setMode("progressive")}
                                     className={CTA_SECONDARY_FULL}
                                 >
-                                    Ver ranking
+                                    Jugar Progresivo →
                                 </button>
                             </motion.div>
 
@@ -844,14 +733,14 @@ export default function Experience() {
                                     </div>
                                     <h3 className="text-xl font-black text-slate-900 mb-1">Profundidad</h3>
                                     <p className="text-slate-500 text-sm font-medium leading-relaxed">
-                                        Elige una marca y exprésate sobre ella. 10 atributos clave en segundos.
+                                        No todo cabe en un versus. Acá explicas el “por qué”.
                                     </p>
                                 </div>
                                 <button
                                     onClick={() => setMode("insights")}
                                     className={CTA_SECONDARY_FULL}
                                 >
-                                    Analizar marca
+                                    Entrar a Profundidad →
                                 </button>
                             </motion.div>
 
@@ -862,107 +751,225 @@ export default function Experience() {
                 </motion.div>
             ) : null}
 
-            {/* VERSUS MODE */}
             {mode === "versus" ? (
-                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-6">
-                    <VersusGame
-                        key={`versus-${batchIndex}`}
-                        battles={battlesAsGame}
-                        onVote={handleVote}
-                        mode="classic"
-                        enableAutoAdvance={true}
-                        hideProgress={false}
-                        isQueueFinite={true}
-                        autoNextMs={800}
-                        disableInsights={false}
-                        onQueueComplete={handleBatchComplete}
-                        isSubmitting={false}
-                        theme={{
-                            primary: "#3b82f6",
-                            accent: "#60a5fa",
-                            bgGradient: "from-blue-50 to-white",
-                            icon: "query_stats",
-                        }}
-                    />
+                <div className="space-y-8 animate-in fade-in duration-500">
+                    {/* Category Selector for Versus */}
+                    <div className="max-w-5xl xl:max-w-6xl mx-auto space-y-4">
+                        <IndustrySelector
+                            industries={PARENT_INDUSTRIES}
+                            selectedParentId={versusIndustry !== 'mix' ? versusIndustry : null}
+                            selectedSubcategoryId={selectedSubcategoryId}
+                            onParentChange={(id) => setVersusIndustry(id || 'mix')}
+                            onSubcategoryChange={(id) => setSelectedSubcategoryId(id)}
+                            title="Filtrar por industria"
+                            subtitle={`${filteredVersusBattles.length} batallas encontradas`}
+                            hideMixOption={false}
+                        />
+                    </div>
+
+                    {/* Show VersusGame only if an industry is selected */}
+                    {versusIndustry !== 'mix' ? (
+                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden animate-in fade-in duration-500">
+                            {battlesForQueue.length > 0 ? (
+                                <VersusGame
+                                    key={`versus-${batchIndex}-${versusIndustry}-${selectedSubcategoryId || 'all'}`}
+                                    battles={battlesForQueue}
+                                    onVote={handleVote}
+                                    mode="classic"
+                                    enableAutoAdvance={true}
+                                    hideProgress={false}
+                                    isQueueFinite={true}
+                                    autoNextMs={1200}
+                                    disableInsights={true}
+                                    onQueueComplete={handleBatchComplete}
+                                    isSubmitting={false}
+                                    theme={{
+                                        primary: "#3b82f6",
+                                        accent: "#60a5fa",
+                                        bgGradient: "from-blue-50 to-white",
+                                        icon: "query_stats",
+                                    }}
+                                />
+                            ) : (
+                                <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
+                                    <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100 shadow-sm">
+                                        <span className="material-symbols-outlined text-4xl text-slate-300">hourglass_empty</span>
+                                    </div>
+                                    <h3 className="text-2xl font-black text-slate-800 mb-2">Aún no hay batallas aquí</h3>
+                                    <p className="text-slate-500 max-w-md mx-auto mb-8 font-medium">
+                                        Estamos preparando nuevas compañías para esta categoría. Si quieres ver enfrentamientos ahora, elige otra opción en el menú.
+                                    </p>
+                                    <button
+                                        onClick={() => {
+                                            setVersusIndustry('mix');
+                                            setSelectedSubcategoryId(null);
+                                        }}
+                                        className="px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm"
+                                    >
+                                        Ver todas las industrias
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200 p-12 text-center animate-in fade-in duration-500">
+                            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <span className="material-symbols-outlined text-3xl text-slate-300">category</span>
+                            </div>
+                            <h3 className="text-xl font-black text-slate-900">Selecciona una industria para comenzar</h3>
+                            <p className="text-slate-500 font-medium mt-2">Elige una categoría arriba para ver los enfrentamientos disponibles.</p>
+                        </div>
+                    )}
                 </div>
             ) : null}
 
             {/* PROGRESSIVE MODE */}
             {mode === "progressive" ? (
-                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-6">
-                    {!selectedTheme ? (
-                        <div className="max-w-5xl xl:max-w-6xl mx-auto space-y-6">
-                            <div className="text-center space-y-2">
-                                <h2 className="text-2xl md:text-3xl font-black text-ink">
-                                    Elige tu <span className="text-gradient-brand">Torneo</span>
-                                </h2>
-                                <p className="text-muted font-medium">
-                                    Enfrenta opciones del mismo tema hasta encontrar al ganador. (Sí, es adictivo.)
-                                </p>
+                <div className="space-y-12 animate-in fade-in duration-500">
+                    {/* Category Selector (Always visible in Progressive mode) */}
+                    <div className="max-w-5xl xl:max-w-6xl mx-auto space-y-6">
+                        <IndustrySelector
+                            industries={PARENT_INDUSTRIES}
+                            selectedParentId={selectedTheme}
+                            selectedSubcategoryId={selectedSubcategoryId}
+                            onParentChange={(id) => {
+                                setSelectedTheme(id);
+                                setSelectedSubcategoryId(null);
+                            }}
+                            onSubcategoryChange={(id) => setSelectedSubcategoryId(id)}
+                            title="Elige tu Torneo"
+                            subtitle={selectedTheme
+                                ? "Puedes cambiar de categoría en cualquier momento."
+                                : "Enfrenta marcas cara a cara hasta encontrar tu favorita."
+                            }
+                            hideMixOption={true}
+                        />
+                    </div>
+
+                    {/* Active Tournament Runner */}
+                    {selectedTheme ? (
+                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
+                            {/* Decorative Background */}
+                            <div className="absolute inset-0 pointer-events-none opacity-30">
+                                <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 ${PARENT_INDUSTRIES[selectedTheme].theme.bgGradient} rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {Object.keys(PROGRESSIVE_THEMES).map((key) => {
-                                    const k = key as keyof typeof PROGRESSIVE_THEMES;
-                                    const t = PROGRESSIVE_THEMES[k];
-                                    return (
-                                        <button
-                                            key={t.id}
-                                            onClick={() => setSelectedTheme(k)}
-                                            className="p-5 rounded-2xl border border-slate-100 bg-white text-left hover:shadow-md hover:-translate-y-0.5 transition-all active:scale-[0.99]"
-                                        >
-                                            <div className="flex items-start justify-between gap-3">
-                                                <div>
-                                                    <div className="text-xs font-black uppercase tracking-widest text-slate-400">{t.industry}</div>
-                                                    <div className="text-lg font-black text-ink mt-1">{t.title}</div>
-                                                    <div className="text-sm text-muted mt-1">{t.subtitle}</div>
-                                                </div>
-                                                <span className="material-symbols-outlined text-slate-300">arrow_forward</span>
-                                            </div>
-                                        </button>
-                                    );
-                                })}
-                            </div>
+                            <ProgressiveRunner
+                                progressiveData={(() => {
+                                    const t = PARENT_INDUSTRIES[selectedTheme];
+
+                                    // Target specific subcategory or all from parent
+                                    const targetSlugs = selectedSubcategoryId
+                                        ? [t.subcategories.find(s => s.id === selectedSubcategoryId)?.slug]
+                                        : t.subcategories.map(s => s.slug);
+
+                                    return {
+                                        id: t.id,
+                                        title: t.title,
+                                        subtitle: t.subtitle,
+                                        industry: targetSlugs[0] || t.id,
+                                        theme: t.theme,
+                                        candidates: (battlesAsGame || [])
+                                            .filter((b) => {
+                                                const catSlug = (b.category as { slug?: string })?.slug;
+                                                return targetSlugs.includes(catSlug) || targetSlugs.includes(b.industry);
+                                            })
+                                            .flatMap((b) => b.options || [])
+                                            .filter((v, i, a) => a.findIndex((o) => o?.id === v?.id) === i)
+                                            .map(opt => ({
+                                                ...opt,
+                                                type: 'brand' as const,
+                                                imageFit: 'contain' as const
+                                            }))
+                                            .slice(0, 16),
+                                    };
+                                })()}
+                                onVote={async (battle_id: string, option_id: string, opponentId: string) => {
+                                    try {
+                                        await signalService.saveSignalEvent({
+                                            battle_id,
+                                            option_id,
+                                            meta: { opponent_id: opponentId, mode: 'progressive' }
+                                        });
+                                        // Wait visually to ensure perception 
+                                        await new Promise(r => setTimeout(r, 400));
+                                        showToast("Señal registrada. El retador ya viene.", "success");
+                                        return {};
+                                    } catch (err) {
+                                        console.error("Error votando en progresivo:", err);
+                                        showToast("No se pudo registrar tu señal. Intenta de nuevo.", "error");
+                                        throw err;
+                                    }
+                                }}
+                            />
                         </div>
                     ) : (
-                        <ProgressiveRunner
-                            progressiveData={(() => {
-                                const t = PROGRESSIVE_THEMES[selectedTheme];
-                                return {
-                                    id: t.id,
-                                    title: t.title,
-                                    subtitle: t.subtitle,
-                                    industry: t.industry,
-                                    theme: t.theme,
-                                    candidates: battlesAsGame
-                                        .filter((b) => (b.category as { slug?: string })?.slug === t.industry || b.industry === t.industry)
-                                        .flatMap((b) => b.options)
-                                        .filter((v, i, a) => a.findIndex((o) => o.id === v.id) === i)
-                                        .slice(0, 16),
-                                };
-                            })()}
-                            onComplete={(winner) => {
-                                showToast(`¡${winner.label} ganó el torneo!`, "success");
-                                setSelectedTheme(null);
-                            }}
-                            onVote={async (battle_id: string, option_id: string) => {
-                                await signalService.saveSignalEvent({ battle_id, option_id });
-                                return {};
-                            }}
-                        />
+                        <div className="bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200 p-12 text-center">
+                            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <span className="material-symbols-outlined text-3xl text-slate-300">target</span>
+                            </div>
+                            <h3 className="text-xl font-black text-slate-900">Selecciona un canal para comenzar</h3>
+                            <p className="text-slate-500 font-medium mt-2">Enfrenta opciones una a una hasta coronar a la mejor.</p>
+                        </div>
                     )}
                 </div>
             ) : null}
 
             {/* INSIGHTS MODE */}
             {mode === "insights" ? (
-                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-6">
-                    <div className="w-full max-w-4xl xl:max-w-5xl mx-auto">
-                        <DepthSelector
-                            options={battlesAsGame.flatMap((b) => b.options)}
-                            onSelect={handleOptionSelect}
+                <div className="space-y-12 animate-in fade-in duration-500">
+                    <div className="max-w-5xl xl:max-w-6xl mx-auto space-y-6">
+                        <IndustrySelector
+                            industries={PARENT_INDUSTRIES}
+                            selectedParentId={selectedTheme}
+                            selectedSubcategoryId={selectedSubcategoryId}
+                            onParentChange={(id) => {
+                                setSelectedTheme(id);
+                                setSelectedSubcategoryId(null);
+                            }}
+                            onSubcategoryChange={(id) => setSelectedSubcategoryId(id)}
+                            title="Elige tu Torneo"
+                            subtitle={selectedTheme
+                                ? "Puedes cambiar de categoría en cualquier momento."
+                                : "Entra a profundidad con las encuestas de cada marca."
+                            }
+                            hideMixOption={true}
                         />
                     </div>
+
+                    {selectedTheme ? (
+                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
+                            <div className="absolute inset-0 pointer-events-none opacity-30">
+                                <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 ${PARENT_INDUSTRIES[selectedTheme].theme.bgGradient} rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
+                            </div>
+                            <div className="w-full max-w-4xl xl:max-w-5xl mx-auto relative z-10">
+                                <DepthSelector
+                                    options={(battlesAsGame || [])
+                                        .filter((b) => {
+                                            const parent = PARENT_INDUSTRIES[selectedTheme];
+                                            const targetSlugs = selectedSubcategoryId
+                                                ? [parent.subcategories.find(s => s.id === selectedSubcategoryId)?.slug]
+                                                : parent.subcategories.map(s => s.slug);
+
+                                            const catSlug = (b.category as { slug?: string })?.slug;
+                                            return targetSlugs.includes(catSlug) || targetSlugs.includes(b.industry);
+                                        })
+                                        .flatMap((b) => b.options || [])
+                                        .filter((v, i, a) => a.findIndex((o) => o?.id === v?.id) === i)
+                                    }
+                                    onSelect={handleOptionSelect}
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200 p-12 text-center">
+                            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <span className="material-symbols-outlined text-3xl text-slate-300">layers</span>
+                            </div>
+                            <h3 className="text-xl font-black text-slate-900">Selecciona un canal para profundizar</h3>
+                            <p className="text-slate-500 font-medium mt-2">Descubre las encuestas detalladas de cada marca en tu categoría deseada.</p>
+                        </div>
+                    )}
                 </div>
             ) : null}
 
@@ -989,6 +996,80 @@ export default function Experience() {
                     showToast("Verificación exitosa. Tu límite subió.", "success");
                 }}
             />
+
+            <AnimatePresence>
+                {showBatchResults && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => { setShowBatchResults(false); navigate("/results", { state: { batchIndex } }); }}
+                            className="absolute inset-0 bg-ink/60 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="relative bg-white rounded-[32px] p-6 md:p-8 max-w-2xl w-full shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto"
+                        >
+                            <div className="flex flex-col items-center text-center mb-6">
+                                <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mb-4">
+                                    <span className="material-symbols-outlined text-3xl">task_alt</span>
+                                </div>
+                                <h2 className="text-2xl md:text-3xl font-black text-ink">Resultados de tu sesión</h2>
+                                <p className="text-slate-500 font-medium mt-2">
+                                    Aportaste <span className="font-bold text-emerald-600">{batchSessionHistory.length} señales</span>. Así se comparan tus decisiones.
+                                </p>
+                            </div>
+
+                            <div className="space-y-3 mb-6">
+                                {batchSessionHistory.map((h, i) => {
+                                    const votedOption = h.myVote === 'A' ? h.battle.options[0] : h.battle.options[1];
+                                    const opponentOption = h.myVote === 'A' ? h.battle.options[1] : h.battle.options[0];
+
+                                    return (
+                                        <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-md transition-all">
+                                            <div className="flex-1">
+                                                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{h.battle.title}</div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-sm font-black text-slate-900">{votedOption?.label || "Opción"}</span>
+                                                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">Tu Voto</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-3 text-sm font-bold text-slate-400">
+                                                <span>vs</span>
+                                                <span className="text-slate-600 line-through decoration-slate-300">{opponentOption?.label || "Opción"}</span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <button
+                                    onClick={() => {
+                                        setShowBatchResults(false);
+                                        if (versusIndustry !== 'mix') {
+                                            setVersusIndustry('mix');
+                                        }
+                                        navigate("/experience");
+                                    }}
+                                    className="w-full flex-1 py-4 bg-white text-slate-700 border border-slate-200 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all"
+                                >
+                                    Seguir Señalando
+                                </button>
+                                <button
+                                    onClick={() => { setShowBatchResults(false); navigate("/results"); }}
+                                    className="w-full flex-1 py-4 bg-primary-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-primary-500/20 hover:bg-primary-700 active:scale-95 transition-all"
+                                >
+                                    Ir a Resultados Globales →
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
 
         </div>
     );

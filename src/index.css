@@ -162,16 +162,16 @@
   }
 
   /* ✅ AURORA UTILITIES - Simplified/Removed colors */
-  .bg-aurora {
+  .bg-blue-600 {
     background-color: rgba(79, 70, 229, 0.05);
     /* Very subtle primary tint */
   }
 
-  .text-aurora {
+  .text-blue-600 {
     @apply text-primary;
   }
 
-  .glass-aurora {
+  .bg-white\/60 {
     @apply bg-white/70 backdrop-blur-lg border border-white/60;
     box-shadow: 0 8px 32px 0 rgba(79, 70, 229, 0.05);
   }

@@ -1,8 +1,6 @@
-import { useLocation } from "react-router-dom";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 
 export default function FeedbackFab() {
-    const location = useLocation();
     const { profile } = useAuth();
 
     const enabled = import.meta.env.VITE_FEEDBACK_WHATSAPP_ENABLED !== "false";
@@ -33,17 +31,25 @@ export default function FeedbackFab() {
                         : "unknown";
 
         return [
-            "Opina+ Feedback",
+            "Opina+ — Feedback (sin filtro)",
             `who=${who}`,
             `ts=${ts}`,
             `url=${url}`,
             "",
-            "Describe el problema / sugerencia:",
+            "¿Qué pasó? (1 frase)",
+            "-",
+            "¿Qué esperabas que pasara?",
+            "-",
+            "¿Cómo lo repito? (pasos cortos)",
+            "1) ",
+            "2) ",
+            "3) ",
+            "",
+            "Extra (si aplica): dispositivo / navegador / captura",
         ].join("\n");
     }
 
-    // En admin no mostramos el FAB
-    if (location.pathname.startsWith("/admin")) return null;
+    // Mostramos el FAB en todas las rutas (incluyendo admin) para feedback continuo
     if (!enabled || !waNumber) return null;
 
     const handleFeedbackClick = async () => {
@@ -63,8 +69,8 @@ export default function FeedbackFab() {
                 type="button"
                 onClick={handleFeedbackClick}
                 className="h-14 w-14 rounded-full shadow-xl shadow-emerald-100 bg-[#25D366] hover:opacity-95 active:scale-95 transition-all flex items-center justify-center focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-500/30"
-                aria-label="Enviar feedback por WhatsApp"
-                title="Feedback por WhatsApp"
+                aria-label="Enviar comentario por WhatsApp"
+                title="Reportar algo (WhatsApp)"
             >
                 <svg
                     viewBox="0 0 24 24"

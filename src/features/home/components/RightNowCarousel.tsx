@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { BrandLogo } from "../../../components/ui/BrandLogo";
 
 export type GenericSlide = {
     id: number | string;
@@ -86,12 +87,13 @@ export default function RightNowCarousel({ readOnly = false, data = [] }: { read
                         {/* --- VARIANT A: BRAND / LOGO --- */}
                         {isBrand && (
                             <div className="flex flex-col items-center justify-center w-full h-full">
-                                <div className="relative group/logo mb-3 shrink-0">
+                                <div className="relative group/logo w-24 h-24 md:w-32 md:h-32 mb-3 shrink-0">
                                     <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/10 to-transparent opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500 rounded-2xl blur-xl" />
-                                    <img
-                                        src={activeSlide.logoUrl}
-                                        alt={activeSlide.value}
-                                        className="h-20 md:h-32 object-contain drop-shadow-md hover:scale-105 transition-transform duration-500 relative z-10"
+                                    <BrandLogo
+                                        name={activeSlide.value}
+                                        imageUrl={activeSlide.logoUrl}
+                                        className="h-full w-full object-contain drop-shadow-md hover:scale-105 transition-transform duration-500 relative z-10 mix-blend-multiply"
+                                        fallbackClassName="h-full w-full flex items-center justify-center text-[10px] font-bold text-slate-400 text-center"
                                     />
                                 </div>
                                 <div className="max-w-xl px-2">

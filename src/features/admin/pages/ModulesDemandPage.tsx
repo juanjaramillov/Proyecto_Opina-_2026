@@ -33,7 +33,7 @@ export default function ModulesDemandPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end p-6 bg-slate-900 rounded-3xl shadow-xl text-white">
                 <div>
                     <h1 className="text-3xl font-black tracking-tight flex items-center gap-3">
-                        <span className="material-symbols-outlined text-4xl text-amber-400">trending_up</span>
+                        <span className="material-symbols-outlined text-4xl text-blue-400">trending_up</span>
                         Demanda por Módulos
                     </h1>
                     <p className="text-slate-400 mt-2 font-medium">Interés real en funcionalidades "Próximamente".</p>
@@ -105,7 +105,7 @@ export default function ModulesDemandPage() {
                                         <div className="flex items-center gap-3">
                                             <span className="font-black text-slate-800 text-sm">{m.module_slug}</span>
                                             {m.clicks >= 10 && (
-                                                <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-black rounded-full animate-pulse">HOT</span>
+                                                <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[9px] font-black rounded-full animate-pulse">HOT</span>
                                             )}
                                         </div>
                                     </td>

@@ -21,7 +21,7 @@ export default function Profile() {
   const { profile, loading } = useAuth();
   const navigate = useNavigate();
 
-  if (loading) return <InlineLoader label="Cargando perfil principal..." />;
+  if (loading) return <InlineLoader label="Cargando tu perfil..." />;
 
   // Requirement 4: Si no hay profile cargado (null) y hay sesión (o no la hay pero llegamos aquí).
   if (!profile) {
@@ -68,7 +68,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
         setPersonalHistory(histData);
       } catch (err) {
         logger.error("Failed to load profile data:", err);
-        notifyService.error("No se pudo cargar la información del perfil.");
+        notifyService.error("No pudimos cargar tu perfil. Intenta de nuevo.");
       }
     };
     loadAllProfileData();
@@ -92,9 +92,9 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
 
       <PageHeader
         variant="simple"
-        eyebrow={<span className="badge badge-primary">Cuenta</span>}
-        title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Perfil</h1>}
-        subtitle={<p className="text-sm text-muted font-medium">Tu panel de control: progreso, datos y actividad. Sin “presentaciones”, solo señales.</p>}
+        eyebrow={<span className="badge badge-primary">Perfil</span>}
+        title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Tu perfil</h1>}
+        subtitle={<p className="text-sm text-muted font-medium">Más completo = más peso = mejor lectura.</p>}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -449,7 +449,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-slate-500 hover:bg-slate-50 font-bold text-sm transition-colors border border-transparent hover:border-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-500 hover:text-slate-700"
           >
             <span className="material-symbols-outlined text-[20px]">logout</span>
-            Cerrar Sesión
+            Salir
           </button>
         </div>
 

@@ -43,7 +43,7 @@ export const InsightsView: React.FC<InsightsViewProps> = ({ data }) => {
 
     if (!data || data.length === 0) {
         return (
-            <div className="p-8 text-center text-gray-500 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+            <div className="p-8 text-center text-slate-500 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <p>No hay datos suficientes para generar insights visuales con los filtros actuales.</p>
             </div>
         );
@@ -53,9 +53,9 @@ export const InsightsView: React.FC<InsightsViewProps> = ({ data }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
 
             {/* Gráfico 1: Top 5 Opciones */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Top 5 Opciones Votadas</h3>
-                <p className="text-sm text-gray-500 mb-6">Basado en el puntaje de opciones en los resultados filtrados.</p>
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Top 5 Opciones Votadas</h3>
+                <p className="text-sm text-slate-500 mb-6">Basado en el puntaje de opciones en los resultados filtrados.</p>
                 <div className="h-64 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={topVoted} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -72,9 +72,9 @@ export const InsightsView: React.FC<InsightsViewProps> = ({ data }) => {
             </div>
 
             {/* Gráfico 2: Distribución de Segmentos */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Distribución por Segmentos</h3>
-                <p className="text-sm text-gray-500 mb-6">Volumen de participación basado en señales recibidas.</p>
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Distribución por Segmentos</h3>
+                <p className="text-sm text-slate-500 mb-6">Volumen de participación basado en señales recibidas.</p>
                 <div className="h-64 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>

@@ -256,7 +256,7 @@ export default function AdminInvites() {
                                             onClick={() => handleBulkAction(confirmAction)}
                                             disabled={loading}
                                             className={`px-3 py-1 rounded-md text-white text-xs font-bold disabled:opacity-50 ${confirmAction === 'delete' ? 'bg-red-600 hover:bg-red-700' :
-                                                confirmAction === 'revoked' ? 'bg-amber-600 hover:bg-amber-700' :
+                                                confirmAction === 'revoked' ? 'bg-blue-600 hover:bg-blue-700' :
                                                     'bg-emerald-600 hover:bg-emerald-700'
                                                 }`}
                                         >
@@ -410,7 +410,7 @@ export default function AdminInvites() {
                                                             onClick={() => handleStatusChange(invite.id, invite.status, confirmRowAction.action)}
                                                             disabled={loading}
                                                             className={`px-1.5 py-0.5 rounded text-[10px] font-bold text-white ${confirmRowAction.action === 'delete' ? 'bg-red-600 hover:bg-red-700' :
-                                                                confirmRowAction.action === 'revoked' ? 'bg-amber-600 hover:bg-amber-700' :
+                                                                confirmRowAction.action === 'revoked' ? 'bg-blue-600 hover:bg-blue-700' :
                                                                     'bg-emerald-600 hover:bg-emerald-700'
                                                                 }`}
                                                         >
@@ -479,7 +479,7 @@ export default function AdminInvites() {
                                             <td className="px-4 py-3">
                                                 <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${r.result === 'success' ? 'bg-emerald-100 text-emerald-800' :
                                                     r.result === 'invite_invalid' || r.result === 'invite_already_used' ? 'bg-red-100 text-red-800' :
-                                                        'bg-amber-100 text-amber-800'
+                                                        'bg-blue-100 text-blue-800'
                                                     }`}>
                                                     {r.result}
                                                 </span>

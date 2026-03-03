@@ -94,7 +94,7 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                                     onChange={(e) => handleAnswer(question.key, e.target.value)}
                                     className={`w-full appearance-none text-xs font-bold rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-1 cursor-pointer transition-colors ${isAnswered
                                         ? 'bg-white border border-emerald-200 text-emerald-800 focus:border-emerald-500 focus:ring-emerald-200'
-                                        : 'bg-surface border border-stroke text-ink focus:border-primary/50 focus:ring-primary/20 hover:bg-gray-50'
+                                        : 'bg-surface border border-stroke text-ink focus:border-primary/50 focus:ring-primary/20 hover:bg-slate-50'
                                         }`}
                                     value={String(currentData[question.key] || "")}
                                 >

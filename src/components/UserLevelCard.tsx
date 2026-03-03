@@ -35,11 +35,14 @@ export function UserLevelCard({ totalSignals }: Props) {
                         </h3>
                     </div>
                     <div className="text-right flex flex-col items-end">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mt-1 mb-1">Impacto de Señal</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mt-1 mb-1">Peso de tu señal</span>
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                             <span className="text-lg font-black text-emerald-400">Alto</span>
                         </div>
+                        <p className="text-[9px] text-slate-500 max-w-[120px] leading-tight mt-1 text-right">
+                            Esto define cuánto influye tu señal en rankings y resultados.
+                        </p>
                     </div>
                 </div>
 
@@ -51,7 +54,7 @@ export function UserLevelCard({ totalSignals }: Props) {
                 {next && (
                     <div className="space-y-4">
                         <div className="flex justify-between items-end mb-1">
-                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Siguiente Nivel: Lvl {next.level}</span>
+                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Completitud</span>
                             <span className="text-sm font-black text-slate-300">{totalSignals} / {next.minSignals}</span>
                         </div>
                         <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700/50">
@@ -67,7 +70,7 @@ export function UserLevelCard({ totalSignals }: Props) {
 
                         <div className="flex items-center gap-2 text-[11px] text-slate-400 bg-slate-800/80 p-3 rounded-xl border border-slate-700/50 mt-4 backdrop-blur-md">
                             <span className="material-symbols-outlined text-sm text-primary-400">info</span>
-                            <span>Sigue acumulando señales para subir al siguiente nivel de influencia.</span>
+                            <span>Completa tu perfil para subir el peso de tu señal.</span>
                         </div>
                     </div>
                 )}

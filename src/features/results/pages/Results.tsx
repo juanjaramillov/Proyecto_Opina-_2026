@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../../supabase/client";
+import { BrandLogo } from '../../../components/ui/BrandLogo';
+
+import { AdvancedResult } from "../services/analyticsService";
 
 type MyRecentVersusSignal = {
   created_at: string;
@@ -11,7 +14,7 @@ type MyRecentVersusSignal = {
   entity_id: string | null;
   entity_name: string | null;
   image_url: string | null;
-  signal_weight: number | null;
+  signal_weight?: number | null;
 };
 import { analyticsService } from "../services/analyticsService";
 import { profileService } from "../../profile/services/profileService";
@@ -43,6 +46,140 @@ function FilterChip({
   );
 }
 
+// --- Componente de Fila Expandible para la lista del Ranking ---
+function RankingResultRow({ result, index }: { result: AdvancedResult, index: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const [insights, setInsights] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const fetchInsights = async () => {
+    if (insights.length > 0) return; // Ya cargado
+    setLoading(true);
+    setError(false);
+    try {
+      const data = await analyticsService.getEntityDepthInsights(result.entity_id!);
+      setInsights(data);
+    } catch (err: unknown) {
+      if (err) setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleExpand = () => {
+    if (!expanded) {
+      fetchInsights();
+    }
+    setExpanded(!expanded);
+  };
+
+  return (
+    <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
+      {/* Botón Cabecera */}
+      <button
+        onClick={toggleExpand}
+        className="w-full flex items-center justify-between p-4 bg-white text-left transition-colors hover:bg-slate-50"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-8 flex items-center justify-center font-black text-slate-400 text-lg">
+            {index + 1}
+          </div>
+          <div>
+            <p className="font-black text-slate-900 text-lg">{result.entity_name ?? "—"}</p>
+            <p className="text-xs text-slate-500 font-bold mt-1">Señales Totales: {result.total_signals ?? 0}</p>
+          </div>
+        </div>
+        <div className="text-right flex items-center gap-4">
+          <div>
+            <p className="text-slate-900 font-black text-xl">{Math.round((result.preference_rate ?? 0) * 100)}%</p>
+            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Preferencia</p>
+          </div>
+          <span className={`material-symbols-outlined text-slate-400 transition-transform ${expanded ? 'rotate-180' : ''}`}>
+            expand_more
+          </span>
+        </div>
+      </button>
+
+      {/* Contenido Expandido */}
+      {expanded && (
+        <div className="border-t border-slate-100 bg-slate-50/50 p-6 animate-in slide-in-from-top-2 duration-300">
+          <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6 flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary-500">analytics</span>
+            Radiografía de Preferencias
+          </h4>
+
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-8 text-slate-400">
+              <span className="material-symbols-outlined animate-spin text-3xl mb-2 text-primary-500">sync</span>
+              <p className="text-sm font-bold">Analizando patrones del algoritmo...</p>
+            </div>
+          ) : error ? (
+            <div className="bg-rose-50 text-rose-600 p-4 rounded-xl text-center font-bold text-sm">
+              Error al cargar los insights. Intenta abrir nuevamente.
+            </div>
+          ) : insights.length === 0 ? (
+            <div className="text-center py-6 text-slate-500 text-sm font-medium">
+              No hay respuestas en profundidad para esta entidad aún en el segmento seleccionado.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {insights.map((insight, idx) => (
+                <div key={idx} className="bg-white border text-sm border-slate-200 rounded-xl p-4 shadow-sm">
+                  <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">
+                    Pregunta {insight.q_position}
+                  </p>
+                  <p className="font-bold text-slate-800 text-xs mb-3 leading-tight min-h-[34px]">
+                    {insight.question_text}
+                  </p>
+
+                  {/* Renderizado especial según el tipo */}
+                  {insight.question_type.startsWith('scale') ? (
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden">
+                        {/* NPS/Score width calculation */}
+                        <div
+                          className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full"
+                          style={{ width: `${(insight.avg_score / (insight.question_type === 'scale_0_10' ? 10 : 5)) * 100}%` }}
+                        />
+                      </div>
+                      <span className="font-black text-lg text-slate-900 w-8 text-right">
+                        {Number(insight.avg_score).toFixed(1)}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="space-y-2 mt-2">
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                      {insight.distribution && Object.entries(insight.distribution).map(([answer, count]: [string, any]) => {
+                        const total = insight.total_answers;
+                        const pct = total > 0 ? (Number(count) / total) * 100 : 0;
+                        return (
+                          <div key={answer} className="flex flex-col gap-1">
+                            <div className="flex justify-between text-[11px] font-bold text-slate-600">
+                              <span className="truncate pr-2">{answer}</span>
+                              <span>{Math.round(pct)}%</span>
+                            </div>
+                            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                              <div className="h-full bg-primary-400 rounded-full" style={{ width: `${pct}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                  <p className="text-right text-[10px] text-slate-400 font-bold mt-3">
+                    {insight.total_answers} señales
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ResultsPage() {
   const nav = useNavigate();
 
@@ -57,7 +194,7 @@ export default function ResultsPage() {
   const [err, setErr] = useState<string | null>(null);
 
   // data
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<AdvancedResult[]>([]);
 
   const [mySignals, setMySignals] = useState<MyRecentVersusSignal[]>([]);
   const [mySignalsLoading, setMySignalsLoading] = useState(false);
@@ -68,14 +205,16 @@ export default function ResultsPage() {
       setMySignalsLoading(true);
       setMySignalsError(null);
 
-      const { data, error } = await (supabase as any).rpc("get_my_recent_versus_signals", {
+      const { data, error } = await supabase.rpc("get_my_recent_versus_signals", {
         p_limit: 20,
       });
 
       if (error) throw error;
 
       setMySignals((data ?? []) as MyRecentVersusSignal[]);
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const err = e as Error;
+      logger.error('Failed to load my signals', err);
       setMySignalsError("No se pudieron cargar tus señales.");
     } finally {
       setMySignalsLoading(false);
@@ -114,12 +253,13 @@ export default function ResultsPage() {
         gender,
         region,
         age_bucket: ageBucket
-      } as any);
+      });
 
       setResults(data || []);
-    } catch (e: any) {
-      logger.error(e);
-      setErr(e?.message ?? "No se pudieron cargar los resultados.");
+    } catch (e: unknown) {
+      const error = e as Error;
+      logger.error(error);
+      setErr(error?.message ?? "No pudimos cargar resultados");
     } finally {
       setLoading(false);
     }
@@ -156,8 +296,12 @@ export default function ResultsPage() {
           <div>
             <h1 className="text-2xl font-black text-slate-900">Resultados</h1>
             <p className="text-slate-500 font-medium mt-1">
-              Filtra y compara señales agregadas.
+              Esto es tendencia agregada. No es una opinión: es un patrón.
             </p>
+            <div className="mt-2 text-xs font-bold text-slate-400 bg-slate-50 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-slate-100">
+              <span className="material-symbols-outlined text-[14px]">update</span>
+              Último snapshot: Se actualiza cada 3 horas.
+            </div>
           </div>
 
           <button
@@ -165,7 +309,7 @@ export default function ResultsPage() {
             onClick={() => nav("/experience")}
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-md hover:shadow-lg active:scale-95"
           >
-            Ir a participar
+            Seguir señalando →
           </button>
         </div>
 
@@ -181,7 +325,7 @@ export default function ResultsPage() {
                 onClick={clearAll}
                 className="text-xs font-black text-slate-500 hover:text-slate-800 px-2 py-1 rounded-lg hover:bg-slate-50 transition"
               >
-                Borrar filtros
+                Resetear filtros
               </button>
             )}
           </div>
@@ -193,7 +337,8 @@ export default function ResultsPage() {
               onChange={(e) => setGender(normalizeAllToNull(e.target.value) ?? undefined)}
               className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
-              {SEG_GENDERS.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
+              <option value="all">Todos</option>
+              {SEG_GENDERS.filter(o => o.value !== "all").map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
 
             <select
@@ -201,7 +346,8 @@ export default function ResultsPage() {
               onChange={(e) => setRegion(normalizeAllToNull(e.target.value) ?? undefined)}
               className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
-              {SEG_REGIONS.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
+              <option value="all">Toda la RM</option>
+              {SEG_REGIONS.filter(o => o.value !== "all").map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
 
             <select
@@ -209,7 +355,8 @@ export default function ResultsPage() {
               onChange={(e) => setAgeBucket(normalizeAllToNull(e.target.value) ?? undefined)}
               className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
-              {SEG_AGE_BUCKETS.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
+              <option value="all">Todas las edades</option>
+              {SEG_AGE_BUCKETS.filter(o => o.value !== "all").map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
           </div>
         </div>
@@ -235,28 +382,27 @@ export default function ResultsPage() {
                     <SkeletonRankingRow />
                   </div>
                 ) : err ? (
-                  <div className="mt-6 text-rose-600 font-bold">{err}</div>
+                  <div className="mt-6 text-rose-600 font-bold">
+                    <div className="mb-2">No pudimos cargar resultados</div>
+                    <div className="text-sm font-normal text-rose-500 mb-4">Refresca o vuelve más tarde.</div>
+                    <button onClick={load} className="px-4 py-2 bg-rose-100 text-rose-700 rounded-lg text-sm font-black hover:bg-rose-200 transition">
+                      Reintentar
+                    </button>
+                  </div>
                 ) : results.length === 0 ? (
                   <div className="mt-6">
                     <EmptyState
-                      title="Sin datos suficientes"
-                      description="No hay información suficiente para los filtros seleccionados. Intenta ampliar tu búsqueda."
+                      title="No hay resultados con estos filtros"
+                      description="Prueba ampliar el segmento. A veces la data no alcanza."
                       icon="analytics"
+                      actionLabel="Resetear filtros"
+                      onAction={clearAll}
                     />
                   </div>
                 ) : (
-                  <div className="mt-6 space-y-3">
-                    {results.slice(0, 10).map((r: any, idx: number) => (
-                      <div key={r.entity_id ?? idx} className="flex items-center justify-between border border-slate-200 rounded-2xl p-4">
-                        <div>
-                          <p className="font-black text-slate-900">{idx + 1}. {r.entity_name ?? "—"}</p>
-                          <p className="text-xs text-slate-500 font-bold mt-1">Señales: {r.total_signals ?? 0}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-slate-900 font-black">{Math.round((r.preference_rate ?? 0) * 100)}%</p>
-                          <p className="text-xs text-slate-500 font-bold">Preferencia</p>
-                        </div>
-                      </div>
+                  <div className="mt-6 flex flex-col gap-3">
+                    {results.slice(0, 10).map((r: AdvancedResult, idx: number) => (
+                      <RankingResultRow key={r.entity_id ?? idx} result={r} index={idx} />
                     ))}
                   </div>
                 )}
@@ -266,8 +412,8 @@ export default function ResultsPage() {
               <div className="border border-slate-200 rounded-3xl p-6">
                 <div className="mb-3 flex items-center justify-between">
                   <div>
-                    <h2 className="text-lg font-black text-slate-900">Mis señales</h2>
-                    <p className="text-sm text-slate-500 font-medium mt-1">Tu historial real.</p>
+                    <h2 className="text-lg font-black text-slate-900">Listo. Tu señal ya cuenta.</h2>
+                    <p className="text-sm text-slate-500 font-medium mt-1">Ahora mira cómo se mueve el resultado por segmento.</p>
                   </div>
                   <button
                     type="button"
@@ -278,55 +424,55 @@ export default function ResultsPage() {
                   </button>
                 </div>
 
-                {mySignalsLoading && (
-                  <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-600">
-                    Cargando tus señales...
+                {mySignalsLoading ? (
+                  <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm">
+                    <span className="animate-pulse">Cargando...</span>
                   </div>
-                )}
-
-                {mySignalsError && (
-                  <div className="mt-6 rounded-2xl border border-red-200 bg-white p-4 text-sm text-red-700">
+                ) : mySignalsError ? (
+                  <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-bold text-rose-700 shadow-sm">
                     {mySignalsError}
                   </div>
-                )}
-
-                {!mySignalsLoading && !mySignalsError && mySignals.length === 0 && (
+                ) : mySignals.length === 0 ? (
                   <div className="mt-6">
                     <EmptyState
                       title="Aún no tienes señales"
                       description="Participa en un versus para dejar tu marca."
                       icon="history"
-                      actionLabel="Ir a participar"
+                      actionLabel="Seguir señalando →"
                       onAction={() => nav("/experience")}
                     />
                   </div>
-                )}
-
-                {!mySignalsLoading && !mySignalsError && mySignals.length > 0 && (
-                  <div className="mt-6 space-y-2">
+                ) : (
+                  <div className="mt-6 space-y-3">
                     {mySignals.map((s) => (
-                      <div key={`${s.created_at}-${s.option_id}`} className="rounded-2xl border border-gray-200 bg-white p-4">
-                        <div className="flex items-start gap-3">
-                          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
-                            {s.image_url ? (
-                              <img src={s.image_url} alt={s.entity_name ?? s.option_label ?? "Señal"} className="h-full w-full object-cover" />
-                            ) : (
-                              <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">•</div>
-                            )}
+                      <div key={`${s.created_at}-${s.option_id}`} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                          <div className="h-14 w-14 shrink-0 flex items-center justify-center overflow-hidden rounded-xl border border-slate-100 bg-slate-50 shadow-inner p-[2px]">
+                            <BrandLogo
+                              name={s.entity_name ?? s.option_label ?? "Señal"}
+                              imageUrl={s.image_url}
+                              className="h-full w-full object-contain mix-blend-multiply"
+                              fallbackClassName="h-full w-full flex items-center justify-center text-[10px] font-bold text-slate-300 text-center"
+                            />
                           </div>
 
                           <div className="min-w-0 flex-1">
-                            <div className="text-sm font-semibold text-gray-900">
+                            <div className="text-sm font-black text-slate-900 leading-tight">
                               {s.battle_title ?? "Versus"}
                             </div>
 
-                            <div className="mt-1 text-sm text-gray-700">
-                              Elegiste: <span className="font-semibold">{s.option_label ?? s.entity_name ?? "Opción"}</span>
+                            <div className="mt-1 text-[13px] font-medium text-slate-600">
+                              Elegiste: <span className="font-bold text-primary-600">{s.option_label ?? s.entity_name ?? "Opción"}</span>
                             </div>
 
-                            <div className="mt-1 text-xs text-gray-500">
-                              {new Date(s.created_at).toLocaleString()}
-                              {typeof s.signal_weight === "number" ? ` • Peso: ${s.signal_weight.toFixed(2)}` : ""}
+                            <div className="mt-2 flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                              <span>{new Date(s.created_at).toLocaleDateString()}</span>
+                              {typeof s.signal_weight === "number" && (
+                                <>
+                                  <span>•</span>
+                                  <span className="text-emerald-500">Peso: {s.signal_weight.toFixed(2)}</span>
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -351,7 +497,7 @@ export default function ResultsPage() {
                   onClick={() => nav("/experience")}
                   className="mt-6 w-full py-3.5 rounded-xl bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-black transition-all shadow-lg hover:shadow-xl active:scale-95"
                 >
-                  Ir a participar
+                  Seguir señalando →
                 </button>
               </div>
             </div>

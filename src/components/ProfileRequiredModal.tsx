@@ -13,25 +13,25 @@ export function ProfileRequiredModal({ onClose, onCompleteProfile }: Props) {
                     </svg>
                 </div>
 
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                <h2 className="text-2xl font-bold text-slate-900 mb-4 text-center">
                     Completa tu perfil
                 </h2>
 
-                <p className="text-gray-600 mb-8 text-center leading-relaxed">
+                <p className="text-slate-600 mb-8 text-center leading-relaxed">
                     Para garantizar la calidad de la data y una segmentación real, necesitamos conocer algunos datos básicos antes de que emitas señales.
                 </p>
 
                 <div className="space-y-3">
                     <button
                         onClick={onCompleteProfile}
-                        className="w-full bg-primary text-white px-6 py-4 rounded-2xl font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+                        className="w-full py-3.5 bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-black rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-primary-500/20 active:scale-95 flex items-center justify-center gap-2"
                     >
-                        Completar perfil ahora
+                        Subir peso de señal
                     </button>
 
                     <button
                         onClick={onClose}
-                        className="w-full text-gray-500 py-2 font-medium hover:text-gray-700 transition-colors"
+                        className="w-full text-slate-500 py-2 font-medium hover:text-slate-700 transition-colors"
                     >
                         Más tarde
                     </button>

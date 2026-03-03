@@ -222,7 +222,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                         {loadingAnalytics && (
                             <div className="text-center py-10">
                                 <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                                <div className="text-gray-500 font-medium animate-pulse">
+                                <div className="text-slate-500 font-medium animate-pulse">
                                     Segmentando señales...
                                 </div>
                             </div>
@@ -235,7 +235,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                         )}
 
                         {!loadingAnalytics && !analyticsError && Object.keys(comparisonData).length === 0 && (
-                            <div className="text-center text-gray-500 py-10 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-100">
+                            <div className="text-center text-slate-500 py-10 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-100">
                                 No hay datos cargados para este segmento.
                             </div>
                         )}

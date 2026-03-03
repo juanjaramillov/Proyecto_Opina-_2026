@@ -82,7 +82,7 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
                                         <h4 className="text-sm font-black text-slate-800 mb-1">{item.name}</h4>
                                         <div className="flex justify-between items-center text-[10px] font-bold text-slate-400">
                                             <span>{item.category}</span>
-                                            <span className="flex items-center gap-1 text-amber-500">
+                                            <span className="flex items-center gap-1 text-blue-600">
                                                 <span className="material-symbols-outlined text-[14px]">star</span>
                                                 {item.rating}
                                             </span>

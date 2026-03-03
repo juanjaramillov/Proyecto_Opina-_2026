@@ -59,19 +59,19 @@ export default function ModulesPriorityPage() {
 
             {/* Top Recommendation Highlight */}
             {topModule && !loading && (
-                <div className="bg-amber-50 border-2 border-amber-200 p-8 rounded-[2.5rem] flex flex-col md:flex-row items-center gap-8 shadow-sm">
-                    <div className="w-24 h-24 bg-amber-400 rounded-3xl flex items-center justify-center shrink-0 shadow-lg rotate-3">
+                <div className="bg-blue-50 border-2 border-blue-200 p-8 rounded-[2.5rem] flex flex-col md:flex-row items-center gap-8 shadow-sm">
+                    <div className="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center shrink-0 shadow-lg rotate-3">
                         <span className="material-symbols-outlined text-white text-5xl">rewarded_ads</span>
                     </div>
                     <div className="flex-1 text-center md:text-left">
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 mb-2">Recomendación #1</h2>
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-2">Recomendación #1</h2>
                         <h3 className="text-3xl font-black text-slate-900 capitalize mb-2">Lanzar "{topModule.module_slug.replace('-', ' ')}"</h3>
                         <p className="text-slate-600 font-medium">
                             Este módulo lidera con un score de <span className="font-bold text-slate-900">{topModule.score}</span>.
-                            Muestra la mejor intersección entre volumen visual y <span className="text-amber-700 underline decoration-2 underline-offset-4 font-bold">intención real de uso</span>.
+                            Muestra la mejor intersección entre volumen visual y <span className="text-blue-700 underline decoration-2 underline-offset-4 font-bold">intención real de uso</span>.
                         </p>
                     </div>
-                    <div className="bg-white px-8 py-6 rounded-3xl border border-amber-100 shadow-sm text-center min-w-[150px]">
+                    <div className="bg-white px-8 py-6 rounded-3xl border border-blue-100 shadow-sm text-center min-w-[150px]">
                         <div className="text-4xl font-black text-slate-900">{topModule.clicks}</div>
                         <div className="text-[10px] font-black text-slate-400 uppercase mt-1">Clicks de Interés</div>
                     </div>
@@ -101,9 +101,9 @@ export default function ModulesPriorityPage() {
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {ranking.map((m, i) => (
-                                <tr key={i} className={`group hover:bg-slate-50/30 transition-all ${i === 0 ? 'bg-amber-50/10' : ''}`}>
+                                <tr key={i} className={`group hover:bg-slate-50/30 transition-all ${i === 0 ? 'bg-blue-50/10' : ''}`}>
                                     <td className="px-8 py-6 whitespace-nowrap">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${i === 0 ? 'bg-amber-400 text-white' :
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${i === 0 ? 'bg-blue-400 text-white' :
                                             i === 1 ? 'bg-slate-300 text-slate-600' :
                                                 i === 2 ? 'bg-orange-200 text-orange-700' : 'bg-slate-100 text-slate-400'
                                             }`}>

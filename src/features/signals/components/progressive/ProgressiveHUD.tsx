@@ -17,7 +17,7 @@ export default function ProgressiveHUD({ round, champWins, goal, onExit }: Progr
                 <span className="px-3 py-1.5 bg-slate-100 text-slate-600 font-bold text-[10px] md:text-xs uppercase tracking-widest rounded-xl border border-slate-200">
                     Ronda {round}
                 </span>
-                <span className="px-3 py-1.5 bg-amber-50 text-amber-600 font-black text-[10px] md:text-xs uppercase tracking-widest rounded-xl border border-amber-100 flex items-center gap-1">
+                <span className="px-3 py-1.5 bg-blue-50 text-blue-600 font-black text-[10px] md:text-xs uppercase tracking-widest rounded-xl border border-blue-100 flex items-center gap-1">
                     <span className="material-symbols-outlined text-sm">workspace_premium</span>
                     Victorias del campeón: {champWins}/{goal}
                 </span>

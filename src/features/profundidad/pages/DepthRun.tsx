@@ -110,12 +110,28 @@ export default function DepthRun() {
 
     const questions = useMemo(() => {
         return defs.map((d) => {
-            const options = Array.isArray(d.options) ? d.options : [];
+            let options = d.options;
+            if (typeof d.options === "string") {
+                try {
+                    options = JSON.parse(d.options);
+                } catch (e) {
+                    logger.warn("Failed to parse options for question", d.question_key, e);
+                    options = [];
+                }
+            }
+            if (!Array.isArray(options)) {
+                options = [];
+            }
+
+            // Forzar nps_0_10 para la primera pregunta o si la clave es 'recomendacion'
+            const isFirst = d.position === 1 || d.question_key === 'recomendacion';
+            const type = isFirst ? 'nps_0_10' : (d.question_type || (options.length ? "choice" : "scale"));
+
             return {
                 id: d.question_key,
-                type: d.question_type || (options.length ? "choice" : "scale"),
+                type,
                 question: d.question_text,
-                options,
+                options: options.filter((o: any) => typeof o === 'string'),
             };
         });
     }, [defs]);
@@ -127,7 +143,7 @@ export default function DepthRun() {
 
     const [saveError, setSaveError] = useState<ReturnType<typeof normalizeRpcError> | null>(null);
 
-    const onSave = async (answers: Record<string, string | number>) => {
+    const handleSave = async (answers: Record<string, string | number>) => {
         if (!opt) throw new Error("Option missing");
 
         const payload = Object.entries(answers).map(([question_key, answer_value]) => ({
@@ -148,7 +164,7 @@ export default function DepthRun() {
     if (loading) {
         return (
             <div className="container-ws section-y">
-                <PageState type="loading" loadingLabel="Cargando Profundidad..." />
+                <PageState type="loading" loadingLabel="Cargando pregunta..." />
             </div>
         );
     }
@@ -158,11 +174,11 @@ export default function DepthRun() {
             <div className="container-ws section-y">
                 <PageState
                     type="error"
-                    title="No se pudo iniciar Profundidad"
-                    description={error || "Error desconocido."}
+                    title="Algo falló"
+                    description={error || "No pudimos cargar Profundidad. Intenta de nuevo."}
                     icon="cloud_off"
-                    primaryAction={{ label: "Volver al listado", onClick: () => navigate(`/depth/${battleSlug}`) }}
-                    secondaryAction={{ label: "Ir a Participa", onClick: () => navigate("/experience") }}
+                    primaryAction={{ label: "Reintentar", onClick: () => window.location.reload() }}
+                    secondaryAction={{ label: "Volver a Participa", onClick: () => navigate("/experience") }}
                 />
             </div>
         );
@@ -208,12 +224,9 @@ export default function DepthRun() {
             <DepthWizard
                 packTitle={packTitle}
                 questions={questions as any}
-                onSave={async (a) => {
-                    try { await onSave(a); }
-                    catch (e) { logger.error("[DepthRun] save failed", e); throw e; }
-                }}
-                onCancel={() => navigate(`/depth/${battleSlug}`)}
-                onComplete={() => navigate("/experience")}
+                onSave={handleSave}
+                onCancel={() => navigate(`/experience`)}
+                onComplete={() => navigate("/results")}
             />
         </div>
     );

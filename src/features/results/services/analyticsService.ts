@@ -34,8 +34,8 @@ export const analyticsService = {
     },
 
     /**
-     * Fetches depth distribution values for a specific question/mark.
-     * (signal_events no permite SELECT directo por RLS, por eso usamos RPC).
+     * (Deprecated) Fetches depth distribution values for a specific question/mark.
+     * Mantenido por retrocompatibilidad por ahora.
      */
     async getDepthDistribution(optionId: string, questionKey: string = 'nota_general') {
         const { data, error } = await (supabase as any).rpc('get_depth_distribution_values', {
@@ -45,5 +45,21 @@ export const analyticsService = {
 
         if (error) throw error;
         return data;
+    },
+
+    /**
+     * Extrae todos los Insights y Distribuciones de TODAS las preguntas de Profundidad de una Entidad.
+     */
+    async getEntityDepthInsights(entityId: string): Promise<any[]> {
+        const { data, error } = await (supabase as any).rpc('get_depth_insights', {
+            p_entity_id: entityId
+        });
+
+        if (error) {
+            logger.error(`Error fetching depth insights for entity ${entityId}:`, error);
+            throw error;
+        }
+
+        return data || [];
     }
 };

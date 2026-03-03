@@ -21,7 +21,7 @@ interface UseVersusGameProps {
     // UX controls
     hideProgress?: boolean;
     disableInsights?: boolean;
-    onQueueComplete?: () => void;
+    onQueueComplete?: (history: any[]) => void;
     isSubmitting?: boolean;
 }
 
@@ -116,7 +116,7 @@ export function useVersusGame({
             const nextIdx = idx + 1;
 
             if (isQueueFinite && nextIdx >= battles.length) {
-                onQueueComplete?.();
+                setIdx(nextIdx);
                 return;
             }
 
@@ -212,8 +212,9 @@ export function useVersusGame({
                 }
 
                 // Add an explicit delay here to allow the user to read the momentum feedback.
-                // 1800ms gives time to see the percentages/momentum before swiping
-                const delayMs = momentum ? 2000 : (autoNextMs ?? 1800);
+                // 3500ms gives time to see the percentages/momentum/insight before swiping
+                const hasFeedback = !!momentum || (effectiveBattle.insights && effectiveBattle.insights.length > 0);
+                const delayMs = hasFeedback ? 3500 : (autoNextMs ?? 1800);
 
                 timeoutRef.current = window.setTimeout(() => {
                     if (!disableInsights && effectiveBattle.insights?.length) {
@@ -234,6 +235,12 @@ export function useVersusGame({
             // We do NOT call setResult, so the UI stays in 'voting' phase for the same battle.
         }
     };
+
+    useEffect(() => {
+        if (isQueueFinite && idx >= battles.length && onQueueComplete) {
+            onQueueComplete(sessionHistory);
+        }
+    }, [idx, battles.length, isQueueFinite, onQueueComplete, sessionHistory]);
 
     // Use unused var to suppress warning
     useEffect(() => {

@@ -92,7 +92,7 @@ export default function ProfileWizard() {
             if (step === 1) {
                 const nick = formData.name?.trim() || "";
                 if (!nick) {
-                    setNicknameErr("El Nickname es obligatorio.");
+                    setNicknameErr("Elige un nickname para seguir.");
                     setLoading(false);
                     return;
                 }
@@ -209,27 +209,22 @@ export default function ProfileWizard() {
     const isStep3Valid = !!(formData.employmentStatus && formData.incomeRange && formData.educationLevel && formData.housingType);
     const isStep4Valid = !!(formData.purchaseBehavior && formData.influenceLevel);
 
-    const stepTitles = ["Activa tu señal", "Tu contexto importa", "Potencia tu señal", "Define tu influencia"];
-
     return (
         <AuthLayout
             title={
                 <div>
                     <span className="text-xs font-black text-primary-600 uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full mb-4 inline-block">
-                        Paso {step} de 4
+                        Sube el peso de tu señal • Paso {step} de 4
                     </span>
                     <h1 className="text-3xl font-black text-slate-900 mt-2 tracking-tight">
-                        {stepTitles[step - 1]}
+                        Tu perfil (versión corta)
                     </h1>
                 </div>
             }
             subtitle={
                 <div className="flex flex-col gap-2 mt-2">
                     <span className="text-slate-500 font-medium">
-                        {step === 1 && "Elige tu Nickname (anónimo) y activa tu cuenta con invitación."}
-                        {step === 2 && "Saber de dónde y quién opina le da contexto a tus señales."}
-                        {step === 3 && "Opcional: Detalla tu perfil sociodemográfico para entender mejor tu contexto."}
-                        {step === 4 && "Opcional: Cuéntanos cómo consumes para perfilar mejor tu influencia."}
+                        Mientras más completo, más pesa tu señal. Sin drama.
                     </span>
                 </div>
             }
@@ -240,16 +235,16 @@ export default function ProfileWizard() {
                     {step === 1 && (
                         <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Tu Nickname</label>
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Tu nickname</label>
                                 <input
                                     type="text"
                                     value={formData.name || ""}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    placeholder="Elige un nickname (no tu nombre real)"
+                                    placeholder="Ej: juan_razona"
                                     className={INPUT}
                                     required
                                 />
-                                <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real no se muestra. Usa un nickname único (3-18 caracteres).</p>
+                                <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real se guarda aparte. Acá mandas tú.</p>
                                 {nicknameErr && <p className="text-sm text-red-600 font-medium ml-1 mt-1">{nicknameErr}</p>}
                             </div>
                         </motion.div>
@@ -260,7 +255,7 @@ export default function ProfileWizard() {
                             <h2 className="text-xl font-bold text-slate-900 mb-2">Genial, {formData.name}</h2>
 
                             <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Año de Nacimiento</label>
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Edad</label>
                                 <input
                                     type="number"
                                     min="1920"
@@ -270,10 +265,12 @@ export default function ProfileWizard() {
                                     placeholder="Ej. 1990"
                                     className={INPUT}
                                 />
+                                <p className="text-[11px] text-slate-400 ml-1 mt-[-4px] font-medium">Para segmentar tendencias. No para juzgarte.</p>
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Identidad de Género</label>
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Género</label>
+                                <p className="text-[11px] text-slate-400 ml-1 mt-[-4px] font-medium">Opcional. Pero ayuda a leer mejor la data.</p>
                                 <div className="grid grid-cols-3 gap-3">
                                     {[
                                         { id: "female", label: "Mujer" },
@@ -293,13 +290,14 @@ export default function ProfileWizard() {
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Región</label>
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">¿Dónde estás?</label>
+                                <p className="text-[11px] text-slate-400 ml-1 mt-[-4px] font-medium">Tranquilo: solo usamos esto para segmentar.</p>
                                 <select
                                     value={formData.region || ""}
                                     onChange={(e) => setFormData({ ...formData, region: e.target.value, commune: "" })}
                                     className={SELECT}
                                 >
-                                    <option value="">Selecciona tu región...</option>
+                                    <option value="">Selecciona…</option>
                                     {REGIONS.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
@@ -312,7 +310,7 @@ export default function ProfileWizard() {
                                         onChange={(e) => setFormData({ ...formData, commune: e.target.value })}
                                         className={SELECT}
                                     >
-                                        <option value="">Selecciona tu comuna...</option>
+                                        <option value="">Selecciona…</option>
                                         {COMUNAS_SANTIAGO.map(c => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                 </div>
@@ -400,7 +398,7 @@ export default function ProfileWizard() {
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                     Guardando...
                                 </>
-                            ) : step === 4 ? "Finalizar Configuración" : "Guardar y Continuar"}
+                            ) : step === 4 ? "Listo" : "Guardar y seguir"}
                         </button>
                     </div>
 
@@ -410,7 +408,7 @@ export default function ProfileWizard() {
                             disabled={loading}
                             className="w-full py-3 text-slate-500 hover:text-slate-700 font-bold tracking-wide uppercase text-xs transition-all"
                         >
-                            Saltar este paso por ahora (Ir al Inicio)
+                            Ahora no
                         </button>
                     )}
                 </div>

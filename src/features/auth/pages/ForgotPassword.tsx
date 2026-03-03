@@ -21,15 +21,14 @@ export default function ForgotPassword() {
 
             setNotice({
                 variant: "success",
-                message:
-                    "Listo. Si ese correo existe en Opina+, le llegará un enlace. (Privacidad primero.)",
+                message: "Listo. Revisa tu correo.",
             });
         } catch (err: unknown) {
             const e = err as Error;
             logger.error("=== FORGOT PASSWORD: Error", e);
             setNotice({
                 variant: "error",
-                message: e.message || "No se pudo enviar el correo. Reintenta.",
+                message: e.message || "Algo falló. Intenta de nuevo.",
             });
         } finally {
             setLoading(false);
@@ -38,8 +37,8 @@ export default function ForgotPassword() {
 
     return (
         <AuthLayout
-            title="Recuperar acceso"
-            subtitle="Te mandamos un enlace de recuperación. Sin preguntas incómodas."
+            title="Recuperar contraseña"
+            subtitle="Te mandamos un link. Revisa spam si se pone pesado."
         >
             <form onSubmit={handleReset} className="space-y-4">
                 <AuthTextInput
@@ -55,9 +54,9 @@ export default function ForgotPassword() {
                 <AuthPrimaryButton
                     disabled={!email}
                     loading={loading}
-                    loadingLabel="Enviando..."
+                    loadingLabel="Un segundo…"
                 >
-                    Enviar enlace
+                    Enviar link
                 </AuthPrimaryButton>
             </form>
 
@@ -66,7 +65,7 @@ export default function ForgotPassword() {
             <div className="mt-10 pt-8 border-t border-slate-100 text-center">
                 <p className="text-sm text-slate-500 font-medium">
                     <Link to="/login" className="text-primary-600 font-bold hover:underline">
-                        Volver al inicio de sesión
+                        Volver a Entrar
                     </Link>
                 </p>
             </div>

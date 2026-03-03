@@ -159,25 +159,25 @@ export default function IntelligencePage() {
     return (
         <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10">
             {/* CTA Empresas B2B */}
-            <div className="mb-4 rounded-2xl border border-gray-200 bg-white p-4">
-                <div className="text-sm font-semibold text-gray-900">
+            <div className="mb-4 rounded-2xl border border-slate-200 bg-white p-4">
+                <div className="text-sm font-semibold text-slate-900">
                     Inteligencia para empresas
                 </div>
-                <div className="mt-1 text-sm text-gray-600">
+                <div className="mt-1 text-sm text-slate-600">
                     Cruces por segmento, evolución temporal y rankings verificados. Si quieres un snapshot comercial o demo, pídelo acá.
                 </div>
 
                 <div className="mt-3 flex flex-wrap gap-2">
                     <a
                         href="mailto:contacto@opina.plus?subject=Opina%2B%20-%20Solicitud%20Demo%20B2B&body=Hola%2C%20quiero%20una%20demo%20B2B%20y%20un%20snapshot%20comercial.%0A%0AIndustria%3A%20%0APa%C3%ADs%3A%20%0AObjetivo%3A%20%0ASegmentos%20de%20inter%C3%A9s%3A%20%0AVentana%20de%20tiempo%3A%20"
-                        className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-100"
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-100"
                     >
                         Solicitar demo / snapshot
                     </a>
 
                     <a
                         href="/about"
-                        className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+                        className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
                     >
                         Cómo funciona
                     </a>
@@ -189,12 +189,12 @@ export default function IntelligencePage() {
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
                         {orgName && <Building2 className="w-8 h-8 text-primary-600" />}
-                        {orgName ? `Panel: ${orgName} ` : "Intelligence Panel"}
+                        {orgName ? `Panel: ${orgName} ` : "Inteligencia"}
                     </h1>
                     <p className="text-slate-500 mt-1">
                         {orgName
                             ? `Vista corporativa para ${orgName} (${orgRole}).`
-                            : "Monitoreo estratégico y patrones de opinión (snapshots cada 3 horas)."}
+                            : "Panel interno. Lectura agregada, snapshots y salud del sistema."}
                     </p>
                 </div>
 
@@ -204,11 +204,24 @@ export default function IntelligencePage() {
                         className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
                     >
                         <Clock className="w-4 h-4 text-primary-500" />
-                        Refrescar Datos
+                        Actualizar
                     </button>
                     <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" title="Sistema Online"></div>
                 </div>
             </div>
+
+            {/* NOTA ADMINISTRATIVA (ACCIONES DE IMPACTO) */}
+            {role === 'admin' && (
+                <div className="mb-8 rounded-xl bg-amber-50 border border-amber-200 p-4">
+                    <div className="flex items-start gap-3">
+                        <ShieldAlert className="w-5 h-5 text-amber-600 mt-0.5" />
+                        <div>
+                            <h4 className="text-sm font-bold text-amber-900">Modo Administrador</h4>
+                            <p className="text-sm text-amber-700 mt-1">Ojo: estas acciones (limpieza, recálculo) afectan datos agregados. Úsalas solo si sabes qué estás haciendo.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* SEGMENTATION FILTERS */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-8 flex flex-wrap items-center gap-4">
@@ -279,7 +292,7 @@ export default function IntelligencePage() {
                 <StatCard
                     title="Señales Recientes (3h)"
                     value={activity?.signals_last_3h || 0}
-                    icon={<Target className="w-5 h-5 text-amber-600" />}
+                    icon={<Target className="w-5 h-5 text-blue-600" />}
                     color="amber"
                     subtitle={`${activity?.verified_signals_last_3h || 0} verificadas`}
                 />
@@ -304,21 +317,21 @@ export default function IntelligencePage() {
                         value={kpis?.dau || 0}
                         icon={<Users className="w-5 h-5 text-primary-500" />}
                         color="primary"
-                        subtitle="Unique active users today"
+                        subtitle="Usuarios únicos hoy"
                     />
                     <StatCard
                         title="WAU (Semanales)"
                         value={kpis?.wau || 0}
                         icon={<Users className="w-5 h-5 text-primary-500" />}
                         color="primary"
-                        subtitle="Last 7 days"
+                        subtitle="Últimos 7 días"
                     />
                     <StatCard
                         title="MAU (Mensuales)"
                         value={kpis?.mau || 0}
                         icon={<Users className="w-5 h-5 text-primary-500" />}
                         color="primary"
-                        subtitle="Last 30 days"
+                        subtitle="Últimos 30 días"
                     />
                 </div>
 
@@ -442,18 +455,18 @@ export default function IntelligencePage() {
                     <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                         <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
                             <ShieldCheck className="w-5 h-5 text-emerald-500" />
-                            {orgName ? "Status Corporativo" : "Salud de Datos (B2B)"}
+                            {orgName ? "Estado Corporativo" : "Salud del Sistema"}
                         </h3>
 
                         <div className="space-y-6">
                             <HealthMetric
-                                label="Signal Integrity"
+                                label="Integridad de Señal"
                                 value={`${health?.signal_integrity_pct || 0}% `}
                                 desc="Señales de usuarios verificados"
                                 color="emerald"
                             />
                             <HealthMetric
-                                label="Profile Density"
+                                label="Densidad de Perfil"
                                 value={`${health?.profile_completeness_avg || 0}% `}
                                 desc="Promedio completitud perfiles"
                                 color="primary"
@@ -461,12 +474,12 @@ export default function IntelligencePage() {
 
                             <div className="pt-4 border-t border-slate-50 grid grid-cols-2 gap-4">
                                 <div className="text-center p-3 bg-slate-50 rounded-2xl">
-                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Data Quality</div>
+                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Calidad Datos</div>
                                     <div className="text-sm font-black text-slate-700">{health?.data_quality_score || 0}</div>
                                 </div>
                                 <div className="text-center p-3 bg-slate-50 rounded-2xl">
-                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Status</div>
-                                    <div className="text-sm font-black text-emerald-600">Optimal</div>
+                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Estado</div>
+                                    <div className="text-sm font-black text-emerald-600">Óptimo</div>
                                 </div>
                             </div>
                         </div>
@@ -474,18 +487,18 @@ export default function IntelligencePage() {
 
                     <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                         <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                            <Database className="w-4 h-4 text-amber-500" />
+                            <Database className="w-4 h-4 text-blue-600" />
                             Estado del Engine
                         </h3>
                         <ul className="space-y-4">
                             <StatusItem
-                                label="Snapshot Engine"
+                                label="Motor de Snapshots"
                                 status="Activo"
                                 time="Actualizado"
                             />
-                            <StatusItem label="Cron: Variation" status="Programado" time="En 2h 46m" />
-                            <StatusItem label="Signal Integrity" status="Activo" />
-                            <StatusItem label="RBAC Layer" status="Optimal" />
+                            <StatusItem label="Cron: Variación" status="Programado" time="En 2h 46m" />
+                            <StatusItem label="Integridad de Señal" status="Activo" />
+                            <StatusItem label="Capa RBAC" status="Óptimo" />
                         </ul>
                     </div>
 
@@ -511,11 +524,11 @@ export default function IntelligencePage() {
                                                 ID: {user.user_id.slice(0, 8)}...
                                             </div>
                                             <span className="text-[10px] font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded uppercase">
-                                                Trust: {user.trust_score}
+                                                Confianza: {user.trust_score}
                                             </span>
                                         </div>
                                         <div className="text-[10px] text-slate-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis">
-                                            Last Signal: {user.last_signal_at ? new Date(user.last_signal_at).toLocaleString() : 'N/A'}
+                                            Última señal: {user.last_signal_at ? new Date(user.last_signal_at).toLocaleString() : 'N/A'}
                                         </div>
                                     </div>
                                 ))
@@ -557,8 +570,8 @@ export default function IntelligencePage() {
                                         <div className="flex items-start justify-between gap-3">
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-1">
-                                                    <span className={`w-1.5 h-1.5 rounded-full ${alert.type === 'momentum' ? 'bg-amber-400' :
-                                                        alert.type === 'volatility' ? 'bg-amber-600' :
+                                                    <span className={`w-1.5 h-1.5 rounded-full ${alert.type === 'momentum' ? 'bg-blue-400' :
+                                                        alert.type === 'volatility' ? 'bg-blue-600' :
                                                             alert.type === 'fraud' ? 'bg-rose-500' : 'bg-blue-500'
                                                         }`} />
                                                     <p className="text-xs font-bold text-slate-900 leading-tight">
@@ -621,14 +634,14 @@ export default function IntelligencePage() {
                         ) : (
                             <div className="space-y-8">
                                 {/* VOLATILITY CARD WITH AREA CHART */}
-                                <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-rose-50 border-rose-100' : volatility?.classification === 'moderate' ? 'bg-amber-50 border-amber-100' : 'bg-emerald-50 border-emerald-100'}`}>
+                                <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-rose-50 border-rose-100' : volatility?.classification === 'moderate' ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'}`}>
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center gap-2">
-                                            <Zap className={`w-4 h-4 ${volatility?.classification === 'volatile' ? 'text-rose-500' : volatility?.classification === 'moderate' ? 'text-amber-500' : 'text-emerald-500'}`} />
+                                            <Zap className={`w-4 h-4 ${volatility?.classification === 'volatile' ? 'text-rose-500' : volatility?.classification === 'moderate' ? 'text-blue-600' : 'text-emerald-500'}`} />
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Índice de Volatilidad (30D)</span>
                                         </div>
-                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${volatility?.classification === 'volatile' ? 'bg-rose-100 text-rose-600' : volatility?.classification === 'moderate' ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'}`}>
-                                            {volatility?.classification || 'Stable'}
+                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${volatility?.classification === 'volatile' ? 'bg-rose-100 text-rose-600' : volatility?.classification === 'moderate' ? 'bg-blue-100 text-blue-600' : 'bg-emerald-100 text-emerald-600'}`}>
+                                            {volatility?.classification === 'volatile' ? 'Volátil' : volatility?.classification === 'moderate' ? 'Moderado' : 'Estable'}
                                         </span>
                                     </div>
                                     <div className="text-3xl font-black text-slate-900 mb-4">{volatility?.volatility_index.toFixed(1)}%</div>
@@ -672,7 +685,7 @@ export default function IntelligencePage() {
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Índice de Polarización</span>
                                         </div>
                                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${polarization?.classification === 'polarized' ? 'bg-primary-100 text-primary-600' : polarization?.classification === 'competitive' ? 'bg-secondary-100 text-secondary-600' : 'bg-blue-100 text-blue-600'}`}>
-                                            {polarization?.classification || 'Consensus'}
+                                            {polarization?.classification === 'polarized' ? 'Polarizado' : polarization?.classification === 'competitive' ? 'Competitivo' : 'Consenso'}
                                         </span>
                                     </div>
                                     <div className="text-3xl font-black text-slate-900">{polarization?.polarization_index.toFixed(1)}%</div>
@@ -718,8 +731,8 @@ export default function IntelligencePage() {
                                 {/* EARLY SIGNAL / MOMENTUM CARD */}
                                 <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                                     <div className="flex items-center gap-2 mb-6">
-                                        <Zap className="w-4 h-4 text-amber-500" />
-                                        <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Early Signal (6H Momentum)</h4>
+                                        <Zap className="w-4 h-4 text-blue-600" />
+                                        <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Señal Temprana (Momentum 6H)</h4>
                                     </div>
 
                                     <div className="space-y-4">
@@ -753,7 +766,7 @@ export default function IntelligencePage() {
                                         )}
                                     </div>
                                     <p className="text-[9px] text-slate-400 mt-4 leading-relaxed italic">
-                                        Compara la actividad de las últimas 6 horas contra el promedio de los últimos 30 días (`opinascore` vs `historical_avg`).
+                                        Compara la actividad de las últimas 6 horas contra el promedio de los últimos 30 días (`score_actual` vs `promedio_histórico`).
                                     </p>
                                 </div>
                                 {/* TEMPORAL COMPARISON CHART SECTION */}
@@ -868,7 +881,7 @@ export default function IntelligencePage() {
                                                     <div className="text-4xl font-black text-slate-900 tracking-tighter">
                                                         {insight.average_score.toFixed(1)}
                                                     </div>
-                                                    <div className="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Score Avg</div>
+                                                    <div className="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Promedio</div>
                                                 </div>
                                                 <div className="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
                                                     <div
@@ -888,8 +901,8 @@ export default function IntelligencePage() {
                             </div>
                         )}
 
-                        <div className="mt-12 p-6 bg-amber-50 rounded-2xl border border-amber-100">
-                            <p className="text-[10px] text-amber-700 font-bold leading-relaxed">
+                        <div className="mt-12 p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                            <p className="text-[10px] text-blue-700 font-bold leading-relaxed">
                                 <Database className="w-3 h-3 inline mr-1 mb-0.5" />
                                 Estos datos provienen del motor de analíticas de profundidad. El score es el promedio de valoraciones (1-10) capturadas en los Insight Packs.
                             </p>
@@ -921,19 +934,19 @@ function StatCard({ title, value, icon, color, subtitle }: StatCardProps) {
     const colorMap: Record<string, string> = {
         primary: "bg-primary-50 border-primary-100",
         emerald: "bg-emerald-50 border-emerald-100",
-        amber: "bg-amber-50 border-amber-100",
+        amber: "bg-blue-50 border-blue-100",
         slate: "bg-slate-50 border-slate-100",
     };
 
     return (
-        <div className={`p - 6 rounded - 3xl border ${colorMap[color]} shadow - sm`}>
+        <div className={`p-6 rounded-3xl border ${colorMap[color]} shadow-sm`}>
             <div className="flex items-center justify-between mb-4">
                 <div className="p-2 bg-white rounded-xl shadow-xs">
                     {icon}
                 </div>
                 {subtitle && <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{subtitle}</span>}
             </div>
-            <div className="text-2xl font-bold text-slate-900">{typeof value === 'number' ? value.toLocaleString() : value}</div>
+            <div className="text-2xl font-black text-slate-900">{typeof value === 'number' ? value.toLocaleString() : value}</div>
             <div className="text-xs font-semibold text-slate-500 mt-1 uppercase tracking-wide">{title}</div>
         </div>
     );
@@ -942,7 +955,7 @@ function StatCard({ title, value, icon, color, subtitle }: StatCardProps) {
 function VariationBadge({ variation, direction }: { variation: number, direction: 'up' | 'down' | 'stable' }) {
     if (direction === 'up') {
         return (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold shadow-sm border border-emerald-100/50">
                 <TrendingUp className="w-3 h-3" />
                 +{variation.toFixed(1)}%
             </span>
@@ -950,14 +963,14 @@ function VariationBadge({ variation, direction }: { variation: number, direction
     }
     if (direction === 'down') {
         return (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 text-xs font-bold">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 text-xs font-bold shadow-sm border border-rose-100/50">
                 <TrendingDown className="w-3 h-3" />
                 {variation.toFixed(1)}%
             </span>
         );
     }
     return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-50 text-slate-400 text-xs font-bold">
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-50 text-slate-400 text-xs font-bold shadow-sm border border-slate-100/50">
             <Activity className="w-3 h-3 saturate-0" />
             0.0%
         </span>
@@ -971,9 +984,9 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
                 <div className="text-sm font-bold text-slate-700">{label}</div>
                 {time && <div className="text-[10px] text-slate-400 font-medium">{time}</div>}
             </div>
-            <span className={`text - [10px] font - bold px - 2 py - 0.5 rounded - md ${status === 'Activo' || status === 'Optimal' ? 'bg-emerald-100 text-emerald-700' :
-                status === 'Programado' ? 'bg-primary-100 text-primary-700' : 'bg-slate-100 text-slate-500'
-                } `}>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${status === 'Activo' || status === 'Óptimo' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' :
+                status === 'Programado' ? 'bg-primary-100 text-primary-700 border border-primary-200' : 'bg-slate-100 text-slate-500 border border-slate-200'
+                }`}>
                 {status}
             </span>
         </li>
@@ -990,7 +1003,7 @@ function HealthMetric({ label, value, desc, color }: { label: string, value: str
         <div>
             <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-bold text-slate-400 tracking-tight">{label}</span>
-                <span className={`text - sm font - black ${colorClasses[color]} `}>{value}</span>
+                <span className={`text-sm font-black ${colorClasses[color]}`}>{value}</span>
             </div>
             <div className="text-[10px] text-slate-500 italic font-medium">{desc}</div>
         </div>

@@ -58,7 +58,7 @@ export default function LoginPage() {
             nav(nextPath, { replace: true });
         } catch (e: any) {
             logger.error(e);
-            setErr(e?.message ?? "No se pudo iniciar sesión.");
+            setErr("Email o contraseña incorrectos.");
         } finally {
             setLoading(false);
         }
@@ -66,7 +66,7 @@ export default function LoginPage() {
 
     return (
         <AuthLayout
-            title="Iniciar sesión"
+            title="Entrar"
             subtitle={
                 <div className="flex flex-col gap-2">
                     {reasonText && (
@@ -74,8 +74,8 @@ export default function LoginPage() {
                             <p className="text-sm font-bold text-primary-700">{reasonText}</p>
                         </div>
                     )}
-                    <span className="text-slate-500 font-medium">
-                        Accede para participar, ver resultados y seguir tu progreso.
+                    <span className="text-slate-600 font-medium">
+                        Vuelve. Tu señal te estaba esperando.
                     </span>
                 </div>
             }
@@ -88,8 +88,8 @@ export default function LoginPage() {
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
-                        placeholder="tu@email.com"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/20 outline-none transition-all font-bold text-slate-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
+                        placeholder="tu@correo.com"
                         type="email"
                         required
                     />
@@ -102,7 +102,7 @@ export default function LoginPage() {
                     <input
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/20 outline-none transition-all font-bold text-slate-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
                         placeholder="••••••••"
                         type="password"
                         required
@@ -114,15 +114,18 @@ export default function LoginPage() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all disabled:opacity-50 shadow-sm"
+                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all hover:shadow-lg hover:shadow-primary-500/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 shadow-sm"
                 >
-                    {loading ? "Entrando..." : "Entrar"}
+                    {loading ? "Un segundo…" : "Entrar"}
                 </button>
 
-                <div className="text-center pt-2">
-                    <p className="text-sm text-slate-500 font-medium">
+                <div className="flex justify-between items-center pt-2">
+                    <Link to="/forgot-password" className="text-[11px] font-black text-slate-500 hover:text-primary-700 transition">
+                        Olvidé mi contraseña
+                    </Link>
+                    <p className="text-[11px] text-slate-500 font-semibold">
                         ¿No tienes cuenta?{" "}
-                        <Link to={`/register?next=${encodeURIComponent(nextPath)}`} className="font-black text-primary-700 hover:text-primary-800">
+                        <Link to={`/register?next=${encodeURIComponent(nextPath)}`} className="font-black text-primary-700 hover:text-primary-800 transition">
                             Crear cuenta
                         </Link>
                     </p>

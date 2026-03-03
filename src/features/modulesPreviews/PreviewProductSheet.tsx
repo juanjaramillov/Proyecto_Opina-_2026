@@ -28,9 +28,9 @@ const PreviewProductSheet: React.FC<PreviewProductSheetProps> = ({ product }) =>
                     <div className="text-[10px] font-black text-primary-500 uppercase tracking-widest mb-1">{product.brand} · {product.category}</div>
                     <h2 className="text-3xl font-black text-slate-900 leading-tight mb-3">{product.name}</h2>
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1 px-3 py-1 bg-amber-50 rounded-full border border-amber-100">
-                            {[1, 2, 3, 4].map(s => <span key={s} className="material-symbols-outlined text-[14px] text-amber-500 fill-current">star</span>)}
-                            <span className="material-symbols-outlined text-[14px] text-amber-200 fill-current">star</span>
+                        <div className="flex items-center gap-1 px-3 py-1 bg-blue-50 rounded-full border border-blue-100">
+                            {[1, 2, 3, 4].map(s => <span key={s} className="material-symbols-outlined text-[14px] text-blue-600 fill-current">star</span>)}
+                            <span className="material-symbols-outlined text-[14px] text-blue-200 fill-current">star</span>
                         </div>
                         <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{product.rating} de 5.0</span>
                     </div>

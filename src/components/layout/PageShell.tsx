@@ -7,10 +7,10 @@ import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
 import FeedbackFab from "../ui/FeedbackFab";
 
 const MENU_ITEMS = [
-  { id: 'participa', label: 'Participa', route: '/experience' },
+  { id: 'participa', label: 'Señala', route: '/experience' },
   { id: 'results', label: 'Resultados', route: '/results' },
   { id: 'rankings', label: 'Rankings', route: '/rankings' },
-  { id: 'empresas', label: 'Empresas', route: '/intelligence' },
+  { id: 'empresas', label: 'Inteligencia', route: '/intelligence' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
@@ -53,15 +53,15 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // ✅ Feedback WhatsApp: se oculta en /admin, y pantallas activas de votación
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  // ✅ Feedback WhatsApp: se oculta SOLO en pantallas activas de votación si se desea, 
+  // Mostramos el FAB en todas las rutas (incluyendo admin) para feedback continuo
   const isVotingRoute = location.pathname.includes("/torneo") || location.pathname.includes("/versus");
-  const showFeedbackFab = !isAdminRoute && !isVotingRoute;
+  const showFeedbackFab = !isVotingRoute;
 
   return (
     <div className="flex flex-col flex-1 w-full min-h-screen relative">
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-primary-600 focus:font-bold">Saltar al contenido</a>
-      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'glass-aurora bg-white/60 border-b border-white/20 py-4'}`}>
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'bg-white/60 border-b border-white/20 py-4'}`}>
         <div className="w-full px-4 sm:px-8 xl:px-12 flex items-center justify-between gap-4">
 
           {/* Logo & Level (Left side) */}
@@ -83,7 +83,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
           <button
             className="sm:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 rounded-lg"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle Navigation"
+            aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           >
             <span className="material-symbols-outlined text-2xl">
               {isMobileMenuOpen ? 'close' : 'menu'}
@@ -122,8 +122,8 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   {role === 'admin' ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                 </div>
                 <span>{role === 'admin' ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Usuario')}</span>
-                <div className="flex items-center gap-1 bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-md border border-amber-200/50 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-amber-200" title={`Faltan ${toNext} señales para tu próximo hito`}>
-                  <span className="material-symbols-outlined text-[12px] text-amber-600">star</span>
+                <div className="flex items-center gap-1 bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-md border border-blue-200/50 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-blue-200" title={`Faltan ${toNext} señales para tu próximo hito`}>
+                  <span className="material-symbols-outlined text-[12px] text-blue-600">star</span>
                   <span>Faltan {toNext}</span>
                 </div>
               </NavLink>
@@ -133,12 +133,12 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 className="px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-700 hover:shadow-lg transition-all active:scale-95 ml-4 flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">login</span>
-                Iniciar Sesión
+                Entrar
               </NavLink>
             )}
 
             {/* ENLACES ADMINISTRACION */}
-            {isAuthenticated && (role === 'admin' || (profile as any)?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
+            {isAuthenticated && (role === 'admin' || (profile as { role?: string })?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
               <div className="relative ml-1 lg:ml-2 flex items-center h-full" ref={adminMenuRef}>
                 <button
                   onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
@@ -148,27 +148,27 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   Admin
                   <span className={`material-symbols-outlined text-[14px] transition-transform ${isAdminMenuOpen ? 'rotate-180' : ''}`}>expand_more</span>
                 </button>
-                <div className={`absolute top-full right-0 mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl transition-all duration-200 z-[100] overflow-hidden flex flex-col pt-1 ${isAdminMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}>
+                <div className={`absolute top-full right-0 mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-premium transition-all duration-200 z-[100] overflow-hidden flex flex-col pt-1 ${isAdminMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}>
                   <div className="px-4 py-2 bg-slate-50/50 border-b border-slate-100">
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Panel de Control</p>
                   </div>
-                  <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
                   </NavLink>
-                  <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
                     Health Checks
                   </NavLink>
-                  <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
                   </NavLink>
-                  <NavLink to="/admin/demanda" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/demanda" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">bar_chart</span>
                     Demanda Módulos
                   </NavLink>
-                  <NavLink to="/admin/prioridad" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/prioridad" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">sort</span>
                     Prioridad Módulos
                   </NavLink>
@@ -217,7 +217,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Faltan {toNext} para premio</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-center w-8 h-8 bg-amber-100 text-amber-600 rounded-lg border border-amber-200">
+                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-lg border border-blue-200">
                   <span className="material-symbols-outlined text-[18px]">redeem</span>
                 </div>
               </NavLink>
@@ -228,11 +228,11 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 className="mx-4 my-2 px-4 py-3 flex items-center justify-center gap-2 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-700 transition-colors"
               >
                 <span className="material-symbols-outlined text-[18px]">login</span>
-                Iniciar Sesión
+                Entrar
               </NavLink>
             )}
 
-            {isAuthenticated && (role === 'admin' || (profile as any)?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
+            {isAuthenticated && (role === 'admin' || (profile as { role?: string })?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
               <div className="mx-4 mb-4 mt-2 bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden p-2">
                 <p className="px-3 pt-2 pb-2 text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">admin_panel_settings</span> Panel Admin</p>
                 <div className="flex flex-col gap-1 mt-1">
@@ -274,13 +274,11 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
         <div className="w-full px-4 sm:px-8 xl:px-12 mx-auto text-center space-y-2">
           <div className="flex justify-center items-center gap-2 mb-2 opacity-60">
             <span className="material-symbols-rounded text-[16px]">gavel</span>
-            <span className="text-[10px] font-bold uppercase tracking-widest">Legal & Compliance</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest">Legal</span>
           </div>
 
           <p className="text-[11px] text-text-muted leading-relaxed max-w-2xl mx-auto">
-            Opina+ es una plataforma independiente de opinión. Las marcas, productos y servicios mencionados
-            pertenecen a sus respectivos dueños. Las comparaciones y resultados reflejan únicamente la
-            opinión de los usuarios y no constituyen afirmaciones ni recomendaciones de Opina+.
+            Opina+ muestra tendencias agregadas. No es asesoría, no es verdad absoluta. Es señal.
           </p>
 
           <p className="text-[10px] text-slate-300 uppercase tracking-wider font-semibold">
