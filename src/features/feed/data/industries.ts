@@ -1,4 +1,4 @@
-import { LucideIcon } from 'lucide-react';
+
 
 export const PARENT_INDUSTRIES: Record<string, any> = {
     "salud": {

@@ -237,11 +237,11 @@ export default function Experience() {
             if (parent) {
                 if (selectedSubcategoryId) {
                     // Match the exact requested subcategory
-                    const subcat = parent.subcategories.find(s => s.id === selectedSubcategoryId);
+                    const subcat = parent.subcategories.find((s: any) => s.id === selectedSubcategoryId);
                     return subcat ? categorySlug === subcat.slug : false;
                 } else {
                     // Match ANY of its subcategories
-                    return parent.subcategories.some(sub => sub.slug === categorySlug);
+                    return parent.subcategories.some((sub: any) => sub.slug === categorySlug);
                 }
             }
 
@@ -860,8 +860,8 @@ export default function Experience() {
 
                                     // Target specific subcategory or all from parent
                                     const targetSlugs = selectedSubcategoryId
-                                        ? [t.subcategories.find(s => s.id === selectedSubcategoryId)?.slug]
-                                        : t.subcategories.map(s => s.slug);
+                                        ? [t.subcategories.find((s: any) => s.id === selectedSubcategoryId)?.slug]
+                                        : t.subcategories.map((s: any) => s.slug);
 
                                     return {
                                         id: t.id,
@@ -948,8 +948,8 @@ export default function Experience() {
                                         .filter((b) => {
                                             const parent = PARENT_INDUSTRIES[selectedTheme];
                                             const targetSlugs = selectedSubcategoryId
-                                                ? [parent.subcategories.find(s => s.id === selectedSubcategoryId)?.slug]
-                                                : parent.subcategories.map(s => s.slug);
+                                                ? [parent.subcategories.find((s: any) => s.id === selectedSubcategoryId)?.slug]
+                                                : parent.subcategories.map((s: any) => s.slug);
 
                                             const catSlug = (b.category as { slug?: string })?.slug;
                                             return targetSlugs.includes(catSlug) || targetSlugs.includes(b.industry);
