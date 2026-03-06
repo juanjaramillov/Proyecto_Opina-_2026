@@ -5,17 +5,20 @@
 @layer base {
 
   :root {
-    /* ✅ BRAND COLOR OPINA+ (Original Logo) */
+    /* ✅ BRAND COLOR OPINA+ (Corporate Blue) */
     --brand-opina-blue: #2563EB;
-    --brand-opina-teal: #10b981;
+    --brand-opina-dark: #0F172A;
+    --brand-opina-teal: #10B981;
+    --brand-opina-accent-light: #3B82F6;
+    --brand-opina-teal-light: #34D399;
 
     /* ✅ BRAND ACCENT GLOBAL DEFINITION - STRICT FROM THEME */
-    --brand-accent: linear-gradient(to right, var(--brand-opina-blue), var(--brand-opina-teal));
+    --brand-accent: linear-gradient(135deg, var(--brand-opina-blue), var(--brand-opina-accent-light), var(--brand-opina-teal-light));
     --brand-accent-solid: #2563EB;
 
     /* ✅ DESIGN TOKENS */
     --primary: #2563EB;
-    --secondary: #10b981;
+    --secondary: #10B981;
     --ink: #0F172A;
     --surface2: #F8FAFC;
     --stroke: #E2E8F0;
@@ -155,6 +158,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
+    display: inline-block;
   }
 
   .bg-gradient-brand {
@@ -163,7 +167,7 @@
 
   /* ✅ AURORA UTILITIES - Simplified/Removed colors */
   .bg-blue-600 {
-    background-color: rgba(79, 70, 229, 0.05);
+    background-color: rgba(37, 99, 235, 0.05);
     /* Very subtle primary tint */
   }
 
@@ -173,7 +177,7 @@
 
   .bg-white\/60 {
     @apply bg-white/70 backdrop-blur-lg border border-white/60;
-    box-shadow: 0 8px 32px 0 rgba(79, 70, 229, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(37, 99, 235, 0.05);
   }
 
   .container-ws {
@@ -220,7 +224,7 @@
   .btn-primary {
     @apply btn text-white border-0 hover:-translate-y-0.5 hover:opacity-90;
     background: var(--brand-accent);
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.25), 0 4px 6px -2px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.25), 0 4px 6px -2px rgba(37, 99, 235, 0.1);
   }
 
   .btn-secondary {
@@ -258,7 +262,7 @@
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     background: var(--brand-accent);
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.25);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.25);
   }
 
   .btn-hero:focus {

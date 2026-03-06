@@ -15,6 +15,12 @@ export interface InviteRow {
     total_time_spent_seconds: number | null;
     total_sessions: number | null;
     last_active_at: string | null;
+    whatsapp_phone: string | null;
+    whatsapp_status: 'pending' | 'sent' | 'error' | null;
+    whatsapp_sent_at: string | null;
+    whatsapp_error: string | null;
+    whatsapp_message_id: string | null;
+    whatsapp_last_sent_at: string | null;
 }
 
 export type RedemptionRow = {
@@ -108,5 +114,22 @@ export const adminInvitesService = {
         }
 
         return (data as unknown as RedemptionRow[]) || [];
+    },
+
+    /**
+     * Sends a WhatsApp invitation using a Supabase Edge Function.
+     */
+    async sendWhatsAppInvite(invitationId: string, phone: string): Promise<{ success: boolean; messageId?: string; error?: string; detail?: any }> {
+        const { data, error } = await supabase.functions.invoke('send-whatsapp-invite', {
+            body: { invitation_id: invitationId, phone_e164: phone }
+        });
+
+        if (error) {
+            console.error('Full Error from Supabase Function:', error);
+            logger.error('Error calling send-whatsapp-invite:', error);
+            return { success: false, error: error.message || 'Error de conexión con la función' };
+        }
+
+        return data;
     }
 };

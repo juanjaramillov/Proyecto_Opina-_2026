@@ -11,6 +11,8 @@ import { logger } from '../../../lib/logger';
 import PageHeader from "../../../components/ui/PageHeader";
 import { useToast } from "../../../components/ui/useToast";
 import { BrandLogo } from '../../../components/ui/BrandLogo';
+import { parseSegmentId, removeSegmentPart } from "../../../lib/filterChips";
+import { trackPage } from "../../telemetry/track";
 
 interface Category {
     id: string;
@@ -46,8 +48,8 @@ const Rankings: React.FC = () => {
         { id: "global", label: "Todos" },
         { id: "gender:female", label: "Mujeres" },
         { id: "gender:male", label: "Hombres" },
-        { id: "region:Metropolitana", label: "Toda la RM" },
-        { id: "gender:male|region:Metropolitana", label: "Hombres RM" }
+        { id: "region:RM", label: "Región Metropolitana" },
+        { id: "gender:male|region:RM", label: "Hombres RM" }
     ];
     const segmentLabel = SEGMENTS.find(s => s.id === segmentId)?.label || segmentId;
 
@@ -114,6 +116,10 @@ const Rankings: React.FC = () => {
         window.history.replaceState(null, "", newUrl);
     }, [activeCategorySlug, moduleType, segmentId]);
 
+    useEffect(() => {
+        trackPage("rankings", { category: activeCategorySlug, module: moduleType, segment: segmentId });
+    }, [activeCategorySlug, moduleType, segmentId]);
+
     const lastSnapshotAt = React.useMemo(() => {
         if (!ranking?.length) return null;
         let max = 0;
@@ -145,7 +151,7 @@ const Rankings: React.FC = () => {
 
             <PageHeader
                 eyebrow={
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-[11px] font-black uppercase tracking-widest text-primary-600">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-[11px] font-black uppercase tracking-widest text-emerald-600">
                         <span className="material-symbols-outlined text-[16px]">military_tech</span>
                         Snapshot Opina+ · Ponderado por relevancia
                     </div>
@@ -154,7 +160,7 @@ const Rankings: React.FC = () => {
                     <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-ink leading-tight">
                         Ranking de{" "}
                         {activeCategory ? (
-                            <span className="text-primary-600 capitalize">{activeCategory.name}</span>
+                            <span className="text-gradient-brand capitalize">{activeCategory.name}</span>
                         ) : (
                             <span className="inline-block h-8 w-44 bg-slate-200 rounded-xl animate-pulse align-middle" />
                         )}
@@ -223,8 +229,8 @@ const Rankings: React.FC = () => {
                             key={cat.id}
                             onClick={() => setActiveCategorySlug(cat.slug)}
                             className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all active:scale-95 border ${activeCategorySlug === cat.slug
-                                ? 'bg-primary-600 border-primary-600 text-white shadow-lg'
-                                : 'bg-white border-slate-100 text-muted hover:border-primary-200'
+                                ? 'bg-gradient-brand border-transparent text-white shadow-lg'
+                                : 'bg-white border-slate-100 text-muted hover:border-emerald-200'
                                 }`}
                         >
                             {cat.name}
@@ -236,13 +242,13 @@ const Rankings: React.FC = () => {
                 <div className="flex bg-slate-200/50 p-1 rounded-xl shrink-0">
                     <button
                         onClick={() => setModuleType('versus')}
-                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'versus' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'versus' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         Versus
                     </button>
                     <button
                         onClick={() => setModuleType('progressive')}
-                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'progressive' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${moduleType === 'progressive' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         Progresivo
                     </button>
@@ -258,7 +264,7 @@ const Rankings: React.FC = () => {
                     <div className="flex items-center gap-3">
                         <span className="material-symbols-outlined text-slate-400">tune</span>
                         <span className="text-sm font-bold text-ink">Filtros</span>
-                        <span className="bg-primary-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                        <span className="bg-gradient-brand text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
                             {segmentLabel}
                         </span>
                     </div>
@@ -266,6 +272,36 @@ const Rankings: React.FC = () => {
                         expand_more
                     </span>
                 </button>
+
+                {(() => {
+                    const parts = parseSegmentId(segmentId);
+                    if (parts.length === 0) return null;
+
+                    return (
+                        <div className="px-6 pb-4">
+                            <div className="flex flex-wrap items-center gap-2">
+                                {parts.map(p => (
+                                    <div key={`${p.key}:${p.value}`} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-700 font-bold text-xs">
+                                        <span>{p.label}</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSegmentId(removeSegmentPart(segmentId, p.key))}
+                                            className="w-5 h-5 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition"
+                                            aria-label={`Quitar ${p.label}`}
+                                        >×</button>
+                                    </div>
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={() => setSegmentId("global")}
+                                    className="text-xs font-black text-slate-500 hover:text-slate-900 px-2 py-1 rounded-lg hover:bg-slate-50 transition"
+                                >
+                                    Resetear
+                                </button>
+                            </div>
+                        </div>
+                    );
+                })()}
 
                 <AnimatePresence>
                     {openFilters && (
@@ -283,7 +319,7 @@ const Rankings: React.FC = () => {
                                             <button
                                                 key={s.id}
                                                 onClick={() => setSegmentId(s.id)}
-                                                className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all active:scale-95 capitalize ${segmentId === s.id ? 'bg-primary-50 border-primary-200 text-primary-700' : 'bg-white border-slate-100 text-muted'
+                                                className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border transition-all active:scale-95 capitalize ${segmentId === s.id ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-white border-slate-100 text-muted'
                                                     }`}
                                             >
                                                 {s.label}
@@ -337,7 +373,7 @@ const Rankings: React.FC = () => {
                                         : 'bg-white border-slate-100 text-ink shadow-xl'
                                         }`}
                                 >
-                                    <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-xl font-black text-primary-600 border-4 border-primary-50">
+                                    <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-xl font-black text-emerald-600 border-4 border-emerald-50">
                                         {idx + 1}
                                     </div>
 
@@ -370,7 +406,7 @@ const Rankings: React.FC = () => {
                             {ranking.slice(3).map((item, idx) => (
                                 <div key={item.entity_id} className="px-8 py-5 flex items-center justify-between hover:bg-slate-50 transition-colors group">
                                     <div className="flex items-center gap-6">
-                                        <span className="w-6 text-sm font-black text-slate-300 group-hover:text-primary-600 transition-colors">
+                                        <span className="w-6 text-sm font-black text-slate-300 group-hover:text-emerald-600 transition-colors">
                                             {idx + 4}
                                         </span>
                                         <div className="w-10 h-10 rounded-lg bg-slate-50 p-2 border border-slate-100 overflow-hidden">

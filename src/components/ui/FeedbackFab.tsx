@@ -1,7 +1,8 @@
-import { useAuth } from "../../features/auth/hooks/useAuth";
+
+
+import { track } from "../../features/telemetry/track";
 
 export default function FeedbackFab() {
-    const { profile } = useAuth();
 
     const enabled = import.meta.env.VITE_FEEDBACK_WHATSAPP_ENABLED !== "false";
 
@@ -12,41 +13,11 @@ export default function FeedbackFab() {
     const waNumber = waFromEnv || waFallback;
 
     function buildWhatsAppMessage() {
-        const now = new Date();
-        const ts = now.toISOString();
-
-        const url = window.location.href;
-
-        // Identificador local
-        const anon = localStorage.getItem("opina_anon_id") || localStorage.getItem("anon_id");
-        const accessPass = localStorage.getItem("opina_access_pass") || "";
-        const uid = profile?.nickname || profile?.email || "";
-
-        const who =
-            accessPass === "admin"
-                ? `admin:${uid || "unknown"}`
-                : anon
-                    ? `anon:${anon}`
-                    : uid
-                        ? `user:${uid}`
-                        : "unknown";
-
         return [
-            "Opina+ — Feedback (sin filtro)",
-            `who=${who}`,
-            `ts=${ts}`,
-            `url=${url}`,
+            "¡Hola! 👋 Estoy probando Opina+ y quiero ser parte de la revolución.",
             "",
-            "¿Qué pasó? (1 frase)",
-            "-",
-            "¿Qué esperabas que pasara?",
-            "-",
-            "¿Cómo lo repito? (pasos cortos)",
-            "1) ",
-            "2) ",
-            "3) ",
-            "",
-            "Extra (si aplica): dispositivo / navegador / captura",
+            "Mis comentarios/ideas:",
+            "- ",
         ].join("\n");
     }
 
@@ -54,6 +25,7 @@ export default function FeedbackFab() {
     if (!enabled || !waNumber) return null;
 
     const handleFeedbackClick = async () => {
+        track("whatsapp_feedback_click", "info");
         const message = buildWhatsAppMessage();
         try {
             await navigator.clipboard.writeText(message);

@@ -21,24 +21,7 @@ export function Skeleton({ className = '', variant = 'text', animate = true }: S
     );
 }
 
-export function SkeletonHeroCard() {
-    return (
-        <div className="w-full h-full min-h-[400px] flex flex-col justify-between p-6 rounded-[2.5rem] bg-blue-50/20 border border-blue-900/5 shadow-sm overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-tr from-slate-100/50 to-blue-50/10 opacity-50" />
-            <Skeleton variant="circular" className="w-16 h-16 mb-4 bg-white" />
-            <div className="space-y-3 mt-auto w-full z-10">
-                <Skeleton variant="text" className="w-3/4 h-8 bg-white/60" />
-                <Skeleton variant="text" className="w-1/2 h-4 bg-white/60" />
-                <div className="flex gap-2 pt-4">
-                    <Skeleton variant="pill" className="w-20 h-6 bg-white/60" />
-                    <Skeleton variant="pill" className="w-24 h-6 bg-white/60" />
-                </div>
-            </div>
-            {/* Shimmer effect overlay */}
-            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-        </div>
-    );
-}
+
 
 export function SkeletonModuleCard() {
     return (

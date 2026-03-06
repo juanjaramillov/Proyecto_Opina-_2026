@@ -11,18 +11,20 @@ type QuestionConfig = {
 };
 
 const QUESTIONS: QuestionConfig[] = [
-    // BLOCK A
-    { key: 'birthYear', label: 'Rango de Edad', description: 'Para segmentar patrones generacionales.', priority: 'A', options: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'] },
-    { key: 'gender', label: 'Género', description: 'Para identificar brechas de opinión.', priority: 'A', options: ['Masculino', 'Femenino', 'Otro'] },
-    { key: 'region', label: 'Región', description: 'Para entender el contexto territorial.', priority: 'A', options: ['RM', 'Valparaíso', 'Biobío', 'Norte', 'Sur'] },
+    // BLOCK A: Demografía (Paso 2)
+    { key: 'birthYear', label: 'Año de Nacimiento', description: 'Para segmentar patrones generacionales.', priority: 'A', options: [] },
+    { key: 'gender', label: 'Género', description: 'Para identificar brechas de opinión.', priority: 'A', options: ['Hombre', 'Mujer', 'Otro', 'Prefiero no decir'] },
+    { key: 'region', label: 'Región', description: 'Para entender el contexto territorial.', priority: 'A', options: ['Metropolitana', 'Valparaíso', 'Biobío', 'Norte', 'Sur', 'Extranjero'] },
 
-    // BLOCK B
-    { key: 'educationLevel', label: 'Nivel Educacional', description: 'Para correlacionar formación con visión.', priority: 'B', options: ['Media Incompleta', 'Media Completa', 'Técnica', 'Universitaria', 'Postgrado'] },
-    { key: 'employmentStatus', label: 'Situación Laboral', description: 'Para medir el contexto económico real.', priority: 'B', options: ['Estudiante', 'Trabaja', 'Busca Trabajo', 'Jubilado', 'Dueña/o de Casa'] },
-    { key: 'incomeRange', label: 'Tramo de Ingreso', description: 'Dato anónimo para cruces socioeconómicos.', priority: 'B', options: ['-400k', '400k-800k', '800k-1.5M', '1.5M-3M', '+3M'] },
+    // BLOCK B: Socioeconómico (Paso 3)
+    { key: 'educationLevel', label: 'Nivel Educacional', description: 'Para correlacionar formación con visión.', priority: 'B', options: ['Básica incompleta o menos', 'Básica completa', 'Media incompleta', 'Media completa', 'Técnica incompleta', 'Técnica completa', 'Universitaria incompleta', 'Universitaria completa', 'Postgrado'] },
+    { key: 'employmentStatus', label: 'Situación Laboral', description: 'Para medir el contexto económico real.', priority: 'B', options: ['Trabajador dependiente', 'Trabajador independiente', 'Cesante', 'Estudiante', 'Dueño/a de casa', 'Jubilado/a'] },
+    { key: 'incomeRange', label: 'Ingreso Hogar', description: 'Dato anónimo para cruces socioeconómicos.', priority: 'B', options: ['Menos de $400.000', '$400.000 - $800.000', '$800.000 - $1.500.000', '$1.500.000 - $3.000.000', 'Más de $3.000.000'] },
 
-    // BLOCK C
-    { key: 'housingType', label: 'Tipo de Vivienda', description: 'Para dimensionar núcleos familiares.', priority: 'C', options: ['Arriendo', 'Propia'] },
+    // BLOCK C: Contexto Hogar (Paso 4)
+    { key: 'householdSize', label: 'Personas en el hogar', description: '¿Cuántos viven contigo?', priority: 'C', options: ['Vivo solo/a', '2 personas', '3 personas', '4 personas', '5 o más personas'] },
+    { key: 'childrenCount', label: 'Hijos', description: '¿Tienes hijos?', priority: 'C', options: ['No tengo hijos', '1 hijo', '2 hijos', '3 o más hijos'] },
+    { key: 'carCount', label: 'Autos en el hogar', description: '¿Cuántos autos tienen?', priority: 'C', options: ['No tenemos auto', '1 auto', '2 autos', '3 o más autos'] },
 ];
 
 type Props = {
@@ -90,22 +92,39 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                             </div>
 
                             <div className="relative">
-                                <select
-                                    onChange={(e) => handleAnswer(question.key, e.target.value)}
-                                    className={`w-full appearance-none text-xs font-bold rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-1 cursor-pointer transition-colors ${isAnswered
-                                        ? 'bg-white border border-emerald-200 text-emerald-800 focus:border-emerald-500 focus:ring-emerald-200'
-                                        : 'bg-surface border border-stroke text-ink focus:border-primary/50 focus:ring-primary/20 hover:bg-slate-50'
-                                        }`}
-                                    value={String(currentData[question.key] || "")}
-                                >
-                                    <option value="" disabled>Seleccionar...</option>
-                                    {question.options.map(opt => (
-                                        <option key={opt} value={opt}>{opt}</option>
-                                    ))}
-                                </select>
-                                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-muted flex items-center">
-                                    <span className="material-symbols-outlined text-[16px]">expand_more</span>
-                                </div>
+                                {question.key === 'birthYear' ? (
+                                    <input
+                                        type="number"
+                                        min="1920"
+                                        max={new Date().getFullYear() - 12}
+                                        value={String(currentData[question.key] || "")}
+                                        className={`w-full text-xs font-bold rounded-lg px-3 py-2 focus:outline-none focus:ring-1 transition-colors ${isAnswered
+                                            ? 'bg-white border border-emerald-200 text-emerald-800 focus:border-emerald-500 focus:ring-emerald-200'
+                                            : 'bg-surface border border-stroke text-ink focus:border-primary/50 focus:ring-primary/20 hover:bg-slate-50'
+                                            }`}
+                                        onChange={(e) => handleAnswer(question.key, e.target.value)}
+                                        placeholder="Ej: 1990"
+                                    />
+                                ) : (
+                                    <>
+                                        <select
+                                            onChange={(e) => handleAnswer(question.key, e.target.value)}
+                                            className={`w-full appearance-none text-xs font-bold rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-1 cursor-pointer transition-colors ${isAnswered
+                                                ? 'bg-white border border-emerald-200 text-emerald-800 focus:border-emerald-500 focus:ring-emerald-200'
+                                                : 'bg-surface border border-stroke text-ink focus:border-primary/50 focus:ring-primary/20 hover:bg-slate-50'
+                                                }`}
+                                            value={String(currentData[question.key] || "")}
+                                        >
+                                            <option value="" disabled>Seleccionar...</option>
+                                            {question.options.map(opt => (
+                                                <option key={opt} value={opt}>{opt}</option>
+                                            ))}
+                                        </select>
+                                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-muted flex items-center">
+                                            <span className="material-symbols-outlined text-[16px]">expand_more</span>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </motion.div>
                     );

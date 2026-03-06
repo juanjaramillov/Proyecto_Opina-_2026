@@ -25,15 +25,16 @@ export default {
                 // Unified Brand System (using full palettes)
                 primary: {
                     ...colors.blue,
-                    DEFAULT: '#2563EB', // blue-600
+                    DEFAULT: '#2563EB', // Opina+ Brand Blue
+                    600: '#2563EB',
                 },
                 secondary: {
-                    ...colors.teal,
-                    DEFAULT: '#0D9488', // teal-600
+                    ...colors.emerald,
+                    DEFAULT: '#10B981', // emerald-500
                 },
                 accent: {
-                    ...colors.blue,
-                    DEFAULT: '#2563EB',
+                    ...colors.sky,
+                    DEFAULT: '#0EA5E9',
                 },
 
                 danger: "#EF4444",

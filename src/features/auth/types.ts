@@ -4,6 +4,7 @@ export type DemographicData = {
     // Stage 1
     name?: string;
     birthYear?: number;
+    ageBucket?: string;
     gender?: string;
 
     // Stage 2
@@ -19,6 +20,11 @@ export type DemographicData = {
     // Stage 4
     purchaseBehavior?: string;
     influenceLevel?: string;
+
+    // Stage 4 (New Household Context)
+    householdSize?: string;
+    childrenCount?: string;
+    carCount?: string;
 
     // System Props
     profileStage?: number;

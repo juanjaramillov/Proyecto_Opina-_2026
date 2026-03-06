@@ -50,7 +50,7 @@ export function computeAccountProfile(input: {
             canSeeInsights: false,
             canSeeHistory: false,
             canExport: false,
-            // @ts-ignore - Ignorar chequeo para flag canSegmentResults no presente en tipos
+            // @ts-expect-error - Ignorar chequeo para flag canSegmentResults no presente en tipos
             canSegmentResults: false,
             signalsDailyLimit: TIER_LIMITS.registered,
             demographics,

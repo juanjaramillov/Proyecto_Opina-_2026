@@ -188,8 +188,8 @@ export default function IntelligencePage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                        {orgName && <Building2 className="w-8 h-8 text-primary-600" />}
-                        {orgName ? `Panel: ${orgName} ` : "Inteligencia"}
+                        {orgName && <Building2 className="w-8 h-8 text-emerald-600" />}
+                        {orgName ? `Panel: ${orgName} ` : <span className="text-gradient-brand">Inteligencia</span>}
                     </h1>
                     <p className="text-slate-500 mt-1">
                         {orgName
@@ -203,7 +203,7 @@ export default function IntelligencePage() {
                         onClick={loadData}
                         className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
                     >
-                        <Clock className="w-4 h-4 text-primary-500" />
+                        <Clock className="w-4 h-4 text-emerald-500" />
                         Actualizar
                     </button>
                     <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" title="Sistema Online"></div>
@@ -233,7 +233,7 @@ export default function IntelligencePage() {
                 <select
                     value={ageRange}
                     onChange={(e) => setAgeRange(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-primary-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                 >
                     <option value="all">Todas las edades</option>
                     <option value="18-24">18-24 años</option>
@@ -245,7 +245,7 @@ export default function IntelligencePage() {
                 <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-primary-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                 >
                     <option value="all">Todos los géneros</option>
                     <option value="male">Masculino</option>
@@ -256,7 +256,7 @@ export default function IntelligencePage() {
                 <select
                     value={commune}
                     onChange={(e) => setCommune(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-primary-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                 >
                     <option value="all">Todas las comunas</option>
                     <option value="Santiago">Santiago</option>
@@ -268,7 +268,7 @@ export default function IntelligencePage() {
                 {(ageRange !== 'all' || gender !== 'all' || commune !== 'all') && (
                     <button
                         onClick={() => { setAgeRange('all'); setGender('all'); setCommune('all'); }}
-                        className="text-primary-600 text-xs font-bold hover:underline"
+                        className="text-emerald-600 text-xs font-bold hover:underline"
                     >
                         Limpiar Filtros
                     </button>
@@ -280,8 +280,8 @@ export default function IntelligencePage() {
                 <StatCard
                     title="Señales (24h)"
                     value={stats?.signals_24h || 0}
-                    icon={<Activity className="w-5 h-5 text-primary-600" />}
-                    color="primary"
+                    icon={<Activity className="w-5 h-5 text-emerald-600" />}
+                    color="emerald"
                 />
                 <StatCard
                     title="Usuarios Activos"
@@ -307,7 +307,7 @@ export default function IntelligencePage() {
             {/* ACTIVATION & RETENTION KPIs */}
             <div className="mb-10">
                 <div className="flex items-center gap-2 mb-6">
-                    <div className="h-6 w-1 bg-primary-600 rounded-full"></div>
+                    <div className="h-6 w-1 bg-emerald-600 rounded-full"></div>
                     <h2 className="text-lg font-bold text-slate-900">Métricas de Tracción</h2>
                 </div>
 
@@ -315,22 +315,22 @@ export default function IntelligencePage() {
                     <StatCard
                         title="DAU (Diarios)"
                         value={kpis?.dau || 0}
-                        icon={<Users className="w-5 h-5 text-primary-500" />}
-                        color="primary"
+                        icon={<Users className="w-5 h-5 text-emerald-500" />}
+                        color="emerald"
                         subtitle="Usuarios únicos hoy"
                     />
                     <StatCard
                         title="WAU (Semanales)"
                         value={kpis?.wau || 0}
-                        icon={<Users className="w-5 h-5 text-primary-500" />}
-                        color="primary"
+                        icon={<Users className="w-5 h-5 text-emerald-500" />}
+                        color="emerald"
                         subtitle="Últimos 7 días"
                     />
                     <StatCard
                         title="MAU (Mensuales)"
                         value={kpis?.mau || 0}
-                        icon={<Users className="w-5 h-5 text-primary-500" />}
-                        color="primary"
+                        icon={<Users className="w-5 h-5 text-emerald-500" />}
+                        color="emerald"
                         subtitle="Últimos 30 días"
                     />
                 </div>
@@ -356,8 +356,8 @@ export default function IntelligencePage() {
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-3 bg-primary-50 rounded-2xl">
-                                    <TrendingUp className="w-6 h-6 text-primary-600" />
+                                <div className="p-3 bg-emerald-50 rounded-2xl">
+                                    <TrendingUp className="w-6 h-6 text-emerald-600" />
                                 </div>
                                 <div>
                                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D7</p>
@@ -388,7 +388,7 @@ export default function IntelligencePage() {
                             <input
                                 type="text"
                                 placeholder="Buscar batalla..."
-                                className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-primary-500 transition"
+                                className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-emerald-500 transition"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -431,7 +431,7 @@ export default function IntelligencePage() {
                                                 <VariationBadge variation={item.variation_percent} direction={item.direction} />
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-2 text-slate-300 group-hover:text-primary-500 transition">
+                                                <button className="p-2 text-slate-300 group-hover:text-emerald-500 transition">
                                                     <ChevronRight className="w-5 h-5" />
                                                 </button>
                                             </td>
@@ -487,7 +487,7 @@ export default function IntelligencePage() {
 
                     <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                         <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                            <Database className="w-4 h-4 text-blue-600" />
+                            <Database className="w-4 h-4 text-emerald-500" />
                             Estado del Engine
                         </h3>
                         <ul className="space-y-4">
@@ -550,10 +550,10 @@ export default function IntelligencePage() {
                     {/* PLATFORM ALERTS SECTION */}
                     <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                         <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <Bell className="w-5 h-5 text-primary-500" />
+                            <Bell className="w-5 h-5 text-emerald-500" />
                             Alertas del Sistema
                             {alerts.filter(a => !a.is_read).length > 0 && (
-                                <span className="bg-primary-100 text-primary-600 text-[10px] px-2 py-0.5 rounded-full">
+                                <span className="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded-full">
                                     {alerts.filter(a => !a.is_read).length}
                                 </span>
                             )}
@@ -564,7 +564,7 @@ export default function IntelligencePage() {
                                 alerts.map((alert) => (
                                     <div
                                         key={alert.id}
-                                        className={`p-4 rounded-2xl border transition-all ${alert.is_read ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-primary-100 shadow-sm'
+                                        className={`p-4 rounded-2xl border transition-all ${alert.is_read ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-emerald-100 shadow-sm'
                                             }`}
                                     >
                                         <div className="flex items-start justify-between gap-3">
@@ -588,7 +588,7 @@ export default function IntelligencePage() {
                                             {!alert.is_read && (
                                                 <button
                                                     onClick={() => handleMarkAlertAsRead(alert.id)}
-                                                    className="p-1.5 hover:bg-primary-50 text-primary-400 rounded-lg transition"
+                                                    className="p-1.5 hover:bg-emerald-50 text-emerald-400 rounded-lg transition"
                                                     title="Marcar como leída"
                                                 >
                                                     <ShieldCheck className="w-3.5 h-3.5" />
@@ -634,13 +634,13 @@ export default function IntelligencePage() {
                         ) : (
                             <div className="space-y-8">
                                 {/* VOLATILITY CARD WITH AREA CHART */}
-                                <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-rose-50 border-rose-100' : volatility?.classification === 'moderate' ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'}`}>
+                                <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-rose-50 border-rose-100' : volatility?.classification === 'moderate' ? 'bg-emerald-50 border-emerald-100' : 'bg-slate-50 border-slate-200'}`}>
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center gap-2">
-                                            <Zap className={`w-4 h-4 ${volatility?.classification === 'volatile' ? 'text-rose-500' : volatility?.classification === 'moderate' ? 'text-blue-600' : 'text-emerald-500'}`} />
+                                            <Zap className={`w-4 h-4 ${volatility?.classification === 'volatile' ? 'text-rose-500' : volatility?.classification === 'moderate' ? 'text-emerald-500' : 'text-slate-400'}`} />
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Índice de Volatilidad (30D)</span>
                                         </div>
-                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${volatility?.classification === 'volatile' ? 'bg-rose-100 text-rose-600' : volatility?.classification === 'moderate' ? 'bg-blue-100 text-blue-600' : 'bg-emerald-100 text-emerald-600'}`}>
+                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${volatility?.classification === 'volatile' ? 'bg-rose-100 text-rose-600' : volatility?.classification === 'moderate' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
                                             {volatility?.classification === 'volatile' ? 'Volátil' : volatility?.classification === 'moderate' ? 'Moderado' : 'Estable'}
                                         </span>
                                     </div>
@@ -678,13 +678,13 @@ export default function IntelligencePage() {
                                 </div>
 
                                 {/* POLARIZATION CARD */}
-                                <div className={`p-6 rounded-3xl border ${polarization?.classification === 'polarized' ? 'bg-primary-50 border-primary-100' : polarization?.classification === 'competitive' ? 'bg-secondary-50 border-secondary-100' : 'bg-blue-50 border-blue-100'}`}>
+                                <div className={`p-6 rounded-3xl border ${polarization?.classification === 'polarized' ? 'bg-emerald-50 border-emerald-100' : polarization?.classification === 'competitive' ? 'bg-secondary-50 border-secondary-100' : 'bg-blue-50 border-blue-100'}`}>
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center gap-2">
-                                            <PieChart className={`w-4 h-4 ${polarization?.classification === 'polarized' ? 'text-primary-500' : polarization?.classification === 'competitive' ? 'text-secondary-500' : 'text-blue-500'}`} />
+                                            <PieChart className={`w-4 h-4 ${polarization?.classification === 'polarized' ? 'text-emerald-500' : polarization?.classification === 'competitive' ? 'text-secondary-500' : 'text-slate-400'}`} />
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Índice de Polarización</span>
                                         </div>
-                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${polarization?.classification === 'polarized' ? 'bg-primary-100 text-primary-600' : polarization?.classification === 'competitive' ? 'bg-secondary-100 text-secondary-600' : 'bg-blue-100 text-blue-600'}`}>
+                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${polarization?.classification === 'polarized' ? 'bg-emerald-100 text-emerald-600' : polarization?.classification === 'competitive' ? 'bg-secondary-100 text-secondary-600' : 'bg-slate-100 text-slate-500'}`}>
                                             {polarization?.classification === 'polarized' ? 'Polarizado' : polarization?.classification === 'competitive' ? 'Competitivo' : 'Consenso'}
                                         </span>
                                     </div>
@@ -695,7 +695,7 @@ export default function IntelligencePage() {
                                 {/* SEGMENT INFLUENCE CARD */}
                                 <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                                     <div className="flex items-center gap-2 mb-6">
-                                        <Users className="w-4 h-4 text-primary-500" />
+                                        <Users className="w-4 h-4 text-emerald-500" />
                                         <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Top Influencers ({daysBack}D)</h4>
                                     </div>
 
@@ -712,7 +712,7 @@ export default function IntelligencePage() {
                                                         </span>
                                                     </div>
                                                     <div className="text-right">
-                                                        <div className="text-xs font-black text-primary-600">{seg.contribution_percent.toFixed(1)}%</div>
+                                                        <div className="text-xs font-black text-emerald-600">{seg.contribution_percent.toFixed(1)}%</div>
                                                         <div className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Impacto</div>
                                                     </div>
                                                 </div>
@@ -731,7 +731,7 @@ export default function IntelligencePage() {
                                 {/* EARLY SIGNAL / MOMENTUM CARD */}
                                 <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                                     <div className="flex items-center gap-2 mb-6">
-                                        <Zap className="w-4 h-4 text-blue-600" />
+                                        <Zap className="w-4 h-4 text-emerald-500" />
                                         <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Señal Temprana (Momentum 6H)</h4>
                                     </div>
 
@@ -782,7 +782,7 @@ export default function IntelligencePage() {
                                                         if (selectedBattle) loadDepthData(selectedBattle, d);
                                                     }}
                                                     className={`px-3 py-1 text-[10px] font-black rounded-lg transition-all ${daysBack === d
-                                                        ? 'bg-primary-600 text-white shadow-md'
+                                                        ? 'bg-emerald-600 text-white shadow-md'
                                                         : 'text-slate-400 hover:text-slate-600'
                                                         }`}
                                                 >
@@ -901,8 +901,8 @@ export default function IntelligencePage() {
                             </div>
                         )}
 
-                        <div className="mt-12 p-6 bg-blue-50 rounded-2xl border border-blue-100">
-                            <p className="text-[10px] text-blue-700 font-bold leading-relaxed">
+                        <div className="mt-12 p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                            <p className="text-[10px] text-emerald-700 font-bold leading-relaxed">
                                 <Database className="w-3 h-3 inline mr-1 mb-0.5" />
                                 Estos datos provienen del motor de analíticas de profundidad. El score es el promedio de valoraciones (1-10) capturadas en los Insight Packs.
                             </p>
@@ -985,7 +985,7 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
                 {time && <div className="text-[10px] text-slate-400 font-medium">{time}</div>}
             </div>
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${status === 'Activo' || status === 'Óptimo' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' :
-                status === 'Programado' ? 'bg-primary-100 text-primary-700 border border-primary-200' : 'bg-slate-100 text-slate-500 border border-slate-200'
+                status === 'Programado' ? 'bg-sky-100 text-sky-700 border border-sky-200' : 'bg-slate-100 text-slate-500 border border-slate-200'
                 }`}>
                 {status}
             </span>
@@ -995,8 +995,7 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
 
 function HealthMetric({ label, value, desc, color }: { label: string, value: string, desc: string, color: string }) {
     const colorClasses: Record<string, string> = {
-        emerald: "text-emerald-600",
-        primary: "text-primary-600"
+        emerald: "text-emerald-600"
     };
 
     return (

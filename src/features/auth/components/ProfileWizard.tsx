@@ -6,11 +6,11 @@ import { useAuthContext } from "../context/AuthContext";
 import { logger } from "../../../lib/logger";
 import AuthLayout from "../layout/AuthLayout";
 import { DemographicData } from "../types";
-import { supabase } from "../../../supabase/client";
 import { useToast } from "../../../components/ui/useToast";
-import { accessGate } from "../../access/services/accessGate";
-
-const REGIONS = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "Metropolitana", "O'Higgins", "Maule", "Ñuble", "Biobío", "Araucanía", "Los Ríos", "Los Lagos", "Aysén", "Magallanes"];
+import { SEG_REGIONS } from "../../../lib/segmentation";
+import { normalizeRegion } from "../../../lib/demographicsNormalize";
+import { track, trackPage } from "../../telemetry/track";
+import { useEffect } from "react";
 
 const COMUNAS_SANTIAGO = [
     "Santiago", "Conchalí", "El Bosque", "Estación Central", "Huechuraba",
@@ -28,33 +28,14 @@ const COMUNAS_SANTIAGO = [
 const EMPLOYMENT_OPTIONS = ["Estudiante", "Trabajador Dependiente", "Independiente / Freelance", "Empresario / Emprendedor", "Jubilado", "Desempleado", "Otro"];
 const INCOME_OPTIONS = ["Menos de $500.000", "$500.000 - $1.000.000", "$1.000.000 - $2.000.000", "$2.000.000 - $4.000.000", "Más de $4.000.000", "Prefiero no decirlo"];
 const EDUCATION_OPTIONS = ["Media incompleta o inferior", "Media completa", "Técnica Profesional", "Universitaria incompleta", "Universitaria completa", "Postgrado"];
-const HOUSING_OPTIONS = ["Propia pagada", "Propia pagando (Dividendo)", "Arrendada", "Familiar / Compartida"];
-
-const PURCHASE_BEHAVIOR_OPTIONS = ["Planificador", "Impulsivo", "Cazador de ofertas", "Basado en calidad/marca"];
-const INFLUENCE_LEVEL_OPTIONS = ["Líder de opinión (recomiendo)", "Consultado a veces", "Sigo recomendaciones"];
+const HOUSEHOLD_SIZE_OPTIONS = ["1 persona", "2 personas", "3 personas", "4 personas", "5 o más personas"];
+const CHILDREN_COUNT_OPTIONS = ["No tengo hijos", "1 hijo", "2 hijos", "3 o más hijos"];
+const CAR_COUNT_OPTIONS = ["Sin auto", "1 auto", "2 autos", "3 o más autos"];
 
 const INPUT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 outline-none transition-all font-medium text-slate-700";
 const SELECT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl outline-none focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 transition-all font-bold text-slate-700";
 
-function getInviteCodeFromGate(): string | null {
-    const tokenId = accessGate.getTokenId();
-    if (!tokenId) return null;
-
-    const raw = tokenId.startsWith("CODE:") ? tokenId.slice(5) : tokenId;
-    const code = raw.trim().toUpperCase();
-
-    // si fuese UUID antiguo u otro formato raro, no sirve para bootstrap por código
-    if (!code || code.length < 4 || code.includes("-") && code.length === 36) return null;
-
-    return code;
-}
-
-function validateNickname(nick: string): string | null {
-    const v = nick.trim();
-    if (v.length < 3 || v.length > 18) return "Nickname debe tener entre 3 y 18 caracteres.";
-    if (!/^[a-zA-Z0-9_-]+$/.test(v)) return 'Nickname solo puede usar letras, números, "_" o "-".';
-    return null;
-}
+// Nickname validation moved to Register.tsx
 
 export default function ProfileWizard() {
     const { profile, refreshProfile } = useAuthContext();
@@ -67,109 +48,66 @@ export default function ProfileWizard() {
     const [step, setStep] = useState(startingStep);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        trackPage("profile_wizard", { step });
+    }, [step]);
+
     const [formData, setFormData] = useState<Partial<DemographicData>>({
         name: profile?.demographics?.name || "",
         birthYear: profile?.demographics?.birthYear || undefined,
         gender: profile?.demographics?.gender || "",
-        region: profile?.demographics?.region || "",
+        region: normalizeRegion(profile?.demographics?.region || "") || "",
         commune: profile?.demographics?.commune || "",
         employmentStatus: profile?.demographics?.employmentStatus || "",
         incomeRange: profile?.demographics?.incomeRange || "",
         educationLevel: profile?.demographics?.educationLevel || "",
-        housingType: profile?.demographics?.housingType || "",
-        purchaseBehavior: profile?.demographics?.purchaseBehavior || "",
-        influenceLevel: profile?.demographics?.influenceLevel || ""
+        householdSize: profile?.demographics?.householdSize || "",
+        childrenCount: profile?.demographics?.childrenCount || "",
+        carCount: profile?.demographics?.carCount || ""
     });
 
-    const [nicknameErr, setNicknameErr] = useState<string | null>(null);
-
     const submitStep = async (isSkip: boolean = false) => {
-        setNicknameErr(null);
         setLoading(true);
 
         try {
-            // STEP 1: Nickname + CLAIM INVITACIÓN + stage=1
-            if (step === 1) {
-                const nick = formData.name?.trim() || "";
-                if (!nick) {
-                    setNicknameErr("Elige un nickname para seguir.");
-                    setLoading(false);
-                    return;
-                }
+            // Updates por etapa
+            let payload: Partial<DemographicData> = {};
 
-                const nickErr = validateNickname(nick);
-                if (nickErr) {
-                    setNicknameErr(nickErr);
-                    setLoading(false);
-                    return;
-                }
-
-                // 1) Ver si ya tiene invite amarrada
-                const bs = await authService.getBootstrapStatus();
-
-                if (!bs.hasInvite) {
-                    const inviteCode = getInviteCodeFromGate();
-                    if (!inviteCode) {
-                        setNicknameErr("No encontramos tu código de invitación. Vuelve a /access e ingrésalo de nuevo.");
-                        setLoading(false);
-                        return;
-                    }
-
-                    // Claim real (marca invitation_codes.used_by_user_id + users.invitation_code_id)
-                    await authService.bootstrapUserAfterSignup(nick, inviteCode);
-                } else {
-                    // Si ya tiene invite, solo setear nickname (una sola vez)
-                    const { error: rpcErr } = await (supabase as any).rpc("set_nickname_once", {
-                        p_nickname: nick,
-                    });
-                    if (rpcErr) throw rpcErr;
-                }
-
-                // 2) Alinear con backend: profile_stage >= 1 para poder emitir señales
-                await authService.updateProfileDemographics({
-                    profileStage: 1,
+            if (step === 2) {
+                payload = {
+                    birthYear: formData.birthYear,
+                    gender: formData.gender,
+                    region: formData.region,
+                    commune: formData.commune,
+                    profileStage: 2,
                     signalWeight: 1.0
-                });
+                };
+            } else if (step === 3 && !isSkip) {
+                payload = {
+                    employmentStatus: formData.employmentStatus,
+                    incomeRange: formData.incomeRange,
+                    educationLevel: formData.educationLevel,
+                    profileStage: 3,
+                    signalWeight: 1.5
+                };
+            } else if (step === 4 && !isSkip) {
+                payload = {
+                    householdSize: formData.householdSize,
+                    childrenCount: formData.childrenCount,
+                    carCount: formData.carCount,
+                    profileStage: 4,
+                    signalWeight: 1.8
+                };
+            }
 
+            if (Object.keys(payload).length > 0) {
+                await authService.updateProfileDemographics(payload);
+                track("profile_wizard_step_completed", "info", { step, isSkip, profile_stage: (payload as any).profileStage });
                 await refreshProfile();
-            } else {
-                // Updates por etapa
-                let payload: Partial<DemographicData> = {};
-
-                if (step === 2) {
-                    payload = {
-                        birthYear: formData.birthYear,
-                        gender: formData.gender,
-                        region: formData.region,
-                        commune: formData.commune,
-                        profileStage: 2,
-                        signalWeight: 1.0
-                    };
-                } else if (step === 3 && !isSkip) {
-                    payload = {
-                        employmentStatus: formData.employmentStatus,
-                        incomeRange: formData.incomeRange,
-                        educationLevel: formData.educationLevel,
-                        housingType: formData.housingType,
-                        profileStage: 3,
-                        signalWeight: 1.5
-                    };
-                } else if (step === 4 && !isSkip) {
-                    payload = {
-                        purchaseBehavior: formData.purchaseBehavior,
-                        influenceLevel: formData.influenceLevel,
-                        profileStage: 4,
-                        signalWeight: 1.7
-                    };
-                }
-
-                if (Object.keys(payload).length > 0) {
-                    await authService.updateProfileDemographics(payload);
-                    await refreshProfile();
-                }
             }
 
             if (isSkip || step === 4) {
+                track("profile_wizard_completed", "info", { final_step: step, isSkip });
                 navigate("/");
             } else {
                 setStep((s) => s + 1);
@@ -179,11 +117,11 @@ export default function ProfileWizard() {
             const errMsg = error.message || "";
 
             if (step === 1 && (errMsg.includes("unique constraint") || errMsg.toLowerCase().includes("duplicate") || errMsg.includes("Nickname ya definido"))) {
-                setNicknameErr("El nickname ya está en uso o ya fue definido anteriormente.");
+                showToast("El nickname ya está en uso o ya fue definido anteriormente.", "error");
             } else if (step === 1 && (errMsg.includes("Nickname debe tener") || errMsg.includes("Nickname solo puede usar"))) {
-                setNicknameErr(errMsg);
+                showToast(errMsg, "error");
             } else if (step === 1 && errMsg.includes("INVITE")) {
-                setNicknameErr("Código inválido / expirado / ya usado. Vuelve a /access e ingresa otro.");
+                showToast("Código inválido / expirado / ya usado. Vuelve a /access e ingresa otro.", "error");
             } else {
                 showToast(errMsg || "Ocurrió un error al guardar tu perfil. Intenta nuevamente.", "error");
             }
@@ -204,10 +142,9 @@ export default function ProfileWizard() {
         }
     };
 
-    const isStep1Valid = !!(formData.name?.trim());
-    const isStep2Valid = !!(formData.birthYear && formData.gender && formData.region && (formData.region !== "Metropolitana" || formData.commune));
-    const isStep3Valid = !!(formData.employmentStatus && formData.incomeRange && formData.educationLevel && formData.housingType);
-    const isStep4Valid = !!(formData.purchaseBehavior && formData.influenceLevel);
+    const isStep2Valid = !!(formData.birthYear && formData.gender && formData.region && (formData.region !== "RM" || formData.commune));
+    const isStep3Valid = !!(formData.employmentStatus && formData.incomeRange && formData.educationLevel);
+    const isStep4Valid = !!(formData.householdSize && formData.childrenCount && formData.carCount);
 
     return (
         <AuthLayout
@@ -232,23 +169,6 @@ export default function ProfileWizard() {
             <div className="w-full">
                 <AnimatePresence mode="wait">
 
-                    {step === 1 && (
-                        <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                            <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Tu nickname</label>
-                                <input
-                                    type="text"
-                                    value={formData.name || ""}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    placeholder="Ej: juan_razona"
-                                    className={INPUT}
-                                    required
-                                />
-                                <p className="text-[11px] text-slate-400 ml-1 font-medium">Tu identidad real se guarda aparte. Acá mandas tú.</p>
-                                {nicknameErr && <p className="text-sm text-red-600 font-medium ml-1 mt-1">{nicknameErr}</p>}
-                            </div>
-                        </motion.div>
-                    )}
 
                     {step === 2 && (
                         <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
@@ -298,11 +218,13 @@ export default function ProfileWizard() {
                                     className={SELECT}
                                 >
                                     <option value="">Selecciona…</option>
-                                    {REGIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                                    {SEG_REGIONS.filter(r => r.value !== "all").map(r => (
+                                        <option key={r.value} value={r.value}>{r.label}</option>
+                                    ))}
                                 </select>
                             </div>
 
-                            {formData.region === "Metropolitana" && (
+                            {formData.region === "RM" && (
                                 <div className="space-y-3">
                                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Comuna (RM)</label>
                                     <select
@@ -311,7 +233,7 @@ export default function ProfileWizard() {
                                         className={SELECT}
                                     >
                                         <option value="">Selecciona…</option>
-                                        {COMUNAS_SANTIAGO.map(c => <option key={c} value={c}>{c}</option>)}
+                                        {COMUNAS_SANTIAGO.map((c: string) => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                 </div>
                             )}
@@ -325,7 +247,7 @@ export default function ProfileWizard() {
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nivel Educacional</label>
                                 <select value={formData.educationLevel || ""} onChange={(e) => setFormData({ ...formData, educationLevel: e.target.value })} className={SELECT}>
                                     <option value="">Seleccionar...</option>
-                                    {EDUCATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                                    {EDUCATION_OPTIONS.map((c: string) => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
 
@@ -333,7 +255,7 @@ export default function ProfileWizard() {
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Situación Laboral</label>
                                 <select value={formData.employmentStatus || ""} onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })} className={SELECT}>
                                     <option value="">Seleccionar...</option>
-                                    {EMPLOYMENT_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                                    {EMPLOYMENT_OPTIONS.map((c: string) => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
 
@@ -341,15 +263,7 @@ export default function ProfileWizard() {
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Ingresos del Hogar</label>
                                 <select value={formData.incomeRange || ""} onChange={(e) => setFormData({ ...formData, incomeRange: e.target.value })} className={SELECT}>
                                     <option value="">Seleccionar...</option>
-                                    {INCOME_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
-                                </select>
-                            </div>
-
-                            <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Situación de Vivienda</label>
-                                <select value={formData.housingType || ""} onChange={(e) => setFormData({ ...formData, housingType: e.target.value })} className={SELECT}>
-                                    <option value="">Seleccionar...</option>
-                                    {HOUSING_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                                    {INCOME_OPTIONS.map((c: string) => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
 
@@ -358,23 +272,31 @@ export default function ProfileWizard() {
 
                     {step === 4 && (
                         <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                            <h2 className="text-xl font-bold text-slate-900 mb-2">Contexto de Hogar</h2>
 
                             <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Comportamiento de Compra</label>
-                                <select value={formData.purchaseBehavior || ""} onChange={(e) => setFormData({ ...formData, purchaseBehavior: e.target.value })} className={SELECT}>
-                                    <option value="">¿Cómo sueles comprar?</option>
-                                    {PURCHASE_BEHAVIOR_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Personas en el hogar</label>
+                                <select value={formData.householdSize || ""} onChange={(e) => setFormData({ ...formData, householdSize: e.target.value })} className={SELECT}>
+                                    <option value="">¿Cuántos viven contigo?</option>
+                                    {HOUSEHOLD_SIZE_OPTIONS.map((c: string) => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nivel de Influencia</label>
-                                <select value={formData.influenceLevel || ""} onChange={(e) => setFormData({ ...formData, influenceLevel: e.target.value })} className={SELECT}>
-                                    <option value="">¿Qué tanto influyes en otros?</option>
-                                    {INFLUENCE_LEVEL_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Hijos</label>
+                                <select value={formData.childrenCount || ""} onChange={(e) => setFormData({ ...formData, childrenCount: e.target.value })} className={SELECT}>
+                                    <option value="">¿Tienes hijos?</option>
+                                    {CHILDREN_COUNT_OPTIONS.map((c: string) => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
 
+                            <div className="space-y-3">
+                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Autos en el hogar</label>
+                                <select value={formData.carCount || ""} onChange={(e) => setFormData({ ...formData, carCount: e.target.value })} className={SELECT}>
+                                    <option value="">¿Cuántos autos tienen?</option>
+                                    {CAR_COUNT_OPTIONS.map((c: string) => <option key={c} value={c}>{c}</option>)}
+                                </select>
+                            </div>
                         </motion.div>
                     )}
 
@@ -385,7 +307,6 @@ export default function ProfileWizard() {
                         <button
                             onClick={() => submitStep(false)}
                             disabled={
-                                (step === 1 && !isStep1Valid) ||
                                 (step === 2 && !isStep2Valid) ||
                                 (step === 3 && !isStep3Valid) ||
                                 (step === 4 && !isStep4Valid) ||

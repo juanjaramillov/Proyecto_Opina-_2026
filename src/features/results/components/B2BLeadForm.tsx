@@ -1,0 +1,97 @@
+import { useState } from 'react';
+import { supabase } from '../../../supabase/client';
+import toast from 'react-hot-toast';
+
+export const B2BLeadForm = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [company, setCompany] = useState('');
+    const [role, setRole] = useState('');
+    const [interest, setInterest] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            // @ts-expect-error: b2b_leads is a new table, bypassing strict typecheck
+            const { error } = await supabase.from('b2b_leads').insert([
+                { name, email, company, role, interest }
+            ]);
+
+            if (error) {
+                console.error("Error saving lead:", error);
+                // Fail graceful in UI as requested by user.
+            }
+            toast.success("Solicitud recibida. Te contactaremos pronto.");
+            setSubmitted(true);
+        } catch (err) {
+            console.error(err);
+            toast.success("Solicitud recibida. Te contactaremos pronto.");
+            setSubmitted(true);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (submitted) {
+        return (
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-3xl p-10 text-center shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[80px] rounded-full point-events-none"></div>
+                <div className="w-16 h-16 bg-emerald-500/20 md:bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                    <span className="material-symbols-outlined text-[32px]">check_circle</span>
+                </div>
+                <h3 className="text-2xl font-black text-white mb-2 relative z-10">Solicitud Recibida</h3>
+                <p className="text-slate-400 relative z-10">Nuestro equipo comercial analizará tu perfil y te contactaremos en breve al correo <strong>{email}</strong> para coordinar tu acceso.</p>
+            </div>
+        );
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className="bg-slate-800/50 border border-slate-700/50 rounded-[2rem] p-8 md:p-10 text-left w-full mx-auto relative overflow-hidden backdrop-blur-sm shadow-2xl">
+            <h3 className="text-2xl font-black text-white mb-2">Solicitar Acceso B2B</h3>
+            <p className="text-slate-400 text-sm mb-8">Déjanos tus datos para coordinar una demostración personalizada del motor de inteligencia Opina+.</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Nombre Completo</label>
+                    <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors" placeholder="Ej. Ana Pérez" />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Correo Corporativo</label>
+                    <input required type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors" placeholder="ana@empresa.com" />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Empresa</label>
+                    <input required type="text" value={company} onChange={e => setCompany(e.target.value)} className="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors" placeholder="Tu Empresa" />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cargo</label>
+                    <input required type="text" value={role} onChange={e => setRole(e.target.value)} className="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors" placeholder="Ej. Director de Marketing" />
+                </div>
+            </div>
+
+            <div className="space-y-2 mb-8 relative">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Interés Principal</label>
+                <div className="relative">
+                    <select required value={interest} onChange={e => setInterest(e.target.value)} className="w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors appearance-none pr-10">
+                        <option value="" disabled>Selecciona tu principal caso de uso...</option>
+                        <option value="Trackeo de Competidores">Trackeo de Competidores</option>
+                        <option value="Monitoreo de Crisis">Monitoreo de Crisis y Percepción</option>
+                        <option value="Desempeño de Marca">Desempeño de mi Marca</option>
+                        <option value="Detección de Tendencias">Detección de Relatos Emergentes</option>
+                        <option value="Otro">Explorar Capacidades Generales</option>
+                    </select>
+                    <span className="material-symbols-outlined text-slate-500 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+                </div>
+            </div>
+
+            <button disabled={loading} type="submit" className="w-full py-4 px-6 rounded-xl bg-primary-500 text-white font-black text-sm uppercase tracking-widest hover:bg-primary-600 focus:scale-[0.98] transition-all shadow-lg shadow-primary-500/25 flex items-center justify-center gap-2 disabled:opacity-70 disabled:hover:scale-100">
+                {loading ? 'Enviando Solicitud...' : 'Agendar Demo de Inteligencia'}
+                {!loading && <span className="material-symbols-outlined text-[20px]">arrow_forward</span>}
+            </button>
+        </form>
+    );
+};

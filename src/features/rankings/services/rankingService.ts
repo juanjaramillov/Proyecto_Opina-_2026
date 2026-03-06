@@ -1,5 +1,6 @@
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
+import { cached } from "../../../lib/requestCache";
 
 export interface RankSnapshot {
     id: string;
@@ -52,91 +53,90 @@ export const rankingService = {
         categorySlug?: string
     ): Promise<{ snapshotBucket: string | null; rows: RankSnapshot[] }> {
 
-        // 1. Obtener latest bucket
-        const { data: bucketData, error: bucketError } = await supabase
-            .from('public_rank_snapshots')
-            .select('snapshot_bucket')
-            .order('snapshot_bucket', { ascending: false })
-            .limit(1)
-            .maybeSingle();
+        const cacheKey = `ranking:getLatestRankings:${moduleType}:${segmentHash}:${limit}:${categorySlug ?? ""}`;
+        return cached(cacheKey, 20_000, async () => {
+            // 1. Obtener latest bucket
+            const { data: bucketData, error: bucketError } = await supabase
+                .from('public_rank_snapshots')
+                .select('snapshot_bucket')
+                .order('snapshot_bucket', { ascending: false })
+                .limit(1)
+                .maybeSingle();
 
-        if (bucketError) {
-            logger.error('Error fetching latest snapshot bucket:', bucketError);
-            throw bucketError;
-        }
+            if (bucketError) {
+                logger.error('Error fetching latest snapshot bucket:', bucketError);
+                throw bucketError;
+            }
 
-        if (!(bucketData as any)?.snapshot_bucket) {
-            return { snapshotBucket: null, rows: [] };
-        }
+            if (!(bucketData as any)?.snapshot_bucket) {
+                return { snapshotBucket: null, rows: [] };
+            }
 
-        const latestBucket = (bucketData as any).snapshot_bucket;
+            const latestBucket = (bucketData as any).snapshot_bucket;
 
-        // 2. Query rows
-        let query = supabase
-            .from('public_rank_snapshots')
-            .select(`
-                id, 
-                snapshot_bucket, 
-                module_type, 
-                battle_id, 
-                option_id, 
-                score, 
-                signals_count, 
-                segment, 
-                segment_hash,
-                battle_options!inner (
-                   label, 
-                   image_url,
-                   battles!inner (
+            // 2. Query rows
+            let query = supabase
+                .from('public_rank_snapshots')
+                .select(`
+                  id, 
+                  snapshot_bucket, 
+                  module_type, 
+                  battle_id, 
+                  option_id, 
+                  score, 
+                  signals_count, 
+                  segment, 
+                  segment_hash,
+                  battle_options!inner (
+                    label, 
+                    image_url,
+                    battles!inner (
                       categories!inner ( slug )
-                   )
-                )
-            `)
-            .eq('snapshot_bucket', latestBucket)
-            .eq('module_type', moduleType)
-            .eq('segment_hash', segmentHash);
+                    )
+                  )
+                `)
+                .eq('snapshot_bucket', latestBucket)
+                .eq('module_type', moduleType)
+                .eq('segment_hash', segmentHash);
 
-        // ✅ PERF-01: filtrar por categoría en la BD (no en memoria)
-        if (categorySlug) {
-            query = query.eq('battle_options.battles.categories.slug', categorySlug);
-        }
+            if (categorySlug) {
+                query = query.eq('battle_options.battles.categories.slug', categorySlug);
+            }
 
-        query = query
-            .order('score', { ascending: false })
-            .limit(limit);
+            query = query.order('score', { ascending: false }).limit(limit);
 
-        const { data, error } = await query;
+            const { data, error } = await query;
 
-        if (error) {
-            logger.error('Error fetching snapshot rows:', error);
-            throw error;
-        }
+            if (error) {
+                logger.error('Error fetching snapshot rows:', error);
+                throw error;
+            }
 
-        const rows = (data || []).map((r: any) => {
-            // Mapeo adaptativo para mantener interfaz original
-            const entityName = r.battle_options?.label || 'Desconocido';
-            const catSlug = r.battle_options?.battles?.categories?.slug || 'unknown';
-            return {
-                id: r.id as string,
-                entity_id: r.option_id as string, // Usamos la opción como entidad rankeada
-                category_slug: catSlug,
-                composite_index: Number(r.score || 0),
-                preference_score: Number(r.score || 0),
-                quality_score: 0,
-                snapshot_date: r.snapshot_bucket,
-                segment_id: r.segment_hash,
-                trend: 'stable' as const, // temporal default
-                entity: {
-                    name: entityName,
-                    image_url: r.battle_options?.image_url
-                },
-                module_type: r.module_type,
-                score: r.score,
-                signals_count: r.signals_count
-            } as RankSnapshot;
+            const rows = (data || []).map((r: any) => {
+                const entityName = r.battle_options?.label || 'Desconocido';
+                const catSlug = r.battle_options?.battles?.categories?.slug || 'unknown';
+                return {
+                    id: r.id as string,
+                    entity_id: r.option_id as string,
+                    category_slug: catSlug,
+                    composite_index: Number(r.score || 0),
+                    preference_score: Number(r.score || 0),
+                    quality_score: 0,
+                    snapshot_date: r.snapshot_bucket,
+                    segment_id: r.segment_hash,
+                    trend: 'stable' as const,
+                    entity: {
+                        name: entityName,
+                        image_url: r.battle_options?.image_url
+                    },
+                    module_type: r.module_type,
+                    score: r.score,
+                    signals_count: r.signals_count
+                } as RankSnapshot;
+            });
+
+            return { snapshotBucket: latestBucket, rows };
         });
-
-        return { snapshotBucket: latestBucket, rows };
     },
 
     /**

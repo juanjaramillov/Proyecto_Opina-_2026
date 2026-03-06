@@ -200,12 +200,12 @@ export default function VersusGame(props: GameProps) {
                                 return (
                                     <>
                                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                                            <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500" />
+                                            <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-primary-600 to-emerald-400" />
                                             Versus
                                         </div>
 
                                         <h1 className="mt-5 text-4xl md:text-5xl font-black tracking-tight text-ink leading-[1.05]">
-                                            {firstPart} <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500">{lastWord}</span>
+                                            {firstPart} <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-emerald-400">{lastWord}</span>
                                         </h1>
                                     </>
                                 );
@@ -263,7 +263,7 @@ export default function VersusGame(props: GameProps) {
 
                                     <div className="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden">
                                         <div
-                                            className="h-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500 ease-out"
+                                            className="h-full rounded-full bg-gradient-to-r from-primary-600 to-emerald-400 transition-all duration-500 ease-out"
                                             style={{ width: `${Math.round(((idx) / Math.max(1, total)) * 100)}%` }}
                                         />
                                     </div>
@@ -297,7 +297,7 @@ export default function VersusGame(props: GameProps) {
                                             <motion.div
                                                 initial={{ scale: 0.8, opacity: 0 }}
                                                 animate={{ scale: 1, opacity: 1 }}
-                                                className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-gradient-to-br from-blue-600 to-emerald-500 border-[6px] md:border-8 border-white shadow-[0_25px_65px_rgba(37,99,235,0.35)] flex items-center justify-center transform transition-transform duration-700 hover:scale-110"
+                                                className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-gradient-to-br from-primary-600 to-emerald-400 border-[6px] md:border-8 border-white shadow-[0_25px_65px_rgba(37,99,235,0.35)] flex items-center justify-center transform transition-transform duration-700 hover:scale-110"
                                             >
                                                 <span className="relative text-2xl md:text-3xl font-black tracking-tighter text-white italic drop-shadow-md">VS</span>
                                             </motion.div>
@@ -360,7 +360,7 @@ export default function VersusGame(props: GameProps) {
 
                                                 <button
                                                     onClick={() => navigate(`/depth/run/${effectiveBattle.slug || effectiveBattle.id}/${selectedOption.id}`)}
-                                                    className="h-12 px-6 rounded-2xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white font-black text-sm shadow-[0_12px_28px_rgba(16,185,129,0.18)] hover:opacity-95 transition-all active:scale-95 whitespace-nowrap"
+                                                    className="h-12 px-6 rounded-2xl bg-gradient-to-r from-primary-600 to-orange-400 text-white font-black text-sm shadow-[0_12px_28px_rgba(242,96,19,0.18)] hover:opacity-95 transition-all active:scale-95 whitespace-nowrap"
                                                 >
                                                     Aportar contexto
                                                 </button>
@@ -377,13 +377,13 @@ export default function VersusGame(props: GameProps) {
                                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="relative max-w-2xl mx-auto mt-10 p-[2px] rounded-3xl bg-gradient-to-r from-blue-600 via-primary-500 to-emerald-500 shadow-[0_20px_70px_rgba(37,99,235,0.15)] group"
+                                        className="relative max-w-2xl mx-auto mt-10 p-[2px] rounded-3xl bg-gradient-to-r from-primary-600 via-blue-500 to-emerald-400 shadow-[0_20px_70px_rgba(37,99,235,0.15)] group"
                                     >
                                         <div className="bg-white rounded-[22px] px-8 py-6 flex items-start gap-5 relative overflow-hidden">
                                             {/* Decorative background glow */}
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-500/10 to-transparent blur-3xl -z-10" />
 
-                                            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-600 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform duration-500">
+                                            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary-600 to-emerald-400 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-500">
                                                 <span className="material-symbols-outlined text-white text-2xl">psychology</span>
                                             </div>
 
@@ -395,7 +395,7 @@ export default function VersusGame(props: GameProps) {
                                                 </div>
                                                 <h4 className="text-xl font-black text-ink mb-2">Insight de la comunidad</h4>
                                                 <div className="text-base text-slate-600 leading-relaxed font-medium">
-                                                    El <span className="text-blue-600 font-bold">{momentum ? Math.max(...momentum.options.map(o => o.percentage)) : 0}%</span> de los encuestados han elegido la opción ganadora. Esta tendencia refleja una fuerte preferencia en este segmento y sugiere un cambio en el comportamiento colectivo.
+                                                    El <span className="text-primary-600 font-bold">{momentum ? Math.max(...momentum.options.map(o => o.percentage)) : 0}%</span> de los encuestados han elegido la opción ganadora. Esta tendencia refleja una fuerte preferencia en este segmento y sugiere un cambio en el comportamiento colectivo.
                                                 </div>
                                             </div>
                                         </div>

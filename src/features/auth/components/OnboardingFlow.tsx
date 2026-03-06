@@ -4,6 +4,8 @@ import { authService } from '../services/authService';
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 import { notifyService, formatKnownError } from '../../notifications/notifyService';
+import { SEG_AGE_BUCKETS, SEG_REGIONS } from "../../../lib/segmentation";
+import { track } from "../../telemetry/track";
 
 interface OnboardingFlowProps {
     onClose: () => void;
@@ -79,11 +81,13 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                     await authService.bootstrapUserAfterSignup(nickname, inviteCode);
                 } catch (bsErr: any) {
                     await authService.signOut();
+                    track("auth_bootstrap_failed", "warn", { mode });
                     throw new Error("Código inválido / expirado / ya usado.");
                 }
             }
 
             // Si funciona correctamente, pasamos al step de demográficos
+            track("auth_email_success", "info", { mode });
             setStep('demographics');
         } catch (err: any) {
             logger.error(err);
@@ -100,10 +104,13 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
         try {
             await authService.updateProfileDemographics({
                 gender,
+                ageBucket: ageRange,
                 region,
                 profileStage: 1,
                 signalWeight: 1.0
             });
+            track("profile_stage_1_completed", "info", { source: "onboarding", gender, region, age_bucket: ageRange });
+            track("onboarding_completed", "info");
             setStep('success');
         } catch (err: any) {
             logger.error(err);
@@ -292,15 +299,19 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                 <div id="gender-label" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Género</div>
                                 <p className="text-[11px] text-slate-400 mb-2 font-medium">Opcional. Pero ayuda a leer mejor la data.</p>
                                 <div className="grid grid-cols-3 gap-2">
-                                    {['Hombre', 'Mujer', 'Otro'].map(g => (
+                                    {[
+                                        { id: "male", label: "Hombre" },
+                                        { id: "female", label: "Mujer" },
+                                        { id: "other", label: "Otro" },
+                                    ].map(g => (
                                         <button
-                                            key={g}
+                                            key={g.id}
                                             aria-labelledby="gender-label"
-                                            onClick={() => setGender(g)}
-                                            className={`py-2.5 rounded-xl text-xs font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${gender === g ? 'bg-primary-600 border-primary-600 text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-primary-200'
+                                            onClick={() => setGender(g.id)}
+                                            className={`py-2.5 rounded-xl text-xs font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${gender === g.id ? 'bg-primary-600 border-primary-600 text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-primary-200'
                                                 }`}
                                         >
-                                            {g}
+                                            {g.label}
                                         </button>
                                     ))}
                                 </div>
@@ -316,11 +327,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                                 >
                                     <option value="">Selecciona…</option>
-                                    <option value="18-24">18 - 24 años</option>
-                                    <option value="25-34">25 - 34 años</option>
-                                    <option value="35-44">35 - 44 años</option>
-                                    <option value="45-54">45 - 54 años</option>
-                                    <option value="55+">55+ años</option>
+                                    {SEG_AGE_BUCKETS.filter(a => a.value !== "all").map(a => (
+                                        <option key={a.value} value={a.value}>{a.label}</option>
+                                    ))}
                                 </select>
                             </div>
 
@@ -334,10 +343,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                                 >
                                     <option value="">Selecciona…</option>
-                                    <option value="rm">Región Metropolitana</option>
-                                    <option value="valpo">Valparaíso</option>
-                                    <option value="biobio">Biobío</option>
-                                    <option value="other">Otras Regiones</option>
+                                    {SEG_REGIONS.filter(r => r.value !== "all").map(r => (
+                                        <option key={r.value} value={r.value}>{r.label}</option>
+                                    ))}
                                 </select>
                             </div>
 

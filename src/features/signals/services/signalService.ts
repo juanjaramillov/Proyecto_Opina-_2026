@@ -9,6 +9,7 @@ import {
     isNonRetriableSignalErrorMessage,
     removeOutboxJob
 } from './signalOutbox';
+import { track } from "../../telemetry/track";
 
 const sb = supabase as unknown as SupabaseClient<Database>;
 
@@ -173,19 +174,24 @@ export const signalService = {
                     msg.includes('PROFILE_INCOMPLETE') || code.includes('PROFILE_INCOMPLETE');
 
                 if (isInviteRequired) {
-                    // Redirigir a flujo de invitación (no hay ruta /invite, así que asumiremos /login o una de invitación en su momento. Pero enviamos /admin/invitaciones si no hay /invite, o la que me solicitó. Espera, usaré /admin/invitaciones? no, mando a /invite como me pidió).
-                    window.dispatchEvent(new CustomEvent('opina:navigate', { detail: { to: '/invite' } }));
+                    track("signal_blocked_invite_required", "warn", { battle_id: payload.battle_id });
+                    const next = encodeURIComponent(window.location.pathname + window.location.search);
+                    window.dispatchEvent(
+                        new CustomEvent('opina:navigate', { detail: { to: `/access?next=${next}` } })
+                    );
                     throw error;
                 }
 
                 if (isProfileMissing || isProfileIncomplete) {
                     // Redirigir a ProfileWizard (mínimos)
+                    track("signal_blocked_profile_required", "warn", { battle_id: payload.battle_id });
                     window.dispatchEvent(new CustomEvent('opina:navigate', { detail: { to: '/complete-profile' } }));
                     throw error;
                 }
 
                 if (isNonRetriableSignalErrorMessage(errorMsg)) {
                     removeOutboxJob(id);
+                    track("signal_emit_non_retriable_error", "error", { message: String(errorMsg).slice(0, 160) }, id);
                     try {
                         window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
                     } catch {
@@ -197,6 +203,7 @@ export const signalService = {
                 logger.warn('[SignalService] RPC insert_signal_event failed (transient)', errorMsg);
             } else {
                 removeOutboxJob(id);
+                track("signal_saved", "info", { battle_id: payload.battle_id, option_id: payload.option_id }, id);
             }
         } catch (err: any) {
             // Re-throw if it was already explicitly thrown for business rules

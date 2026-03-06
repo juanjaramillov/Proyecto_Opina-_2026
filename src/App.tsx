@@ -21,18 +21,18 @@ import Login from "./features/auth/pages/Login";
 import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
 import ProfileWizard from "./features/auth/components/ProfileWizard";
-import PersonalState from "./features/profile/pages/PersonalState";
-import IntelligencePage from "./features/intelligence/IntelligencePage";
-import DepthHub from "./features/profundidad/pages/DepthHub";
-import DepthRun from "./features/profundidad/pages/DepthRun";
+// import PersonalState from "./features/profile/pages/PersonalState";
+// import IntelligencePage from "./features/intelligence/IntelligencePage";
+// import DepthHub from "./features/profundidad/pages/DepthHub";
+// import DepthRun from "./features/profundidad/pages/DepthRun";
 
 import AdminInvites from "./features/admin/pages/AdminInvites";
 import AdminHealth from "./features/admin/pages/AdminHealth";
 import AdminAntifraud from "./features/admin/pages/AdminAntifraud";
-import ModulesDemandPage from "./features/admin/pages/ModulesDemandPage";
-import ModulesPriorityPage from "./features/admin/pages/ModulesPriorityPage";
-import Rankings from "./features/rankings/pages/Rankings";
-import PublicRankingPage from './features/rankings/pages/PublicRankingPage';
+// import ModulesDemandPage from "./features/admin/pages/ModulesDemandPage";
+// import ModulesPriorityPage from "./features/admin/pages/ModulesPriorityPage";
+// import Rankings from "./features/rankings/pages/Rankings";
+// import PublicRankingPage from './features/rankings/pages/PublicRankingPage';
 import AboutUs from "./pages/static/AboutUs";
 import NotFound from "./pages/NotFound";
 
@@ -74,27 +74,27 @@ export default function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/complete-profile" element={<ProtectedRoute><ProfileWizard /></ProtectedRoute>} />
-              <Route path="/clinicas-santiago/:attributeSlug" element={<PublicRankingPage />} />
+              {/* <Route path="/clinicas-santiago/:attributeSlug" element={<PublicRankingPage />} /> */}
               <Route path="/about" element={<AboutUs />} />
+              <Route path="/intelligence" element={<Dashboard />} />
 
               {/* Protected Routes */}
               <Route path="/experience" element={<ProtectedRoute><Experience /></ProtectedRoute>} />
               <Route path="/m/:slug" element={<ProtectedRoute><ModuleEntry /></ProtectedRoute>} />
-              <Route path="/depth/:battleSlug" element={<ProtectedRoute><DepthHub /></ProtectedRoute>} />
-              <Route path="/depth/run/:battleSlug/:optionId" element={<ProtectedRoute><DepthRun /></ProtectedRoute>} />
+              {/* <Route path="/depth/:battleSlug" element={<ProtectedRoute><DepthHub /></ProtectedRoute>} /> */}
+              {/* <Route path="/depth/run/:battleSlug/:optionId" element={<ProtectedRoute><DepthRun /></ProtectedRoute>} /> */}
               <Route path="/battle/:battleSlug" element={<ProtectedRoute><BattlePage /></ProtectedRoute>} />
               <Route path="/results" element={<ProtectedRoute><Results /></ProtectedRoute>} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/rankings" element={<ProtectedRoute><Rankings /></ProtectedRoute>} />
+              {/* <Route path="/rankings" element={<ProtectedRoute><Rankings /></ProtectedRoute>} /> */}
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="/personal-state" element={<ProtectedRoute><PersonalState /></ProtectedRoute>} />
-              <Route path="/intelligence" element={
+              {/* <Route path="/personal-state" element={<ProtectedRoute><PersonalState /></ProtectedRoute>} /> */}
+              {/* <Route path="/intelligence" element={
                 <ProtectedRoute>
                   <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
                     <IntelligencePage />
                   </RoleProtectedRoute>
                 </ProtectedRoute>
-              } />
+              } /> */}
               <Route path="/admin/invitaciones" element={
                 <ProtectedRoute>
                   <RoleProtectedRoute allowedRoles={['admin']}>
@@ -116,7 +116,7 @@ export default function App() {
                   </RoleProtectedRoute>
                 </ProtectedRoute>
               } />
-              <Route path="/admin/demanda" element={
+              {/* <Route path="/admin/demanda" element={
                 <ProtectedRoute>
                   <RoleProtectedRoute allowedRoles={['admin']}>
                     <ModulesDemandPage />
@@ -129,7 +129,7 @@ export default function App() {
                     <ModulesPriorityPage />
                   </RoleProtectedRoute>
                 </ProtectedRoute>
-              } />
+              } /> */}
 
               {/* Fallback */}
               <Route path="*" element={<NotFound />} />

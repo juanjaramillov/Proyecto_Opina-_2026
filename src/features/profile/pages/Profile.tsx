@@ -1,21 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth, authService } from "../../auth";
-import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint, getNextDemographicsUpdateDate } from "../services/profileService";
+import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint, getNextDemographicsUpdateDate, UserRanking } from "../services/profileService";
 import { AccountProfile } from "../../auth/types";
 import ProgressiveQuestion from "../components/ProgressiveQuestion";
 import SegmentComparisonCard from "../components/SegmentComparisonCard";
 import PersonalHistoryChart from "../components/PersonalHistoryChart";
-import { UserLevelCard } from "../../../components/UserLevelCard";
-import { VerifiedBadge } from "../../../components/auth/VerifiedBadge";
+import RankingStatusPanel from "../components/RankingStatusPanel";
+import SignalReputationPanel from "../components/SignalReputationPanel";
 import { supabase } from "../../../supabase/client";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
 import { logger } from "../../../lib/logger";
 
+import { NextActionRecommendation, ActionType } from '../../../components/ui/NextActionRecommendation';
 import { InlineLoader } from '../../../components/ui/InlineLoader';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { notifyService } from "../../notifications/notifyService";
 import PageHeader from "../../../components/ui/PageHeader";
+import LoyaltyPanel from "../components/LoyaltyPanel";
+import MissionsPanel from "../components/MissionsPanel";
 
 export default function Profile() {
   const { profile, loading } = useAuth();
@@ -50,15 +53,18 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
   const [comparisons, setComparisons] = useState<SegmentComparison[]>([]);
   const [personalHistory, setPersonalHistory] = useState<PersonalHistoryPoint[]>([]);
 
+  const [ranking, setRanking] = useState<UserRanking | null>(null);
+
   useEffect(() => {
     const loadAllProfileData = async () => {
       try {
-        const [stats, summary, activity, compData, histData] = await Promise.all([
+        const [stats, summary, activity, compData, histData, rankData] = await Promise.all([
           profileService.getUserStats(),
           profileService.getParticipationSummary(),
           profileService.getActivityHistory(5),
           profileService.getSegmentComparison(),
-          profileService.getPersonalHistory()
+          profileService.getPersonalHistory(),
+          profileService.getUserRanking()
         ]);
 
         setUserStats(stats);
@@ -66,6 +72,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
         setHistory(activity);
         setComparisons(compData);
         setPersonalHistory(histData);
+        setRanking(rankData);
       } catch (err) {
         logger.error("Failed to load profile data:", err);
         notifyService.error("No pudimos cargar tu perfil. Intenta de nuevo.");
@@ -82,9 +89,16 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
   const lastUpdateISO = (profile?.demographics as any)?.last_demographics_update || (profile as any)?.updated_at;
   const nextUpdateDate = getNextDemographicsUpdateDate(lastUpdateISO as string | undefined);
 
+
+
   const handleContinue = () => {
     const nextBatchIndex = Math.floor(completedSignals / SIGNALS_PER_BATCH);
     navigate('/experience', { state: { nextBatch: nextBatchIndex } });
+  };
+
+  const scrollToMissions = () => {
+    const el = document.getElementById("missions");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -161,151 +175,175 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
           </section>
         </div>
 
-        {/* MAIN CONTENT: SYSTEM CORE */}
+        {/* MAIN CONTENT: DASHBOARD CORE */}
         <div className="lg:col-span-8 order-1 lg:order-2 space-y-6">
-          <UserLevelCard totalSignals={userStats?.total_signals || 0} />
 
-          {/* SYSTEM STATUS CARD */}
-          <section className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 relative overflow-hidden">
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none transition-transform duration-700 hover:rotate-12 hover:scale-110">
-              <span className="material-symbols-outlined text-[150px] text-primary-600">hub</span>
-            </div>
+          {/* ACTION COMMAND CENTER */}
+          {userStats && profile && (
+            <NextActionRecommendation
+              totalSignals={userStats.total_signals}
+              profileCompleteness={profile.profileCompleteness || 0}
+              onAction={(action: ActionType) => {
+                if (action === 'profile') {
+                  const el = document.getElementById("profile-form");
+                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                } else if (action === 'versus') {
+                  navigate('/experience');
+                } else if (action === 'results') {
+                  navigate('/results');
+                }
+              }}
+              customTitle="Tu siguiente paso en Opina+"
+              showSecondaryOption={false}
+            />
+          )}
 
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-primary-50 border border-primary-100 flex items-center justify-center shadow-inner">
-                    <span className="material-symbols-outlined text-primary-600 text-2xl">person_filled</span>
+          {/* HERO IDENTITY & ACTION BOARD */}
+          <section className="bg-white rounded-[2rem] p-6 lg:p-8 shadow-sm border border-slate-100 relative overflow-hidden flex flex-col sm:flex-row items-stretch gap-6">
+            {/* Decorative backdrop */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary-500/10 to-emerald-500/5 rounded-bl-[100px] pointer-events-none -z-0"></div>
+
+            <div className="relative z-10 flex-1 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-50 to-emerald-50 border border-primary-100 flex items-center justify-center shadow-inner">
+                    <span className="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-500 text-3xl">psychology</span>
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h1 className="text-2xl font-black text-slate-800 tracking-tight">
+                      <h1 className="text-2xl font-black text-slate-800 tracking-tight leading-none">
                         {profile?.displayName ? `Hola, ${profile.displayName.split(' ')[0]}` : 'Perfil de Observador'}
                       </h1>
-                      <VerifiedBadge verified={!!(profile as unknown as { identity_verified: boolean })?.identity_verified} />
-                    </div>
-                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">
-                      {profile?.displayName ? 'Sincronización Activa' : 'Calibración Requerida'}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="text-right">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    En Red
-                  </div>
-                </div>
-              </div>
-
-              {/* GUEST SIGNUP PROMPT REMOVED (Handled via Register Flow) */}
-
-              {/* UNLOCK GRID */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                {/* RESULTADOS */}
-                <button
-                  onClick={() => !isLocked && navigate('/results')}
-                  className={`p-5 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 ${isLocked ? 'bg-slate-50 border-slate-100 cursor-not-allowed' : 'bg-white border-slate-200 hover:border-primary-300 hover:shadow-xl hover:-translate-y-1 active:scale-[0.98]'}`}
-                >
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${isLocked ? 'from-slate-200/50' : 'from-primary-500/10'} to-transparent rounded-bl-full -z-0 group-hover:scale-110 transition-transform`}></div>
-                  <div className="relative z-10">
-                    <div className="flex justify-between items-start mb-3">
-                      <span className="font-black text-sm text-slate-800 uppercase tracking-wider">Análisis & Tendencias</span>
-                      {isLocked ? (
-                        <span className="material-symbols-outlined text-slate-300 bg-white p-1 rounded-full shadow-sm">lock</span>
-                      ) : (
-                        <span className="material-symbols-outlined text-white bg-primary-500 p-1.5 rounded-xl shadow-md group-hover:rotate-12 transition-transform">monitoring</span>
+                      {(profile as any)?.identity_verified && (
+                        <span className="material-symbols-outlined text-emerald-500 text-lg" title="Corroborado">verified</span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                      {isLocked ? `Requiere ${MIN_SIGNALS_THRESHOLD} versus contestados.` : 'Explora el desglose de métricas por segmento y evolución temporal.'}
-                    </p>
-                  </div>
-                </button>
-
-                {/* RANKINGS */}
-                <button
-                  onClick={() => navigate('/rankings')}
-                  className="p-5 rounded-2xl border text-left bg-white border-slate-200 hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-bl-full -z-0 group-hover:scale-110 transition-transform"></div>
-                  <div className="relative z-10">
-                    <div className="flex justify-between items-start mb-3">
-                      <span className="font-black text-sm text-slate-800 uppercase tracking-wider">Rankings Globales</span>
-                      <span className="material-symbols-outlined text-white bg-emerald-500 p-1.5 rounded-xl shadow-md group-hover:rotate-12 transition-transform">format_list_numbered</span>
+                    <div className="flex items-center gap-2 mt-2">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        En Red
+                      </div>
+                      <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">
+                        {profile?.displayName ? 'Sincronización Activa' : 'Calibración Requerida'}
+                      </p>
                     </div>
-                    <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                      Descubre el posicionamiento general y por categorías de todas las opciones.
-                    </p>
                   </div>
-                </button>
-
+                </div>
               </div>
 
-              {/* MAIN CTA */}
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* HERO MAIN CTA */}
+              <div className="mt-6">
                 <button
                   onClick={handleContinue}
-                  className={`flex-1 px-6 py-5 rounded-2xl font-black text-white flex items-center justify-center gap-3 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-xl uppercase tracking-widest text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 ${isLocked ? 'bg-gradient-to-r from-primary-600 to-primary-500 hover:shadow-primary-500/30' : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:shadow-emerald-500/30'}`}
+                  className={`w-full sm:w-auto px-8 py-4 rounded-2xl font-black text-white flex items-center justify-center gap-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-md uppercase tracking-widest text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 ${isLocked ? 'bg-gradient-to-r from-primary-600 to-primary-500 hover:shadow-primary-500/30' : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:shadow-emerald-500/30'}`}
                 >
                   {isLocked ? (
                     <>
-                      <span className="material-symbols-outlined">bolt</span>
+                      <span className="material-symbols-outlined text-[20px]">bolt</span>
                       Continuar Calibración
                     </>
                   ) : (
                     <>
-                      <span className="material-symbols-outlined">add_circle</span>
+                      <span className="material-symbols-outlined text-[20px]">add_circle</span>
                       Aportar Nuevas Señales
                     </>
                   )}
                 </button>
+                {isLocked && (
+                  <p className="text-xs text-slate-500 font-medium mt-3 flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">lock</span>
+                    Requiere {MIN_SIGNALS_THRESHOLD} versus contestados para desbloquear análisis.
+                  </p>
+                )}
               </div>
+            </div>
 
-              {/* DEMO VERIFICATION SIMULATOR */}
-              {!(profile as unknown as { identity_verified: boolean })?.identity_verified && (
-                <div className="mt-8 pt-8 border-t border-slate-50">
-                  <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-100">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-600 shadow-sm shrink-0">
-                        <span className="material-symbols-outlined">verified_user</span>
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-sm font-bold text-emerald-900 mb-1">Aumenta tu impacto (Demo)</h4>
-                        <p className="text-xs text-emerald-700/80 leading-relaxed mb-4">
-                          Verificar tu identidad autentica tu participación y enriquece tu nivel de influencia en los rankings globales.
-                        </p>
-                        <button
-                          onClick={async () => {
-                            try {
-                              const { error } = await (supabase as unknown as { from: (t: string) => { update: (data: unknown) => { eq: (col: string, val: unknown) => Promise<{ error: Error | null }> } } })
-                                .from("users")
-                                .update({
-                                  is_identity_verified: true,
-                                })
-                                .eq('user_id', (profile as unknown as { id: string })?.id);
-
-                              if (error) throw error;
-                              notifyService.success("Identidad verificada (Demo)");
-                              setTimeout(() => window.location.reload(), 1500);
-                            } catch (err) {
-                              logger.error("Error verifying identity:", err);
-                              notifyService.error("Error al verificar la identidad demo.");
-                            }
-                          }}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-5 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
-                        >
-                          Verificar identidad (Demo)
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+            {/* HERO STATS (Right side on desktop) */}
+            <div className="relative z-10 w-full sm:w-48 flex flex-col justify-end gap-3 shrink-0">
+              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center justify-center text-center">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Señales Emitidas</span>
+                <span className="text-4xl font-black text-slate-800 tracking-tighter">{completedSignals.toLocaleString()}</span>
+              </div>
+              {/* TOOL SHORTCUTS FOR OTHERS */}
+              {!isLocked && (
+                <div className="grid grid-cols-2 gap-2">
+                  <button onClick={() => navigate('/results')} className="bg-primary-50 hover:bg-primary-100 text-primary-700 p-3 rounded-xl flex flex-col items-center justify-center gap-1 transition-colors group">
+                    <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">monitoring</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest leading-none">Análisis</span>
+                  </button>
+                  <button onClick={() => navigate('/rankings')} className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 p-3 rounded-xl flex flex-col items-center justify-center gap-1 transition-colors group">
+                    <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">format_list_numbered</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest leading-none">Ranking</span>
+                  </button>
                 </div>
               )}
-
             </div>
           </section>
+
+          {/* USER RANKING / REPUTATION DASHBOARD */}
+          {!isLocked && (
+            <RankingStatusPanel ranking={ranking} loading={ranking === null && history.length === 0} />
+          )}
+
+          {/* SIGNAL REPUTATION (QUALITY & WEIGHT) */}
+          {!isLocked && profile && userStats && (
+            <SignalReputationPanel
+              signalWeight={userStats.signal_weight}
+              profileCompleteness={profile.profileCompleteness}
+              tier={profile.tier}
+            />
+          )}
+
+          {/* LOYALTY PROGRESS DASHBOARD */}
+          <LoyaltyPanel
+            totalSignals={userStats?.total_signals || 0}
+            profileCompleteness={(profile as any)?.profileCompleteness || 0}
+            tier={(profile as any)?.tier}
+            hasCI={(profile as any)?.hasCI}
+            onGoMissions={scrollToMissions}
+          />
+
+          {/* DEMO VERIFICATION SIMULATOR (COMPACT BANNER) */}
+          {!(profile as any)?.identity_verified && (
+            <div className="bg-emerald-50 rounded-2xl p-4 sm:p-5 border border-emerald-100 flex flex-col sm:flex-row items-center gap-4 justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-600 shadow-sm shrink-0">
+                  <span className="material-symbols-outlined text-xl">security</span>
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-emerald-900 leading-none mb-1">Verifica tu Identidad (Demo)</h4>
+                  <p className="text-xs text-emerald-700/80 font-medium leading-tight">
+                    Incrementa al instante la confiabilidad y el peso de tus señales.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={async () => {
+                  try {
+                    const { error } = await (supabase as any)
+                      .from("users")
+                      .update({ is_identity_verified: true })
+                      .eq('user_id', (profile as any)?.id);
+
+                    if (error) throw error;
+                    notifyService.success("Identidad verificada (Demo)");
+                    setTimeout(() => window.location.reload(), 1500);
+                  } catch (err) {
+                    logger.error("Error verifying identity:", err);
+                    notifyService.error("Error al verificar la identidad demo.");
+                  }
+                }}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-5 py-2.5 rounded-xl transition-all shadow-sm w-full sm:w-auto"
+              >
+                Verificar Ahora
+              </button>
+            </div>
+          )}
+
+          <MissionsPanel
+            totalSignals={userStats?.total_signals || 0}
+            profileCompleteness={(profile as any)?.profileCompleteness || 0}
+          />
 
           {/* PERSONAL INTELLIGENCE: SEGMENT COMPARISON */}
           {!isLocked && comparisons.length > 0 && (
@@ -377,60 +415,6 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
             </section>
           )}
 
-          {/* PROGRESSION BENEFITS CARD */}
-          <section className="bg-white rounded-3xl p-6 shadow-sm border border-primary-100 relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-8 opacity-5">
-              <span className="material-symbols-outlined text-[80px] text-primary-500">military_tech</span>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-sm font-black text-ink uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary-500 text-lg">hotel_class</span>
-                Tus beneficios
-              </h3>
-
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-start gap-3">
-                  <span className="material-symbols-outlined text-emerald-500 text-base mt-0.5">check_circle</span>
-                  <p className="text-xs text-slate-600 font-medium leading-relaxed">Más señales diarias mientras más completo tu perfil.</p>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="material-symbols-outlined text-emerald-500 text-base mt-0.5">check_circle</span>
-                  <p className="text-xs text-slate-600 font-medium leading-relaxed">Resultados y segmentación desbloqueados.</p>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="material-symbols-outlined text-emerald-500 text-base mt-0.5">check_circle</span>
-                  <p className="text-xs text-slate-600 font-medium leading-relaxed">Mayor peso de tu señal si verificas identidad (más adelante).</p>
-                </li>
-              </ul>
-
-              <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <span className="text-[10px] uppercase font-black tracking-widest text-slate-400">Estado</span>
-                <span className="text-xs font-bold text-primary-600 text-right">
-                  {profile?.tier === 'guest' ? 'Invitado (0 señales)' :
-                    (profile?.demographics?.profileStage || 0) < 1 ? 'Perfil incompleto (0 señales)' :
-                      (profile?.demographics?.profileStage || 0) === 1 ? 'Básico (señales limitadas)' :
-                        'Perfil completo (mejor acceso a resultados)'}
-                  {(profile as any)?.is_identity_verified || (profile as any)?.identity_verified ? ' - Verificado (máximo peso)' : ''}
-                </span>
-              </div>
-            </div>
-          </section>
-
-          {/* LOWER SECTION: LEVEL INDICATOR (Simplified) */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'guest' ? 'bg-primary-50 border-primary-200 ring-2 ring-primary-100' : 'bg-white border-slate-100 opacity-50'}`}>
-              <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nivel 1</div>
-              <div className="font-bold text-sm text-ink">Observador</div>
-            </div>
-            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'verified_basic' ? 'bg-primary-50 border-primary-200 ring-2 ring-primary-100' : 'bg-white border-slate-100 opacity-50'}`}>
-              <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nivel 2</div>
-              <div className="font-bold text-sm text-ink">Validado</div>
-            </div>
-            <div className={`text-center p-3 rounded-xl border ${profile?.tier === 'verified_full_ci' ? 'bg-primary-50 border-primary-200 ring-2 ring-primary-100' : 'bg-white border-slate-100 opacity-50'}`}>
-              <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nivel 3</div>
-              <div className="font-bold text-sm text-ink">Referente</div>
-            </div>
-          </div>
         </div>
 
         {/* SIGN OUT */}

@@ -1,5 +1,8 @@
 import React from 'react';
-
+import { useAuth } from '../../auth';
+import { useSignalStore } from '../../../store/signalStore';
+import { NextActionRecommendation, ActionType } from '../../../components/ui/NextActionRecommendation';
+import { useNavigate } from 'react-router-dom';
 interface DepthCompleteProps {
     onNextPack?: () => void;
     onGoToHub: () => void;
@@ -7,6 +10,10 @@ interface DepthCompleteProps {
 }
 
 const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, summary }) => {
+    const { profile } = useAuth();
+    const { signals } = useSignalStore();
+    const navigate = useNavigate();
+
     return (
         <div className="flex flex-col items-center text-center py-8 animate-in zoom-in duration-500">
             <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-emerald-600 text-white rounded-[2rem] flex items-center justify-center mb-8 shadow-2xl shadow-emerald-500/30">
@@ -39,21 +46,30 @@ const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, su
             )}
 
             <div className="w-full space-y-4">
-                {onNextPack && (
+                {onNextPack ? (
                     <button
                         onClick={onNextPack}
                         className="w-full py-5 bg-gradient-to-r from-blue-600 to-emerald-500 text-white rounded-[1.5rem] font-black text-base uppercase tracking-widest shadow-xl shadow-primary-500/20 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95"
                     >
                         Siguiente pack
                     </button>
-                )}
-                <button
-                    onClick={onGoToHub}
-                    className="w-full py-5 bg-slate-900 text-white rounded-[1.5rem] font-black text-base uppercase tracking-widest hover:bg-slate-800 shadow-xl shadow-slate-900/10 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-2"
-                >
-                    Volver al Dashboard
-                    <span className="material-symbols-outlined">arrow_forward</span>
-                </button>
+                ) : null}
+
+                <div className="mt-4">
+                    <NextActionRecommendation
+                        signalsEarned={summary?.length || 0}
+                        totalSignals={signals}
+                        profileCompleteness={(profile as any)?.profileCompleteness || 0}
+                        onAction={(action: ActionType) => {
+                            onGoToHub();
+                            if (action === 'profile') navigate('/complete-profile');
+                            if (action === 'results') navigate('/results');
+                            // If versus, 'onGoToHub' already resets InsightPack mode in Experience.tsx
+                        }}
+                        customTitle="¡Completado!"
+                        showSecondaryOption={false}
+                    />
+                </div>
             </div>
         </div>
     );

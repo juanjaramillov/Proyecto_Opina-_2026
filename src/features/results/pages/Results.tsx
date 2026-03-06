@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../../supabase/client";
 import { BrandLogo } from '../../../components/ui/BrandLogo';
@@ -22,7 +22,11 @@ import { logger } from "../../../lib/logger";
 import { SkeletonRankingRow } from "../../../components/ui/Skeleton";
 import { EmptyState } from "../../../components/ui/EmptyState";
 import { SEG_AGE_BUCKETS, SEG_GENDERS, SEG_REGIONS, normalizeAllToNull } from "../../../lib/segmentation";
-
+import { labelAgeBucket, labelGender, labelRegion } from "../../../lib/filterChips";
+import { trackPage } from "../../telemetry/track";
+import { useAuth } from "../../auth";
+import { useSignalStore } from "../../../store/signalStore";
+import { NextActionRecommendation, ActionType } from "../../../components/ui/NextActionRecommendation";
 // --- Chip removible (simple) ---
 function FilterChip({
   label,
@@ -139,7 +143,7 @@ function RankingResultRow({ result, index }: { result: AdvancedResult, index: nu
                       <div className="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden">
                         {/* NPS/Score width calculation */}
                         <div
-                          className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full"
+                          className="h-full bg-gradient-to-r from-blue-600 to-emerald-400 rounded-full"
                           style={{ width: `${(insight.avg_score / (insight.question_type === 'scale_0_10' ? 10 : 5)) * 100}%` }}
                         />
                       </div>
@@ -182,15 +186,18 @@ function RankingResultRow({ result, index }: { result: AdvancedResult, index: nu
 
 export default function ResultsPage() {
   const nav = useNavigate();
-
-  // filtros
-  const [gender, setGender] = useState<string | undefined>(undefined);
-  const [region, setRegion] = useState<string | undefined>(undefined);
-  const [ageBucket, setAgeBucket] = useState<string | undefined>(undefined);
+  const { profile } = useAuth();
+  const { signals } = useSignalStore();
+  const initialQS = useMemo(() => new URLSearchParams(window.location.search), []);
+  const [category, setCategory] = useState<string>(() => initialQS.get("category") || "supermercados");
+  const [categories, setCategories] = useState<{ slug: string; name: string }[]>([]);
+  const [gender, setGender] = useState<string | undefined>(() => initialQS.get("gender") || undefined);
+  const [region, setRegion] = useState<string | undefined>(() => initialQS.get("region") || undefined);
+  const [ageBucket, setAgeBucket] = useState<string | undefined>(() => initialQS.get("age") || undefined);
 
   // estados
   const [loading, setLoading] = useState(true);
-  const [locked, setLocked] = useState(false);
+  const [locked] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   // data
@@ -223,38 +230,51 @@ export default function ResultsPage() {
 
   const activeChips = useMemo(() => {
     const chips: Array<{ key: string; label: string; remove: () => void }> = [];
-    if (gender) chips.push({ key: "gender", label: `Género: ${gender}`, remove: () => setGender(undefined) });
-    if (region) chips.push({ key: "region", label: `Región: ${region}`, remove: () => setRegion(undefined) });
-    if (ageBucket) chips.push({ key: "age", label: `Edad: ${ageBucket}`, remove: () => setAgeBucket(undefined) });
+
+    // Categoría (solo si no es default)
+    if (category && category !== "supermercados") {
+      const catLabel = categories.find(c => c.slug === category)?.name ?? category;
+      chips.push({ key: "category", label: `Categoría: ${catLabel}`, remove: () => setCategory("supermercados") });
+    }
+
+    if (gender) chips.push({ key: "gender", label: `Género: ${labelGender(gender) ?? gender}`, remove: () => setGender(undefined) });
+    if (region) chips.push({ key: "region", label: `Región: ${labelRegion(region) ?? region}`, remove: () => setRegion(undefined) });
+    if (ageBucket) chips.push({ key: "age", label: `Edad: ${labelAgeBucket(ageBucket) ?? ageBucket}`, remove: () => setAgeBucket(undefined) });
+
     return chips;
-  }, [gender, region, ageBucket]);
+  }, [category, categories, gender, region, ageBucket]);
+
+  useEffect(() => {
+    const qs = new URLSearchParams(window.location.search);
+    qs.set("category", category);
+    if (gender) qs.set("gender", gender); else qs.delete("gender");
+    if (region) qs.set("region", region); else qs.delete("region");
+    if (ageBucket) qs.set("age", ageBucket); else qs.delete("age");
+    window.history.replaceState({}, "", `${window.location.pathname}?${qs.toString()}`);
+  }, [category, gender, region, ageBucket]);
+
+  useEffect(() => {
+    trackPage("results", { category, gender, region, age_bucket: ageBucket });
+  }, [category, gender, region, ageBucket]);
 
   const clearAll = () => {
+    setCategory("supermercados");
     setGender(undefined);
     setRegion(undefined);
     setAgeBucket(undefined);
   };
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     setErr(null);
 
     try {
-      // --- Regla de lock actual (mantén tu lógica real si existe en tu app) ---
-      // Si tú ya tienes un "threshold" real (ej: 30 señales), reemplaza este cálculo por tu fuente real.
-      // Aquí dejamos el hook con user_stats, porque NO es signal_events (y ya lo tienes).
       await profileService.getUserStats();
-      // const totalSignals = stats?.total_signals ?? 0;
-      // const isLocked = totalSignals < 30;
-      setLocked(false); // Restriction removed by user request
-
-      // Cargar resultados (si está locked igual cargamos, pero se ve difuminado)
-      const data = await analyticsService.getAdvancedResults("general", {
+      const data = await analyticsService.getAdvancedResults(category, {
         gender,
         region,
         age_bucket: ageBucket
       });
-
       setResults(data || []);
     } catch (e: unknown) {
       const error = e as Error;
@@ -263,13 +283,34 @@ export default function ResultsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [category, gender, region, ageBucket]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('categories')
+          .select('slug, name')
+          .order('name');
+        if (error) throw error;
+        setCategories(data || []);
+        // Si la categoría actual no está en la lista (y la lista no está vacía), 
+        // cambiamos a la primera disponible.
+        if (data && data.length > 0 && !data.find(c => c.slug === category)) {
+          setCategory(data[0].slug);
+        }
+      } catch (e) {
+        logger.error('Failed to fetch categories', e);
+      }
+    };
+    fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     load();
     loadMySignals();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gender, region, ageBucket]);
+  }, [load]);
 
   // --- DG-B01: refresco post-señal (confianza) ---
   useEffect(() => {
@@ -284,8 +325,7 @@ export default function ResultsPage() {
     return () => {
       window.removeEventListener('opina:signal_emitted', handler as EventListener);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gender, region, ageBucket]);
+  }, [load]);
 
   // --- UI ---
   return (
@@ -331,13 +371,23 @@ export default function ResultsPage() {
           </div>
 
           {/* Controles */}
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-3 rounded-2xl border-2 border-primary-100 bg-primary-50/30 font-bold text-primary-900 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 transition-all"
+            >
+              {categories.map(c => (
+                <option key={c.slug} value={c.slug}>{c.name || c.slug}</option>
+              ))}
+            </select>
+
             <select
               value={gender ?? "all"}
               onChange={(e) => setGender(normalizeAllToNull(e.target.value) ?? undefined)}
               className="w-full px-4 py-3 rounded-2xl border-2 border-slate-100 bg-slate-50/50 font-bold text-slate-700 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10"
             >
-              <option value="all">Todos</option>
+              <option value="all">Todos los Géneros</option>
               {SEG_GENDERS.filter(o => o.value !== "all").map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
 
@@ -481,6 +531,22 @@ export default function ResultsPage() {
                   </div>
                 )}
               </div>
+            </div>
+
+            <div className="mt-8 mb-8">
+              <NextActionRecommendation
+                totalSignals={signals}
+                profileCompleteness={(profile as any)?.profileCompleteness || 0}
+                onAction={(action: ActionType) => {
+                  if (action === 'profile') nav('/complete-profile');
+                  if (action === 'versus') nav('/experience');
+                  if (action === 'results') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+                customTitle="¿Terminaste de explorar?"
+                showSecondaryOption={false}
+              />
             </div>
 
           </div>

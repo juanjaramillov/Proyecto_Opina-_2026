@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { adminInvitesService, InviteRow, RedemptionRow } from '../services/adminInvitesService';
 import { supabase } from '../../../supabase/client';
 
@@ -13,6 +13,61 @@ export default function AdminInvites() {
     const [selectedInvites, setSelectedInvites] = useState<Set<string>>(new Set());
     const [confirmAction, setConfirmAction] = useState<'active' | 'revoked' | 'delete' | null>(null);
     const [confirmRowAction, setConfirmRowAction] = useState<{ id: string, action: 'active' | 'revoked' | 'delete' } | null>(null);
+    const [waDrafts, setWaDrafts] = useState<Record<string, { phone: string; isSending: boolean; statusMsg?: string }>>({});
+
+
+    const sortedInvites = useMemo(() => {
+        const priority: Record<string, number> = {
+            'used': 1,
+            'active': 2,
+            'revoked': 3
+        };
+
+        return [...invites].sort((a, b) => {
+            const pA = priority[a.status] || 99;
+            const pB = priority[b.status] || 99;
+
+            if (pA !== pB) return pA - pB;
+
+            // Si tienen el mismo estado, ordenar por fecha descendente
+            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        });
+    }, [invites]);
+
+    const updateWaDraft = (id: string, updates: Partial<{ phone: string; isSending: boolean; statusMsg?: string }>) => {
+        setWaDrafts(prev => ({
+            ...prev,
+            [id]: { ...(prev[id] || { phone: '', isSending: false }), ...updates }
+        }));
+    };
+
+    const handleSendWhatsApp = async (invite: InviteRow) => {
+        const draft = waDrafts[invite.id];
+        if (!draft?.phone || !draft.phone.startsWith('+')) {
+            alert('Por favor ingresa un teléfono válido con formato +... (ej: +56912345678)');
+            return;
+        }
+
+        updateWaDraft(invite.id, { isSending: true, statusMsg: undefined });
+        try {
+            const res = await adminInvitesService.sendWhatsAppInvite(invite.id, draft.phone);
+            if (res.success) {
+                updateWaDraft(invite.id, { isSending: false, statusMsg: 'Enviado ✅' });
+                // Opcional: refrescar esta fila
+                setInvites(prev => prev.map(i => i.id === invite.id ? {
+                    ...i,
+                    whatsapp_phone: draft.phone,
+                    whatsapp_status: 'sent',
+                    whatsapp_sent_at: new Date().toISOString()
+                } : i));
+            } else {
+                const detailMsg = res.detail?.error?.message || res.error || 'Fallo desconocido';
+                updateWaDraft(invite.id, { isSending: false, statusMsg: `Error: ${detailMsg.substring(0, 100)}` });
+            }
+        } catch (err: any) {
+            updateWaDraft(invite.id, { isSending: false, statusMsg: `Error: ${err.message}` });
+        }
+    };
 
     const fetchInvites = async () => {
         setLoading(true);
@@ -61,7 +116,7 @@ export default function AdminInvites() {
         }
     };
 
-    // @ts-ignore - currentStatus kept for potential future UI optimistic tweaks
+    // currentStatus kept for potential future UI optimistic tweaks
     const handleStatusChange = async (inviteId: string, _currentStatus: string, action: 'revoked' | 'active' | 'delete') => {
         setLoading(true);
         setErrorMsg(null);
@@ -326,20 +381,20 @@ export default function AdminInvites() {
                                     <th className="px-2 py-3 font-bold text-center">Alias</th>
                                     <th className="px-2 py-3 font-bold text-center">Estado</th>
                                     <th className="px-2 py-3 font-bold whitespace-nowrap text-center">Expira</th>
-                                    <th className="px-2 py-3 font-bold whitespace-nowrap text-center">Usado Por</th>
-                                    <th className="px-2 py-3 font-bold text-center" title="Interacciones">Int.</th>
-                                    <th className="px-2 py-3 font-bold text-center" title="Tiempo (s)">Seg.</th>
-                                    <th className="px-2 py-3 font-bold text-center" title="Sesiones">Ses.</th>
+                                    <th className="px-2 py-3 font-bold text-center">Interacciones</th>
+                                    <th className="px-2 py-3 font-bold text-center">Minutos</th>
+                                    <th className="px-2 py-3 font-bold text-center">Sesiones</th>
+                                    <th className="px-2 py-3 font-bold text-center">WhatsApp</th>
                                     <th className="px-2 py-3 font-bold rounded-tr-xl whitespace-nowrap text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
-                                {invites.length === 0 ? (
+                                {sortedInvites.length === 0 ? (
                                     <tr>
-                                        <td colSpan={11} className="px-4 py-8 text-center text-slate-500 italic">No hay invitaciones registradas.</td>
+                                        <td colSpan={10} className="px-4 py-8 text-center text-slate-500 italic">No hay invitaciones registradas.</td>
                                     </tr>
                                 ) : (
-                                    invites.map((invite) => (
+                                    sortedInvites.map((invite) => (
                                         <tr key={invite.id} className={`hover:bg-slate-50/50 transition-colors ${selectedInvites.has(invite.id) ? 'bg-cyan-50/30' : ''}`}>
                                             <td className="px-2 py-3 text-center">
                                                 <input
@@ -380,18 +435,60 @@ export default function AdminInvites() {
                                             <td className="px-2 py-3 text-slate-500 text-[10px] md:text-xs whitespace-nowrap text-center">
                                                 {invite.expires_at ? new Date(invite.expires_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }) : 'Nunca'}
                                             </td>
-                                            <td className="px-2 py-3 text-slate-500 text-[10px] md:text-xs font-mono whitespace-nowrap text-center" title={invite.used_by_user_id || undefined}>
-                                                {invite.used_by_user_id ? `${invite.used_by_user_id.substring(0, 8)}...` : '-'}
-                                                {invite.used_at && <span className="text-[9px] md:text-[10px] text-slate-400 ml-1">({new Date(invite.used_at).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' })})</span>}
-                                            </td>
                                             <td className="px-2 py-3 text-center">
                                                 <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_interactions ?? '-'}</span>
                                             </td>
                                             <td className="px-2 py-3 text-center">
-                                                <span className="font-mono text-[10px] md:text-xs text-slate-500">{invite.total_time_spent_seconds ?? '-'}</span>
+                                                <span className="font-mono text-[10px] md:text-xs text-slate-500">
+                                                    {invite.total_time_spent_seconds ? (invite.total_time_spent_seconds / 60).toFixed(1) : '-'}
+                                                </span>
                                             </td>
                                             <td className="px-2 py-3 text-center">
                                                 <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_sessions ?? '-'}</span>
+                                            </td>
+                                            <td className="px-2 py-3">
+                                                <div className="flex flex-col gap-1 min-w-[140px]">
+                                                    <div className="flex gap-1">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="+569..."
+                                                            value={waDrafts[invite.id]?.phone ?? invite.whatsapp_phone ?? ''}
+                                                            onChange={(e) => updateWaDraft(invite.id, { phone: e.target.value })}
+                                                            className="w-full text-[10px] px-2 py-1 border rounded-lg focus:ring-1 focus:ring-cyan-500 outline-none"
+                                                            disabled={waDrafts[invite.id]?.isSending}
+                                                        />
+                                                        <button
+                                                            onClick={() => handleSendWhatsApp(invite)}
+                                                            disabled={waDrafts[invite.id]?.isSending || !(waDrafts[invite.id]?.phone || invite.whatsapp_phone)}
+                                                            className="bg-emerald-500 text-white rounded-lg p-1 hover:bg-emerald-600 disabled:opacity-50 transition-colors flex items-center justify-center"
+                                                            title="Enviar invitación por WhatsApp"
+                                                        >
+                                                            {waDrafts[invite.id]?.isSending ? (
+                                                                <span className="animate-spin text-[14px] material-symbols-outlined">sync</span>
+                                                            ) : (
+                                                                <span className="text-[14px] material-symbols-outlined">send</span>
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                    {(waDrafts[invite.id]?.statusMsg || invite.whatsapp_status) && (
+                                                        <div className="text-[9px] flex flex-col">
+                                                            <span className={`font-bold ${waDrafts[invite.id]?.statusMsg?.includes('Error') || invite.whatsapp_status === 'error' ? 'text-red-500' : 'text-emerald-600'
+                                                                }`}>
+                                                                {waDrafts[invite.id]?.statusMsg || (invite.whatsapp_status === 'sent' ? 'Enviado ✅' : invite.whatsapp_status)}
+                                                            </span>
+                                                            {invite.whatsapp_sent_at && (
+                                                                <span className="text-slate-400">
+                                                                    {new Date(invite.whatsapp_sent_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                                                                </span>
+                                                            )}
+                                                            {invite.whatsapp_error && (
+                                                                <span className="text-red-400 truncate max-w-[140px]" title={invite.whatsapp_error}>
+                                                                    {invite.whatsapp_error}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </td>
                                             <td className="px-2 py-3 text-center whitespace-nowrap">
                                                 {confirmRowAction?.id === invite.id ? (

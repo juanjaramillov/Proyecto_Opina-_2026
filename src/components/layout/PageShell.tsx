@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../features/auth";
 import { useRole } from "../../hooks/useRole";
@@ -9,8 +9,6 @@ import FeedbackFab from "../ui/FeedbackFab";
 const MENU_ITEMS = [
   { id: 'participa', label: 'Señala', route: '/experience' },
   { id: 'results', label: 'Resultados', route: '/results' },
-  { id: 'rankings', label: 'Rankings', route: '/rankings' },
-  { id: 'empresas', label: 'Inteligencia', route: '/intelligence' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
@@ -44,6 +42,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   const isAuthenticated = profile && profile.tier !== 'guest';
+  const isAdmin = role === 'admin' || (profile as any)?.role === 'admin';
 
   const nextMilestone = Math.ceil((signals + 1) / 10) * 10;
   const toNext = nextMilestone - signals;
@@ -119,26 +118,26 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                 className="flex items-center gap-1.5 ml-2 lg:ml-4 px-2 py-1.5 lg:px-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-all font-bold text-slate-700 text-sm active:scale-95 group shrink-0"
               >
                 <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
-                  {role === 'admin' ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
+                  {isAdmin ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                 </div>
-                <span>{role === 'admin' ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Usuario')}</span>
+                <span>{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Usuario')}</span>
                 <div className="flex items-center gap-1 bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-md border border-blue-200/50 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-blue-200" title={`Faltan ${toNext} señales para tu próximo hito`}>
                   <span className="material-symbols-outlined text-[12px] text-blue-600">star</span>
                   <span>Faltan {toNext}</span>
                 </div>
               </NavLink>
             ) : (
-              <NavLink
+              <Link
                 to="/login"
-                className="px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-700 hover:shadow-lg transition-all active:scale-95 ml-4 flex items-center gap-2"
+                className="px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-700 hover:shadow-lg transition-all active:scale-95 ml-4 flex items-center gap-2 relative z-[60]"
               >
                 <span className="material-symbols-outlined text-[18px]">login</span>
                 Entrar
-              </NavLink>
+              </Link>
             )}
 
             {/* ENLACES ADMINISTRACION */}
-            {isAuthenticated && (role === 'admin' || (profile as { role?: string })?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
+            {isAuthenticated && isAdmin && (
               <div className="relative ml-1 lg:ml-2 flex items-center h-full" ref={adminMenuRef}>
                 <button
                   onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
@@ -163,14 +162,6 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
-                  </NavLink>
-                  <NavLink to="/admin/demanda" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
-                    <span className="material-symbols-outlined text-[16px]">bar_chart</span>
-                    Demanda Módulos
-                  </NavLink>
-                  <NavLink to="/admin/prioridad" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
-                    <span className="material-symbols-outlined text-[16px]">sort</span>
-                    Prioridad Módulos
                   </NavLink>
                 </div>
               </div>
@@ -210,10 +201,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
-                    {role === 'admin' ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
+                    {isAdmin ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-black text-ink">{role === 'admin' ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
+                    <span className="text-sm font-black text-ink">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
                     <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Faltan {toNext} para premio</span>
                   </div>
                 </div>
@@ -232,7 +223,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               </NavLink>
             )}
 
-            {isAuthenticated && (role === 'admin' || (profile as { role?: string })?.role === 'admin' || profile?.email === 'admin@opinaplus.com') && (
+            {isAuthenticated && isAdmin && (
               <div className="mx-4 mb-4 mt-2 bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden p-2">
                 <p className="px-3 pt-2 pb-2 text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">admin_panel_settings</span> Panel Admin</p>
                 <div className="flex flex-col gap-1 mt-1">
@@ -247,14 +238,6 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
-                  </NavLink>
-                  <NavLink to="/admin/demanda" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
-                    <span className="material-symbols-outlined text-[16px]">bar_chart</span>
-                    Demanda de Módulos
-                  </NavLink>
-                  <NavLink to="/admin/prioridad" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
-                    <span className="material-symbols-outlined text-[16px]">sort</span>
-                    Prioridad de Módulos
                   </NavLink>
                 </div>
               </div>

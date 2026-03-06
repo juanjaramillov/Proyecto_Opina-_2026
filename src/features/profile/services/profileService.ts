@@ -8,6 +8,15 @@ export interface UserStats {
     last_signal_at: string | null;
 }
 
+export interface UserRanking {
+    position: number;
+    total_users: number;
+    percentile: number;
+    reputation_score: number;
+    signals: number;
+    weight: number;
+}
+
 export interface ParticipationSummary {
     versus_count: number;
     progressive_count: number;
@@ -81,6 +90,23 @@ export const profileService = {
             signal_weight: stats.signal_weight || 1.0,
             last_signal_at: stats.last_signal_at || null
         };
+    },
+
+    /**
+     * Gets user ranking data based on total signals and signal weight
+     */
+    async getUserRanking(): Promise<UserRanking | null> {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return null;
+
+        const { data, error } = await (supabase as any).rpc('get_user_ranking');
+
+        if (error) {
+            logger.error('Error fetching user ranking:', error);
+            return null;
+        }
+
+        return data as UserRanking;
     },
 
     /**

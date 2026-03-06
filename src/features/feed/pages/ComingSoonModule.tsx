@@ -32,7 +32,7 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
                 moduleInterestService.trackModuleInterestEvent(MODULE_EVENT_TYPES.MODULE_PREVIEW_VIEWED, {
                     module_key: activeModule.title, // Fallback to title if id is not on interface
                     module_slug: activeModule.slug,
-                    // @ts-ignore - type no definido estáticamente temporalmente
+                    // @ts-expect-error - type no definido estáticamente temporalmente
                     previewType: activeModule.previewType || 'unknown',
                     source: "coming_soon",
                     entry: "hub_card"
@@ -51,9 +51,9 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
     }
 
     const renderPreviewContent = () => {
-        // @ts-ignore
+        // @ts-expect-error - falta el tipado correspondiente en previewType
         const type = activeModule.previewType;
-        // @ts-ignore
+        // @ts-expect-error - falta el tipado correspondiente en previewData
         const data = activeModule.previewData as any;
 
         switch (type) {

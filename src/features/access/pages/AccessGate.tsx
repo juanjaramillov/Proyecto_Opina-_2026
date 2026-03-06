@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../../supabase/client';
 import { accessGate } from '../services/accessGate';
 import FeedbackFab from '../../../components/ui/FeedbackFab';
+import { track, trackPage } from "../../telemetry/track";
 
 function getNext(search: string) {
     const params = new URLSearchParams(search);
@@ -15,6 +16,10 @@ export default function AccessGatePage() {
     const loc = useLocation();
 
     const nextPath = useMemo(() => getNext(loc.search), [loc.search]);
+
+    useEffect(() => {
+        trackPage("access_gate", { next: nextPath });
+    }, [nextPath]);
 
     const [checkingAdmin, setCheckingAdmin] = useState(false);
 
@@ -68,10 +73,12 @@ export default function AccessGatePage() {
 
         const normalized = code.trim().toUpperCase();
         if (!normalized) {
+            track("access_gate_submit_missing_code", "warn");
             setErr('Ingresa tu código.');
             return;
         }
 
+        track("access_gate_submit", "info", { code_len: normalized.length, next: nextPath });
         setLoading(true);
         try {
             // 1) Validar en modo anon (NO consumir / NO claim)
@@ -81,16 +88,19 @@ export default function AccessGatePage() {
             if (vErr) throw vErr;
 
             if (!isValid) {
+                track("access_gate_code_invalid", "warn", { code_len: normalized.length, next: nextPath });
                 setErr('Ese código ya venció o no existe. Pide uno nuevo.');
                 return;
             }
 
             // 2) Guardar pase local para permitir navegar el piloto (sin quemar el código)
             accessGate.grant(`CODE:${normalized}`, Number.isFinite(daysValid) ? daysValid : 30);
+            track("access_gate_granted_local", "info", { days_valid: daysValid, next: nextPath });
 
             // 3) Entrar
             nav(nextPath, { replace: true });
         } catch (e: any) {
+            track("access_gate_error", "error", { message: String(e?.message || "unknown").slice(0, 160) });
             setErr(e?.message ?? 'Ese código no calza. Revisa y prueba de nuevo.');
         } finally {
             setLoading(false);
@@ -162,6 +172,7 @@ export default function AccessGatePage() {
                                     }
 
                                     if ((data as any)?.role === "admin") {
+                                        track("access_gate_admin_bypass", "info");
                                         localStorage.setItem("opina_access_pass", "admin");
                                         window.location.href = "/";
                                     } else {

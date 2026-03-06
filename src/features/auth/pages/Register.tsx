@@ -21,6 +21,7 @@ export default function RegisterPage() {
     const nextPath = useMemo(() => getNext(loc.search), [loc.search]);
 
     const [email, setEmail] = useState("");
+    const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
     const [loading, setLoading] = useState(false);
@@ -53,9 +54,15 @@ export default function RegisterPage() {
             return;
         }
 
+        const n1 = nickname.trim();
+        if (!n1) {
+            setErr("Elige un nickname.");
+            return;
+        }
+
         setLoading(true);
         try {
-            await authService.registerWithEmail(e1, password);
+            await authService.registerWithEmail(e1, password, n1);
             // Después de registrarse, se completa perfil (claim de invitación + nickname)
             nav("/complete-profile", { replace: true });
         } catch (e: any) {
@@ -82,6 +89,20 @@ export default function RegisterPage() {
                         className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="tu@correo.com"
                         type="email"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                        Nickname (Tu apodo en la plataforma)
+                    </label>
+                    <input
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
+                        placeholder="ej: juan_razona"
+                        type="text"
                         required
                     />
                 </div>

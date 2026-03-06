@@ -102,49 +102,7 @@ export function AuthTextInput({
     );
 }
 
-type AuthSelectProps = {
-    label: string;
-    value: string;
-    onChange: (value: string) => void;
-    required?: boolean;
-    placeholder?: string;
-    options: string[];
-    hint?: React.ReactNode;
-};
 
-export function AuthSelect({
-    label,
-    value,
-    onChange,
-    required,
-    placeholder = "Selecciona una opción",
-    options,
-    hint,
-}: AuthSelectProps) {
-    return (
-        <div className="space-y-2">
-            <label className="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
-                {label}
-            </label>
-
-            <select
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                required={required}
-                className="w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl outline-none focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/10 transition-all font-bold text-slate-700"
-            >
-                <option value="">{placeholder}</option>
-                {options.map((o) => (
-                    <option key={o} value={o}>
-                        {o}
-                    </option>
-                ))}
-            </select>
-
-            {hint ? <div className="text-[11px] text-slate-400 ml-1 font-medium">{hint}</div> : null}
-        </div>
-    );
-}
 
 export function AuthPrimaryButton({
     children,

@@ -42,14 +42,14 @@ export default function OptionCard({
         <button
             onClick={onClick}
             disabled={disabled}
-            className={`group relative w-full text-center flex flex-col justify-between rounded-[32px] border-[3px] bg-white shadow-xl transition-all duration-300 ease-out overflow-hidden hover:-translate-y-1 hover:shadow-2xl ${isSelected ? "border-emerald-500 ring-4 ring-emerald-500/20 ring-offset-2" : "border-slate-200/80 hover:border-slate-300"} ${disabled ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-blue-600 ring-offset-2 z-20 border-blue-600 shadow-[0_15px_45px_rgba(37,99,235,0.2)]" : ""}`}
+            className={`group relative w-full text-center flex flex-col justify-between rounded-[32px] border-[3px] bg-white shadow-xl transition-all duration-300 ease-out overflow-hidden hover:-translate-y-1 hover:shadow-2xl ${isSelected ? "border-primary-500 ring-4 ring-primary-500/20 ring-offset-2" : "border-slate-200/80 hover:border-slate-300"} ${disabled ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-primary-600 ring-offset-2 z-20 border-primary-600 shadow-[0_15px_45px_rgba(37,99,235,0.2)]" : ""}`}
         >
             {/* 2) Halo Opina+ (hover/selected) */}
-            <div className={`pointer-events-none absolute inset-0 rounded-[32px] opacity-0 transition-opacity duration-300 bg-gradient-to-br from-blue-600/14 to-emerald-500/14 ${isSelected ? "opacity-100" : "group-hover:opacity-100"}`} />
-            <div className={`pointer-events-none absolute -inset-[2px] rounded-[34px] opacity-0 transition-opacity duration-300 bg-gradient-to-r from-blue-600 to-emerald-500 ${isSelected ? "opacity-100" : "group-hover:opacity-60"}`} style={{ filter: "blur(10px)", zIndex: -1 }} />
+            <div className={`pointer-events-none absolute inset-0 rounded-[32px] opacity-0 transition-opacity duration-300 bg-gradient-to-br from-primary-600/14 to-emerald-400/14 ${isSelected ? "opacity-100" : "group-hover:opacity-100"}`} />
+            <div className={`pointer-events-none absolute -inset-[2px] rounded-[34px] opacity-0 transition-opacity duration-300 bg-gradient-to-r from-primary-600 to-emerald-400 ${isSelected ? "opacity-100" : "group-hover:opacity-60"}`} style={{ filter: "blur(10px)", zIndex: -1 }} />
 
             {isChampion && (
-                <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-gradient-to-r from-blue-600 to-emerald-500 text-white px-3 py-1.5 rounded-full shadow-lg border-2 border-white animate-bounce-slow">
+                <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-gradient-to-r from-primary-600 to-emerald-400 text-white px-3 py-1.5 rounded-full shadow-lg border-2 border-white animate-bounce-slow">
                     <span className="material-symbols-outlined text-lg">emoji_events</span>
                     <span className="text-xs font-black uppercase tracking-wider">Campeón</span>
                 </div>
@@ -61,7 +61,7 @@ export default function OptionCard({
                 {/* 5) Estado seleccionado (check discreto) */}
                 <div className={`absolute top-4 right-4 z-20 transition-all duration-300 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
                     <div className="h-9 w-9 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[18px] text-emerald-600">done</span>
+                        <span className="material-symbols-outlined text-[18px] text-blue-600">done</span>
                     </div>
                 </div>
 

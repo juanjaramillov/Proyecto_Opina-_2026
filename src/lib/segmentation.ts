@@ -4,16 +4,16 @@ export const SEG_GENDERS: SegmentOption[] = [
     { value: "all", label: "Todos" },
     { value: "male", label: "Hombre" },
     { value: "female", label: "Mujer" },
-    { value: "non_binary", label: "No binario" },
+    { value: "other", label: "Otro" },
 ];
 
 export const SEG_AGE_BUCKETS: SegmentOption[] = [
     { value: "all", label: "Todas" },
-    { value: "18_24", label: "18–24" },
-    { value: "25_34", label: "25–34" },
-    { value: "35_44", label: "35–44" },
-    { value: "45_54", label: "45–54" },
-    { value: "55_64", label: "55–64" },
+    { value: "18-24", label: "18–24" },
+    { value: "25-34", label: "25–34" },
+    { value: "35-44", label: "35–44" },
+    { value: "45-54", label: "45–54" },
+    { value: "55-64", label: "55–64" },
     { value: "65_plus", label: "65+" },
 ];
 

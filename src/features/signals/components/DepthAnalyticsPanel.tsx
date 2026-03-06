@@ -93,8 +93,8 @@ export default function DepthAnalyticsPanel({ optionId }: Props) {
                     >
                         <option value="" className="bg-slate-900">Todas</option>
                         <option value="RM" className="bg-slate-900">RM</option>
-                        <option value="Valparaíso" className="bg-slate-900">Valparaíso</option>
-                        <option value="Biobío" className="bg-slate-900">Biobío</option>
+                        <option value="V" className="bg-slate-900">Valparaíso</option>
+                        <option value="VIII" className="bg-slate-900">Biobío</option>
                     </select>
                 </div>
             </div>

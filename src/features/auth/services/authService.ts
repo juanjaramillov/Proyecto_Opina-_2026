@@ -2,6 +2,7 @@ import { supabase } from '../../../supabase/client';
 import { computeAccountProfile } from './account';
 import { AccountProfile, AccountTier, DemographicData } from '../types';
 import { logger } from '../../../lib/logger';
+import { normalizeAgeBucket, normalizeGender, normalizeRegion, computeAgeBucketFromBirthYear } from "../../../lib/demographicsNormalize";
 
 interface UserProfileRow {
     user_id: string;
@@ -22,6 +23,9 @@ interface UserProfileRow {
     profile_stage: number;
     signal_weight: number;
     verified: boolean;
+    household_size: string | null;
+    children_count: string | null;
+    car_count: string | null;
 }
 
 interface UserIdentityRow {
@@ -129,6 +133,9 @@ export const authService = {
                     influenceLevel: profileData.influence_level || localDemographics.influenceLevel,
                     profileStage: profileData.profile_stage || localDemographics.profileStage,
                     signalWeight: profileData.signal_weight || localDemographics.signalWeight,
+                    householdSize: (profileData as any).household_size || localDemographics.householdSize,
+                    childrenCount: (profileData as any).children_count || localDemographics.childrenCount,
+                    carCount: (profileData as any).car_count || localDemographics.carCount,
                 }
             });
         }
@@ -144,14 +151,12 @@ export const authService = {
     },
 
     saveDemographic: async (field: string, value: string): Promise<void> => {
-        // Persist locally for now
-        const raw = localStorage.getItem('opina_demographics');
-        const current = raw ? JSON.parse(raw) : {};
-        const next = { ...current, [field]: value };
-        localStorage.setItem('opina_demographics', JSON.stringify(next));
-
-        // Trigger update event
-        window.dispatchEvent(new Event('storage'));
+        const payload: any = { [field]: value };
+        // Si es birthYear, convertir a número para el esquema
+        if (field === 'birthYear') {
+            payload.birthYear = parseInt(value, 10);
+        }
+        await authService.updateProfileDemographics(payload);
     },
 
     getBootstrapStatus: async (): Promise<{ needsBootstrap: boolean; hasInvite: boolean; hasProfile: boolean }> => {
@@ -245,14 +250,22 @@ export const authService = {
         // 2. Real Supabase update (if logged in)
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
+            const normalizedGender = demographics.gender !== undefined ? normalizeGender(demographics.gender) : undefined;
+            const normalizedRegion = demographics.region !== undefined ? normalizeRegion(demographics.region) : undefined;
+
+            const directAgeBucket = demographics.ageBucket !== undefined ? normalizeAgeBucket(demographics.ageBucket) : undefined;
+            const fromBirthYear = demographics.birthYear !== undefined ? computeAgeBucketFromBirthYear(demographics.birthYear) : undefined;
+            const finalAgeBucket = directAgeBucket ?? fromBirthYear;
+
             // Remove undefined fields so Supabase only updates what we pass
             const updatePayload: any = {
                 updated_at: new Date().toISOString()
             };
             if (demographics.name !== undefined) updatePayload.nickname = demographics.name;
             if (demographics.birthYear !== undefined) updatePayload.birth_year = demographics.birthYear;
-            if (demographics.gender !== undefined) updatePayload.gender = demographics.gender;
-            if (demographics.region !== undefined) updatePayload.region = demographics.region;
+            if (finalAgeBucket !== undefined) updatePayload.age_bucket = finalAgeBucket;
+            if (normalizedGender !== undefined) updatePayload.gender = normalizedGender;
+            if (normalizedRegion !== undefined) updatePayload.region = normalizedRegion;
             if (demographics.commune !== undefined) updatePayload.comuna = demographics.commune;
             if (demographics.employmentStatus !== undefined) updatePayload.employment_status = demographics.employmentStatus;
             if (demographics.incomeRange !== undefined) updatePayload.income_range = demographics.incomeRange;
@@ -262,6 +275,9 @@ export const authService = {
             if (demographics.influenceLevel !== undefined) updatePayload.influence_level = demographics.influenceLevel;
             if (demographics.profileStage !== undefined) updatePayload.profile_stage = demographics.profileStage;
             if (demographics.signalWeight !== undefined) updatePayload.signal_weight = demographics.signalWeight;
+            if (demographics.householdSize !== undefined) updatePayload.household_size = demographics.householdSize;
+            if (demographics.childrenCount !== undefined) updatePayload.children_count = demographics.childrenCount;
+            if (demographics.carCount !== undefined) updatePayload.car_count = demographics.carCount;
 
             const { error } = await (supabase as any)
                 .from('user_profiles')
@@ -279,12 +295,29 @@ export const authService = {
         window.dispatchEvent(new Event('opina:verification_update'));
     },
 
-    registerWithEmail: async (email: string, password: string): Promise<void> => {
+    registerWithEmail: async (email: string, password: string, nickname?: string): Promise<void> => {
         const { error, data } = await supabase.auth.signUp({
             email,
-            password
+            password,
+            options: {
+                data: {
+                    display_name: nickname
+                }
+            }
         });
         if (error) throw error;
+
+        // If nickname provided, update demographics immediately
+        if (data.user && nickname) {
+            try {
+                await authService.updateProfileDemographics({
+                    name: nickname,
+                    profileStage: 1
+                });
+            } catch (err) {
+                logger.warn("[authService] Failed to set nickname after registration:", err);
+            }
+        }
 
         // Try to claim any guest activity prior to this official signup
         if (data.user) {

@@ -1,6 +1,7 @@
 import { supabase as sb } from "../../../supabase/client";
 import { TrendingItem } from "../../../types/trending";
 import { logger } from "../../../lib/logger";
+import { cached } from "../../../lib/requestCache";
 
 export interface PlatformStats {
     signals_24h: number;
@@ -143,14 +144,16 @@ export const platformService = {
     },
 
     getRecentActivity: async (): Promise<RecentActivity | null> => {
-        const { data, error } = await (sb.rpc as any)('get_recent_signal_activity');
+        return cached("platform:getRecentActivity", 30_000, async () => {
+            const { data, error } = await (sb.rpc as any)('get_recent_signal_activity');
 
-        if (error) {
-            logger.error('[PlatformService] Error fetching recent activity:', error);
-            return null;
-        }
+            if (error) {
+                logger.error('[PlatformService] Error fetching recent activity:', error);
+                return null;
+            }
 
-        return ((data as any)?.[0] as RecentActivity) || null;
+            return ((data as any)?.[0] as RecentActivity) || null;
+        });
     },
 
     getTrendingFeedGrouped: async (): Promise<unknown[]> => {
@@ -223,29 +226,32 @@ export const platformService = {
         gender: string = 'all',
         commune: string = 'all'
     ): Promise<TrendingItem[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: RawTrendingRanking[] | null, error: unknown }>)('get_segmented_trending', {
-            p_age_range: ageRange,
-            p_gender: gender,
-            p_commune: commune
+        const key = `platform:getSegmentedTrending:${ageRange}:${gender}:${commune}`;
+        return cached(key, 15_000, async () => {
+            const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: RawTrendingRanking[] | null, error: unknown }>)('get_segmented_trending', {
+                p_age_range: ageRange,
+                p_gender: gender,
+                p_commune: commune
+            });
+
+            if (error) {
+                logger.error('[PlatformService] Error fetching segmented trending:', error);
+                return [];
+            }
+
+            const rawData = data || [];
+            return rawData.map(item => ({
+                id: item.battle_id,
+                title: item.battle_title,
+                slug: item.battle_slug,
+                total_signals: Math.round(Number(item.total_weight)),
+                trend_score: parseFloat(String(item.total_weight)),
+                snapshot_at: item.snapshot_at,
+                variation: 0,
+                variation_percent: 0,
+                direction: 'stable'
+            }));
         });
-
-        if (error) {
-            logger.error('[PlatformService] Error fetching segmented trending:', error);
-            return [];
-        }
-
-        const rawData = data || [];
-        return rawData.map(item => ({
-            id: item.battle_id,
-            title: item.battle_title,
-            slug: item.battle_slug,
-            total_signals: Math.round(Number(item.total_weight)),
-            trend_score: parseFloat(String(item.total_weight)),
-            snapshot_at: item.snapshot_at,
-            variation: 0,
-            variation_percent: 0,
-            direction: 'stable'
-        }));
     },
 
     getDepthInsights: async (
