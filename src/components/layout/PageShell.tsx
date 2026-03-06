@@ -9,6 +9,7 @@ import FeedbackFab from "../ui/FeedbackFab";
 const MENU_ITEMS = [
   { id: 'participa', label: 'Señala', route: '/experience' },
   { id: 'results', label: 'Resultados', route: '/results' },
+  { id: 'intelligence', label: 'Inteligencia', route: '/intelligence' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
