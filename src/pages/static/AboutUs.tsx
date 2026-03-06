@@ -1,230 +1,186 @@
 import { motion } from "framer-motion";
 import {
-    TrendingUp,
-    Shield,
-    Zap,
-    CheckCircle2,
-    XCircle
+    Activity,
+    ShieldCheck,
+    BarChart3,
+    Globe2,
+    ArrowRight
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 /* =========================
-   SISTEMA TIPOGRÁFICO
+   SISTEMA TIPOGRÁFICO y UI
 ========================= */
 const T = {
     eyebrow:
-        "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase",
-    h1: "text-5xl md:text-7xl font-black leading-[0.92] tracking-tight text-ink",
-    h2: "text-3xl md:text-4xl font-bold tracking-tight text-ink",
-    h3: "text-xl font-bold tracking-tight text-ink",
-    pLead: "text-xl md:text-2xl text-text-secondary leading-relaxed",
-    p: "text-text-secondary leading-relaxed",
-    pSm: "text-sm text-text-secondary leading-relaxed",
-    micro:
-        "text-xs font-bold uppercase tracking-[0.2em] text-text-secondary transition-colors",
-    italicNote: "opacity-50 text-sm italic text-text-secondary",
+        "inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-black tracking-widest uppercase",
+    h1: "text-4xl md:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tighter text-slate-900",
+    h2: "text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight",
+    h3: "text-xl font-bold tracking-tight text-slate-900",
+    pLead: "text-lg md:text-xl text-slate-500 font-medium leading-relaxed",
+    p: "text-slate-600 leading-relaxed",
 };
 
-/* =========================
-   BOTÓN ESTÁNDAR
-========================= */
-function AppButton({
-    children,
-    className = "",
-    ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { className?: string }) {
-    return (
-        <button
-            {...props}
-            className={[
-                "inline-flex items-center justify-center",
-                "h-12 px-8 rounded-full",
-                "bg-gradient-brand text-white font-bold",
-                "shadow-lg shadow-primary-500/25",
-                "transition-all duration-200",
-                "hover:shadow-xl hover:shadow-primary/40 hover:opacity-90 hover:scale-[1.02] hover:-translate-y-0.5",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                "focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
-                "disabled:opacity-60 disabled:pointer-events-none",
-                className,
-            ].join(" ")}
-        >
-            {children}
-        </button>
-    );
-}
-
-
-
-/* =========================
-   PAGE
-========================= */
 export default function AboutUs() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-bg text-ink font-sans overflow-x-hidden selection:bg-primary selection:text-white pb-16 relative">
+        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-24 selection:bg-primary-500 selection:text-white">
 
-            {/* ATMOSPHERE: Subtle Background Blobs */}
-            <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-radial-gradient from-primary/5 to-transparent opacity-20 pointer-events-none z-0 mix-blend-multiply" />
-            <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-radial-gradient from-emerald-500/5 to-transparent opacity-15 pointer-events-none z-0" />
+            {/* HERO SECTION */}
+            <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 overflow-hidden bg-white border-b border-slate-200">
+                <div className="absolute inset-0 pointer-events-none z-0">
+                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-slate-50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
+                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary-500/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3"></div>
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02]"></div>
+                </div>
 
-            {/* Background texture */}
-            <div
-                className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
-                style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                }}
-            />
+                <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="flex flex-col items-center"
+                    >
+                        <div className={`${T.eyebrow} mb-8`}>
+                            <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
+                            Manifiesto Opina+
+                        </div>
 
-            {/* ================= HERO ================= */}
-            <section className="relative py-16 md:py-24 px-6 text-center z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="max-w-4xl mx-auto space-y-4"
-                >
-                    <div className={`${T.eyebrow} mb-2 shadow-sm bg-white/80 backdrop-blur-sm border border-primary/20`}>
-                        <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                        No venimos a “tener la razón”. Venimos a ver el patrón.
-                    </div>
+                        <h1 className={`${T.h1} mb-8 max-w-4xl`}>
+                            La opinión en internet se convirtió en ruido. <br />
+                            <span className="bg-gradient-to-r from-slate-800 to-slate-500 bg-clip-text text-transparent">Nosotros lo convertimos en dirección.</span>
+                        </h1>
 
-                    <h1 className={T.h1}>
-                        Nosotros
-                    </h1>
-
-                    <p className={`${T.pLead} max-w-2xl mx-auto font-medium`}>
-                        Opina+ convierte opiniones en señales: datos agregados, segmentables y vivos.
-                    </p>
-                </motion.div>
+                        <p className={`${T.pLead} max-w-2xl mx-auto`}>
+                            Opina+ nace de una premisa simple: las personas no deberían pesar lo mismo sin contexto, y las marcas no deberían tomar decisiones basadas en intuición estática. Construimos el estándar para leer la sociedad en tiempo real.
+                        </p>
+                    </motion.div>
+                </div>
             </section>
 
-            {/* ================= QUÉ ES / QUÉ NO ES / SEÑALES ================= */}
-            <section className="py-12 md:py-16 px-6 relative z-10">
-                <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-                    {/* QUÉ ES */}
-                    <div className="bg-white p-8 rounded-3xl border border-stroke shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-[100px] -z-0 transition-transform group-hover:scale-110" />
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
-                                <TrendingUp className="text-primary" size={24} />
-                            </div>
-                            <h3 className={`${T.h3} mb-4`}>¿Qué es Opina+?</h3>
-                            <p className={T.p}>
-                                Un sistema para leer tendencias reales en tiempo casi real. Tú señalas (rápido o en profundidad) y eso se transforma en inteligencia colectiva, agregada por segmentos.
-                            </p>
+            {/* LA TESIS CENTRAL */}
+            <section className="py-24 px-6 relative z-10">
+                <div className="max-w-4xl mx-auto text-center mb-20">
+                    <span className="text-primary-500 font-bold uppercase tracking-widest text-xs mb-4 block">El Problema Estructural</span>
+                    <h2 className={`${T.h2} mb-6`}>Ni encuestas eternas, ni likes vacíos.</h2>
+                    <p className={`${T.pLead} max-w-3xl mx-auto`}>
+                        Una queja anónima no vale lo mismo que la preferencia de un consumidor habitual.
+                        Los likes son superficiales y las encuestas tradicionales envejecen antes de publicarse.
+                        <strong>La calidad del dato depende inherentemente de la calidad y el contexto de quien lo emite.</strong>
+                    </p>
+                </div>
+
+                {/* PILARES */}
+                <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+
+                    {/* Pilar 1 */}
+                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
+                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
+                            <Activity className="text-slate-800" size={28} strokeWidth={1.5} />
                         </div>
+                        <h3 className={`${T.h3} mb-4`}>Unidades de Señal, no votos planos</h3>
+                        <p className={T.p}>
+                            Rechazamos el “voto” plano. En Opina+, capturamos señales. Una señal encapsula intención, demografía y temporalidad simultáneamente. Esto permite construir un punto de dato vivo, contextualizado y agregable.
+                        </p>
                     </div>
 
-                    {/* QUÉ NO ES */}
-                    <div className="bg-white p-8 rounded-3xl border border-stroke shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-slate-100 rounded-bl-[100px] -z-0 transition-transform group-hover:scale-110" />
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mb-6">
-                                <XCircle className="text-slate-500" size={24} />
-                            </div>
-                            <h3 className={`${T.h3} mb-4`}>¿Qué NO es?</h3>
-                            <ul className="space-y-3">
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-1 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-slate-400" />
-                                    <span className={T.pSm}>No es una encuesta eterna.</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-1 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-slate-400" />
-                                    <span className={T.pSm}>No es una red social para pelear.</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-1 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-slate-400" />
-                                    <span className={T.pSm}>No es “verdad”: es tendencia agregada.</span>
-                                </li>
-                            </ul>
+                    {/* Pilar 2 */}
+                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
+                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
+                            <ShieldCheck className="text-slate-800" size={28} strokeWidth={1.5} />
                         </div>
+                        <h3 className={`${T.h3} mb-4`}>Progresión y Calidad del Usuario</h3>
+                        <p className={T.p}>
+                            La influencia en nuestro ecosistema se gana, no se regala ni se compra. El sistema pondera orgánicamente la información recompensando la consistencia, la honestidad y el historial de comportamiento de cada perfil.
+                        </p>
                     </div>
 
-                    {/* POR QUÉ SEÑALES */}
-                    <div className="bg-white p-8 rounded-3xl border border-stroke shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-[100px] -z-0 transition-transform group-hover:scale-110" />
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6">
-                                <Zap className="text-emerald-500" size={24} />
-                            </div>
-                            <h3 className={`${T.h3} mb-4`}>¿Por qué hablamos de “señales”?</h3>
-                            <p className={T.p}>
-                                Porque una señal no es solo elegir: también es contexto. Con un buen perfil (y verificación cuando aplique), la data se vuelve más útil y más justa.
-                            </p>
+                    {/* Pilar 3 */}
+                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
+                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
+                            <BarChart3 className="text-slate-800" size={28} strokeWidth={1.5} />
                         </div>
+                        <h3 className={`${T.h3} mb-4`}>Mejor Dato, Mejor Lectura</h3>
+                        <p className={T.p}>
+                            Al estructurar el ruido digital a través de una arquitectura limpia de captura, logramos aislar el sesgo y entender con precisión meridiana qué está sucediendo en segmentos socioeconómicos y geográficos muy específicos.
+                        </p>
+                    </div>
+
+                    {/* Pilar 4 */}
+                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
+                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
+                            <Globe2 className="text-primary-500" size={28} strokeWidth={1.5} />
+                        </div>
+                        <h3 className={`${T.h3} mb-4`}>Valor Futuro y Ecosistema</h3>
+                        <p className={T.p}>
+                            Hoy capturamos tendencias y devolvemos reportes. Mañana, seremos la capa de inteligencia base para la toma de decisiones estratégicas, corporativas y públicas en todo el continente.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+            {/* CREDENTIALS / CONFIDENCE BAR */}
+            <section className="py-12 bg-white border-y border-slate-200 mb-24">
+                <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 text-center">
+                    <div>
+                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">Zero</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Ruido Bots / Granjas</span>
+                    </div>
+                    <div className="hidden md:block w-px h-12 bg-slate-200"></div>
+                    <div>
+                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">100%</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Información Estructurada</span>
+                    </div>
+                    <div className="hidden md:block w-px h-12 bg-slate-200"></div>
+                    <div>
+                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">Real-Time</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Velocidad de Lectura</span>
                     </div>
                 </div>
             </section>
 
-            {/* ================= PRIVACIDAD ================= */}
-            <section className="py-12 md:py-16 px-6 relative z-10">
-                <div className="max-w-5xl mx-auto bg-slate-900 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden text-left border border-slate-800">
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-primary-500/20 to-transparent rounded-bl-[200px] pointer-events-none" />
+            {/* DUAL CTA */}
+            <section className="px-6 mb-16">
+                <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
 
-                    <div className="relative z-10 flex flex-col md:flex-row gap-8 md:gap-16 items-center">
-                        <div className="w-full md:w-1/3 flex justify-center">
-                            <div className="w-32 h-32 bg-slate-800/50 rounded-[2rem] border border-slate-700/50 flex items-center justify-center shadow-inner">
-                                <Shield className="text-emerald-400 w-16 h-16" strokeWidth={1.5} />
-                            </div>
+                    {/* B2B CTA */}
+                    <div className="bg-slate-900 rounded-[2rem] p-10 md:p-12 relative overflow-hidden group flex flex-col justify-between">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/20 rounded-full blur-[60px] translate-x-1/2 -translate-y-1/2"></div>
+                        <div className="relative z-10 mb-10">
+                            <span className="text-primary-400 font-black uppercase tracking-widest text-[10px] mb-4 block">Para Empresas y Decisores</span>
+                            <h3 className="text-3xl font-black text-white mb-4 leading-tight">Inteligencia para quienes toman decisiones.</h3>
+                            <p className="text-slate-400 font-medium">Entender el mercado ya no requiere meses de investigación. Requiere conectarse al motor correcto y ver la tendencia nacer.</p>
                         </div>
-                        <div className="w-full md:w-2/3">
-                            <h2 className={`${T.h2} text-white mb-6`}>Privacidad (en simple)</h2>
-                            <ul className="space-y-5">
-                                <li className="flex items-start gap-4">
-                                    <CheckCircle2 className="text-emerald-400 mt-1 flex-shrink-0" size={20} />
-                                    <p className="text-slate-300 leading-relaxed text-lg">
-                                        Los resultados son agregados: no mostramos opiniones individuales.
-                                    </p>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <CheckCircle2 className="text-emerald-400 mt-1 flex-shrink-0" size={20} />
-                                    <p className="text-slate-300 leading-relaxed text-lg">
-                                        Usamos segmentos (edad, género, comuna, etc.) para entender tendencias, no para exponerte.
-                                    </p>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <CheckCircle2 className="text-emerald-400 mt-1 flex-shrink-0" size={20} />
-                                    <p className="text-slate-300 leading-relaxed text-lg">
-                                        Tu nickname es tu cara pública; tu identidad real va por otro carril.
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ================= CIERRE CTA ================= */}
-            <section className="py-16 md:py-24 px-6 text-center relative z-10">
-                <div className="max-w-2xl mx-auto space-y-8">
-                    <h2 className={T.h2}>¿Listo para señalar?</h2>
-                    <p className={T.pLead}>
-                        Entra a Participa y empuja la tendencia.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                        <AppButton onClick={() => navigate('/experience')} className="text-lg w-full sm:w-auto h-14 px-10">
-                            Ir a Participa →
-                        </AppButton>
                         <button
-                            onClick={() => window.location.href = "mailto:contacto@opinamas.com"}
-                            className="h-14 px-8 rounded-full font-bold text-slate-600 hover:text-ink bg-slate-100 hover:bg-slate-200 transition-colors w-full sm:w-auto"
+                            onClick={() => navigate('/intelligence')}
+                            className="bg-primary-500 hover:bg-primary-600 text-white font-black text-sm uppercase tracking-widest py-4 px-6 rounded-xl transition-colors inline-flex justify-between items-center w-full shadow-lg"
                         >
-                            Hablar con nosotros
+                            Descubrir Opina+ Intelligence
+                            <ArrowRight size={18} />
                         </button>
                     </div>
+
+                    {/* B2C CTA */}
+                    <div className="bg-white border-2 border-slate-200 rounded-[2rem] p-10 md:p-12 relative overflow-hidden group flex flex-col justify-between hover:border-slate-300 transition-colors">
+                        <div className="relative z-10 mb-10">
+                            <span className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-4 block">Para Usuarios y Ciudadanos</span>
+                            <h3 className="text-3xl font-black text-slate-900 mb-4 leading-tight">Pasa del ruido a la tendencia estructurada.</h3>
+                            <p className="text-slate-500 font-medium">Tus señales construyen el ranking en tiempo real de lo que está pasando. Suma valor, elige tu nicho y avanza.</p>
+                        </div>
+                        <button
+                            onClick={() => navigate('/experience')}
+                            className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-900 font-black text-sm uppercase tracking-widest py-4 px-6 rounded-xl transition-colors inline-flex justify-between items-center w-full"
+                        >
+                            Ir a Participar
+                            <ArrowRight size={18} className="text-slate-400" />
+                        </button>
+                    </div>
+
                 </div>
             </section>
 
-            {/* Disclaimer */}
-            <section className="py-8 px-6 text-center border-t border-stroke bg-white relative z-10">
-                <p className="text-xs text-text-secondary max-w-3xl mx-auto leading-relaxed opacity-70">
-                    <strong>Disclaimer:</strong> Opina+ es una plataforma independiente de opinión.
-                    Las marcas, productos y servicios mencionados pertenecen a sus respectivos dueños.
-                    Las comparaciones y resultados reflejan únicamente la opinión de los usuarios.
-                </p>
-            </section>
         </div>
     );
 }
