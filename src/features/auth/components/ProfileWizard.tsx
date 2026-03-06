@@ -151,17 +151,17 @@ export default function ProfileWizard() {
             title={
                 <div>
                     <span className="text-xs font-black text-primary-600 uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full mb-4 inline-block">
-                        Sube el peso de tu señal • Paso {step} de 4
+                        Multiplicador de Señal • Nivel {step} de 4
                     </span>
                     <h1 className="text-3xl font-black text-slate-900 mt-2 tracking-tight">
-                        Tu perfil (versión corta)
+                        Fuerza de Señal: {step === 2 ? "Contexto Básico" : step === 3 ? "Contexto Profesional" : "Contexto de Hogar"}
                     </h1>
                 </div>
             }
             subtitle={
                 <div className="flex flex-col gap-2 mt-2">
-                    <span className="text-slate-500 font-medium">
-                        Mientras más completo, más pesa tu señal. Sin drama.
+                    <span className="text-slate-500 font-medium leading-relaxed">
+                        Las señales anónimas y sin contexto valen poco. <br className="hidden sm:block" />Cuéntanos de ti para multiplicar tu peso en el sistema.
                     </span>
                 </div>
             }
@@ -327,9 +327,9 @@ export default function ProfileWizard() {
                         <button
                             onClick={() => submitStep(true)}
                             disabled={loading}
-                            className="w-full py-3 text-slate-500 hover:text-slate-700 font-bold tracking-wide uppercase text-xs transition-all"
+                            className="w-full py-4 mt-2 border-2 border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 font-bold tracking-wide rounded-2xl uppercase text-[11px] transition-all relative flex items-center justify-center gap-2 group"
                         >
-                            Ahora no
+                            <span className="group-hover:translate-x-1 transition-transform">Saltar y generar mi primera señal ›</span>
                         </button>
                     )}
                 </div>

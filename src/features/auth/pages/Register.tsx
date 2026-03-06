@@ -76,7 +76,7 @@ export default function RegisterPage() {
     return (
         <AuthLayout
             title="Crear cuenta"
-            subtitle="En 30 segundos. Sin formulario infinito."
+            subtitle="Tu identidad protegida. Tu opinión estructurada en segundos."
         >
             <form onSubmit={submit} className="space-y-4">
                 <div>

@@ -87,15 +87,15 @@ export default function Home() {
 
           {/* Título principal */}
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[1.1] mb-6">
-            Tendencias reales. <span className="bg-gradient-to-br from-primary-600 via-primary-500 to-emerald-400 bg-clip-text text-transparent relative">
-              Opiniones…
+            Más que votos. <br className="hidden md:block" /><span className="bg-gradient-to-br from-primary-600 via-primary-500 to-emerald-400 bg-clip-text text-transparent relative">
+              Señales de mercado
               <div className="absolute -bottom-2 left-0 right-0 h-3 bg-primary-500/20 blur-md rounded-full"></div>
-            </span> ordenadas.
+            </span> en tiempo real.
           </h1>
 
           {/* Segunda línea */}
-          <h2 className="text-2xl md:text-4xl font-extrabold text-slate-600 mb-8 tracking-tight max-w-3xl mx-auto leading-relaxed">
-            Señales agregadas que forman tendencias. Filtra por segmento y compara sin inventar.
+          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-600 mb-8 tracking-tight max-w-3xl mx-auto leading-relaxed">
+            Tu opinión validada y estructurada tiene peso. Participa, compara tendencias y descubre qué piensa realmente tu segmento.
           </h2>
 
           {/* Estadísticas de la Comunidad B2C */}
@@ -130,10 +130,18 @@ export default function Home() {
           </div>
 
           {/* CTA principal ÚNICO */}
-          <div className="flex justify-center mb-8">
+          <div className="flex flex-col items-center justify-center mb-8 relative">
+            {!isAuthenticated && (
+              <div className="absolute -top-10 animate-bounce cursor-default">
+                <span className="bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-xl shadow-slate-900/20 relative">
+                  Entra y fortalece tu señal hoy
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
+                </span>
+              </div>
+            )}
             <Link
               to={mainCtaPath}
-              className="group relative inline-flex items-center justify-center px-12 py-5 rounded-full text-xl font-black text-white bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 transition-all duration-300 shadow-xl shadow-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/50 hover:-translate-y-1 active:scale-[0.98] overflow-hidden uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="group relative inline-flex items-center justify-center px-12 py-5 rounded-full text-xl font-black text-white bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 transition-all duration-300 shadow-xl shadow-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/50 hover:-translate-y-1 active:scale-[0.98] overflow-hidden uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-white mt-4"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
               <span className="relative flex items-center gap-2">
