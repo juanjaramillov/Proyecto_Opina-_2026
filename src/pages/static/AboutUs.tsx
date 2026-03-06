@@ -13,24 +13,24 @@ import { useNavigate } from "react-router-dom";
 ========================= */
 const T = {
     eyebrow:
-        "inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-black tracking-widest uppercase",
-    h1: "text-4xl md:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tighter text-slate-900",
-    h2: "text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight",
-    h3: "text-xl font-bold tracking-tight text-slate-900",
-    pLead: "text-lg md:text-xl text-slate-500 font-medium leading-relaxed",
-    p: "text-slate-600 leading-relaxed",
+        "inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary-500 text-[10px] font-black tracking-widest uppercase",
+    h1: "text-4xl md:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tighter text-ink",
+    h2: "text-3xl md:text-5xl font-black tracking-tight text-ink leading-tight",
+    h3: "text-xl font-bold tracking-tight text-ink",
+    pLead: "text-lg md:text-xl text-text-secondary font-medium leading-relaxed",
+    p: "text-text-secondary leading-relaxed",
 };
 
 export default function AboutUs() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-24 selection:bg-primary-500 selection:text-white">
+        <div className="min-h-screen bg-bg text-ink font-sans pb-24 selection:bg-primary-500 selection:text-white">
 
             {/* HERO SECTION */}
-            <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 overflow-hidden bg-white border-b border-slate-200">
+            <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 overflow-hidden bg-white border-b border-stroke">
                 <div className="absolute inset-0 pointer-events-none z-0">
-                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-slate-50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
+                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-bg rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
                     <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary-500/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02]"></div>
                 </div>
@@ -49,7 +49,7 @@ export default function AboutUs() {
 
                         <h1 className={`${T.h1} mb-8 max-w-4xl`}>
                             La opinión en internet se convirtió en ruido. <br />
-                            <span className="bg-gradient-to-r from-slate-800 to-slate-500 bg-clip-text text-transparent">Nosotros lo convertimos en dirección.</span>
+                            <span className="bg-gradient-to-r from-ink to-text-secondary bg-clip-text text-transparent">Nosotros lo convertimos en dirección.</span>
                         </h1>
 
                         <p className={`${T.pLead} max-w-2xl mx-auto`}>
@@ -75,9 +75,9 @@ export default function AboutUs() {
                 <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
 
                     {/* Pilar 1 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
-                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
-                            <Activity className="text-slate-800" size={28} strokeWidth={1.5} />
+                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-sm hover:shadow-md relative group hover:border-primary/50 transition-colors">
+                        <div className="w-14 h-14 bg-bg rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 transition-transform">
+                            <Activity className="text-primary-500" size={28} strokeWidth={1.5} />
                         </div>
                         <h3 className={`${T.h3} mb-4`}>Unidades de Señal, no votos planos</h3>
                         <p className={T.p}>
@@ -86,9 +86,9 @@ export default function AboutUs() {
                     </div>
 
                     {/* Pilar 2 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
-                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
-                            <ShieldCheck className="text-slate-800" size={28} strokeWidth={1.5} />
+                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-sm hover:shadow-md relative group hover:border-primary/50 transition-colors">
+                        <div className="w-14 h-14 bg-bg rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 transition-transform">
+                            <ShieldCheck className="text-primary-500" size={28} strokeWidth={1.5} />
                         </div>
                         <h3 className={`${T.h3} mb-4`}>Progresión y Calidad del Usuario</h3>
                         <p className={T.p}>
@@ -97,9 +97,9 @@ export default function AboutUs() {
                     </div>
 
                     {/* Pilar 3 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
-                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
-                            <BarChart3 className="text-slate-800" size={28} strokeWidth={1.5} />
+                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-sm hover:shadow-md relative group hover:border-primary/50 transition-colors">
+                        <div className="w-14 h-14 bg-bg rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 transition-transform">
+                            <BarChart3 className="text-primary-500" size={28} strokeWidth={1.5} />
                         </div>
                         <h3 className={`${T.h3} mb-4`}>Mejor Dato, Mejor Lectura</h3>
                         <p className={T.p}>
@@ -108,8 +108,8 @@ export default function AboutUs() {
                     </div>
 
                     {/* Pilar 4 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 relative group hover:border-slate-300 transition-colors">
-                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:scale-110 transition-transform">
+                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-sm hover:shadow-md relative group hover:border-primary/50 transition-colors">
+                        <div className="w-14 h-14 bg-bg rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 transition-transform">
                             <Globe2 className="text-primary-500" size={28} strokeWidth={1.5} />
                         </div>
                         <h3 className={`${T.h3} mb-4`}>Valor Futuro y Ecosistema</h3>
@@ -122,21 +122,21 @@ export default function AboutUs() {
             </section>
 
             {/* CREDENTIALS / CONFIDENCE BAR */}
-            <section className="py-12 bg-white border-y border-slate-200 mb-24">
+            <section className="py-12 bg-white border-y border-stroke mb-24">
                 <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 text-center">
                     <div>
-                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">Zero</span>
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Ruido Bots / Granjas</span>
+                        <span className="block text-4xl font-black text-ink mb-2 tracking-tight">Zero</span>
+                        <span className="text-xs font-bold text-text-secondary uppercase tracking-widest">Ruido Bots / Granjas</span>
                     </div>
-                    <div className="hidden md:block w-px h-12 bg-slate-200"></div>
+                    <div className="hidden md:block w-px h-12 bg-stroke"></div>
                     <div>
-                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">100%</span>
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Información Estructurada</span>
+                        <span className="block text-4xl font-black text-ink mb-2 tracking-tight">100%</span>
+                        <span className="text-xs font-bold text-text-secondary uppercase tracking-widest">Información Estructurada</span>
                     </div>
-                    <div className="hidden md:block w-px h-12 bg-slate-200"></div>
+                    <div className="hidden md:block w-px h-12 bg-stroke"></div>
                     <div>
-                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">Real-Time</span>
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Velocidad de Lectura</span>
+                        <span className="block text-4xl font-black text-ink mb-2 tracking-tight">Real-Time</span>
+                        <span className="text-xs font-bold text-text-secondary uppercase tracking-widest">Velocidad de Lectura</span>
                     </div>
                 </div>
             </section>
@@ -163,18 +163,18 @@ export default function AboutUs() {
                     </div>
 
                     {/* B2C CTA */}
-                    <div className="bg-white border-2 border-slate-200 rounded-[2rem] p-10 md:p-12 relative overflow-hidden group flex flex-col justify-between hover:border-slate-300 transition-colors">
+                    <div className="bg-white border-2 border-stroke rounded-[2rem] p-10 md:p-12 relative overflow-hidden group flex flex-col justify-between hover:border-primary/50 transition-colors">
                         <div className="relative z-10 mb-10">
-                            <span className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-4 block">Para Usuarios y Ciudadanos</span>
-                            <h3 className="text-3xl font-black text-slate-900 mb-4 leading-tight">Pasa del ruido a la tendencia estructurada.</h3>
-                            <p className="text-slate-500 font-medium">Tus señales construyen el ranking en tiempo real de lo que está pasando. Suma valor, elige tu nicho y avanza.</p>
+                            <span className="text-text-secondary font-black uppercase tracking-widest text-[10px] mb-4 block">Para Usuarios y Ciudadanos</span>
+                            <h3 className="text-3xl font-black text-ink mb-4 leading-tight">Pasa del ruido a la tendencia estructurada.</h3>
+                            <p className="text-text-secondary font-medium">Tus señales construyen el ranking en tiempo real de lo que está pasando. Suma valor, elige tu nicho y avanza.</p>
                         </div>
                         <button
                             onClick={() => navigate('/experience')}
-                            className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-900 font-black text-sm uppercase tracking-widest py-4 px-6 rounded-xl transition-colors inline-flex justify-between items-center w-full"
+                            className="bg-bg hover:bg-stroke border border-stroke text-ink font-black text-sm uppercase tracking-widest py-4 px-6 rounded-xl transition-colors inline-flex justify-between items-center w-full"
                         >
                             Ir a Participar
-                            <ArrowRight size={18} className="text-slate-400" />
+                            <ArrowRight size={18} className="text-text-secondary" />
                         </button>
                     </div>
 
