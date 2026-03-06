@@ -27,8 +27,8 @@ CREATE POLICY "Allow admins to select b2b_leads" ON public.b2b_leads
     TO authenticated
     USING (
         EXISTS (
-            SELECT 1 FROM public.user_roles
-            WHERE user_roles.user_id = auth.uid()
-            AND user_roles.role = 'admin'
+            SELECT 1 FROM public.users
+            WHERE users.user_id = auth.uid()
+            AND users.role = 'admin'
         )
     );
