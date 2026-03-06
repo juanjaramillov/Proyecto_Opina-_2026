@@ -11,7 +11,6 @@ const MENU_ITEMS = [
   { id: 'results', label: 'Resultados', route: '/results' },
   { id: 'intelligence', label: 'Inteligencia', route: '/intelligence' },
   { id: 'about', label: 'Nosotros', route: '/about' },
-  { id: 'trust', label: 'Confianza', route: '/trust' },
 ];
 
 

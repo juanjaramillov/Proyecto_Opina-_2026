@@ -34,7 +34,6 @@ import AdminAntifraud from "./features/admin/pages/AdminAntifraud";
 // import Rankings from "./features/rankings/pages/Rankings";
 // import PublicRankingPage from './features/rankings/pages/PublicRankingPage';
 import AboutUs from "./pages/static/AboutUs";
-import Trust from "./pages/static/Trust";
 import NotFound from "./pages/NotFound";
 
 import { Analytics } from '@vercel/analytics/react';
@@ -77,7 +76,6 @@ export default function App() {
               <Route path="/complete-profile" element={<ProtectedRoute><ProfileWizard /></ProtectedRoute>} />
               {/* <Route path="/clinicas-santiago/:attributeSlug" element={<PublicRankingPage />} /> */}
               <Route path="/about" element={<AboutUs />} />
-              <Route path="/trust" element={<Trust />} />
               <Route path="/intelligence" element={<Dashboard />} />
 
               {/* Protected Routes */}
