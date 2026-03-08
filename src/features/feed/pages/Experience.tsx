@@ -76,7 +76,7 @@ export default function Experience() {
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<BattleOption | null>(null);
-    const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+    const [selectedTheme, setSelectedTheme] = useState<string | 'mix'>('mix');
     const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
     const [versusIndustry, setVersusIndustry] = useState<string | 'mix'>('mix');
 
@@ -140,7 +140,25 @@ export default function Experience() {
 
     const battlesForQueue = useMemo(() => {
         if (filteredVersusBattles.length === 0) return [];
-        if (versusIndustry === 'mix') return filteredVersusBattles.slice(0, 10);
+        const getCat = (b: Battle) => b.category ? (b.category as { slug?: string }).slug : 'unknown';
+
+        if (versusIndustry === 'mix') {
+            const shuffled = [...filteredVersusBattles].sort(() => 0.5 - Math.random());
+            const queue: Battle[] = [];
+            for (let i = 0; i < 10 && shuffled.length > 0; i++) {
+                const lastCat = queue.length > 0 ? getCat(queue[queue.length - 1]) : null;
+                const nextIdx = shuffled.findIndex(b => getCat(b) !== lastCat);
+                if (nextIdx !== -1) {
+                    queue.push(shuffled[nextIdx]);
+                    shuffled.splice(nextIdx, 1);
+                } else {
+                    queue.push(shuffled[0]);
+                    shuffled.splice(0, 1);
+                }
+            }
+            return queue;
+        }
+
         const queue: Battle[] = [];
         for (let i = 0; i < 10; i++) {
             queue.push(filteredVersusBattles[i % filteredVersusBattles.length]);
@@ -194,9 +212,9 @@ export default function Experience() {
         try {
             await signalService.saveSignalEvent({ battle_id: battleId, option_id: optionId });
             showToast("Señal registrada.", "award", 1);
-        } catch (err) {
+        } catch (err: any) {
             logger.error("Failed to save vote:", err);
-            showToast("No se pudo registrar la señal.", "error");
+            showToast(`Error DB: ${err?.message || "Desconocido"}`, "error");
         }
         return {};
     };
@@ -228,7 +246,7 @@ export default function Experience() {
             <div className="container-ws section-y space-y-6 pb-24">
                 <PageHeader
                     eyebrow={<span className="badge badge-primary">Hub</span>}
-                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Elige tu forma de señalar</h1>}
+                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Elige tu <span className="text-primary">formato</span></h1>}
                     subtitle={<p className="text-sm text-muted font-medium">{headerSubtitle}</p>}
                     meta={
                         <div className="flex flex-wrap gap-2">
@@ -262,14 +280,14 @@ export default function Experience() {
     }
 
     return (
-        <div className="container-ws section-y space-y-8 pb-24">
+        <div className={`container-ws pb-24 ${mode === 'versus' ? 'pt-4 space-y-4' : 'section-y space-y-8'}`}>
 
-            {mode !== "menu" && (
+            {mode === "progressive" && (
                 <ExperienceNavigation
                     currentMode={mode}
                     onChange={(m) => {
                         setSelectedOption(null);
-                        setSelectedTheme(null);
+                        setSelectedTheme('mix');
                         setMode(m);
                     }}
                 />
@@ -277,7 +295,16 @@ export default function Experience() {
 
             {mode === "menu" && (
                 <HubMenuSimplified
-                    onEnterVersus={() => setMode("versus")}
+                    onEnterVersus={() => { setVersusIndustry('mix'); setMode('versus'); }}
+                    onEnterProgressive={() => setMode("progressive")}
+                    onEnterDepth={() => setMode("insights")}
+                    onEnterPlaces={() => { setVersusIndustry('turismo'); setMode('versus'); }}
+                    onEnterServices={() => { setVersusIndustry('telecom'); setMode('versus'); }}
+                    onEnterNews={() => { setVersusIndustry('medios'); setMode('versus'); }}
+                    onEnterSports={() => { setVersusIndustry('deportes'); setMode('versus'); }}
+                    onEnterProducts={() => { setVersusIndustry('retail'); setMode('versus'); }}
+                    onEnterRestaurants={() => { setVersusIndustry('comida'); setMode('versus'); }}
+                    onEnterPulse={() => { setVersusIndustry('vida_diaria'); setMode('versus'); }}
                     onViewResults={() => navigate("/results")}
                     stats={hubStats}
                     topNow={hubTopNow}
@@ -288,12 +315,55 @@ export default function Experience() {
             )}
 
             {mode === "versus" ? (
-                <div className="space-y-8 animate-in fade-in duration-500">
-                    {/* Category Selector for Versus */}
-                    <div className="max-w-5xl xl:max-w-6xl mx-auto space-y-4">
+                <div className="space-y-8 animate-in fade-in duration-500 flex flex-col">
+                    {/* Show VersusGame ON TOP regardless of industry (mix or specific) */}
+                    <div className="card card-pad relative animate-in fade-in duration-500 min-h-[600px] order-1">
+                        {battlesForQueue.length > 0 ? (
+                            <VersusGame
+                                key={`versus-${batchIndex}-${versusIndustry}-${selectedSubcategoryId || 'all'}`}
+                                battles={battlesForQueue}
+                                onVote={handleVote}
+                                mode="classic"
+                                enableAutoAdvance={true}
+                                hideProgress={false}
+                                isQueueFinite={true}
+                                autoNextMs={1800}
+                                onQueueComplete={handleBatchComplete}
+                                isSubmitting={false}
+                                theme={{
+                                    primary: versusIndustry === 'mix' ? "#2563EB" : (PARENT_INDUSTRIES[versusIndustry]?.theme.primary || "#2563EB"),
+                                    accent: "#10B981",
+                                    bgGradient: "from-blue-50 to-white",
+                                    icon: versusIndustry === 'mix' ? "shuffle" : (PARENT_INDUSTRIES[versusIndustry]?.theme.icon || "query_stats"),
+                                }}
+                            />
+                        ) : (
+                            <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
+                                <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100 shadow-sm">
+                                    <span className="material-symbols-outlined text-4xl text-slate-300">hourglass_empty</span>
+                                </div>
+                                <h3 className="text-2xl font-black text-slate-800 mb-2">Aún no hay batallas aquí</h3>
+                                <p className="text-slate-500 max-w-md mx-auto mb-8 font-medium">
+                                    Estamos preparando nuevas compañías para esta categoría. Si quieres ver enfrentamientos ahora, elige otra opción abajo.
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        setVersusIndustry('mix');
+                                        setSelectedSubcategoryId(null);
+                                    }}
+                                    className="px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm"
+                                >
+                                    Ver todas las industrias
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Category Selector for Versus Moved Below */}
+                    <div className="max-w-5xl xl:max-w-6xl mx-auto w-full space-y-4 order-2">
                         <IndustrySelector
                             industries={PARENT_INDUSTRIES}
-                            selectedParentId={versusIndustry !== 'mix' ? versusIndustry : null}
+                            selectedParentId={versusIndustry}
                             selectedSubcategoryId={selectedSubcategoryId}
                             onParentChange={(id) => setVersusIndustry(id || 'mix')}
                             onSubcategoryChange={(id) => setSelectedSubcategoryId(id)}
@@ -302,152 +372,115 @@ export default function Experience() {
                             hideMixOption={false}
                         />
                     </div>
-
-                    {/* Show VersusGame only if an industry is selected */}
-                    {versusIndustry !== 'mix' ? (
-                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden animate-in fade-in duration-500">
-                            {battlesForQueue.length > 0 ? (
-                                <VersusGame
-                                    key={`versus-${batchIndex}-${versusIndustry}-${selectedSubcategoryId || 'all'}`}
-                                    battles={battlesForQueue}
-                                    onVote={handleVote}
-                                    mode="classic"
-                                    enableAutoAdvance={true}
-                                    hideProgress={false}
-                                    isQueueFinite={true}
-                                    autoNextMs={1200}
-                                    disableInsights={true}
-                                    onQueueComplete={handleBatchComplete}
-                                    isSubmitting={false}
-                                    theme={{
-                                        primary: "#2563EB",
-                                        accent: "#10B981",
-                                        bgGradient: "from-blue-50 to-white",
-                                        icon: "query_stats",
-                                    }}
-                                />
-                            ) : (
-                                <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
-                                    <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100 shadow-sm">
-                                        <span className="material-symbols-outlined text-4xl text-slate-300">hourglass_empty</span>
-                                    </div>
-                                    <h3 className="text-2xl font-black text-slate-800 mb-2">Aún no hay batallas aquí</h3>
-                                    <p className="text-slate-500 max-w-md mx-auto mb-8 font-medium">
-                                        Estamos preparando nuevas compañías para esta categoría. Si quieres ver enfrentamientos ahora, elige otra opción en el menú.
-                                    </p>
-                                    <button
-                                        onClick={() => {
-                                            setVersusIndustry('mix');
-                                            setSelectedSubcategoryId(null);
-                                        }}
-                                        className="px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm"
-                                    >
-                                        Ver todas las industrias
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200 p-12 text-center animate-in fade-in duration-500">
-                            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-                                <span className="material-symbols-outlined text-3xl text-slate-300">category</span>
-                            </div>
-                            <h3 className="text-xl font-black text-slate-900">Selecciona una industria para comenzar</h3>
-                            <p className="text-slate-500 font-medium mt-2">Elige una categoría arriba para ver los enfrentamientos disponibles.</p>
-                        </div>
-                    )}
                 </div>
             ) : null}
 
             {/* PROGRESSIVE MODE */}
             {mode === "progressive" ? (
-                <div className="space-y-12 animate-in fade-in duration-500">
+                <div className="space-y-8 flex flex-col animate-in fade-in duration-500">
+                    {/* Active Tournament Runner */}
+                    <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden order-1">
+                        {/* Decorative Background */}
+                        <div className="absolute inset-0 pointer-events-none opacity-30">
+                            <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 ${selectedTheme !== 'mix' ? PARENT_INDUSTRIES[selectedTheme]?.theme?.bgGradient : 'from-blue-50 to-white'} rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
+                        </div>
+
+                        <ProgressiveRunner
+                            progressiveData={(() => {
+                                let validBattles = battlesAsGame || [];
+                                let id = 'mix';
+                                let title = 'Torneo Global';
+                                let subtitle = 'Todas las industrias mezcladas.';
+                                let theme = {
+                                    primary: "#2563EB",
+                                    accent: "#10B981",
+                                    bgGradient: "from-blue-50 to-white",
+                                    icon: "shuffle"
+                                };
+
+                                if (selectedTheme !== 'mix') {
+                                    const t = PARENT_INDUSTRIES[selectedTheme];
+                                    if (t) {
+                                        const targetSlugs = selectedSubcategoryId
+                                            ? [t.subcategories.find((s: any) => s.id === selectedSubcategoryId)?.slug]
+                                            : t.subcategories.map((s: any) => s.slug);
+
+                                        validBattles = validBattles.filter((b) => {
+                                            const catSlug = (b.category as { slug?: string })?.slug;
+                                            return targetSlugs.includes(catSlug) || targetSlugs.includes(b.industry);
+                                        });
+
+                                        id = t.id;
+                                        title = t.title;
+                                        subtitle = t.subtitle;
+                                        theme = t.theme;
+                                    }
+                                }
+
+                                // CRITICAL: A Progressive tournament must only contain candidates from a SINGLE subcategory.
+                                // Otherwise candidates from different subcategories would face each other (e.g. Airlines vs Fast Food).
+                                // If multiple subcategories available, restrict to the first one found in the queue.
+                                if (validBattles.length > 0) {
+                                    const firstSlug = (validBattles[0].category as any)?.slug || validBattles[0].industry;
+                                    validBattles = validBattles.filter(b => ((b.category as any)?.slug || b.industry) === firstSlug);
+                                }
+
+                                return {
+                                    id,
+                                    title,
+                                    subtitle,
+                                    industry: validBattles.length > 0 ? ((validBattles[0]?.category as any)?.slug || validBattles[0]?.industry || 'mix') : 'mix',
+                                    theme,
+                                    candidates: validBattles
+                                        .flatMap((b) => b.options || [])
+                                        .filter((v, i, a) => a.findIndex((o) => o?.id === v?.id) === i)
+                                        .map(opt => ({
+                                            ...opt,
+                                            type: 'brand' as const,
+                                            imageFit: 'contain' as const
+                                        }))
+                                        .slice(0, 16),
+                                };
+                            })()}
+                            onVote={async (battle_id: string, option_id: string, opponentId: string) => {
+                                try {
+                                    await signalService.saveSignalEvent({
+                                        battle_id,
+                                        option_id,
+                                        meta: { opponent_id: opponentId, mode: 'progressive' }
+                                    });
+                                    // Wait visually to ensure perception 
+                                    await new Promise(r => setTimeout(r, 400));
+                                    showToast("Señal registrada. El retador ya viene.", "success");
+                                    return {};
+                                } catch (err) {
+                                    console.error("Error votando en progresivo:", err);
+                                    showToast("No se pudo registrar tu señal. Intenta de nuevo.", "error");
+                                    throw err;
+                                }
+                            }}
+                        />
+                    </div>
+
                     {/* Category Selector (Always visible in Progressive mode) */}
-                    <div className="max-w-5xl xl:max-w-6xl mx-auto space-y-6">
+                    <div className="max-w-5xl xl:max-w-6xl mx-auto w-full space-y-4 order-2">
                         <IndustrySelector
                             industries={PARENT_INDUSTRIES}
                             selectedParentId={selectedTheme}
                             selectedSubcategoryId={selectedSubcategoryId}
                             onParentChange={(id) => {
-                                setSelectedTheme(id);
+                                setSelectedTheme(id || 'mix');
                                 setSelectedSubcategoryId(null);
                             }}
                             onSubcategoryChange={(id) => setSelectedSubcategoryId(id)}
                             title="Elige tu Torneo"
-                            subtitle={selectedTheme
-                                ? "Puedes cambiar de categoría en cualquier momento."
+                            subtitle={selectedTheme !== 'mix'
+                                ? "Torneo enfocado en esta categoría."
                                 : "Enfrenta marcas cara a cara hasta encontrar tu favorita."
                             }
-                            hideMixOption={true}
+                            hideMixOption={false}
                         />
                     </div>
-
-                    {/* Active Tournament Runner */}
-                    {selectedTheme ? (
-                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
-                            {/* Decorative Background */}
-                            <div className="absolute inset-0 pointer-events-none opacity-30">
-                                <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 ${PARENT_INDUSTRIES[selectedTheme].theme.bgGradient} rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
-                            </div>
-
-                            <ProgressiveRunner
-                                progressiveData={(() => {
-                                    const t = PARENT_INDUSTRIES[selectedTheme];
-
-                                    // Target specific subcategory or all from parent
-                                    const targetSlugs = selectedSubcategoryId
-                                        ? [t.subcategories.find((s: any) => s.id === selectedSubcategoryId)?.slug]
-                                        : t.subcategories.map((s: any) => s.slug);
-
-                                    return {
-                                        id: t.id,
-                                        title: t.title,
-                                        subtitle: t.subtitle,
-                                        industry: targetSlugs[0] || t.id,
-                                        theme: t.theme,
-                                        candidates: (battlesAsGame || [])
-                                            .filter((b) => {
-                                                const catSlug = (b.category as { slug?: string })?.slug;
-                                                return targetSlugs.includes(catSlug) || targetSlugs.includes(b.industry);
-                                            })
-                                            .flatMap((b) => b.options || [])
-                                            .filter((v, i, a) => a.findIndex((o) => o?.id === v?.id) === i)
-                                            .map(opt => ({
-                                                ...opt,
-                                                type: 'brand' as const,
-                                                imageFit: 'contain' as const
-                                            }))
-                                            .slice(0, 16),
-                                    };
-                                })()}
-                                onVote={async (battle_id: string, option_id: string, opponentId: string) => {
-                                    try {
-                                        await signalService.saveSignalEvent({
-                                            battle_id,
-                                            option_id,
-                                            meta: { opponent_id: opponentId, mode: 'progressive' }
-                                        });
-                                        // Wait visually to ensure perception 
-                                        await new Promise(r => setTimeout(r, 400));
-                                        showToast("Señal registrada. El retador ya viene.", "success");
-                                        return {};
-                                    } catch (err) {
-                                        console.error("Error votando en progresivo:", err);
-                                        showToast("No se pudo registrar tu señal. Intenta de nuevo.", "error");
-                                        throw err;
-                                    }
-                                }}
-                            />
-                        </div>
-                    ) : (
-                        <div className="bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200 p-12 text-center">
-                            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-                                <span className="material-symbols-outlined text-3xl text-slate-300">target</span>
-                            </div>
-                            <h3 className="text-xl font-black text-slate-900">Selecciona un canal para comenzar</h3>
-                            <p className="text-slate-500 font-medium mt-2">Enfrenta opciones una a una hasta coronar a la mejor.</p>
-                        </div>
-                    )}
                 </div>
             ) : null}
 
@@ -460,12 +493,12 @@ export default function Experience() {
                             selectedParentId={selectedTheme}
                             selectedSubcategoryId={selectedSubcategoryId}
                             onParentChange={(id) => {
-                                setSelectedTheme(id);
+                                setSelectedTheme(id || 'mix');
                                 setSelectedSubcategoryId(null);
                             }}
                             onSubcategoryChange={(id) => setSelectedSubcategoryId(id)}
                             title="Elige tu Torneo"
-                            subtitle={selectedTheme
+                            subtitle={selectedTheme !== 'mix'
                                 ? "Puedes cambiar de categoría en cualquier momento."
                                 : "Entra a profundidad con las encuestas de cada marca."
                             }
@@ -553,7 +586,7 @@ export default function Experience() {
                                 <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mb-4">
                                     <span className="material-symbols-outlined text-3xl">task_alt</span>
                                 </div>
-                                <h2 className="text-2xl md:text-3xl font-black text-ink">Resultados de tu sesión</h2>
+                                <h2 className="text-2xl md:text-3xl font-black text-ink"><span className="text-gradient-brand">Resultados</span> de tu sesión</h2>
                                 <p className="text-slate-500 font-medium mt-2">
                                     Aportaste <span className="font-bold text-emerald-600">{batchSessionHistory.length} señales</span>. Así se comparan tus decisiones.
                                 </p>

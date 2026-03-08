@@ -163,7 +163,7 @@ export default function DepthRun() {
 
     if (loading) {
         return (
-            <div className="container-ws section-y">
+            <div className="container-ws section-y min-h-[60vh] flex flex-col items-center justify-center">
                 <PageState type="loading" loadingLabel="Cargando pregunta..." />
             </div>
         );
@@ -171,12 +171,12 @@ export default function DepthRun() {
 
     if (error || !battle || !opt) {
         return (
-            <div className="container-ws section-y">
+            <div className="container-ws section-y min-h-[60vh] flex flex-col items-center justify-center">
                 <PageState
                     type="error"
                     title="Algo falló"
                     description={error || "No pudimos cargar Profundidad. Intenta de nuevo."}
-                    icon="cloud_off"
+                    icon="wifi_off"
                     primaryAction={{ label: "Reintentar", onClick: () => window.location.reload() }}
                     secondaryAction={{ label: "Volver a Participa", onClick: () => navigate("/experience") }}
                 />
@@ -186,7 +186,7 @@ export default function DepthRun() {
 
     if (saveError) {
         return (
-            <div className="container-ws section-y">
+            <div className="container-ws section-y min-h-[60vh] flex flex-col items-center justify-center">
                 <PageState
                     type="error"
                     title={saveError.title}
@@ -207,7 +207,7 @@ export default function DepthRun() {
 
     if (questions.length < 10) {
         return (
-            <div className="container-ws section-y">
+            <div className="container-ws section-y min-h-[60vh] flex flex-col items-center justify-center">
                 <PageState
                     type="empty"
                     title="Faltan preguntas"
@@ -220,7 +220,7 @@ export default function DepthRun() {
     }
 
     return (
-        <div className="container-ws section-y pb-24">
+        <div className="container-ws section-y pb-24 relative z-10 w-full min-h-screen">
             <DepthWizard
                 packTitle={packTitle}
                 questions={questions as any}

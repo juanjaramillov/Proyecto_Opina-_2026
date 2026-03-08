@@ -22,7 +22,7 @@ import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
 import ProfileWizard from "./features/auth/components/ProfileWizard";
 // import PersonalState from "./features/profile/pages/PersonalState";
-// import IntelligencePage from "./features/intelligence/IntelligencePage";
+import IntelligencePage from "./features/intelligence/IntelligencePage";
 // import DepthHub from "./features/profundidad/pages/DepthHub";
 // import DepthRun from "./features/profundidad/pages/DepthRun";
 
@@ -88,13 +88,13 @@ export default function App() {
               {/* <Route path="/rankings" element={<ProtectedRoute><Rankings /></ProtectedRoute>} /> */}
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               {/* <Route path="/personal-state" element={<ProtectedRoute><PersonalState /></ProtectedRoute>} /> */}
-              {/* <Route path="/intelligence" element={
+              <Route path="/intelligence-dashboard" element={
                 <ProtectedRoute>
                   <RoleProtectedRoute allowedRoles={['admin', 'b2b']}>
                     <IntelligencePage />
                   </RoleProtectedRoute>
                 </ProtectedRoute>
-              } /> */}
+              } />
               <Route path="/admin/invitaciones" element={
                 <ProtectedRoute>
                   <RoleProtectedRoute allowedRoles={['admin']}>

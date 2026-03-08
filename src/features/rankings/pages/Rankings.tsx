@@ -168,8 +168,9 @@ const Rankings: React.FC = () => {
                 }
                 subtitle={
                     <div>
-                        <p className="text-muted font-medium mt-1 max-w-xl">
-                            Lo que va ganando, por segmento. Cambia con cada señal.
+                        <h1 className="text-3xl font-black text-ink tracking-tight mb-2">Rankings <span className="text-gradient-brand">Generales</span></h1>
+                        <p className="text-text-secondary text-sm font-medium max-w-xl">
+                            Las opciones líderes por segmento. Se actualiza en tiempo real.
                         </p>
                         <div className="mt-2 text-[11px] font-bold text-muted flex items-center gap-2">
                             <span className="material-symbols-outlined text-[16px]">schedule</span>

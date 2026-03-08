@@ -68,9 +68,9 @@ export default function PersonalState() {
                         animate={{ opacity: 1, scale: 1 }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-primary-600"
                     >
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-                        Motor de Estado • Fase 2: Interconexión
-                    </motion.div>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-text-secondary">
+                            Tu Pulso • Tendencias Globales
+                        </span></motion.div>
                     <h1 className="text-4xl font-black text-ink tracking-tight mb-4">Tu Estado Personal</h1>
                     <p className="text-slate-500 font-medium max-w-md mx-auto leading-relaxed">
                         Registra tu estado actual y compáralo con el país y tu segmento demográfico (actualizado cada 3 horas).
@@ -188,20 +188,21 @@ export default function PersonalState() {
                         ) : isSuccess ? (
                             <>
                                 <span className="material-symbols-outlined font-black">verified</span>
-                                ESTADO SINCRONIZADO
+                                PULSO ACTUALIZADO
                             </>
                         ) : (
                             <>
                                 <span className="material-symbols-outlined font-black">send</span>
-                                SINCRONIZAR MI ESTADO
+                                ACTUALIZAR MI PULSO
                             </>
                         )}
                     </motion.button>
                 </form>
 
-                <footer className="mt-12 text-center text-[10px] font-black uppercase tracking-widest text-slate-400 opacity-50">
-                    <p>Fase 2 de Implementación: Motor de Estado Unificado</p>
-                </footer>
+                <div className="mt-8 text-center text-[10px] font-bold text-text-muted uppercase tracking-widest flex items-center justify-center gap-2">
+                    <span className="material-symbols-outlined text-[14px]">science</span>
+                    <p>Módulo: Pulso Personal (Fase 2)</p>
+                </div>
             </div>
         </div>
     );

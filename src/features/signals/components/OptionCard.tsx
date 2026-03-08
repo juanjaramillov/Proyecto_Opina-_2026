@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BattleOption } from '../types';
 import React from 'react';
 import { BrandLogo } from '../../../components/ui/BrandLogo';
+import { FallbackAvatar } from '../../../components/ui/FallbackAvatar';
 
 interface OptionCardProps {
     option: BattleOption;
@@ -77,13 +78,12 @@ export default function OptionCard({
 
                 {/* BIG LOGO or IMAGE focus */}
                 {type === 'image' && (option.image_url || option.imageUrl) && (
-                    <img
+                    <FallbackAvatar
                         src={option.image_url || option.imageUrl || undefined}
-                        alt={option.label}
+                        name={option.label}
                         className={`relative z-10 max-w-full max-h-full object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-30 grayscale blur-[2px]" : ""} ${option.imageFit === 'contain' ? 'p-8 md:p-12' : 'absolute inset-0 w-full h-full object-cover'}`}
-                        onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                        }}
+                        containerClassName="absolute inset-0 flex items-center justify-center p-6"
+                        fallbackClassName="w-24 h-24 text-3xl"
                     />
                 )}
 
@@ -134,7 +134,7 @@ export default function OptionCard({
 
                 {/* Subtle Image Overlay */}
                 {type === 'image' && (
-                    <div className={`absolute inset-0 transition-opacity duration-500 group-hover:opacity-95 ${layout === 'topic' ? 'bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent' : 'bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent opacity-85'}`} />
+                    <div className={`absolute inset-0 transition-opacity duration-500 group-hover:opacity-95 ${layout === 'topic' ? 'bg-gradient-to-t from-white/90 via-white/20 to-transparent' : 'bg-gradient-to-t from-white/90 via-white/40 to-transparent opacity-90'}`} />
                 )}
 
                 {/* RESULTS OVERLAY (Glassmorphism) */}
@@ -144,9 +144,9 @@ export default function OptionCard({
                             initial={{ opacity: 0, scale: 0.9, backdropFilter: 'blur(0px)' }}
                             animate={{ opacity: 1, scale: 1, backdropFilter: 'blur(12px)' }}
                             transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                            className="absolute inset-0 flex flex-col items-center justify-center z-30 bg-slate-900/70 p-6"
+                            className="absolute inset-0 flex flex-col items-center justify-center z-30 bg-white/80 p-6"
                         >
-                            <span className="text-[5rem] md:text-[7rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] tracking-tighter leading-none mb-2">
+                            <span className="text-[5rem] md:text-[7rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-800 to-slate-500 drop-shadow-sm tracking-tighter leading-none mb-2">
                                 {momentum ? momentum.percentage : percent}%
                             </span>
 
@@ -155,11 +155,11 @@ export default function OptionCard({
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.2 }}
-                                    className={`px-5 py-2 rounded-full flex items-center gap-2 font-black text-sm max-w-full shadow-2xl backdrop-blur-md border backdrop-saturate-150 ${momentum.variant_24h > 0
-                                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-emerald-500/20'
+                                    className={`px-5 py-2 rounded-full flex items-center gap-2 font-black text-sm max-w-full shadow-sm backdrop-blur-md border backdrop-saturate-150 ${momentum.variant_24h > 0
+                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
                                         : momentum.variant_24h < 0
-                                            ? 'bg-rose-500/20 text-rose-300 border-rose-500/40 shadow-rose-500/20'
-                                            : 'bg-slate-500/30 text-slate-200 border-slate-500/40 shadow-slate-500/20'
+                                            ? 'bg-rose-50 text-rose-600 border-rose-100'
+                                            : 'bg-slate-50 text-slate-600 border-slate-100'
                                         }`}
                                 >
                                     <span className="material-symbols-outlined text-lg">
@@ -175,13 +175,13 @@ export default function OptionCard({
                                 initial={{ width: 0, opacity: 0 }}
                                 animate={{ width: "100%", opacity: 1 }}
                                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-                                className="absolute bottom-0 left-0 h-3 bg-slate-800"
+                                className="absolute bottom-0 left-0 h-3 bg-slate-100"
                             >
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: `${momentum ? momentum.percentage : percent}%` }}
                                     transition={{ duration: 1, ease: [0.23, 1, 0.32, 1], delay: 0.3 }}
-                                    className={`h-full shadow-[0_0_30px_rgba(255,255,255,0.8)] rounded-r-full ${momentum ? (momentum.variant_24h > 0 ? 'bg-gradient-to-r from-emerald-400 to-emerald-300' : 'bg-gradient-to-r from-slate-200 to-white') : 'bg-gradient-to-r from-slate-200 to-white'}`}
+                                    className={`h-full rounded-r-full shadow-sm ${momentum ? (momentum.variant_24h > 0 ? 'bg-gradient-to-r from-emerald-500 to-emerald-400' : 'bg-gradient-to-r from-primary-500 to-primary-400') : 'bg-gradient-to-r from-primary-500 to-primary-400'}`}
                                 />
                             </motion.div>
                         </motion.div>
@@ -218,15 +218,13 @@ export default function OptionCard({
                         </div>
                     </div>
                 ) : (
-                    !showResult && (
-                        <div className="mt-2 text-[13px] font-bold text-slate-400 flex items-center justify-center gap-1.5 transition-colors group-hover:text-blue-500 w-full">
-                            <span className="material-symbols-outlined text-[16px]">touch_app</span>
-                            Señalar
-                        </div>
-                    )
+                    <div className={`mt-2 text-[13px] font-bold text-slate-400 flex items-center justify-center gap-1.5 transition-all w-full ${showResult ? "opacity-0 invisible pointer-events-none" : "opacity-100 group-hover:text-emerald-500"}`}>
+                        <span className="material-symbols-outlined text-[16px]">touch_app</span>
+                        Señalar
+                    </div>
                 )}
             </div>
 
-        </button >
+        </button>
     );
 }

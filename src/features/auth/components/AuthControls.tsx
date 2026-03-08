@@ -119,7 +119,7 @@ export function AuthPrimaryButton({
         <button
             type="submit"
             disabled={disabled || loading}
-            className="btn-primary w-full py-4 rounded-2xl font-black uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-primary-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
+            className="btn-primary w-full uppercase tracking-wider text-sm flex items-center justify-center gap-2"
         >
             {loading ? (
                 <>

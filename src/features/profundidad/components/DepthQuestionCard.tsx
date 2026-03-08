@@ -110,7 +110,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                     <div className={`grid ${max === 10 ? 'grid-cols-11 gap-1 sm:gap-2' : 'grid-cols-5 gap-3'} w-full`}>
                         {values.map((val: any) => {
                             let colorClass = 'text-slate-600 bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md hover:-translate-y-1';
-                            let activeClass = 'bg-slate-900 border-slate-900 text-white shadow-xl shadow-slate-300 scale-105';
+                            let activeClass = 'bg-slate-900 border-slate-900 text-white shadow-[0_10px_20px_-10px_rgba(0,0,0,0.3)] scale-105 z-10';
                             let glowColor = '';
 
                             if (max === 10) {

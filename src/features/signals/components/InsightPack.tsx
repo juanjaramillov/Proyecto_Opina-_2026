@@ -173,11 +173,13 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     className="bg-white rounded-[2.5rem] p-6 md:p-10 max-w-sm w-full shadow-2xl relative border border-slate-100 text-center"
                 >
-                    <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="material-symbols-outlined text-3xl">warning</span>
+                    <div className="bg-surface2 rounded-2xl p-6 text-center border border-stroke shadow-inner min-h-[200px] flex flex-col items-center justify-center">
+                        <span className="material-symbols-outlined text-text-muted text-4xl mb-3">construction</span>
+                        <p className="text-ink font-bold text-sm">Módulo en construcción</p>
+                        <p className="text-xs text-text-secondary mt-1 max-w-xs mx-auto font-medium">
+                            Estamos preparando las preguntas de profundidad para esta opción.
+                        </p>
                     </div>
-                    <h3 className="text-xl font-black text-slate-800 mb-2">Faltan preguntas</h3>
-                    <p className="text-sm text-slate-500 mb-6">Esta opción aún no tiene suficientes preguntas de Profundidad (mínimo 10).</p>
                     <button
                         onClick={onCancel}
                         className="w-full py-4 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-all active:scale-[0.98]"
@@ -210,13 +212,12 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                         </div>
 
                         <div className="flex items-center gap-3 mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
-                                <span className="material-symbols-outlined">science</span>
-                            </div>
-                            <div>
-                                <h3 className="text-sm font-black text-slate-800">Laboratorio de Inteligencia</h3>
-                                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Tu señal vs El Sistema</p>
-                            </div>
+                            <h4 className="text-xs font-black uppercase tracking-widest text-text-secondary mb-3 flex items-center gap-2">
+                                <span className="material-symbols-outlined text-[16px]">psychology</span>
+                                Decodificando la tendencia
+                            </h4>
+                            <p className="text-sm font-medium text-ink leading-relaxed">Laboratorio de Inteligencia</p>
+                            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Tu señal vs El Sistema</p>
                         </div>
 
                         {loadingAnalytics && (

@@ -207,11 +207,8 @@ export const signalService = {
             }
         } catch (err: any) {
             // Re-throw if it was already explicitly thrown for business rules
-            const errStr = err?.message ? String(err.message) : '';
-            if (isNonRetriableSignalErrorMessage(errStr)) {
-                throw err;
-            }
             logger.warn('[SignalService] Submitting signal failed natively. Kept in Outbox', err);
+            throw err; // ALWAYS THROW for temporary debugging
         }
 
         // 6. FIRE AND FORGET

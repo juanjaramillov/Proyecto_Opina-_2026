@@ -49,8 +49,6 @@ export default {
                 card: "0 4px 14px rgba(0,0,0,0.06)",
                 lift: "0 8px 24px rgba(0,0,0,0.08)",
                 premium: "0 20px 40px rgba(0, 0, 0, 0.10)", // Consistent premium shadow
-                aurora: "0 10px 40px -10px rgba(0, 0, 0, 0.10)",
-                glass: "0 8px 32px 0 rgba(0, 0, 0, 0.05)",
             },
             borderRadius: {
                 xl: "1rem",

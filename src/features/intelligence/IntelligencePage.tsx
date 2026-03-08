@@ -80,6 +80,10 @@ export default function IntelligencePage() {
     const [daysBack, setDaysBack] = useState(7);
     const [loadingDetails, setLoadingDetails] = useState(false);
 
+    // AI Summary
+    const [aiSummary, setAiSummary] = useState<string | null>(null);
+    const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
     const loadData = useCallback(async () => {
         setLoading(true);
         try {
@@ -119,13 +123,14 @@ export default function IntelligencePage() {
         setSelectedBattle(item);
         setLoadingDetails(true);
         try {
-            const [insights, vData, tData, pData, iData, eData] = await Promise.all([
+            const [insights, vData, tData, pData, iData, eData, summary] = await Promise.all([
                 platformService.getDepthInsights(item.slug, '00000000-0000-0000-0000-000000000000', ageRange, gender, commune),
                 platformService.getBattleVolatility(item.slug, 30), // Fijo 30 días para volatilidad por estándar
                 platformService.getTemporalComparison(item.slug, days),
                 platformService.getBattlePolarization(item.slug),
                 platformService.getSegmentInfluence(item.slug, days),
-                platformService.getEarlySignals(item.slug, 6) // Ventana de 6h para detección temprana
+                platformService.getEarlySignals(item.slug, 6), // Ventana de 6h para detección temprana
+                platformService.getBattleAiSummary(item.slug)
             ]);
             setDepthInsights(insights);
             setVolatility(vData);
@@ -133,6 +138,7 @@ export default function IntelligencePage() {
             setPolarization(pData);
             setSegmentInfluence(iData);
             setEarlySignals(eData);
+            setAiSummary(summary);
         } catch (error) {
             logger.error("[IntelligencePage] Error loading depth data:", error);
         } finally {
@@ -143,6 +149,21 @@ export default function IntelligencePage() {
     useEffect(() => {
         loadData();
     }, [loadData]);
+
+    const handleGenerateAiSummary = async () => {
+        if (!selectedBattle) return;
+        setIsGeneratingAi(true);
+        try {
+            const newSummary = await platformService.generateAiSummary(selectedBattle.slug);
+            if (newSummary) {
+                setAiSummary(newSummary);
+            }
+        } catch (err) {
+            logger.error('Error generating AI summary:', err);
+        } finally {
+            setIsGeneratingAi(false);
+        }
+    };
 
     const handleMarkAlertAsRead = async (alertId: string) => {
         const success = await platformService.markPlatformAlertRead(alertId);
@@ -277,31 +298,43 @@ export default function IntelligencePage() {
 
             {/* KPI Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <StatCard
-                    title="Señales (24h)"
-                    value={stats?.signals_24h || 0}
-                    icon={<Activity className="w-5 h-5 text-emerald-600" />}
-                    color="emerald"
-                />
-                <StatCard
-                    title="Usuarios Activos"
-                    value={stats?.active_users || 0}
-                    icon={<Users className="w-5 h-5 text-emerald-600" />}
-                    color="emerald"
-                />
-                <StatCard
-                    title="Señales Recientes (3h)"
-                    value={activity?.signals_last_3h || 0}
-                    icon={<Target className="w-5 h-5 text-blue-600" />}
-                    color="amber"
-                    subtitle={`${activity?.verified_signals_last_3h || 0} verificadas`}
-                />
-                <StatCard
-                    title="Región Activa"
-                    value={stats?.active_region || "SCL"}
-                    icon={<BarChart3 className="w-5 h-5 text-slate-600" />}
-                    color="slate"
-                />
+                {loading ? (
+                    Array(4).fill(0).map((_, i) => (
+                        <div key={i} className="p-6 rounded-3xl border border-slate-100 bg-white shadow-sm animate-pulse h-32">
+                            <div className="w-10 h-10 bg-slate-100 rounded-xl mb-4"></div>
+                            <div className="h-6 w-24 bg-slate-200 rounded mb-2"></div>
+                            <div className="h-3 w-32 bg-slate-100 rounded"></div>
+                        </div>
+                    ))
+                ) : (
+                    <>
+                        <StatCard
+                            title="Señales (24h)"
+                            value={stats?.signals_24h || 0}
+                            icon={<Activity className="w-5 h-5 text-emerald-600" />}
+                            color="emerald"
+                        />
+                        <StatCard
+                            title="Usuarios Activos"
+                            value={stats?.active_users || 0}
+                            icon={<Users className="w-5 h-5 text-emerald-600" />}
+                            color="emerald"
+                        />
+                        <StatCard
+                            title="Señales Recientes (3h)"
+                            value={activity?.signals_last_3h || 0}
+                            icon={<Target className="w-5 h-5 text-blue-600" />}
+                            color="amber"
+                            subtitle={`${activity?.verified_signals_last_3h || 0} verificadas`}
+                        />
+                        <StatCard
+                            title="Región Activa"
+                            value={stats?.active_region || "SCL"}
+                            icon={<BarChart3 className="w-5 h-5 text-slate-600" />}
+                            color="slate"
+                        />
+                    </>
+                )}
             </div>
 
             {/* ACTIVATION & RETENTION KPIs */}
@@ -312,63 +345,87 @@ export default function IntelligencePage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <StatCard
-                        title="DAU (Diarios)"
-                        value={kpis?.dau || 0}
-                        icon={<Users className="w-5 h-5 text-emerald-500" />}
-                        color="emerald"
-                        subtitle="Usuarios únicos hoy"
-                    />
-                    <StatCard
-                        title="WAU (Semanales)"
-                        value={kpis?.wau || 0}
-                        icon={<Users className="w-5 h-5 text-emerald-500" />}
-                        color="emerald"
-                        subtitle="Últimos 7 días"
-                    />
-                    <StatCard
-                        title="MAU (Mensuales)"
-                        value={kpis?.mau || 0}
-                        icon={<Users className="w-5 h-5 text-emerald-500" />}
-                        color="emerald"
-                        subtitle="Últimos 30 días"
-                    />
+                    {loading ? (
+                        Array(3).fill(0).map((_, i) => (
+                            <div key={`trac-${i}`} className="p-6 rounded-3xl border border-slate-100 bg-white shadow-sm animate-pulse h-32">
+                                <div className="w-10 h-10 bg-slate-100 rounded-xl mb-4"></div>
+                                <div className="h-6 w-24 bg-slate-200 rounded mb-2"></div>
+                                <div className="h-3 w-32 bg-slate-100 rounded"></div>
+                            </div>
+                        ))
+                    ) : (
+                        <>
+                            <StatCard
+                                title="DAU (Diarios)"
+                                value={kpis?.dau || 0}
+                                icon={<Users className="w-5 h-5 text-emerald-500" />}
+                                color="emerald"
+                                subtitle="Usuarios únicos hoy"
+                            />
+                            <StatCard
+                                title="WAU (Semanales)"
+                                value={kpis?.wau || 0}
+                                icon={<Users className="w-5 h-5 text-emerald-500" />}
+                                color="emerald"
+                                subtitle="Últimos 7 días"
+                            />
+                            <StatCard
+                                title="MAU (Mensuales)"
+                                value={kpis?.mau || 0}
+                                icon={<Users className="w-5 h-5 text-emerald-500" />}
+                                color="emerald"
+                                subtitle="Últimos 30 días"
+                            />
+                        </>
+                    )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-3">
-                                <div className="p-3 bg-emerald-50 rounded-2xl">
-                                    <TrendingUp className="w-6 h-6 text-emerald-600" />
-                                </div>
-                                <div>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D1</p>
-                                    <h3 className="text-2xl font-black text-slate-900">
-                                        {((retention?.retention_day_1 || 0) * 100).toFixed(1)}%
-                                    </h3>
-                                </div>
+                    {loading ? (
+                        Array(2).fill(0).map((_, i) => (
+                            <div key={`ret-${i}`} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm animate-pulse h-40">
+                                <div className="w-12 h-12 bg-slate-100 rounded-2xl mb-4"></div>
+                                <div className="h-8 w-20 bg-slate-200 rounded mb-2"></div>
+                                <div className="h-3 w-full max-w-[200px] bg-slate-100 rounded"></div>
                             </div>
-                        </div>
-                        <p className="text-sm text-slate-500">Usuarios que regresan después de 24 horas.</p>
-                    </div>
+                        ))
+                    ) : (
+                        <>
+                            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-3 bg-emerald-50 rounded-2xl">
+                                            <TrendingUp className="w-6 h-6 text-emerald-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D1</p>
+                                            <h3 className="text-2xl font-black text-slate-900">
+                                                {((retention?.retention_day_1 || 0) * 100).toFixed(1)}%
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-slate-500">Usuarios que regresan después de 24 horas.</p>
+                            </div>
 
-                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-3">
-                                <div className="p-3 bg-emerald-50 rounded-2xl">
-                                    <TrendingUp className="w-6 h-6 text-emerald-600" />
+                            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-3 bg-emerald-50 rounded-2xl">
+                                            <TrendingUp className="w-6 h-6 text-emerald-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D7</p>
+                                            <h3 className="text-2xl font-black text-slate-900">
+                                                {((retention?.retention_day_7 || 0) * 100).toFixed(1)}%
+                                            </h3>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D7</p>
-                                    <h3 className="text-2xl font-black text-slate-900">
-                                        {((retention?.retention_day_7 || 0) * 100).toFixed(1)}%
-                                    </h3>
-                                </div>
+                                <p className="text-sm text-slate-500">Usuarios que regresan después de 7 días.</p>
                             </div>
-                        </div>
-                        <p className="text-sm text-slate-500">Usuarios que regresan después de 7 días.</p>
-                    </div>
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -439,8 +496,16 @@ export default function IntelligencePage() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={4} className="px-6 py-20 text-center text-slate-400 font-medium">
-                                            No se encontraron datos que coincidan con la búsqueda.
+                                        <td colSpan={4} className="px-6 py-12">
+                                            <div className="flex flex-col items-center justify-center text-center">
+                                                <div className="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                                                    <Search className="w-8 h-8 text-slate-300" />
+                                                </div>
+                                                <h3 className="text-sm font-bold text-slate-900 mb-1">Sin resultados</h3>
+                                                <p className="text-xs text-slate-500 max-w-sm">
+                                                    No se encontraron batallas que coincidan con tu búsqueda o filtros actuales.
+                                                </p>
+                                            </div>
                                         </td>
                                     </tr>
                                 )}
@@ -633,6 +698,45 @@ export default function IntelligencePage() {
                             </div>
                         ) : (
                             <div className="space-y-8">
+                                {/* MAGIC INSIGHTS (AI SUMMARY) */}
+                                <div className="bg-gradient-to-br from-indigo-900 to-slate-900 p-6 rounded-3xl border border-indigo-800 shadow-lg relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                                        <Zap className="w-24 h-24 text-white" />
+                                    </div>
+                                    <div className="flex items-center justify-between mb-4 relative z-10">
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-1.5 bg-indigo-500/20 rounded-lg">
+                                                <Zap className="w-4 h-4 text-indigo-300" />
+                                            </div>
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-300">Magic Insight B2B</span>
+                                        </div>
+                                        {(!aiSummary || role === 'admin') && (
+                                            <button
+                                                onClick={handleGenerateAiSummary}
+                                                disabled={isGeneratingAi}
+                                                className="text-[10px] font-bold px-3 py-1 rounded-full bg-white/10 text-white hover:bg-white/20 transition disabled:opacity-50"
+                                            >
+                                                {isGeneratingAi ? 'Generando...' : 'Generar IA'}
+                                            </button>
+                                        )}
+                                    </div>
+                                    <div className="relative z-10">
+                                        {isGeneratingAi ? (
+                                            <div className="text-sm font-medium text-indigo-200 animate-pulse italic">
+                                                El Analista IA está interpretando los datos de la batalla...
+                                            </div>
+                                        ) : aiSummary ? (
+                                            <p className="text-sm font-medium text-white leading-relaxed">
+                                                {aiSummary}
+                                            </p>
+                                        ) : (
+                                            <p className="text-sm font-medium text-indigo-200/60 italic">
+                                                No hay un resumen generado. Haz clic en "Generar IA" para obtener un análisis mágico.
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
                                 {/* VOLATILITY CARD WITH AREA CHART */}
                                 <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-rose-50 border-rose-100' : volatility?.classification === 'moderate' ? 'bg-emerald-50 border-emerald-100' : 'bg-slate-50 border-slate-200'}`}>
                                     <div className="flex items-center justify-between mb-4">
@@ -892,9 +996,14 @@ export default function IntelligencePage() {
                                             </div>
                                         ))
                                     ) : (
-                                        <div className="text-center py-10 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-                                            <Activity className="w-8 h-8 text-slate-300 mx-auto mb-3" />
-                                            <p className="text-xs font-bold text-slate-400">No hay datos de profundidad todavía.</p>
+                                        <div className="flex flex-col items-center justify-center py-10 px-4 text-center bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
+                                            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+                                                <Activity className="w-6 h-6 text-slate-400" />
+                                            </div>
+                                            <h4 className="text-sm font-bold text-slate-800 mb-2">Aún sin profundidad</h4>
+                                            <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+                                                No hay suficientes respuestas analíticas capturadas para esta batalla en el segmento seleccionado. Se requieren más señales para desbloquear la radiografía.
+                                            </p>
                                         </div>
                                     )}
                                 </div>

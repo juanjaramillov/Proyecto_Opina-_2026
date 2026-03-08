@@ -16,7 +16,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         return (
             <div className="relative group">
                 {label && (
-                    <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                    <label className="label-sm block mb-2">
                         {label}
                     </label>
                 )}
@@ -24,10 +24,10 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
                     <select
                         ref={ref}
                         className={`
-                            appearance-none block w-full rounded-xl border border-slate-200 bg-white
-                            px-4 py-3 pr-10 text-sm font-bold text-slate-700
+                            appearance-none block w-full rounded-xl border border-stroke bg-white
+                            px-4 py-3 pr-10 text-sm font-bold text-ink
                             shadow-sm transition-all duration-200
-                            hover:border-slate-300 hover:shadow-md
+                            hover:border-primary/50 hover:shadow-md
                             focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none
                             cursor-pointer
                             ${className}
@@ -42,7 +42,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
                             ))
                             : children}
                     </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 group-hover:text-primary transition-colors">
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-muted group-hover:text-primary transition-colors">
                         <span className="material-symbols-outlined text-[20px]">expand_more</span>
                     </div>
                 </div>

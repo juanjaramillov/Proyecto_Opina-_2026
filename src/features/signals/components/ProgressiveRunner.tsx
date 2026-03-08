@@ -1,8 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BattleOption, ProgressiveBattle, VoteResult } from '../types';
 import OptionCard from './OptionCard';
-import { useAuth } from '../../auth';
 import { BrandLogo } from '../../../components/ui/BrandLogo';
 
 interface ProgressiveRunnerProps {
@@ -11,11 +10,8 @@ interface ProgressiveRunnerProps {
     onVote: (battleId: string, option_id: string, opponentId: string) => Promise<VoteResult>;
 }
 
-const SESSION_GOAL = 10;
-
 export default function ProgressiveRunner({ progressiveData, onVote }: Omit<ProgressiveRunnerProps, 'onComplete'>) {
     const candidates = progressiveData.candidates || [];
-    const { profile } = useAuth();
 
     const [round, setRound] = useState(1);
     const [champWins, setChampWins] = useState(0);
@@ -46,6 +42,8 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
         }));
     }, [memoCandidates]);
 
+    const totalRounds = useMemo(() => processedCandidates.length > 1 ? processedCandidates.length - 1 : 1, [processedCandidates]);
+
     useEffect(() => {
         if (!leftOption && processedCandidates[0]) {
             setLeftOption(processedCandidates[0]);
@@ -72,7 +70,7 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
             const winningOption = selectedOptionId === leftOption.id ? leftOption : rightOption;
             const newWins = (currentChampId === selectedOptionId) ? champWins + 1 : 1;
 
-            if (newWins >= SESSION_GOAL || round >= processedCandidates.length - 1) {
+            if (round >= totalRounds) {
                 setIsCrowned(true);
                 setChampWins(newWins);
                 setLeftOption(winningOption); // Show final champion center or reuse slot
@@ -102,7 +100,7 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
             setIsVoting(false);
             setLastWinnerId(null);
         }
-    }, [leftOption, rightOption, isVoting, progressiveData.id, round, champWins, onVote, processedCandidates, currentChampId]);
+    }, [leftOption, rightOption, isVoting, progressiveData.id, round, champWins, onVote, processedCandidates, currentChampId, totalRounds]);
 
     // Key Support
     useEffect(() => {
@@ -123,7 +121,7 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                 <p className="text-slate-500 font-medium max-w-sm mb-6">Estamos armando la próxima escalera. Vuelve en un rato.</p>
                 <button
                     onClick={() => window.location.href = '/experience'}
-                    className="px-6 py-2 bg-slate-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:bg-slate-800 transition-all active:scale-95"
+                    className="btn-primary"
                 >
                     Volver a Participa
                 </button>
@@ -169,9 +167,9 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
 
                 <div className="space-y-2">
                     <h2 className="text-4xl md:text-5xl font-black text-ink tracking-tight">
-                        {leftOption?.label} <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500">Campeón actual</span>
+                        {leftOption?.label} <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-yellow-400">Rey Absoluto</span>
                     </h2>
-                    <p className="text-lg text-muted font-medium">Coronado tras {round} enfrentamientos intensos.</p>
+                    <p className="text-lg text-slate-500 font-medium">Coronado tras {round} enfrentamientos intensos.</p>
                 </div>
 
                 {/* Simulated AI Insight */}
@@ -179,7 +177,7 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="bg-slate-50 border border-slate-100 p-6 rounded-[2rem] text-left relative overflow-hidden group shadow-sm hover:shadow-md transition-all"
+                    className="card card-pad text-left relative overflow-hidden group"
                 >
                     <div className="flex items-center gap-3 mb-3">
                         <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
@@ -188,8 +186,8 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                         <span className="text-xs font-black uppercase tracking-widest text-primary-600">AI Insight Progresivo</span>
                     </div>
 
-                    <p className="text-slate-700 font-bold leading-relaxed">
-                        Tu preferencia por <span className="text-primary-600">{leftOption?.label}</span> sugiere una prioridad crítica en <b>fiabilidad</b> y <b>experiencia de usuario</b> sobre el puro precio. En el segmento {profile?.demographics?.gender === 'm' ? 'Masculino' : (profile?.demographics?.gender === 'f' ? 'Femenino' : 'Global')} de {profile?.demographics?.birthYear ? (new Date().getFullYear() - profile.demographics.birthYear) : '25-34'} años, esta marca mantiene un <b>Momentum de +{Math.floor(Math.random() * 8) + 2}.5%</b> esta semana.
+                    <p className="text-slate-700 font-bold leading-relaxed md:text-lg">
+                        Has coronado a <span className="text-primary-600 font-black">{leftOption?.label}</span> como el Rey absoluto de esta categoría. El <span className="text-emerald-600 font-black">{40 + Math.floor(Math.random() * 20)}%</span> de la comunidad Opina+ también respaldó a este campeón en sus propios torneos.
                     </p>
 
                     <div className="mt-4 flex gap-4">
@@ -207,7 +205,7 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                 <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                     <button
                         onClick={() => window.location.reload()}
-                        className="h-14 rounded-2xl border border-slate-200 bg-white font-black text-slate-900 hover:bg-slate-50 transition-all active:scale-95"
+                        className="btn-secondary w-full"
                     >
                         Volver al Hub
                     </button>
@@ -220,7 +218,7 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                             setRightOption(processedCandidates[1]);
                             setCurrentChampId(null);
                         }}
-                        className="h-14 rounded-2xl bg-slate-900 text-white font-black hover:opacity-90 transition-all active:scale-95 shadow-xl shadow-slate-900/20"
+                        className="btn-primary w-full"
                     >
                         Jugar de nuevo
                     </button>
@@ -234,11 +232,11 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
             <div className="px-4 pt-4 pb-6 text-center">
                 <div className="text-center">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                        <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500" />
+                        <span className="inline-block w-2 h-2 rounded-full bg-gradient-brand shadow-sm" />
                         Versus Progresivo
                     </div>
 
-                    <h1 className="mt-5 text-4xl md:text-5xl font-black tracking-tight text-ink leading-[1.05]">
+                    <h2 className="h2 mt-6">
                         {(() => {
                             const ironicPrefixes = ["Dilema de", "Terapia de", "Diferendo de", "Sínodo de", "Anatomía de", "Fricción de", "Debate de"];
                             const rawTitle = progressiveData.title || "Guerra del Canal";
@@ -251,21 +249,28 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                             }
 
                             const words = refinedTitle.split(' ');
+
+                            if (words.length <= 1) {
+                                return (
+                                    <span className="bg-clip-text text-transparent bg-gradient-brand">{refinedTitle}</span>
+                                );
+                            }
+
                             const lastWord = words.pop() || '';
                             const firstPart = words.join(' ');
                             return (
                                 <>
-                                    {firstPart} <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500">{lastWord}</span>
+                                    {firstPart} <span className="bg-clip-text text-transparent bg-gradient-brand">{lastWord}</span>
                                 </>
                             );
                         })()}
-                    </h1>
+                    </h2>
 
-                    <p className="mt-3 text-base md:text-lg font-medium text-slate-600">
+                    <p className="body-base mt-4 md:text-lg">
                         El campeón se queda. Tú decides si lo merece.
                     </p>
 
-                    <div className="mt-2 text-sm font-medium text-slate-500">
+                    <div className="body-caption mt-2">
                         Señala al ganador y el retador cambia automáticamente.
                     </div>
                 </div>
@@ -277,13 +282,14 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                 <div className="max-w-xl mx-auto mb-8">
                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
                         <span>Progreso</span>
-                        <span>{round}/{SESSION_GOAL}</span>
+                        <span>{round}/{totalRounds}</span>
                     </div>
 
                     <div className="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden">
-                        <div
-                            className="h-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500 ease-out"
-                            style={{ width: `${Math.round(((round - 1) / SESSION_GOAL) * 100)}%` }}
+                        <motion.div
+                            className="h-full rounded-full bg-gradient-brand transition-all duration-500 ease-out"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${Math.round(((round - 1) / totalRounds) * 100)}%` }}
                         />
                     </div>
 
@@ -299,7 +305,7 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
                             key={round}
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="h-20 w-20 md:h-24 md:w-24 bg-gradient-to-br from-blue-600 to-emerald-500 rounded-full border-[6px] md:border-8 border-white shadow-[0_25px_65px_rgba(37,99,235,0.35)] flex items-center justify-center"
+                            className="h-20 w-20 md:h-24 md:w-24 bg-gradient-brand rounded-full border-[6px] md:border-8 border-white shadow-[0_25px_65px_rgba(37,99,235,0.35)] flex items-center justify-center"
                         >
                             <span className="relative text-2xl md:text-3xl font-black tracking-tighter text-white italic drop-shadow-md">VS</span>
                         </motion.div>
@@ -307,66 +313,76 @@ export default function ProgressiveRunner({ progressiveData, onVote }: Omit<Prog
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-stretch">
                         {/* Left Option */}
-                        <motion.div
-                            initial={{ x: -20, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            key={`left-${leftOption?.id}`}
-                            className="relative"
-                        >
-                            {round > 1 && currentChampId === leftOption?.id && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 bg-gradient-to-r from-blue-600 to-emerald-500 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg border-2 border-white">
-                                    Campeón actual
-                                </div>
-                            )}
-                            {round > 1 && currentChampId !== leftOption?.id && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg border-2 border-white">
-                                    Retador
-                                </div>
-                            )}
-                            {leftOption && (
-                                <OptionCard
-                                    option={leftOption}
-                                    onClick={() => handleVote(leftOption.id)}
-                                    disabled={isVoting}
-                                    isSelected={lastWinnerId === leftOption.id}
-                                    showResult={isVoting}
-                                    percent={null}
-                                    isChampion={currentChampId === leftOption.id}
-                                    theme={theme}
-                                />
-                            )}
-                        </motion.div>
+                        <AnimatePresence mode="popLayout">
+                            <motion.div
+                                initial={{ x: -40, opacity: 0, scale: 0.95 }}
+                                animate={{ x: 0, opacity: 1, scale: 1 }}
+                                exit={{ x: -20, opacity: 0, scale: 0.9 }}
+                                transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                                key={`left-${leftOption?.id}`}
+                                className="relative w-full"
+                            >
+                                {round > 1 && currentChampId === leftOption?.id && (
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-amber-500/30 border-2 border-white">
+                                        <span className="material-symbols-outlined text-[12px] align-middle mr-1">social_leaderboard</span>
+                                        Rey Actual
+                                    </div>
+                                )}
+                                {round > 1 && currentChampId !== leftOption?.id && (
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white">
+                                        Retador
+                                    </div>
+                                )}
+                                {leftOption && (
+                                    <OptionCard
+                                        option={leftOption}
+                                        onClick={() => handleVote(leftOption.id)}
+                                        disabled={isVoting}
+                                        isSelected={lastWinnerId === leftOption.id}
+                                        showResult={isVoting}
+                                        percent={null}
+                                        isChampion={currentChampId === leftOption.id}
+                                        theme={theme}
+                                    />
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
 
                         {/* Right Option */}
-                        <motion.div
-                            initial={{ x: 20, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            key={`right-${rightOption?.id}`}
-                            className="relative"
-                        >
-                            {round > 1 && currentChampId === rightOption?.id && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 bg-gradient-to-r from-blue-600 to-emerald-500 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg border-2 border-white">
-                                    Campeón actual
-                                </div>
-                            )}
-                            {round > 1 && currentChampId !== rightOption?.id && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg border-2 border-white">
-                                    Retador
-                                </div>
-                            )}
-                            {rightOption && (
-                                <OptionCard
-                                    option={rightOption}
-                                    onClick={() => handleVote(rightOption.id)}
-                                    disabled={isVoting}
-                                    isSelected={lastWinnerId === rightOption.id}
-                                    showResult={isVoting}
-                                    percent={null}
-                                    isChampion={currentChampId === rightOption.id}
-                                    theme={theme}
-                                />
-                            )}
-                        </motion.div>
+                        <AnimatePresence mode="popLayout">
+                            <motion.div
+                                initial={{ x: 50, opacity: 0, scale: 0.9 }}
+                                animate={{ x: 0, opacity: 1, scale: 1 }}
+                                exit={{ x: 30, opacity: 0, scale: 0.9 }}
+                                transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                                key={`right-${rightOption?.id}`}
+                                className="relative w-full"
+                            >
+                                {round > 1 && currentChampId === rightOption?.id && (
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-amber-500/30 border-2 border-white">
+                                        <span className="material-symbols-outlined text-[12px] align-middle mr-1">social_leaderboard</span>
+                                        Rey Actual
+                                    </div>
+                                )}
+                                {round > 1 && currentChampId !== rightOption?.id && (
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white">
+                                        Retador
+                                    </div>
+                                )}
+                                {rightOption && (
+                                    <OptionCard
+                                        option={rightOption}
+                                        onClick={() => handleVote(rightOption.id)}
+                                        disabled={isVoting}
+                                        isSelected={lastWinnerId === rightOption.id}
+                                        showResult={isVoting}
+                                        percent={null}
+                                        isChampion={currentChampId === rightOption.id}
+                                        theme={theme}
+                                    />
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
 
                     {/* Keyboard Hints */}

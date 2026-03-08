@@ -70,41 +70,48 @@ const DepthWizard: React.FC<DepthWizardProps> = ({
         .filter(Boolean) as string[];
 
     return (
-        <div className="w-full max-w-2xl mx-auto bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-slate-100 min-h-[380px] flex flex-col">
-            {!isFinished && (
-                <div className="mb-6">
-                    <h1 className="text-sm font-black text-primary-500 uppercase tracking-widest mb-4">
-                        {packTitle}
-                    </h1>
-                    <DepthHUD
-                        currentStep={step + 1}
-                        totalSteps={questions.length}
-                        onExit={onCancel}
-                    />
-                </div>
-            )}
+        <div className="w-full max-w-2xl mx-auto bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border border-slate-100 min-h-[400px] flex flex-col relative overflow-hidden group">
+            {/* Soft decorative background glows for Light Theme */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-100/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-50/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700" />
 
-            <div className="flex-1 flex flex-col justify-center">
-                <AnimatePresence mode="wait">
-                    {isFinished ? (
-                        <DepthComplete
-                            key="complete"
-                            onGoToHub={onComplete}
-                            summary={summary}
+            <div className="relative z-10 flex-1 flex flex-col">
+                {!isFinished && (
+                    <div className="mb-8 border-b border-slate-100 pb-6">
+                        <h1 className="text-xs font-black text-primary-600 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span className="inline-block w-2 h-2 rounded-full bg-gradient-brand shadow-[0_0_8px_rgba(59,130,246,0.3)]" />
+                            {packTitle}
+                        </h1>
+                        <DepthHUD
+                            currentStep={step + 1}
+                            totalSteps={questions.length}
+                            onExit={onCancel}
                         />
-                    ) : (
-                        <DepthQuestionCard
-                            key={questions[step].id}
-                            question={questions[step]}
-                            onAnswer={handleAnswer}
-                            onBack={handleBack}
-                            isFirst={step === 0}
-                            isLast={step === questions.length - 1}
-                            currentValue={answers[questions[step].id]}
-                            isSubmitting={isSubmitting}
-                        />
-                    )}
-                </AnimatePresence>
+                    </div>
+                )}
+
+                <div className="flex-1 flex flex-col justify-center">
+                    <AnimatePresence mode="wait">
+                        {isFinished ? (
+                            <DepthComplete
+                                key="complete"
+                                onGoToHub={onComplete}
+                                summary={summary}
+                            />
+                        ) : (
+                            <DepthQuestionCard
+                                key={questions[step].id}
+                                question={questions[step]}
+                                onAnswer={handleAnswer}
+                                onBack={handleBack}
+                                isFirst={step === 0}
+                                isLast={step === questions.length - 1}
+                                currentValue={answers[questions[step].id]}
+                                isSubmitting={isSubmitting}
+                            />
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
         </div>
     );

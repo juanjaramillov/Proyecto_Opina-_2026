@@ -42,3 +42,4 @@ supabase/migrations/_history/
 supabase/.temp/
 supabase/.branches/
 supabase/.cache/
+.vercel

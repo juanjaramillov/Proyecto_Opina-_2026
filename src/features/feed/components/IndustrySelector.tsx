@@ -95,7 +95,7 @@ export function IndustrySelector({
                         >
                             <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg ${selectedParentId === 'mix'
                                 ? 'bg-primary-500 text-white'
-                                : 'bg-slate-50 text-slate-400 group-hover:text-white'
+                                : 'bg-slate-50 text-slate-600 group-hover:text-white'
                                 }`}>
                                 {selectedParentId !== 'mix' && (
                                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl -z-10 bg-primary-600" />
@@ -126,7 +126,7 @@ export function IndustrySelector({
                             >
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg ${isActive
                                     ? 'bg-primary-500 text-white'
-                                    : 'bg-slate-50 text-slate-400 group-hover:text-white'
+                                    : 'bg-slate-50 text-slate-600 group-hover:text-white'
                                     }`}>
                                     {!isActive && (
                                         <div className="absolute inset-0 border-2 border-transparent group-hover:border-[var(--hover-color)] opacity-0 group-hover:opacity-40 rounded-2xl transition-opacity duration-300 -z-10" style={{ borderColor: t.theme.primary }} />
@@ -242,7 +242,7 @@ export function IndustrySelector({
                                 >
                                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isSelected
                                         ? 'bg-primary-500 text-white'
-                                        : 'bg-slate-50 text-slate-400 group-hover:bg-primary-500 group-hover:text-white'
+                                        : 'bg-slate-50 text-slate-600 group-hover:bg-primary-500 group-hover:text-white'
                                         }`}>
                                         <span className="material-symbols-outlined text-lg">
                                             {sub.icon || 'label'}

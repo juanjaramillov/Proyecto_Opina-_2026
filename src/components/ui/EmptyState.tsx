@@ -16,19 +16,19 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     icon = 'inbox'
 }) => {
     return (
-        <div className="flex flex-col items-center justify-center p-12 text-center bg-white border border-slate-100 rounded-3xl shadow-sm animate-in fade-in duration-500">
-            <div className="w-16 h-16 bg-slate-50 flex items-center justify-center rounded-2xl mb-6">
-                <span className="material-symbols-outlined text-4xl text-slate-300">
+        <div className="flex flex-col items-center justify-center p-12 text-center bg-white border border-stroke rounded-[2rem] shadow-sm animate-in fade-in duration-500">
+            <div className="w-16 h-16 bg-surface2 border border-stroke flex items-center justify-center rounded-2xl mb-6 shadow-inner">
+                <span className="material-symbols-outlined text-4xl text-text-muted">
                     {icon}
                 </span>
             </div>
 
-            <h3 className="text-xl font-black text-ink mb-2">
+            <h3 className="h3 mb-2">
                 {title}
             </h3>
 
             {description && (
-                <p className="text-muted font-medium max-w-sm mx-auto mb-6">
+                <p className="body-base max-w-sm mx-auto mb-6">
                     {description}
                 </p>
             )}
@@ -36,7 +36,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             {actionLabel && onAction && (
                 <button
                     onClick={onAction}
-                    className="px-6 py-3 bg-ink hover:bg-slate-800 active:bg-slate-900 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg active:scale-95"
+                    className="btn-primary px-6 py-3"
                 >
                     {actionLabel}
                 </button>

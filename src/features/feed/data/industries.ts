@@ -173,10 +173,40 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
         },
         "subcategories": [
             {
-                "id": "marcas",
-                "label": "Marcas",
-                "slug": "marcas",
-                "icon": "checkroom"
+                "id": "ropa_basica",
+                "label": "Ropa básica",
+                "slug": "ropa-basica",
+                "icon": "apparel"
+            },
+            {
+                "id": "fast_fashion",
+                "label": "Fast fashion",
+                "slug": "fast-fashion",
+                "icon": "shopping_bag"
+            },
+            {
+                "id": "calzado",
+                "label": "Calzado",
+                "slug": "calzado",
+                "icon": "ice_skating"
+            },
+            {
+                "id": "deportivo",
+                "label": "Deportivo",
+                "slug": "deportivo",
+                "icon": "sports_tennis"
+            },
+            {
+                "id": "outdoor",
+                "label": "Outdoor",
+                "slug": "outdoor",
+                "icon": "landscape"
+            },
+            {
+                "id": "accesorios",
+                "label": "Accesorios",
+                "slug": "accesorios",
+                "icon": "watch"
             }
         ]
     },
@@ -245,6 +275,12 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "label": "Autos (marcas)",
                 "slug": "autos-marcas",
                 "icon": "directions_car"
+            },
+            {
+                "id": "automotoras",
+                "label": "Automotoras (concesionarias)",
+                "slug": "automotoras",
+                "icon": "car_rental"
             }
         ]
     },
@@ -384,20 +420,20 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "icon": "hotel"
             },
             {
-                "id": "balnearios",
-                "label": "Balnearios",
-                "slug": "balnearios",
-                "icon": "hot_tub"
+                "id": "agencias_otas",
+                "label": "OTAs / Agencias",
+                "slug": "agencias-otas",
+                "icon": "travel_explore"
             },
             {
-                "id": "playas",
-                "label": "Playas",
-                "slug": "playas",
+                "id": "destinos_playa",
+                "label": "Destinos (Playa)",
+                "slug": "destinos-playa",
                 "icon": "beach_access"
             },
             {
                 "id": "destinos_urbanos",
-                "label": "Destinos urbanos",
+                "label": "Destinos (Urbanos)",
                 "slug": "destinos-urbanos",
                 "icon": "location_city"
             },
@@ -406,6 +442,74 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "label": "Lagos y montaña",
                 "slug": "lagos-y-montana",
                 "icon": "landscape"
+            },
+            {
+                "id": "escapadas_termas",
+                "label": "Escapadas / Termas",
+                "slug": "escapadas-termas",
+                "icon": "hot_tub"
+            }
+        ]
+    },
+    "belleza": {
+        "id": "cat-belleza",
+        "title": "Belleza & Cuidado",
+        "subtitle": "Rutinas de Skincare y verse bien.",
+        "theme": {
+            "primary": "#f43f5e",
+            "accent": "#f43f5e",
+            "bgGradient": "from-[#f43f5e]/10 to-white",
+            "icon": "face_retouching_natural"
+        },
+        "subcategories": [
+            {
+                "id": "cosmeticos",
+                "label": "Cosméticos / Maquillaje",
+                "slug": "cosmeticos",
+                "icon": "brush"
+            },
+            {
+                "id": "skincare",
+                "label": "Skincare (cuidado de la piel)",
+                "slug": "skincare",
+                "icon": "spa"
+            },
+            {
+                "id": "perfumes",
+                "label": "Perfumes",
+                "slug": "perfumes",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "educacion": {
+        "id": "cat-educacion",
+        "title": "Educación",
+        "subtitle": "Aprender, sufrir y el título final.",
+        "theme": {
+            "primary": "#0369a1",
+            "accent": "#0369a1",
+            "bgGradient": "from-[#0369a1]/10 to-white",
+            "icon": "school"
+        },
+        "subcategories": [
+            {
+                "id": "universidades",
+                "label": "Universidades",
+                "slug": "universidades",
+                "icon": "account_balance"
+            },
+            {
+                "id": "institutos",
+                "label": "Institutos / CFT",
+                "slug": "institutos",
+                "icon": "menu_book"
+            },
+            {
+                "id": "preuniversitarios",
+                "label": "Preuniversitarios",
+                "slug": "preuniversitarios",
+                "icon": "app_registration"
             }
         ]
     },
@@ -455,7 +559,7 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
     },
     "vida_diaria": {
         "id": "cat-vida-diaria",
-        "title": "Vida diaria",
+        "title": "Tu Pulso",
         "subtitle": "Termómetro humano, sin chamullo.",
         "theme": {
             "primary": "#334155",

@@ -130,6 +130,10 @@ export const adminInvitesService = {
             return { success: false, error: error.message || 'Error de conexión con la función' };
         }
 
+        if (data && !data.success) {
+            return { success: false, error: data.error || 'Error interno en la función' };
+        }
+
         return data;
     }
 };

@@ -550,5 +550,45 @@ export const platformService = {
         }
 
         return data || [];
+    },
+
+    getBattleAiSummary: async (battleSlug: string): Promise<string | null> => {
+        const { data, error } = await (sb as any)
+            .from('battles')
+            .select('ai_summary')
+            .eq('slug', battleSlug)
+            .single();
+            
+        if (error) {
+            logger.error('[PlatformService] Error fetching AI summary:', error);
+            return null;
+        }
+        return data?.ai_summary || null;
+    },
+
+    generateAiSummary: async (battleSlug: string): Promise<string | null> => {
+        const { data: { session } } = await sb.auth.getSession();
+        const token = session?.access_token;
+        if (!token) return null;
+
+        // Use the global env variables or fallback.
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://neltawfiwpvunkwyvfse.supabase.co';
+
+        const response = await fetch(`${supabaseUrl}/functions/v1/insights-generator`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ battle_slug: battleSlug })
+        });
+        
+        if (!response.ok) {
+            logger.error('[PlatformService] Error generating AI summary:', await response.text());
+            return null;
+        }
+        
+        const result = await response.json();
+        return result.ai_summary || null;
     }
 } as const;

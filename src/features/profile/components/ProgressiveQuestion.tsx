@@ -59,8 +59,8 @@ export default function ProgressiveQuestion({ currentData }: Props) {
     return (
         <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4 px-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                <h3 className="text-xs font-black text-muted uppercase tracking-widest">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <h3 className="text-xs font-black text-text-muted uppercase tracking-widest">
                     Datos del Perfil
                 </h3>
             </div>
@@ -75,19 +75,19 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                             layout
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className={`p-3 rounded-xl border transition-all group relative ${isAnswered ? 'bg-emerald-50/50 border-emerald-100' : 'bg-white border-stroke border-dotted hover:border-primary/30 hover:bg-surface2'}`}
+                            className={`p-4 rounded-xl border transition-all group relative ${isAnswered ? 'bg-secondary/5 border-secondary/20' : 'bg-white border-stroke border-dotted hover:border-primary/30 hover:bg-surface2'}`}
                         >
-                            <div className="flex justify-between items-start mb-2">
+                            <div className="flex justify-between items-start mb-3">
                                 <div>
-                                    <h3 className={`text-xs font-black transition-colors ${isAnswered ? 'text-emerald-700' : 'text-ink group-hover:text-primary'}`}>
+                                    <h3 className={`text-xs font-black tracking-wide transition-colors ${isAnswered ? 'text-secondary' : 'text-ink group-hover:text-primary'}`}>
                                         {question.label}
                                     </h3>
                                     {!isAnswered && (
-                                        <p className="text-[10px] text-text-secondary leading-tight">{question.description}</p>
+                                        <p className="text-[10px] text-text-secondary leading-tight mt-1">{question.description}</p>
                                     )}
                                 </div>
                                 {isAnswered && (
-                                    <span className="material-symbols-outlined text-[14px] text-emerald-500">check_circle</span>
+                                    <span className="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
                                 )}
                             </div>
 
@@ -98,9 +98,9 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                                         min="1920"
                                         max={new Date().getFullYear() - 12}
                                         value={String(currentData[question.key] || "")}
-                                        className={`w-full text-xs font-bold rounded-lg px-3 py-2 focus:outline-none focus:ring-1 transition-colors ${isAnswered
-                                            ? 'bg-white border border-emerald-200 text-emerald-800 focus:border-emerald-500 focus:ring-emerald-200'
-                                            : 'bg-surface border border-stroke text-ink focus:border-primary/50 focus:ring-primary/20 hover:bg-slate-50'
+                                        className={`w-full text-xs font-bold rounded-lg px-3 py-2.5 focus:outline-none focus:ring-1 transition-colors outline-none shadow-sm ${isAnswered
+                                            ? 'bg-white border border-secondary/20 text-secondary focus:border-secondary focus:ring-secondary/20'
+                                            : 'bg-white border border-stroke text-ink focus:border-primary focus:ring-primary/20 hover:bg-surface2'
                                             }`}
                                         onChange={(e) => handleAnswer(question.key, e.target.value)}
                                         placeholder="Ej: 1990"
@@ -109,9 +109,9 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                                     <>
                                         <select
                                             onChange={(e) => handleAnswer(question.key, e.target.value)}
-                                            className={`w-full appearance-none text-xs font-bold rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-1 cursor-pointer transition-colors ${isAnswered
-                                                ? 'bg-white border border-emerald-200 text-emerald-800 focus:border-emerald-500 focus:ring-emerald-200'
-                                                : 'bg-surface border border-stroke text-ink focus:border-primary/50 focus:ring-primary/20 hover:bg-slate-50'
+                                            className={`w-full appearance-none text-xs font-bold rounded-lg px-3 py-2.5 pr-8 focus:outline-none focus:ring-1 cursor-pointer transition-colors shadow-sm outline-none ${isAnswered
+                                                ? 'bg-white border border-secondary/20 text-secondary focus:border-secondary focus:ring-secondary/20'
+                                                : 'bg-white border border-stroke text-ink focus:border-primary focus:ring-primary/20 hover:bg-surface2'
                                                 }`}
                                             value={String(currentData[question.key] || "")}
                                         >
@@ -120,7 +120,7 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                                                 <option key={opt} value={opt}>{opt}</option>
                                             ))}
                                         </select>
-                                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-muted flex items-center">
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted flex items-center">
                                             <span className="material-symbols-outlined text-[16px]">expand_more</span>
                                         </div>
                                     </>

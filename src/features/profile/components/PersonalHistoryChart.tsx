@@ -36,17 +36,20 @@ const PersonalHistoryChart: React.FC<Props> = ({ data }) => {
     const labels = sortedData.map(d => new Date(d.date).toLocaleDateString(undefined, { day: '2-digit', month: 'short' }));
     const scores = sortedData.map(d => d.avg_score);
 
+    // Using values that align with the brand (you could also read CSS variables here)
+    const brandColor = '#4318FF'; // Corporate primary
+
     const chartData = {
         labels,
         datasets: [
             {
                 label: 'Valoración Media',
                 data: scores,
-                borderColor: '#6366f1', // primary-500
-                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                borderColor: brandColor,
+                backgroundColor: 'rgba(67, 24, 255, 0.05)',
                 borderWidth: 3,
                 pointBackgroundColor: '#fff',
-                pointBorderColor: '#6366f1',
+                pointBorderColor: brandColor,
                 pointBorderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 6,
@@ -64,11 +67,11 @@ const PersonalHistoryChart: React.FC<Props> = ({ data }) => {
                 display: false,
             },
             tooltip: {
-                backgroundColor: '#1e293b',
+                backgroundColor: '#1E1B4B', // ink equivalent
                 titleFont: { size: 12, weight: 'bold' as const },
-                bodyFont: { size: 12 },
+                bodyFont: { size: 12, weight: 'bold' as const },
                 padding: 12,
-                cornerRadius: 8,
+                cornerRadius: 12,
                 displayColors: false,
             },
         },
@@ -79,19 +82,19 @@ const PersonalHistoryChart: React.FC<Props> = ({ data }) => {
                 },
                 ticks: {
                     font: { size: 10, weight: 'bold' as const },
-                    color: '#94a3b8',
+                    color: '#64748b', // text-muted
                 },
             },
             y: {
                 min: 0,
                 max: 10,
                 grid: {
-                    color: '#f1f5f9',
+                    color: '#f1f5f9', // stroke
                 },
                 ticks: {
                     stepSize: 2,
                     font: { size: 10, weight: 'bold' as const },
-                    color: '#94a3b8',
+                    color: '#64748b', // text-muted
                 },
             },
         },

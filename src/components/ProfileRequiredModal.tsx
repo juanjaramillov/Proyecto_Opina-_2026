@@ -24,7 +24,7 @@ export function ProfileRequiredModal({ onClose, onCompleteProfile }: Props) {
                 <div className="space-y-3">
                     <button
                         onClick={onCompleteProfile}
-                        className="w-full py-3.5 bg-gradient-to-r from-primary-600 to-emerald-500 hover:opacity-95 text-white font-black rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-primary-500/20 active:scale-95 flex items-center justify-center gap-2"
+                        className="btn-primary w-full py-3.5 flex items-center justify-center gap-2 text-lg"
                     >
                         Subir peso de señal
                     </button>

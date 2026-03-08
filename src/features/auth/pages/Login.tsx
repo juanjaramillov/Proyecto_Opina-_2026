@@ -75,7 +75,7 @@ export default function LoginPage() {
                         </div>
                     )}
                     <span className="text-slate-600 font-medium">
-                        Bienvenido de vuelta. Tu señal mueve la aguja del mercado.
+                        Bienvenido de vuelta. Tu opinión define la tendencia.
                     </span>
                 </div>
             }

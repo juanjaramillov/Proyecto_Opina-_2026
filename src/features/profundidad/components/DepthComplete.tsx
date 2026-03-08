@@ -49,7 +49,7 @@ const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, su
                 {onNextPack ? (
                     <button
                         onClick={onNextPack}
-                        className="w-full py-5 bg-gradient-to-r from-blue-600 to-emerald-500 text-white rounded-[1.5rem] font-black text-base uppercase tracking-widest shadow-xl shadow-primary-500/20 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95"
+                        className="w-full py-5 bg-gradient-brand text-white rounded-[1.5rem] font-black text-base uppercase tracking-widest shadow-xl shadow-primary-500/20 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95"
                     >
                         Siguiente pack
                     </button>

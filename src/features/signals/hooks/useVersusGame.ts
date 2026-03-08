@@ -6,8 +6,6 @@ import { Battle, BattleOption, ProgressiveBattle, VoteResult, BattleMomentum } f
 import { logger } from '../../../lib/logger';
 import { supabase } from '../../../supabase/client';
 
-const NEXT_INTERSTITIAL_MS = 200;
-
 interface UseVersusGameProps {
     battles: Battle[];
     onVote: (battleId: string, optionId: string, opponentId: string) => Promise<VoteResult>;
@@ -20,7 +18,6 @@ interface UseVersusGameProps {
 
     // UX controls
     hideProgress?: boolean;
-    disableInsights?: boolean;
     onQueueComplete?: (history: any[]) => void;
     isSubmitting?: boolean;
 }
@@ -35,7 +32,6 @@ export function useVersusGame({
     enableAutoAdvance = true,
     isQueueFinite = false,
     hideProgress = false,
-    disableInsights = false,
     onQueueComplete,
     isSubmitting = false,
 }: UseVersusGameProps) {
@@ -44,7 +40,7 @@ export function useVersusGame({
 
     const [idx, setIdx] = useState(0);
     const [result, setResult] = useState<VoteResult | null>(null);
-    const [showInsight, setShowInsight] = useState(false);
+    const [selectedId, setSelectedId] = useState<string | null>(null);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [showProfileModal, setShowProfileModal] = useState(false);
     const [sessionHistory, setSessionHistory] = useState<Array<{
@@ -102,14 +98,17 @@ export function useVersusGame({
         }
     };
 
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
     useEffect(() => {
         return () => resetTimers();
     }, []);
 
     const goNext = () => {
         setResult(null);
-        setShowInsight(false);
+        setSelectedId(null);
         setMomentum(null);
+        setIsTransitioning(false);
 
         // Queue behavior
         if (mode !== 'progressive') {
@@ -129,7 +128,7 @@ export function useVersusGame({
 
     const vote = async (optionId: string) => {
         if (!effectiveBattle) return;
-        if (isSubmitting) return;
+        if (isSubmitting || isTransitioning) return;
 
         // 🛡️ SECURITY CHECK: Real session required (Bloque 6B)
         // Delegated to profile check from useAuth for UI purposes
@@ -147,6 +146,8 @@ export function useVersusGame({
             setShowProfileModal(true);
             return;
         }
+
+        setSelectedId(optionId);
 
         const opponent = effectiveBattle.options.find(o => o.id !== optionId);
         if (!opponent && effectiveBattle.options.length > 1) return;
@@ -200,38 +201,32 @@ export function useVersusGame({
             // AUTO-ADVANCE LOGIC
             if (enableAutoAdvance) {
                 resetTimers();
+                setIsTransitioning(true);
 
-                // Fetch Momentum Context Post-Vote
-                try {
-                    const { data: momData, error: momError } = await (supabase.rpc as any)('get_battle_momentum', { p_battle_id: effectiveBattle.id });
-                    if (!momError && momData) {
-                        setMomentum(momData as BattleMomentum);
-                    }
-                } catch (e) {
-                    logger.warn("Failed to fetch momentum", e);
-                }
-
-                // Add an explicit delay here to allow the user to read the momentum feedback.
-                // 3500ms gives time to see the percentages/momentum/insight before swiping
-                const hasFeedback = !!momentum || (effectiveBattle.insights && effectiveBattle.insights.length > 0);
-                const delayMs = hasFeedback ? 3500 : (autoNextMs ?? 1800);
-
+                // Simply wait for autoNextMs then go to the next battle
+                // DONT BLOCK THE TIMER!
+                const delayMs = autoNextMs ?? 3500;
                 timeoutRef.current = window.setTimeout(() => {
-                    if (!disableInsights && effectiveBattle.insights?.length) {
-                        setShowInsight(true);
-
-                        timeoutRef.current = window.setTimeout(() => {
-                            goNext();
-                        }, NEXT_INTERSTITIAL_MS);
-                    } else {
-                        goNext();
-                    }
+                    goNext();
                 }, delayMs);
+
+                // Fetch Momentum Context Post-Vote asynchronously without blocking
+                (async () => {
+                    try {
+                        const { data: momData, error: momError } = await (supabase.rpc as any)('get_battle_momentum', { p_battle_id: effectiveBattle.id });
+                        if (!momError && momData) {
+                            setMomentum(momData as BattleMomentum);
+                        }
+                    } catch (e) {
+                        logger.warn("Failed to fetch momentum", e);
+                    }
+                })();
             }
         } catch (err) {
             logger.error("Vote processing failed:", err);
             const msg = formatKnownError(err) ?? 'No se pudo registrar tu señal.';
             notifyService.error(msg);
+            setIsTransitioning(false);
             // We do NOT call setResult, so the UI stays in 'voting' phase for the same battle.
         }
     };
@@ -255,21 +250,20 @@ export function useVersusGame({
         idx,
         vote,
         result,
-        showInsight,
         showAuthModal,
         setShowAuthModal,
         showProfileModal,
         setShowProfileModal,
         hideProgress,
-        disableInsights,
         profile,
         sessionHistory,
         momentum,
+        isTransitioning,
 
         // Dummies for VersusGame.tsx compatibility
         locked: false,
         lockedByLimit: false,
-        selected: null as string | null,
+        selected: selectedId,
         phase: (result ? 'result' : 'voting') as 'idle' | 'voting' | 'result' | 'next',
         total: battles.length,
         streak: sessionHistory.length,

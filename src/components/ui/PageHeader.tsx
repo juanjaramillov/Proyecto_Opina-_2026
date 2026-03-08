@@ -23,7 +23,7 @@ export default function PageHeader({
 }: PageHeaderProps) {
     const base =
         variant === "card"
-            ? "bg-white p-6 rounded-3xl shadow-sm border border-slate-100"
+            ? "bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 backdrop-blur-sm"
             : "pb-4 border-b border-slate-200";
 
     return (

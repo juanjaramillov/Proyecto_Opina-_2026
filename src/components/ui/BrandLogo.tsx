@@ -39,24 +39,23 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
     const domainToTry = cleanBrandDomain || guessBrandDomain(name);
 
-    const clearbitUrl = `https://logo.clearbit.com/${domainToTry}?size=512`;
     const brandfetchUrl = `https://cdn.brandfetch.io/${domainToTry}`;
+    const clearbitUrl = `https://logo.clearbit.com/${domainToTry}?size=512`;
     const googleFaviconUrl = `https://www.google.com/s2/favicons?domain=${domainToTry}&sz=256`;
 
     const urlsToTry = [
         imageUrl,
-        clearbitUrl,
         brandfetchUrl,
-        googleFaviconUrl
+        googleFaviconUrl,
+        clearbitUrl
     ].filter(Boolean) as string[];
 
     const currentUrl = logoIndex < urlsToTry.length ? urlsToTry[logoIndex] : null;
 
     if (!currentUrl) {
         return (
-            <div className={`flex items-center gap-2 px-3 py-2 rounded-full bg-white border border-slate-100 shadow-sm ${fallbackClassName}`}>
-                <span className="inline-block w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500" />
-                <span>{name}</span>
+            <div className={`flex items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800 font-extrabold shadow-inner w-16 h-16 text-2xl ${fallbackClassName}`}>
+                {name ? name.trim().charAt(0).toUpperCase() : '?'}
             </div>
         );
     }

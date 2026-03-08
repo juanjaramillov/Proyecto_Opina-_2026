@@ -312,7 +312,7 @@ export default function ProfileWizard() {
                                 (step === 4 && !isStep4Valid) ||
                                 loading
                             }
-                            className="btn-primary w-full py-4 rounded-2xl font-black tracking-wider uppercase text-sm disabled:opacity-30 shadow-xl shadow-primary-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="btn-primary w-full uppercase tracking-wider text-sm flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <>

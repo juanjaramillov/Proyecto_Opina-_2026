@@ -152,11 +152,11 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                     >
                         <div className="text-center mb-8">
                             <div className="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary-600">
-                                <span className="material-symbols-rounded text-3xl">fingerprint</span>
+                                <span className="material-symbols-rounded text-3xl">badge</span>
                             </div>
-                            <h2 id="onboarding-title" className="text-2xl font-black text-slate-900 tracking-tight">Identidad</h2>
+                            <h2 id="onboarding-title" className="text-2xl font-black text-slate-900 tracking-tight">Elige tu Alias</h2>
                             <p className="text-sm text-slate-500 font-medium mt-2">
-                                Para una opinión transparente, necesitamos verificar que eres real.
+                                Tu identidad real siempre será privada. Elige tu alias público.
                             </p>
                         </div>
 
@@ -204,16 +204,16 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             {mode === 'register' && (
                                 <>
                                     <div>
-                                        <label htmlFor="nickname" className="sr-only">Nickname</label>
+                                        <label htmlFor="nickname" className="sr-only">Alias</label>
                                         <input
                                             id="nickname"
                                             type="text"
-                                            placeholder="Nickname"
+                                            placeholder="Alias"
                                             value={nickname}
                                             onChange={(e) => setNickname(e.target.value)}
                                             className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                         />
-                                        <p className="mt-1 ml-2 text-[10px] text-slate-400 font-medium">Tu identidad real se guarda aparte. Aquí manda tu nickname.</p>
+                                        <p className="mt-1 ml-2 text-[10px] text-slate-400 font-medium">Tu identidad real siempre será privada.</p>
                                     </div>
                                     <div>
                                         <label htmlFor="inviteCode" className="sr-only">Código de invitación</label>
@@ -240,11 +240,11 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                 />
                             </div>
                             <div>
-                                <label htmlFor="password" className="sr-only">Tu contraseña secreta</label>
+                                <label htmlFor="password" className="sr-only">Crea una contraseña segura</label>
                                 <input
                                     id="password"
                                     type="password"
-                                    placeholder="Tu contraseña secreta"
+                                    placeholder="Crea una contraseña segura"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
@@ -297,7 +297,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                         <div className="space-y-5">
                             <div>
                                 <div id="gender-label" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Género</div>
-                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Opcional. Pero ayuda a leer mejor la data.</p>
+                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Opcional. Pero ayuda a mejorar el análisis general.</p>
                                 <div className="grid grid-cols-3 gap-2">
                                     {[
                                         { id: "male", label: "Hombre" },
@@ -319,7 +319,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
 
                             <div>
                                 <label htmlFor="ageRange" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Edad</label>
-                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Para segmentar tendencias. No para juzgarte.</p>
+                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Para descubrir las tendencias por generación.</p>
                                 <select
                                     id="ageRange"
                                     value={ageRange}
@@ -335,7 +335,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
 
                             <div>
                                 <label htmlFor="region" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">¿Dónde estás?</label>
-                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Tranquilo: solo usamos esto para segmentar.</p>
+                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Para detectar tendencias en tu región.</p>
                                 <select
                                     id="region"
                                     value={region}
@@ -380,9 +380,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                                 check_circle
                             </motion.span>
                         </div>
-                        <h2 id="onboarding-title" className="text-3xl font-black text-slate-900 tracking-tighter">Listo. Ya puedes señalar.</h2>
+                        <h2 id="onboarding-title" className="text-3xl font-black text-slate-900 tracking-tighter">Listo. Ya puedes dejar tus señales.</h2>
                         <p className="text-slate-500 font-medium mt-3 leading-relaxed">
-                            Tu perfil quedó guardado. Puedes editarlo cuando quieras (y desbloqueaste más peso y <span className="text-primary-600 font-bold text-sm">15 señales</span>).
+                            Tu cuenta ha sido configurada y está lista para impactar las tendencias. (Desbloqueaste <span className="text-primary-600 font-bold text-sm">15 señales</span>).
                         </p>
 
                         <div className="grid grid-cols-2 gap-3 w-full mt-10">
@@ -400,7 +400,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                             onClick={onSuccess}
                             className="w-full bg-primary-600 py-4 rounded-2xl font-black text-white shadow-lg shadow-primary-200 transition-all active:scale-[0.98] mt-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
                         >
-                            Ir a Señala →
+                            Ir a Señales →
                         </button>
                     </motion.div>
                 )}

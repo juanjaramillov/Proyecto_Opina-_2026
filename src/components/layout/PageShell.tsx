@@ -7,9 +7,9 @@ import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
 import FeedbackFab from "../ui/FeedbackFab";
 
 const MENU_ITEMS = [
-  { id: 'participa', label: 'Señala', route: '/experience' },
+  { id: 'participa', label: 'Señales', route: '/experience' },
   { id: 'results', label: 'Resultados', route: '/results' },
-  { id: 'intelligence', label: 'Inteligencia', route: '/intelligence' },
+  { id: 'intelligence', label: 'Inteligencia', route: '/intelligence-dashboard' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
@@ -43,7 +43,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   const isAuthenticated = profile && profile.tier !== 'guest';
-  const isAdmin = role === 'admin' || (profile as any)?.role === 'admin';
+  const isAdmin = role === 'admin' || (profile as { role?: string })?.role === 'admin';
 
   const nextMilestone = Math.ceil((signals + 1) / 10) * 10;
   const toNext = nextMilestone - signals;
@@ -59,9 +59,13 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
   const showFeedbackFab = !isVotingRoute;
 
   return (
-    <div className="flex flex-col flex-1 w-full min-h-screen relative">
+    <div className="flex flex-col flex-1 w-full min-h-screen relative bg-white selection:bg-primary-500 selection:text-white">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-primary-500/5 rounded-full blur-[120px] -translate-y-1/2"></div>
+        <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] translate-y-1/3"></div>
+      </div>
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-primary-600 focus:font-bold">Saltar al contenido</a>
-      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'bg-white/60 border-b border-white/20 py-4'}`}>
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-slate-200 shadow-sm py-2' : 'bg-transparent border-b border-transparent py-4'}`}>
         <div className="w-full px-4 sm:px-8 xl:px-12 flex items-center justify-between gap-4">
 
           {/* Logo & Level (Left side) */}
@@ -81,7 +85,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
           {/* Mobile Menu Button */}
           <button
-            className="sm:hidden p-2 text-slate-600 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 rounded-lg"
+            className="sm:hidden p-2 text-slate-500 hover:text-primary-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 rounded-lg"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -103,7 +107,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   className={({ isActive }) =>
                     [
                       "text-sm font-bold transition-colors whitespace-nowrap px-1 flex items-center gap-1",
-                      isActive ? "text-primary" : "text-slate-500 hover:text-primary",
+                      isActive ? "text-primary-600" : "text-slate-500 hover:text-slate-900",
                     ].join(" ")
                   }
                 >
@@ -116,14 +120,14 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             {isAuthenticated ? (
               <NavLink
                 to="/profile"
-                className="flex items-center gap-1.5 ml-2 lg:ml-4 px-2 py-1.5 lg:px-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-all font-bold text-slate-700 text-sm active:scale-95 group shrink-0"
+                className="flex items-center gap-1.5 ml-2 lg:ml-4 px-2 py-1.5 lg:px-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 transition-all font-bold text-slate-700 text-sm active:scale-95 group shrink-0 shadow-sm"
               >
-                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary-500 to-emerald-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
                   {isAdmin ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                 </div>
-                <span>{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Usuario')}</span>
-                <div className="flex items-center gap-1 bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-md border border-blue-200/50 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-blue-200" title={`Faltan ${toNext} señales para tu próximo hito`}>
-                  <span className="material-symbols-outlined text-[12px] text-blue-600">star</span>
+                <span className="text-slate-800">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Usuario')}</span>
+                <div className="flex items-center gap-1 bg-primary-50 text-primary-600 px-1.5 py-0.5 rounded-md border border-primary-100 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-primary-100" title={`Faltan ${toNext} señales para tu próximo hito`}>
+                  <span className="material-symbols-outlined text-[12px] text-primary-500">star</span>
                   <span>Faltan {toNext}</span>
                 </div>
               </NavLink>
@@ -142,25 +146,25 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <div className="relative ml-1 lg:ml-2 flex items-center h-full" ref={adminMenuRef}>
                 <button
                   onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
-                  className="px-3 py-1.5 rounded-xl text-xs font-black transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1 active:scale-95 shadow-sm border border-slate-200"
+                  className="px-3 py-1.5 rounded-full text-xs font-black transition-all bg-white text-ink hover:bg-surface2 flex items-center gap-1 active:scale-95 shadow-sm border border-stroke"
                 >
                   <span className="material-symbols-outlined text-[14px]">admin_panel_settings</span>
                   Admin
                   <span className={`material-symbols-outlined text-[14px] transition-transform ${isAdminMenuOpen ? 'rotate-180' : ''}`}>expand_more</span>
                 </button>
-                <div className={`absolute top-full right-0 mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-premium transition-all duration-200 z-[100] overflow-hidden flex flex-col pt-1 ${isAdminMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}>
-                  <div className="px-4 py-2 bg-slate-50/50 border-b border-slate-100">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Panel de Control</p>
+                <div className={`absolute top-full right-0 mt-2 p-2 w-56 bg-white border border-stroke rounded-[24px] shadow-2xl transition-all duration-300 z-[100] flex flex-col gap-1 ${isAdminMenuOpen ? 'opacity-100 visible translate-y-0 scale-100' : 'opacity-0 invisible translate-y-2 scale-95'}`}>
+                  <div className="px-3 py-2 mb-1">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Panel de Control</p>
                   </div>
-                  <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
                   </NavLink>
-                  <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
                     Health Checks
                   </NavLink>
-                  <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-50 hover:pl-5 hover:text-primary-600'}`}>
+                  <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
                   </NavLink>
@@ -172,7 +176,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
         {/* Mobile Navigation Dropdown */}
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-lg sm:hidden flex flex-col z-40 py-2 animate-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-xl sm:hidden flex flex-col z-40 py-2 animate-in slide-in-from-top-2 duration-200">
             {MENU_ITEMS.map((item) => {
               const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
 
@@ -182,7 +186,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   to={item.route}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
-                    `px-4 py-3 text-sm font-bold transition-colors flex items-center justify-between border-b border-slate-50 last:border-0 ${isActive ? "text-primary bg-slate-50" : "text-slate-600 hover:text-primary hover:bg-slate-50"}`
+                    `px-4 py-3 text-sm font-bold transition-colors flex items-center justify-between border-b border-slate-100 last:border-0 ${isActive ? "text-primary-600 bg-primary-50/50" : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"}`
                   }
                 >
                   <div className="flex items-center gap-2">
@@ -198,18 +202,18 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <NavLink
                 to="/profile"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 mt-2 mb-2 px-4 py-3 text-sm font-bold text-slate-700 transition-colors flex items-center justify-between rounded-xl bg-slate-50 border border-slate-100 active:scale-[0.98]"
+                className="mx-4 mt-2 mb-2 px-4 py-3 text-sm font-bold text-slate-900 transition-colors flex items-center justify-between rounded-xl bg-white border border-slate-200 shadow-sm active:scale-[0.98]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-500 to-emerald-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
                     {isAdmin ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-black text-ink">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
+                    <span className="text-sm font-black text-slate-900">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
                     <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Faltan {toNext} para premio</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-lg border border-blue-200">
+                <div className="flex items-center justify-center w-8 h-8 bg-primary-50 text-primary-600 rounded-lg border border-primary-100">
                   <span className="material-symbols-outlined text-[18px]">redeem</span>
                 </div>
               </NavLink>
@@ -225,18 +229,18 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             )}
 
             {isAuthenticated && isAdmin && (
-              <div className="mx-4 mb-4 mt-2 bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden p-2">
-                <p className="px-3 pt-2 pb-2 text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">admin_panel_settings</span> Panel Admin</p>
+              <div className="mx-4 mb-4 mt-2 bg-surface2/50 border border-stroke rounded-[24px] overflow-hidden p-2 shadow-sm">
+                <p className="px-3 pt-2 pb-2 text-[10px] font-black uppercase tracking-widest text-text-muted flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">admin_panel_settings</span> Panel Admin</p>
                 <div className="flex flex-col gap-1 mt-1">
-                  <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
+                  <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-white hover:text-ink shadow-sm'}`}>
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
                   </NavLink>
-                  <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
+                  <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-white hover:text-ink shadow-sm'}`}>
                     <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
                     Health Checks
                   </NavLink>
-                  <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-600 hover:bg-white hover:text-primary-600'}`}>
+                  <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-white hover:text-ink shadow-sm'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
                   </NavLink>
@@ -247,25 +251,25 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
 
-      <main id="main-content" className="flex-1 flex flex-col relative w-full">
+      <main id="main-content" className="flex-1 flex flex-col relative w-full z-10">
         {children}
       </main>
 
       {/* ✅ Floating Feedback (WhatsApp) */}
       {showFeedbackFab ? <FeedbackFab /> : null}
 
-      <footer className="w-full border-t border-aurora-primary/10 bg-white/50 backdrop-blur-sm py-6 mt-auto">
+      <footer className="w-full border-t border-slate-200 bg-white/50 backdrop-blur-sm py-6 mt-auto">
         <div className="w-full px-4 sm:px-8 xl:px-12 mx-auto text-center space-y-2">
           <div className="flex justify-center items-center gap-2 mb-2 opacity-60">
-            <span className="material-symbols-rounded text-[16px]">gavel</span>
-            <span className="text-[10px] font-bold uppercase tracking-widest">Legal</span>
+            <span className="material-symbols-rounded text-[16px] text-slate-400">gavel</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Legal</span>
           </div>
 
-          <p className="text-[11px] text-text-muted leading-relaxed max-w-2xl mx-auto">
+          <p className="text-[11px] text-slate-500 leading-relaxed max-w-2xl mx-auto">
             Opina+ muestra tendencias agregadas. No es asesoría, no es verdad absoluta. Es señal.
           </p>
 
-          <p className="text-[10px] text-slate-300 uppercase tracking-wider font-semibold">
+          <p className="text-[10px] text-slate-600 uppercase tracking-wider font-semibold">
             &copy; {new Date().getFullYear()} Opina+
           </p>
         </div>

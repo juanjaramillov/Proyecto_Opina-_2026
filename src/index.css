@@ -13,11 +13,11 @@
     --brand-opina-teal-light: #34D399;
 
     /* ✅ BRAND ACCENT GLOBAL DEFINITION - STRICT FROM THEME */
-    --brand-accent: linear-gradient(135deg, var(--brand-opina-blue), var(--brand-opina-accent-light), var(--brand-opina-teal-light));
-    --brand-accent-solid: #2563EB;
+    --brand-accent: linear-gradient(135deg, #4F46E5 0%, #10B981 100%);
+    --brand-accent-solid: #4F46E5;
 
     /* ✅ DESIGN TOKENS */
-    --primary: #2563EB;
+    --primary: #4F46E5;
     --secondary: #10B981;
     --ink: #0F172A;
     --surface2: #F8FAFC;
@@ -41,27 +41,38 @@
     background-color: rgba(37, 99, 235, 0.2);
     @apply text-primary;
   }
+
+  /* ✅ 4. TIPOGRAFÍA (Jerarquía Clara) */
+  h1,
+  .h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-black text-ink tracking-tight leading-[1.1];
+  }
+
+  h2,
+  .h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl font-black text-ink tracking-tight leading-[1.2];
+  }
+
+  h3,
+  .h3 {
+    @apply text-lg md:text-xl font-bold text-ink leading-snug;
+  }
+
+  p,
+  .body-base {
+    @apply text-base text-slate-600 leading-relaxed;
+  }
+
+  .body-caption {
+    @apply text-sm text-slate-500 leading-relaxed font-medium;
+  }
+
+  .label-sm {
+    @apply text-xs font-bold text-slate-500 uppercase tracking-wider;
+  }
 }
 
 /* ====== keyframes ====== */
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-
-  33% {
-    transform: translate(30px, -40px) scale(1.1);
-  }
-
-  66% {
-    transform: translate(-20px, 20px) scale(0.95);
-  }
-
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -86,39 +97,7 @@
   }
 }
 
-@keyframes opinaFloat {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-2px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-@keyframes opinaDrift {
-  0% {
-    transform: translateX(0px);
-  }
-
-  50% {
-    transform: translateX(10px);
-  }
-
-  100% {
-    transform: translateX(0px);
-  }
-}
-
 @layer utilities {
-  .animate-blob {
-    animation: blob 14s infinite ease-in-out;
-  }
-
   .animation-delay-1000 {
     animation-delay: 1s;
   }
@@ -143,14 +122,6 @@
     @apply text-primary;
   }
 
-  .orb-icon {
-    animation: opinaFloat 4.8s ease-in-out infinite;
-  }
-
-  .opina-pattern {
-    animation: opinaDrift 14s ease-in-out infinite;
-  }
-
   /* ✅ BRAND COLOR: Unified Open+ Logo and CTAs */
   .text-gradient-brand {
     background: var(--brand-accent);
@@ -165,44 +136,74 @@
     background: var(--brand-accent);
   }
 
-  /* ✅ AURORA UTILITIES - Simplified/Removed colors */
-  .bg-blue-600 {
-    background-color: rgba(37, 99, 235, 0.05);
-    /* Very subtle primary tint */
-  }
-
-  .text-blue-600 {
-    @apply text-primary;
-  }
-
-  .bg-white\/60 {
-    @apply bg-white/70 backdrop-blur-lg border border-white/60;
-    box-shadow: 0 8px 32px 0 rgba(37, 99, 235, 0.05);
-  }
-
+  /* ✅ 1. LAYOUT PRINCIPAL (Contenedor y Spacing consistente) */
   .container-ws {
-    @apply w-full mx-auto px-4 sm:px-8 xl:px-12;
+    @apply w-full mx-auto px-4 sm:px-8 xl:px-12 max-w-7xl;
   }
 
-  /* ✅ ANTI-AIRE: secciones más compactas */
+  /* ✅ 5. SISTEMA DE SPACING */
   .section-y {
-    @apply py-7 sm:py-9 lg:py-10;
+    @apply py-16 sm:py-24 lg:py-32;
+  }
+
+  .gap-section {
+    @apply gap-16 sm:gap-24 lg:gap-32;
+  }
+
+  .gap-card {
+    @apply gap-6 sm:gap-8;
   }
 
   .hairline {
     @apply border border-stroke;
   }
+
+  /* ✅ 7. ESTADOS VISUALES GLOBALES (Hover, Selected, Active, Disabled) */
+  .state-hover {
+    @apply hover:bg-slate-50 hover:border-slate-300 transition-colors;
+  }
+
+  .state-selected {
+    @apply bg-primary/5 border-primary/30 text-primary;
+  }
+
+  .state-active {
+    @apply bg-gradient-brand text-white border-transparent shadow-md;
+  }
+
+  .state-disabled {
+    @apply opacity-50 cursor-not-allowed pointer-events-none filter grayscale-[50%];
+  }
 }
 
 @layer components {
+
+  /* ✅ 2. SISTEMA DE CARDS */
   .card {
-    @apply bg-white border border-slate-200 rounded-xl shadow-sm;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    /* Fondo blanco, borde muy sutil, sombra ligera, radio consistente */
+    @apply bg-white border border-slate-200 rounded-2xl shadow-sm text-ink;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
-  /* ✅ ANTI-AIRE: padding más compacto */
   .card-pad {
-    @apply p-4 sm:p-5;
+    /* Padding interno claro */
+    @apply p-6 sm:p-8;
+  }
+
+  .card-interactive {
+    @apply card transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-primary/30 cursor-pointer;
+  }
+
+  .card-kpi {
+    @apply card card-pad flex flex-col justify-center items-start border-l-4 border-l-primary;
+  }
+
+  .card-signal {
+    @apply card card-pad flex flex-col gap-4 border-t-4 border-t-ink hover:border-t-primary transition-colors;
+  }
+
+  .card-explore {
+    @apply card p-0 overflow-hidden relative group hover:border-primary/40 transition-colors cursor-pointer;
   }
 
   .card-hover {
@@ -210,11 +211,12 @@
   }
 
   .card-hover:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
   }
 
+  /* ✅ 3. BOTONES */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold tracking-tight transition-all duration-300 focus:outline-none focus:ring-4 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-bold tracking-tight transition-all duration-300 focus:outline-none focus:ring-4 active:scale-95 disabled:state-disabled;
   }
 
   .btn:focus {
@@ -222,17 +224,47 @@
   }
 
   .btn-primary {
-    @apply btn text-white border-0 hover:-translate-y-0.5 hover:opacity-90;
+    @apply btn text-white border-0 hover:-translate-y-0.5 hover:shadow-lg focus:ring-primary/20;
+    /* Color corporativo Opina+ */
     background: var(--brand-accent);
-    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.25), 0 4px 6px -2px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 4px 10px -2px rgba(79, 70, 229, 0.3);
   }
 
   .btn-secondary {
-    @apply btn bg-surface text-ink border border-stroke shadow-sm hover:bg-surface2 hover:border-surface2 hover:-translate-y-0.5 hover:shadow-md;
+    /* Más neutro */
+    @apply btn bg-white text-ink border border-slate-300 shadow-sm hover:bg-slate-50 hover:border-slate-400 hover:-translate-y-0.5 hover:shadow-md focus:ring-slate-200;
   }
 
   .btn-ghost {
-    @apply btn bg-transparent text-ink hover:bg-surface2 hover:text-primary;
+    /* Solo borde o texto */
+    @apply btn bg-transparent text-slate-600 hover:text-ink hover:bg-slate-100 focus:ring-slate-200;
+  }
+
+  .btn-hero {
+    @apply btn text-white text-lg px-8 py-4 rounded-2xl border-0 hover:-translate-y-1 hover:shadow-xl focus:ring-primary/20;
+    background: var(--brand-accent);
+    box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+  }
+
+  /* Botón con estado ACTIVO */
+  .btn-active {
+    @apply state-active cursor-default active:scale-100 hover:translate-y-0;
+  }
+
+  /* ✅ 6. KPI CARDS COMPONENTES ESPECÍFICOS */
+  .kpi-value {
+    /* Valor principal grande */
+    @apply text-4xl sm:text-5xl font-black text-ink tracking-tight mb-1;
+  }
+
+  .kpi-label {
+    /* Etiqueta descriptiva */
+    @apply text-sm font-bold uppercase tracking-widest text-slate-500;
+  }
+
+  .kpi-trend {
+    /* Indicador opcional de cambio */
+    @apply inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full bg-emerald-50 text-emerald-600;
   }
 
   .badge {
@@ -240,38 +272,27 @@
   }
 
   .badge-primary {
-    @apply badge text-primary;
-    background-color: rgba(37, 99, 235, 0.1);
-    border-color: rgba(37, 99, 235, 0.2);
+    @apply badge text-primary border-primary/20 bg-primary/10;
   }
 
   .badge-accent {
-    @apply badge text-primary;
-    background-color: rgba(37, 99, 235, 0.1);
-    border-color: rgba(37, 99, 235, 0.2);
+    @apply badge text-primary border-primary/20 bg-primary/10;
   }
 
-  /* ✅ Tu panel glass (lo estabas usando en Home) */
-  .glass-panel {
-    @apply rounded-3xl bg-white/70 backdrop-blur-md border border-white/50 shadow-premium;
+  .section-header {
+    @apply border-b border-stroke pb-6 mb-8 lg:mb-12;
   }
 
-  .btn-hero {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl text-white text-lg font-bold tracking-tight shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:opacity-90 active:scale-95 focus:outline-none focus:ring-4 border-0;
-    height: 3.5rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    background: var(--brand-accent);
-    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.25);
+  .section-header-title {
+    @apply text-2xl sm:text-3xl font-black text-ink mb-2 tracking-tight;
   }
 
-  .btn-hero:focus {
-    --tw-ring-color: rgba(37, 99, 235, 0.2);
+  .section-header-desc {
+    @apply text-slate-500 text-base sm:text-lg;
   }
 
-  /* ✅ Header con línea inferior (antes estaba “escondido” dentro de btn-hero, como si fuera SCSS) */
-  .header-lined {
-    @apply border-b border-slate-200 pb-3 mb-6;
+  .list-row {
+    @apply flex items-center justify-between p-5 border-b border-stroke last:border-0 bg-white hover:bg-slate-50 transition-colors;
   }
 }
 
@@ -300,11 +321,8 @@
   }
 
   /* Clases propias */
-  .animate-blob,
   .fade-up,
-  .pulse-soft,
-  .opina-drawline,
-  .opina-bar {
+  .pulse-soft {
     animation: none !important;
     transition: none !important;
   }

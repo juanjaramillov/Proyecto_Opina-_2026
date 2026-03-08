@@ -98,12 +98,12 @@ export default function DepthHub() {
 
     if (error || !battle) {
         return (
-            <div className="container-ws section-y">
+            <div className="container-ws section-y min-h-[60vh] flex flex-col items-center justify-center">
                 <PageState
                     type="error"
                     title="Algo falló"
                     description={error || "No pudimos cargar Profundidad. Intenta de nuevo."}
-                    icon="cloud_off"
+                    icon="wifi_off"
                     primaryAction={{ label: "Reintentar", onClick: () => window.location.reload() }}
                     secondaryAction={{ label: "Volver a Participa", onClick: () => navigate("/experience") }}
                 />
@@ -112,17 +112,21 @@ export default function DepthHub() {
     }
 
     return (
-        <div className="container-ws section-y space-y-6 pb-24">
+        <div className="container-ws section-y space-y-6 pb-24 relative z-10 w-full min-h-screen">
             <PageHeader
                 variant="simple"
-                eyebrow={<span className="badge badge-emerald">Profundidad</span>}
-                title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">{title}</h1>}
+                eyebrow={
+                    <span className="badge bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm font-bold tracking-widest uppercase">
+                        Profundidad
+                    </span>
+                }
+                title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 drop-shadow-sm">{title}</h1>}
                 subtitle={
                     <div className="space-y-1">
-                        <p className="text-sm text-muted font-medium">
-                            Acá no eliges rápido: explicas el por qué. Y eso vale oro.
+                        <p className="text-sm text-slate-500 font-medium tracking-wide mt-2">
+                            Acá no eliges rápido: explicas el <span className="text-slate-800 font-bold">por qué</span>. Y eso vale oro.
                         </p>
-                        <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
+                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1">
                             Packs cortos de 3–7 preguntas. Sin eternidad.
                         </p>
                     </div>
@@ -130,50 +134,71 @@ export default function DepthHub() {
                 actions={
                     <button
                         onClick={() => navigate("/experience")}
-                        className="h-10 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all active:scale-95"
+                        className="h-10 px-4 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 font-bold text-sm transition-all shadow-sm active:scale-95 shrink-0 flex items-center gap-2"
                     >
-                        ← Volver
+                        <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+                        Volver
                     </button>
                 }
             />
 
             {options.length === 0 ? (
-                <div className="bg-white rounded-3xl border border-slate-100 p-8 text-center">
-                    <h3 className="text-xl font-bold text-ink mb-2">No hay packs disponibles</h3>
-                    <p className="text-slate-500 font-medium mb-6">Estamos armando los próximos. Vuelve en un rato.</p>
-                    <button
-                        onClick={() => navigate("/experience")}
-                        className="px-6 py-2 bg-slate-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:bg-slate-800 transition-all active:scale-95"
-                    >
-                        Volver a Participa
-                    </button>
+                <div className="bg-white rounded-[2rem] border border-slate-100 p-12 text-center shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary-100/50 rounded-full blur-[40px] pointer-events-none"></div>
+                    <div className="relative z-10 flex flex-col items-center">
+                        <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mb-6 text-slate-400 shadow-inner">
+                            <span className="material-symbols-outlined text-3xl">inbox</span>
+                        </div>
+                        <h3 className="text-xl font-black text-slate-900 mb-2 drop-shadow-sm">No hay packs disponibles</h3>
+                        <p className="text-slate-500 font-medium mb-8 max-w-sm">Estamos armando los próximos. Vuelve en un rato.</p>
+                        <button
+                            onClick={() => navigate("/experience")}
+                            className="px-6 py-3 bg-gradient-brand text-white font-black text-sm uppercase tracking-wider rounded-xl shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.23)] hover:-translate-y-0.5 transition-all active:scale-95"
+                        >
+                            Volver a Participa
+                        </button>
+                    </div>
                 </div>
             ) : (
-                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-6">
-                    <div className="mb-6">
-                        <h2 className="text-lg font-black text-slate-900">Packs por tema</h2>
-                        <p className="text-sm text-slate-500 font-medium">Elige un pack. Tus respuestas se agregan y alimentan tendencias.</p>
+                <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] p-6 md:p-8 relative overflow-hidden group">
+                    {/* Decorative background gradients */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary-100/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-50/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700"></div>
+
+                    <div className="relative z-10 mb-8 border-b border-slate-100 pb-4">
+                        <h2 className="text-2xl font-black text-slate-900 drop-shadow-sm flex items-center gap-3">
+                            <span className="material-symbols-outlined text-primary-500">layers</span>
+                            Packs por tema
+                        </h2>
+                        <p className="text-sm text-slate-500 font-medium mt-1 ml-9">Elige un pack. Tus respuestas se cruzan con el algoritmo para descubrir tendencias.</p>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
                         {options.map((o) => (
                             <button
                                 key={o.id}
                                 onClick={() => navigate(`/depth/run/${battle.slug}/${o.id}`)}
-                                className="group text-left rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-sm p-4 transition-all active:scale-[0.99]"
+                                className="group/card text-left rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 shadow-sm hover:shadow-md p-5 transition-all duration-300 active:scale-95 relative overflow-hidden"
                             >
-                                <div className="flex items-center gap-3">
-                                    <div className="h-12 w-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden p-[2px]">
+                                {/* Hover glow interior */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                                <div className="flex items-start gap-4 relative z-10">
+                                    <div className="h-14 w-14 shrink-0 rounded-xl bg-white border border-slate-100 flex items-center justify-center overflow-hidden p-[2px] shadow-sm transition-transform group-hover/card:scale-105">
                                         <BrandLogo
                                             name={o.label || 'Opción'}
                                             imageUrl={o.image_url || o.entities?.image_url}
                                             brandDomain={o.entities?.domain}
-                                            className="h-full w-full object-contain mix-blend-multiply"
-                                            fallbackClassName="flex h-full w-full items-center justify-center text-[10px] font-bold text-slate-400 text-center"
+                                            className="h-full w-full object-contain"
+                                            fallbackClassName="flex h-full w-full items-center justify-center text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 text-center"
                                         />
                                     </div>
-                                    <div className="flex-1">
-                                        <div className="text-sm font-black text-slate-900">{o.label}</div>
-                                        <div className="text-xs font-bold text-primary-600 mt-0.5">Responder pack →</div>
+                                    <div className="flex-1 mt-1">
+                                        <div className="text-base font-black text-slate-900 leading-tight drop-shadow-sm transition-colors">{o.label}</div>
+                                        <div className="text-[11px] font-black uppercase tracking-widest text-primary-500 mt-2 flex items-center gap-1 opacity-80 group-hover/card:opacity-100 transition-opacity">
+                                            Responder pack
+                                            <span className="material-symbols-outlined text-[14px] group-hover/card:translate-x-1 transition-transform">arrow_forward</span>
+                                        </div>
                                     </div>
                                 </div>
                             </button>
