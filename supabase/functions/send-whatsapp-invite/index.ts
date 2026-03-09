@@ -46,7 +46,7 @@ serve(async (req) => {
     }
 
     // We'll send a template message containing the code.
-    const templateName = Deno.env.get('WHATSAPP_INVITE_TEMPLATE_NAME') || 'opina_invite';
+    const templateName = Deno.env.get('WHATSAPP_INVITE_TEMPLATE_NAME') || 'invitaciones_acceso';
 
     const waPayload = {
       messaging_product: "whatsapp",
@@ -56,14 +56,26 @@ serve(async (req) => {
       template: {
         name: templateName,
         language: {
-          code: "es"
+          code: "es_CL"
         },
         components: [
+          {
+            type: "header",
+            parameters: [
+              {
+                type: "image",
+                image: {
+                  link: "https://proyecto-opina-2026.vercel.app/images/logo-opina-wa.png"
+                }
+              }
+            ]
+          },
           {
             type: "body",
             parameters: [
               {
                 type: "text",
+                parameter_name: "invitaciones_acceso",
                 text: code
               }
             ]
