@@ -9,30 +9,60 @@ export default function AdminInvites() {
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const [prefix, setPrefix] = useState('OP');
-    const [timeframe, setTimeframe] = useState<'total' | 'today' | 'yesterday' | '7d' | '30d'>('total');
+    const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'in_use' | 'abandoned' | 'revoked'>('all');
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedInvites, setSelectedInvites] = useState<Set<string>>(new Set());
     const [confirmAction, setConfirmAction] = useState<'active' | 'revoked' | 'delete' | null>(null);
     const [confirmRowAction, setConfirmRowAction] = useState<{ id: string, action: 'active' | 'revoked' | 'delete' } | null>(null);
     const [waDrafts, setWaDrafts] = useState<Record<string, { phone: string; isSending: boolean; statusMsg?: string }>>({});
+    const [sortConfig, setSortConfig] = useState<{ key: keyof InviteRow; direction: 'asc' | 'desc' } | null>(null);
 
+    const handleSort = (key: keyof InviteRow) => {
+        let direction: 'asc' | 'desc' = 'desc';
+        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'desc') {
+            direction = 'asc';
+        }
+        setSortConfig({ key, direction });
+    };
 
     const sortedInvites = useMemo(() => {
-        const priority: Record<string, number> = {
-            'used': 1,
-            'active': 2,
-            'revoked': 3
-        };
+        let sortableItems = [...invites];
 
-        return [...invites].sort((a, b) => {
-            const pA = priority[a.status] || 99;
-            const pB = priority[b.status] || 99;
+        if (sortConfig !== null) {
+            sortableItems.sort((a, b) => {
+                const aValue = a[sortConfig.key];
+                const bValue = b[sortConfig.key];
+                
+                if (aValue === null || aValue === undefined) return sortConfig.direction === 'asc' ? -1 : 1;
+                if (bValue === null || bValue === undefined) return sortConfig.direction === 'asc' ? 1 : -1;
 
-            if (pA !== pB) return pA - pB;
-
-            // Si tienen el mismo estado, ordenar por fecha descendente
-            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        });
-    }, [invites]);
+                if (aValue < bValue) {
+                    return sortConfig.direction === 'asc' ? -1 : 1;
+                }
+                if (aValue > bValue) {
+                    return sortConfig.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+        } else {
+             const priority: Record<string, number> = {
+                'used': 1,
+                'active': 2,
+                'revoked': 3
+            };
+    
+            sortableItems.sort((a, b) => {
+                const pA = priority[a.status] || 99;
+                const pB = priority[b.status] || 99;
+    
+                if (pA !== pB) return pA - pB;
+    
+                // Si tienen el mismo estado, ordenar por fecha descendente
+                return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+            });
+        }
+        return sortableItems;
+    }, [invites, sortConfig]);
 
     const updateWaDraft = (id: string, updates: Partial<{ phone: string; isSending: boolean; statusMsg?: string }>) => {
         setWaDrafts(prev => ({
@@ -73,7 +103,7 @@ export default function AdminInvites() {
         setLoading(true);
         setErrorMsg(null);
         try {
-            const data = await adminInvitesService.listInvites(timeframe);
+            const data = await adminInvitesService.listInvites(statusFilter, searchTerm);
             setInvites(data);
         } catch (err: any) {
             setErrorMsg(err.message || 'Error fetching invites');
@@ -101,7 +131,7 @@ export default function AdminInvites() {
         setConfirmRowAction(null);
         if (tab === 'invites') fetchInvites();
         else fetchRedemptions();
-    }, [tab, timeframe]);
+    }, [tab, statusFilter]);
 
     const handleGenerate = async () => {
         setLoading(true);
@@ -204,8 +234,15 @@ export default function AdminInvites() {
         }
     };
 
+    const renderSortIcon = (key: keyof InviteRow) => {
+        if (sortConfig?.key !== key) return <span className="text-slate-300 ml-1 text-[12px]">↕</span>;
+        return sortConfig.direction === 'asc' 
+            ? <span className="text-cyan-600 ml-1 text-[12px] font-bold">↑</span> 
+            : <span className="text-cyan-600 ml-1 text-[12px] font-bold">↓</span>;
+    };
+
     return (
-        <div className="container-ws section-y space-y-6">
+        <div className="w-full px-4 md:px-8 section-y space-y-6">
             <h1 className="text-2xl font-bold text-slate-900">Administrador de Invitaciones</h1>
 
             {errorMsg && (
@@ -233,6 +270,18 @@ export default function AdminInvites() {
             {tab === 'invites' && (
                 <div className="flex flex-col gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                     <div className="flex flex-col sm:flex-row gap-4 items-end">
+                        <div className="flex-1 w-full sm:w-auto">
+                            <label htmlFor="search-input" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Buscar</label>
+                            <input
+                                id="search-input"
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && fetchInvites()}
+                                className="w-full h-10 px-4 rounded-xl border-2 border-slate-200 focus:border-cyan-500 focus:ring-0 transition-colors"
+                                placeholder="Código, Alias o Teléfono..."
+                            />
+                        </div>
                         <div className="flex-1 w-full sm:w-auto">
                             <label htmlFor="prefix-input" className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Prefijo</label>
                             <input
@@ -269,22 +318,22 @@ export default function AdminInvites() {
 
                     <div className="border-t border-slate-100 pt-4 mt-2 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                         <div>
-                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Filtro de KPIs</label>
+                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Estado</label>
                             <div className="flex flex-wrap gap-2">
-                                {(['total', 'today', 'yesterday', '7d', '30d'] as const).map(t => (
+                                {(['all', 'pending', 'in_use', 'abandoned', 'revoked'] as const).map(t => (
                                     <button
                                         key={t}
-                                        onClick={() => setTimeframe(t)}
-                                        className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${timeframe === t
+                                        onClick={() => setStatusFilter(t)}
+                                        className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${statusFilter === t
                                             ? 'bg-slate-800 text-white shadow-sm ring-2 ring-slate-800 ring-offset-1'
                                             : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                             }`}
                                     >
-                                        {t === 'total' ? 'Total Histórico' :
-                                            t === 'today' ? 'Hoy' :
-                                                t === 'yesterday' ? 'Ayer' :
-                                                    t === '7d' ? 'Últimos 7 días' :
-                                                        'Últimos 30 días'}
+                                        {t === 'all' ? 'Todos' :
+                                            t === 'pending' ? 'Pendientes' :
+                                                t === 'in_use' ? 'En Uso' :
+                                                    t === 'abandoned' ? 'Abandonados' :
+                                                        'Revocados'}
                                     </button>
                                 ))}
                             </div>
@@ -377,15 +426,32 @@ export default function AdminInvites() {
                                         />
                                     </th>
                                     <th className="px-1 py-3 w-6 text-center"></th>
-                                    <th className="px-2 py-3 font-bold whitespace-nowrap text-center">Código</th>
-                                    <th className="px-2 py-3 font-bold text-center">Alias</th>
-                                    <th className="px-2 py-3 font-bold text-center">Estado</th>
-                                    <th className="px-2 py-3 font-bold whitespace-nowrap text-center">Expira</th>
-                                    <th className="px-2 py-3 font-bold text-center">Interacciones</th>
-                                    <th className="px-2 py-3 font-bold text-center">Minutos</th>
-                                    <th className="px-2 py-3 font-bold text-center">Sesiones</th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('code')}>
+                                        <div className="flex items-center justify-center whitespace-nowrap">Código {renderSortIcon('code')}</div>
+                                    </th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('used_by_nickname')}>
+                                        <div className="flex items-center justify-center">Alias {renderSortIcon('used_by_nickname')}</div>
+                                    </th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('status')}>
+                                        <div className="flex items-center justify-center">Estado {renderSortIcon('status')}</div>
+                                    </th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('expires_at')}>
+                                        <div className="flex items-center justify-center whitespace-nowrap">Expira {renderSortIcon('expires_at')}</div>
+                                    </th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('last_active_at')}>
+                                        <div className="flex items-center justify-center">Última Conexión {renderSortIcon('last_active_at')}</div>
+                                    </th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('total_sessions')}>
+                                        <div className="flex items-center justify-center">Sesiones {renderSortIcon('total_sessions')}</div>
+                                    </th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('total_interactions')}>
+                                        <div className="flex items-center justify-center">Señales {renderSortIcon('total_interactions')}</div>
+                                    </th>
+                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('total_time_spent_seconds')}>
+                                        <div className="flex items-center justify-center">Minutos {renderSortIcon('total_time_spent_seconds')}</div>
+                                    </th>
                                     <th className="px-2 py-3 font-bold text-center">WhatsApp</th>
-                                    <th className="px-2 py-3 font-bold rounded-tr-xl whitespace-nowrap text-center">Acciones</th>
+                                    <th className="px-2 py-3 font-bold rounded-tr-xl whitespace-nowrap text-center w-24">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -436,19 +502,24 @@ export default function AdminInvites() {
                                                 {invite.expires_at ? new Date(invite.expires_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }) : 'Nunca'}
                                             </td>
                                             <td className="px-2 py-3 text-center">
-                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_interactions ?? '-'}</span>
-                                            </td>
-                                            <td className="px-2 py-3 text-center">
                                                 <span className="font-mono text-[10px] md:text-xs text-slate-500">
-                                                    {invite.total_time_spent_seconds ? (invite.total_time_spent_seconds / 60).toFixed(1) : '-'}
+                                                    {invite.last_active_at ? new Date(invite.last_active_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-'}
                                                 </span>
                                             </td>
                                             <td className="px-2 py-3 text-center">
                                                 <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_sessions ?? '-'}</span>
                                             </td>
+                                            <td className="px-2 py-3 text-center">
+                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_interactions ?? '-'}</span>
+                                            </td>
+                                            <td className="px-2 py-3 text-center">
+                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">
+                                                    {invite.total_time_spent_seconds ? (invite.total_time_spent_seconds / 60).toFixed(1) : '-'}
+                                                </span>
+                                            </td>
                                             <td className="px-2 py-3">
-                                                <div className="flex flex-col gap-1 min-w-[140px]">
-                                                    <div className="flex gap-1">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <div className="flex gap-1 w-[130px] shrink-0">
                                                         <input
                                                             type="text"
                                                             placeholder="+569..."
@@ -460,7 +531,7 @@ export default function AdminInvites() {
                                                         <button
                                                             onClick={() => handleSendWhatsApp(invite)}
                                                             disabled={waDrafts[invite.id]?.isSending || !(waDrafts[invite.id]?.phone || invite.whatsapp_phone)}
-                                                            className="bg-emerald-500 text-white rounded-lg p-1 hover:bg-emerald-600 disabled:opacity-50 transition-colors flex items-center justify-center"
+                                                            className="bg-emerald-500 text-white rounded-lg p-1 hover:bg-emerald-600 disabled:opacity-50 transition-colors flex items-center justify-center shrink-0"
                                                             title="Enviar invitación por WhatsApp"
                                                         >
                                                             {waDrafts[invite.id]?.isSending ? (
@@ -470,24 +541,21 @@ export default function AdminInvites() {
                                                             )}
                                                         </button>
                                                     </div>
-                                                    {(waDrafts[invite.id]?.statusMsg || invite.whatsapp_status) && (
-                                                        <div className="text-[9px] flex flex-col">
-                                                            <span className={`font-bold ${waDrafts[invite.id]?.statusMsg?.includes('Error') || invite.whatsapp_status === 'error' ? 'text-red-500' : 'text-emerald-600'
-                                                                }`}>
-                                                                {waDrafts[invite.id]?.statusMsg || (invite.whatsapp_status === 'sent' ? 'Enviado ✅' : invite.whatsapp_status)}
-                                                            </span>
-                                                            {invite.whatsapp_sent_at && (
-                                                                <span className="text-slate-400">
-                                                                    {new Date(invite.whatsapp_sent_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                                                    <div className="text-[9px] flex items-center gap-1 text-left w-[80px] shrink-0">
+                                                        {(waDrafts[invite.id]?.statusMsg || invite.whatsapp_status) && (
+                                                            <>
+                                                                <span className={`font-bold whitespace-nowrap ${waDrafts[invite.id]?.statusMsg?.includes('Error') || invite.whatsapp_status === 'error' ? 'text-red-500' : 'text-emerald-600'
+                                                                    }`}>
+                                                                    {waDrafts[invite.id]?.statusMsg || (invite.whatsapp_status === 'sent' ? 'Enviado ✅' : invite.whatsapp_status)}
                                                                 </span>
-                                                            )}
-                                                            {invite.whatsapp_error && (
-                                                                <span className="text-red-400 truncate max-w-[140px]" title={invite.whatsapp_error}>
-                                                                    {invite.whatsapp_error}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    )}
+                                                                {invite.whatsapp_error && (
+                                                                    <span className="text-red-400 truncate max-w-[80px]" title={invite.whatsapp_error}>
+                                                                        ({invite.whatsapp_error})
+                                                                    </span>
+                                                                )}
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td className="px-2 py-3 text-center whitespace-nowrap">
@@ -554,13 +622,13 @@ export default function AdminInvites() {
                         <table className="w-full text-sm text-left">
                             <thead className="text-xs text-slate-500 uppercase tracking-widest bg-slate-50/50">
                                 <tr>
-                                    <th className="px-4 py-3 font-bold rounded-tl-xl whitespace-nowrap">Fecha/Hora</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Código</th>
-                                    <th className="px-4 py-3 font-bold">Resultado</th>
-                                    <th className="px-4 py-3 font-bold">Nickname</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">User ID</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">App Ver.</th>
-                                    <th className="px-4 py-3 font-bold rounded-tr-xl">User Agent</th>
+                                    <th className="px-4 py-3 font-bold rounded-tl-xl whitespace-nowrap text-center">Fecha/Hora</th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">Código</th>
+                                    <th className="px-4 py-3 font-bold text-center">Resultado</th>
+                                    <th className="px-4 py-3 font-bold text-center">Nickname</th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">User ID</th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">App Ver.</th>
+                                    <th className="px-4 py-3 font-bold rounded-tr-xl text-center">User Agent</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -571,9 +639,9 @@ export default function AdminInvites() {
                                 ) : (
                                     redemptions.map((r) => (
                                         <tr key={r.id} className="hover:bg-slate-50/50 transition-colors">
-                                            <td className="px-4 py-3 text-slate-500 text-xs">{new Date(r.created_at).toLocaleString()}</td>
-                                            <td className="px-4 py-3 font-mono font-medium text-slate-900">{r.invite_code_entered}</td>
-                                            <td className="px-4 py-3">
+                                            <td className="px-4 py-3 text-slate-500 text-xs text-center">{new Date(r.created_at).toLocaleString()}</td>
+                                            <td className="px-4 py-3 font-mono font-medium text-slate-900 text-center">{r.invite_code_entered}</td>
+                                            <td className="px-4 py-3 text-center">
                                                 <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${r.result === 'success' ? 'bg-emerald-100 text-emerald-800' :
                                                     r.result === 'invite_invalid' || r.result === 'invite_already_used' ? 'bg-red-100 text-red-800' :
                                                         'bg-blue-100 text-blue-800'
@@ -581,12 +649,12 @@ export default function AdminInvites() {
                                                     {r.result}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-3 text-slate-600">{r.nickname || '-'}</td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs font-mono" title={r.user_id || undefined}>
+                                            <td className="px-4 py-3 text-slate-600 text-center">{r.nickname || '-'}</td>
+                                            <td className="px-4 py-3 text-slate-500 text-xs font-mono text-center" title={r.user_id || undefined}>
                                                 {r.user_id ? `${r.user_id.substring(0, 8)}...` : '-'}
                                             </td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs">{r.app_version || '-'}</td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs">
+                                            <td className="px-4 py-3 text-slate-500 text-xs text-center">{r.app_version || '-'}</td>
+                                            <td className="px-4 py-3 text-slate-500 text-xs text-center">
                                                 {r.user_agent ? (
                                                     <span title={r.user_agent} className="cursor-help border-b border-dotted border-slate-400">
                                                         {r.user_agent.length > 30 ? `${r.user_agent.substring(0, 30)}...` : r.user_agent}

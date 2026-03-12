@@ -57,8 +57,16 @@ export const adminInvitesService = {
     /**
      * Retrieves the current list of invites.
      */
-    async listInvites(timeframe: 'total' | 'today' | 'yesterday' | '7d' | '30d' = 'total'): Promise<InviteRow[]> {
-        const { data, error } = await (supabase.rpc as any)('admin_list_invites', { p_timeframe: timeframe });
+    async listInvites(
+        statusFilter: 'all' | 'pending' | 'in_use' | 'abandoned' | 'revoked' = 'all',
+        searchTerm: string = '',
+        limit: number = 200
+    ): Promise<InviteRow[]> {
+        const { data, error } = await (supabase.rpc as any)('admin_list_invites', { 
+            p_status_filter: statusFilter,
+            p_search_term: searchTerm,
+            p_limit: limit
+        });
 
         if (error) {
             logger.error('Error in admin_list_invites RPC:', error);

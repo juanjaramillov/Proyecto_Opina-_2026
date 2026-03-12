@@ -1,0 +1,13 @@
+# Signal Types
+
+Tipos oficiales de señales en Opina+.
+
+VERSUS_SIGNAL
+
+PROGRESSIVE_SIGNAL
+
+DEPTH_SIGNAL
+
+CONTEXT_SIGNAL
+
+PERSONAL_PULSE_SIGNAL

@@ -6,6 +6,7 @@ import DepthWizard from "../DepthWizard";
 import { normalizeRpcError } from "../../../lib/rpcError";
 import { depthService } from "../../signals/services/depthService";
 import { logger } from "../../../lib/logger";
+import { recordDepthSignalsFromLegacy, DepthAnswerPayload } from "../../../lib/signals/recordDepthSignalsFromLegacy";
 
 type BattleRow = { id: string; slug: string; title: string | null };
 type OptionRow = {
@@ -56,7 +57,7 @@ export default function DepthRun() {
             if (!mounted) return;
 
             if (bErr || !b) {
-                setError("No se encontró la batalla.");
+                setError("No se encontró la evaluación.");
                 setLoading(false);
                 return;
             }
@@ -154,6 +155,33 @@ export default function DepthRun() {
         try {
             setSaveError(null);
             await depthService.saveDepthStructured(opt.id, payload);
+
+            // --- INICIO DOBLE ESCRITURA (Double Write) ---
+            try {
+                // Preparar las respuestas extendiéndolas con meta-información
+                const depthAnswers: DepthAnswerPayload[] = Object.entries(answers).map(([key, val], index) => {
+                    const qDef = questions.find(q => q.id === key);
+                    return {
+                        question_key: key,
+                        question_label: qDef?.question || key,
+                        response_type: qDef?.type || 'scale',
+                        response_value: val,
+                        order_index: index + 1
+                    };
+                });
+
+                recordDepthSignalsFromLegacy({
+                    instance_id: battle?.id || battleSlug || 'unknown',
+                    instance_title: battle?.title || `Depth Battle ${battleSlug}`,
+                    entity_name: opt.label,
+                    answers: depthAnswers
+                }).catch(e => logger.warn('[DepthRun] Double write failed', e));
+                
+            } catch (dwErr) {
+                logger.warn('[DepthRun] Double write error wrapper', dwErr);
+            }
+            // --- FIN DOBLE ESCRITURA ---
+
         } catch (e: unknown) {
             const norm = normalizeRpcError(e);
             setSaveError(norm);

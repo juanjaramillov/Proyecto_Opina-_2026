@@ -22,7 +22,7 @@ export default function BattlePage() {
 
         async function load() {
             if (!battleSlug) {
-                setError("Falta el identificador de la batalla.");
+                setError("Falta el identificador de la evaluación.");
                 setLoading(false);
                 return;
             }
@@ -35,7 +35,7 @@ export default function BattlePage() {
             if (!mounted) return;
 
             if (!ctx.ok || !ctx.battle_id || !ctx.title || !ctx.options || ctx.options.length < 2) {
-                setError(ctx.error || "No se pudo cargar la batalla.");
+                setError(ctx.error || "No se pudo cargar la evaluación.");
                 setBattle(null);
                 setLoading(false);
                 return;
@@ -106,7 +106,7 @@ export default function BattlePage() {
     if (loading) {
         return (
             <div className="container-ws section-y">
-                <PageState type="loading" loadingLabel="Cargando batalla…" />
+                <PageState type="loading" loadingLabel="Cargando evaluación…" />
             </div>
         );
     }
@@ -117,7 +117,7 @@ export default function BattlePage() {
                 <PageState
                     type="error"
                     title="Algo falló"
-                    description={error || "No pudimos cargar esta batalla. Refresca o vuelve más tarde."}
+                    description={error || "No pudimos cargar esta evaluación. Refresca o vuelve más tarde."}
                     icon="wifi_off"
                     primaryAction={{ label: "Reintentar", onClick: () => window.location.reload() }}
                     secondaryAction={{ label: "Volver a Participa", onClick: () => navigate("/experience") }}

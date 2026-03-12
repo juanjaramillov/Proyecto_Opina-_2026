@@ -7,30 +7,10 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -67,6 +47,45 @@ export type Database = {
           label?: string | null
           last_used_at?: string | null
           uses_count?: number
+        }
+        Relationships: []
+      }
+      actualidad_topics: {
+        Row: {
+          categoria: string
+          contexto_corto: string
+          created_at: string | null
+          estado: string | null
+          fecha_fin: string | null
+          fecha_inicio: string | null
+          id: string
+          pregunta_impacto: Json
+          pregunta_postura: Json
+          titulo: string
+        }
+        Insert: {
+          categoria: string
+          contexto_corto: string
+          created_at?: string | null
+          estado?: string | null
+          fecha_fin?: string | null
+          fecha_inicio?: string | null
+          id?: string
+          pregunta_impacto: Json
+          pregunta_postura: Json
+          titulo: string
+        }
+        Update: {
+          categoria?: string
+          contexto_corto?: string
+          created_at?: string | null
+          estado?: string | null
+          fecha_fin?: string | null
+          fecha_inicio?: string | null
+          id?: string
+          pregunta_impacto?: Json
+          pregunta_postura?: Json
+          titulo?: string
         }
         Relationships: []
       }
@@ -305,6 +324,39 @@ export type Database = {
         }
         Relationships: []
       }
+      b2b_leads: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          interest: string | null
+          name: string
+          role: string | null
+          status: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          interest?: string | null
+          name: string
+          role?: string | null
+          status?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          interest?: string | null
+          name?: string
+          role?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
       battle_instances: {
         Row: {
           battle_id: string
@@ -393,6 +445,8 @@ export type Database = {
       }
       battles: {
         Row: {
+          ai_summary: string | null
+          ai_summary_generated_at: string | null
           category_id: string | null
           created_at: string | null
           description: string | null
@@ -402,6 +456,8 @@ export type Database = {
           title: string
         }
         Insert: {
+          ai_summary?: string | null
+          ai_summary_generated_at?: string | null
           category_id?: string | null
           created_at?: string | null
           description?: string | null
@@ -411,6 +467,8 @@ export type Database = {
           title: string
         }
         Update: {
+          ai_summary?: string | null
+          ai_summary_generated_at?: string | null
           category_id?: string | null
           created_at?: string | null
           description?: string | null
@@ -555,6 +613,105 @@ export type Database = {
         }
         Relationships: []
       }
+      current_topics: {
+        Row: {
+          actors: string[] | null
+          admin_edited: boolean | null
+          archived_at: string | null
+          category: string
+          cluster_id: string | null
+          confidence_score: number | null
+          created_at: string | null
+          created_by_ai: boolean | null
+          ends_at: string | null
+          event_date: string | null
+          event_stage: string | null
+          id: string
+          impact_quote: string | null
+          intensity: number | null
+          is_active: boolean | null
+          metadata: Json | null
+          opinion_maturity: string | null
+          published_at: string | null
+          relevance_chile: number | null
+          short_summary: string
+          slug: string
+          source_domain: string | null
+          source_published_at: string | null
+          source_title: string | null
+          starts_at: string | null
+          status: string
+          tags: string[] | null
+          title: string
+          topic_duration: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          actors?: string[] | null
+          admin_edited?: boolean | null
+          archived_at?: string | null
+          category: string
+          cluster_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          created_by_ai?: boolean | null
+          ends_at?: string | null
+          event_date?: string | null
+          event_stage?: string | null
+          id?: string
+          impact_quote?: string | null
+          intensity?: number | null
+          is_active?: boolean | null
+          metadata?: Json | null
+          opinion_maturity?: string | null
+          published_at?: string | null
+          relevance_chile?: number | null
+          short_summary: string
+          slug: string
+          source_domain?: string | null
+          source_published_at?: string | null
+          source_title?: string | null
+          starts_at?: string | null
+          status?: string
+          tags?: string[] | null
+          title: string
+          topic_duration?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          actors?: string[] | null
+          admin_edited?: boolean | null
+          archived_at?: string | null
+          category?: string
+          cluster_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          created_by_ai?: boolean | null
+          ends_at?: string | null
+          event_date?: string | null
+          event_stage?: string | null
+          id?: string
+          impact_quote?: string | null
+          intensity?: number | null
+          is_active?: boolean | null
+          metadata?: Json | null
+          opinion_maturity?: string | null
+          published_at?: string | null
+          relevance_chile?: number | null
+          short_summary?: string
+          slug?: string
+          source_domain?: string | null
+          source_published_at?: string | null
+          source_title?: string | null
+          starts_at?: string | null
+          status?: string
+          tags?: string[] | null
+          title?: string
+          topic_duration?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       depth_aggregates: {
         Row: {
           age_range: string | null
@@ -654,10 +811,13 @@ export type Database = {
       }
       entities: {
         Row: {
+          battles_played: number | null
+          battles_won: number | null
           category: string | null
           city: string | null
           country_code: string | null
           created_at: string | null
+          elo_score: number | null
           id: string
           image_url: string | null
           is_active: boolean | null
@@ -666,15 +826,19 @@ export type Database = {
           name: string
           slug: string
           sort_order: number | null
+          tier: number | null
           type: string
           updated_at: string | null
           vertical: string | null
         }
         Insert: {
+          battles_played?: number | null
+          battles_won?: number | null
           category?: string | null
           city?: string | null
           country_code?: string | null
           created_at?: string | null
+          elo_score?: number | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
@@ -683,15 +847,19 @@ export type Database = {
           name: string
           slug: string
           sort_order?: number | null
+          tier?: number | null
           type: string
           updated_at?: string | null
           vertical?: string | null
         }
         Update: {
+          battles_played?: number | null
+          battles_won?: number | null
           category?: string | null
           city?: string | null
           country_code?: string | null
           created_at?: string | null
+          elo_score?: number | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
@@ -700,6 +868,7 @@ export type Database = {
           name?: string
           slug?: string
           sort_order?: number | null
+          tier?: number | null
           type?: string
           updated_at?: string | null
           vertical?: string | null
@@ -863,6 +1032,12 @@ export type Database = {
           status: string | null
           used_at: string | null
           used_by_user_id: string | null
+          whatsapp_error: string | null
+          whatsapp_last_sent_at: string | null
+          whatsapp_message_id: string | null
+          whatsapp_phone: string | null
+          whatsapp_sent_at: string | null
+          whatsapp_status: string | null
         }
         Insert: {
           assigned_alias?: string | null
@@ -879,6 +1054,12 @@ export type Database = {
           status?: string | null
           used_at?: string | null
           used_by_user_id?: string | null
+          whatsapp_error?: string | null
+          whatsapp_last_sent_at?: string | null
+          whatsapp_message_id?: string | null
+          whatsapp_phone?: string | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string | null
         }
         Update: {
           assigned_alias?: string | null
@@ -895,6 +1076,12 @@ export type Database = {
           status?: string | null
           used_at?: string | null
           used_by_user_id?: string | null
+          whatsapp_error?: string | null
+          whatsapp_last_sent_at?: string | null
+          whatsapp_message_id?: string | null
+          whatsapp_phone?: string | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string | null
         }
         Relationships: []
       }
@@ -978,6 +1165,83 @@ export type Database = {
           metadata?: Json
           module_key?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      news_articles: {
+        Row: {
+          created_at: string | null
+          fetched_at: string | null
+          id: string
+          language: string | null
+          published_at: string | null
+          raw_content: string | null
+          source_id: string | null
+          title: string
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          fetched_at?: string | null
+          id?: string
+          language?: string | null
+          published_at?: string | null
+          raw_content?: string | null
+          source_id?: string | null
+          title: string
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          fetched_at?: string | null
+          id?: string
+          language?: string | null
+          published_at?: string | null
+          raw_content?: string | null
+          source_id?: string | null
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "news_articles_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "news_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      news_sources: {
+        Row: {
+          country: string | null
+          created_at: string | null
+          domain: string
+          id: string
+          is_active: boolean | null
+          name: string
+          source_type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string | null
+          domain: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          source_type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string | null
+          domain?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          source_type?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -1627,6 +1891,178 @@ export type Database = {
         }
         Relationships: []
       }
+      topic_answers: {
+        Row: {
+          answer_value: string
+          created_at: string | null
+          id: string
+          question_id: string | null
+          temporal_mode: string
+          topic_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          answer_value: string
+          created_at?: string | null
+          id?: string
+          question_id?: string | null
+          temporal_mode?: string
+          topic_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          answer_value?: string
+          created_at?: string | null
+          id?: string
+          question_id?: string | null
+          temporal_mode?: string
+          topic_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topic_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "topic_questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "topic_answers_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "actualidad_stats_view"
+            referencedColumns: ["topic_id"]
+          },
+          {
+            foreignKeyName: "topic_answers_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "current_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      topic_articles: {
+        Row: {
+          article_id: string
+          created_at: string | null
+          relevance_score: number | null
+          topic_id: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string | null
+          relevance_score?: number | null
+          topic_id: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string | null
+          relevance_score?: number | null
+          topic_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topic_articles_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "news_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "topic_articles_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "actualidad_stats_view"
+            referencedColumns: ["topic_id"]
+          },
+          {
+            foreignKeyName: "topic_articles_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "current_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      topic_question_sets: {
+        Row: {
+          created_at: string | null
+          id: string
+          topic_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          topic_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          topic_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topic_question_sets_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: true
+            referencedRelation: "actualidad_stats_view"
+            referencedColumns: ["topic_id"]
+          },
+          {
+            foreignKeyName: "topic_question_sets_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: true
+            referencedRelation: "current_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      topic_questions: {
+        Row: {
+          answer_type: string
+          created_at: string | null
+          id: string
+          options_json: Json | null
+          question_order: number
+          question_text: string
+          set_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          answer_type: string
+          created_at?: string | null
+          id?: string
+          options_json?: Json | null
+          question_order: number
+          question_text: string
+          set_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          answer_type?: string
+          created_at?: string | null
+          id?: string
+          options_json?: Json | null
+          question_order?: number
+          question_text?: string
+          set_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topic_questions_set_id_fkey"
+            columns: ["set_id"]
+            isOneToOne: false
+            referencedRelation: "topic_question_sets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_activity: {
         Row: {
           action_type: string
@@ -1647,6 +2083,47 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      user_actualidad_responses: {
+        Row: {
+          categoria_tema: string
+          created_at: string | null
+          id: string
+          respuesta_impacto: string
+          respuesta_postura: string
+          signal_type: string | null
+          tema_id: string
+          user_id: string
+        }
+        Insert: {
+          categoria_tema: string
+          created_at?: string | null
+          id?: string
+          respuesta_impacto: string
+          respuesta_postura: string
+          signal_type?: string | null
+          tema_id: string
+          user_id: string
+        }
+        Update: {
+          categoria_tema?: string
+          created_at?: string | null
+          id?: string
+          respuesta_impacto?: string
+          respuesta_postura?: string
+          signal_type?: string | null
+          tema_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_actualidad_responses_tema_id_fkey"
+            columns: ["tema_id"]
+            isOneToOne: false
+            referencedRelation: "actualidad_topics"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_daily_metrics: {
         Row: {
@@ -1703,12 +2180,15 @@ export type Database = {
         Row: {
           age_bucket: string | null
           birth_year: number | null
+          car_count: string | null
+          children_count: string | null
           comuna: string | null
           created_at: string
           education: string | null
           education_level: string | null
           employment_status: string | null
           gender: string | null
+          household_size: string | null
           housing_type: string | null
           income_range: string | null
           influence_level: string | null
@@ -1725,12 +2205,15 @@ export type Database = {
         Insert: {
           age_bucket?: string | null
           birth_year?: number | null
+          car_count?: string | null
+          children_count?: string | null
           comuna?: string | null
           created_at?: string
           education?: string | null
           education_level?: string | null
           employment_status?: string | null
           gender?: string | null
+          household_size?: string | null
           housing_type?: string | null
           income_range?: string | null
           influence_level?: string | null
@@ -1747,12 +2230,15 @@ export type Database = {
         Update: {
           age_bucket?: string | null
           birth_year?: number | null
+          car_count?: string | null
+          children_count?: string | null
           comuna?: string | null
           created_at?: string
           education?: string | null
           education_level?: string | null
           employment_status?: string | null
           gender?: string | null
+          household_size?: string | null
           housing_type?: string | null
           income_range?: string | null
           influence_level?: string | null
@@ -1770,128 +2256,33 @@ export type Database = {
       }
       user_pulses: {
         Row: {
+          created_at: string | null
           id: string
-          user_id: string
-          signal_type: string
-          sub_category: string
           question_identifier: string
           response_value: string
-          created_at: string
+          signal_type: string | null
+          sub_category: string
+          user_id: string
         }
         Insert: {
+          created_at?: string | null
           id?: string
-          user_id: string
-          signal_type?: string
-          sub_category: string
           question_identifier: string
           response_value: string
-          created_at?: string
+          signal_type?: string | null
+          sub_category: string
+          user_id: string
         }
         Update: {
+          created_at?: string | null
           id?: string
-          user_id?: string
-          signal_type?: string
-          sub_category?: string
           question_identifier?: string
           response_value?: string
-          created_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_pulses_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      actualidad_topics: {
-        Row: {
-          id: string
-          titulo: string
-          contexto_corto: string
-          categoria: string
-          pregunta_postura: Json
-          pregunta_impacto: Json
-          fecha_inicio: string | null
-          fecha_fin: string | null
-          estado: string | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          titulo: string
-          contexto_corto: string
-          categoria: string
-          pregunta_postura: Json
-          pregunta_impacto: Json
-          fecha_inicio?: string | null
-          fecha_fin?: string | null
-          estado?: string | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          titulo?: string
-          contexto_corto?: string
-          categoria?: string
-          pregunta_postura?: Json
-          pregunta_impacto?: Json
-          fecha_inicio?: string | null
-          fecha_fin?: string | null
-          estado?: string | null
-          created_at?: string
+          signal_type?: string | null
+          sub_category?: string
+          user_id?: string
         }
         Relationships: []
-      }
-      user_actualidad_responses: {
-        Row: {
-          id: string
-          user_id: string
-          signal_type: string
-          tema_id: string
-          categoria_tema: string
-          respuesta_postura: string
-          respuesta_impacto: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          signal_type?: string
-          tema_id: string
-          categoria_tema: string
-          respuesta_postura: string
-          respuesta_impacto: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          signal_type?: string
-          tema_id?: string
-          categoria_tema?: string
-          respuesta_postura?: string
-          respuesta_impacto?: string
-          created_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_actualidad_responses_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_actualidad_responses_tema_id_fkey"
-            columns: ["tema_id"]
-            isOneToOne: false
-            referencedRelation: "actualidad_topics"
-            referencedColumns: ["id"]
-          }
-        ]
       }
       user_state_logs: {
         Row: {
@@ -2075,6 +2466,14 @@ export type Database = {
       }
     }
     Views: {
+      actualidad_stats_view: {
+        Row: {
+          topic_id: string | null
+          total_participants: number | null
+          total_signals: number | null
+        }
+        Relationships: []
+      }
       kpi_activity: {
         Row: {
           dau: number | null
@@ -2585,7 +2984,11 @@ export type Database = {
         }[]
       }
       admin_list_invites: {
-        Args: { p_limit?: number; p_timeframe?: string }
+        Args: {
+          p_limit?: number
+          p_search_term?: string
+          p_status_filter?: string
+        }
         Returns: {
           assigned_alias: string
           code: string
@@ -2600,6 +3003,12 @@ export type Database = {
           used_at: string
           used_by_nickname: string
           used_by_user_id: string
+          whatsapp_error: string
+          whatsapp_last_sent_at: string
+          whatsapp_message_id: string
+          whatsapp_phone: string
+          whatsapp_sent_at: string
+          whatsapp_status: string
         }[]
       }
       admin_modules_demand_segmented: {
@@ -2912,21 +3321,34 @@ export type Database = {
         Args: { p_question_id: string; p_segment_filter?: string }
         Returns: Json
       }
-      get_depth_insights: {
-        Args: {
-          p_age_range?: string
-          p_battle_slug: string
-          p_commune?: string
-          p_gender?: string
-          p_option_id: string
-        }
-        Returns: {
-          average_score: number
-          question_id: string
-          snapshot_at: string
-          total_responses: number
-        }[]
-      }
+      get_depth_insights:
+        | {
+            Args: {
+              p_age_range?: string
+              p_battle_slug: string
+              p_commune?: string
+              p_gender?: string
+              p_option_id: string
+            }
+            Returns: {
+              average_score: number
+              question_id: string
+              snapshot_at: string
+              total_responses: number
+            }[]
+          }
+        | {
+            Args: { p_entity_id: string }
+            Returns: {
+              avg_score: number
+              distribution: Json
+              q_position: number
+              question_key: string
+              question_text: string
+              question_type: string
+              total_answers: number
+            }[]
+          }
       get_depth_trend: {
         Args: {
           p_age_bucket?: string
@@ -3214,6 +3636,7 @@ export type Database = {
           value_numeric: number
         }[]
       }
+      get_user_ranking: { Args: never; Returns: Json }
       healthcheck_baseline: {
         Args: never
         Returns: {
@@ -3227,27 +3650,27 @@ export type Database = {
         Returns: undefined
       }
       insert_signal_event:
-      | {
-        Args: {
-          p_attribute_id?: string
-          p_battle_id: string
-          p_client_event_id?: string
-          p_option_id: string
-          p_session_id?: string
-        }
-        Returns: undefined
-      }
-      | {
-        Args: {
-          p_attribute_id?: string
-          p_battle_id: string
-          p_client_event_id?: string
-          p_device_hash?: string
-          p_option_id: string
-          p_session_id?: string
-        }
-        Returns: undefined
-      }
+        | {
+            Args: {
+              p_attribute_id?: string
+              p_battle_id: string
+              p_client_event_id?: string
+              p_option_id: string
+              p_session_id?: string
+            }
+            Returns: undefined
+          }
+        | {
+            Args: {
+              p_attribute_id?: string
+              p_battle_id: string
+              p_client_event_id?: string
+              p_device_hash?: string
+              p_option_id: string
+              p_session_id?: string
+            }
+            Returns: undefined
+          }
       is_admin_user: { Args: never; Returns: boolean }
       is_b2b_user: { Args: never; Returns: boolean }
       kpi_engagement_quality: {
@@ -3381,123 +3804,119 @@ type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-  | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-  | { schema: keyof DatabaseWithoutInternals },
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-  ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-    DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-  : never = never,
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-    DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
-  ? R
-  : never
+    ? R
+    : never
   : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-    DefaultSchema["Views"])
-  ? (DefaultSchema["Tables"] &
-    DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-      Row: infer R
-    }
-  ? R
-  : never
-  : never
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-  | keyof DefaultSchema["Tables"]
-  | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-  ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-  : never = never,
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-    Insert: infer I
-  }
-  ? I
-  : never
+      Insert: infer I
+    }
+    ? I
+    : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-    Insert: infer I
-  }
-  ? I
-  : never
-  : never
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-  | keyof DefaultSchema["Tables"]
-  | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-  ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-  : never = never,
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-    Update: infer U
-  }
-  ? U
-  : never
+      Update: infer U
+    }
+    ? U
+    : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-    Update: infer U
-  }
-  ? U
-  : never
-  : never
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-  | keyof DefaultSchema["Enums"]
-  | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-  ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-  : never = never,
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-  ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-  : never
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-  | keyof DefaultSchema["CompositeTypes"]
-  | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-  ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-  : never = never,
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-  ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-  : never
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },
 } as const
-

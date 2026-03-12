@@ -46,7 +46,8 @@ serve(async (req) => {
     }
 
     // We'll send a template message containing the code.
-    const templateName = Deno.env.get('WHATSAPP_INVITE_TEMPLATE_NAME') || 'invitacion_oficial_opina';
+    const templateName = Deno.env.get('WHATSAPP_INVITE_TEMPLATE_NAME') || 'invitaciones_opina_mas_definitivas';
+    const templateLang = Deno.env.get('WHATSAPP_INVITE_TEMPLATE_LANG') || (templateName === 'invitaciones_opina_mas_definitivas' ? 'es_CL' : 'es');
 
     const waPayload = {
       messaging_product: "whatsapp",
@@ -56,7 +57,7 @@ serve(async (req) => {
       template: {
         name: templateName,
         language: {
-          code: "es_CL"
+          code: templateLang
         },
         components: [
           {

@@ -1,11 +1,14 @@
 export type BattleOption = {
     id: 'A' | 'B' | string;
     label: string;
+    slug?: string | null;
+    entity_slug?: string | null;
     imageUrl?: string | null;
     image_url?: string | null; // Database mapping
     brand_domain?: string; // Brandfetch Domain Identifier
     imageFit?: 'cover' | 'contain'; // Control image spread
     icon?: string;
+    category?: string;
     type?: 'image' | 'brand' | 'text' | 'icon';
     color?: string;
     bgColor?: string;

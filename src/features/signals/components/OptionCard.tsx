@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { BattleOption } from '../types';
-import React from 'react';
-import { BrandLogo } from '../../../components/ui/BrandLogo';
+import EntityLogo from '../../../components/entities/EntityLogo';
 import { FallbackAvatar } from '../../../components/ui/FallbackAvatar';
 
 interface OptionCardProps {
@@ -57,7 +56,7 @@ export default function OptionCard({
             )}
 
             {/* 3) Logo/imagen y Header wrapper */}
-            <div className={`relative h-[220px] md:h-[260px] w-full flex items-center justify-center bg-slate-50/60 transition-colors duration-500 ${type === 'text' ? (option.bgColor || 'bg-brand-gradient') : ''}`}>
+            <div className={`relative h-[140px] md:h-[260px] w-full flex items-center justify-center bg-slate-50/60 transition-colors duration-500 ${type === 'text' ? (option.bgColor || 'bg-brand-gradient') : ''}`}>
 
                 {/* 5) Estado seleccionado (check discreto) */}
                 <div className={`absolute top-4 right-4 z-20 transition-all duration-300 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
@@ -81,7 +80,7 @@ export default function OptionCard({
                     <FallbackAvatar
                         src={option.image_url || option.imageUrl || undefined}
                         name={option.label}
-                        className={`relative z-10 max-w-full max-h-full object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-30 grayscale blur-[2px]" : ""} ${option.imageFit === 'contain' ? 'p-8 md:p-12' : 'absolute inset-0 w-full h-full object-cover'}`}
+                        className={`relative z-10 max-w-full max-h-full object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'p-8 md:p-12' : 'absolute inset-0 w-full h-full object-cover'}`}
                         containerClassName="absolute inset-0 flex items-center justify-center p-6"
                         fallbackClassName="w-24 h-24 text-3xl"
                     />
@@ -96,13 +95,13 @@ export default function OptionCard({
                                 style={{ background: `radial-gradient(circle, ${theme?.primary || '#10b981'}20 0%, transparent 60%)` }}
                             />
 
-                            <div className="flex items-center justify-center w-full h-[180px] md:h-[260px] p-6 relative">
-                                <BrandLogo
+                            <div className="flex items-center justify-center w-full h-[120px] md:h-[260px] p-4 md:p-6 relative">
+                                <EntityLogo
                                     name={option.label}
-                                    imageUrl={option.image_url || option.imageUrl}
-                                    brandDomain={option.brand_domain}
-                                    className={`relative z-10 w-full h-full object-contain mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-30 grayscale blur-[2px]" : ""} ${option.imageClassName || ''}`}
-                                    fallbackClassName="relative z-10 flex items-center gap-2 px-3 py-2 rounded-full bg-white border border-slate-100 shadow-sm text-xs font-black text-slate-800"
+                                    slug={option.slug || option.entity_slug}
+                                    size="lg"
+                                    rounded={false}
+                                    className={`!w-[90px] !h-[90px] md:!w-[180px] md:!h-[180px] relative z-10 mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''} bg-transparent !border-none`}
                                 />
                             </div>
                         </div>
@@ -111,8 +110,8 @@ export default function OptionCard({
 
                 {/* TEXT Focus */}
                 {type === 'text' && (
-                    <div className="p-8 md:p-12 text-center z-10 w-full h-full flex items-center justify-center">
-                        <span className={`block text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight drop-shadow-lg transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.08] ${showResult ? 'blur-sm opacity-50' : ''}`}>
+                    <div className="p-4 md:p-12 text-center z-10 w-full h-full flex items-center justify-center">
+                        <span className={`block text-xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight drop-shadow-lg transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.08] ${showResult ? 'blur-sm opacity-50' : ''}`}>
                             {option.label}
                         </span>
                     </div>
@@ -120,12 +119,12 @@ export default function OptionCard({
 
                 {/* ICON Focus */}
                 {type === 'icon' && (
-                    <div className="p-8 md:p-12 text-center z-10 flex flex-col items-center justify-center w-full h-full relative">
+                    <div className="p-4 md:p-12 text-center z-10 flex flex-col items-center justify-center w-full h-full relative">
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none blur-3xl scale-150"
                             style={{ background: `radial-gradient(circle, ${theme?.primary || '#10b981'}15 0%, transparent 70%)` }}
                         />
-                        <div className={`w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-8 shadow-2xl border-4 border-white transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.15] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] group-hover:-translate-y-3 ${showResult ? 'opacity-30 blur-sm bg-slate-100' : 'bg-white'}`}>
-                            <span className="material-symbols-outlined text-[4rem] md:text-[5rem] transition-colors duration-500" style={{ color: showResult ? '#cbd5e1' : (theme?.primary || '#10b981') }}>
+                        <div className={`w-20 h-20 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-4 md:mb-8 shadow-2xl border-4 border-white transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.15] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] group-hover:-translate-y-3 ${showResult ? 'opacity-30 blur-sm bg-slate-100' : 'bg-white'}`}>
+                            <span className="material-symbols-outlined text-[3rem] md:text-[5rem] transition-colors duration-500" style={{ color: showResult ? '#cbd5e1' : (theme?.primary || '#10b981') }}>
                                 {option.icon || 'star'}
                             </span>
                         </div>
@@ -142,11 +141,11 @@ export default function OptionCard({
                     {showResult && (percent !== null || momentum) && (showPercentage ?? true) && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, backdropFilter: 'blur(0px)' }}
-                            animate={{ opacity: 1, scale: 1, backdropFilter: 'blur(12px)' }}
+                            animate={{ opacity: 1, scale: 1, backdropFilter: 'blur(8px)' }}
                             transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                            className="absolute inset-0 flex flex-col items-center justify-center z-30 bg-white/80 p-6"
+                            className="absolute inset-0 flex flex-col items-center justify-center z-30 bg-white/85 p-4 md:p-6"
                         >
-                            <span className="text-[5rem] md:text-[7rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-800 to-slate-500 drop-shadow-sm tracking-tighter leading-none mb-2">
+                            <span className="text-[3.5rem] md:text-[7rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-800 to-slate-500 drop-shadow-sm tracking-tighter leading-none mb-1 md:mb-2">
                                 {momentum ? momentum.percentage : percent}%
                             </span>
 
@@ -191,8 +190,8 @@ export default function OptionCard({
             </div>
 
             {/* 4) Nombre (label) más premium */}
-            <div className="relative z-10 px-6 pb-6 pt-5 bg-white border-t border-slate-50 w-full flex-grow flex flex-col justify-end items-center text-center">
-                <div className={`font-black text-ink tracking-tight text-xl md:text-2xl text-center w-full`}>
+            <div className="relative z-10 px-4 md:px-6 pb-4 md:pb-6 pt-3 md:pt-5 bg-white border-t border-slate-50 w-full flex-grow flex flex-col justify-end items-center text-center">
+                <div className={`font-black tracking-tight text-[1rem] leading-tight md:text-2xl text-center w-full transition-colors duration-300 ${showResult ? "text-slate-300" : "text-ink"}`}>
                     {option.label}
                 </div>
 

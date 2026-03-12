@@ -140,6 +140,17 @@ serve(async (req) => {
             }
         }
 
+        const statuses = value?.statuses ?? [];
+        for (const status of statuses) {
+            await supabase.from("whatsapp_inbound_messages").insert({
+                wa_message_id: status.id,
+                wa_from: status.recipient_id,
+                message_type: 'status_' + status.status,
+                body: JSON.stringify(status.errors || {}),
+                raw: payload,
+            });
+        }
+
         return new Response("ok", { status: 200 });
     }
 

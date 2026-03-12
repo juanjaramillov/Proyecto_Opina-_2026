@@ -4,9 +4,31 @@ dotenv.config({ path: '.env.local' });
 const supabaseUrl = process.env.VITE_SUPABASE_URL!;
 const anonKey = process.env.VITE_SUPABASE_ANON_KEY!;
 
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseAdmin = createClient(process.env.VITE_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+
 async function testFunction() {
   const functionUrl = `${supabaseUrl}/functions/v1/send-whatsapp-invite`;
   console.log('Hitting:', functionUrl);
+
+  const { data: invites } = await supabaseAdmin
+      .from('invitation_codes')
+      .select('id, code, whatsapp_phone')
+      .eq('whatsapp_status', 'pending')
+      .not('whatsapp_phone', 'is', null)
+      .limit(1);
+
+  let inviteId = '123e4567-e89b-12d3-a456-426614174000';
+  let phone = '+56912345678';
+  
+  if (invites && invites.length > 0) {
+      inviteId = invites[0].id;
+      phone = invites[0].whatsapp_phone || phone;
+      console.log(`Testing with real invite: ${invites[0].code} for ${phone}`);
+  } else {
+      console.log('No pending invites with phone numbers found, using dummy UUID');
+  }
 
   try {
     const res = await fetch(functionUrl, {
@@ -16,8 +38,8 @@ async function testFunction() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        invitation_id: '123e4567-e89b-12d3-a456-426614174000', // dummy UUID
-        phone_e164: '+56912345678'
+        invitation_id: inviteId,
+        phone_e164: phone
       })
     });
 

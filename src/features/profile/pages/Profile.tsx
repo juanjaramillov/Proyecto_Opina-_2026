@@ -286,7 +286,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                 {isLocked && (
                   <p className="text-xs text-text-muted font-bold mt-4 flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-[14px]">lock</span>
-                    Responde {MIN_SIGNALS_THRESHOLD} enfrentamientos más para desbloquear análisis.
+                    Responde {MIN_SIGNALS_THRESHOLD} evaluaciones más para desbloquear análisis.
                   </p>
                 )}
               </div>

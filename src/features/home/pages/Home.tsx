@@ -34,22 +34,22 @@ export default function Home() {
           La nueva era del análisis de sentimiento
         </div>
 
-        <h1 className="h1 max-w-4xl mb-6 tracking-tight leading-[1.1] animate-fade-up" style={{ animationDelay: '100ms' }}>
+        <h1 className="h1 max-w-4xl mb-6 tracking-tight leading-[1.1] animate-fade-up" style={{ animationDelay: '50ms' }}>
           Transforma opiniones en <span className="text-gradient-brand">inteligencia colectiva</span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-text-secondary max-w-2xl mb-12 leading-relaxed font-medium animate-fade-up" style={{ animationDelay: '200ms' }}>
+        <p className="text-xl md:text-2xl text-text-secondary max-w-2xl mb-12 leading-relaxed font-medium animate-fade-up" style={{ animationDelay: '100ms' }}>
           La plataforma de inteligencia que transforma opiniones individuales en tendencias predictivas. Sin ruido, sin bots, solo señales reales.
         </p>
 
-        <div className="flex flex-col items-center justify-center w-full mb-20 animate-fade-up" style={{ animationDelay: '300ms' }}>
+        <div className="flex flex-col items-center justify-center w-full mb-20 animate-fade-up" style={{ animationDelay: '150ms' }}>
           <Link to={mainCtaPath} state={mainCtaState} className="btn-hero min-w-[280px]">
             {mainCtaText}
           </Link>
         </div>
 
         {/* Hero Mockup */}
-        <div className="w-full max-w-5xl mx-auto rounded-3xl border border-stroke shadow-[0_20px_50px_rgba(0,0,0,0.1)] bg-slate-50 aspect-[16/9] sm:aspect-[21/9] flex flex-col relative animate-fade-up overflow-hidden group" style={{ animationDelay: '400ms' }}>
+        <div className="w-full max-w-5xl mx-auto rounded-3xl border border-stroke shadow-[0_20px_50px_rgba(0,0,0,0.1)] bg-slate-50 aspect-[16/9] sm:aspect-[21/9] flex flex-col relative animate-fade-up overflow-hidden group" style={{ animationDelay: '200ms' }}>
 
           {/* Header Mock */}
           <div className="h-14 sm:h-16 bg-white border-b border-stroke flex items-center justify-between px-4 sm:px-6 relative z-20 shrink-0">
@@ -85,7 +85,7 @@ export default function Home() {
                 { label: 'Señales Activas', value: '124.5K', icon: 'electric_bolt', color: 'text-emerald-500', bg: 'bg-emerald-50', change: '4.2%' },
                 { label: 'Usuarios Únicos', value: '45.2K', icon: 'group', color: 'text-blue-500', bg: 'bg-blue-50', change: '2.1%' },
                 { label: 'Impacto Global', value: '98.4%', icon: 'language', color: 'text-indigo-500', bg: 'bg-indigo-50', change: '8.7%' },
-                { label: 'Batallas Live', value: '142', icon: 'compare_arrows', color: 'text-rose-500', bg: 'bg-rose-50', change: '1.5%' },
+                { label: 'Evaluaciones Live', value: '142', icon: 'compare_arrows', color: 'text-rose-500', bg: 'bg-rose-50', change: '1.5%' },
               ].map((kpi, i) => (
                 <div key={i} className="bg-white p-3 sm:p-5 rounded-2xl border border-stroke shadow-sm flex flex-col justify-between h-20 sm:h-28">
                   <div className="flex items-center justify-between">
@@ -445,6 +445,14 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* 8. STICKY MOBILE CTA */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-xl border-t border-slate-200 z-[45] sm:hidden flex justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.08)] animate-in slide-in-from-bottom-5 duration-500">
+        <Link to={mainCtaPath} className="btn-hero w-full max-w-sm py-3.5 text-base shadow-lg shadow-primary-600/20 flex items-center justify-center gap-2">
+          {isAuthenticated ? "Empezar a votar" : "Crear cuenta gratis ahora"}
+          <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </Link>
+      </div>
 
     </div>
   );

@@ -9,15 +9,17 @@ import { logger } from '../../../lib/logger';
 import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../supabase/client';
+import { recordDepthSignalsFromLegacy, DepthAnswerPayload } from '../../../lib/signals/recordDepthSignalsFromLegacy';
 
 interface InsightPackProps {
     optionId: string;
     optionLabel: string;
+    categorySlug?: string;
     onComplete: () => void;
     onCancel: () => void;
 }
 
-const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComplete, onCancel }) => {
+const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, categorySlug, onComplete, onCancel }) => {
     const { profile } = useAuth();
     const navigate = useNavigate();
     const [loadingAnalytics, setLoadingAnalytics] = useState(false);
@@ -67,12 +69,25 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
 
                 if (error) throw error;
 
-                const defs = (data || []).map((d: any) => ({
-                    id: d.question_key,
-                    type: d.question_type || (Array.isArray(d.options) && d.options.length ? "choice" : "scale_1_5"),
-                    question: d.question_text,
-                    options: Array.isArray(d.options) ? d.options : [],
-                }));
+                const defs = (data || []).map((d: any) => {
+                    let parsedOptions: string[] = [];
+                    if (typeof d.options === 'string') {
+                        try {
+                            parsedOptions = JSON.parse(d.options);
+                        } catch (e) {
+                            parsedOptions = [];
+                        }
+                    } else if (Array.isArray(d.options)) {
+                        parsedOptions = d.options;
+                    }
+
+                    return {
+                        id: d.question_key,
+                        type: d.question_type || (parsedOptions.length ? "choice" : "scale_1_5"),
+                        question: d.question_text,
+                        options: parsedOptions,
+                    };
+                });
 
                 if (mounted) {
                     setDepthQuestions(defs);
@@ -135,6 +150,33 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
             await depthService.saveDepthStructured(optionId, structuredAnswers);
             setUserAnswers(answers);
 
+            // --- INICIO DOBLE ESCRITURA (Double Write) ---
+            try {
+                // Preparar las respuestas extendiéndolas con meta-información
+                const depthAnswers: DepthAnswerPayload[] = Object.entries(answers).map(([key, val], index) => {
+                    const qDef = depthQuestions.find(q => q.id === key);
+                    return {
+                        question_key: key,
+                        question_label: qDef?.question || key, // Fallback key si manual
+                        response_type: qDef?.type || 'scale', // Fallback type
+                        response_value: val,
+                        order_index: index + 1
+                    };
+                });
+
+                recordDepthSignalsFromLegacy({
+                    instance_id: optionId, // en insight pack, optionId (o brand_id) en el modal
+                    instance_title: `Insight Pack: ${optionLabel}`,
+                    entity_name: optionLabel,
+                    subcategory: categorySlug,
+                    answers: depthAnswers
+                }).catch(e => logger.warn('[InsightPack] Double write failed', e));
+
+            } catch (dwErr) {
+                logger.warn('[InsightPack] Double write error wrapper', dwErr);
+            }
+            // --- FIN DOBLE ESCRITURA ---
+
             // Background fetch
             fetchAnalytics(answers).catch(e => logger.error('Background fetch error:', e));
 
@@ -164,32 +206,60 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
         );
     }
 
-    if (!showAnalyticsResults && depthQuestions.length < 10) {
-        return (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    className="bg-white rounded-[2.5rem] p-6 md:p-10 max-w-sm w-full shadow-2xl relative border border-slate-100 text-center"
-                >
-                    <div className="bg-surface2 rounded-2xl p-6 text-center border border-stroke shadow-inner min-h-[200px] flex flex-col items-center justify-center">
-                        <span className="material-symbols-outlined text-text-muted text-4xl mb-3">construction</span>
-                        <p className="text-ink font-bold text-sm">Módulo en construcción</p>
-                        <p className="text-xs text-text-secondary mt-1 max-w-xs mx-auto font-medium">
-                            Estamos preparando las preguntas de profundidad para esta opción.
-                        </p>
-                    </div>
-                    <button
-                        onClick={onCancel}
-                        className="w-full py-4 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-all active:scale-[0.98]"
-                    >
-                        Volver
-                    </button>
-                </motion.div>
-            </div>
-        );
-    }
+    const getQuestionsForCategory = (catSlug: string | undefined, label: string) => {
+        const npsQuestion = {
+            id: 'recomendacion',
+            type: 'nps_0_10',
+            question: `Del 0 al 10… ¿qué tan probable es que recomiendes ${label} a tu mejor amigo o peor enemigo?`,
+            options: []
+        };
+
+        if (catSlug === 'salud-farmacias-scl') {
+            return [
+                npsQuestion,
+                { id: 'q_precios_farmacia', type: 'scale_1_5', question: `Del 1 al 5, ¿qué tan justos te parecen los precios en ${label}?`, options: [] },
+                { id: 'q_stock', type: 'choice', question: `Cuando buscas un medicamento en ${label}...`, options: ["Siempre lo tienen", "A veces falta stock", "Casi nunca encuentro lo que busco", "Solo encuentro marcas alternativas"] },
+                { id: 'q_atencion', type: 'scale_1_5', question: `Del 1 al 5, ¿cómo evalúas la atención y asesoría del farmacéutico?`, options: [] },
+                { id: 'q_ubicacion', type: 'choice', question: `¿Por qué vas a ${label}?`, options: ["Me queda cerca de casa", "Me queda de camino al trabajo", "Tiene los mejores precios", "Me gusta su programa de fidelidad", "Es la única que conozco"] },
+                { id: 'q_rapidez', type: 'scale_1_5', question: `Del 1 al 5, ¿son rápidos para atenderte o la fila no avanza nunca?`, options: [] },
+                { id: 'q_alternativas', type: 'yes_no', question: `¿Te suelen ofrecer alternativas bioequivalentes más económicas en ${label}?`, options: [] },
+                { id: 'q_programa_fidelidad', type: 'choice', question: `¿Qué te parece su programa de descuentos/fidelidad?`, options: ["Es excelente y lo uso siempre", "Es bueno pero engorroso de usar", "Ni sabía que tenían uno", "No sirve para nada"] },
+                { id: 'q_compra_online', type: 'scale_1_5', question: `Si has comprado online en ${label}... del 1 al 5, ¿qué tan buena fue la experiencia?`, options: [] },
+                { id: 'q_confianza', type: 'choice', question: `¿Confías plenamente en lo que te recetan/recomiendan en ${label}?`, options: ["Ciegamente", "Confío pero verifico", "Tomo lo que compro y ya", "Solo voy por recetas médicas específicas"] }
+            ];
+        }
+
+        if (catSlug === 'salud-clinicas-privadas-scl') {
+            return [
+                npsQuestion,
+                { id: 'q_reserva_hora', type: 'choice', question: `Reservar una hora en ${label} es...`, options: ["Súper fácil y rápido", "Un parto, nunca hay fechas", "Normal, lo esperable", "Depende de la especialidad"] },
+                { id: 'q_tiempo_espera', type: 'scale_1_5', question: `Del 1 al 5, ¿qué tan respetuosos son con el horario de tu cita?`, options: [] },
+                { id: 'q_infraestructura', type: 'scale_1_5', question: `Instalaciones y modernismo... del 1 al 5, ¿cómo evalúas a ${label}?`, options: [] },
+                { id: 'q_calidad_medica', type: 'choice', question: `¿Qué opinas del cuerpo médico de ${label}?`, options: ["Cuentan con los mejores especialistas", "Son buenos en general", "Atienden muy apurados", "Dejan bastante que desear"] },
+                { id: 'q_precios_clinica', type: 'scale_1_5', question: `En relación a los precios y copagos, del 1 al 5 ¿es accesible?`, options: [] },
+                { id: 'q_urgencias', type: 'choice', question: `Si vas a Urgencias en ${label}...`, options: ["Te atienden rapidísimo", "Esperas lo normal", "Puedes leerte un libro entero esperando", "Solo si me estoy muriendo voy"] },
+                { id: 'q_trato_personal', type: 'scale_1_5', question: `Del 1 al 5, ¿qué tan humano y empático es el trato de enfermeras y personal?`, options: [] },
+                { id: 'q_tecnologia', type: 'yes_no', question: `¿Sientes que ${label} está equipada con tecnología de punta para exámenes y tratamientos?`, options: [] },
+                { id: 'q_razon_principal', type: 'choice', question: `¿Cuál es tu principal razón para elegir ${label} sobre otras?`, options: ["Prestigio médico", "Convenios con mi isapre/seguro", "Cercanía a mi hogar", "Me atendí toda la vida aquí", "Me la recomendaron"] }
+            ];
+        }
+
+        // Default generic
+        return [
+            npsQuestion,
+            { id: 'q_personaje', type: 'choice', question: `Si ${label} fuera un personaje de tu serie favorita, ¿cuál sería?`, options: ["El protagonista que salva el día", "El secundario buena onda", "El villano sin corazón", "El extra que desaparece rápido", "Ese que nadie entiende qué hace ahí"] },
+            { id: 'q_precio_1_5', type: 'scale_1_5', question: `Precio vs Valor del 1 al 5. ¿Te cobran lo justo o te ven la cara en ${label}?`, options: [] },
+            { id: 'q_innovacion_1_5', type: 'scale_1_5', question: `Innovación del 1 al 5. ¿Qué tan al día está ${label} con el siglo XXI?`, options: [] },
+            { id: 'q_soporte_1_5', type: 'scale_1_5', question: `Si tienes un problema urgente... del 1 al 5, ¿te ayudan rapidito o te mandan a un bot inútil?`, options: [] },
+            { id: 'q_dolor_principal', type: 'choice', question: `¿Qué es lo que más te hace perder la santa paciencia con ${label}?`, options: ["Sus precios de joyería", "Atención estilo municipalidad", "Se caen o fallan en el peor momento", "La burocracia interminable", "Me prometen maravillas y no cumplen", "Sinceramente, los amo sin cuestionar"] },
+            { id: 'q_atractivo_principal', type: 'choice', question: `Y a pesar de todo, ¿por qué vuelves a caer con ${label}?`, options: ["El precio me salva la vida", "Dentro de todo, funciona", "Me da flojera suprema cambiarme", "Me atienden como rey/reina", "Tienen el monopolio de mi vida", "Porque soy fiel por naturaleza"] },
+            { id: 'q_confianza_1_5', type: 'scale_1_5', question: `¿Cuánta fe ciega le tienes a ${label} a largo plazo? (1 al 5)`, options: [] },
+            { id: 'q_fidelidad', type: 'choice', question: `Si mañana desaparece ${label} de la faz de la tierra... tu reacción sería:`, options: ["Lloro lágrimas de sangre", "Me duele un rato, pero superable", "Me da exactamente lo mismo", "Descorcho y hago una fiesta", "Ya no los usaba de todas formas"] },
+            { id: 'q_frecuencia_uso', type: 'choice', question: `Seamos honestos... ¿cada cuánto le rezas o acudes a ${label}?`, options: ["Prácticamente todos los días", "Una que otra vez a la semana", "Aparezco una vez al mes", "Solo para los años bisiestos", "Solo cuando no me queda de otra"] }
+        ];
+    };
+
+    const questionsToUse = depthQuestions.length >= 10 ? depthQuestions : getQuestionsForCategory(categorySlug, optionLabel);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
@@ -353,7 +423,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, onComp
                     </div>
                 ) : (
                     <DepthWizard
-                        questions={depthQuestions}
+                        questions={questionsToUse}
                         packTitle={optionLabel}
                         onSave={handleSurveyCompleteReturn}
                         onCancel={onCancel}

@@ -29,6 +29,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
+  const [isMobileAdminOpen, setIsMobileAdminOpen] = useState(false);
   const adminMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -47,6 +48,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
   const nextMilestone = Math.ceil((signals + 1) / 10) * 10;
   const toNext = nextMilestone - signals;
+  const progressPercent = ((signals % 10) / 10) * 100;
 
   // Cerrar el menú móvil al cambiar de ruta
   useEffect(() => {
@@ -85,11 +87,11 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
           {/* Mobile Menu Button */}
           <button
-            className="sm:hidden p-2 text-slate-500 hover:text-primary-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 rounded-lg"
+            className="sm:hidden p-2 text-slate-600 bg-white hover:bg-slate-50 hover:text-primary-600 active:scale-95 transition-all outline-none rounded-xl border border-slate-200 shadow-sm flex items-center justify-center"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           >
-            <span className="material-symbols-outlined text-2xl">
+            <span className="material-symbols-outlined text-xl">
               {isMobileMenuOpen ? 'close' : 'menu'}
             </span>
           </button>
@@ -106,8 +108,8 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   to={item.route}
                   className={({ isActive }) =>
                     [
-                      "text-sm font-bold transition-colors whitespace-nowrap px-1 flex items-center gap-1",
-                      isActive ? "text-primary-600" : "text-slate-500 hover:text-slate-900",
+                      "text-sm font-bold transition-all whitespace-nowrap flex items-center gap-1 px-3 py-1.5 rounded-xl border border-transparent",
+                      isActive ? "text-primary-600 bg-primary-50/80 border-primary-100 shadow-sm" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-200",
                     ].join(" ")
                   }
                 >
@@ -126,9 +128,14 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   {isAdmin ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                 </div>
                 <span className="text-slate-800">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Usuario')}</span>
-                <div className="flex items-center gap-1 bg-primary-50 text-primary-600 px-1.5 py-0.5 rounded-md border border-primary-100 text-[10px] uppercase tracking-wide ml-1 transition-all group-hover:bg-primary-100" title={`Faltan ${toNext} señales para tu próximo hito`}>
-                  <span className="material-symbols-outlined text-[12px] text-primary-500">star</span>
-                  <span>Faltan {toNext}</span>
+                <div className="flex flex-col gap-0.5 ml-2" title={`Faltan ${toNext} señales para tu próximo hito`}>
+                  <div className="flex items-center justify-between gap-2 text-[9px] font-black uppercase text-primary-600 tracking-wider">
+                    <span className="flex items-center gap-0.5"><span className="material-symbols-outlined text-[10px]">star</span> Lvl</span>
+                    <span>{toNext} left</span>
+                  </div>
+                  <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                    <div className="h-full bg-gradient-brand rounded-full transition-all duration-500" style={{ width: `${progressPercent}%` }}></div>
+                  </div>
                 </div>
               </NavLink>
             ) : (
@@ -167,6 +174,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   <NavLink to="/admin/antifraude" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">local_police</span>
                     Antifraude
+                  </NavLink>
+                  <NavLink to="/admin/actualidad" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
+                    <span className="material-symbols-outlined text-[16px]">newspaper</span>
+                    Actualidad
                   </NavLink>
                 </div>
               </div>
@@ -210,11 +221,16 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-black text-slate-900">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
-                    <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Faltan {toNext} para premio</span>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                        <div className="h-full bg-gradient-brand rounded-full transition-all duration-500" style={{ width: `${progressPercent}%` }}></div>
+                      </div>
+                      <span className="text-[9px] text-slate-400 font-black tracking-widest uppercase">{toNext} left</span>
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center justify-center w-8 h-8 bg-primary-50 text-primary-600 rounded-lg border border-primary-100">
-                  <span className="material-symbols-outlined text-[18px]">redeem</span>
+                  <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </div>
               </NavLink>
             ) : (
@@ -229,21 +245,37 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             )}
 
             {isAuthenticated && isAdmin && (
-              <div className="mx-4 mb-4 mt-2 bg-surface2/50 border border-stroke rounded-[24px] overflow-hidden p-2 shadow-sm">
-                <p className="px-3 pt-2 pb-2 text-[10px] font-black uppercase tracking-widest text-text-muted flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">admin_panel_settings</span> Panel Admin</p>
-                <div className="flex flex-col gap-1 mt-1">
-                  <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-white hover:text-ink shadow-sm'}`}>
-                    <span className="material-symbols-outlined text-[16px]">vpn_key</span>
-                    Invitaciones
-                  </NavLink>
-                  <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-white hover:text-ink shadow-sm'}`}>
-                    <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
-                    Health Checks
-                  </NavLink>
-                  <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-white hover:text-ink shadow-sm'}`}>
-                    <span className="material-symbols-outlined text-[16px]">local_police</span>
-                    Antifraude
-                  </NavLink>
+              <div className="mx-4 mb-4 mt-2 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                <button
+                  onClick={() => setIsMobileAdminOpen(!isMobileAdminOpen)}
+                  className="w-full px-4 py-3 flex items-center justify-between text-slate-700 hover:bg-white transition-colors"
+                >
+                  <span className="text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[18px] text-primary-500">admin_panel_settings</span>
+                    Panel Admin
+                  </span>
+                  <span className={`material-symbols-outlined text-[18px] transition-transform duration-300 ${isMobileAdminOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                </button>
+
+                <div className={`transition-all duration-300 ease-in-out ${isMobileAdminOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                  <div className="flex flex-col gap-1 p-2 bg-white/50 border-t border-slate-100">
+                    <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">vpn_key</span>
+                      Invitaciones
+                    </NavLink>
+                    <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
+                      Health Checks
+                    </NavLink>
+                    <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">local_police</span>
+                      Antifraude
+                    </NavLink>
+                    <NavLink to="/admin/actualidad" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">newspaper</span>
+                      Actualidad
+                    </NavLink>
+                  </div>
                 </div>
               </div>
             )}

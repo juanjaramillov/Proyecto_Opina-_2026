@@ -317,6 +317,21 @@ export const authService = {
             } catch (err) {
                 logger.warn("[authService] Failed to set nickname after registration:", err);
             }
+
+            // Intentar consumir el código de invitación del AccessGate
+            try {
+                const accessGateRaw = localStorage.getItem('opina_access_gate_v1');
+                if (accessGateRaw) {
+                    const parsed = JSON.parse(accessGateRaw);
+                    if (parsed && typeof parsed.tokenId === 'string' && parsed.tokenId.startsWith('CODE:')) {
+                        const code = parsed.tokenId.slice(5).trim();
+                        logger.log(`[authService] Consuming invitation code ${code} for new user ${nickname}`);
+                        await authService.bootstrapUserAfterSignup(nickname, code);
+                    }
+                }
+            } catch (err) {
+                logger.warn("[authService] Failed to consume invitation code during registration:", err);
+            }
         }
 
         // Try to claim any guest activity prior to this official signup

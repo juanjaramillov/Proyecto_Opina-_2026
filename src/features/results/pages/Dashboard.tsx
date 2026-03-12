@@ -92,6 +92,8 @@ export default function Dashboard() {
                                         <>
                                             <div className="h-32 bg-surface2 rounded-xl animate-pulse"></div>
                                             <div className="h-32 bg-surface2 rounded-xl animate-pulse"></div>
+                                            <div className="h-32 bg-surface2 rounded-xl animate-pulse"></div>
+                                            <div className="h-32 bg-surface2 rounded-xl animate-pulse"></div>
                                         </>
                                     ) : trendingFeed.slice(0, 4).map((item, idx) => (
                                         <div key={item.id} className="relative overflow-hidden bg-white border border-stroke rounded-xl p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
@@ -147,7 +149,7 @@ export default function Dashboard() {
                                 <h2 className="text-2xl font-black text-ink tracking-tight">Share of Preference</h2>
                             </div>
                             <p className="text-sm font-medium text-text-secondary mb-8">
-                                Mide tu tracción exacta en enfrentamientos directos de mercado y descubre a quién le estás quitando cuota.
+                                Mide tu tracción exacta en comparaciones directas de mercado y descubre a quién le estás quitando cuota.
                             </p>
 
                             <div className="flex-1 flex flex-col justify-center gap-8">
@@ -335,7 +337,7 @@ export default function Dashboard() {
                         </div>
 
                         {/* Tier 2: PRO (Highlighted) */}
-                        <div className="card p-10 border-2 border-primary relative shadow-premium flex flex-col md:-translate-y-4">
+                        <div className="card p-10 border-2 border-primary relative shadow-xl flex flex-col md:-translate-y-4">
                             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">Recomendado</div>
 
                             <h3 className="text-2xl font-black text-ink mb-1">Deep Analytics</h3>

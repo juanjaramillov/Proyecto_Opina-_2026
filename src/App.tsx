@@ -29,6 +29,8 @@ import IntelligencePage from "./features/intelligence/IntelligencePage";
 import AdminInvites from "./features/admin/pages/AdminInvites";
 import AdminHealth from "./features/admin/pages/AdminHealth";
 import AdminAntifraud from "./features/admin/pages/AdminAntifraud";
+import AdminActualidad from "./features/admin/pages/AdminActualidad";
+import AdminActualidadEditor from "./features/admin/pages/AdminActualidadEditor";
 // import ModulesDemandPage from "./features/admin/pages/ModulesDemandPage";
 // import ModulesPriorityPage from "./features/admin/pages/ModulesPriorityPage";
 // import Rankings from "./features/rankings/pages/Rankings";
@@ -113,6 +115,20 @@ export default function App() {
                 <ProtectedRoute>
                   <RoleProtectedRoute allowedRoles={['admin']}>
                     <AdminAntifraud />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/actualidad" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin']}>
+                    <AdminActualidad />
+                  </RoleProtectedRoute>
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/actualidad/:id" element={
+                <ProtectedRoute>
+                  <RoleProtectedRoute allowedRoles={['admin']}>
+                    <AdminActualidadEditor />
                   </RoleProtectedRoute>
                 </ProtectedRoute>
               } />

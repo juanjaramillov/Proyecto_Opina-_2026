@@ -90,6 +90,26 @@ export default function AccessGuardLayout() {
                 });
 
                 if (!alive) return;
+
+                // Si el usuario está validado acá, acaba de entrar via OAuth/Email pero no ha consumido.
+                if (!error && isValid && profile && profile.tier !== 'guest' && !inviteBound) {
+                    try {
+                        const nickname = profile.displayName || "user";
+                        const { authService } = await import("../../auth/services/authService");
+                        const { logger } = await import("../../../lib/logger");
+                        logger.log(`[AccessGuard] Consumiendo código pendiente ${code} para usuario`);
+                        await authService.bootstrapUserAfterSignup(nickname, code);
+                        setHasInviteBound(true);
+                        setTokenValid(true);
+                        setGateChecked(true);
+                        setLoading(false);
+                        return;
+                    } catch (e) {
+                        // Fallback silently if it fails, let them pass valid gate
+                        console.warn("[AccessGuard] Early consume error:", e);
+                    }
+                }
+
                 setTokenValid(!error && Boolean(isValid));
                 setGateChecked(true);
                 setLoading(false);

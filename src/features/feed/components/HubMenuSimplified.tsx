@@ -4,19 +4,14 @@ interface HubMenuSimplifiedProps {
     onEnterVersus: () => void;
     onEnterProgressive?: () => void;
     onEnterDepth?: () => void;
-    onEnterPlaces?: () => void;
-    onEnterServices?: () => void;
-    onEnterNews?: () => void;
-    onEnterSports?: () => void;
-    onEnterProducts?: () => void;
-    onEnterRestaurants?: () => void;
-    onEnterPulse?: () => void;
+    onEnterActualidad?: () => void;
     onViewResults: () => void;
     stats: {
         active_users_24h: number;
         signals_24h: number;
         depth_answers_24h: number;
         active_battles: number;
+        entities_elo: number;
     } | null;
     topNow: {
         top_versus: { slug: string; title: string; signals_24h: number } | null;
@@ -36,13 +31,7 @@ export default function HubMenuSimplified({
     onEnterVersus,
     onEnterProgressive = () => { },
     onEnterDepth = () => { },
-    onEnterPlaces = () => { },
-    onEnterServices = () => { },
-    onEnterNews = () => { },
-    onEnterSports = () => { },
-    onEnterProducts = () => { },
-    onEnterRestaurants = () => { },
-    onEnterPulse = () => { },
+    onEnterActualidad = () => { },
     onViewResults,
     stats,
     topNow,
@@ -137,7 +126,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 4. Actualidad (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group cursor-pointer relative overflow-hidden" onClick={onEnterNews}>
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden cursor-pointer" onClick={onEnterActualidad}>
                             <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-primary/10 text-primary flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">public</span>
@@ -148,7 +137,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 5. Deportes (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group cursor-pointer relative overflow-hidden" onClick={onEnterSports}>
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-emerald-50 text-emerald-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">sports_soccer</span>
@@ -159,7 +148,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 6. Productos (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group cursor-pointer relative overflow-hidden" onClick={onEnterProducts}>
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-orange-50 text-orange-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">shopping_bag</span>
@@ -170,7 +159,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 7. Restaurantes (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group cursor-pointer relative overflow-hidden" onClick={onEnterRestaurants}>
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-red-50 text-red-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">restaurant</span>
@@ -181,7 +170,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 8. Lugares (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group cursor-pointer relative overflow-hidden" onClick={onEnterPlaces}>
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-blue-50 text-blue-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">location_on</span>
@@ -192,7 +181,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 9. Servicios (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group cursor-pointer relative overflow-hidden" onClick={onEnterServices}>
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-purple-50 text-purple-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">support_agent</span>
@@ -203,7 +192,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 10. Tu Pulso (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group cursor-pointer relative overflow-hidden" onClick={onEnterPulse}>
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-rose-50 text-rose-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">monitor_heart</span>
@@ -216,7 +205,7 @@ export default function HubMenuSimplified({
                         {/* Elemento Movido a la parte superior: Profundidad */}
 
                         {/* 11. Explorar Temas (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 bg-surface2 border border-stroke rounded-2xl p-4 flex flex-col justify-between group cursor-pointer hover:bg-slate-100 transition-colors relative overflow-hidden">
+                        <div className="col-span-1 row-span-1 bg-surface2 border border-stroke rounded-2xl p-4 flex flex-col justify-between group hover:bg-slate-100 transition-colors relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-slate-200/50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-white border border-stroke text-text-secondary flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl group-hover:text-ink transition-colors">search</span>
@@ -227,7 +216,7 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 12. Mis Resultados (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 bg-ink text-white rounded-2xl p-4 flex flex-col justify-between group cursor-pointer hover:bg-ink-800 transition-colors shadow-md relative overflow-hidden" onClick={onViewResults}>
+                        <div className="col-span-1 row-span-1 bg-ink text-white rounded-2xl p-4 flex flex-col justify-between group hover:bg-ink-800 transition-colors shadow-md relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-white/10 text-white flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">bar_chart</span>
@@ -292,13 +281,14 @@ export default function HubMenuSimplified({
                                         <div className="w-6 h-6 rounded-md bg-primary/5 border border-primary/20 flex items-center justify-center transition-colors shrink-0">
                                             <span className="material-symbols-outlined text-primary text-[12px]">compare_arrows</span>
                                         </div>
-                                        <span className="font-bold text-[11px] sm:text-[13px] text-text-secondary pr-1 whitespace-nowrap">Disponibles</span>
+                                        <span className="font-bold text-[11px] sm:text-[13px] text-text-secondary pr-1 whitespace-nowrap">Versus Activos</span>
                                     </div>
                                     <div className="font-black text-ink text-center text-xs sm:text-sm truncate">{new Intl.NumberFormat("es-CL").format(stats?.active_battles || 0)}</div>
-                                    {/* Tú: Asumimos batallas totales - señales que hiciste. No puede ser mayor al global */}
                                     <div className="font-black text-primary text-center text-xs sm:text-sm truncate">{new Intl.NumberFormat("es-CL").format(Math.min(Math.max(0, (stats?.active_battles || 0) - signalsToday), stats?.active_battles || 0))}</div>
                                     <div className="font-bold text-text-muted text-center text-xs truncate">-</div>
                                 </div>
+
+
 
                                 {/* Usuarios Activos Hoy */}
                                 <div className="grid grid-cols-[1fr_42px_42px_42px] sm:grid-cols-[1fr_48px_48px_48px] gap-1.5 items-center group bg-surface2/30 hover:bg-surface2/80 p-1.5 rounded-lg transition-colors">

@@ -304,15 +304,16 @@ export const signalService = {
         signals_24h: number;
         depth_answers_24h: number;
         active_battles: number;
+        entities_elo: number;
     }> => {
-        if (!hasSupabaseEnv()) return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0 };
+        if (!hasSupabaseEnv()) return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
 
         const { data, error } = await (sb.rpc as any)('get_hub_live_stats_24h');
         if (error) {
             logger.error('[Hub Live Stats] Error:', error);
-            return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0 };
+            return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
         }
-        return (data as any) ?? { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0 };
+        return (data as any) ?? { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
     },
 
     getHubSignalTimeseries24h: async (): Promise<Array<{
@@ -351,14 +352,22 @@ export const signalService = {
     getActiveBattles: async (): Promise<ActiveBattle[]> => {
         if (!hasSupabaseEnv()) return [];
 
-        const { data, error } = await sb.rpc('get_active_battles');
-
-        if (error) {
-            logger.error('[Active Battles] Error:', error);
+        const { data: page1, error: err1 } = await sb.rpc('get_active_battles').range(0, 999);
+        if (err1) {
+            logger.error('[Active Battles] Error fetching page 1:', err1);
             return [];
         }
 
-        const rawData = (data as unknown as ActiveBattle[]) || [];
+        const { data: page2, error: err2 } = await sb.rpc('get_active_battles').range(1000, 1999);
+        if (err2) {
+            logger.error('[Active Battles] Error fetching page 2:', err2);
+        }
+
+        const rawData = [
+            ...((page1 as unknown as ActiveBattle[]) || []),
+            ...((page2 as unknown as ActiveBattle[]) || [])
+        ];
+
         return rawData.map((b) => ({
             id: b.id,
             slug: b.slug,

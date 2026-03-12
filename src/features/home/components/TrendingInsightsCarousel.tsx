@@ -128,7 +128,7 @@ export default function TrendingInsightsCarousel({ data, filters }: TrendingInsi
                             {/* Subject details */}
                             <div className="mt-2 md:mt-4 border-l-2 border-primary-500/30 pl-4 py-1">
                                 <p className="text-lg md:text-xl font-bold text-slate-300">
-                                    <span className="text-primary-400">Batalla:</span> {activeSlide.title}
+                                    <span className="text-primary-400">Evaluación:</span> {activeSlide.title}
                                 </p>
                                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">
                                     Topic: {activeSlide.slug}

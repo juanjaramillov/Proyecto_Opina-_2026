@@ -35,20 +35,26 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 }) => {
     const [logoIndex, setLogoIndex] = useState(0);
 
-    const cleanBrandDomain = (brandDomain || "").trim();
-
+    const cleanBrandDomain = (brandDomain || "").replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0].toLowerCase().trim();
     const domainToTry = cleanBrandDomain || guessBrandDomain(name);
 
-    const brandfetchUrl = `https://cdn.brandfetch.io/${domainToTry}`;
+
     const clearbitUrl = `https://logo.clearbit.com/${domainToTry}?size=512`;
+    const unavatarUrl = `https://unavatar.io/${domainToTry}?fallback=false`;
+    const iconHorseUrl = `https://icon.horse/icon/${domainToTry}`;
+    const upleadUrl = `https://logo.uplead.com/${domainToTry}`;
+    const duckduckgoUrl = `https://external-content.duckduckgo.com/ip3/${domainToTry}.ico`;
     const googleFaviconUrl = `https://www.google.com/s2/favicons?domain=${domainToTry}&sz=256`;
 
     const urlsToTry = [
         imageUrl,
-        brandfetchUrl,
+        clearbitUrl,
+        unavatarUrl,
+        iconHorseUrl,
+        upleadUrl,
         googleFaviconUrl,
-        clearbitUrl
-    ].filter(Boolean) as string[];
+        duckduckgoUrl
+    ].filter(Boolean) as string[]; // Remove undefined/nulls if any
 
     const currentUrl = logoIndex < urlsToTry.length ? urlsToTry[logoIndex] : null;
 

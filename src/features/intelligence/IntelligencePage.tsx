@@ -444,7 +444,7 @@ export default function IntelligencePage() {
                             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                             <input
                                 type="text"
-                                placeholder="Buscar batalla..."
+                                placeholder="Buscar evaluación..."
                                 className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-emerald-500 transition"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -456,7 +456,7 @@ export default function IntelligencePage() {
                         <table className="w-full text-left">
                             <thead className="bg-slate-50/50 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
                                 <tr>
-                                    <th className="px-6 py-4">Batalla / Slug</th>
+                                    <th className="px-6 py-4">Evaluación / Slug</th>
                                     <th className="px-6 py-4 text-center">Score</th>
                                     <th className="px-6 py-4 text-center">Variación</th>
                                     <th className="px-6 py-4"></th>
@@ -503,7 +503,7 @@ export default function IntelligencePage() {
                                                 </div>
                                                 <h3 className="text-sm font-bold text-slate-900 mb-1">Sin resultados</h3>
                                                 <p className="text-xs text-slate-500 max-w-sm">
-                                                    No se encontraron batallas que coincidan con tu búsqueda o filtros actuales.
+                                                    No se encontraron evaluaciones que coincidan con tu búsqueda o filtros actuales.
                                                 </p>
                                             </div>
                                         </td>
@@ -723,7 +723,7 @@ export default function IntelligencePage() {
                                     <div className="relative z-10">
                                         {isGeneratingAi ? (
                                             <div className="text-sm font-medium text-indigo-200 animate-pulse italic">
-                                                El Analista IA está interpretando los datos de la batalla...
+                                                El Analista IA está interpretando los datos de la evaluación...
                                             </div>
                                         ) : aiSummary ? (
                                             <p className="text-sm font-medium text-white leading-relaxed">
@@ -1002,7 +1002,7 @@ export default function IntelligencePage() {
                                             </div>
                                             <h4 className="text-sm font-bold text-slate-800 mb-2">Aún sin profundidad</h4>
                                             <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
-                                                No hay suficientes respuestas analíticas capturadas para esta batalla en el segmento seleccionado. Se requieren más señales para desbloquear la radiografía.
+                                                No hay suficientes respuestas analíticas capturadas para esta evaluación en el segmento seleccionado. Se requieren más señales para desbloquear la radiografía.
                                             </p>
                                         </div>
                                     )}

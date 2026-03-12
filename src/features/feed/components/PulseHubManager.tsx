@@ -2,6 +2,7 @@ import { useState } from "react";
 import PulseCheckIn, { PulseQuestion } from "./PulseCheckIn";
 import { PulseCategory, pulseService } from "../../signals/services/pulseService";
 import { useToast } from "../../../components/ui/useToast";
+import { recordPulseSignalsFromLegacy } from "../../../lib/signals/recordPulseSignalsFromLegacy";
 
 const PULSE_QUESTIONS_SOBRE_MI: PulseQuestion[] = [
     {
@@ -95,6 +96,16 @@ export default function PulseHubManager({
 
             await pulseService.savePulseBatch(formattedPulses);
             showToast("¡Pulso registrado exitosamente!", "award", 1);
+            
+            // --- INICIO DOBLE ESCRITURA (Double Write) a signal_events (1 resp = 1 PERSONAL_PULSE_SIGNAL) ---
+            try {
+                 recordPulseSignalsFromLegacy(answers, selectedCategory)
+                     .catch(e => console.warn('[PulseHubManager] Double write failed silently', e));
+            } catch (dwErr) {
+                 console.warn('[PulseHubManager] Double write init error', dwErr);
+            }
+            // --- FIN DOBLE ESCRITURA ---
+
             onClose(); // In a future iteration we would show the summary screen here
         } catch (error) {
             console.error(error);

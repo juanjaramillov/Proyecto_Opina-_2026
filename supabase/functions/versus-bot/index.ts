@@ -174,7 +174,7 @@ serve(async (req) => {
 
         const attemptPairing = () => {
              // Generar todas las combinaciones posibles
-             let possiblePairs = [];
+             const possiblePairs = [];
              
              for(let i=0; i < entities.length; i++) {
                  for(let j=i+1; j < entities.length; j++) {
@@ -310,8 +310,8 @@ Opción B: ${brandB.name}
 
 Tu Tarea:
 Invéntate:
-1. Un "titulo" muy corto y atrapante (máximo 5 palabras). Ej: "Duelo de Gigantes", "Guerra de Cuentas"
-2. Una "descripcion" breve y neutral (1 a 2 líneas máximo) que invite al usuario a elegir su preferido, entendiendo EL TIPO y NATURALEZA de lo que se compara (no digas "marcas" si son Instituciones de Salud, por ejemplo).
+1. Una pregunta corta de "contexto de decisión" (máximo 12 palabras) que sirva como título persuasivo de por qué alguien elegiría una sobre la otra, sin usar lenguaje bélico (evita palabras como Batalla, Guerra, Duelo, Combate). Ejemplos: "¿Cuál prefieres para uso diario?", "Pensando en confianza, ¿cuál eliges?", "¿Cuál recomendarías a un amigo?".
+2. Una "descripcion" breve y neutral (1 a 2 líneas máximo) que expanda ligeramente el contexto e invite al usuario a elegir su preferido.
 
 Devuelve estrictamente un JSON con este formato:
 {
@@ -327,16 +327,16 @@ Devuelve estrictamente un JSON con este formato:
             response_format: { type: "json_object" },
         });
 
-        const completionText = completion.choices[0].message.content || '{"titulo": "Batalla Épica", "descripcion": "Vota por tu favorito"}';
+        const completionText = completion.choices[0].message.content || '{"titulo": "¿Cuál de estas opciones prefieres?", "descripcion": "Selecciona la que mejor se adapte a ti"}';
         let parsedPayload;
         try {
             parsedPayload = JSON.parse(completionText);
-        } catch (e) {
-            parsedPayload = { titulo: "Batalla", descripcion: "Descubre quién gana." };
+        } catch {
+            parsedPayload = { titulo: "¿Cuál prefieres?", descripcion: "Descubre tu tendencia." };
         }
 
-        const finalTitle = parsedPayload.titulo || `Batalla: ${brandA.name} vs ${brandB.name}`;
-        const finalDescription = parsedPayload.descripcion || `¿Cuál prefieres entre ${brandA.name} y ${brandB.name}?`;
+        const finalTitle = parsedPayload.titulo || `¿Cuál prefieres entre ${brandA.name} y ${brandB.name}?`;
+        const finalDescription = parsedPayload.descripcion || `Refleja tu preferencia entre ${brandA.name} y ${brandB.name}.`;
         const slug = generateSlug(finalTitle);
 
         console.log(`OpenAI Generó: ${finalTitle} - ${finalDescription}`);
@@ -403,12 +403,12 @@ Devuelve estrictamente un JSON con este formato:
             throw new Error("No se insertó la instancia de batalla.");
         }
 
-        console.log(`Versus Bot insertó con éxito la batalla: ${slug}`);
+        console.log(`Versus Bot insertó con éxito el escenario de comparación: ${slug}`);
 
         return new Response(
             JSON.stringify({ 
                 success: true, 
-                message: `Batalla automatizada '${finalTitle}' creada con éxito.`,
+                message: `Escenario automatizado '${finalTitle}' creado con éxito.`,
                 battle: {
                     id: newBattle.id,
                     title: finalTitle,

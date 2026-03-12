@@ -58,7 +58,7 @@ export default function DepthHub() {
             if (!mounted) return;
 
             if (bErr || !b) {
-                setError("No se encontró la batalla.");
+                setError("No se encontró la evaluación.");
                 setLoading(false);
                 return;
             }

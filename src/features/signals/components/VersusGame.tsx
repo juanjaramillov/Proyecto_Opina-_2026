@@ -103,7 +103,7 @@ export default function VersusGame(props: GameProps) {
                         onClick={resetGame}
                         className="w-full px-8 py-4 bg-primary text-white font-black rounded-2xl hover:bg-primary-dark transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
                     >
-                        Siguiente batalla →
+                        Siguiente evaluación →
                     </button>
                 </div>
             </motion.div>
@@ -199,7 +199,7 @@ export default function VersusGame(props: GameProps) {
                                         <div className="flex items-center justify-between w-full mb-6">
                                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-sm">
                                                 <span className="inline-block w-2 h-2 rounded-full bg-gradient-brand shadow-[0_0_8px_rgba(59,130,246,0.4)]" />
-                                                Enfrentamiento
+                                                Comparación Corta
                                             </div>
 
                                             <button
@@ -220,11 +220,11 @@ export default function VersusGame(props: GameProps) {
                             })()}
 
                             <p className="mt-3 text-base md:text-lg font-bold text-slate-600">
-                                Dos opciones. Una señal.
+                                Dos opciones. Una decisión rápida.
                             </p>
 
                             <div className="mt-2 text-sm font-medium text-slate-500">
-                                Toca una carta para señalar. Cambia de idea en la siguiente batalla.
+                                Toca una carta para señalar tu preferencia.
                             </div>
                         </div>
                     </motion.div>
@@ -250,7 +250,7 @@ export default function VersusGame(props: GameProps) {
             {
                 effectiveBattle.type === 'separator' ? (
                     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-                        <button onClick={next} className="px-8 py-3 bg-primary text-white rounded-xl font-bold">Siguiente batalla →</button>
+                        <button onClick={next} className="px-8 py-3 bg-primary text-white rounded-xl font-bold">Siguiente comparación →</button>
                     </div>
                 ) : (
                     <AnimatePresence mode="wait">
@@ -293,20 +293,9 @@ export default function VersusGame(props: GameProps) {
                                 </div>
                             ) : (
                                 <div className="relative mt-6 w-full mx-auto">
-                                    {/* VS badge central MASIVO - Corporativo Opina+ */}
-                                    {a && b && (
-                                        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40">
-                                            <motion.div
-                                                initial={{ scale: 0.8, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-gradient-to-br from-primary-600 to-emerald-400 border-[6px] md:border-8 border-white shadow-[0_25px_65px_rgba(37,99,235,0.35)] flex items-center justify-center transform transition-transform duration-700 hover:scale-110"
-                                            >
-                                                <span className="relative text-2xl md:text-3xl font-black tracking-tighter text-white italic drop-shadow-md">VS</span>
-                                            </motion.div>
-                                        </div>
-                                    )}
+                                    {/* VS badge central eliminado por lineamientos de copy (no lenguaje bélico) */}
 
-                                    <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 lg:gap-10 relative z-20 transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
+                                    <div className={`grid grid-cols-2 gap-3 md:gap-8 lg:gap-10 relative z-20 transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
                                         {a && (
                                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: "easeOut" }} className="w-full flex">
                                                 <OptionCard
@@ -399,7 +388,7 @@ export default function VersusGame(props: GameProps) {
                                                         {momentum && selectedOption
                                                             ? momentum.options.find(o => o.id === selectedOption.id)?.percentage || 0
                                                             : 0}%
-                                                    </span> de la comunidad Opina+ piensa igual que tú y ha elegido a <b>{selectedOption?.label}</b> en enfrentamientos recientes.
+                                                    </span> de la comunidad Opina+ piensa igual que tú y ha elegido a <b>{selectedOption?.label}</b> en evaluaciones recientes.
                                                     <span className="text-xs text-slate-400 mt-2 block">Señal conectada con la inteligencia colectiva.</span>
                                                 </div>
                                             </div>

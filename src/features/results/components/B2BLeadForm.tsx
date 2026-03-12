@@ -16,7 +16,6 @@ export const B2BLeadForm = () => {
         setLoading(true);
 
         try {
-            // @ts-expect-error: b2b_leads is a new table, bypassing strict typecheck
             const { error } = await supabase.from('b2b_leads').insert([
                 { name, email, company, role, interest }
             ]);

@@ -210,23 +210,7 @@ export function IndustrySelector({
                         exit="exit"
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 origin-left"
                     >
-                        {/* Optional 'All' subcategory selector */}
-                        <motion.button
-                            variants={vItem}
-                            onClick={() => onSubcategoryChange(null)}
-                            className={`p-4 rounded-2xl border text-left transition-all duration-300 active:scale-95 flex items-center gap-3 group ${selectedSubcategoryId === null
-                                ? 'border-slate-800 bg-slate-800 shadow-md ring-2 ring-slate-800/20 text-white'
-                                : 'border-white bg-white hover:shadow-md hover:border-slate-300 text-slate-700'
-                                }`}
-                        >
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${selectedSubcategoryId === null
-                                ? 'bg-slate-700 text-white'
-                                : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-600'
-                                }`}>
-                                <span className="material-symbols-outlined text-sm">view_timeline</span>
-                            </div>
-                            <div className="font-bold text-sm tracking-tight flex-1">Todo {selectedParent.title}</div>
-                        </motion.button>
+                        {/* Removed 'All' subcategory selector as requested */}
 
                         {selectedParent.subcategories.map((sub) => {
                             const isSelected = selectedSubcategoryId === sub.id;
