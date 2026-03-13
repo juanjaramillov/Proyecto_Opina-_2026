@@ -1,249 +1,128 @@
-import { useEffect, useState, useMemo } from 'react';
-import { adminInvitesService, InviteRow, RedemptionRow } from '../services/adminInvitesService';
-import { supabase } from '../../../supabase/client';
+import { useAdminInvites } from '../hooks/useAdminInvites';
+import { useIntelligence } from '../../intelligence/hooks/useIntelligence';
+import { InvitesTable } from '../components/InvitesTable';
+import { RedemptionsTable } from '../components/RedemptionsTable';
+import { Users, Ticket, AlertTriangle, UserPlus, Clock, Database } from 'lucide-react';
 
 export default function AdminInvites() {
-    const [tab, setTab] = useState<'invites' | 'redemptions'>('invites');
-    const [invites, setInvites] = useState<InviteRow[]>([]);
-    const [redemptions, setRedemptions] = useState<RedemptionRow[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState<string | null>(null);
-    const [prefix, setPrefix] = useState('OP');
-    const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'in_use' | 'abandoned' | 'revoked'>('all');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedInvites, setSelectedInvites] = useState<Set<string>>(new Set());
-    const [confirmAction, setConfirmAction] = useState<'active' | 'revoked' | 'delete' | null>(null);
-    const [confirmRowAction, setConfirmRowAction] = useState<{ id: string, action: 'active' | 'revoked' | 'delete' } | null>(null);
-    const [waDrafts, setWaDrafts] = useState<Record<string, { phone: string; isSending: boolean; statusMsg?: string }>>({});
-    const [sortConfig, setSortConfig] = useState<{ key: keyof InviteRow; direction: 'asc' | 'desc' } | null>(null);
+    const {
+        tab, setTab,
+        invites, redemptions,
+        loading, errorMsg,
+        prefix, setPrefix,
+        statusFilter, setStatusFilter,
+        searchTerm, setSearchTerm,
+        selectedInvites,
+        confirmAction, setConfirmAction,
+        confirmRowAction, setConfirmRowAction,
+        waDrafts, sortConfig,
+        handleSort, sortedInvites,
+        updateWaDraft, handleSendWhatsApp,
+        fetchInvites, fetchRedemptions,
+        handleGenerate, handleStatusChange,
+        handleCopyActive, toggleSelectAll, toggleSelect,
+        handleBulkAction, stats: localStats
+    } = useAdminInvites();
 
-    const handleSort = (key: keyof InviteRow) => {
-        let direction: 'asc' | 'desc' = 'desc';
-        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'desc') {
-            direction = 'asc';
-        }
-        setSortConfig({ key, direction });
-    };
-
-    const sortedInvites = useMemo(() => {
-        let sortableItems = [...invites];
-
-        if (sortConfig !== null) {
-            sortableItems.sort((a, b) => {
-                const aValue = a[sortConfig.key];
-                const bValue = b[sortConfig.key];
-                
-                if (aValue === null || aValue === undefined) return sortConfig.direction === 'asc' ? -1 : 1;
-                if (bValue === null || bValue === undefined) return sortConfig.direction === 'asc' ? 1 : -1;
-
-                if (aValue < bValue) {
-                    return sortConfig.direction === 'asc' ? -1 : 1;
-                }
-                if (aValue > bValue) {
-                    return sortConfig.direction === 'asc' ? 1 : -1;
-                }
-                return 0;
-            });
-        } else {
-             const priority: Record<string, number> = {
-                'used': 1,
-                'active': 2,
-                'revoked': 3
-            };
-    
-            sortableItems.sort((a, b) => {
-                const pA = priority[a.status] || 99;
-                const pB = priority[b.status] || 99;
-    
-                if (pA !== pB) return pA - pB;
-    
-                // Si tienen el mismo estado, ordenar por fecha descendente
-                return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-            });
-        }
-        return sortableItems;
-    }, [invites, sortConfig]);
-
-    const updateWaDraft = (id: string, updates: Partial<{ phone: string; isSending: boolean; statusMsg?: string }>) => {
-        setWaDrafts(prev => ({
-            ...prev,
-            [id]: { ...(prev[id] || { phone: '', isSending: false }), ...updates }
-        }));
-    };
-
-    const handleSendWhatsApp = async (invite: InviteRow) => {
-        const draft = waDrafts[invite.id];
-        if (!draft?.phone || !draft.phone.startsWith('+')) {
-            alert('Por favor ingresa un teléfono válido con formato +... (ej: +56912345678)');
-            return;
-        }
-
-        updateWaDraft(invite.id, { isSending: true, statusMsg: undefined });
-        try {
-            const res = await adminInvitesService.sendWhatsAppInvite(invite.id, draft.phone);
-            if (res.success) {
-                updateWaDraft(invite.id, { isSending: false, statusMsg: 'Enviado ✅' });
-                // Opcional: refrescar esta fila
-                setInvites(prev => prev.map(i => i.id === invite.id ? {
-                    ...i,
-                    whatsapp_phone: draft.phone,
-                    whatsapp_status: 'sent',
-                    whatsapp_sent_at: new Date().toISOString()
-                } : i));
-            } else {
-                const detailMsg = res.detail?.error?.message || res.error || 'Fallo desconocido';
-                updateWaDraft(invite.id, { isSending: false, statusMsg: `Error: ${detailMsg.substring(0, 100)}` });
-            }
-        } catch (err: any) {
-            updateWaDraft(invite.id, { isSending: false, statusMsg: `Error: ${err.message}` });
-        }
-    };
-
-    const fetchInvites = async () => {
-        setLoading(true);
-        setErrorMsg(null);
-        try {
-            const data = await adminInvitesService.listInvites(statusFilter, searchTerm);
-            setInvites(data);
-        } catch (err: any) {
-            setErrorMsg(err.message || 'Error fetching invites');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const fetchRedemptions = async () => {
-        setLoading(true);
-        setErrorMsg(null);
-        try {
-            const data = await adminInvitesService.listRedemptions(200);
-            setRedemptions(data);
-        } catch (err: any) {
-            setErrorMsg(err.message || 'Error fetching redemptions');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        setSelectedInvites(new Set());
-        setConfirmAction(null);
-        setConfirmRowAction(null);
-        if (tab === 'invites') fetchInvites();
-        else fetchRedemptions();
-    }, [tab, statusFilter]);
-
-    const handleGenerate = async () => {
-        setLoading(true);
-        setErrorMsg(null);
-        try {
-            await adminInvitesService.generateInvites(10, prefix);
-            await fetchInvites();
-        } catch (err: any) {
-            setErrorMsg(err.message || 'Error generating invites');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // currentStatus kept for potential future UI optimistic tweaks
-    const handleStatusChange = async (inviteId: string, _currentStatus: string, action: 'revoked' | 'active' | 'delete') => {
-        setLoading(true);
-        setErrorMsg(null);
-        setConfirmRowAction(null);
-        try {
-            if (action === 'delete') {
-                await adminInvitesService.deleteInvite(inviteId);
-                setInvites(invites.filter((i) => i.id !== inviteId));
-            } else {
-                const { error } = await (supabase as any).rpc('admin_set_invitation_status', {
-                    p_invite_id: inviteId,
-                    p_status: action,
-                });
-                if (error) throw error;
-                // Update locally without a full refetch for better UX
-                setInvites(invites.map((i) => i.id === inviteId ? { ...i, status: action } : i));
-            }
-        } catch (err: any) {
-            setErrorMsg(err.message || `Error updating invite status to ${action}`);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleCopyActive = async () => {
-        const activeCodes = invites
-            .filter((i) => i.status === 'active')
-            .map((i) => i.code)
-            .join('\n');
-
-        if (!activeCodes) {
-            setErrorMsg('No active codes to copy');
-            return;
-        }
-
-        try {
-            await navigator.clipboard.writeText(activeCodes);
-            alert('Códigos copiados al portapapeles!');
-        } catch (err) {
-            setErrorMsg('Failed to copy to clipboard');
-        }
-    };
-
-    const toggleSelectAll = () => {
-        if (selectedInvites.size === invites.length && invites.length > 0) {
-            setSelectedInvites(new Set());
-        } else {
-            setSelectedInvites(new Set(invites.map(i => i.id)));
-        }
-    };
-
-    const toggleSelect = (id: string) => {
-        const newSet = new Set(selectedInvites);
-        if (newSet.has(id)) newSet.delete(id);
-        else newSet.add(id);
-        setSelectedInvites(newSet);
-    };
-
-    const handleBulkAction = async (action: 'active' | 'revoked' | 'delete') => {
-        if (selectedInvites.size === 0) return;
-
-        setLoading(true);
-        setErrorMsg(null);
-        setConfirmAction(null);
-        try {
-            const promises = Array.from(selectedInvites).map(async (inviteId) => {
-                if (action === 'delete') {
-                    return adminInvitesService.deleteInvite(inviteId);
-                } else {
-                    return (supabase as any).rpc('admin_set_invitation_status', {
-                        p_invite_id: inviteId,
-                        p_status: action,
-                    });
-                }
-            });
-
-            await Promise.all(promises);
-
-            await fetchInvites();
-            setSelectedInvites(new Set());
-        } catch (err: any) {
-            setErrorMsg(err.message || `Error procesando acción masiva`);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const renderSortIcon = (key: keyof InviteRow) => {
-        if (sortConfig?.key !== key) return <span className="text-slate-300 ml-1 text-[12px]">↕</span>;
-        return sortConfig.direction === 'asc' 
-            ? <span className="text-cyan-600 ml-1 text-[12px] font-bold">↑</span> 
-            : <span className="text-cyan-600 ml-1 text-[12px] font-bold">↓</span>;
-    };
+    // Traer stats y KPIs de toda la plataforma
+    const { stats: globalStats, kpis: globalKpis, loading: loadingGlobal } = useIntelligence();
 
     return (
         <div className="w-full px-4 md:px-8 section-y space-y-6">
             <h1 className="text-2xl font-bold text-slate-900">Administrador de Invitaciones</h1>
+
+            {/* KPIs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-2">
+                {/* Métricas Globales de Plataforma */}
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-indigo-50 text-indigo-500 shrink-0">
+                        <Users className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Usuarios Activos (Online)</div>
+                        <div className="text-2xl font-bold text-slate-900">
+                           {loadingGlobal ? '...' : (globalStats?.active_users || 0).toLocaleString()}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-teal-50 text-teal-500 shrink-0">
+                        <UserPlus className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Usuarios Activos (7d - WAU)</div>
+                        <div className="text-2xl font-bold text-slate-900">
+                            {loadingGlobal ? '...' : (globalKpis?.wau || 0).toLocaleString()}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-amber-50 text-amber-500 shrink-0">
+                        <Clock className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Usuarios Activos (24h - DAU)</div>
+                        <div className="text-2xl font-bold text-slate-900">
+                             {loadingGlobal ? '...' : (globalKpis?.dau || 0).toLocaleString()}
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-rose-50 text-rose-500 shrink-0">
+                        <Database className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Señales Procesadas (24h)</div>
+                        <div className="text-2xl font-bold text-slate-900">
+                            {loadingGlobal ? '...' : (globalStats?.signals_24h || 0).toLocaleString()}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Métricas de Invitaciones (Originales) */}
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-50 text-blue-500 shrink-0">
+                        <Ticket className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Total Entradas</div>
+                        <div className="text-2xl font-bold text-slate-900">{localStats.total}</div>
+                    </div>
+                </div>
+                
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-emerald-50 text-emerald-500 shrink-0">
+                        <Users className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Conversión</div>
+                        <div className="text-2xl font-bold text-slate-900 flex items-baseline gap-2">
+                            {localStats.conversionRate.toFixed(1)}%
+                            <span className="text-sm font-medium text-slate-500">
+                                ({localStats.used})
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4 cursor-pointer hover:border-orange-200 transition-colors" onClick={() => { setTab('invites'); setStatusFilter('abandoned'); }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-orange-50 text-orange-500 shrink-0">
+                        <AlertTriangle className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Abandonos</div>
+                        <div className="text-2xl font-bold text-slate-900 flex items-baseline gap-2">
+                            {localStats.abandoned}
+                            <span className="text-sm font-medium text-slate-500 whitespace-nowrap hidden sm:inline">
+                                (WA)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {errorMsg && (
                 <div className="bg-red-50 text-red-600 p-3 rounded-xl border border-red-200 text-sm">
@@ -414,260 +293,23 @@ export default function AdminInvites() {
             <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 overflow-hidden">
                 <div className="overflow-x-auto">
                     {tab === 'invites' ? (
-                        <table className="w-full text-sm text-left">
-                            <thead className="text-[10px] md:text-xs text-slate-500 uppercase tracking-wider bg-slate-50/50">
-                                <tr>
-                                    <th className="px-2 py-3 font-bold rounded-tl-xl w-8 text-center">
-                                        <input
-                                            type="checkbox"
-                                            className="w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
-                                            checked={invites.length > 0 && selectedInvites.size === invites.length}
-                                            onChange={toggleSelectAll}
-                                        />
-                                    </th>
-                                    <th className="px-1 py-3 w-6 text-center"></th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('code')}>
-                                        <div className="flex items-center justify-center whitespace-nowrap">Código {renderSortIcon('code')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('used_by_nickname')}>
-                                        <div className="flex items-center justify-center">Alias {renderSortIcon('used_by_nickname')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('status')}>
-                                        <div className="flex items-center justify-center">Estado {renderSortIcon('status')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('expires_at')}>
-                                        <div className="flex items-center justify-center whitespace-nowrap">Expira {renderSortIcon('expires_at')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('last_active_at')}>
-                                        <div className="flex items-center justify-center">Última Conexión {renderSortIcon('last_active_at')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('total_sessions')}>
-                                        <div className="flex items-center justify-center">Sesiones {renderSortIcon('total_sessions')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('total_interactions')}>
-                                        <div className="flex items-center justify-center">Señales {renderSortIcon('total_interactions')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold cursor-pointer hover:bg-slate-200 transition-colors select-none" onClick={() => handleSort('total_time_spent_seconds')}>
-                                        <div className="flex items-center justify-center">Minutos {renderSortIcon('total_time_spent_seconds')}</div>
-                                    </th>
-                                    <th className="px-2 py-3 font-bold text-center">WhatsApp</th>
-                                    <th className="px-2 py-3 font-bold rounded-tr-xl whitespace-nowrap text-center w-24">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {sortedInvites.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={10} className="px-4 py-8 text-center text-slate-500 italic">No hay invitaciones registradas.</td>
-                                    </tr>
-                                ) : (
-                                    sortedInvites.map((invite) => (
-                                        <tr key={invite.id} className={`hover:bg-slate-50/50 transition-colors ${selectedInvites.has(invite.id) ? 'bg-cyan-50/30' : ''}`}>
-                                            <td className="px-2 py-3 text-center">
-                                                <input
-                                                    type="checkbox"
-                                                    className="w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
-                                                    checked={selectedInvites.has(invite.id)}
-                                                    onChange={() => toggleSelect(invite.id)}
-                                                />
-                                            </td>
-                                            <td className="px-1 py-3 text-center">
-                                                <div
-                                                    className={`w-2 h-2 rounded-full mx-auto ${invite.used_by_user_id
-                                                        ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000)
-                                                            ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                                                            : 'bg-red-500 bg-opacity-80'
-                                                        : 'bg-slate-200'
-                                                        }`}
-                                                    title={invite.used_by_user_id ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000 ? `Online` : 'Offline') : 'No usada'}
-                                                />
-                                            </td>
-                                            <td className="px-2 py-3 font-mono font-medium text-slate-900 whitespace-nowrap text-[11px] lg:text-sm text-center">{invite.code}</td>
-                                            <td className="px-2 py-3 text-slate-600 text-center text-[11px] lg:text-xs">
-                                                {invite.used_by_nickname ? (
-                                                    <span className="font-bold text-primary-600">{invite.used_by_nickname}</span>
-                                                ) : (
-                                                    '-'
-                                                )}
-                                            </td>
-                                            <td className="px-2 py-3 text-center">
-                                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold ${invite.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
-                                                    invite.status === 'used' ? 'bg-cyan-100 text-cyan-800' :
-                                                        invite.status === 'revoked' ? 'bg-red-100 text-red-800' :
-                                                            'bg-slate-100 text-slate-800'
-                                                    }`}>
-                                                    {invite.status.toUpperCase()}
-                                                </span>
-                                            </td>
-                                            <td className="px-2 py-3 text-slate-500 text-[10px] md:text-xs whitespace-nowrap text-center">
-                                                {invite.expires_at ? new Date(invite.expires_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }) : 'Nunca'}
-                                            </td>
-                                            <td className="px-2 py-3 text-center">
-                                                <span className="font-mono text-[10px] md:text-xs text-slate-500">
-                                                    {invite.last_active_at ? new Date(invite.last_active_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-'}
-                                                </span>
-                                            </td>
-                                            <td className="px-2 py-3 text-center">
-                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_sessions ?? '-'}</span>
-                                            </td>
-                                            <td className="px-2 py-3 text-center">
-                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">{invite.total_interactions ?? '-'}</span>
-                                            </td>
-                                            <td className="px-2 py-3 text-center">
-                                                <span className="font-mono text-[11px] md:text-sm font-bold text-slate-700">
-                                                    {invite.total_time_spent_seconds ? (invite.total_time_spent_seconds / 60).toFixed(1) : '-'}
-                                                </span>
-                                            </td>
-                                            <td className="px-2 py-3">
-                                                <div className="flex items-center justify-center gap-2">
-                                                    <div className="flex gap-1 w-[130px] shrink-0">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="+569..."
-                                                            value={waDrafts[invite.id]?.phone ?? invite.whatsapp_phone ?? ''}
-                                                            onChange={(e) => updateWaDraft(invite.id, { phone: e.target.value })}
-                                                            className="w-full text-[10px] px-2 py-1 border rounded-lg focus:ring-1 focus:ring-cyan-500 outline-none"
-                                                            disabled={waDrafts[invite.id]?.isSending}
-                                                        />
-                                                        <button
-                                                            onClick={() => handleSendWhatsApp(invite)}
-                                                            disabled={waDrafts[invite.id]?.isSending || !(waDrafts[invite.id]?.phone || invite.whatsapp_phone)}
-                                                            className="bg-emerald-500 text-white rounded-lg p-1 hover:bg-emerald-600 disabled:opacity-50 transition-colors flex items-center justify-center shrink-0"
-                                                            title="Enviar invitación por WhatsApp"
-                                                        >
-                                                            {waDrafts[invite.id]?.isSending ? (
-                                                                <span className="animate-spin text-[14px] material-symbols-outlined">sync</span>
-                                                            ) : (
-                                                                <span className="text-[14px] material-symbols-outlined">send</span>
-                                                            )}
-                                                        </button>
-                                                    </div>
-                                                    <div className="text-[9px] flex items-center gap-1 text-left w-[80px] shrink-0">
-                                                        {(waDrafts[invite.id]?.statusMsg || invite.whatsapp_status) && (
-                                                            <>
-                                                                <span className={`font-bold whitespace-nowrap ${waDrafts[invite.id]?.statusMsg?.includes('Error') || invite.whatsapp_status === 'error' ? 'text-red-500' : 'text-emerald-600'
-                                                                    }`}>
-                                                                    {waDrafts[invite.id]?.statusMsg || (invite.whatsapp_status === 'sent' ? 'Enviado ✅' : invite.whatsapp_status)}
-                                                                </span>
-                                                                {invite.whatsapp_error && (
-                                                                    <span className="text-red-400 truncate max-w-[80px]" title={invite.whatsapp_error}>
-                                                                        ({invite.whatsapp_error})
-                                                                    </span>
-                                                                )}
-                                                            </>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-2 py-3 text-center whitespace-nowrap">
-                                                {confirmRowAction?.id === invite.id ? (
-                                                    <div className="flex items-center justify-center gap-1.5 animate-in fade-in zoom-in-95">
-                                                        <span className="text-[9px] font-bold text-slate-500 uppercase hidden sm:inline">
-                                                            ¿Seguro?
-                                                        </span>
-                                                        <button
-                                                            onClick={() => setConfirmRowAction(null)}
-                                                            disabled={loading}
-                                                            className="px-1.5 py-0.5 rounded text-[10px] font-bold text-slate-500 bg-slate-100 hover:bg-slate-200"
-                                                        >
-                                                            NO
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleStatusChange(invite.id, invite.status, confirmRowAction.action)}
-                                                            disabled={loading}
-                                                            className={`px-1.5 py-0.5 rounded text-[10px] font-bold text-white ${confirmRowAction.action === 'delete' ? 'bg-red-600 hover:bg-red-700' :
-                                                                confirmRowAction.action === 'revoked' ? 'bg-blue-600 hover:bg-blue-700' :
-                                                                    'bg-emerald-600 hover:bg-emerald-700'
-                                                                }`}
-                                                        >
-                                                            SÍ
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex items-center justify-center gap-1 flex-nowrap">
-                                                        {invite.status !== 'revoked' && (
-                                                            <button
-                                                                onClick={() => setConfirmRowAction({ id: invite.id, action: 'revoked' })}
-                                                                disabled={loading}
-                                                                className="text-[10px] font-bold text-red-600 hover:text-red-700 disabled:opacity-50 focus:outline-none rounded px-1"
-                                                            >
-                                                                REVOCAR
-                                                            </button>
-                                                        )}
-                                                        {invite.status === 'revoked' && (
-                                                            <button
-                                                                onClick={() => handleStatusChange(invite.id, invite.status, 'active')}
-                                                                disabled={loading}
-                                                                className="text-[10px] font-bold text-emerald-600 hover:text-emerald-700 disabled:opacity-50 focus:outline-none rounded px-1"
-                                                            >
-                                                                REACTIVAR
-                                                            </button>
-                                                        )}
-                                                        <button
-                                                            onClick={() => setConfirmRowAction({ id: invite.id, action: 'delete' })}
-                                                            disabled={loading}
-                                                            className="text-slate-400 hover:text-red-600 disabled:opacity-50 focus:outline-none rounded px-1 flex items-center justify-center"
-                                                            title="Eliminar permanentemente"
-                                                        >
-                                                            <span className="material-symbols-outlined text-[15px]">delete</span>
-                                                        </button>
-                                                    </div>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                        <InvitesTable
+                            sortedInvites={sortedInvites}
+                            selectedInvites={selectedInvites}
+                            toggleSelectAll={toggleSelectAll}
+                            toggleSelect={toggleSelect}
+                            handleSort={handleSort}
+                            sortConfig={sortConfig}
+                            waDrafts={waDrafts}
+                            updateWaDraft={updateWaDraft}
+                            handleSendWhatsApp={handleSendWhatsApp}
+                            confirmRowAction={confirmRowAction}
+                            setConfirmRowAction={setConfirmRowAction}
+                            handleStatusChange={handleStatusChange}
+                            loading={loading}
+                        />
                     ) : (
-                        <table className="w-full text-sm text-left">
-                            <thead className="text-xs text-slate-500 uppercase tracking-widest bg-slate-50/50">
-                                <tr>
-                                    <th className="px-4 py-3 font-bold rounded-tl-xl whitespace-nowrap text-center">Fecha/Hora</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">Código</th>
-                                    <th className="px-4 py-3 font-bold text-center">Resultado</th>
-                                    <th className="px-4 py-3 font-bold text-center">Nickname</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">User ID</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap text-center">App Ver.</th>
-                                    <th className="px-4 py-3 font-bold rounded-tr-xl text-center">User Agent</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {redemptions.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={7} className="px-4 py-8 text-center text-slate-500 italic">No hay registros de intentos.</td>
-                                    </tr>
-                                ) : (
-                                    redemptions.map((r) => (
-                                        <tr key={r.id} className="hover:bg-slate-50/50 transition-colors">
-                                            <td className="px-4 py-3 text-slate-500 text-xs text-center">{new Date(r.created_at).toLocaleString()}</td>
-                                            <td className="px-4 py-3 font-mono font-medium text-slate-900 text-center">{r.invite_code_entered}</td>
-                                            <td className="px-4 py-3 text-center">
-                                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${r.result === 'success' ? 'bg-emerald-100 text-emerald-800' :
-                                                    r.result === 'invite_invalid' || r.result === 'invite_already_used' ? 'bg-red-100 text-red-800' :
-                                                        'bg-blue-100 text-blue-800'
-                                                    }`}>
-                                                    {r.result}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-slate-600 text-center">{r.nickname || '-'}</td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs font-mono text-center" title={r.user_id || undefined}>
-                                                {r.user_id ? `${r.user_id.substring(0, 8)}...` : '-'}
-                                            </td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs text-center">{r.app_version || '-'}</td>
-                                            <td className="px-4 py-3 text-slate-500 text-xs text-center">
-                                                {r.user_agent ? (
-                                                    <span title={r.user_agent} className="cursor-help border-b border-dotted border-slate-400">
-                                                        {r.user_agent.length > 30 ? `${r.user_agent.substring(0, 30)}...` : r.user_agent}
-                                                    </span>
-                                                ) : (
-                                                    '-'
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                        <RedemptionsTable redemptions={redemptions} />
                     )}
                 </div>
             </div>

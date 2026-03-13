@@ -16,7 +16,7 @@ export default function ForgotPassword() {
         setNotice(null);
 
         try {
-            logger.log("=== FORGOT PASSWORD: Sending reset for", email.trim());
+            logger.info("=== FORGOT PASSWORD: Sending reset for " + email.trim());
             await authService.resetPasswordForEmail(email.trim());
 
             setNotice({

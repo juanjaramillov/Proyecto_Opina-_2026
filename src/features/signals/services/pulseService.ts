@@ -22,6 +22,21 @@ export const pulseService = {
                 throw new Error("User must be authenticated to save a pulse");
             }
 
+            // 1. ESCRITURA CANÓNICA (Signal Engine)
+            const { signalService } = await import('./signalService');
+            
+            for (const p of pulses) {
+                await signalService.saveSignalEvent({
+                    battle_id: p.question_identifier, // The specific pulse question identifier as context
+                    option_id: p.response_value,      // The value responded
+                    attribute_id: p.sub_category,     // Store the category as attribute
+                    meta: {
+                        source: 'pulse'
+                    }
+                });
+            }
+
+            // 2. METADATA ESPECÍFICA LUEGO
             const pulsesToInsert = pulses.map(p => ({
                 user_id: user.id,
                 sub_category: p.sub_category,
@@ -34,13 +49,14 @@ export const pulseService = {
                 .insert(pulsesToInsert);
 
             if (error) {
-                throw error;
+                // Not throwing here because canonical signals succeeded
+                logger.error('Failed to save pulse batch fallback metadata', error);
             }
 
             return true;
         } catch (error) {
             logger.error('Failed to save pulse batch', error);
-            throw error;
+            throw error; // Let the caller UI (Tu Pulso) handle errors
         }
     },
 

@@ -1,0 +1,132 @@
+Marca,Slug,Categoria,Subcategoria,Dominio Web (LLENAR AQUI),Tiene Logo?
+Logitech,logitech,Gaming,Periféricos gamer,https://www.logitech.com,NO
+Mad Catz,mad-catz,Gaming,Periféricos gamer,https://www.madcatz.com,NO
+Glorious PC Gaming Race,glorious,Gaming,Periféricos gamer,https://www.gloriousgaming.com,NO
+Cooler Master,cooler-master,Gaming,Periféricos gamer,https://www.coolermaster.com,NO
+Thermaltake,thermaltake,Gaming,Periféricos gamer,https://www.thermaltake.com,NO
+Turtle Beach,turtle-beach,Gaming,Periféricos gamer,https://www.turtlebeach.com,NO
+Astro Gaming,astro-gaming,Gaming,Periféricos gamer,https://www.astrogaming.com,NO
+Scuf Gaming,scuf-gaming,Gaming,Periféricos gamer,https://scufgaming.com,NO
+PowerA,powera,Gaming,Periféricos gamer,https://www.powera.com,NO
+8BitDo,8bitdo,Gaming,Periféricos gamer,https://www.8bitdo.com,NO
+Thrustmaster,thrustmaster,Gaming,Periféricos gamer,https://www.thrustmaster.com,NO
+Fanatec,fanatec,Gaming,Periféricos gamer,https://fanatec.com,NO
+Hori,hori,Gaming,Periféricos gamer,https://hori.co.jp,NO
+GameSir,gamesir,Gaming,Periféricos gamer,https://www.gamesir.hk,NO
+Nacon,nacon,Gaming,Periféricos gamer,https://www.nacongaming.com,NO
+Hulu,hulu,Entretenimiento,Video,https://www.hulu.com,NO
+Crunchyroll,crunchyroll,Entretenimiento,Video,https://www.crunchyroll.com,NO
+Rakuten TV,rakuten-tv,Entretenimiento,Video,https://rakuten.tv,NO
+Pluto TV,pluto-tv,Entretenimiento,Video,https://pluto.tv,NO
+Tubi,tubi,Entretenimiento,Video,https://tubitv.com,NO
+Peacock,peacock,Entretenimiento,Video,https://www.peacocktv.com,NO
+Discovery+,discovery-plus,Entretenimiento,Video,https://www.discoveryplus.com,NO
+BBC iPlayer,bbc-iplayer,Entretenimiento,Video,https://www.bbc.co.uk/iplayer,NO
+DAZN,dazn,Entretenimiento,Video,https://www.dazn.com,NO
+Shudder,shudder,Entretenimiento,Video,https://www.shudder.com,NO
+Viki,viki,Entretenimiento,Video,https://www.viki.com,NO
+Curiosity Stream,curiosity-stream,Entretenimiento,Video,https://curiositystream.com,NO
+Nebula,nebula,Entretenimiento,Video,https://nebula.tv,NO
+Acorn TV,acorn-tv,Entretenimiento,Video,https://acorn.tv,NO
+BritBox,britbox,Entretenimiento,Video,https://www.britbox.com,NO
+SoundCloud,soundcloud,Entretenimiento,Música,https://soundcloud.com,NO
+Pandora,pandora-music,Entretenimiento,Música,https://www.pandora.com,NO
+iHeartRadio,iheartradio,Entretenimiento,Música,https://www.iheart.com,NO
+TuneIn,tunein,Entretenimiento,Música,https://tunein.com,NO
+Audiomack,audiomack,Entretenimiento,Música,https://audiomack.com,NO
+Bandcamp,bandcamp,Entretenimiento,Música,https://bandcamp.com,NO
+Anghami,anghami,Entretenimiento,Música,https://www.anghami.com,NO
+Qobuz,qobuz,Entretenimiento,Música,https://www.qobuz.com,NO
+Napster,napster,Entretenimiento,Música,https://www.napster.com,NO
+JioSaavn,jiosaavn,Entretenimiento,Música,https://www.jiosaavn.com,NO
+KKBOX,kkbox,Entretenimiento,Música,https://www.kkbox.com,NO
+Melon,melon,Entretenimiento,Música,https://www.melon.com,NO
+Boomplay,boomplay,Entretenimiento,Música,https://www.boomplay.com,NO
+Yandex Music,yandex-music,Entretenimiento,Música,https://music.yandex.com,NO
+Gaana,gaana,Entretenimiento,Música,https://gaana.com,NO
+eBay,ebay,Retail,Marketplaces,https://www.ebay.com,NO
+Etsy,etsy,Retail,Marketplaces,https://www.etsy.com,NO
+Rakuten,rakuten,Retail,Marketplaces,https://www.rakuten.com,NO
+Shopee,shopee,Retail,Marketplaces,https://shopee.com,NO
+Lazada,lazada,Retail,Marketplaces,https://www.lazada.com,NO
+Flipkart,flipkart,Retail,Marketplaces,https://www.flipkart.com,NO
+JD.com,jd-com,Retail,Marketplaces,https://www.jd.com,NO
+Taobao,taobao,Retail,Marketplaces,https://world.taobao.com,NO
+Temu,temu,Retail,Marketplaces,https://www.temu.com,NO
+Wish,wish,Retail,Marketplaces,https://www.wish.com,NO
+Allegro,allegro,Retail,Marketplaces,https://allegro.pl,NO
+Mercari,mercari,Retail,Marketplaces,https://www.mercari.com,NO
+Otto,otto,Retail,Marketplaces,https://www.otto.de,NO
+Zalando,zalando,Retail,Marketplaces,https://www.zalando.com,NO
+Wayfair,wayfair,Retail,Marketplaces,https://www.wayfair.com,NO
+Uniqlo,uniqlo,Moda,Fast fashion,https://www.uniqlo.com,NO
+COS,cos,Moda,Fast fashion,https://www.cos.com,NO
+Massimo Dutti,massimo-dutti,Moda,Fast fashion,https://www.massimodutti.com,NO
+Oysho,oysho,Moda,Fast fashion,https://www.oysho.com,NO
+Bershka Kids,bershka-kids,Moda,Fast fashion,https://www.bershka.com,NO
+Reserved,reserved,Moda,Fast fashion,https://www.reserved.com,NO
+C&A,ca,Moda,Fast fashion,https://www.c-and-a.com,NO
+Primark,primark,Moda,Fast fashion,https://www.primark.com,NO
+Gap,gap,Moda,Fast fashion,https://www.gap.com,NO
+Old Navy,old-navy,Moda,Fast fashion,https://oldnavy.gap.com,NO
+Banana Republic,banana-republic,Moda,Fast fashion,https://bananarepublic.gap.com,NO
+American Eagle,american-eagle,Moda,Fast fashion,https://www.ae.com,NO
+Hollister,hollister,Moda,Fast fashion,https://www.hollisterco.com,NO
+Abercrombie & Fitch,abercrombie-fitch,Moda,Fast fashion,https://www.abercrombie.com,NO
+Urban Outfitters,urban-outfitters,Moda,Fast fashion,https://www.urbanoutfitters.com,NO
+Pull&Bear Kids,pull-bear-kids,Moda,Fast fashion,https://www.pullandbear.com,NO
+Weekday,weekday,Moda,Fast fashion,https://www.weekday.com,NO
+Monki,monki,Moda,Fast fashion,https://www.monki.com,NO
+Arket,arket,Moda,Fast fashion,https://www.arket.com,NO
+Boohoo,boohoo,Moda,Fast fashion,https://www.boohoo.com,NO
+PrettyLittleThing,prettylittlething,Moda,Fast fashion,https://www.prettylittlething.com,NO
+Shein,shein,Moda,Fast fashion,https://www.shein.com,NO
+Romwe,romwe,Moda,Fast fashion,https://www.romwe.com,NO
+Fashion Nova,fashion-nova,Moda,Fast fashion,https://www.fashionnova.com,NO
+Zaful,zaful,Moda,Fast fashion,https://www.zaful.com,NO
+Cotton On,cotton-on,Moda,Fast fashion,https://cottonon.com,NO
+Glassons,glassons,Moda,Fast fashion,https://www.glassons.com,NO
+Factorie,factorie,Moda,Fast fashion,https://factorie.com,NO
+Asics,asics,Moda,Deportivo,https://www.asics.com,NO
+Fila,fila,Moda,Deportivo,https://www.fila.com,NO
+Champion,champion,Moda,Deportivo,https://www.champion.com,NO
+Converse,converse,Moda,Deportivo,https://www.converse.com,NO
+Vans,vans,Moda,Deportivo,https://www.vans.com,NO
+Umbro,umbro,Moda,Deportivo,https://www.umbro.com,NO
+Diadora,diadora,Moda,Deportivo,https://www.diadora.com,NO
+Kappa,kappa,Moda,Deportivo,https://www.kappa.com,NO
+Lotto,lotto,Moda,Deportivo,https://www.lotto.it,NO
+Mizuno,mizuno,Moda,Deportivo,https://www.mizuno.com,NO
+Salomon,salomon,Moda,Deportivo,https://www.salomon.com,NO
+Arc'teryx,arcteryx,Moda,Deportivo,https://arcteryx.com,NO
+Patta,patta,Moda,Deportivo,https://www.patta.nl,NO
+Gymshark,gymshark,Moda,Deportivo,https://www.gymshark.com,NO
+Outdoor Voices,outdoor-voices,Moda,Deportivo,https://www.outdoorvoices.com,NO
+Alo Yoga,alo-yoga,Moda,Deportivo,https://www.aloyoga.com,NO
+Lululemon,lululemon,Moda,Deportivo,https://www.lululemon.com,NO
+On Running,on-running,Moda,Deportivo,https://www.on-running.com,NO
+Hoka,hoka,Moda,Deportivo,https://www.hoka.com,NO
+Brooks,brooks,Moda,Deportivo,https://www.brooksrunning.com,NO
+Saucony,saucony,Moda,Deportivo,https://www.saucony.com,NO
+La Sportiva,la-sportiva,Moda,Deportivo,https://www.lasportiva.com,NO
+Merrell,merrell,Moda,Deportivo,https://www.merrell.com,NO
+Michael Kors,michael-kors,Moda,Accesorios,https://www.michaelkors.com,NO
+Coach,coach,Moda,Accesorios,https://www.coach.com,NO
+Kate Spade,kate-spade,Moda,Accesorios,https://www.katespade.com,NO
+Longchamp,longchamp,Moda,Accesorios,https://www.longchamp.com,NO
+Fossil,fossil,Moda,Accesorios,https://www.fossil.com,NO
+Guess,guess,Moda,Accesorios,https://www.guess.com,NO
+Montblanc,montblanc,Moda,Accesorios,https://www.montblanc.com,NO
+Tumi,tumi,Moda,Accesorios,https://www.tumi.com,NO
+Samsonite,samsonite,Moda,Accesorios,https://www.samsonite.com,NO
+Herschel,herschel,Moda,Accesorios,https://herschel.com,NO
+Eastpak,eastpak,Moda,Accesorios,https://www.eastpak.com,NO
+Bellroy,bellroy,Moda,Accesorios,https://bellroy.com,NO
+Anello,anello,Moda,Accesorios,https://www.anello.jp,NO
+Matt & Nat,matt-nat,Moda,Accesorios,https://mattandnat.com,NO
+Havaianas,havaianas,Moda,Accesorios,https://www.havaianas.com,NO
+Crocs,crocs,Moda,Accesorios,https://www.crocs.com,NO
+Casio,casio,Moda,Accesorios,https://www.casio.com,NO
+Timex,timex,Moda,Accesorios,https://timex.com,NO
+Seiko,seiko,Moda,Accesorios,https://www.seikowatches.com,NO
+Citizen,citizen,Moda,Accesorios,https://www.citizenwatch.com,NO

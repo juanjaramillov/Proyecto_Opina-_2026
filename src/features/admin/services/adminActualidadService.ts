@@ -25,7 +25,11 @@ export const adminActualidadService = {
         throw error;
       }
 
-      return data as unknown as Topic[];
+      return data.map((d: { short_summary?: string | null; impact_quote?: string | null; [key: string]: unknown }) => ({
+        ...d,
+        summary: d.short_summary,
+        impact_phrase: d.impact_quote
+      })) as unknown as Topic[];
     } catch (e) {
       logger.error('Error inesperado en getAdminTopics', { error: e });
       return [];
@@ -62,18 +66,21 @@ export const adminActualidadService = {
         
         if (qData) {
           questions = qData.map(q => ({
+            id: q.id,
             order: q.question_order,
             text: q.question_text,
-            type: q.answer_type as any,
-            options: q.options_json as any
+            type: q.answer_type as TopicQuestion['type'],
+            options: q.options_json as TopicQuestion['options']
           }));
         }
       }
 
       return {
-        ...(topic as unknown as Topic),
+        ...(topic as Record<string, unknown>),
+        summary: topic.short_summary,
+        impact_phrase: topic.impact_quote,
         questions
-      };
+      } as unknown as Topic;
     } catch (e) {
       logger.error('Error inesperado en getAdminTopicById', { error: e });
       return null;
@@ -95,7 +102,7 @@ export const adminActualidadService = {
         if (payload.source_url) {
           domain = new URL(payload.source_url).hostname.replace('www.', '');
         }
-      } catch (e) { /* ignore */ }
+      } catch { /* ignore */ }
 
       // 3. Crear Topic
       const metadataSnapshot = { raw_ai_payload: payload, source_url: payload.source_url };
@@ -120,8 +127,8 @@ export const adminActualidadService = {
           source_domain: domain,
           created_by_ai: true,
           admin_edited: false,
-          metadata: metadataSnapshot as any
-        } as any])
+          metadata: metadataSnapshot as unknown as Exclude<unknown, undefined>
+        } as never])
         .select('id')
         .single();
 
@@ -145,7 +152,7 @@ export const adminActualidadService = {
    * Ingesta segura de payload IA.
    * Sanitiza, valida estrictamente, y verifica duplicados.
    */
-  async ingestAiTopicPayload(payload: any): Promise<{ success: boolean; topicId?: string; errors?: string[] }> {
+  async ingestAiTopicPayload(payload: unknown): Promise<{ success: boolean; topicId?: string; errors?: string[] }> {
     try {
       // 1. Validación de estructura base
       const errors = validateAiTopicPayload(payload);
@@ -197,9 +204,9 @@ export const adminActualidadService = {
 
       return { success: true, topicId };
 
-    } catch (e: any) {
+    } catch (e: unknown) {
       logger.error('Fallo grave en capa de ingestión IA', { error: e });
-      return { success: false, errors: [e.message || 'Excepción desconocida durante ingestión'] };
+      return { success: false, errors: [(e as Error).message || 'Excepción desconocida durante ingestión'] };
     }
   },
 
@@ -228,8 +235,8 @@ export const adminActualidadService = {
           topic_duration: topic.topic_duration || 'short',
           opinion_maturity: topic.opinion_maturity || 'low',
           source_domain: topic.source_domain,
-          metadata: { source_url: topic.source_url } as any
-        } as any])
+          metadata: { source_url: topic.source_url } as unknown as Exclude<unknown, undefined>
+        } as never])
         .select('id')
         .single();
         
@@ -248,7 +255,7 @@ export const adminActualidadService = {
    */
   async updateTopicEditorialData(id: string, updates: Partial<Topic>, markAsAdminEdited: boolean = true): Promise<boolean> {
     try {
-      const dbUpdates: any = { ...updates };
+      const dbUpdates: Record<string, unknown> = { ...updates };
       // Map frontend interface to DB schema if needed
       if (updates.summary !== undefined) {
         dbUpdates.short_summary = updates.summary;
@@ -304,29 +311,47 @@ export const adminActualidadService = {
         set = newSet;
       }
 
-      // 2. Por simplicidad en esta fase, eliminamos las preguntas viejas y re-insertamos.
-      // Así evitamos mezclar IDs si cambian los tipos o el orden.
-      const { error: delError } = await supabase
-        .from('topic_questions')
-        .delete()
-        .eq('set_id', set.id);
-        
-      if (delError) throw delError;
+      // 2. Extraer IDs de las preguntas enviadas que YA existen
+      const incomingIds = questions.filter(q => q.id).map(q => q.id!);
 
-      // 3. Insertar nuevas preguntas
-      const questionsToInsert = questions.map(q => ({
-        set_id: set!.id,
-        question_order: q.order,
-        question_text: q.text,
-        answer_type: q.type,
-        options_json: q.options || []
-      }));
-
-      if (questionsToInsert.length > 0) {
-        const { error: insError } = await supabase
+      // 3. Eliminar las preguntas que están en la base de datos pero NO en la lista entrante
+      if (incomingIds.length > 0) {
+        const { error: delError } = await supabase
           .from('topic_questions')
-          .insert(questionsToInsert);
-        if (insError) throw insError;
+          .delete()
+          .eq('set_id', set.id)
+          .not('id', 'in', `(${incomingIds.join(',')})`);
+        if (delError) throw delError;
+      } else {
+        // Si no vienen IDs, borrar todo
+        const { error: delError } = await supabase
+          .from('topic_questions')
+          .delete()
+          .eq('set_id', set.id);
+        if (delError) throw delError;
+      }
+
+      // 4. Preparar UPSERT
+      const questionsToUpsert = questions.map(q => {
+        const payload: Record<string, unknown> = {
+          set_id: set!.id,
+          question_order: q.order,
+          question_text: q.text,
+          answer_type: q.type,
+          options_json: q.options || []
+        };
+        // Si tiene un UUID, lo pasamos para UPSERT
+        if (q.id) {
+          payload.id = q.id;
+        }
+        return payload;
+      });
+
+      if (questionsToUpsert.length > 0) {
+        const { error: upsertError } = await supabase
+          .from('topic_questions')
+          .upsert(questionsToUpsert as any[], { onConflict: 'id' });
+        if (upsertError) throw upsertError;
       }
 
       return true;
@@ -364,7 +389,18 @@ export const adminActualidadService = {
         }
       }
 
-      const updates: any = { status: nextStatus };
+      const { data: { user } } = await supabase.auth.getUser();
+
+      const updates: Record<string, unknown> = { status: nextStatus };
+      
+      // Tracking editorial
+      if (nextStatus === 'review' && user) {
+        updates.created_by = user.id;
+      }
+      if (nextStatus === 'approved' && user) {
+        updates.reviewed_by = user.id;
+        updates.approved_by = user.id;
+      }
       if (nextStatus === 'published') {
         updates.published_at = new Date().toISOString();
       }

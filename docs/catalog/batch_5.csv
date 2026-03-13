@@ -1,0 +1,139 @@
+Industria,Categoria,Subcategoria,Marca,Slug,Dominio
+Finanzas,Banca,Bancos,Banco de Chile,banco-de-chile,https://www.bancochile.cl
+Finanzas,Banca,Bancos,BancoEstado,bancoestado,https://www.bancoestado.cl
+Finanzas,Banca,Bancos,Santander,santander,https://www.santander.cl
+Finanzas,Banca,Bancos,BCI,bci,https://www.bci.cl
+Finanzas,Banca,Bancos,Banco BICE,banco-bice,https://www.bice.cl
+Finanzas,Banca,Bancos,Banco Falabella,banco-falabella,https://www.bancofalabella.cl
+Finanzas,Banca,Bancos,Scotiabank,scotiabank,https://www.scotiabankchile.cl
+Finanzas,Banca,Bancos,Itaú,itau,https://www.itau.cl
+Finanzas,Banca,Bancos,Banco Security,banco-security,https://www.security.cl
+Finanzas,Banca,Bancos,Consorcio,consorcio-banco,https://www.consorcio.cl
+Finanzas,Banca,Bancos,Banco Ripley,banco-ripley,https://www.bancoripley.cl
+Finanzas,Banca,Bancos,BTG Pactual Chile,btg-pactual-chile,https://www.btgpactual.cl
+Finanzas,Banca,Bancos,Banco Internacional,banco-internacional,https://www.bancointernacional.cl
+Finanzas,Banca,Bancos,Banco Edwards,banco-edwards,https://www.bancoedwards.cl
+Finanzas,Banca,Bancos,JP Morgan Chile,jp-morgan-chile,https://www.jpmorgan.com
+Finanzas,Banca,Bancos,HSBC Chile,hsbc-chile,https://www.hsbc.com
+Finanzas,Banca,Bancos digitales,MACH,mach,https://www.somosmach.com
+Finanzas,Banca,Bancos digitales,Tenpo,tenpo,https://www.tenpo.cl
+Finanzas,Banca,Bancos digitales,Chek,chek,https://simple.ripley.cl
+Finanzas,Banca,Bancos digitales,Prex,prex,https://www.prexcard.cl
+Finanzas,Banca,Bancos digitales,Tapp,tapp,https://www.tapp.cl
+Finanzas,Banca,Bancos digitales,Global66,global66,https://www.global66.com
+Finanzas,Banca,Bancos digitales,Mercado Pago,mercado-pago,https://www.mercadopago.cl
+Finanzas,Banca,Bancos digitales,Fintual Cuenta,fintual-cuenta,https://www.fintual.cl
+Finanzas,Banca,Bancos digitales,Wise,wise,https://wise.com
+Finanzas,Banca,Bancos digitales,PayPal,paypal,https://www.paypal.com
+Finanzas,Fintech,Billeteras digitales,Mercado Pago Wallet,mercado-pago-wallet,https://www.mercadopago.cl
+Finanzas,Fintech,Billeteras digitales,MACH Wallet,mach-wallet,https://www.somosmach.com
+Finanzas,Fintech,Billeteras digitales,Tenpo Wallet,tenpo-wallet,https://www.tenpo.cl
+Finanzas,Fintech,Billeteras digitales,Apple Pay,apple-pay,https://www.apple.com
+Finanzas,Fintech,Billeteras digitales,Google Pay,google-pay,https://pay.google.com
+Finanzas,Fintech,Billeteras digitales,Samsung Wallet,samsung-wallet,https://www.samsung.com
+Finanzas,Fintech,Billeteras digitales,PayPal Wallet,paypal-wallet,https://www.paypal.com
+Finanzas,Fintech,Billeteras digitales,Onepay,onepay,https://www.onepay.cl
+Finanzas,Fintech,Billeteras digitales,Fpay,fpay,https://www.fpay.cl
+Finanzas,Fintech,Transferencias internacionales,Global66 Transfer,global66-transfer,https://www.global66.com
+Finanzas,Fintech,Transferencias internacionales,Wise Transfer,wise-transfer,https://wise.com
+Finanzas,Fintech,Transferencias internacionales,Western Union,western-union,https://www.westernunion.com
+Finanzas,Fintech,Transferencias internacionales,MoneyGram,moneygram,https://www.moneygram.com
+Finanzas,Fintech,Transferencias internacionales,Ria Money Transfer,ria-money-transfer,https://www.riamoneytransfer.com
+Finanzas,Fintech,Transferencias internacionales,Xoom,xoom,https://www.xoom.com
+Finanzas,Fintech,Transferencias internacionales,Remitly,remitly,https://www.remitly.com
+Finanzas,Fintech,Transferencias internacionales,WorldRemit,worldremit,https://www.worldremit.com
+Finanzas,Fintech,Plataformas de pago,Webpay,webpay,https://www.webpay.cl
+Finanzas,Fintech,Plataformas de pago,Getnet,getnet,https://www.getnet.cl
+Finanzas,Fintech,Plataformas de pago,Flow,flow,https://www.flow.cl
+Finanzas,Fintech,Plataformas de pago,Khipu,khipu,https://www.khipu.com
+Finanzas,Fintech,Plataformas de pago,Mercado Pago Checkout,mercado-pago-checkout,https://www.mercadopago.cl
+Finanzas,Fintech,Plataformas de pago,PayPal Checkout,paypal-checkout,https://www.paypal.com
+Finanzas,Fintech,Plataformas de pago,Stripe,stripe,https://stripe.com
+Finanzas,Fintech,Plataformas de pago,Square,square,https://squareup.com
+Finanzas,Fintech,Plataformas de pago,Kushki,kushki,https://www.kushki.com
+Finanzas,Fintech,Plataformas de pago,Pagos360,pagos360,https://www.pagos360.com
+Finanzas,Inversiones,Corredoras de bolsa,Banchile Inversiones,banchile-inversiones,https://www.banchileinversiones.cl
+Finanzas,Inversiones,Corredoras de bolsa,BICE Inversiones,bice-inversiones,https://www.biceinversiones.cl
+Finanzas,Inversiones,Corredoras de bolsa,LarrainVial,larrainvial,https://www.larrainvial.com
+Finanzas,Inversiones,Corredoras de bolsa,MBI,mbi,https://www.mbi.cl
+Finanzas,Inversiones,Corredoras de bolsa,Renta4,renta4,https://www.renta4.cl
+Finanzas,Inversiones,Corredoras de bolsa,Santander Corredora,santander-corredora,https://www.santander.cl
+Finanzas,Inversiones,Corredoras de bolsa,Consorcio Corredora,consorcio-corredora,https://www.consorcio.cl
+Finanzas,Inversiones,Corredoras de bolsa,BTG Pactual Wealth,btg-pactual-wealth,https://www.btgpactual.cl
+Finanzas,Inversiones,Corredoras de bolsa,Scotia Corredora,scotia-corredora,https://www.scotiabankchile.cl
+Finanzas,Inversiones,Plataformas de inversión,Fintual Inversión,fintual-inversion,https://www.fintual.cl
+Finanzas,Inversiones,Plataformas de inversión,Racional,racional,https://www.racional.cl
+Finanzas,Inversiones,Plataformas de inversión,Zesty,zesty,https://www.zesty.cl
+Finanzas,Inversiones,Plataformas de inversión,Trii,trii,https://trii.co
+Finanzas,Inversiones,Plataformas de inversión,Robinhood,robinhood,https://www.robinhood.com
+Finanzas,Inversiones,Plataformas de inversión,eToro,etoro,https://www.etoro.com
+Finanzas,Inversiones,Plataformas de inversión,Interactive Brokers,interactive-brokers,https://www.interactivebrokers.com
+Finanzas,Inversiones,Plataformas de inversión,TD Ameritrade,td-ameritrade,https://www.tdameritrade.com
+Finanzas,Pagos,Tarjetas de crédito,Visa,visa,https://www.visa.com
+Finanzas,Pagos,Tarjetas de crédito,Mastercard,mastercard,https://www.mastercard.cl
+Finanzas,Pagos,Tarjetas de crédito,American Express,american-express,https://www.americanexpress.com
+Finanzas,Pagos,Tarjetas de crédito,CMR Falabella,cmr-falabella,https://www.cmrfalabella.com
+Finanzas,Pagos,Tarjetas de crédito,Tarjeta Ripley,tarjeta-ripley,https://www.bancoripley.cl
+Finanzas,Pagos,Tarjetas de crédito,Tarjeta Lider Bci,tarjeta-lider-bci,https://www.tarjetaliderbci.cl
+Finanzas,Pagos,Tarjetas de crédito,Tenpo Prepago,tenpo-prepago,https://www.tenpo.cl
+Finanzas,Pagos,Tarjetas de crédito,Prex Mastercard,prex-mastercard,https://www.prexcard.cl
+Finanzas,Pagos,Pasarelas de pago,Webpay Plus,webpay-plus,https://www.webpay.cl
+Finanzas,Pagos,Pasarelas de pago,Getnet Checkout,getnet-checkout,https://www.getnet.cl
+Finanzas,Pagos,Pasarelas de pago,Flow Checkout,flow-checkout,https://www.flow.cl
+Finanzas,Pagos,Pasarelas de pago,Khipu Checkout,khipu-checkout,https://www.khipu.com
+Finanzas,Pagos,Pasarelas de pago,Mercado Pago Checkout Pro,mercado-pago-checkout-pro,https://www.mercadopago.cl
+Salud,Atención médica,Clínicas privadas,Clínica Alemana,clinica-alemana,https://alemana.cl
+Salud,Atención médica,Clínicas privadas,Clínica Las Condes,clinica-las-condes,https://www.clc.cl
+Salud,Atención médica,Clínicas privadas,Clínica Santa María,clinica-santa-maria,https://www.clinicasantamaria.cl
+Salud,Atención médica,Clínicas privadas,Clínica Indisa,clinica-indisa,https://www.indisa.cl
+Salud,Atención médica,Clínicas privadas,Clínica MEDS,clinica-meds,https://www.meds.cl
+Salud,Atención médica,Clínicas privadas,Clínica Dávila,clinica-davila,https://www.davila.cl
+Salud,Atención médica,Clínicas privadas,Clínica Bupa Santiago,clinica-bupa-santiago,https://www.bupa.cl
+Salud,Atención médica,Clínicas privadas,Clínica Universidad de los Andes,clinica-universidad-de-los-andes,https://www.clinicauandes.cl
+Salud,Atención médica,Clínicas privadas,RedSalud Vitacura,redsalud-vitacura,https://www.redsalud.cl
+Salud,Atención médica,Clínicas privadas,Clínica Ciudad del Mar,clinica-ciudad-del-mar,https://www.ciudaddelmar.cl
+Salud,Atención médica,Clínicas privadas,Clínica Biobío,clinica-biobio,https://www.clinicabiobio.cl
+Salud,Atención médica,Clínicas privadas,Clínica Los Carrera,clinica-los-carrera,https://www.clinicaloscarrera.cl
+Salud,Atención médica,Centros médicos,IntegraMédica,integramedica,https://www.integramedica.cl
+Salud,Atención médica,Centros médicos,Megasalud,megasalud,https://www.megasalud.cl
+Salud,Atención médica,Centros médicos,RedSalud Centros Médicos,redsalud-centros-medicos,https://www.redsalud.cl
+Salud,Atención médica,Centros médicos,UC Christus,uc-christus,https://www.ucchristus.cl
+Salud,Atención médica,Centros médicos,Vidaintegra,vidaintegra,https://www.vidaintegra.cl
+Salud,Atención médica,Centros médicos,Bupa Sport,bupa-sport,https://www.bupa.cl
+Salud,Atención médica,Centros médicos,Help Center,help-center,https://www.help.cl
+Salud,Atención médica,Centros médicos,Clínica MEDS Sport,clinica-meds-sport,https://www.meds.cl
+Salud,Atención médica,Centros médicos,Sanasalud,sanasalud,https://www.sanasalud.cl
+Salud,Atención médica,Centros médicos,Centro Médico Santa María,centro-medico-santa-maria,https://www.clinicasantamaria.cl
+Salud,Atención médica,Hospitales,Hospital Clínico UC,hospital-clinico-uc,https://www.ucchristus.cl
+Salud,Atención médica,Hospitales,Hospital del Trabajador,hospital-del-trabajador,https://www.ht.cl
+Salud,Atención médica,Hospitales,Hospital Clínico U. de Chile,hospital-clinico-u-de-chile,https://www.redclinica.cl
+Salud,Atención médica,Hospitales,Hospital Militar,hospital-militar,https://www.hms.cl
+Salud,Atención médica,Hospitales,Hospital FACH,hospital-fach,https://www.hospitalfach.cl
+Salud,Medicamentos,Farmacias,Cruz Verde,cruz-verde,https://www.cruzverde.cl
+Salud,Medicamentos,Farmacias,Salcobrand,salcobrand,https://www.salcobrand.cl
+Salud,Medicamentos,Farmacias,Farmacias Ahumada,farmacias-ahumada,https://www.farmaciasahumada.cl
+Salud,Medicamentos,Farmacias,Dr. Simi,dr-simi,https://www.drsimi.cl
+Salud,Medicamentos,Farmacias,Knop,knop,https://www.knop.cl
+Salud,Medicamentos,Farmacias,Fracción,fraccion,https://www.farmaciafraccion.cl
+Salud,Medicamentos,Farmacias,Farmazon,farmazon,https://www.farmazon.cl
+Salud,Medicamentos,Farmacias,Pharol,pharol,https://www.pharol.cl
+Salud,Medicamentos,Farmacias,Cruz Verde Online,cruz-verde-online,https://www.cruzverde.cl
+Salud,Medicamentos,Farmacias,Salcobrand Online,salcobrand-online,https://www.salcobrand.cl
+Salud,Medicamentos,Farmacias económicas,Farmacia Fracción Económica,farmacia-fraccion-economica,https://www.farmaciafraccion.cl
+Salud,Medicamentos,Farmacias económicas,Dr. Simi Genéricos,dr-simi-genericos,https://www.drsimi.cl
+Salud,Medicamentos,Farmacias económicas,FarmaPrecio,farmaprecio,https://www.farmaprecio.cl
+Salud,Seguros,Isapres,Banmédica,banmedica,https://www.banmedica.cl
+Salud,Seguros,Isapres,Colmena,colmena,https://www.colmena.cl
+Salud,Seguros,Isapres,Consalud,consalud,https://www.consalud.cl
+Salud,Seguros,Isapres,Cruz Blanca,cruz-blanca,https://www.cruzblanca.cl
+Salud,Seguros,Isapres,Nueva Masvida,nueva-masvida,https://www.nuevamasvida.cl
+Salud,Seguros,Isapres,Vida Tres,vida-tres,https://www.vidatres.cl
+Salud,Seguros,Isapres,Esencial,esencial,https://www.isapreesencial.cl
+Salud,Seguros,Seguros de salud,BCI Seguros,bciseguros,https://www.bciseguros.cl
+Salud,Seguros,Seguros de salud,Consorcio Salud,consorcio-salud,https://www.consorcio.cl
+Salud,Seguros,Seguros de salud,HDI Seguros,hdi-seguros,https://www.hdi.cl
+Salud,Seguros,Seguros de salud,Mapfre,mapfre-salud,https://www.mapfre.cl
+Salud,Seguros,Seguros de salud,MetLife,metlife,https://www.metlife.cl
+Salud,Seguros,Seguros de salud,Zurich,zurich,https://www.zurich.cl
+Salud,Seguros,Seguros de salud,Sura,sura-salud,https://www.sura.cl
+Salud,Seguros,Seguros de salud,Renta Nacional,renta-nacional-salud,https://www.rentanacional.cl

@@ -2,16 +2,16 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from "../../auth";
 import { useSignalStore } from "../../../store/signalStore";
 import { notifyService, formatKnownError } from '../../notifications/notifyService';
-import { Battle, BattleOption, ProgressiveBattle, VoteResult, BattleMomentum } from '../types';
+import { Battle, BattleOption, TorneoTournament, VoteResult, BattleMomentum } from '../types';
 import { logger } from '../../../lib/logger';
 import { supabase } from '../../../supabase/client';
 
 interface UseVersusGameProps {
     battles: Battle[];
     onVote: (battleId: string, optionId: string, opponentId: string) => Promise<VoteResult>;
-    mode?: 'classic' | 'survival' | 'progressive';
+    mode?: 'classic' | 'survival' | 'torneo';
     autoNextMs?: number;
-    progressiveData?: ProgressiveBattle;
+    progressiveData?: TorneoTournament;
     onProgressiveComplete?: (result: { winner: BattleOption; defeated: BattleOption[] }) => void;
     enableAutoAdvance?: boolean;
     isQueueFinite?: boolean;
@@ -54,7 +54,7 @@ export function useVersusGame({
     const timeoutRef = useRef<number | null>(null);
 
     const effectiveBattle = useMemo(() => {
-        if (mode === 'progressive' && progressiveData && progressiveData.candidates) {
+        if (mode === 'torneo' && progressiveData && progressiveData.candidates) {
             const a = progressiveData.candidates[0];
             const b = progressiveData.candidates[1];
             if (!a || !b) return null;
@@ -111,7 +111,7 @@ export function useVersusGame({
         setIsTransitioning(false);
 
         // Queue behavior
-        if (mode !== 'progressive') {
+        if (mode !== 'torneo') {
             const nextIdx = idx + 1;
 
             if (isQueueFinite && nextIdx >= battles.length) {
@@ -239,7 +239,7 @@ export function useVersusGame({
 
     // Use unused var to suppress warning
     useEffect(() => {
-        if (mode === 'progressive' && onProgressiveComplete) {
+        if (mode === 'torneo' && onProgressiveComplete) {
             // no-op, just to usage
         }
     }, [mode, onProgressiveComplete]);

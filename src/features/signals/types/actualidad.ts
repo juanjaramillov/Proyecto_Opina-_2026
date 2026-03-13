@@ -2,7 +2,7 @@
  * Tipos y validaciones strictas para el módulo de Actualidad (Arquitectura Editorial)
  */
 
-export type TopicStatus = 'detected' | 'approved' | 'published' | 'rejected' | 'archived';
+export type TopicStatus = 'detected' | 'draft' | 'review' | 'approved' | 'published' | 'rejected' | 'archived';
 
 export type TopicCategory = 
   | 'País' 
@@ -33,6 +33,7 @@ export type QuestionType =
 export type TopicQuestionOption = string;
 
 export interface TopicQuestion {
+  id?: string;
   order: number;
   text: string;
   type: QuestionType;
@@ -62,6 +63,9 @@ export interface Topic {
   cluster_id: string;
   created_by_ai: boolean;
   admin_edited: boolean;
+  created_by?: string | null;
+  reviewed_by?: string | null;
+  approved_by?: string | null;
   published_at: string | null;
   archived_at: string | null;
   created_at: string;

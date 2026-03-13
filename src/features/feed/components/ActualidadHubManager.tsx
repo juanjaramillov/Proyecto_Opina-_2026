@@ -3,7 +3,8 @@ import { actualidadService, ActualidadTopicDetail, ActualidadTopic } from '../..
 import { ActualidadTopicView } from './ActualidadTopicView';
 import { ActualidadHome } from './ActualidadHome';
 import { useToast } from '../../../components/ui/useToast';
-import { recordNewsSignalsFromLegacy } from '../../../lib/signals/recordNewsSignalsFromLegacy';
+import { logger } from '../../../lib/logger';
+
 
 interface ActualidadHubManagerProps {
     onClose: () => void;
@@ -25,7 +26,7 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
             const activeTopics = await actualidadService.getPublishedTopics();
             setTopics(activeTopics);
         } catch (error) {
-            console.error("Error loading actualidad topics", error);
+            logger.error("Error loading actualidad topics", { domain: 'actualidad_editorial', origin: 'ActualidadHubManager', action: 'load_topics', state: 'failed' }, error);
             showToast("Error al cargar temas de actualidad.", "error");
         } finally {
             setLoading(false);
@@ -46,7 +47,7 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
                 showToast("No se pudo cargar el detalle del tema.", "error");
             }
         } catch (error) {
-            console.error("Error fetching topic detail:", error);
+            logger.error("Error fetching topic detail", { domain: 'actualidad_editorial', origin: 'ActualidadHubManager', action: 'fetch_detail', state: 'failed' }, error);
             showToast("Ocurrió un error inesperado al abrir el tema.", "error");
         } finally {
             setLoadingTopic(false);
@@ -66,23 +67,21 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
             if (success) {
                 showToast("¡Respuestas registradas con éxito!", "award", 1);
                 
-                // --- INICIO DOBLE ESCRITURA (Double Write) hacia signal_events (1 resp = 1 CONTEXT_SIGNAL) ---
-                try {
-                     recordNewsSignalsFromLegacy(selectedTopicDetail, answers)
-                         .catch(e => console.warn('[ActualidadHubManager] Double write failed silently', e));
-                } catch (dwErr) {
-                     console.warn('[ActualidadHubManager] Double write init error', dwErr);
-                }
-                // --- FIN DOBLE ESCRITURA ---
-
                 // Update local topics state to reflect 'has_answered'
                 setTopics(prev => prev.map(t => t.id === selectedTopicDetail.id ? { ...t, has_answered: true, stats: { ...t.stats, total_participants: (t.stats?.total_participants || 0) + 1, total_signals: (t.stats?.total_signals || 0) + answers.length } } as ActualidadTopic : t));
             } else {
-                showToast("Hubo un error al guardar tu respuesta.", "error");
+                showToast("Hubo un error al procesar tu respuesta.", "error");
             }
         } catch (error) {
-            console.error("Error submitting response", error);
-            showToast("Hubo un error al procesar tu respuesta.", "error");
+            logger.error("Error submitting response", { domain: 'actualidad_editorial', origin: 'ActualidadHubManager', action: 'submit_response', state: 'failed' }, error);
+            // Actualidad service throws real errors for profile/auth validation
+            const msg = error instanceof Error ? error.message : "Hubo un error al procesar tu respuesta.";
+            // Si es un error esperado de restricción de Opina+, no asustar con alerta roja
+            if (msg.includes('profile') || msg.includes('verific') || msg.includes('guest')) {
+                 showToast(msg, "info");
+            } else {
+                 showToast(msg, "error");
+            }
         } finally {
             setSelectedTopicDetail(null);
         }

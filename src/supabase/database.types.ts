@@ -7,10 +7,30 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
   public: {
     Tables: {
@@ -617,11 +637,13 @@ export type Database = {
         Row: {
           actors: string[] | null
           admin_edited: boolean | null
+          approved_by: string | null
           archived_at: string | null
           category: string
           cluster_id: string | null
           confidence_score: number | null
           created_at: string | null
+          created_by: string | null
           created_by_ai: boolean | null
           ends_at: string | null
           event_date: string | null
@@ -634,6 +656,7 @@ export type Database = {
           opinion_maturity: string | null
           published_at: string | null
           relevance_chile: number | null
+          reviewed_by: string | null
           short_summary: string
           slug: string
           source_domain: string | null
@@ -649,11 +672,13 @@ export type Database = {
         Insert: {
           actors?: string[] | null
           admin_edited?: boolean | null
+          approved_by?: string | null
           archived_at?: string | null
           category: string
           cluster_id?: string | null
           confidence_score?: number | null
           created_at?: string | null
+          created_by?: string | null
           created_by_ai?: boolean | null
           ends_at?: string | null
           event_date?: string | null
@@ -666,6 +691,7 @@ export type Database = {
           opinion_maturity?: string | null
           published_at?: string | null
           relevance_chile?: number | null
+          reviewed_by?: string | null
           short_summary: string
           slug: string
           source_domain?: string | null
@@ -681,11 +707,13 @@ export type Database = {
         Update: {
           actors?: string[] | null
           admin_edited?: boolean | null
+          approved_by?: string | null
           archived_at?: string | null
           category?: string
           cluster_id?: string | null
           confidence_score?: number | null
           created_at?: string | null
+          created_by?: string | null
           created_by_ai?: boolean | null
           ends_at?: string | null
           event_date?: string | null
@@ -698,6 +726,7 @@ export type Database = {
           opinion_maturity?: string | null
           published_at?: string | null
           relevance_chile?: number | null
+          reviewed_by?: string | null
           short_summary?: string
           slug?: string
           source_domain?: string | null
@@ -875,6 +904,86 @@ export type Database = {
         }
         Relationships: []
       }
+      entity_aliases: {
+        Row: {
+          alias: string
+          alias_kind: string | null
+          created_at: string
+          entity_id: string
+          id: number
+          is_primary: boolean
+          normalized_alias: string | null
+        }
+        Insert: {
+          alias: string
+          alias_kind?: string | null
+          created_at?: string
+          entity_id: string
+          id?: number
+          is_primary?: boolean
+          normalized_alias?: string | null
+        }
+        Update: {
+          alias?: string
+          alias_kind?: string | null
+          created_at?: string
+          entity_id?: string
+          id?: number
+          is_primary?: boolean
+          normalized_alias?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_aliases_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "signal_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_aliases_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_aliases_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_period_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_aliases_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_aliases_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_type_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_aliases_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_aliases_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+        ]
+      }
       entity_daily_aggregates: {
         Row: {
           age_bucket: string | null
@@ -934,6 +1043,95 @@ export type Database = {
           },
         ]
       }
+      entity_legacy_mappings: {
+        Row: {
+          confidence_score: number | null
+          created_at: string
+          entity_id: string
+          id: number
+          mapping_status: string
+          notes: string | null
+          source_id: string
+          source_label: string | null
+          source_table: string
+          updated_at: string
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string
+          entity_id: string
+          id?: number
+          mapping_status?: string
+          notes?: string | null
+          source_id: string
+          source_label?: string | null
+          source_table: string
+          updated_at?: string
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string
+          entity_id?: string
+          id?: number
+          mapping_status?: string
+          notes?: string | null
+          source_id?: string
+          source_label?: string | null
+          source_table?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "signal_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_period_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_type_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+        ]
+      }
       entity_rank_snapshots: {
         Row: {
           algorithm_version: string | null
@@ -977,6 +1175,159 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      entity_relationships: {
+        Row: {
+          child_entity_id: string
+          created_at: string
+          id: number
+          metadata: Json
+          parent_entity_id: string
+          relationship_type: string
+        }
+        Insert: {
+          child_entity_id: string
+          created_at?: string
+          id?: number
+          metadata?: Json
+          parent_entity_id: string
+          relationship_type: string
+        }
+        Update: {
+          child_entity_id?: string
+          created_at?: string
+          id?: number
+          metadata?: Json
+          parent_entity_id?: string
+          relationship_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "signal_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_period_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_type_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "signal_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_period_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_type_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+        ]
+      }
+      entity_types: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: number
+          is_active: boolean
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          name?: string
+        }
+        Relationships: []
       }
       executive_reports: {
         Row: {
@@ -1131,6 +1482,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      loyalty_actions: {
+        Row: {
+          action_type: string
+          created_at: string
+          description: string | null
+          id: number
+          signal_reward: number
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          signal_reward?: number
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          signal_reward?: number
+        }
+        Relationships: []
+      }
+      loyalty_levels: {
+        Row: {
+          created_at: string
+          icon_url: string | null
+          id: number
+          level_name: string
+          min_signals: number
+        }
+        Insert: {
+          created_at?: string
+          icon_url?: string | null
+          id?: number
+          level_name: string
+          min_signals?: number
+        }
+        Update: {
+          created_at?: string
+          icon_url?: string | null
+          id?: number
+          level_name?: string
+          min_signals?: number
+        }
+        Relationships: []
       }
       module_interest_events: {
         Row: {
@@ -1627,6 +2026,113 @@ export type Database = {
         }
         Relationships: []
       }
+      signal_contexts: {
+        Row: {
+          code: string | null
+          context_kind: string
+          created_at: string
+          ends_at: string | null
+          external_ref: string | null
+          id: string
+          is_active: boolean
+          metadata: Json
+          name: string
+          source_module: string | null
+          starts_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          code?: string | null
+          context_kind: string
+          created_at?: string
+          ends_at?: string | null
+          external_ref?: string | null
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          name: string
+          source_module?: string | null
+          starts_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string | null
+          context_kind?: string
+          created_at?: string
+          ends_at?: string | null
+          external_ref?: string | null
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          name?: string
+          source_module?: string | null
+          starts_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      signal_entities: {
+        Row: {
+          canonical_code: string | null
+          country_code: string | null
+          created_at: string
+          display_name: string
+          entity_type_id: number
+          external_ref: string | null
+          id: string
+          is_active: boolean
+          legal_name: string | null
+          metadata: Json
+          normalized_name: string | null
+          primary_category: string | null
+          primary_subcategory: string | null
+          slug: string | null
+          updated_at: string
+        }
+        Insert: {
+          canonical_code?: string | null
+          country_code?: string | null
+          created_at?: string
+          display_name: string
+          entity_type_id: number
+          external_ref?: string | null
+          id?: string
+          is_active?: boolean
+          legal_name?: string | null
+          metadata?: Json
+          normalized_name?: string | null
+          primary_category?: string | null
+          primary_subcategory?: string | null
+          slug?: string | null
+          updated_at?: string
+        }
+        Update: {
+          canonical_code?: string | null
+          country_code?: string | null
+          created_at?: string
+          display_name?: string
+          entity_type_id?: number
+          external_ref?: string | null
+          id?: string
+          is_active?: boolean
+          legal_name?: string | null
+          metadata?: Json
+          normalized_name?: string | null
+          primary_category?: string | null
+          primary_subcategory?: string | null
+          slug?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signal_entities_entity_type_id_fkey"
+            columns: ["entity_type_id"]
+            isOneToOne: false
+            referencedRelation: "entity_types"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       signal_events: {
         Row: {
           age_bucket: string | null
@@ -1643,24 +2149,34 @@ export type Database = {
           country: string | null
           created_at: string
           device_hash: string | null
+          effective_weight: number
           entity_id: string | null
           entity_type: string | null
           gender: string | null
           id: string
           influence_level_snapshot: string | null
           meta: Json | null
+          metadata: Json
           module_type: string | null
+          occurred_at: string
           opinascore: number | null
           option_id: string | null
           profile_completeness: number | null
+          raw_weight: number
           region: string | null
           session_id: string | null
           signal_id: string
+          signal_type_id: number | null
           signal_weight: number | null
+          source_module: string | null
+          source_record_id: string | null
           user_id: string | null
           user_tier: string | null
+          value_boolean: boolean | null
+          value_json: Json
           value_numeric: number | null
           value_text: string | null
+          verification_level_id: number | null
         }
         Insert: {
           age_bucket?: string | null
@@ -1677,24 +2193,34 @@ export type Database = {
           country?: string | null
           created_at?: string
           device_hash?: string | null
+          effective_weight?: number
           entity_id?: string | null
           entity_type?: string | null
           gender?: string | null
           id?: string
           influence_level_snapshot?: string | null
           meta?: Json | null
+          metadata?: Json
           module_type?: string | null
+          occurred_at?: string
           opinascore?: number | null
           option_id?: string | null
           profile_completeness?: number | null
+          raw_weight?: number
           region?: string | null
           session_id?: string | null
           signal_id: string
+          signal_type_id?: number | null
           signal_weight?: number | null
+          source_module?: string | null
+          source_record_id?: string | null
           user_id?: string | null
           user_tier?: string | null
+          value_boolean?: boolean | null
+          value_json?: Json
           value_numeric?: number | null
           value_text?: string | null
+          verification_level_id?: number | null
         }
         Update: {
           age_bucket?: string | null
@@ -1711,24 +2237,34 @@ export type Database = {
           country?: string | null
           created_at?: string
           device_hash?: string | null
+          effective_weight?: number
           entity_id?: string | null
           entity_type?: string | null
           gender?: string | null
           id?: string
           influence_level_snapshot?: string | null
           meta?: Json | null
+          metadata?: Json
           module_type?: string | null
+          occurred_at?: string
           opinascore?: number | null
           option_id?: string | null
           profile_completeness?: number | null
+          raw_weight?: number
           region?: string | null
           session_id?: string | null
           signal_id?: string
+          signal_type_id?: number | null
           signal_weight?: number | null
+          source_module?: string | null
+          source_record_id?: string | null
           user_id?: string | null
           user_tier?: string | null
+          value_boolean?: boolean | null
+          value_json?: Json
           value_numeric?: number | null
           value_text?: string | null
+          verification_level_id?: number | null
         }
         Relationships: [
           {
@@ -1861,6 +2397,33 @@ export type Database = {
           signals_count?: number
           updated_at?: string
           weight_sum?: number
+        }
+        Relationships: []
+      }
+      signal_types: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: number
+          is_active: boolean
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          name?: string
         }
         Relationships: []
       }
@@ -2176,6 +2739,44 @@ export type Database = {
           },
         ]
       }
+      user_loyalty_stats: {
+        Row: {
+          consecutive_months_completed: number
+          created_at: string
+          current_level_id: number | null
+          penalty_months_remaining: number
+          total_historical_signals: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          consecutive_months_completed?: number
+          created_at?: string
+          current_level_id?: number | null
+          penalty_months_remaining?: number
+          total_historical_signals?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          consecutive_months_completed?: number
+          created_at?: string
+          current_level_id?: number | null
+          penalty_months_remaining?: number
+          total_historical_signals?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_loyalty_stats_current_level_id_fkey"
+            columns: ["current_level_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_levels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_profiles: {
         Row: {
           age_bucket: string | null
@@ -2362,6 +2963,68 @@ export type Database = {
         }
         Relationships: []
       }
+      user_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_weekly_mission_progress: {
+        Row: {
+          created_at: string
+          current_count: number
+          id: string
+          is_completed: boolean
+          mission_id: number
+          updated_at: string
+          user_id: string
+          week_start_date: string
+        }
+        Insert: {
+          created_at?: string
+          current_count?: number
+          id?: string
+          is_completed?: boolean
+          mission_id: number
+          updated_at?: string
+          user_id: string
+          week_start_date: string
+        }
+        Update: {
+          created_at?: string
+          current_count?: number
+          id?: string
+          is_completed?: boolean
+          mission_id?: number
+          updated_at?: string
+          user_id?: string
+          week_start_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_weekly_mission_progress_mission_id_fkey"
+            columns: ["mission_id"]
+            isOneToOne: false
+            referencedRelation: "weekly_missions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string
@@ -2401,6 +3064,36 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_levels: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: number
+          is_active: boolean
+          name: string
+          weight_multiplier: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          name: string
+          weight_multiplier?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          name?: string
+          weight_multiplier?: number
+        }
+        Relationships: []
+      }
       volatility_snapshots: {
         Row: {
           battle_slug: string
@@ -2422,6 +3115,63 @@ export type Database = {
           id?: string
           snapshot_at?: string | null
           volatility_index?: number
+        }
+        Relationships: []
+      }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          transaction_type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          transaction_type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          transaction_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      weekly_missions: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          is_active: boolean
+          mission_type: string
+          target_count: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          mission_type: string
+          target_count: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_active?: boolean
+          mission_type?: string
+          target_count?: number
+          title?: string
         }
         Relationships: []
       }
@@ -2905,6 +3655,114 @@ export type Database = {
           },
         ]
       }
+      v_comparative_preference_summary: {
+        Row: {
+          entity_id: string | null
+          entity_name: string | null
+          losses_count: number | null
+          preference_share: number | null
+          total_comparisons: number | null
+          weighted_losses: number | null
+          weighted_wins: number | null
+          win_rate: number | null
+          wins_count: number | null
+        }
+        Relationships: []
+      }
+      v_depth_entity_question_summary: {
+        Row: {
+          average_score: number | null
+          boolean_false_count: number | null
+          boolean_true_count: number | null
+          entity_id: string | null
+          entity_name: string | null
+          last_signal_at: string | null
+          nps_score: number | null
+          numeric_response_count: number | null
+          question_code: string | null
+          question_label: string | null
+          response_type: string | null
+          total_responses: number | null
+        }
+        Relationships: []
+      }
+      v_signal_entity_period_summary: {
+        Row: {
+          entity_id: string | null
+          entity_name: string | null
+          period_day: string | null
+          period_week: string | null
+          total_signals: number | null
+          unique_users_count: number | null
+          weighted_signals: number | null
+        }
+        Relationships: []
+      }
+      v_signal_entity_summary: {
+        Row: {
+          entity_id: string | null
+          entity_name: string | null
+          entity_type_code: string | null
+          last_signal_at: string | null
+          total_signals: number | null
+          unique_contexts_count: number | null
+          unique_users_count: number | null
+          weighted_signals: number | null
+        }
+        Relationships: []
+      }
+      v_signal_entity_type_summary: {
+        Row: {
+          entity_id: string | null
+          entity_name: string | null
+          last_signal_at: string | null
+          signal_type_code: string | null
+          total_signals: number | null
+          unique_users_count: number | null
+          weighted_signals: number | null
+        }
+        Relationships: []
+      }
+      v_signal_events_enriched: {
+        Row: {
+          anon_id: string | null
+          context_id: string | null
+          context_kind: string | null
+          context_name: string | null
+          created_at: string | null
+          effective_weight: number | null
+          entity_id: string | null
+          entity_name: string | null
+          entity_type_code: string | null
+          id: string | null
+          metadata: Json | null
+          occurred_at: string | null
+          raw_weight: number | null
+          signal_type_code: string | null
+          signal_type_name: string | null
+          source_module: string | null
+          source_record_id: string | null
+          user_id: string | null
+          value_boolean: boolean | null
+          value_json: Json | null
+          value_numeric: number | null
+          value_text: string | null
+          verification_level_code: string | null
+          weight_multiplier: number | null
+        }
+        Relationships: []
+      }
+      v_trend_week_over_week: {
+        Row: {
+          current_signal_count: number | null
+          delta_percentage: number | null
+          entity_id: string | null
+          entity_name: string | null
+          previous_signal_count: number | null
+          trend_status: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       activate_algorithm_version: {
@@ -3041,6 +3899,35 @@ export type Database = {
         }[]
       }
       admin_revoke_invite: { Args: { p_code: string }; Returns: Json }
+      admin_search_battles: {
+        Args: {
+          limit_count?: number
+          offset_count?: number
+          search_term?: string
+          status_filter?: string
+        }
+        Returns: {
+          category_name: string
+          created_at: string
+          description: string
+          id: string
+          options: Json
+          status: string
+          title: string
+          total_votes: number
+        }[]
+      }
+      admin_search_users: {
+        Args: { p_search_term: string }
+        Returns: {
+          created_at: string
+          is_identity_verified: boolean
+          nickname: string
+          role: string
+          total_interactions: number
+          user_id: string
+        }[]
+      }
       admin_set_analytics_mode: { Args: { p_mode: string }; Returns: Json }
       admin_set_device_ban: {
         Args: { p_banned: boolean; p_device_hash: string; p_reason?: string }
@@ -3741,7 +4628,108 @@ export type Database = {
         Args: { p_alert_id: string }
         Returns: undefined
       }
+      normalize_entity_name: { Args: { p_input: string }; Returns: string }
+      process_loyalty_action: {
+        Args: { p_action_type: string; p_user_id: string }
+        Returns: undefined
+      }
+      process_weekly_missions: { Args: never; Returns: undefined }
       raise_sanitized: { Args: { p_code: string }; Returns: undefined }
+      record_context_signal: {
+        Args: {
+          p_anon_id: string
+          p_context_id?: string
+          p_entity_id: string
+          p_occurred_at?: string
+          p_source_record_id?: string
+          p_user_id: string
+          p_value_boolean?: boolean
+          p_value_json?: Json
+          p_value_numeric?: number
+          p_value_text?: string
+          p_verification_level_code?: string
+        }
+        Returns: string
+      }
+      record_depth_signal: {
+        Args: {
+          p_anon_id: string
+          p_context_id?: string
+          p_entity_id: string
+          p_occurred_at?: string
+          p_source_record_id?: string
+          p_user_id: string
+          p_value_boolean?: boolean
+          p_value_json?: Json
+          p_value_numeric?: number
+          p_value_text?: string
+          p_verification_level_code?: string
+        }
+        Returns: string
+      }
+      record_personal_pulse_signal: {
+        Args: {
+          p_anon_id: string
+          p_context_id?: string
+          p_entity_id: string
+          p_occurred_at?: string
+          p_source_record_id?: string
+          p_user_id: string
+          p_value_boolean?: boolean
+          p_value_json?: Json
+          p_value_numeric?: number
+          p_value_text?: string
+          p_verification_level_code?: string
+        }
+        Returns: string
+      }
+      record_progressive_signal: {
+        Args: {
+          p_anon_id: string
+          p_context_id?: string
+          p_entity_id: string
+          p_occurred_at?: string
+          p_source_record_id?: string
+          p_user_id: string
+          p_value_json?: Json
+          p_verification_level_code?: string
+        }
+        Returns: string
+      }
+      record_signal_event: {
+        Args: {
+          p_anon_id: string
+          p_context_id?: string
+          p_effective_weight?: number
+          p_entity_id: string
+          p_metadata?: Json
+          p_occurred_at?: string
+          p_raw_weight?: number
+          p_signal_type_code: string
+          p_source_module?: string
+          p_source_record_id?: string
+          p_user_id: string
+          p_value_boolean?: boolean
+          p_value_json?: Json
+          p_value_numeric?: number
+          p_value_text?: string
+          p_verification_level_code?: string
+        }
+        Returns: string
+      }
+      record_versus_signal: {
+        Args: {
+          p_anon_id: string
+          p_context_id?: string
+          p_entity_id: string
+          p_occurred_at?: string
+          p_source_record_id?: string
+          p_user_id: string
+          p_value_json?: Json
+          p_verification_level_code?: string
+        }
+        Returns: string
+      }
       refresh_daily_aggregates: {
         Args: { p_days?: number }
         Returns: undefined
@@ -3916,7 +4904,11 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },
 } as const
+

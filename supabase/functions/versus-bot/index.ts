@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 // Función auxiliar para seleccionar N elementos al azar
-function getRandomElements(arr: any[], n: number) {
+function getRandomElements<T>(arr: T[], n: number): T[] {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, n);
 }
@@ -54,7 +54,7 @@ serve(async (req) => {
                     targetCategorySlug = body.category_slug;
                 }
             }
-        } catch (e) {
+        } catch {
             console.log("No valid JSON body, proceeding with random category");
         }
 
@@ -81,11 +81,13 @@ serve(async (req) => {
 
         // 2. Obtener TODAS las entidades de esa categoría
         // La tabla entities guarda la categoría por el nombre (string) o slug
-        let { data: entities, error: entError } = await supabase
+        const { data: initialEntities, error: entError } = await supabase
             .from('entities')
             .select('*')
             .eq('type', 'brand')
             .ilike('category', randomCategory.slug);
+
+        let entities = initialEntities;
 
         if (!entities || entities.length < 2) {
             // Fallback: intentar coincidencia exacta ignorando mayúsculas con el nombre
@@ -284,9 +286,10 @@ Devuelve estrictamente un JSON con la siguiente estructura:
                      throw new Error(`Incluso después de generar una marca nueva, no se pudo armar un par en ${randomCategory.name}.`);
                 }
                 
-            } catch (fallbackError: any) {
-                console.error("Error en generación Fallback de Entidad:", fallbackError.message);
-                throw new Error(`Se han agotado todas las combinaciones y falló la generación automática: ${fallbackError.message}`);
+            } catch (fallbackError: unknown) {
+                const errorMessage = fallbackError instanceof Error ? fallbackError.message : String(fallbackError);
+                console.error("Error en generación Fallback de Entidad:", errorMessage);
+                throw new Error(`Se han agotado todas las combinaciones y falló la generación automática: ${errorMessage}`);
             }
         }
 
@@ -295,8 +298,8 @@ Devuelve estrictamente un JSON con la siguiente estructura:
         // 3. Consultar a OpenAI incorporando las Reglas (AI Curated Engine)
         console.log("Consultando a OpenAI con metadatos de emparejamiento...");
         
-        const systemPrompt = `Eres un experto copywriter armando "Batallas" competitivas para una app de votaciones.
-Necesitamos crear un evento de votación épico entre dos entidades que compiten en el mercado chileno.
+        const systemPrompt = `Eres un experto copywriter irónico y con mucho sentido del humor armando comparaciones competitivas para una app de votaciones.
+Necesitamos crear un evento de votación memorable y un poco sarcástico entre dos entidades que compiten en el mercado chileno.
 
 Contexto de la Batalla y Reglas:
 - Categoría o Industria: ${randomCategory.name}
@@ -304,14 +307,14 @@ Contexto de la Batalla y Reglas:
 - Familia de Comparación: ${randomCategory.comparison_family || 'brand_service'}
 - Reglas Especiales / Foco: ${randomCategory.pairing_rules || 'Procurar que ambas opciones sean directamente comparables.'}
 
-Combatiendo hoy:
+Comparándose hoy:
 Opción A: ${brandA.name}
 Opción B: ${brandB.name}
 
 Tu Tarea:
 Invéntate:
-1. Una pregunta corta de "contexto de decisión" (máximo 12 palabras) que sirva como título persuasivo de por qué alguien elegiría una sobre la otra, sin usar lenguaje bélico (evita palabras como Batalla, Guerra, Duelo, Combate). Ejemplos: "¿Cuál prefieres para uso diario?", "Pensando en confianza, ¿cuál eliges?", "¿Cuál recomendarías a un amigo?".
-2. Una "descripcion" breve y neutral (1 a 2 líneas máximo) que expanda ligeramente el contexto e invite al usuario a elegir su preferido.
+1. Una pregunta corta (máximo 12 palabras) que sirva como título de la comparación. ESTE TÍTULO DEBE SER IRÓNICO, DIVERTIDO O SARCÁSTICO, sin usar lenguaje bélico (evita palabras como Batalla, Guerra, Duelo, Combate). Ejemplos: "¿A cuál le perdonarías un cobro extra?", "¿Con cuál te da menos dolor de cabeza tratar?", "¿Cuál es el mal menor?". Usa un tono lúdico.
+2. Una "descripcion" breve (1 a 2 líneas máximo) que expanda ligeramente el contexto e invite al usuario a elegir siguiendo ese mismo tono humorístico y ligero.
 
 Devuelve estrictamente un JSON con este formato:
 {
@@ -360,10 +363,6 @@ Devuelve estrictamente un JSON con este formato:
         }
 
         // 5. Insertar las Opciones (Battle Options)
-        const commonDomain = (domain: string) => {
-            // Helper simple proxy p/ imagen en base al slug, though we can just pull existing image_url if we fetch from entity
-            return null;
-        };
 
         const { error: optionsError } = await supabase
             .from('battle_options')
@@ -419,9 +418,10 @@ Devuelve estrictamente un JSON con este formato:
             { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         )
 
-    } catch (error: any) {
-        console.error("Error en function versus-bot:", error.message);
-        return new Response(JSON.stringify({ error: error.message }), {
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error("Error en function versus-bot:", errorMessage);
+        return new Response(JSON.stringify({ error: errorMessage }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 400,
         })

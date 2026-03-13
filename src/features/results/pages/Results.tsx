@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrandLogo } from '../../../components/ui/BrandLogo';
+import { logger } from '../../../lib/logger';
 import { SkeletonRankingRow } from "../../../components/ui/Skeleton";
 import { EmptyState } from "../../../components/ui/EmptyState";
 import { trackPage } from "../../telemetry/track";
@@ -9,10 +10,8 @@ import { useSignalStore } from "../../../store/signalStore";
 import { NextActionRecommendation, ActionType } from "../../../components/ui/NextActionRecommendation";
 
 // Import custom B2C services
-import { getResultsLeaderboard, LeaderboardEntry } from "../../../lib/results/getResultsLeaderboard";
-import { getResultsTrendSummary, TrendSummary, TrendEntry } from "../../../lib/results/getResultsTrendSummary";
-import { getResultsComparisonSummary, ComparisonSummary } from "../../../lib/results/getResultsComparisonSummary";
-import { getResultsModuleHighlights, ModuleHighlight } from "../../../lib/results/getResultsModuleHighlights";
+import { metricsService, LeaderboardEntry, TrendSummary, TrendEntry, ComparisonSummary, ModuleHighlight } from "../../../features/metrics/services/metricsService";
+import { PremiumGate } from "../../../components/ui/PremiumGate";
 
 // Trend Chart Visual Component
 function BasicTrendChart({ isUp }: { isUp: boolean }) {
@@ -21,9 +20,11 @@ function BasicTrendChart({ isUp }: { isUp: boolean }) {
   const fillColor = `var(--color-${colorVariant}-muted)`;
   
   // Fake smooth curve
-  const pts = isUp 
+  const pts = isUp === true
     ? "0,80 20,70 40,40 60,60 80,30 100,10" 
-    : "0,20 20,30 40,60 60,50 80,70 100,90";
+    : isUp === false 
+      ? "0,20 20,30 40,60 60,50 80,70 100,90"
+      : "0,50 20,45 40,55 60,45 80,55 100,50"; // Stable
 
   return (
     <div className="relative w-full h-12 mt-4 opacity-80">
@@ -36,21 +37,22 @@ function BasicTrendChart({ isUp }: { isUp: boolean }) {
         </defs>
         <polyline fill={`url(#grad-${colorVariant}-trend)`} points={`0,100 ${pts} 100,100`} />
         <polyline fill="none" stroke={strokeColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" points={pts} />
-        <circle cx="100" cy={isUp ? 10 : 90} r="4" fill={strokeColor} className="animate-pulse" />
+        <circle cx="100" cy={isUp === true ? 10 : isUp === false ? 90 : 50} r="4" fill={strokeColor} className="animate-pulse" />
       </svg>
     </div>
   );
 }
 
-function TrendCard({ title, items, isUp }: { title: string, items: TrendEntry[], isUp: boolean }) {
+function TrendCard({ title, items, isUp }: { title: string, items: TrendEntry[], isUp: boolean | null }) {
   if (items.length === 0) return null;
-  const colorLabel = isUp ? "text-primary" : "text-danger";
+  const colorLabel = isUp === true ? "text-primary" : isUp === false ? "text-danger" : "text-secondary";
+  const iconName = isUp === true ? 'trending_up' : isUp === false ? 'trending_down' : 'trending_flat';
 
   return (
     <div className="card p-6 border border-stroke bg-white shadow-sm hover:shadow-md transition-all group">
       <div className="flex items-center gap-2 mb-4 border-b border-stroke pb-2">
         <span className={`material-symbols-outlined ${colorLabel} text-[20px]`}>
-          {isUp ? 'trending_up' : 'trending_down'}
+          {iconName}
         </span>
         <h3 className="text-sm font-black uppercase tracking-widest text-ink">{title}</h3>
       </div>
@@ -63,7 +65,7 @@ function TrendCard({ title, items, isUp }: { title: string, items: TrendEntry[],
             </span>
           </div>
         ))}
-        <BasicTrendChart isUp={isUp} />
+        <BasicTrendChart isUp={isUp !== null ? isUp : true} />
       </div>
     </div>
   );
@@ -87,17 +89,17 @@ export default function ResultsPage() {
     setLoading(true);
     try {
       const [lb, tr, cmp, hl] = await Promise.all([
-        getResultsLeaderboard(10),
-        getResultsTrendSummary(),
-        getResultsComparisonSummary(), // Mock personal comp
-        getResultsModuleHighlights()
+        metricsService.getGlobalLeaderboard(10),
+        metricsService.getTrendSummary(),
+        metricsService.getComparisonSummary(), // Mock personal comp
+        metricsService.getModuleHighlights()
       ]);
       setLeaderboard(lb);
       setTrends(tr);
       setComparison(cmp);
       setHighlights(hl);
     } catch (e) {
-      console.error(e);
+      logger.error("Error loading results data", { domain: 'network_api', origin: 'Results', action: 'load_data', state: 'failed' }, e);
     } finally {
       setLoading(false);
     }
@@ -128,7 +130,7 @@ export default function ResultsPage() {
           </div>
           <button
             type="button"
-            onClick={() => nav("/experience")}
+            onClick={() => nav("/signals")}
             className="btn-primary shrink-0 shadow-md text-sm px-6"
           >
             Seguir señalando →
@@ -211,38 +213,46 @@ export default function ResultsPage() {
 
               {/* Sidebar Derecho (Highlights & Trends) */}
               <div className="space-y-6 flex flex-col">
-                
-                {/* 3. Trends Generales */}
-                {trends.trendingUp.length > 0 && (
-                   <TrendCard title="Mayor Tracción (WoW)" items={trends.trendingUp} isUp={true} />
-                )}
-
-                {/* 4. Highlights por Módulo */}
-                <div className="card shadow-md flex-1 bg-gradient-to-b from-white to-surface2/50">
-                  <div className="p-5 border-b border-stroke">
-                    <h2 className="text-sm font-black text-ink uppercase tracking-widest flex items-center gap-2">
-                       <span className="material-symbols-outlined text-secondary">star_half</span>
-                       Módulos Destacados
-                    </h2>
-                  </div>
-                  <div className="p-5 space-y-5">
-                    {highlights.length === 0 ? (
-                      <p className="text-xs text-text-muted text-center py-4">No hay highlights actuales</p>
-                    ) : (
-                      highlights.map((h, i) => (
-                        <div key={i} className="border-l-2 border-stroke pl-3 hover:border-primary transition-colors">
-                          <p className="text-[10px] uppercase tracking-widest font-black text-primary mb-1">{h.module}</p>
-                          <h4 className="font-bold text-ink text-sm mb-1">{h.title}</h4>
-                          <p className="text-xs font-medium text-text-secondary leading-snug">{h.description}</p>
-                          {h.value && (
-                            <span className="inline-block mt-2 bg-surface2 px-2 py-0.5 rounded text-[10px] font-black text-ink uppercase tracking-wider border border-stroke/50 shadow-sm">{h.value}</span>
-                          )}
-                        </div>
-                      ))
+                <PremiumGate featureName="Tendencias de Mercado" isLocked={true}>
+                  <div className="space-y-6">
+                    {/* 3. Trends Generales */}
+                    {trends.trendingUp.length > 0 && (
+                      <TrendCard title="Mayor Tracción (WoW)" items={trends.trendingUp} isUp={true} />
                     )}
-                  </div>
-                </div>
+                    {trends.stable.length > 0 && (
+                      <TrendCard title="Tracción Estable (WoW)" items={trends.stable} isUp={null} />
+                    )}
+                    {trends.trendingDown.length > 0 && (
+                      <TrendCard title="Pérdida de Tracción (WoW)" items={trends.trendingDown} isUp={false} />
+                    )}
 
+                    {/* 4. Highlights por Módulo */}
+                    <div className="card shadow-md flex-1 bg-gradient-to-b from-white to-surface2/50 relative z-0">
+                      <div className="p-5 border-b border-stroke">
+                        <h2 className="text-sm font-black text-ink uppercase tracking-widest flex items-center gap-2">
+                          <span className="material-symbols-outlined text-secondary">star_half</span>
+                          Módulos Destacados
+                        </h2>
+                      </div>
+                      <div className="p-5 space-y-5">
+                        {highlights.length === 0 ? (
+                          <p className="text-xs text-text-muted text-center py-4">No hay highlights actuales</p>
+                        ) : (
+                          highlights.map((h, i) => (
+                            <div key={i} className="border-l-2 border-stroke pl-3 hover:border-primary transition-colors">
+                              <p className="text-[10px] uppercase tracking-widest font-black text-primary mb-1">{h.module}</p>
+                              <h4 className="font-bold text-ink text-sm mb-1">{h.title}</h4>
+                              <p className="text-xs font-medium text-text-secondary leading-snug">{h.description}</p>
+                              {h.value && (
+                                <span className="inline-block mt-2 bg-surface2 px-2 py-0.5 rounded text-[10px] font-black text-ink uppercase tracking-wider border border-stroke/50 shadow-sm">{h.value}</span>
+                              )}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </PremiumGate>
               </div>
             </div>
           )}
@@ -253,7 +263,7 @@ export default function ResultsPage() {
               profileCompleteness={(profile as { profileCompleteness?: number })?.profileCompleteness || 0}
               onAction={(action: ActionType) => {
                 if (action === 'profile') nav('/complete-profile');
-                if (action === 'versus') nav('/experience');
+                if (action === 'versus') nav('/signals');
                 if (action === 'results') window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               customTitle="Profundiza con nosotros"

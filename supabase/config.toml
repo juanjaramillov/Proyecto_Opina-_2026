@@ -33,3 +33,20 @@ entrypoint = "./functions/insights-generator/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/insights-generator/*.html" ]
+
+[functions.cron-evaluate-weekly-missions]
+enabled = true
+verify_jwt = true
+import_map = "./functions/cron-evaluate-weekly-missions/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/cron-evaluate-weekly-missions/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/cron-evaluate-weekly-missions/*.html" ]
+
+[functions.send-whatsapp-invite]
+enabled = true
+verify_jwt = false
+entrypoint = "./functions/send-whatsapp-invite/index.ts"
+

@@ -64,7 +64,7 @@ serve(async (req) => {
             throw new Error(`Batalla no encontrada: ${battleSlug}`);
         }
 
-        const opciones = battleData.options as any[];
+        const opciones = battleData.options as { label: string }[];
 
         // 2. Usar la función RPC para obtener los puntajes exactos de las opciones
         // Inyectamos el slug a 'get_segmented_ranking' para obtener los pesos
@@ -85,7 +85,7 @@ serve(async (req) => {
         
         // Mapear opciones con sus scores
         const scoresContext = opciones.map(op => {
-            const rData = finalRanking.find((r: any) => r.option_label === op.label);
+            const rData = finalRanking.find((r: { option_label: string; total_weight: number }) => r.option_label === op.label);
             const score = rData ? rData.total_weight : 0;
             return `${op.label}: ${score} votos de peso relativo`;
         }).join('\n');
@@ -148,9 +148,10 @@ ${scoresContext}`
             { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         )
 
-    } catch (error: any) {
-        console.error("Error en function insights-generator:", error.message);
-        return new Response(JSON.stringify({ error: error.message }), {
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error("Error en function insights-generator:", errorMessage);
+        return new Response(JSON.stringify({ error: errorMessage }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 400,
         })

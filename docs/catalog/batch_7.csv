@@ -1,0 +1,161 @@
+Industria,Categoria,Subcategoria,Marca,Slug,Dominio
+Mascotas,Alimentación,Alimento para perros,Acana,acana-perros,https://acana.com
+Mascotas,Alimentación,Alimento para perros,Bravery,bravery-perros,https://bravery.cl
+Mascotas,Alimentación,Alimento para perros,Dog Chow,dog-chow,https://www.purina.cl
+Mascotas,Alimentación,Alimento para perros,Pro Plan,pro-plan-perros,https://www.purina.cl
+Mascotas,Alimentación,Alimento para perros,Royal Canin,royal-canin-perros,https://www.royalcanin.com
+Mascotas,Alimentación,Alimento para perros,Pedigree,pedigree,https://www.pedigree.cl
+Mascotas,Alimentación,Alimento para perros,Eukanuba,eukanuba-perros,https://www.eukanuba.com
+Mascotas,Alimentación,Alimento para perros,Hills Science Diet,hills-science-diet-perros,https://www.hillspet.com
+Mascotas,Alimentación,Alimento para perros,Orijen,orijen-perros,https://www.orijenpetfoods.com
+Mascotas,Alimentación,Alimento para perros,Nutra Nuggets,nutra-nuggets-perros,https://www.nutranuggets.com
+Mascotas,Alimentación,Alimento para perros,Master Dog,master-dog,https://www.masterdog.cl
+Mascotas,Alimentación,Alimento para perros,Cannes,cannes-perros,https://www.cannes.cl
+Mascotas,Alimentación,Alimento para perros,Josera,josera-perros,https://www.josera.com
+Mascotas,Alimentación,Alimento para perros,Taste of the Wild,taste-of-the-wild-perros,https://www.tasteofthewildpetfood.com
+Mascotas,Alimentación,Alimento para perros,Brit Care,brit-care-perros,https://www.brit-petfood.com
+Mascotas,Alimentación,Alimento para perros,Excellent,excellent-perros,https://www.excellent.cl
+Mascotas,Alimentación,Alimento para gatos,Acana,acana-gatos,https://acana.com
+Mascotas,Alimentación,Alimento para gatos,Bravery,bravery-gatos,https://bravery.cl
+Mascotas,Alimentación,Alimento para gatos,Cat Chow,cat-chow,https://www.purina.cl
+Mascotas,Alimentación,Alimento para gatos,Pro Plan,pro-plan-gatos,https://www.purina.cl
+Mascotas,Alimentación,Alimento para gatos,Royal Canin,royal-canin-gatos,https://www.royalcanin.com
+Mascotas,Alimentación,Alimento para gatos,Whiskas,whiskas,https://www.whiskas.cl
+Mascotas,Alimentación,Alimento para gatos,Hills Science Diet,hills-science-diet-gatos,https://www.hillspet.com
+Mascotas,Alimentación,Alimento para gatos,Orijen,orijen-gatos,https://www.orijenpetfoods.com
+Mascotas,Alimentación,Alimento para gatos,Master Cat,master-cat,https://www.mastercat.cl
+Mascotas,Alimentación,Alimento para gatos,Josera,josera-gatos,https://www.josera.com
+Mascotas,Alimentación,Alimento para gatos,Taste of the Wild,taste-of-the-wild-gatos,https://www.tasteofthewildpetfood.com
+Mascotas,Alimentación,Alimento para gatos,Equilibrio,equilibrio-gatos,https://www.equilibrio-petfood.com
+Mascotas,Alimentación,Alimento para gatos,Brit Care,brit-care-gatos,https://www.brit-petfood.com
+Mascotas,Servicios,Clínicas veterinarias,Clínica Veterinaria Alemana,clinica-veterinaria-alemana,https://www.cv-alemana.cl
+Mascotas,Servicios,Clínicas veterinarias,Hospital Clínico Veterinario U. de Chile,hospital-clinico-veterinario-u-de-chile,https://hcv.uchile.cl
+Mascotas,Servicios,Clínicas veterinarias,PetSalud,petsalud,https://www.petsalud.cl
+Mascotas,Servicios,Clínicas veterinarias,Vet24,vet24,https://www.vet24.cl
+Mascotas,Servicios,Clínicas veterinarias,VetPoint,vetpoint,https://www.vetpoint.cl
+Mascotas,Servicios,Clínicas veterinarias,Vets,vets,https://www.vets.cl
+Mascotas,Servicios,Clínicas veterinarias,Veterinaria Las Condes,veterinaria-las-condes,https://www.veterinarialascondes.cl
+Mascotas,Servicios,Clínicas veterinarias,Veterinaria Ñuñoa,veterinaria-nunoa,https://www.veterinarianunoa.cl
+Mascotas,Servicios,Clínicas veterinarias,Veterinaria San Cristóbal,veterinaria-san-cristobal,https://www.vetsancristobal.cl
+Mascotas,Servicios,Clínicas veterinarias,Animal Care,animal-care-vet,https://www.animalcare.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Club de Perros y Gatos,club-de-perros-y-gatos,https://www.clubdeperrosygatos.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Maspet,maspet,https://www.maspet.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Pet BJ,pet-bj,https://www.petbj.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Pet Happy,pet-happy,https://www.pethappy.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Petslandia,petslandia,https://www.petslandia.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,SuperZoo,superzoo,https://www.superzoo.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Puppis,puppis,https://www.puppis.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Pet City,pet-city,https://www.petcity.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Animal Planet,animal-planet-pet,https://www.animalplanet.cl
+Mascotas,Retail mascotas,Tiendas de mascotas,Pet Market,pet-market,https://www.petmarket.cl
+Educación,Educación superior,Universidades,Pontificia Universidad Católica,pontificia-universidad-catolica,https://www.uc.cl
+Educación,Educación superior,Universidades,Universidad de Chile,universidad-de-chile,https://www.uchile.cl
+Educación,Educación superior,Universidades,Universidad de Concepción,universidad-de-concepcion,https://www.udec.cl
+Educación,Educación superior,Universidades,USACH,usach,https://www.usach.cl
+Educación,Educación superior,Universidades,UAI,uai,https://www.uai.cl
+Educación,Educación superior,Universidades,UDP,udp,https://www.udp.cl
+Educación,Educación superior,Universidades,Universidad de los Andes,universidad-de-los-andes,https://www.uandes.cl
+Educación,Educación superior,Universidades,Universidad Andrés Bello,universidad-andres-bello,https://www.unab.cl
+Educación,Educación superior,Universidades,Universidad Mayor,universidad-mayor,https://www.umayor.cl
+Educación,Educación superior,Universidades,Universidad Diego Portales,universidad-diego-portales,https://www.udp.cl
+Educación,Educación superior,Universidades,Universidad del Desarrollo,universidad-del-desarrollo,https://www.udd.cl
+Educación,Educación superior,Universidades,Universidad Adolfo Ibáñez,universidad-adolfo-ibanez,https://www.uai.cl
+Educación,Educación superior,Universidades,Universidad Finis Terrae,universidad-finis-terrae,https://www.uft.cl
+Educación,Educación superior,Universidades,Universidad Central,universidad-central,https://www.ucentral.cl
+Educación,Educación superior,Universidades,Universidad Santo Tomás,universidad-santo-tomas,https://www.ust.cl
+Educación,Educación superior,Institutos profesionales,AIEP,aiep,https://www.aiep.cl
+Educación,Educación superior,Institutos profesionales,Duoc UC,duoc-uc,https://www.duoc.cl
+Educación,Educación superior,Institutos profesionales,INACAP,inacap,https://www.inacap.cl
+Educación,Educación superior,Institutos profesionales,IPChile,ipchile,https://www.ipchile.cl
+Educación,Educación superior,Institutos profesionales,Santo Tomás IP,santo-tomas-ip,https://www.ust.cl
+Educación,Educación superior,Institutos profesionales,ENAC,enac,https://www.enac.cl
+Educación,Educación superior,Institutos profesionales,ARCOS,arcos,https://www.arcos.cl
+Educación,Preparación académica,Preuniversitarios,Cpech,cpech,https://www.cpech.cl
+Educación,Preparación académica,Preuniversitarios,Pedro de Valdivia,pedro-de-valdivia,https://www.pdv.cl
+Educación,Preparación académica,Preuniversitarios,Preu UC,preu-uc,https://preuniversitario.uc.cl
+Educación,Preparación académica,Preuniversitarios,Puntaje Nacional,puntaje-nacional,https://www.puntajenacional.cl
+Educación,Preparación académica,Preuniversitarios,Filadd,filadd,https://www.filadd.cl
+Educación,Preparación académica,Preuniversitarios,M30M,m30m,https://www.preuniversitariom30m.com
+Educación,Preparación académica,Preuniversitarios,Cepech,cepech,https://www.cepech.cl
+Medios,Información,Prensa digital,BioBioChile,biobiochile,https://www.biobiochile.cl
+Medios,Información,Prensa digital,CNN Chile,cnn-chile,https://www.cnnchile.com
+Medios,Información,Prensa digital,Cooperativa,cooperativa-prensa-digital,https://www.cooperativa.cl
+Medios,Información,Prensa digital,El Mostrador,el-mostrador,https://www.elmostrador.cl
+Medios,Información,Prensa digital,Emol,emol,https://www.emol.com
+Medios,Información,Prensa digital,La Tercera,la-tercera,https://www.latercera.com
+Medios,Información,Prensa digital,El Mercurio,el-mercurio,https://www.elmercurio.com
+Medios,Información,Prensa digital,The Clinic,the-clinic,https://www.theclinic.cl
+Medios,Información,Prensa digital,Ex-Ante,ex-ante,https://www.ex-ante.cl
+Medios,Información,Prensa digital,24 Horas,24-horas,https://www.24horas.cl
+Medios,Información,Prensa digital,Publimetro,publimetro,https://www.publimetro.cl
+Medios,Información,Prensa digital,La Cuarta,la-cuarta,https://www.lacuarta.com
+Medios,Información,Prensa digital,Diario Financiero,diario-financiero,https://www.df.cl
+Medios,Información,Prensa digital,Pulso,pulso-prensa,https://www.latercera.com/pulso
+Medios,Información,Radios,ADN Radio,adn-radio,https://www.adnradio.cl
+Medios,Información,Radios,Radio Carolina,radio-carolina,https://www.radiocarolina.cl
+Medios,Información,Radios,Radio Cooperativa,radio-cooperativa,https://www.cooperativa.cl
+Medios,Información,Radios,Radio Pudahuel,radio-pudahuel,https://www.pudahuel.cl
+Medios,Información,Radios,Radio Agricultura,radio-agricultura,https://www.radioagricultura.cl
+Medios,Información,Radios,Radio Bío Bío,radio-bio-bio,https://www.biobiochile.cl
+Medios,Información,Radios,FM Dos,fm-dos,https://www.fmdos.cl
+Medios,Información,Radios,Rock & Pop,rock-and-pop,https://www.rockandpop.cl
+Medios,Información,Radios,Los 40,los-40,https://los40.cl
+Medios,Información,Radios,Futuro,futuro,https://www.futuro.cl
+Medios,Información,Radios,Concierto,concierto,https://www.concierto.cl
+Medios,Información,Radios,Corazón,corazon,https://www.corazon.cl
+Medios,Información,Radios,Activa,activa,https://www.activa.cl
+Bebidas,Bebidas,Aguas,Aquarius,aquarius,https://www.coca-cola.com
+Bebidas,Bebidas,Aguas,Benedictino,benedictino,https://www.benedictino.cl
+Bebidas,Bebidas,Aguas,Cachantun,cachantun,https://www.cachantun.cl
+Bebidas,Bebidas,Aguas,Evian,evian,https://www.evian.com
+Bebidas,Bebidas,Aguas,Perrier,perrier,https://www.perrier.com
+Bebidas,Bebidas,Aguas,Vital,vital,https://www.vitalagua.cl
+Bebidas,Bebidas,Aguas,San Pellegrino,san-pellegrino,https://www.sanpellegrino.com
+Bebidas,Bebidas,Aguas,Puyehue,puyehue,https://www.aguapuyehue.cl
+Bebidas,Bebidas,Aguas,Nestlé Pure Life,nestle-pure-life,https://www.nestle.com
+Bebidas,Bebidas,Gaseosas,Coca-Cola,coca-cola,https://www.coca-cola.com
+Bebidas,Bebidas,Gaseosas,Pepsi,pepsi,https://www.pepsi.com
+Bebidas,Bebidas,Gaseosas,Fanta,fanta,https://www.coca-cola.com
+Bebidas,Bebidas,Gaseosas,Sprite,sprite,https://www.coca-cola.com
+Bebidas,Bebidas,Gaseosas,Schweppes,schweppes,https://www.schweppes.com
+Bebidas,Bebidas,Gaseosas,Canada Dry,canada-dry,https://canadadrychile.cl
+Bebidas,Bebidas,Gaseosas,7UP,seven-up,https://www.7up.com
+Bebidas,Bebidas,Gaseosas,Dr Pepper,dr-pepper,https://www.drpepper.com
+Bebidas,Bebidas,Gaseosas,Bilz,bilz,https://www.ccu.cl
+Bebidas,Bebidas,Gaseosas,Pap,pap,https://www.ccu.cl
+Bebidas,Bebidas,Gaseosas,Kem Xtreme,kem-xtreme,https://www.ccu.cl
+Bebidas,Bebidas,Energéticas,Red Bull,red-bull,https://www.redbull.com
+Bebidas,Bebidas,Energéticas,Monster,monster,https://www.monsterenergy.com
+Bebidas,Bebidas,Energéticas,Rockstar,rockstar,https://www.rockstarenergy.com
+Bebidas,Bebidas,Energéticas,Burn,burn,https://www.coca-cola.com
+Bebidas,Bebidas,Energéticas,Prime Energy,prime-energy,https://drinkprime.com
+Bebidas,Bebidas,Energéticas,Celsius,celsius,https://www.celsius.com
+Bebidas,Bebidas,Energéticas,Score,score-energetica,https://www.scoreenergy.cl
+Bebidas,Bebidas,Energéticas,Speed,speed-energetica,https://www.speed.cl
+Bebidas,Bebidas,Cervezas,Becker,becker,https://www.becker.cl
+Bebidas,Bebidas,Cervezas,Corona,corona,https://www.corona.com
+Bebidas,Bebidas,Cervezas,Cristal,cristal,https://www.ccu.cl
+Bebidas,Bebidas,Cervezas,Escudo,escudo,https://www.ccu.cl
+Bebidas,Bebidas,Cervezas,Heineken,heineken,https://www.heineken.com
+Bebidas,Bebidas,Cervezas,Kunstmann,kunstmann,https://www.cerveza-kunstmann.cl
+Bebidas,Bebidas,Cervezas,Austral,austral,https://www.cervezaaustral.cl
+Bebidas,Bebidas,Cervezas,Royal Guard,royal-guard,https://www.ccu.cl
+Bebidas,Bebidas,Cervezas,Dolbek,dolbek,https://www.dolbek.cl
+Bebidas,Bebidas,Cervezas,Stella Artois,stella-artois,https://www.stellaartois.com
+Bebidas,Bebidas,Cervezas,Corona Cero,corona-cero,https://www.corona.com
+Bebidas,Vinos,Viñas,Concha y Toro,concha-y-toro,https://www.conchaytoro.com
+Bebidas,Vinos,Viñas,Miguel Torres,miguel-torres,https://www.migueltorres.cl
+Bebidas,Vinos,Viñas,Montes,montes,https://www.monteswines.com
+Bebidas,Vinos,Viñas,San Pedro,san-pedro,https://www.sanpedro.cl
+Bebidas,Vinos,Viñas,Santa Rita,santa-rita,https://www.santarita.com
+Bebidas,Vinos,Viñas,Undurraga,undurraga,https://www.undurraga.cl
+Bebidas,Vinos,Viñas,Casas del Toqui,casas-del-toqui,https://www.casasdeltoqui.com
+Bebidas,Vinos,Viñas,Emiliana,emiliana,https://www.emiliana.cl
+Bebidas,Vinos,Viñas,Cono Sur,cono-sur,https://www.conosur.com
+Bebidas,Vinos,Viñas,Errázuriz,errazuriz,https://www.errazuriz.com
+Bebidas,Vinos,Tiendas de vino,Descorcha,descorcha,https://descorcha.com
+Bebidas,Vinos,Tiendas de vino,El Mundo del Vino,el-mundo-del-vino,https://www.elmundodelvino.cl
+Bebidas,Vinos,Tiendas de vino,La Cav,la-cav,https://www.cav.cl
+Bebidas,Vinos,Tiendas de vino,La Vinoteca,la-vinoteca,https://www.lavinoteca.cl
+Bebidas,Vinos,Tiendas de vino,Tienda Concha y Toro,tienda-concha-y-toro,https://www.descorcha.com
+Bebidas,Vinos,Tiendas de vino,Tienda Santa Rita,tienda-santa-rita,https://www.santarita.com

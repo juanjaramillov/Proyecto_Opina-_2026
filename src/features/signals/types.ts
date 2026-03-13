@@ -59,7 +59,7 @@ export type InsightQuestion = {
     options: { id: string; label: string }[];
 };
 
-export type ProgressiveBattle = {
+export type TorneoTournament = {
     id: string;
     title: string;
     subtitle?: string;

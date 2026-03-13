@@ -40,27 +40,6 @@ export type BattleContextResponse = {
     }>;
 };
 
-// KPI types (por battle_instance_id)
-export type ShareOfPreferenceRow = {
-    option_label: string;
-    option_id: string;
-    signals_count: number;
-    weighted_signals: number;
-    share_pct: number;
-};
-
-export type TrendVelocityRow = {
-    option_id: string;
-    delta_signals: number;
-};
-
-export type EngagementQualityRow = {
-    total_signals: number;
-    weighted_total: number;
-    verified_share_pct: number;
-    avg_profile_completeness: number;
-};
-
 export type ActiveBattle = {
     id: string;
     slug: string;
@@ -146,23 +125,23 @@ export const signalService = {
             let res = await sb.rpc('insert_signal_event', {
                 ...args,
                 p_client_event_id: id
-            } as any);
+            } as unknown as { p_battle_id: string; p_option_id: string; p_client_event_id?: string; p_device_hash?: string; p_session_id?: string });
 
             // Si falla por p_device_hash, reintento sin ese campo (fallback)
             if (res.error && String(res.error.message).includes('p_device_hash')) {
-                const fallbackArgs = { ...args, p_client_event_id: id };
-                delete (fallbackArgs as any).p_device_hash;
-                res = await sb.rpc('insert_signal_event', fallbackArgs as any);
+                const fallbackArgs = { ...args, p_client_event_id: id } as { p_battle_id: string; p_option_id: string; p_client_event_id?: string; p_device_hash?: string; p_session_id?: string };
+                delete fallbackArgs.p_device_hash;
+                res = await sb.rpc('insert_signal_event', fallbackArgs);
             }
 
             const { error } = res;
 
             if (error) {
-                const errorMsg = String(error.message);
+                const eMsg = String((error as { message?: string })?.message || error);
 
                 // DG-A01: Convertir gating en flujo guiado
                 const msg = (error?.message || '').toUpperCase();
-                const code = (error as any)?.code ? String((error as any).code).toUpperCase() : '';
+                const code = (error as { code?: string })?.code ? String((error as { code?: string }).code).toUpperCase() : '';
 
                 const isInviteRequired =
                     msg.includes('INVITE_REQUIRED') || code.includes('INVITE_REQUIRED');
@@ -189,9 +168,9 @@ export const signalService = {
                     throw error;
                 }
 
-                if (isNonRetriableSignalErrorMessage(errorMsg)) {
+                if (isNonRetriableSignalErrorMessage(eMsg)) {
                     removeOutboxJob(id);
-                    track("signal_emit_non_retriable_error", "error", { message: String(errorMsg).slice(0, 160) }, id);
+                    track("signal_emit_non_retriable_error", "error", { message: String(eMsg).slice(0, 160) }, id);
                     try {
                         window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
                     } catch {
@@ -200,12 +179,12 @@ export const signalService = {
                     throw error;
                 }
 
-                logger.warn('[SignalService] RPC insert_signal_event failed (transient)', errorMsg);
+                logger.warn('[SignalService] RPC insert_signal_event failed (transient)', eMsg);
             } else {
                 removeOutboxJob(id);
                 track("signal_saved", "info", { battle_id: payload.battle_id, option_id: payload.option_id }, id);
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             // Re-throw if it was already explicitly thrown for business rules
             logger.warn('[SignalService] Submitting signal failed natively. Kept in Outbox', err);
             throw err; // ALWAYS THROW for temporary debugging
@@ -217,83 +196,64 @@ export const signalService = {
         });
     },
 
+    saveVersusSignal: async (args: {
+        battle_uuid: string; // The actual UUID for signal_events schema
+        battle_id: string;   // the slug or id for legacy bridging
+        battle_title: string;
+        selected_option_id: string;
+        loser_option_id: string;
+        selected_option_name: string;
+        loser_option_name: string;
+        subcategory?: string;
+    }): Promise<void> => {
+        return signalService.saveSignalEvent({
+            battle_id: args.battle_uuid,
+            option_id: args.selected_option_id,
+            meta: {
+                source: 'versus',
+                loser_option_id: args.loser_option_id,
+                subcategory: args.subcategory
+            }
+        });
+    },
+
+    saveTorneoSignal: async (args: {
+        battle_uuid: string; // UUID for signal_events
+        battle_id: string;   // Context id / slug
+        instance_id: string; // For progressive
+        title: string;
+        selected_option_id: string;
+        loser_option_id: string;
+        selected_option_name: string;
+        loser_option_name: string;
+        subcategory?: string;
+        stage?: number;
+    }): Promise<void> => {
+        return signalService.saveSignalEvent({
+            battle_id: args.battle_uuid,
+            option_id: args.selected_option_id,
+            meta: {
+                source: 'progressive',
+                loser_option_id: args.loser_option_id,
+                subcategory: args.subcategory,
+                stage: args.stage
+            }
+        });
+    },
+
+
     // =========================
     // STEP 3: CONTEXT RESOLUTION (RPC)
     // =========================
     resolveBattleContext: async (battleSlug: string): Promise<BattleContextResponse> => {
         if (!hasSupabaseEnv()) return { ok: false, error: 'Missing Supabase env' };
 
-        const { data, error } = await (sb.rpc as any)('resolve_battle_context', {
+        const { data, error } = await sb.rpc('resolve_battle_context', {
             p_battle_slug: battleSlug,
         });
 
         if (error) return { ok: false, error: error.message };
-        return data as unknown as BattleContextResponse;
-    },
-
-    // =========================
-    // STEP 4: KPI READS (RPC)
-    // =========================
-    getShareOfPreference: async (
-        battleId: string,
-        startDate?: string,
-        endDate?: string
-    ): Promise<ShareOfPreferenceRow[]> => {
-        if (!hasSupabaseEnv()) return [];
-
-        const { data, error } = await (sb.rpc as any)('kpi_share_of_preference', {
-            p_battle_id: battleId,
-            p_start_date: startDate || undefined,
-            p_end_date: endDate || undefined,
-        });
-
-        if (error) {
-            logger.error('[KPI Share] Error:', error);
-            return [];
-        }
-        return (data ?? []) as unknown as ShareOfPreferenceRow[];
-    },
-
-    getTrendVelocity: async (
-        battleId: string,
-        bucket: 'hour' | 'day' | 'week' = 'day',
-        startDate?: string,
-        endDate?: string
-    ): Promise<TrendVelocityRow[]> => {
-        if (!hasSupabaseEnv()) return [];
-
-        const { data, error } = await (sb.rpc as any)('kpi_trend_velocity', {
-            p_battle_id: battleId,
-            p_bucket: bucket,
-            p_start_date: startDate || undefined,
-            p_end_date: endDate || undefined,
-        });
-
-        if (error) {
-            logger.error('[KPI Trend] Error:', error);
-            return [];
-        }
-        return (data ?? []) as unknown as TrendVelocityRow[];
-    },
-
-    async getEngagementQuality(
-        battleId: string,
-        startDate?: string,
-        endDate?: string
-    ): Promise<EngagementQualityRow[]> {
-        if (!hasSupabaseEnv()) return [];
-
-        const { data, error } = await (sb.rpc as any)('kpi_engagement_quality', {
-            p_battle_id: battleId,
-            p_start_date: startDate || undefined,
-            p_end_date: endDate || undefined,
-        });
-
-        if (error) {
-            logger.error('[KPI Quality] Error:', error);
-            return [];
-        }
-        return (data ?? []) as unknown as EngagementQualityRow[];
+        return data as BattleContextResponse;
     },
 
     // =========================
@@ -308,12 +268,18 @@ export const signalService = {
     }> => {
         if (!hasSupabaseEnv()) return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
 
-        const { data, error } = await (sb.rpc as any)('get_hub_live_stats_24h');
+        const { data, error } = await sb.rpc('get_hub_live_stats_24h');
         if (error) {
             logger.error('[Hub Live Stats] Error:', error);
             return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
         }
-        return (data as any) ?? { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
+        return (data as unknown as {
+            active_users_24h: number;
+            signals_24h: number;
+            depth_answers_24h: number;
+            active_battles: number;
+            entities_elo: number;
+        }) ?? { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
     },
 
     getHubSignalTimeseries24h: async (): Promise<Array<{
@@ -330,7 +296,12 @@ export const signalService = {
             return [];
         }
 
-        return (data as any) ?? [];
+        return (data as unknown as Array<{
+            bucket_start: string;
+            label: string;
+            signals: number;
+            depth: number;
+        }>) ?? [];
     },
 
     getHubTopNow24h: async (): Promise<{
@@ -339,14 +310,17 @@ export const signalService = {
     }> => {
         if (!hasSupabaseEnv()) return { top_versus: null, top_tournament: null };
 
-        const { data, error } = await (sb.rpc as any)('get_hub_top_now_24h');
+        const { data, error } = await sb.rpc('get_hub_top_now_24h');
 
         if (error) {
             logger.error('[Hub Top Now] Error:', error);
             return { top_versus: null, top_tournament: null };
         }
 
-        return (data as any) ?? { top_versus: null, top_tournament: null };
+        return (data as unknown as {
+            top_versus: { slug: string; title: string; signals_24h: number } | null;
+            top_tournament: { slug: string; title: string; signals_24h: number } | null;
+        }) ?? { top_versus: null, top_tournament: null };
     },
 
     getActiveBattles: async (): Promise<ActiveBattle[]> => {

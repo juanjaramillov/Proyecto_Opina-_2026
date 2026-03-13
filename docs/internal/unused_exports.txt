@@ -1,0 +1,109 @@
+vite.config.ts:4 - default
+src/components/UserLevelCard.tsx:9 - UserLevelCard
+src/config/constants.ts:3 - MIN_COMPARISON_USERS
+src/lib/demographicsNormalize.ts:1 - REGION_NAME_TO_CODE (used in module)
+src/lib/filterChips.ts:24 - labelGender (used in module)
+src/lib/filterChips.ts:33 - labelAgeBucket (used in module)
+src/lib/filterChips.ts:39 - labelRegion (used in module)
+src/lib/filterChips.ts:45 - SegmentPart (used in module)
+src/lib/levelSystem.ts:2 - LevelDefinition (used in module)
+src/lib/levelSystem.ts:8 - LEVELS (used in module)
+src/lib/profileGuard.ts:7 - isProfileComplete
+src/lib/profileGuard.ts:1 - MinimalProfile (used in module)
+src/lib/requestCache.ts:52 - invalidate
+src/lib/segmentation.ts:47 - normalizeAllToNull
+src/store/signalStore.ts:5 - SignalState (used in module)
+src/supabase/database.types.ts:1 - Json (used in module)
+src/supabase/database.types.ts:3805 - Tables (used in module)
+src/supabase/database.types.ts:3834 - TablesInsert
+src/supabase/database.types.ts:3859 - TablesUpdate
+src/supabase/database.types.ts:3884 - Enums (used in module)
+src/supabase/database.types.ts:3901 - CompositeTypes (used in module)
+src/supabase/database.types.ts:3918 - Constants
+src/types/signalEvent.ts:1 - SignalEventType (used in module)
+src/components/auth/VerifiedBadge.tsx:5 - VerifiedBadge
+src/components/entities/EntityBadge.tsx:15 - default
+src/components/ui/FallbackAvatar.tsx:3 - FallbackAvatarProps (used in module)
+src/components/ui/FilterChip.tsx:9 - FilterChip
+src/components/ui/Input.tsx:43 - default
+src/components/ui/KpiCard.tsx:15 - KpiCard
+src/components/ui/Select.tsx:56 - default
+src/components/ui/StateBlocks.tsx:88 - CardState
+src/components/ui/Tabs.tsx:3 - TabItem (used in module)
+src/components/ui/Tabs.tsx:16 - Tabs
+src/components/ui/Toast.types.ts:12 - ToastContextType (used in module)
+src/features/auth/index.ts:7 - useAuth
+src/features/auth/index.ts:15 - AuthProvider
+src/features/auth/index.ts:57 - useAuthContext
+src/features/auth/index.ts:36 - authService
+src/features/auth/index.ts:1 - AccountTier
+src/features/auth/index.ts:3 - DemographicData
+src/features/auth/index.ts:34 - AccountProfile
+src/features/feed/modulesConfig.ts:1 - ModuleStatus (used in module)
+src/features/signals/types.ts:55 - InsightQuestion (used in module)
+src/lib/signals/recordDepthSignalsFromLegacy.ts:16 - LegacyDepthPayload (used in module)
+src/lib/signals/recordLegacySignals.ts:6 - LegacyVersusPayload (used in module)
+src/lib/signals/recordLegacySignals.ts:17 - LegacyProgressivePayload (used in module)
+src/lib/signals/recordNewsSignalsFromLegacy.ts:7 - NewsAnswerPayload (used in module)
+src/features/access/services/accessGate.ts:48 - ACCESS_GATE_STORAGE_KEY
+src/features/admin/components/ActualidadTopicEditor.tsx:41 - default
+src/features/admin/components/ActualidadTopicEditor.tsx:6 - AdminTopic (used in module)
+src/features/admin/components/ActualidadTopicEditor.tsx:27 - TopicQuestion (used in module)
+src/features/admin/components/MiniPRDGenerator.tsx:98 - default
+src/features/admin/pages/ModulesDemandPage.tsx:5 - default
+src/features/admin/pages/ModulesPriorityPage.tsx:5 - default
+src/features/admin/services/modulesDemandService.ts:4 - ModuleDemandMetric (used in module)
+src/features/admin/services/modulesPriorityService.ts:14 - SegmentedDemandMetric (used in module)
+src/features/auth/services/signupCooldown.ts:11 - signupCooldown
+src/features/feed/components/IndustrySelector.tsx:3 - Subcategory (used in module)
+src/features/feed/components/IndustrySelector.tsx:10 - ParentIndustry (used in module)
+src/features/feed/components/IndustrySelector.tsx:23 - ParentIndustriesMap (used in module)
+src/features/feed/components/PulseCheckIn.tsx:4 - QuestionType (used in module)
+src/features/feed/components/PulseHubManager.tsx:65 - default
+src/features/home/components/RightNowCarousel.tsx:17 - default
+src/features/home/components/RightNowCarousel.tsx:6 - GenericSlide (used in module)
+src/features/profile/loyalty/loyaltyModel.ts:1 - LoyaltyTierId (used in module)
+src/features/profile/loyalty/loyaltyModel.ts:3 - LoyaltyTier (used in module)
+src/features/profile/loyalty/loyaltyModel.ts:13 - LOYALTY_TIERS (used in module)
+src/features/profile/loyalty/missionsModel.ts:1 - MissionStatus (used in module)
+src/features/profile/pages/PersonalState.tsx:15 - default
+src/features/profile/services/profileService.ts:54 - RawPersonalHistoryPoint (used in module)
+src/features/profile/services/userStateService.ts:24 - UserHistoryEntry (used in module)
+src/features/profundidad/components/DepthQuestionCard.tsx:4 - QuestionType (used in module)
+src/features/profundidad/pages/DepthHub.tsx:25 - default
+src/features/profundidad/pages/DepthRun.tsx:27 - default
+src/features/rankings/pages/PublicRankingPage.tsx:295 - default
+src/features/rankings/pages/Rankings.tsx:437 - default
+src/features/rankings/services/rankingService.ts:37 - PublicRankingResponse (used in module)
+src/features/results/services/analyticsService.ts:5 - AdvancedResult (used in module)
+src/features/results/services/analyticsService.ts:14 - AnalyticsFilters (used in module)
+src/features/results/services/analyticsService.ts:20 - analyticsService
+src/features/results/services/mySignalsService.ts:5 - MyRecentSignalRow (used in module)
+src/features/results/services/mySignalsService.ts:18 - mySignalsService
+src/features/results/services/resultsAggService.ts:4 - SegmentFilters (used in module)
+src/features/results/services/resultsAggService.ts:10 - CategoryOverviewRow (used in module)
+src/features/results/services/resultsAggService.ts:26 - resultsAggService
+src/features/results/services/resultsService.ts:5 - resultsService
+src/features/signals/components/DepthAnalyticsPanel.tsx:16 - default
+src/features/signals/components/DepthSelector.tsx:4 - DepthOption (used in module)
+src/features/signals/config/depthQuestions.ts:8 - DEPTH_QUESTIONS
+src/features/signals/services/depthService.ts:8 - DepthResponseRow (used in module)
+src/features/signals/services/depthService.ts:9 - DepthComparisonRow (used in module)
+src/features/signals/services/platformService.ts:114 - EnterpriseRanking (used in module)
+src/features/signals/services/platformService.ts:122 - ClientPlanStatus (used in module)
+src/features/signals/services/pulseService.ts:6 - UserPulse (used in module)
+src/features/signals/services/sessionService.ts:5 - UserSession (used in module)
+src/features/signals/services/signalOutbox.ts:86 - getOutboxCount
+src/features/signals/services/signalOutbox.ts:236 - stopSignalOutbox
+src/features/signals/services/signalService.ts:16 - DbCategory (used in module)
+src/features/signals/services/signalService.ts:19 - SignalEventPayload (used in module)
+src/features/signals/services/signalService.ts:27 - BattleContextResponse (used in module)
+src/features/signals/services/signalService.ts:44 - ShareOfPreferenceRow (used in module)
+src/features/signals/services/signalService.ts:52 - TrendVelocityRow (used in module)
+src/features/signals/services/signalService.ts:57 - EngagementQualityRow (used in module)
+src/features/signals/types/actualidad.ts:15 - EventStage (used in module)
+src/features/signals/types/actualidad.ts:22 - TopicDuration (used in module)
+src/features/signals/types/actualidad.ts:24 - OpinionMaturity (used in module)
+src/features/signals/types/actualidad.ts:33 - TopicQuestionOption (used in module)
+src/features/signals/types/actualidad.ts:90 - AiTopicsResponse (used in module)
+src/features/signals/types/actualidad.ts:181 - isValidAiTopicsResponse

@@ -1,0 +1,217 @@
+Industria,Categoria,Subcategoria,Marca,Slug,Dominio
+Belleza,Cosmética,Maquillaje,L'Oréal Paris,loreal-paris,https://www.lorealparis.cl
+Belleza,Cosmética,Maquillaje,Maybelline,maybelline,https://www.maybelline.cl
+Belleza,Cosmética,Maquillaje,MAC,mac,https://www.maccosmetics.cl
+Belleza,Cosmética,Maquillaje,NYX,nyx,https://www.nyxcosmetics.com
+Belleza,Cosmética,Maquillaje,Natura,natura-maquillaje,https://www.natura.cl
+Belleza,Cosmética,Maquillaje,Petrizzio,petrizzio,https://www.petrizzio.cl
+Belleza,Cosmética,Maquillaje,Revlon,revlon,https://www.revlon.com
+Belleza,Cosmética,Maquillaje,CoverGirl,covergirl,https://www.covergirl.com
+Belleza,Cosmética,Maquillaje,Max Factor,max-factor,https://www.maxfactor.com
+Belleza,Cosmética,Maquillaje,Bourjois,bourjois,https://www.bourjois.com
+Belleza,Cosmética,Maquillaje,Benefit,benefit,https://www.benefitcosmetics.com
+Belleza,Cosmética,Maquillaje,Lancôme,lancome-maquillaje,https://www.lancome.cl
+Belleza,Cosmética,Maquillaje,Estée Lauder,estee-lauder,https://www.esteelauder.cl
+Belleza,Cosmética,Maquillaje,e.l.f.,elf,https://www.elfcosmetics.com
+Belleza,Cosmética,Maquillaje,Bobbi Brown,bobbi-brown,https://www.bobbibrowncosmetics.com
+Belleza,Cosmética,Maquillaje,Urban Decay,urban-decay,https://www.urbandecay.com
+Belleza,Cosmética,Maquillaje,Too Faced,too-faced,https://www.toofaced.com
+Belleza,Cosmética,Maquillaje,Milani,milani,https://www.milanicosmetics.com
+Belleza,Cosmética,Maquillaje,Essence,essence,https://essencemakeup.com
+Belleza,Cosmética,Maquillaje,Catrice,catrice,https://www.catrice.eu
+Belleza,Cosmética,Maquillaje,Rimmel London,rimmel-london,https://www.rimmellondon.com
+Belleza,Cosmética,Maquillaje,NARS,nars,https://www.narscosmetics.com
+Belleza,Cosmética,Maquillaje,Clinique Makeup,clinique-makeup,https://www.clinique.cl
+Belleza,Cosmética,Maquillaje,Sephora Collection,sephora-collection,https://www.sephora.com
+Belleza,Cosmética,Maquillaje,Morphe,morphe,https://www.morphe.com
+Belleza,Cosmética,Maquillaje,Wet n Wild,wet-n-wild,https://www.wetnwildbeauty.com
+Belleza,Cosmética,Maquillaje,Physicians Formula,physicians-formula,https://www.physiciansformula.com
+Belleza,Cosmética,Maquillaje,Laura Mercier,laura-mercier,https://www.lauramercier.com
+Belleza,Cosmética,Maquillaje,Shiseido Makeup,shiseido-makeup,https://www.shiseido.com
+Belleza,Cosmética,Maquillaje,L.A. Girl,la-girl,https://www.lagirlusa.com
+Belleza,Cosmética,Perfumes,Calvin Klein,calvin-klein,https://www.calvinklein.cl
+Belleza,Cosmética,Perfumes,Carolina Herrera,carolina-herrera,https://www.carolinaherrera.com
+Belleza,Cosmética,Perfumes,Chanel,chanel,https://www.chanel.com
+Belleza,Cosmética,Perfumes,Dior,dior,https://www.dior.com
+Belleza,Cosmética,Perfumes,Hugo Boss,hugo-boss,https://www.hugoboss.com
+Belleza,Cosmética,Perfumes,Rabanne,rabanne,https://www.rabanne.com
+Belleza,Cosmética,Perfumes,Armani,armani-perfumes,https://www.armani.com
+Belleza,Cosmética,Perfumes,Versace,versace-perfumes,https://www.versace.com
+Belleza,Cosmética,Perfumes,Dolce & Gabbana,dolce-gabbana-perfumes,https://www.dolcegabbana.com
+Belleza,Cosmética,Perfumes,Givenchy,givenchy-perfumes,https://www.givenchybeauty.com
+Belleza,Cosmética,Perfumes,Yves Saint Laurent,ysl-perfumes,https://www.yslbeauty.cl
+Belleza,Cosmética,Perfumes,Jean Paul Gaultier,jean-paul-gaultier,https://www.jeanpaulgaultier.com
+Belleza,Cosmética,Perfumes,Tommy Hilfiger,tommy-hilfiger-perfumes,https://tommy.com
+Belleza,Cosmética,Perfumes,Gucci,gucci-perfumes,https://www.gucci.com
+Belleza,Cosmética,Perfumes,Prada,prada-perfumes,https://www.prada.com
+Belleza,Cosmética,Perfumes,Hermès,hermes-perfumes,https://www.hermes.com
+Belleza,Cosmética,Perfumes,Narciso Rodriguez,narciso-rodriguez,https://www.narcisorodriguezparfums.com
+Belleza,Cosmética,Perfumes,Loewe,loewe-perfumes,https://www.loewe.com
+Belleza,Cosmética,Perfumes,Issey Miyake,issey-miyake,https://www.isseymiyake.com
+Belleza,Cosmética,Perfumes,Burberry,burberry-perfumes,https://www.burberry.com
+Belleza,Cosmética,Perfumes,Montblanc Perfumes,montblanc-perfumes,https://www.montblanc.com
+Belleza,Cosmética,Perfumes,Valentino,valentino-perfumes,https://www.valentino-beauty.cl
+Belleza,Cosmética,Perfumes,Viktor&Rolf,viktor-rolf,https://www.viktor-rolf.com
+Belleza,Cosmética,Perfumes,Bvlgari,bvlgari-perfumes,https://www.bulgari.com
+Belleza,Cosmética,Perfumes,Kenzo,kenzo-perfumes,https://www.kenzoparfums.com
+Belleza,Cosmética,Perfumes,Tom Ford,tom-ford-perfumes,https://www.tomford.com
+Belleza,Cosmética,Perfumes,Azzaro,azzaro,https://www.azzaro.com
+Belleza,Cosmética,Perfumes,Mugler,mugler,https://www.mugler.cl
+Belleza,Cosmética,Skincare,Bioderma,bioderma,https://www.bioderma.cl
+Belleza,Cosmética,Skincare,CeraVe,cerave,https://www.cerave.cl
+Belleza,Cosmética,Skincare,Cetaphil,cetaphil,https://www.cetaphil.cl
+Belleza,Cosmética,Skincare,Eucerin,eucerin,https://www.eucerin.cl
+Belleza,Cosmética,Skincare,La Roche-Posay,la-roche-posay,https://www.laroche-posay.cl
+Belleza,Cosmética,Skincare,Vichy,vichy,https://www.vichy.cl
+Belleza,Cosmética,Skincare,Avene,avene,https://www.eau-thermale-avene.cl
+Belleza,Cosmética,Skincare,Neutrogena,neutrogena,https://www.neutrogena.cl
+Belleza,Cosmética,Skincare,Uriage,uriage,https://www.uriage.com
+Belleza,Cosmética,Skincare,SVR,svr,https://www.svr.com
+Belleza,Cosmética,Skincare,Mustela Skincare,mustela-skincare,https://www.mustela.cl
+Belleza,Cosmética,Skincare,Simple,simple-skincare,https://www.simpleskincare.com
+Belleza,Cosmética,Skincare,Garnier SkinActive,garnier-skinactive,https://www.garnier.cl
+Belleza,Cosmética,Skincare,Kiehl's,kiehls,https://www.kiehls.cl
+Belleza,Cosmética,Skincare,The Ordinary,the-ordinary,https://theordinary.com
+Belleza,Cosmética,Skincare,Paula's Choice,paulas-choice,https://www.paulaschoice.com
+Belleza,Cosmética,Skincare,Clinique,clinique-skincare,https://www.clinique.cl
+Belleza,Cosmética,Skincare,Nuxe,nuxe,https://www.nuxe.com
+Belleza,Cosmética,Skincare,Embryolisse,embryolisse,https://embryolisse.com
+Belleza,Cosmética,Skincare,Sesderma,sesderma,https://www.sesderma.com
+Belleza,Cosmética,Skincare,Caudalie,caudalie,https://es.caudalie.com
+Belleza,Cosmética,Skincare,A-Derma,a-derma,https://www.aderma.com
+Belleza,Cosmética,Skincare,Cicatricure,cicatricure,https://www.cicatricure.com
+Belleza,Cosmética,Skincare,Byphasse,byphasse,https://byphasse.com
+Belleza,Cosmética,Skincare,Mixa,mixa,https://www.mixa.com
+Belleza,Cosmética,Skincare,Cetaphil Pro,cetaphil-pro,https://www.cetaphil.cl
+Belleza,Cosmética,Skincare,Episol,episol,https://www.episol.cl
+Belleza,Cosmética,Skincare,Bepanthol Derma,bepanthol-derma,https://www.bepanthol.cl
+Belleza,Protección solar,Protectores solares,Eucerin Sun,eucerin-sun,https://www.eucerin.cl
+Belleza,Protección solar,Protectores solares,Hawaiian Tropic,hawaiian-tropic,https://www.hawaiiantropic.com
+Belleza,Protección solar,Protectores solares,ISDIN,isdin,https://www.isdin.com
+Belleza,Protección solar,Protectores solares,La Roche-Posay Anthelios,la-roche-posay-anthelios,https://www.laroche-posay.cl
+Belleza,Protección solar,Protectores solares,Raytan,raytan,https://www.raytan.cl
+Belleza,Protección solar,Protectores solares,Vichy Capital Soleil,vichy-capital-soleil,https://www.vichy.cl
+Belleza,Protección solar,Protectores solares,Banana Boat,banana-boat,https://www.bananaboat.com
+Belleza,Protección solar,Protectores solares,Coppertone,coppertone,https://www.coppertone.com
+Belleza,Protección solar,Protectores solares,Nivea Sun,nivea-sun,https://www.nivea.cl
+Belleza,Protección solar,Protectores solares,Sun Bum,sun-bum,https://www.sunbum.com
+Belleza,Protección solar,Protectores solares,Bioderma Photoderm,bioderma-photoderm,https://www.bioderma.cl
+Belleza,Protección solar,Protectores solares,Avene Solar,avene-solar,https://www.eau-thermale-avene.cl
+Belleza,Protección solar,Protectores solares,Uriage Bariésun,uriage-bariesun,https://www.uriage.com
+Belleza,Protección solar,Protectores solares,Mustela Solar,mustela-solar,https://www.mustela.cl
+Belleza,Protección solar,Protectores solares,Heliocare,heliocare,https://www.heliocare.com
+Belleza,Protección solar,Protectores solares,Lancaster Sun,lancaster-sun,https://www.lancaster-beauty.com
+Belleza,Protección solar,Protectores solares,Dermaglós Solar,dermaglos-solar,https://www.dermaglos.com
+Belleza,Protección solar,Protectores solares,Isdin Fusion Water,isdin-fusion-water,https://www.isdin.com
+Belleza,Cuidado personal,Shampoo,Dove,dove-shampoo,https://www.dove.com
+Belleza,Cuidado personal,Shampoo,Elvive,elvive,https://www.lorealparis.cl
+Belleza,Cuidado personal,Shampoo,Head & Shoulders,head-and-shoulders,https://headandshoulders.cl
+Belleza,Cuidado personal,Shampoo,Pantene,pantene,https://www.pantenela.com
+Belleza,Cuidado personal,Shampoo,Sedal,sedal,https://www.sedal.cl
+Belleza,Cuidado personal,Shampoo,Tío Nacho,tio-nacho,https://www.tionacho.com
+Belleza,Cuidado personal,Shampoo,Tresemmé,tresemme,https://www.tresemme.com
+Belleza,Cuidado personal,Shampoo,Herbal Essences,herbal-essences,https://herbalessences.com
+Belleza,Cuidado personal,Shampoo,Fructis,fructis,https://www.garnier.cl
+Belleza,Cuidado personal,Shampoo,OGX,ogx,https://www.ogxbeauty.com
+Belleza,Cuidado personal,Shampoo,Kérastase,kerastase,https://www.kerastase.cl
+Belleza,Cuidado personal,Shampoo,L'Oréal Professionnel,loreal-professionnel,https://www.lorealprofessionnel.cl
+Belleza,Cuidado personal,Shampoo,Schwarzkopf,schwarzkopf,https://www.schwarzkopf.com
+Belleza,Cuidado personal,Shampoo,Clear,clear-shampoo,https://www.clearhaircare.com
+Belleza,Cuidado personal,Shampoo,Moroccanoil,moroccanoil,https://www.moroccanoil.com
+Belleza,Cuidado personal,Shampoo,Maui Moisture,maui-moisture,https://www.mauimoisture.com
+Belleza,Cuidado personal,Shampoo,Aussie,aussie-shampoo,https://www.aussie.com
+Belleza,Cuidado personal,Shampoo,John Frieda,john-frieda,https://www.johnfrieda.com
+Belleza,Cuidado personal,Shampoo,Vichy Dercos,vichy-dercos,https://www.vichy.cl
+Belleza,Cuidado personal,Shampoo,Klorane,klorane,https://www.klorane.com
+Belleza,Cuidado personal,Desodorantes,Axe,axe,https://www.axe.com
+Belleza,Cuidado personal,Desodorantes,Dove,dove-desodorantes,https://www.dove.com
+Belleza,Cuidado personal,Desodorantes,Lady Speed Stick,lady-speed-stick,https://www.ladyspeedstick.com
+Belleza,Cuidado personal,Desodorantes,Nivea,nivea-desodorantes,https://www.nivea.cl
+Belleza,Cuidado personal,Desodorantes,Old Spice,old-spice,https://oldspice.com
+Belleza,Cuidado personal,Desodorantes,Rexona,rexona,https://www.rexona.com
+Belleza,Cuidado personal,Desodorantes,Secret,secret-desodorantes,https://secret.com
+Belleza,Cuidado personal,Desodorantes,Degree,degree,https://www.degree.com
+Belleza,Cuidado personal,Desodorantes,Speed Stick,speed-stick,https://www.speedstick.com
+Belleza,Cuidado personal,Desodorantes,Brut,brut-desodorantes,https://www.brutworld.com
+Belleza,Cuidado personal,Desodorantes,Mitchum,mitchum,https://mitchum.com
+Belleza,Cuidado personal,Desodorantes,Dove Men+Care,dove-men-care-desodorantes,https://www.dove.com
+Belleza,Cuidado personal,Desodorantes,Nivea Men,nivea-men-desodorantes,https://www.nivea.cl
+Belleza,Cuidado personal,Desodorantes,Gillette Clinical,gillette-clinical,https://gillette.com
+Belleza,Cuidado personal,Desodorantes,Rexona Men,rexona-men,https://www.rexona.com
+Belleza,Cuidado personal,Desodorantes,Ban,ban-desodorantes,https://www.bandeodorant.com
+Belleza,Cuidado personal,Desodorantes,Arm & Hammer,arm-hammer-desodorantes,https://www.armandhammer.com
+Belleza,Cuidado personal,Pastas dentales,Aquafresh,aquafresh,https://www.aquafresh.com
+Belleza,Cuidado personal,Pastas dentales,Closeup,closeup,https://www.closeup.com
+Belleza,Cuidado personal,Pastas dentales,Colgate,colgate,https://www.colgate.cl
+Belleza,Cuidado personal,Pastas dentales,Oral-B,oral-b,https://oralb.cl
+Belleza,Cuidado personal,Pastas dentales,Pepsodent,pepsodent,https://www.pepsodent.com
+Belleza,Cuidado personal,Pastas dentales,Sensodyne,sensodyne,https://www.sensodyne.cl
+Belleza,Cuidado personal,Pastas dentales,Parodontax,parodontax,https://www.parodontax.com
+Belleza,Cuidado personal,Pastas dentales,Elmex,elmex,https://www.elmex.com
+Belleza,Cuidado personal,Pastas dentales,Vitis,vitis,https://www.vitis.com
+Belleza,Cuidado personal,Pastas dentales,Curaprox,curaprox,https://curaprox.com
+Belleza,Cuidado personal,Pastas dentales,Crest,crest,https://crest.com
+Belleza,Cuidado personal,Pastas dentales,Zendium,zendium,https://www.zendium.com
+Belleza,Cuidado personal,Pastas dentales,GUM,gum-pastas-dentales,https://www.sunstargum.com
+Bebés,Productos bebé,Pañales,Babysec,babysec,https://www.babysec.cl
+Bebés,Productos bebé,Pañales,Huggies,huggies,https://www.huggies.cl
+Bebés,Productos bebé,Pañales,Pampers,pampers,https://www.pampers.cl
+Bebés,Productos bebé,Pañales,Pampers Premium Care,pampers-premium-care,https://www.pampers.cl
+Bebés,Productos bebé,Pañales,MamyPoko,mamypoko,https://www.mamypoko.com
+Bebés,Productos bebé,Pañales,Drypers,drypers,https://www.drypers.com
+Bebés,Productos bebé,Pañales,Bio Baby,bio-baby-panales,https://biobaby.com.mx
+Bebés,Productos bebé,Pañales,Cuties,cuties,https://cuties.com
+Bebés,Productos bebé,Pañales,Babysec Premium,babysec-premium,https://www.babysec.cl
+Bebés,Productos bebé,Pañales,Huggies Supreme,huggies-supreme,https://www.huggies.cl
+Bebés,Productos bebé,Pañales,Pampers Pants,pampers-pants,https://www.pampers.cl
+Bebés,Productos bebé,Pañales,Pampers Confort Sec,pampers-confort-sec,https://www.pampers.cl
+Bebés,Productos bebé,Pañales,Huggies Active Sec,huggies-active-sec,https://www.huggies.cl
+Bebés,Productos bebé,Pañales,BBTips,bbtips,
+Bebés,Productos bebé,Toallitas húmedas,Babysec,babysec-toallitas,https://www.babysec.cl
+Bebés,Productos bebé,Toallitas húmedas,Bebesit,bebesit-toallitas,https://bebesit.cl
+Bebés,Productos bebé,Toallitas húmedas,Huggies,huggies-toallitas,https://www.huggies.cl
+Bebés,Productos bebé,Toallitas húmedas,Pampers,pampers-toallitas,https://www.pampers.cl
+Bebés,Productos bebé,Toallitas húmedas,WaterWipes,waterwipes,
+Bebés,Productos bebé,Toallitas húmedas,Johnson's Baby,johnsons-baby-toallitas,https://www.johnsonsbaby.com
+Bebés,Productos bebé,Toallitas húmedas,Mustela,mustela-toallitas,https://www.mustela.cl
+Bebés,Productos bebé,Toallitas húmedas,Chicco Baby Moments,chicco-baby-moments,https://www.chicco.cl
+Bebés,Productos bebé,Toallitas húmedas,Nuby,nuby-toallitas,https://nuby.com
+Bebés,Productos bebé,Toallitas húmedas,Huggies Natural Care Wipes,huggies-natural-care-wipes,https://www.huggies.cl
+Bebés,Productos bebé,Toallitas húmedas,Pampers Aqua Pure,pampers-aqua-pure,https://www.pampers.cl
+Bebés,Productos bebé,Toallitas húmedas,Nivea Baby,nivea-baby-wipes,https://www.nivea.cl
+Bebés,Alimentación bebé,Fórmulas infantiles,Enfamil,enfamil,https://www.enfamil.com
+Bebés,Alimentación bebé,Fórmulas infantiles,NAN,nan,https://www.nestle.cl
+Bebés,Alimentación bebé,Fórmulas infantiles,Nidal,nidal,
+Bebés,Alimentación bebé,Fórmulas infantiles,Pediasure,pediasure,
+Bebés,Alimentación bebé,Fórmulas infantiles,S-26,s-26,
+Bebés,Alimentación bebé,Fórmulas infantiles,Similac,similac,
+Bebés,Alimentación bebé,Fórmulas infantiles,Aptamil,aptamil,https://www.aptaclub.cl
+Bebés,Alimentación bebé,Fórmulas infantiles,Nutrilon,nutrilon,https://www.nutricia.com
+Bebés,Alimentación bebé,Fórmulas infantiles,Gerber,gerber,https://www.gerber.com
+Bebés,Alimentación bebé,Fórmulas infantiles,Hero Baby,hero-baby,https://www.herobaby.com
+Bebés,Alimentación bebé,Fórmulas infantiles,Novalac,novalac,https://novalac.com
+Bebés,Alimentación bebé,Fórmulas infantiles,Almirón,almiron,https://www.almiron.com
+Bebés,Alimentación bebé,Fórmulas infantiles,Nutramigen,nutramigen,https://www.nutramigen.com
+Bebés,Alimentación bebé,Fórmulas infantiles,PurAmino,puramino,https://www.enfamil.com
+Bebés,Alimentación bebé,Fórmulas infantiles,Nestum Baby,nestum-baby,https://www.nestle.cl
+Bebés,Alimentación bebé,Fórmulas infantiles,Cerelac,cerelac,https://www.nestle.cl
+Bebés,Transporte bebé,Cochecitos,Bebesit,bebesit-cochecitos,https://bebesit.cl
+Bebés,Transporte bebé,Cochecitos,Chicco,chicco,https://www.chicco.cl
+Bebés,Transporte bebé,Cochecitos,Graco,graco,https://babygraco.cl
+Bebés,Transporte bebé,Cochecitos,Infanti,infanti,https://infanti.cl
+Bebés,Transporte bebé,Cochecitos,Joie,joie,https://joiebaby.com
+Bebés,Transporte bebé,Cochecitos,Maxi-Cosi,maxi-cosi,https://maxicosi.cl
+Bebés,Transporte bebé,Cochecitos,Cybex,cybex-coches,https://www.cybex-online.com
+Bebés,Transporte bebé,Cochecitos,Baby Jogger,baby-jogger,https://www.babyjogger.com
+Bebés,Transporte bebé,Cochecitos,Bugaboo,bugaboo,https://www.bugaboo.com
+Bebés,Transporte bebé,Cochecitos,Evenflo,evenflo-coches,https://www.evenflo.com
+Bebés,Transporte bebé,Cochecitos,Peg Perego,peg-perego,https://www.pegperego.com
+Bebés,Transporte bebé,Cochecitos,Nuna,nuna,https://nunababy.com
+Bebés,Transporte bebé,Cochecitos,Britax,britax,https://us.britax.com
+Bebés,Transporte bebé,Cochecitos,Safety 1st,safety-1st,https://www.safety1st.com
+Bebés,Transporte bebé,Cochecitos,Stokke,stokke,https://www.stokke.com
+Bebés,Transporte bebé,Cochecitos,Babyzen,babyzen,https://www.stokke.com
+Bebés,Transporte bebé,Cochecitos,Kinderkraft,kinderkraft,https://kinderkraft.com
+Bebés,Transporte bebé,Cochecitos,Bebeglo,bebeglo,https://www.bebeglo.cl
+Bebés,Transporte bebé,Cochecitos,Cosco Kids,cosco-kids,https://www.coscokids.com
+Bebés,Transporte bebé,Cochecitos,Baby Trend,baby-trend,https://www.babytrend.com

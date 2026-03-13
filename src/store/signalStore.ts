@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { SignalEvent } from '../types/signalEvent';
 
 export type SignalState = {
     signals: number;
@@ -20,11 +19,11 @@ export type SignalState = {
         celebrated: boolean;
     };
 
-    signalEvents: SignalEvent[];
+    signalEvents: any[];
 };
 
 type SignalActions = {
-    addSignal: (input: number | { amount: number; voteId?: string; eventDetail?: Omit<SignalEvent, 'id' | 'createdAt'> }) => void;
+    addSignal: (input: number | { amount: number; voteId?: string; eventDetail?: any }) => void;
     completeOnboarding: () => void;
     markMissionCelebrated: () => void;
 };
@@ -67,7 +66,7 @@ export const useSignalStore = create<SignalState & SignalActions>()(
             addSignal: (input) => {
                 const state = get();
                 let delta = 0;
-                let eventDetail: Omit<SignalEvent, 'id' | 'createdAt'> | undefined;
+                let eventDetail: any | undefined;
 
                 if (typeof input === 'number') {
                     delta = input;
@@ -77,7 +76,8 @@ export const useSignalStore = create<SignalState & SignalActions>()(
                 }
 
                 const today = getTodayString();
-                let { signalsToday, streakDays, lastSignalDate, dailyMission, signalEvents } = state;
+                const { signalEvents } = state;
+                let { signalsToday, streakDays, lastSignalDate, dailyMission } = state;
 
                 // Day Reset Logic
                 if (lastSignalDate !== today) {
@@ -121,7 +121,7 @@ export const useSignalStore = create<SignalState & SignalActions>()(
                 // Event Log
                 let nextSignalEvents = [...signalEvents];
                 if (eventDetail) {
-                    const newEvent: SignalEvent = {
+                    const newEvent: any = {
                         id: 'evt_' + Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
                         createdAt: new Date().toISOString(),
                         ...eventDetail

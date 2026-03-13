@@ -1,6 +1,10 @@
 import { getQueuedVotesForSession } from './signalOutbox';
 import { supabase } from '../../../supabase/client';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '../../../lib/logger';
+
+// Type assertion for Supabase without strict database table generation checks
+const sb = supabase as unknown as SupabaseClient;
 
 export interface UserSession {
     id: string;
@@ -16,7 +20,7 @@ export const sessionService = {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return null;
 
-            const { data: allAttributes } = await (supabase as any)
+            const { data: allAttributes } = await sb
                 .from('category_attributes')
                 .select('id');
 
@@ -25,9 +29,9 @@ export const sessionService = {
             const selected = allAttributes
                 .sort(() => 0.5 - Math.random())
                 .slice(0, 3)
-                .map((a: any) => a.id);
+                .map((a: { id: string }) => a.id);
 
-            const { data: session, error } = await (supabase as any)
+            const { data: session, error } = await sb
                 .from('user_sessions')
                 .insert({
                     user_id: user.id,
@@ -52,7 +56,7 @@ export const sessionService = {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return null;
 
-            const { data, error } = await (supabase as any)
+            const { data, error } = await sb
                 .from('user_sessions')
                 .select('*')
                 .eq('user_id', user.id)
@@ -70,15 +74,15 @@ export const sessionService = {
     },
 
     completeAttribute: async (sessionId: string, attributeId: string): Promise<void> => {
-        const { data: current } = await (supabase as any)
+        const { data: current } = await sb
             .from('user_sessions')
             .select('attributes_completed')
             .eq('id', sessionId)
             .single();
 
-        const nextCompleted = [...((current as any)?.attributes_completed || []), attributeId];
+        const nextCompleted = [...((current as { attributes_completed?: string[] })?.attributes_completed || []), attributeId];
 
-        await (supabase as any)
+        await sb
             .from('user_sessions')
             .update({ attributes_completed: nextCompleted })
             .eq('id', sessionId);
@@ -87,7 +91,7 @@ export const sessionService = {
     finalizeAttributes: async (sessionId: string): Promise<string | null> => {
         try {
             // 1) Contar votos de la sesión vía RPC (signal_events no permite SELECT directo por RLS)
-            const { data: rows, error } = await (supabase as any).rpc('get_session_vote_counts', {
+            const { data: rows, error } = await sb.rpc('get_session_vote_counts', {
                 p_session_id: sessionId
             });
 
@@ -118,7 +122,7 @@ export const sessionService = {
 
             const winnerId = winnerEntry[0];
 
-            await (supabase as any)
+            await sb
                 .from('user_sessions')
                 .update({ dominant_clinic_id: winnerId })
                 .eq('id', sessionId);
@@ -131,7 +135,7 @@ export const sessionService = {
     },
 
     completeDepth: async (sessionId: string): Promise<void> => {
-        await (supabase as any)
+        await sb
             .from('user_sessions')
             .update({
                 depth_completed: true,

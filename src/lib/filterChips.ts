@@ -42,30 +42,3 @@ export function labelRegion(v?: string): string | undefined {
     return labelFor(SEG_REGIONS, normalized) ?? normalized;
 }
 
-export type SegmentPart = { key: string; value: string; label: string };
-
-export function parseSegmentId(segmentId: string): SegmentPart[] {
-    if (!segmentId || segmentId === "global") return [];
-    const parts = segmentId.split("|").map(p => p.trim()).filter(Boolean);
-
-    const out: SegmentPart[] = [];
-    for (const p of parts) {
-        const [key, value] = p.split(":");
-        if (!key || !value) continue;
-
-        let label = `${key}:${value}`;
-        if (key === "gender") label = `Género: ${labelGender(value) ?? value}`;
-        if (key === "region") label = `Región: ${labelRegion(value) ?? value}`;
-        if (key === "age" || key === "age_bucket") label = `Edad: ${labelAgeBucket(value) ?? value}`;
-
-        out.push({ key, value, label });
-    }
-    return out;
-}
-
-export function removeSegmentPart(segmentId: string, keyToRemove: string): string {
-    if (!segmentId || segmentId === "global") return "global";
-    const parts = segmentId.split("|").map(p => p.trim()).filter(Boolean);
-    const next = parts.filter(p => !p.startsWith(`${keyToRemove}:`));
-    return next.length ? next.join("|") : "global";
-}

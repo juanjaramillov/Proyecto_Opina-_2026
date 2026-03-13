@@ -1,43 +1,320 @@
 export const PARENT_INDUSTRIES: Record<string, any> = {
-    "salud": {
-        "id": "cat-salud",
-        "title": "Salud",
-        "subtitle": "Descubre las tendencias en Salud.",
+    "automotriz": {
+        "id": "cat-automotriz",
+        "title": "Automotriz",
+        "subtitle": "Explora el mundo de Automotriz.",
         "theme": {
-            "primary": "#be185d",
-            "accent": "#be185d",
-            "bgGradient": "from-[#be185d]/10 to-white",
-            "icon": "health_and_safety"
+            "primary": "#64748b",
+            "accent": "#64748b",
+            "bgGradient": "from-[#64748b]/10 to-white",
+            "icon": "directions_car"
         },
         "subcategories": [
             {
-                "id": "clinicas",
-                "label": "Clínicas",
-                "slug": "clinicas",
+                "id": "automotoras",
+                "label": "Automotoras",
+                "slug": "automotoras",
                 "icon": "auto_awesome"
             },
             {
-                "id": "centros-medicos",
-                "label": "Centros médicos",
-                "slug": "centros-medicos",
+                "id": "marcas-de-autos",
+                "label": "Marcas de autos",
+                "slug": "marcas-de-autos",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "bebes": {
+        "id": "cat-bebes",
+        "title": "Bebés",
+        "subtitle": "Explora el mundo de Bebés.",
+        "theme": {
+            "primary": "#f472b6",
+            "accent": "#f472b6",
+            "bgGradient": "from-[#f472b6]/10 to-white",
+            "icon": "child_care"
+        },
+        "subcategories": [
+            {
+                "id": "formulas-infantiles",
+                "label": "Fórmulas infantiles",
+                "slug": "formulas-infantiles",
                 "icon": "auto_awesome"
             },
             {
-                "id": "farmacias",
-                "label": "Farmacias",
-                "slug": "farmacias",
+                "id": "panales",
+                "label": "Pañales",
+                "slug": "panales",
                 "icon": "auto_awesome"
             },
             {
-                "id": "isapres",
-                "label": "Isapres",
-                "slug": "isapres",
+                "id": "toallitas-humedas",
+                "label": "Toallitas húmedas",
+                "slug": "toallitas-humedas",
                 "icon": "auto_awesome"
             },
             {
-                "id": "seguros-de-salud",
-                "label": "Seguros de salud",
-                "slug": "seguros-de-salud",
+                "id": "cochecitos",
+                "label": "Cochecitos",
+                "slug": "cochecitos",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "bebidas": {
+        "id": "cat-bebidas",
+        "title": "Bebidas",
+        "subtitle": "Explora el mundo de Bebidas.",
+        "theme": {
+            "primary": "#1d4ed8",
+            "accent": "#1d4ed8",
+            "bgGradient": "from-[#1d4ed8]/10 to-white",
+            "icon": "local_bar"
+        },
+        "subcategories": [
+            {
+                "id": "aguas",
+                "label": "Aguas",
+                "slug": "aguas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "cervezas",
+                "label": "Cervezas",
+                "slug": "cervezas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "energeticas",
+                "label": "Energéticas",
+                "slug": "energeticas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "gaseosas",
+                "label": "Gaseosas",
+                "slug": "gaseosas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "tiendas-de-vino",
+                "label": "Tiendas de vino",
+                "slug": "tiendas-de-vino",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "vinas",
+                "label": "Viñas",
+                "slug": "vinas",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "belleza": {
+        "id": "cat-belleza",
+        "title": "Belleza",
+        "subtitle": "Explora el mundo de Belleza.",
+        "theme": {
+            "primary": "#f43f5e",
+            "accent": "#f43f5e",
+            "bgGradient": "from-[#f43f5e]/10 to-white",
+            "icon": "face_retouching_natural"
+        },
+        "subcategories": [
+            {
+                "id": "maquillaje",
+                "label": "Maquillaje",
+                "slug": "maquillaje",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "perfumes",
+                "label": "Perfumes",
+                "slug": "perfumes",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "skincare",
+                "label": "Skincare",
+                "slug": "skincare",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "desodorantes",
+                "label": "Desodorantes",
+                "slug": "desodorantes",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "pastas-dentales",
+                "label": "Pastas dentales",
+                "slug": "pastas-dentales",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "shampoo",
+                "label": "Shampoo",
+                "slug": "shampoo",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "protectores-solares",
+                "label": "Protectores solares",
+                "slug": "protectores-solares",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "comida-y-restaurantes": {
+        "id": "cat-comida-y-restaurantes",
+        "title": "Comida y restaurantes",
+        "subtitle": "Explora el mundo de Comida y restaurantes.",
+        "theme": {
+            "primary": "#ef4444",
+            "accent": "#ef4444",
+            "bgGradient": "from-[#ef4444]/10 to-white",
+            "icon": "restaurant"
+        },
+        "subcategories": [
+            {
+                "id": "cafeterias",
+                "label": "Cafeterías",
+                "slug": "cafeterias",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "apps-de-delivery",
+                "label": "Apps de delivery",
+                "slug": "apps-de-delivery",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "heladerias",
+                "label": "Heladerías",
+                "slug": "heladerias",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "pizzerias",
+                "label": "Pizzerías",
+                "slug": "pizzerias",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "fast-food",
+                "label": "Fast food",
+                "slug": "fast-food",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "hamburgueserias",
+                "label": "Hamburgueserías",
+                "slug": "hamburgueserias",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "deportes": {
+        "id": "cat-deportes",
+        "title": "Deportes",
+        "subtitle": "Explora el mundo de Deportes.",
+        "theme": {
+            "primary": "#f97316",
+            "accent": "#f97316",
+            "bgGradient": "from-[#f97316]/10 to-white",
+            "icon": "sports_soccer"
+        },
+        "subcategories": [
+            {
+                "id": "apps-fitness",
+                "label": "Apps fitness",
+                "slug": "apps-fitness",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "clubes-de-futbol",
+                "label": "Clubes de fútbol",
+                "slug": "clubes-de-futbol",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "gimnasios",
+                "label": "Gimnasios",
+                "slug": "gimnasios",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "educacion": {
+        "id": "cat-educacion",
+        "title": "Educación",
+        "subtitle": "Explora el mundo de Educación.",
+        "theme": {
+            "primary": "#0369a1",
+            "accent": "#0369a1",
+            "bgGradient": "from-[#0369a1]/10 to-white",
+            "icon": "school"
+        },
+        "subcategories": [
+            {
+                "id": "institutos-profesionales",
+                "label": "Institutos profesionales",
+                "slug": "institutos-profesionales",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "universidades",
+                "label": "Universidades",
+                "slug": "universidades",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "preuniversitarios",
+                "label": "Preuniversitarios",
+                "slug": "preuniversitarios",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "entretenimiento": {
+        "id": "cat-entretenimiento",
+        "title": "Entretenimiento",
+        "subtitle": "Explora el mundo de Entretenimiento.",
+        "theme": {
+            "primary": "#a855f7",
+            "accent": "#a855f7",
+            "bgGradient": "from-[#a855f7]/10 to-white",
+            "icon": "movie"
+        },
+        "subcategories": [
+            {
+                "id": "cines",
+                "label": "Cines",
+                "slug": "cines",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "comunidades-online",
+                "label": "Comunidades online",
+                "slug": "comunidades-online",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "redes-sociales",
+                "label": "Redes sociales",
+                "slug": "redes-sociales",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "streaming-de-musica",
+                "label": "Streaming de música",
+                "slug": "streaming-de-musica",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "streaming-de-video",
+                "label": "Streaming de video",
+                "slug": "streaming-de-video",
                 "icon": "auto_awesome"
             }
         ]
@@ -45,7 +322,7 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
     "finanzas": {
         "id": "cat-finanzas",
         "title": "Finanzas",
-        "subtitle": "Descubre las tendencias en Finanzas.",
+        "subtitle": "Explora el mundo de Finanzas.",
         "theme": {
             "primary": "#0f766e",
             "accent": "#0f766e",
@@ -60,58 +337,205 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "icon": "auto_awesome"
             },
             {
-                "id": "fintech-billeteras",
-                "label": "Fintech",
-                "slug": "fintech-billeteras",
+                "id": "bancos-digitales",
+                "label": "Bancos digitales",
+                "slug": "bancos-digitales",
                 "icon": "auto_awesome"
             },
             {
-                "id": "tarjetas-medios-de-pago",
-                "label": "Medios de pago",
-                "slug": "tarjetas-medios-de-pago",
+                "id": "billeteras-digitales",
+                "label": "Billeteras digitales",
+                "slug": "billeteras-digitales",
                 "icon": "auto_awesome"
             },
             {
-                "id": "inversiones-brokers",
-                "label": "Inversiones / brokers",
-                "slug": "inversiones-brokers",
+                "id": "plataformas-de-pago",
+                "label": "Plataformas de pago",
+                "slug": "plataformas-de-pago",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "transferencias-internacionales",
+                "label": "Transferencias internacionales",
+                "slug": "transferencias-internacionales",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "corredoras-de-bolsa",
+                "label": "Corredoras de bolsa",
+                "slug": "corredoras-de-bolsa",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "plataformas-de-inversion",
+                "label": "Plataformas de inversión",
+                "slug": "plataformas-de-inversion",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "pasarelas-de-pago",
+                "label": "Pasarelas de pago",
+                "slug": "pasarelas-de-pago",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "tarjetas-de-credito",
+                "label": "Tarjetas de crédito",
+                "slug": "tarjetas-de-credito",
                 "icon": "auto_awesome"
             }
         ]
     },
-    "telecomunicaciones": {
-        "id": "cat-telecomunicaciones",
-        "title": "Telecom",
-        "subtitle": "Descubre las tendencias en Telecom.",
+    "hogar": {
+        "id": "cat-hogar",
+        "title": "Hogar",
+        "subtitle": "Explora el mundo de Hogar.",
         "theme": {
-            "primary": "#2563eb",
-            "accent": "#2563eb",
-            "bgGradient": "from-[#2563eb]/10 to-white",
-            "icon": "settings_input_antenna"
+            "primary": "#65a30d",
+            "accent": "#65a30d",
+            "bgGradient": "from-[#65a30d]/10 to-white",
+            "icon": "home"
         },
         "subcategories": [
             {
-                "id": "telefonia-movil",
-                "label": "Telefonía móvil",
-                "slug": "telefonia-movil",
+                "id": "colchones",
+                "label": "Colchones",
+                "slug": "colchones",
                 "icon": "auto_awesome"
             },
             {
-                "id": "internet-hogar",
-                "label": "Internet hogar",
-                "slug": "internet-hogar",
+                "id": "aspiradoras",
+                "label": "Aspiradoras",
+                "slug": "aspiradoras",
                 "icon": "auto_awesome"
             },
             {
-                "id": "tv-paga",
-                "label": "TV paga",
-                "slug": "tv-paga",
+                "id": "lavadoras",
+                "label": "Lavadoras",
+                "slug": "lavadoras",
                 "icon": "auto_awesome"
             },
             {
-                "id": "tv-online",
-                "label": "TV online",
-                "slug": "tv-online",
+                "id": "refrigeradores",
+                "label": "Refrigeradores",
+                "slug": "refrigeradores",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "mascotas": {
+        "id": "cat-mascotas",
+        "title": "Mascotas",
+        "subtitle": "Explora el mundo de Mascotas.",
+        "theme": {
+            "primary": "#ea580c",
+            "accent": "#ea580c",
+            "bgGradient": "from-[#ea580c]/10 to-white",
+            "icon": "pets"
+        },
+        "subcategories": [
+            {
+                "id": "alimento-para-gatos",
+                "label": "Alimento para gatos",
+                "slug": "alimento-para-gatos",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "alimento-para-perros",
+                "label": "Alimento para perros",
+                "slug": "alimento-para-perros",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "tiendas-de-mascotas",
+                "label": "Tiendas de mascotas",
+                "slug": "tiendas-de-mascotas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "clinicas-veterinarias",
+                "label": "Clínicas veterinarias",
+                "slug": "clinicas-veterinarias",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "medios": {
+        "id": "cat-medios",
+        "title": "Medios",
+        "subtitle": "Explora el mundo de Medios.",
+        "theme": {
+            "primary": "#8b5cf6",
+            "accent": "#8b5cf6",
+            "bgGradient": "from-[#8b5cf6]/10 to-white",
+            "icon": "campaign"
+        },
+        "subcategories": [
+            {
+                "id": "prensa-digital",
+                "label": "Prensa digital",
+                "slug": "prensa-digital",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "radios",
+                "label": "Radios",
+                "slug": "radios",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "tv-abierta",
+                "label": "TV abierta",
+                "slug": "tv-abierta",
+                "icon": "auto_awesome"
+            }
+        ]
+    },
+    "moda": {
+        "id": "cat-moda",
+        "title": "Moda",
+        "subtitle": "Explora el mundo de Moda.",
+        "theme": {
+            "primary": "#ec4899",
+            "accent": "#ec4899",
+            "bgGradient": "from-[#ec4899]/10 to-white",
+            "icon": "checkroom"
+        },
+        "subcategories": [
+            {
+                "id": "accesorios-de-moda",
+                "label": "Accesorios de moda",
+                "slug": "accesorios-de-moda",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "zapatillas-deportivas",
+                "label": "Zapatillas deportivas",
+                "slug": "zapatillas-deportivas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "zapatos",
+                "label": "Zapatos",
+                "slug": "zapatos",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "fast-fashion",
+                "label": "Fast fashion",
+                "slug": "fast-fashion",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "ropa-deportiva",
+                "label": "Ropa deportiva",
+                "slug": "ropa-deportiva",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "ropa-outdoor",
+                "label": "Ropa outdoor",
+                "slug": "ropa-outdoor",
                 "icon": "auto_awesome"
             }
         ]
@@ -119,7 +543,7 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
     "retail": {
         "id": "cat-retail",
         "title": "Retail",
-        "subtitle": "Descubre las tendencias en Retail.",
+        "subtitle": "Explora el mundo de Retail.",
         "theme": {
             "primary": "#f59e0b",
             "accent": "#f59e0b",
@@ -127,6 +551,12 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
             "icon": "shopping_bag"
         },
         "subcategories": [
+            {
+                "id": "minimarkets",
+                "label": "Minimarkets",
+                "slug": "minimarkets",
+                "icon": "auto_awesome"
+            },
             {
                 "id": "supermercados",
                 "label": "Supermercados",
@@ -146,499 +576,90 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "icon": "auto_awesome"
             },
             {
-                "id": "mejoramiento-del-hogar",
-                "label": "Hogar",
-                "slug": "mejoramiento-del-hogar",
+                "id": "ferreterias",
+                "label": "Ferreterías",
+                "slug": "ferreterias",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "materiales-de-construccion",
+                "label": "Materiales de construcción",
+                "slug": "materiales-de-construccion",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "tiendas-apple",
+                "label": "Tiendas Apple",
+                "slug": "tiendas-apple",
                 "icon": "auto_awesome"
             },
             {
                 "id": "tiendas-de-tecnologia",
-                "label": "Tecnología",
+                "label": "Tiendas de tecnología",
                 "slug": "tiendas-de-tecnologia",
                 "icon": "auto_awesome"
             }
         ]
     },
-    "moda": {
-        "id": "cat-moda",
-        "title": "Moda",
-        "subtitle": "Descubre las tendencias en Moda.",
+    "salud": {
+        "id": "cat-salud",
+        "title": "Salud",
+        "subtitle": "Explora el mundo de Salud.",
         "theme": {
-            "primary": "#ec4899",
-            "accent": "#ec4899",
-            "bgGradient": "from-[#ec4899]/10 to-white",
-            "icon": "checkroom"
+            "primary": "#be185d",
+            "accent": "#be185d",
+            "bgGradient": "from-[#be185d]/10 to-white",
+            "icon": "health_and_safety"
         },
         "subcategories": [
             {
-                "id": "ropa-basica",
-                "label": "Ropa básica",
-                "slug": "ropa-basica",
+                "id": "centros-medicos",
+                "label": "Centros médicos",
+                "slug": "centros-medicos",
                 "icon": "auto_awesome"
             },
             {
-                "id": "fast-fashion",
-                "label": "Fast fashion",
-                "slug": "fast-fashion",
+                "id": "clinicas-privadas",
+                "label": "Clínicas privadas",
+                "slug": "clinicas-privadas",
                 "icon": "auto_awesome"
             },
             {
-                "id": "calzado",
-                "label": "Calzado",
-                "slug": "calzado",
+                "id": "hospitales",
+                "label": "Hospitales",
+                "slug": "hospitales",
                 "icon": "auto_awesome"
             },
             {
-                "id": "deportivo",
-                "label": "Deportivo",
-                "slug": "deportivo",
+                "id": "farmacias",
+                "label": "Farmacias",
+                "slug": "farmacias",
                 "icon": "auto_awesome"
             },
             {
-                "id": "outdoor",
-                "label": "Outdoor",
-                "slug": "outdoor",
+                "id": "farmacias-economicas",
+                "label": "Farmacias económicas",
+                "slug": "farmacias-economicas",
                 "icon": "auto_awesome"
             },
             {
-                "id": "accesorios",
-                "label": "Accesorios",
-                "slug": "accesorios",
+                "id": "isapres",
+                "label": "Isapres",
+                "slug": "isapres",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "seguros-de-salud",
+                "label": "Seguros de salud",
+                "slug": "seguros-de-salud",
                 "icon": "auto_awesome"
             }
         ]
     },
-    "comida": {
-        "id": "cat-comida",
-        "title": "Comida",
-        "subtitle": "Descubre las tendencias en Comida.",
-        "theme": {
-            "primary": "#ef4444",
-            "accent": "#ef4444",
-            "bgGradient": "from-[#ef4444]/10 to-white",
-            "icon": "restaurant"
-        },
-        "subcategories": [
-            {
-                "id": "fast-food",
-                "label": "Fast food",
-                "slug": "fast-food",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "cafeterias",
-                "label": "Cafeterías",
-                "slug": "cafeterias",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "pizza",
-                "label": "Pizza",
-                "slug": "pizza",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "delivery-de-comida",
-                "label": "Delivery de comida",
-                "slug": "delivery-de-comida",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "transporte": {
-        "id": "cat-transporte",
-        "title": "Transporte",
-        "subtitle": "Descubre las tendencias en Transporte.",
-        "theme": {
-            "primary": "#64748b",
-            "accent": "#64748b",
-            "bgGradient": "from-[#64748b]/10 to-white",
-            "icon": "commute"
-        },
-        "subcategories": [
-            {
-                "id": "aerolineas",
-                "label": "Aerolíneas",
-                "slug": "aerolineas",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "apps-de-transporte",
-                "label": "Apps",
-                "slug": "apps-de-transporte",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "marcas-de-autos",
-                "label": "Marcas",
-                "slug": "marcas-de-autos",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "marcas-chinas-de-autos",
-                "label": "Marcas chinas de autos",
-                "slug": "marcas-chinas-de-autos",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "automotoras-concesionarios",
-                "label": "Automotoras",
-                "slug": "automotoras-concesionarios",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "entretenimiento": {
-        "id": "cat-entretenimiento",
-        "title": "Entretenimiento",
-        "subtitle": "Descubre las tendencias en Entretenimiento.",
-        "theme": {
-            "primary": "#a855f7",
-            "accent": "#a855f7",
-            "bgGradient": "from-[#a855f7]/10 to-white",
-            "icon": "movie"
-        },
-        "subcategories": [
-            {
-                "id": "streaming-de-video",
-                "label": "Video",
-                "slug": "streaming-de-video",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "streaming-de-musica",
-                "label": "Música",
-                "slug": "streaming-de-musica",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "cines",
-                "label": "Cines",
-                "slug": "cines",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "bebidas": {
-        "id": "cat-bebidas",
-        "title": "Bebidas",
-        "subtitle": "Descubre las tendencias en Bebidas.",
-        "theme": {
-            "primary": "#1d4ed8",
-            "accent": "#1d4ed8",
-            "bgGradient": "from-[#1d4ed8]/10 to-white",
-            "icon": "local_bar"
-        },
-        "subcategories": [
-            {
-                "id": "gaseosas",
-                "label": "Gaseosas",
-                "slug": "gaseosas",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "energeticas",
-                "label": "Energéticas",
-                "slug": "energeticas",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "cervezas",
-                "label": "Cervezas",
-                "slug": "cervezas",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "aguas",
-                "label": "Aguas",
-                "slug": "aguas",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "medios": {
-        "id": "cat-medios",
-        "title": "Medios",
-        "subtitle": "Descubre las tendencias en Medios.",
-        "theme": {
-            "primary": "#8b5cf6",
-            "accent": "#8b5cf6",
-            "bgGradient": "from-[#8b5cf6]/10 to-white",
-            "icon": "campaign"
-        },
-        "subcategories": [
-            {
-                "id": "radios",
-                "label": "Radios",
-                "slug": "radios",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "tv-abierta",
-                "label": "TV abierta",
-                "slug": "tv-abierta",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "prensa-digital",
-                "label": "Prensa digital",
-                "slug": "prensa-digital",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "social-plataformas": {
-        "id": "cat-social-plataformas",
-        "title": "Social",
-        "subtitle": "Descubre las tendencias en Social.",
-        "theme": {
-            "primary": "#06b6d4",
-            "accent": "#06b6d4",
-            "bgGradient": "from-[#06b6d4]/10 to-white",
-            "icon": "share"
-        },
-        "subcategories": [
-            {
-                "id": "redes-sociales",
-                "label": "Redes sociales",
-                "slug": "redes-sociales",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "mensajeria",
-                "label": "Mensajería",
-                "slug": "mensajeria",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "comunidades-foros",
-                "label": "Comunidades",
-                "slug": "comunidades-foros",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "educacion": {
-        "id": "cat-educacion",
-        "title": "Educación",
-        "subtitle": "Descubre las tendencias en Educación.",
-        "theme": {
-            "primary": "#0369a1",
-            "accent": "#0369a1",
-            "bgGradient": "from-[#0369a1]/10 to-white",
-            "icon": "school"
-        },
-        "subcategories": [
-            {
-                "id": "universidades",
-                "label": "Universidades",
-                "slug": "universidades",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "institutos-cft",
-                "label": "Institutos",
-                "slug": "institutos-cft",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "preuniversitarios",
-                "label": "Preuniversitarios",
-                "slug": "preuniversitarios",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "deportes": {
-        "id": "cat-deportes",
-        "title": "Deportes",
-        "subtitle": "Descubre las tendencias en Deportes.",
-        "theme": {
-            "primary": "#f97316",
-            "accent": "#f97316",
-            "bgGradient": "from-[#f97316]/10 to-white",
-            "icon": "sports_soccer"
-        },
-        "subcategories": [
-            {
-                "id": "futbol-chileno",
-                "label": "Fútbol",
-                "slug": "futbol-chileno",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "vino": {
-        "id": "cat-vino",
-        "title": "Vino",
-        "subtitle": "Descubre las tendencias en Vino.",
-        "theme": {
-            "primary": "#7f1d1d",
-            "accent": "#7f1d1d",
-            "bgGradient": "from-[#7f1d1d]/10 to-white",
-            "icon": "wine_bar"
-        },
-        "subcategories": [
-            {
-                "id": "vinas",
-                "label": "Viñas",
-                "slug": "vinas",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "tiendas-de-vino",
-                "label": "Tiendas",
-                "slug": "tiendas-de-vino",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "mascotas": {
-        "id": "cat-mascotas",
-        "title": "Mascotas",
-        "subtitle": "Descubre las tendencias en Mascotas.",
-        "theme": {
-            "primary": "#ea580c",
-            "accent": "#ea580c",
-            "bgGradient": "from-[#ea580c]/10 to-white",
-            "icon": "pets"
-        },
-        "subcategories": [
-            {
-                "id": "alimento-para-perros",
-                "label": "Alimento para perros",
-                "slug": "alimento-para-perros",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "alimento-para-gatos",
-                "label": "Alimento para gatos",
-                "slug": "alimento-para-gatos",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "tiendas-de-mascotas",
-                "label": "Tiendas de mascotas",
-                "slug": "tiendas-de-mascotas",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "clinicas-veterinarias",
-                "label": "Clínicas veterinarias",
-                "slug": "clinicas-veterinarias",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "cuidado-personal-e-higiene": {
-        "id": "cat-cuidado-personal-e-higiene",
-        "title": "Cuidado Personal",
-        "subtitle": "Descubre las tendencias en Cuidado Personal.",
-        "theme": {
-            "primary": "#0891b2",
-            "accent": "#0891b2",
-            "bgGradient": "from-[#0891b2]/10 to-white",
-            "icon": "wash"
-        },
-        "subcategories": [
-            {
-                "id": "shampoo",
-                "label": "Shampoo",
-                "slug": "shampoo",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "desodorantes",
-                "label": "Desodorantes",
-                "slug": "desodorantes",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "pastas-dentales",
-                "label": "Pastas dentales",
-                "slug": "pastas-dentales",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "proteccion-solar",
-                "label": "Protección solar",
-                "slug": "proteccion-solar",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "belleza": {
-        "id": "cat-belleza",
-        "title": "Belleza",
-        "subtitle": "Descubre las tendencias en Belleza.",
-        "theme": {
-            "primary": "#f43f5e",
-            "accent": "#f43f5e",
-            "bgGradient": "from-[#f43f5e]/10 to-white",
-            "icon": "face_retouching_natural"
-        },
-        "subcategories": [
-            {
-                "id": "cosmeticos-maquillaje",
-                "label": "Cosméticos",
-                "slug": "cosmeticos-maquillaje",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "skincare",
-                "label": "Skincare",
-                "slug": "skincare",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "perfumes",
-                "label": "Perfumes",
-                "slug": "perfumes",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "hogar-y-electrodomesticos": {
-        "id": "cat-hogar-y-electrodomesticos",
-        "title": "Hogar",
-        "subtitle": "Descubre las tendencias en Hogar.",
-        "theme": {
-            "primary": "#65a30d",
-            "accent": "#65a30d",
-            "bgGradient": "from-[#65a30d]/10 to-white",
-            "icon": "home"
-        },
-        "subcategories": [
-            {
-                "id": "refrigeradores",
-                "label": "Refrigeradores",
-                "slug": "refrigeradores",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "lavadoras",
-                "label": "Lavadoras",
-                "slug": "lavadoras",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "aspiradoras",
-                "label": "Aspiradoras",
-                "slug": "aspiradoras",
-                "icon": "auto_awesome"
-            },
-            {
-                "id": "colchones",
-                "label": "Colchones",
-                "slug": "colchones",
-                "icon": "auto_awesome"
-            }
-        ]
-    },
-    "tecnologia-de-consumo": {
-        "id": "cat-tecnologia-de-consumo",
+    "tecnologia": {
+        "id": "cat-tecnologia",
         "title": "Tecnología",
-        "subtitle": "Descubre las tendencias en Tecnología.",
+        "subtitle": "Explora el mundo de Tecnología.",
         "theme": {
             "primary": "#10b981",
             "accent": "#10b981",
@@ -647,9 +668,15 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
         },
         "subcategories": [
             {
-                "id": "smartphones",
-                "label": "Smartphones",
-                "slug": "smartphones",
+                "id": "audifonos",
+                "label": "Audífonos",
+                "slug": "audifonos",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "parlantes",
+                "label": "Parlantes",
+                "slug": "parlantes",
                 "icon": "auto_awesome"
             },
             {
@@ -659,9 +686,9 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "icon": "auto_awesome"
             },
             {
-                "id": "audifonos",
-                "label": "Audífonos",
-                "slug": "audifonos",
+                "id": "smartphones",
+                "label": "Smartphones",
+                "slug": "smartphones",
                 "icon": "auto_awesome"
             },
             {
@@ -671,34 +698,21 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "icon": "auto_awesome"
             },
             {
-                "id": "televisores",
-                "label": "Televisores",
-                "slug": "televisores",
-                "icon": "auto_awesome"
-            },
-            {
                 "id": "tablets",
                 "label": "Tablets",
                 "slug": "tablets",
                 "icon": "auto_awesome"
-            }
-        ]
-    },
-    "gaming": {
-        "id": "cat-gaming",
-        "title": "Gaming",
-        "subtitle": "Descubre las tendencias en Gaming.",
-        "theme": {
-            "primary": "#d946ef",
-            "accent": "#d946ef",
-            "bgGradient": "from-[#d946ef]/10 to-white",
-            "icon": "sports_esports"
-        },
-        "subcategories": [
+            },
             {
                 "id": "consolas",
                 "label": "Consolas",
                 "slug": "consolas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "monitores-gamer",
+                "label": "Monitores gamer",
+                "slug": "monitores-gamer",
                 "icon": "auto_awesome"
             },
             {
@@ -708,48 +722,85 @@ export const PARENT_INDUSTRIES: Record<string, any> = {
                 "icon": "auto_awesome"
             },
             {
-                "id": "monitores-gamer",
-                "label": "Monitores gamer",
-                "slug": "monitores-gamer",
+                "id": "tvs",
+                "label": "TVs",
+                "slug": "tvs",
                 "icon": "auto_awesome"
             }
         ]
     },
-    "bebes-y-maternidad": {
-        "id": "cat-bebes-y-maternidad",
-        "title": "Bebés",
-        "subtitle": "Descubre las tendencias en Bebés.",
+    "telecomunicaciones": {
+        "id": "cat-telecomunicaciones",
+        "title": "Telecomunicaciones",
+        "subtitle": "Explora el mundo de Telecomunicaciones.",
         "theme": {
-            "primary": "#f472b6",
-            "accent": "#f472b6",
-            "bgGradient": "from-[#f472b6]/10 to-white",
-            "icon": "child_care"
+            "primary": "#2563eb",
+            "accent": "#2563eb",
+            "bgGradient": "from-[#2563eb]/10 to-white",
+            "icon": "settings_input_antenna"
         },
         "subcategories": [
             {
-                "id": "panales",
-                "label": "Pañales",
-                "slug": "panales",
+                "id": "internet-hogar",
+                "label": "Internet hogar",
+                "slug": "internet-hogar",
                 "icon": "auto_awesome"
             },
             {
-                "id": "formula-alimentacion-infantil",
-                "label": "Alimentación Infantil",
-                "slug": "formula-alimentacion-infantil",
+                "id": "internet-movil",
+                "label": "Internet móvil",
+                "slug": "internet-movil",
                 "icon": "auto_awesome"
             },
             {
-                "id": "toallitas-humedas",
-                "label": "Toallitas húmedas",
-                "slug": "toallitas-humedas",
+                "id": "telefonia-movil",
+                "label": "Telefonía móvil",
+                "slug": "telefonia-movil",
                 "icon": "auto_awesome"
             },
             {
-                "id": "cochecitos",
-                "label": "Coches",
-                "slug": "cochecitos",
+                "id": "tv-online",
+                "label": "TV online",
+                "slug": "tv-online",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "tv-paga",
+                "label": "TV paga",
+                "slug": "tv-paga",
                 "icon": "auto_awesome"
             }
         ]
     },
+    "viajes-y-transporte": {
+        "id": "cat-viajes-y-transporte",
+        "title": "Viajes y transporte",
+        "subtitle": "Explora el mundo de Viajes y transporte.",
+        "theme": {
+            "primary": "#0ea5e9",
+            "accent": "#0ea5e9",
+            "bgGradient": "from-[#0ea5e9]/10 to-white",
+            "icon": "flight"
+        },
+        "subcategories": [
+            {
+                "id": "apps-de-transporte",
+                "label": "Apps de transporte",
+                "slug": "apps-de-transporte",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "aerolineas",
+                "label": "Aerolíneas",
+                "slug": "aerolineas",
+                "icon": "auto_awesome"
+            },
+            {
+                "id": "hoteles",
+                "label": "Hoteles",
+                "slug": "hoteles",
+                "icon": "auto_awesome"
+            }
+        ]
+    }
 };

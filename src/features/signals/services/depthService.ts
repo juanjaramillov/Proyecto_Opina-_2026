@@ -25,7 +25,21 @@ export const depthService = {
         optionId: string,
         answers: Array<{ question_key: string; answer_value: string }>
     ): Promise<void> {
-        // 1. SECURE RPC CALL
+        // 1. ESCRITURA CANÓNICA (Signal Engine)
+        const { signalService } = await import('./signalService');
+        
+        for (const answer of answers) {
+            await signalService.saveSignalEvent({
+                battle_id: optionId, // Actúa como entidad/contexto principal
+                option_id: answer.answer_value, // El valor seleccionado
+                attribute_id: answer.question_key, // La pregunta específica
+                meta: {
+                    source: 'depth'
+                }
+            });
+        }
+
+        // 2. METADATA ESPECÍFICA (Legacy RPC)
         // El RPC insert_depth_answers maneja internamente:
         // - Obtención de anon_id
         // - Denormalización de segmentación (gender, age_bucket, region)
@@ -35,8 +49,8 @@ export const depthService = {
         });
 
         if (error) {
-            logger.error('[DepthService] RPC insert_depth_answers failed:', error);
-            throw error;
+            // Not throwing here because canonical signals succeeded
+            logger.error('[DepthService] RPC insert_depth_answers failed (fallback metadata):', error);
         }
     },
 

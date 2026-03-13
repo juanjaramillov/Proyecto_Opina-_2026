@@ -38,18 +38,36 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
     };
 
     const renderQuestionOptions = (question: TopicQuestion) => {
-        let options: string[] = [];
+        let options: { label: string; value: string }[] = [];
         
         if (Array.isArray(question.options_json) && question.options_json.length > 0) {
-            options = question.options_json;
+            options = question.options_json.map((opt: unknown) => {
+                if (typeof opt === 'string') {
+                    return { label: opt, value: opt };
+                }
+                if (typeof opt === 'object' && opt !== null) {
+                    const obj = opt as Record<string, unknown>;
+                    const label = obj.label || obj.text || obj.value || JSON.stringify(opt);
+                    const value = obj.value || obj.id || obj.label || obj.text || JSON.stringify(opt);
+                    return { label: String(label), value: String(value) };
+                }
+                return { label: String(opt), value: String(opt) };
+            });
         } else if (question.answer_type === 'yes_no') {
-            options = ['Sí', 'No'];
+            options = [
+                { label: 'Sí', value: 'Sí' },
+                { label: 'No', value: 'No' },
+            ];
         } else if (question.answer_type === 'scale_5') {
-            options = ['1', '2', '3', '4', '5'];
+            options = ['1', '2', '3', '4', '5'].map(o => ({ label: o, value: o }));
         } else if (question.answer_type === 'scale_0_10') {
-            options = ['0','1','2','3','4','5','6','7','8','9','10'];
+            options = ['0','1','2','3','4','5','6','7','8','9','10'].map(o => ({ label: o, value: o }));
         } else {
-            options = ['A favor', 'Neutral', 'En contra'];
+            options = [
+                { label: 'A favor', value: 'A favor' },
+                { label: 'Neutral', value: 'Neutral' },
+                { label: 'En contra', value: 'En contra' }
+            ];
         }
 
         const isScale = question.answer_type === 'scale_5' || question.answer_type === 'scale_0_10';
@@ -60,10 +78,10 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                     {options.map((opt, idx) => (
                         <button
                             key={idx}
-                            onClick={() => handleSelectOption(question.id, opt)}
+                            onClick={() => handleSelectOption(question.id, opt.value)}
                             className="w-14 h-14 md:w-16 md:h-16 rounded-2xl border-2 border-slate-200 bg-white hover:border-[var(--accent-primary)] hover:bg-[var(--accent-primary)] hover:text-white transition-all text-xl font-black text-slate-700 flex items-center justify-center shadow-sm hover:shadow-[0_10px_40px_-10px_rgba(59,130,246,0.5)] hover:-translate-y-1"
                         >
-                            {opt}
+                            {opt.label}
                         </button>
                     ))}
                 </div>
@@ -72,13 +90,13 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
 
         return (
             <div className="flex flex-col gap-3 md:gap-4 w-full">
-                {options.map((opcion: string, idx: number) => (
+                {options.map((opcion, idx: number) => (
                     <button
                         key={idx}
-                        onClick={() => handleSelectOption(question.id, opcion)}
+                        onClick={() => handleSelectOption(question.id, opcion.value)}
                         className="w-full p-5 md:p-6 rounded-3xl border-2 border-transparent bg-white shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)] hover:border-[var(--accent-primary)] hover:shadow-[0_10px_40px_-10px_rgba(59,130,246,0.3)] transition-all text-left text-lg md:text-xl font-black text-ink flex items-center justify-between group transform hover:-translate-y-1"
                     >
-                        {opcion}
+                        {opcion.label}
                         <div className="w-6 h-6 rounded-full border-2 border-slate-200 group-hover:border-[var(--accent-primary)] flex items-center justify-center shrink-0 bg-slate-50 group-hover:bg-blue-50 transition-colors">
                             <div className="w-3 h-3 rounded-full bg-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>

@@ -325,7 +325,7 @@ export const authService = {
                     const parsed = JSON.parse(accessGateRaw);
                     if (parsed && typeof parsed.tokenId === 'string' && parsed.tokenId.startsWith('CODE:')) {
                         const code = parsed.tokenId.slice(5).trim();
-                        logger.log(`[authService] Consuming invitation code ${code} for new user ${nickname}`);
+                        logger.info(`[authService] Consuming invitation code ${code} for new user ${nickname}`);
                         await authService.bootstrapUserAfterSignup(nickname, code);
                     }
                 }

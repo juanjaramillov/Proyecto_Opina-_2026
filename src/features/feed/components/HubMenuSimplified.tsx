@@ -2,8 +2,8 @@
 
 interface HubMenuSimplifiedProps {
     onEnterVersus: () => void;
-    onEnterProgressive?: () => void;
-    onEnterDepth?: () => void;
+    onEnterTorneo?: () => void;
+    onEnterProfundidad?: () => void;
     onEnterActualidad?: () => void;
     onViewResults: () => void;
     stats: {
@@ -29,8 +29,8 @@ interface HubMenuSimplifiedProps {
 
 export default function HubMenuSimplified({
     onEnterVersus,
-    onEnterProgressive = () => { },
-    onEnterDepth = () => { },
+    onEnterTorneo = () => { },
+    onEnterProfundidad = () => { },
     onEnterActualidad = () => { },
     onViewResults,
     stats,
@@ -97,8 +97,8 @@ export default function HubMenuSimplified({
                             </div>
                         </div>
 
-                        {/* 2. Progresivo (Mediano, 2x1) */}
-                        <div className="col-span-2 row-span-1 card-interactive bg-gradient-brand border-none p-5 flex flex-col justify-between group cursor-pointer" onClick={onEnterProgressive}>
+                        {/* 2. Torneo (Mediano, 2x1) */}
+                        <div className="col-span-2 row-span-1 card-interactive bg-gradient-brand border-none p-5 flex flex-col justify-between group cursor-pointer" onClick={onEnterTorneo}>
                             <div className="flex justify-between items-start mb-2">
                                 <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center text-white backdrop-blur-sm">
                                     <span className="material-symbols-outlined text-xl">emoji_events</span>
@@ -106,13 +106,13 @@ export default function HubMenuSimplified({
                                 <div className="badge bg-white/20 text-white border-none py-1 backdrop-blur-sm">Torneo</div>
                             </div>
                             <div>
-                                <h3 className="font-bold text-white text-lg mb-1 group-hover:underline">Versus Progresivo</h3>
+                                <h3 className="font-bold text-white text-lg mb-1 group-hover:underline">Torneo</h3>
                                 <p className="text-white/80 text-xs">El campeón se queda. Mide qué opción sobrevive a todas las demás rondas.</p>
                             </div>
                         </div>
 
                         {/* 3. Profundidad (Mediano, 2x1) */}
-                        <div className="col-span-2 row-span-1 card-interactive border border-primary/20 bg-primary/5 p-5 flex flex-col justify-between group cursor-pointer hover:border-primary/40 transition-colors" onClick={onEnterDepth}>
+                        <div className="col-span-2 row-span-1 card-interactive border border-primary/20 bg-primary/5 p-5 flex flex-col justify-between group cursor-pointer hover:border-primary/40 transition-colors" onClick={onEnterProfundidad}>
                             <div className="flex justify-between items-start mb-2">
                                 <div className="w-10 h-10 bg-white border border-primary/10 rounded-lg flex items-center justify-center text-primary shadow-sm">
                                     <span className="material-symbols-outlined text-xl">psychology</span>
@@ -137,92 +137,100 @@ export default function HubMenuSimplified({
                         </div>
 
                         {/* 5. Deportes (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
-                            <div className="w-12 h-12 rounded-[1rem] bg-emerald-50 text-emerald-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden opacity-70">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+                            <div className="w-12 h-12 rounded-[1rem] bg-emerald-50 text-emerald-600 flex items-center justify-center mb-auto">
                                 <span className="material-symbols-outlined text-2xl">sports_soccer</span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="font-black text-ink text-sm group-hover:text-emerald-600 transition-colors">Deportes</h3>
+                                <h3 className="font-black text-ink text-sm">Deportes</h3>
+                                <div className="text-[9px] font-bold text-slate-500 uppercase mt-1">Próximamente</div>
                             </div>
                         </div>
 
                         {/* 6. Productos (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
-                            <div className="w-12 h-12 rounded-[1rem] bg-orange-50 text-orange-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden opacity-70">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+                            <div className="w-12 h-12 rounded-[1rem] bg-orange-50 text-orange-600 flex items-center justify-center mb-auto">
                                 <span className="material-symbols-outlined text-2xl">shopping_bag</span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="font-black text-ink text-sm group-hover:text-orange-600 transition-colors">Productos</h3>
+                                <h3 className="font-black text-ink text-sm">Productos</h3>
+                                <div className="text-[9px] font-bold text-slate-500 uppercase mt-1">Próximamente</div>
                             </div>
                         </div>
 
-                        {/* 7. Restaurantes (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
-                            <div className="w-12 h-12 rounded-[1rem] bg-red-50 text-red-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
+                        {/* 7. Comida (Pequeño, 1x1) */}
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden opacity-70">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+                            <div className="w-12 h-12 rounded-[1rem] bg-red-50 text-red-600 flex items-center justify-center mb-auto">
                                 <span className="material-symbols-outlined text-2xl">restaurant</span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="font-black text-ink text-sm group-hover:text-red-600 transition-colors">Comida</h3>
+                                <h3 className="font-black text-ink text-sm">Comida</h3>
+                                <div className="text-[9px] font-bold text-slate-500 uppercase mt-1">Próximamente</div>
                             </div>
                         </div>
 
                         {/* 8. Lugares (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
-                            <div className="w-12 h-12 rounded-[1rem] bg-blue-50 text-blue-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden opacity-70">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+                            <div className="w-12 h-12 rounded-[1rem] bg-blue-50 text-blue-600 flex items-center justify-center mb-auto">
                                 <span className="material-symbols-outlined text-2xl">location_on</span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="font-black text-ink text-sm group-hover:text-blue-600 transition-colors">Lugares</h3>
+                                <h3 className="font-black text-ink text-sm">Lugares</h3>
+                                <div className="text-[9px] font-bold text-slate-500 uppercase mt-1">EN CONSTRUCCIÓN</div>
                             </div>
                         </div>
 
                         {/* 9. Servicios (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
-                            <div className="w-12 h-12 rounded-[1rem] bg-purple-50 text-purple-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden opacity-70">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+                            <div className="w-12 h-12 rounded-[1rem] bg-purple-50 text-purple-600 flex items-center justify-center mb-auto">
                                 <span className="material-symbols-outlined text-2xl">support_agent</span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="font-black text-ink text-sm group-hover:text-purple-600 transition-colors">Servicios</h3>
+                                <h3 className="font-black text-ink text-sm">Servicios</h3>
+                                <div className="text-[9px] font-bold text-slate-500 uppercase mt-1">Próximamente</div>
                             </div>
                         </div>
 
                         {/* 10. Tu Pulso (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
-                            <div className="w-12 h-12 rounded-[1rem] bg-rose-50 text-rose-600 flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
+                        <div className="col-span-1 row-span-1 card-interactive p-4 flex flex-col justify-between group relative overflow-hidden opacity-70">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+                            <div className="w-12 h-12 rounded-[1rem] bg-rose-50 text-rose-600 flex items-center justify-center mb-auto">
                                 <span className="material-symbols-outlined text-2xl">monitor_heart</span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="font-black text-ink text-sm group-hover:text-rose-600 transition-colors">Tu Pulso</h3>
+                                <h3 className="font-black text-ink text-sm">Tu Pulso</h3>
+                                <div className="text-[9px] font-bold text-slate-500 uppercase mt-1">EN CONSTRUCCIÓN</div>
                             </div>
                         </div>
 
                         {/* Elemento Movido a la parte superior: Profundidad */}
 
                         {/* 11. Explorar Temas (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 bg-surface2 border border-stroke rounded-2xl p-4 flex flex-col justify-between group hover:bg-slate-100 transition-colors relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-slate-200/50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
-                            <div className="w-12 h-12 rounded-[1rem] bg-white border border-stroke text-text-secondary flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:rotate-3 duration-300">
-                                <span className="material-symbols-outlined text-2xl group-hover:text-ink transition-colors">search</span>
+                        <div className="col-span-1 row-span-1 bg-surface2 border border-stroke rounded-2xl p-4 flex flex-col justify-between group relative overflow-hidden opacity-70">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-slate-200/50 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+                            <div className="w-12 h-12 rounded-[1rem] bg-white border border-stroke text-text-secondary flex items-center justify-center mb-auto">
+                                <span className="material-symbols-outlined text-2xl">search</span>
                             </div>
                             <div className="relative z-10">
                                 <h3 className="font-bold text-ink text-sm">Explorar</h3>
+                                <div className="text-[9px] font-bold text-slate-500 uppercase mt-1">Próximamente</div>
                             </div>
                         </div>
 
                         {/* 12. Mis Resultados (Pequeño, 1x1) */}
-                        <div className="col-span-1 row-span-1 bg-ink text-white rounded-2xl p-4 flex flex-col justify-between group hover:bg-ink-800 transition-colors shadow-md relative overflow-hidden">
+                        <div className="col-span-1 row-span-1 bg-ink text-white rounded-2xl p-4 flex flex-col justify-between group hover:bg-ink-800 transition-colors shadow-md relative overflow-hidden cursor-pointer" onClick={onViewResults}>
                             <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-[2] duration-700 pointer-events-none"></div>
                             <div className="w-12 h-12 rounded-[1rem] bg-white/10 text-white flex items-center justify-center mb-auto transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300">
                                 <span className="material-symbols-outlined text-2xl">bar_chart</span>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="font-bold text-white text-sm">Impacto</h3>
+                                <h3 className="font-bold text-white text-sm">Resultados</h3>
+                                <div className="text-[9px] font-bold text-slate-400 uppercase mt-1">Comunidad</div>
                             </div>
                         </div>
 

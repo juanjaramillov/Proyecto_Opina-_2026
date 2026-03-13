@@ -26,9 +26,9 @@ export const MODULES: OpinaModule[] = [
         tags: ["Dinámico", "1vs1"],
     },
     {
-        key: "progressive",
+        key: "torneo",
         slug: "torneo",
-        title: "Versus Progresivo",
+        title: "Torneo",
         description: "Modo torneo. Una opción sigue ganando hasta coronar al ganador invicto.",
         status: "active",
         icon: "rocket_launch",
@@ -36,19 +36,19 @@ export const MODULES: OpinaModule[] = [
         tags: ["Torneo", "Eliminación"],
     },
     {
-        key: "insights",
+        key: "profundidad",
         slug: "profundidad",
         title: "Profundidad",
         description: "10 preguntas rápidas para refinar la inteligencia colectiva sobre una opción.",
-        status: "active",
+        status: "soon",
         icon: "insights",
         tone: "emerald",
         tags: ["Analítico", "Contexto"],
     },
     {
-        key: "personal",
-        slug: "estado",
-        title: "Estado & Contexto",
+        key: "pulso",
+        slug: "pulso",
+        title: "Tu Pulso",
         description: "Sincroniza tu estado actual. Registra cómo te sientes hoy.",
         status: "soon",
         icon: "favorite",
@@ -63,7 +63,7 @@ export const MODULES: OpinaModule[] = [
         ]
     },
     {
-        key: "places",
+        key: "lugares",
         slug: "lugares",
         title: "Lugares",
         description: "Califica y rankea ubicaciones físicas y espacios a tu alrededor.",
@@ -80,7 +80,7 @@ export const MODULES: OpinaModule[] = [
         ]
     },
     {
-        key: "services",
+        key: "servicios",
         slug: "servicios",
         title: "Servicios",
         description: "Evalúa la calidad de atención y proveedores que facilitan tu vida.",
@@ -97,11 +97,11 @@ export const MODULES: OpinaModule[] = [
         ]
     },
     {
-        key: "news",
+        key: "actualidad",
         slug: "actualidad",
         title: "Actualidad",
         description: "Vota sobre temas del momento con dualidad opuesta rápida.",
-        status: "soon",
+        status: "active",
         icon: "newspaper",
         tone: "slate",
         tags: ["Polémica", "A/B"],
@@ -114,9 +114,9 @@ export const MODULES: OpinaModule[] = [
         ]
     },
     {
-        key: "scanner",
-        slug: "escaner",
-        title: "Escáner",
+        key: "productos",
+        slug: "productos",
+        title: "Productos",
         description: "Escanea un producto para ver su ficha y valoración comunitaria.",
         status: "soon",
         icon: "qr_code_scanner",

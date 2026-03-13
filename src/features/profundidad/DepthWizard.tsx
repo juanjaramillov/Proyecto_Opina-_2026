@@ -75,6 +75,17 @@ const DepthWizard: React.FC<DepthWizardProps> = ({
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary-100/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-50/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700" />
 
+            {/* Botón Cerrar (X) absoluto */}
+            {!isFinished && (
+                <button
+                    onClick={onCancel}
+                    className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors z-50 shadow-sm border border-slate-200/60"
+                    aria-label="Cerrar encuesta"
+                >
+                    <span className="material-symbols-outlined font-bold text-xl">close</span>
+                </button>
+            )}
+
             <div className="relative z-10 flex-1 flex flex-col">
                 {!isFinished && (
                     <div className="mb-8 border-b border-slate-100 pb-6">
@@ -85,7 +96,6 @@ const DepthWizard: React.FC<DepthWizardProps> = ({
                         <DepthHUD
                             currentStep={step + 1}
                             totalSteps={questions.length}
-                            onExit={onCancel}
                         />
                     </div>
                 )}

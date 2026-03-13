@@ -6,7 +6,7 @@ type CacheEntry<T> = {
 };
 
 const MAX_ENTRIES = 200;
-const cache = new Map<string, CacheEntry<any>>();
+const cache = new Map<string, CacheEntry<unknown>>();
 
 function prune() {
     while (cache.size > MAX_ENTRIES) {
@@ -49,12 +49,3 @@ export async function cached<T>(
     return p;
 }
 
-export function invalidate(prefix?: string) {
-    if (!prefix) {
-        cache.clear();
-        return;
-    }
-    for (const k of Array.from(cache.keys())) {
-        if (k.startsWith(prefix)) cache.delete(k);
-    }
-}

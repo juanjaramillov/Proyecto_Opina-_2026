@@ -11,7 +11,7 @@ export type AntifraudFlagRow = {
     banned: boolean;
     banned_at: string | null;
     banned_reason: string | null;
-    details: any;
+    details: Record<string, unknown>;
 };
 
 export type DeviceSummary = {
@@ -27,7 +27,7 @@ export type DeviceSummary = {
 
 export const adminAntifraudService = {
     listFlags: async (limit: number = 200): Promise<AntifraudFlagRow[]> => {
-        const { data, error } = await supabase.rpc('admin_list_antifraud_flags' as any, { p_limit: limit });
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_list_antifraud_flags', { p_limit: limit });
 
         if (error) {
             throw error;
@@ -37,7 +37,7 @@ export const adminAntifraudService = {
     },
 
     setBan: async (deviceHash: string, banned: boolean, reason?: string): Promise<{ ok: boolean; error?: string }> => {
-        const { data, error } = await supabase.rpc('admin_set_device_ban' as any, {
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_set_device_ban', {
             p_device_hash: deviceHash,
             p_banned: banned,
             p_reason: reason || null
@@ -51,7 +51,7 @@ export const adminAntifraudService = {
     },
 
     getDeviceSummary: async (deviceHash: string): Promise<DeviceSummary> => {
-        const { data, error } = await supabase.rpc('admin_get_device_summary' as any, { p_device_hash: deviceHash });
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_get_device_summary', { p_device_hash: deviceHash });
 
         if (error) {
             throw error;

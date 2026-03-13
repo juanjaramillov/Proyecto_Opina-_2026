@@ -18,7 +18,9 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { notifyService } from "../../notifications/notifyService";
 import PageHeader from "../../../components/ui/PageHeader";
 import LoyaltyPanel from "../components/LoyaltyPanel";
-import MissionsPanel from "../components/MissionsPanel";
+import { MissionsPanel } from "../../loyalty/components/MissionsPanel";
+import { WalletView } from "../../loyalty/components/WalletView";
+import { UserLevelBadge } from "../../loyalty/components/UserLevelBadge";
 
 import { useSignalStore } from "../../../store/signalStore";
 
@@ -252,12 +254,13 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                         <span className="material-symbols-outlined text-secondary text-lg" title="Corroborado">verified</span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 mt-3">
+                    <div className="flex items-center gap-3 mt-3">
+                      <UserLevelBadge />
                       <div className="badge badge-accent bg-secondary/10 text-secondary border-none px-2.5 py-1 text-[10px]">
                         <span className="h-1.5 w-1.5 rounded-full bg-secondary animate-pulse mr-1.5"></span>
                         En Red
                       </div>
-                      <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest">
+                      <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest hidden sm:block">
                         {profile?.displayName ? 'Cuenta Activa' : 'Perfil Incompleto'}
                       </p>
                     </div>
@@ -337,10 +340,10 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
             onGoMissions={scrollToMissions}
           />
 
-          <MissionsPanel
-            totalSignals={userStats?.total_signals || 0}
-            profileCompleteness={(profile as any)?.profileCompleteness || 0}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <MissionsPanel />
+            <WalletView />
+          </div>
 
           {/* PERSONAL INTELLIGENCE: COHERENCE HIGHLIGHT */}
           {!isLocked && comparisons.length > 0 && (

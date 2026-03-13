@@ -26,7 +26,7 @@ type TopicInsert = {
     opinion_maturity?: string;
     source_domain?: string;
     created_by_ai: boolean;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
 }
 
 serve(async (req) => {
@@ -59,7 +59,7 @@ serve(async (req) => {
         const rssData = parser.parse(rssXml);
 
         const items = rssData?.rss?.channel?.item || [];
-        const topNews = Array.isArray(items) ? items.slice(0, 10) : [items].slice(0, 10);
+        const topNews = Array.isArray(items) ? items.slice(0, 25) : [items].slice(0, 25);
 
         if (topNews.length === 0) {
             return new Response(JSON.stringify({ error: "No se encontraron noticias." }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -91,7 +91,7 @@ Selecciona solo temas opinables.
 Un tema opinable es aquel donde una persona razonable puede tener una postura clara, una reacción o una preferencia.
 Evita hechos meramente informativos que no generan posición.
 
-Analiza las noticias o clusters de noticias recibidos como entrada y genera exactamente 3 temas editoriales para Opina+.
+Analiza las noticias o clusters de noticias recibidos como entrada y genera exactamente 10 temas editoriales para Opina+.
 
 Cada tema debe:
 - ser distinto de los otros,
@@ -100,7 +100,7 @@ Cada tema debe:
 - ser entendible sin contexto técnico excesivo,
 - y estar listo para revisión en la mesa editorial admin.
 
-Los 3 temas generados deben ser lo más diversos posible en categoría y tipo de conflicto.
+Los 10 temas generados deben ser lo más diversos posible en categoría y tipo de conflicto.
 No repetir el mismo subtema dentro del mismo lote salvo que sea un evento excepcional de altísimo impacto nacional.
 
 El tono debe ser claro, directo, neutral y entendible.
@@ -189,6 +189,7 @@ Debe seguir este contrato exacto:
         console.log(`Insertando ${temasArray.length} temas en Supabase (estado: detected)...`);
 
         let insertedCount = 0;
+        const insertErrors: { action?: string; title?: string; error: unknown }[] = [];
 
         for (const t of temasArray) {
             // 1. Insert Topic
@@ -200,7 +201,9 @@ Debe seguir este contrato exacto:
                 if (t.source_url) {
                     domain = new URL(t.source_url).hostname.replace('www.', '');
                 }
-            } catch (e) {}
+            } catch {
+                // Ignore missing or invalid URL
+            }
 
             const topicInsert: TopicInsert = {
                 slug,
@@ -233,6 +236,7 @@ Debe seguir este contrato exacto:
 
             if (topicError || !topicData) {
                 console.error("Error al insertar tema", t.title, topicError);
+                insertErrors.push({ title: t.title, error: topicError });
                 continue;
             }
 
@@ -247,12 +251,13 @@ Debe seguir este contrato exacto:
 
             if (setError || !setData) {
                 console.error("Error al insertar set", setError);
+                insertErrors.push({ action: 'Insert Question Set', error: setError });
                 continue;
             }
             const setId = setData.id;
 
             // 3. Insert Questions
-            const questionsToInsert = (t.questions || t.preguntas || []).map((q: Record<string, any>, i: number) => ({
+            const questionsToInsert = (t.questions || t.preguntas || []).map((q: { order?: number; orden?: number; text?: string; texto?: string; type?: string; tipo?: string; options?: unknown[]; opciones?: unknown[] }, i: number) => ({
                 set_id: setId,
                 question_order: q.order || q.orden || (i + 1),
                 question_text: q.text || q.texto,
@@ -266,6 +271,7 @@ Debe seguir este contrato exacto:
                     .insert(questionsToInsert);
                 if (qError) {
                     console.error("Error al insertar preguntas", qError);
+                    insertErrors.push({ action: 'Insert Questions', error: qError });
                 }
             }
             
@@ -273,7 +279,12 @@ Debe seguir este contrato exacto:
         }
 
         return new Response(
-            JSON.stringify({ success: true, message: `Insertados ${insertedCount} temas en status 'detected'.` }),
+            JSON.stringify({ 
+              success: true, 
+              message: `Insertados ${insertedCount} temas en status 'detected'.`,
+              errors: insertErrors,
+              payload_received: temasArray.length
+            }),
             { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         )
 

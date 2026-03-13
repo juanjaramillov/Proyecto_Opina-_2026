@@ -15,7 +15,7 @@ export default function ResetPassword() {
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
-            logger.log("=== RESET PASSWORD: session:", !!session);
+            logger.info("=== RESET PASSWORD: session: " + !!session);
             if (!session) {
                 setNotice({
                     variant: "info",

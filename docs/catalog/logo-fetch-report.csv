@@ -1,515 +1,442 @@
 entity_slug,entity_name,domain,status,source,notes
-bruno-fritsch,Bruno Fritsch,brunofritsch.cl,missing,,logo not found in configured sources
-dercocenter,DercoCenter,dercocenter.cl,missing,,logo not found in configured sources
-gildemeister,Gildemeister,gildemeister.cl,missing,,logo not found in configured sources
-kaufmann,Kaufmann,kaufmann.cl,missing,,logo not found in configured sources
-portillo,Portillo,portillo.cl,missing,,logo not found in configured sources
-salazar-israel,Salazar Israel,salazarisrael.cl,missing,,logo not found in configured sources
-byd,BYD,byd.com,missing,,logo not found in configured sources
-chery,Chery,chery.cl,missing,,logo not found in configured sources
-geely,Geely,geely.cl,missing,,logo not found in configured sources
-great-wall,Great Wall,gwm-global.com,missing,,logo not found in configured sources
-haval,Haval,gwm.cl,missing,,logo not found in configured sources
-jac,JAC,jac.cl,missing,,logo not found in configured sources
-jetour,Jetour,jetourglobal.com,missing,,logo not found in configured sources
-mg,MG,mgmotor.cl,downloaded,simpleicons,
-bmw,BMW,bmw.cl,downloaded,simpleicons,
-chevrolet,Chevrolet,chevrolet.cl,downloaded,simpleicons,
-hyundai,Hyundai,hyundai.cl,downloaded,simpleicons,
-kia,Kia,kia.cl,downloaded,simpleicons,
-mazda,Mazda,mazda.cl,downloaded,simpleicons,
-mercedes-benz,Mercedes-Benz,mercedes-benz.cl,missing,,logo not found in configured sources
-nissan,Nissan,nissan.cl,downloaded,simpleicons,
-peugeot,Peugeot,peugeot.cl,downloaded,simpleicons,
-suzuki,Suzuki,suzuki.cl,downloaded,simpleicons,
-toyota,Toyota,toyota.cl,downloaded,simpleicons,
-aquarius,Aquarius,coca-cola.com,missing,,logo not found in configured sources
-benedictino,Benedictino,benedictino.cl,missing,,logo not found in configured sources
-cachantun,Cachantun,cachantun.cl,missing,,logo not found in configured sources
-evian,Evian,evian.com,missing,,logo not found in configured sources
-perrier,Perrier,perrier.com,missing,,logo not found in configured sources
-vital,Vital,vitalagua.cl,missing,,logo not found in configured sources
-becker,Becker,becker.cl,missing,,logo not found in configured sources
-corona,Corona,cervezacorona.cl,missing,,logo not found in configured sources
+bruno-fritsch,Bruno Fritsch,brunofritsch.cl,downloaded,brandfetch,png
+dercocenter,DercoCenter,dercocenter.cl,downloaded,brandfetch,png
+gildemeister,Gildemeister,gildemeister.cl,downloaded,brandfetch,png
+kaufmann,Kaufmann,kaufmann.cl,downloaded,brandfetch,png
+portillo,Portillo,portillo.cl,downloaded,brandfetch,png
+salazar-israel,Salazar Israel,salazarisrael.cl,downloaded,brandfetch,png
+byd,BYD,byd.com,downloaded,brandfetch,png
+chery,Chery,chery.cl,downloaded,brandfetch,png
+geely,Geely,geely.cl,downloaded,brandfetch,png
+great-wall,Great Wall,gwm-global.com,downloaded,brandfetch,png
+haval,Haval,gwm.cl,downloaded,brandfetch,png
+jac,JAC,jac.cl,downloaded,brandfetch,png
+jetour,Jetour,jetourglobal.com,downloaded,brandfetch,png
+mg,MG,mgmotor.cl,downloaded,simpleicons,svg
+bmw,BMW,bmw.cl,downloaded,simpleicons,svg
+chevrolet,Chevrolet,chevrolet.cl,downloaded,simpleicons,svg
+hyundai,Hyundai,hyundai.cl,downloaded,simpleicons,svg
+kia,Kia,kia.cl,downloaded,simpleicons,svg
+mazda,Mazda,mazda.cl,downloaded,simpleicons,svg
+mercedes-benz,Mercedes-Benz,mercedes-benz.cl,downloaded,brandfetch,png
+nissan,Nissan,nissan.cl,downloaded,simpleicons,svg
+peugeot,Peugeot,peugeot.cl,downloaded,simpleicons,svg
+suzuki,Suzuki,suzuki.cl,downloaded,simpleicons,svg
+toyota,Toyota,toyota.cl,downloaded,simpleicons,svg
+aquarius,Aquarius,coca-cola.com,downloaded,brandfetch,png
+benedictino,Benedictino,benedictino.cl,downloaded,brandfetch,png
+cachantun,Cachantun,cachantun.cl,downloaded,brandfetch,png
+evian,Evian,evian.com,downloaded,brandfetch,png
+perrier,Perrier,perrier.com,downloaded,brandfetch,png
+vital,Vital,vitalagua.cl,downloaded,brandfetch,png
+becker,Becker,becker.cl,downloaded,brandfetch,png
+corona,Corona,cervezacorona.cl,downloaded,brandfetch,png
 cristal,Cristal,,missing,,logo not found in configured sources
 escudo,Escudo,,missing,,logo not found in configured sources
-heineken,Heineken,heineken.com,missing,,logo not found in configured sources
-kunstmann,Kunstmann,cerveza-kunstmann.cl,missing,,logo not found in configured sources
+heineken,Heineken,heineken.com,downloaded,brandfetch,png
+kunstmann,Kunstmann,cerveza-kunstmann.cl,downloaded,brandfetch,png
 burn,Burn,,missing,,logo not found in configured sources
 celsius,Celsius,,missing,,logo not found in configured sources
-monster,Monster,monsterenergy.com,downloaded,simpleicons,
+monster,Monster,monsterenergy.com,downloaded,simpleicons,svg
 prime-energy,Prime Energy,,missing,,logo not found in configured sources
-red-bull,Red Bull,redbull.com,missing,,logo not found in configured sources
+red-bull,Red Bull,redbull.com,downloaded,brandfetch,png
 rockstar,Rockstar,,missing,,logo not found in configured sources
-canada-dry,Canada Dry,canadadrychile.cl,missing,,logo not found in configured sources
-coca-cola,Coca-Cola,andina.micoca-cola.cl,missing,,logo not found in configured sources
-fanta,Fanta,coca-cola.com,missing,,logo not found in configured sources
-pepsi,Pepsi,pepsi.com,missing,,logo not found in configured sources
+canada-dry,Canada Dry,canadadrychile.cl,downloaded,brandfetch,png
+coca-cola,Coca-Cola,andina.micoca-cola.cl,downloaded,brandfetch,png
+fanta,Fanta,coca-cola.com,downloaded,brandfetch,png
+pepsi,Pepsi,pepsi.com,downloaded,brandfetch,png
 schweppes,Schweppes,,missing,,logo not found in configured sources
 sprite,Sprite,,missing,,logo not found in configured sources
-descorcha,Descorcha,descorcha.com,missing,,logo not found in configured sources
-el-mundo-del-vino,El Mundo del Vino,elmundodelvino.cl,missing,,logo not found in configured sources
-la-cav,La Cav,cav.cl,missing,,logo not found in configured sources
-la-vinoteca,La Vinoteca,lavinoteca.cl,missing,,logo not found in configured sources
+descorcha,Descorcha,descorcha.com,downloaded,brandfetch,png
+el-mundo-del-vino,El Mundo del Vino,elmundodelvino.cl,downloaded,brandfetch,png
+la-cav,La Cav,cav.cl,downloaded,brandfetch,png
+la-vinoteca,La Vinoteca,lavinoteca.cl,downloaded,brandfetch,png
 tienda-concha-y-toro,Tienda Concha y Toro,,missing,,logo not found in configured sources
 tienda-santa-rita,Tienda Santa Rita,,missing,,logo not found in configured sources
-concha-y-toro,Concha y Toro,conchaytoro.com,missing,,logo not found in configured sources
-miguel-torres,Miguel Torres,migueltorres.cl,missing,,logo not found in configured sources
-montes,Montes,monteswines.com,missing,,logo not found in configured sources
-san-pedro,San Pedro,sanpedro.cl,missing,,logo not found in configured sources
-santa-rita,Santa Rita,santarita.com,missing,,logo not found in configured sources
-undurraga,Undurraga,undurraga.cl,missing,,logo not found in configured sources
-bebesit,Bebesit,bebesit.cl,missing,,logo not found in configured sources
-chicco,Chicco,chicco.cl,missing,,logo not found in configured sources
-graco,Graco,babygraco.cl,missing,,logo not found in configured sources
-infanti,Infanti,infanti.cl,missing,,logo not found in configured sources
-joie,Joie,joiebaby.com,missing,,logo not found in configured sources
-maxi-cosi,Maxi-Cosi,maxicosi.cl,missing,,logo not found in configured sources
-enfamil,Enfamil,enfamil.com,missing,,logo not found in configured sources
-nan,NAN,nestle.cl,missing,,logo not found in configured sources
+concha-y-toro,Concha y Toro,conchaytoro.com,downloaded,brandfetch,png
+miguel-torres,Miguel Torres,migueltorres.cl,downloaded,brandfetch,png
+montes,Montes,monteswines.com,downloaded,brandfetch,png
+san-pedro,San Pedro,sanpedro.cl,downloaded,brandfetch,png
+santa-rita,Santa Rita,santarita.com,downloaded,brandfetch,png
+undurraga,Undurraga,undurraga.cl,downloaded,brandfetch,png
+bebesit,Bebesit,bebesit.cl,downloaded,brandfetch,png
+chicco,Chicco,chicco.cl,downloaded,brandfetch,png
+graco,Graco,babygraco.cl,downloaded,brandfetch,png
+infanti,Infanti,infanti.cl,downloaded,brandfetch,png
+joie,Joie,joiebaby.com,downloaded,brandfetch,png
+maxi-cosi,Maxi-Cosi,maxicosi.cl,downloaded,brandfetch,png
+enfamil,Enfamil,enfamil.com,downloaded,brandfetch,png
+nan,NAN,nestle.cl,downloaded,brandfetch,png
 nidal,Nidal,,missing,,logo not found in configured sources
 pediasure,Pediasure,,missing,,logo not found in configured sources
 s-26,S-26,,missing,,logo not found in configured sources
 similac,Similac,,missing,,logo not found in configured sources
 bbtips,BBTips,,missing,,logo not found in configured sources
-babysec,Babysec,babysec.cl,missing,,logo not found in configured sources
-huggies,Huggies,huggies.cl,missing,,logo not found in configured sources
-pampers,Pampers,pampers.cl,missing,,logo not found in configured sources
-pampers-premium-care,Pampers Premium Care,pampers.cl,missing,,logo not found in configured sources
-bbtips,BBTips,,missing,,logo not found in configured sources
-babysec,Babysec,babysec.cl,missing,,logo not found in configured sources
-bebesit,Bebesit,bebesit.cl,missing,,logo not found in configured sources
-huggies,Huggies,huggies.cl,missing,,logo not found in configured sources
-pampers,Pampers,pampers.cl,missing,,logo not found in configured sources
+babysec,Babysec,babysec.cl,downloaded,brandfetch,png
+huggies,Huggies,huggies.cl,downloaded,brandfetch,png
+pampers,Pampers,pampers.cl,downloaded,brandfetch,png
 waterwipes,WaterWipes,,missing,,logo not found in configured sources
-l-oreal-paris,L'Oréal Paris,loreal-paris.cl,missing,,logo not found in configured sources
-mac,MAC,maccosmetics.cl,missing,,logo not found in configured sources
-maybelline,Maybelline,maybelline.cl,missing,,logo not found in configured sources
-nyx,NYX,nyxcosmetics.com,missing,,logo not found in configured sources
-natura,Natura,natura.cl,missing,,logo not found in configured sources
-petrizzio,Petrizzio,petrizzio.cl,missing,,logo not found in configured sources
-axe,Axe,axe.com,missing,,logo not found in configured sources
-dove,Dove,dove.com,missing,,logo not found in configured sources
-lady-speed-stick,Lady Speed Stick,ladyspeedstick.com,missing,,logo not found in configured sources
-nivea,Nivea,nivea.cl,missing,,logo not found in configured sources
-old-spice,Old Spice,oldspice.com,missing,,logo not found in configured sources
-rexona,Rexona,rexona.com,missing,,logo not found in configured sources
-aquafresh,Aquafresh,aquafresh.com,missing,,logo not found in configured sources
-closeup,Closeup,closeup.com,missing,,logo not found in configured sources
-colgate,Colgate,colgate.cl,missing,,logo not found in configured sources
-oral-b,Oral-B,oralb.cl,missing,,logo not found in configured sources
-pepsodent,Pepsodent,pepsodent.com,missing,,logo not found in configured sources
-sensodyne,Sensodyne,sensodyne.cl,missing,,logo not found in configured sources
-calvin-klein,Calvin Klein,calvinklein.cl,missing,,logo not found in configured sources
-carolina-herrera,Carolina Herrera,carolinaherrera.com,missing,,logo not found in configured sources
-chanel,Chanel,chanel.com,missing,,logo not found in configured sources
-dior,Dior,dior.com,downloaded,simpleicons,
-hugo-boss,Hugo Boss,hugoboss.com,missing,,logo not found in configured sources
-rabanne,Rabanne,rabanne.com,missing,,logo not found in configured sources
-eucerin-sun,Eucerin Sun,eucerin.cl,missing,,logo not found in configured sources
-hawaiian-tropic,Hawaiian Tropic,hawaiiantropic.com,missing,,logo not found in configured sources
-isdin,ISDIN,isdin.com,missing,,logo not found in configured sources
-la-roche-posay-anthelios,La Roche-Posay Anthelios,laroche-posay.cl,missing,,logo not found in configured sources
-raytan,Raytan,raytan.cl,missing,,logo not found in configured sources
-vichy-capital-soleil,Vichy Capital Soleil,vichy.cl,missing,,logo not found in configured sources
-dove,Dove,dove.com,missing,,logo not found in configured sources
-elvive,Elvive,loreal-paris.cl,missing,,logo not found in configured sources
-head-shoulders,Head & Shoulders,headandshoulders.cl,missing,,logo not found in configured sources
-pantene,Pantene,pantenela.com,missing,,logo not found in configured sources
-sedal,Sedal,sedal.cl,missing,,logo not found in configured sources
-tio-nacho,Tío Nacho,tionacho.com,missing,,logo not found in configured sources
-bioderma,Bioderma,bioderma.cl,missing,,logo not found in configured sources
-cerave,CeraVe,cerave.cl,missing,,logo not found in configured sources
-cetaphil,Cetaphil,cetaphil.cl,missing,,logo not found in configured sources
-eucerin,Eucerin,eucerin.cl,missing,,logo not found in configured sources
-la-roche-posay,La Roche-Posay,laroche-posay.cl,missing,,logo not found in configured sources
-vichy,Vichy,vichy.cl,missing,,logo not found in configured sources
-cafe-haiti,Café Haiti,cafehaiti.cl,missing,,logo not found in configured sources
-castano,Castaño,castano.cl,missing,,logo not found in configured sources
-dunkin,Dunkin,dunkin.cl,missing,,logo not found in configured sources
-juan-valdez,Juan Valdez,juanvaldezcafe.com,missing,,logo not found in configured sources
-starbucks,Starbucks,starbucks.cl,downloaded,simpleicons,
-tavelli,Tavelli,tavelli.cl,missing,,logo not found in configured sources
-didi-food,DiDi Food,didiglobal.com,missing,,logo not found in configured sources
-justo,Justo,justo.cl,missing,,logo not found in configured sources
-orders,Orders,orders.cl,missing,,logo not found in configured sources
-pedidosya,PedidosYa,pedidosya.cl,missing,,logo not found in configured sources
-rappi,Rappi,rappi.com,missing,,logo not found in configured sources
-uber-eats,Uber Eats,ubereats.com,missing,,logo not found in configured sources
-burger-king,Burger King,burgerking.cl,missing,,logo not found in configured sources
-doggis,Doggis,doggis.cl,missing,,logo not found in configured sources
-juan-maestro,Juan Maestro,juanmaestro.cl,missing,,logo not found in configured sources
-kfc,KFC,kfc.cl,downloaded,simpleicons,
-mcdonald-s,McDonald's,mcdonalds.cl,missing,,logo not found in configured sources
-pedro-juan-diego,"Pedro, Juan & Diego",pyd.cl,missing,,logo not found in configured sources
-subway,Subway,subway.com,missing,,logo not found in configured sources
-tarragona,Tarragona,tarragona.cl,missing,,logo not found in configured sources
-domino-s,Domino's,dominos.cl,missing,,logo not found in configured sources
-little-caesars,Little Caesars,littlecaesars.cl,missing,,logo not found in configured sources
-melt-pizzas,Melt Pizzas,meltpizzas.com,missing,,logo not found in configured sources
-papa-johns,Papa Johns,papajohns.cl,missing,,logo not found in configured sources
-pizza-hut,Pizza Hut,pizzahut.cl,missing,,logo not found in configured sources
-telepizza,Telepizza,telepizza.cl,missing,,logo not found in configured sources
-cobreloa,Cobreloa,cobreloa.cl,missing,,logo not found in configured sources
-colo-colo,Colo-Colo,colocolo.cl,missing,,logo not found in configured sources
-santiago-wanderers,Santiago Wanderers,santiagowanderers.cl,missing,,logo not found in configured sources
-universidad-catolica,Universidad Católica,lacatolica.cl,missing,,logo not found in configured sources
-universidad-de-chile,Universidad de Chile,udechile.cl,missing,,logo not found in configured sources
-union-espanola,Unión Española,unionespanola.cl,missing,,logo not found in configured sources
-aiep,AIEP,aiep.cl,missing,,logo not found in configured sources
-duoc-uc,Duoc UC,duoc.cl,missing,,logo not found in configured sources
-enac,ENAC,enac.cl,missing,,logo not found in configured sources
-inacap,INACAP,inacap.cl,missing,,logo not found in configured sources
-ipchile,IPChile,ipchile.cl,missing,,logo not found in configured sources
-santo-tomas,Santo Tomás,ust.cl,missing,,logo not found in configured sources
-cpech,Cpech,cpech.cl,missing,,logo not found in configured sources
-filadd,Filadd,filadd.cl,missing,,logo not found in configured sources
-m30m,M30M,preuniversitariom30m.com,missing,,logo not found in configured sources
-pedro-de-valdivia,Pedro de Valdivia,pdv.cl,missing,,logo not found in configured sources
-preu-uc,Preu UC,preupdv.cl,missing,,logo not found in configured sources
-puntaje-nacional,Puntaje Nacional,puntajenacional.cl,missing,,logo not found in configured sources
-pontificia-universidad-catolica,Pontificia Universidad Católica,uc.cl,missing,,logo not found in configured sources
-uai,UAI,uai.cl,missing,,logo not found in configured sources
-udp,UDP,udp.cl,missing,,logo not found in configured sources
-usach,USACH,usach.cl,missing,,logo not found in configured sources
-universidad-de-chile,Universidad de Chile,uchile.cl,missing,,logo not found in configured sources
-universidad-de-concepcion,Universidad de Concepción,udec.cl,missing,,logo not found in configured sources
-cine-hoyts,Cine Hoyts,cinehoyts.cl,missing,,logo not found in configured sources
-cinemark,Cinemark,cinemark.cl,missing,,logo not found in configured sources
-cineplanet,Cineplanet,cineplanet.cl,missing,,logo not found in configured sources
-cinestar,Cinestar,cinestar.cl,missing,,logo not found in configured sources
-cinepolis,Cinépolis,cinepolis.cl,missing,,logo not found in configured sources
-muvix,Muvix,muvix.cl,missing,,logo not found in configured sources
-discord,Discord,discord.com,downloaded,simpleicons,
-pinterest,Pinterest,cl.pinterest.com,downloaded,simpleicons,
-quora,Quora,quora.com,downloaded,simpleicons,
-reddit,Reddit,reddit.com,downloaded,simpleicons,
-steam-community,Steam Community,steamcommunity.com,missing,,logo not found in configured sources
-tumblr,Tumblr,tumblr.com,downloaded,simpleicons,
-biobiochile,BioBioChile,biobiochile.cl,missing,,logo not found in configured sources
-cnn-chile,CNN Chile,cnnchile.com,missing,,logo not found in configured sources
-cooperativa,Cooperativa,cooperativa.cl,missing,,logo not found in configured sources
-el-mostrador,El Mostrador,elmostrador.cl,missing,,logo not found in configured sources
-emol,Emol,emol.com,missing,,logo not found in configured sources
-la-tercera,La Tercera,latercera.com,missing,,logo not found in configured sources
-adn-radio,ADN Radio,adnradio.cl,missing,,logo not found in configured sources
-carolina,Carolina,radiocarolina.cl,missing,,logo not found in configured sources
-cooperativa,Cooperativa,cooperativa.cl,missing,,logo not found in configured sources
-pudahuel,Pudahuel,pudahuel.cl,missing,,logo not found in configured sources
-radio-agricultura,Radio Agricultura,radioagricultura.cl,missing,,logo not found in configured sources
-radio-bio-bio,Radio Bío Bío,biobiochile.cl,missing,,logo not found in configured sources
-facebook,Facebook,facebook.com,downloaded,simpleicons,
-instagram,Instagram,instagram.com,downloaded,simpleicons,
-linkedin,LinkedIn,linkedin.com,missing,,logo not found in configured sources
-snapchat,Snapchat,snapchat.com,downloaded,simpleicons,
-tiktok,TikTok,tiktok.com,downloaded,simpleicons,
-x,X,x.com,downloaded,simpleicons,
-amazon-music,Amazon Music,music.amazon.com,missing,,logo not found in configured sources
-apple-music,Apple Music,music.apple.com,missing,,logo not found in configured sources
-deezer,Deezer,deezer.com,downloaded,simpleicons,
-spotify,Spotify,spotify.com,downloaded,simpleicons,
-tidal,TIDAL,tidal.com,downloaded,simpleicons,
-youtube-music,YouTube Music,music.youtube.com,missing,,logo not found in configured sources
-apple-tv,Apple TV+,tv.apple.com,missing,,logo not found in configured sources
-disney,Disney+,disneyplus.com,missing,,logo not found in configured sources
-mubi,MUBI,mubi.com,downloaded,simpleicons,
-max,Max,max.com,downloaded,simpleicons,
-netflix,Netflix,netflix.com,downloaded,simpleicons,
-paramount,Paramount+,paramountplus.com,missing,,logo not found in configured sources
-prime-video,Prime Video,primevideo.com,missing,,logo not found in configured sources
-universal,Universal+,universalplus.com,missing,,logo not found in configured sources
-canal-13,Canal 13,13.cl,missing,,logo not found in configured sources
-chilevision,Chilevisión,chv.cl,missing,,logo not found in configured sources
-la-red,La Red,lared.cl,missing,,logo not found in configured sources
-mega,Mega,mega.cl,downloaded,simpleicons,
+l-oreal-paris,L'Oréal Paris,loreal-paris.cl,downloaded,brandfetch,png
+mac,MAC,maccosmetics.cl,downloaded,brandfetch,png
+maybelline,Maybelline,maybelline.cl,downloaded,brandfetch,png
+nyx,NYX,nyxcosmetics.com,downloaded,brandfetch,png
+natura,Natura,natura.cl,downloaded,brandfetch,png
+petrizzio,Petrizzio,petrizzio.cl,downloaded,brandfetch,png
+axe,Axe,axe.com,downloaded,brandfetch,png
+dove,Dove,dove.com,downloaded,brandfetch,png
+lady-speed-stick,Lady Speed Stick,ladyspeedstick.com,downloaded,brandfetch,png
+nivea,Nivea,nivea.cl,downloaded,brandfetch,png
+old-spice,Old Spice,oldspice.com,downloaded,brandfetch,png
+rexona,Rexona,rexona.com,downloaded,brandfetch,png
+aquafresh,Aquafresh,aquafresh.com,downloaded,brandfetch,png
+closeup,Closeup,closeup.com,downloaded,brandfetch,png
+colgate,Colgate,colgate.cl,downloaded,brandfetch,png
+oral-b,Oral-B,oralb.cl,downloaded,brandfetch,png
+pepsodent,Pepsodent,pepsodent.com,downloaded,brandfetch,png
+sensodyne,Sensodyne,sensodyne.cl,downloaded,brandfetch,png
+calvin-klein,Calvin Klein,calvinklein.cl,downloaded,brandfetch,png
+carolina-herrera,Carolina Herrera,carolinaherrera.com,downloaded,brandfetch,png
+chanel,Chanel,chanel.com,downloaded,brandfetch,png
+dior,Dior,dior.com,downloaded,simpleicons,svg
+hugo-boss,Hugo Boss,hugoboss.com,downloaded,brandfetch,png
+rabanne,Rabanne,rabanne.com,downloaded,brandfetch,png
+eucerin-sun,Eucerin Sun,eucerin.cl,downloaded,brandfetch,png
+hawaiian-tropic,Hawaiian Tropic,hawaiiantropic.com,downloaded,brandfetch,png
+isdin,ISDIN,isdin.com,downloaded,brandfetch,png
+la-roche-posay,La Roche-Posay,laroche-posay.cl,downloaded,brandfetch,png
+raytan,Raytan,raytan.cl,downloaded,brandfetch,png
+vichy,Vichy,vichy.cl,downloaded,brandfetch,png
+elvive,Elvive,loreal-paris.cl,downloaded,brandfetch,png
+head-shoulders,Head & Shoulders,headandshoulders.cl,downloaded,brandfetch,png
+pantene,Pantene,pantenela.com,downloaded,brandfetch,png
+sedal,Sedal,sedal.cl,downloaded,brandfetch,png
+tio-nacho,Tío Nacho,tionacho.com,downloaded,brandfetch,png
+bioderma,Bioderma,bioderma.cl,downloaded,brandfetch,png
+cerave,CeraVe,cerave.cl,downloaded,brandfetch,png
+cetaphil,Cetaphil,cetaphil.cl,downloaded,brandfetch,png
+eucerin,Eucerin,eucerin.cl,downloaded,brandfetch,png
+cafe-haiti,Café Haiti,cafehaiti.cl,downloaded,brandfetch,png
+castano,Castaño,castano.cl,downloaded,brandfetch,png
+dunkin,Dunkin,dunkin.cl,downloaded,brandfetch,png
+juan-valdez,Juan Valdez,juanvaldezcafe.com,downloaded,brandfetch,png
+starbucks,Starbucks,starbucks.cl,downloaded,simpleicons,svg
+tavelli,Tavelli,tavelli.cl,downloaded,brandfetch,png
+didi-food,DiDi Food,didiglobal.com,downloaded,brandfetch,png
+justo,Justo,justo.cl,downloaded,brandfetch,png
+orders,Orders,orders.cl,downloaded,brandfetch,png
+pedidosya,PedidosYa,pedidosya.cl,downloaded,brandfetch,png
+rappi,Rappi,rappi.com,downloaded,brandfetch,png
+uber-eats,Uber Eats,ubereats.com,downloaded,brandfetch,png
+burger-king,Burger King,burgerking.cl,downloaded,brandfetch,png
+doggis,Doggis,doggis.cl,downloaded,brandfetch,png
+juan-maestro,Juan Maestro,juanmaestro.cl,downloaded,brandfetch,png
+kfc,KFC,kfc.cl,downloaded,simpleicons,svg
+mcdonald-s,McDonald's,mcdonalds.cl,downloaded,brandfetch,png
+pedro-juan-diego,"Pedro, Juan & Diego",pyd.cl,downloaded,brandfetch,png
+subway,Subway,subway.com,downloaded,brandfetch,png
+tarragona,Tarragona,tarragona.cl,downloaded,brandfetch,png
+domino-s,Domino's,dominos.cl,downloaded,brandfetch,png
+little-caesars,Little Caesars,littlecaesars.cl,downloaded,brandfetch,png
+melt-pizzas,Melt Pizzas,meltpizzas.com,downloaded,brandfetch,png
+papa-johns,Papa Johns,papajohns.cl,downloaded,brandfetch,png
+pizza-hut,Pizza Hut,pizzahut.cl,downloaded,brandfetch,png
+telepizza,Telepizza,telepizza.cl,downloaded,brandfetch,png
+cobreloa,Cobreloa,cobreloa.cl,downloaded,brandfetch,png
+colo-colo,Colo-Colo,colocolo.cl,downloaded,brandfetch,png
+santiago-wanderers,Santiago Wanderers,santiagowanderers.cl,downloaded,brandfetch,png
+universidad-catolica,Universidad Católica,lacatolica.cl,downloaded,brandfetch,png
+universidad-de-chile,Universidad de Chile,udechile.cl,downloaded,brandfetch,png
+union-espanola,Unión Española,unionespanola.cl,downloaded,brandfetch,png
+aiep,AIEP,aiep.cl,downloaded,brandfetch,png
+duoc-uc,Duoc UC,duoc.cl,downloaded,brandfetch,png
+enac,ENAC,enac.cl,downloaded,brandfetch,png
+inacap,INACAP,inacap.cl,downloaded,brandfetch,png
+ipchile,IPChile,ipchile.cl,downloaded,brandfetch,png
+santo-tomas,Santo Tomás,ust.cl,downloaded,brandfetch,png
+cpech,Cpech,cpech.cl,downloaded,brandfetch,png
+filadd,Filadd,filadd.cl,downloaded,brandfetch,png
+m30m,M30M,preuniversitariom30m.com,downloaded,brandfetch,png
+pedro-de-valdivia,Pedro de Valdivia,pdv.cl,downloaded,brandfetch,png
+preu-uc,Preu UC,preupdv.cl,downloaded,brandfetch,png
+puntaje-nacional,Puntaje Nacional,puntajenacional.cl,downloaded,brandfetch,png
+pontificia-universidad-catolica,Pontificia Universidad Católica,uc.cl,downloaded,brandfetch,png
+uai,UAI,uai.cl,downloaded,brandfetch,png
+udp,UDP,udp.cl,downloaded,brandfetch,png
+usach,USACH,usach.cl,downloaded,brandfetch,png
+universidad-de-concepcion,Universidad de Concepción,udec.cl,downloaded,brandfetch,png
+cine-hoyts,Cine Hoyts,cinehoyts.cl,downloaded,brandfetch,png
+cinemark,Cinemark,cinemark.cl,downloaded,brandfetch,png
+cineplanet,Cineplanet,cineplanet.cl,downloaded,brandfetch,png
+cinestar,Cinestar,cinestar.cl,downloaded,brandfetch,png
+cinepolis,Cinépolis,cinepolis.cl,downloaded,brandfetch,png
+muvix,Muvix,muvix.cl,downloaded,brandfetch,png
+discord,Discord,discord.com,downloaded,simpleicons,svg
+pinterest,Pinterest,cl.pinterest.com,downloaded,simpleicons,svg
+quora,Quora,quora.com,downloaded,simpleicons,svg
+reddit,Reddit,reddit.com,downloaded,simpleicons,svg
+steam-community,Steam Community,steamcommunity.com,downloaded,brandfetch,png
+tumblr,Tumblr,tumblr.com,downloaded,simpleicons,svg
+biobiochile,BioBioChile,biobiochile.cl,downloaded,brandfetch,png
+cnn-chile,CNN Chile,cnnchile.com,downloaded,brandfetch,png
+cooperativa,Cooperativa,cooperativa.cl,downloaded,brandfetch,png
+el-mostrador,El Mostrador,elmostrador.cl,downloaded,brandfetch,png
+emol,Emol,emol.com,downloaded,brandfetch,png
+la-tercera,La Tercera,latercera.com,downloaded,brandfetch,png
+adn-radio,ADN Radio,adnradio.cl,downloaded,brandfetch,png
+carolina,Carolina,radiocarolina.cl,downloaded,brandfetch,png
+pudahuel,Pudahuel,pudahuel.cl,downloaded,brandfetch,png
+radio-agricultura,Radio Agricultura,radioagricultura.cl,downloaded,brandfetch,png
+radio-bio-bio,Radio Bío Bío,biobiochile.cl,downloaded,brandfetch,png
+facebook,Facebook,facebook.com,downloaded,simpleicons,svg
+instagram,Instagram,instagram.com,downloaded,simpleicons,svg
+linkedin,LinkedIn,linkedin.com,downloaded,brandfetch,png
+snapchat,Snapchat,snapchat.com,downloaded,simpleicons,svg
+tiktok,TikTok,tiktok.com,downloaded,simpleicons,svg
+x,X,x.com,downloaded,simpleicons,svg
+amazon-music,Amazon Music,music.amazon.com,downloaded,brandfetch,png
+apple-music,Apple Music,music.apple.com,downloaded,brandfetch,png
+deezer,Deezer,deezer.com,downloaded,simpleicons,svg
+spotify,Spotify,spotify.com,downloaded,simpleicons,svg
+tidal,TIDAL,tidal.com,downloaded,simpleicons,svg
+youtube-music,YouTube Music,music.youtube.com,downloaded,brandfetch,png
+apple-tv,Apple TV+,tv.apple.com,downloaded,brandfetch,png
+disney,Disney+,disneyplus.com,downloaded,brandfetch,png
+mubi,MUBI,mubi.com,downloaded,simpleicons,svg
+max,Max,max.com,downloaded,simpleicons,svg
+netflix,Netflix,netflix.com,downloaded,simpleicons,svg
+paramount,Paramount+,paramountplus.com,downloaded,brandfetch,png
+prime-video,Prime Video,primevideo.com,downloaded,brandfetch,png
+universal,Universal+,universalplus.com,downloaded,brandfetch,png
+canal-13,Canal 13,13.cl,downloaded,brandfetch,png
+chilevision,Chilevisión,chv.cl,downloaded,brandfetch,png
+la-red,La Red,lared.cl,downloaded,brandfetch,png
+mega,Mega,mega.cl,downloaded,simpleicons,svg
 tv,TV+,,missing,,logo not found in configured sources
-tvn,TVN,tvn.cl,missing,,logo not found in configured sources
-bci,BCI,bci.cl,missing,,logo not found in configured sources
-banco-bice,Banco BICE,bice.cl,missing,,logo not found in configured sources
-banco-falabella,Banco Falabella,bancofalabella.cl,missing,,logo not found in configured sources
-banco-de-chile,Banco de Chile,bancochile.cl,missing,,logo not found in configured sources
-bancoestado,BancoEstado,bancoestado.cl,missing,,logo not found in configured sources
-consorcio,Consorcio,consorcio.cl,missing,,logo not found in configured sources
-itau,Itaú,itau.cl,missing,,logo not found in configured sources
-santander,Santander,santander.cl,missing,,logo not found in configured sources
-scotiabank,Scotiabank,scotiabankchile.cl,missing,,logo not found in configured sources
-security,Security,security.cl,missing,,logo not found in configured sources
-chek,Chek,simple.ripley.cl,missing,,logo not found in configured sources
-fintual,Fintual,fintual.cl,missing,,logo not found in configured sources
-global66,Global66,global66.com,missing,,logo not found in configured sources
-mach,MACH,somosmach.com,missing,,logo not found in configured sources
-mercado-pago,Mercado Pago,mercadopago.cl,missing,,logo not found in configured sources
-prex,Prex,prexcard.cl,missing,,logo not found in configured sources
-tapp,Tapp,tapp.cl,missing,,logo not found in configured sources
-tenpo,Tenpo,tenpo.cl,missing,,logo not found in configured sources
-bice-inversiones,BICE Inversiones,biceinversiones.cl,missing,,logo not found in configured sources
-btg-pactual,BTG Pactual,btgpactual.cl,missing,,logo not found in configured sources
-banchile-inversiones,Banchile Inversiones,banchileinversiones.cl,missing,,logo not found in configured sources
-fintual,Fintual,fintual.cl,missing,,logo not found in configured sources
-larrainvial,LarrainVial,larrainvial.com,missing,,logo not found in configured sources
-mbi,MBI,mbi.cl,missing,,logo not found in configured sources
-renta4,Renta4,renta4.cl,missing,,logo not found in configured sources
-santander-corredora,Santander Corredora,santander.cl,missing,,logo not found in configured sources
-american-express,American Express,americanexpress.com,missing,,logo not found in configured sources
-cmr-falabella,CMR Falabella,cmrfalabella.com,missing,,logo not found in configured sources
-getnet,Getnet,getnet.cl,missing,,logo not found in configured sources
-mastercard,Mastercard,mastercard.cl,downloaded,simpleicons,
-mercado-pago,Mercado Pago,mercadopago.cl,missing,,logo not found in configured sources
-redcompra,Redcompra,redcompra.cl,missing,,logo not found in configured sources
-visa,Visa,visa.com,downloaded,simpleicons,
-webpay,Webpay,webpay.cl,missing,,logo not found in configured sources
-dyson,Dyson,dyson.cl,missing,,logo not found in configured sources
-electrolux,Electrolux,electrolux.cl,missing,,logo not found in configured sources
-philips,Philips,philips.cl,missing,,logo not found in configured sources
-thomas,Thomas,thomas.cl,missing,,logo not found in configured sources
-ursus-trotter,Ursus Trotter,ursustrotter.cl,missing,,logo not found in configured sources
-xiaomi,Xiaomi,xiaomi.cl,downloaded,simpleicons,
-cic,CIC,cic.cl,missing,,logo not found in configured sources
-drimkip,Drimkip,drimkip.cl,missing,,logo not found in configured sources
-emma,Emma,emma-colchon.cl,missing,,logo not found in configured sources
-flex,Flex,flex.cl,missing,,logo not found in configured sources
-mantahue,Mantahue,mantahue.cl,missing,,logo not found in configured sources
-rosen,Rosen,rosen.cl,missing,,logo not found in configured sources
-bosch,Bosch,bosch.cl,downloaded,simpleicons,
-fensa,Fensa,fensa.cl,missing,,logo not found in configured sources
-lg,LG,lg.com,downloaded,simpleicons,
-midea,Midea,midea.cl,missing,,logo not found in configured sources
-samsung,Samsung,samsung.com,downloaded,simpleicons,
-whirlpool,Whirlpool,whirlpool.cl,missing,,logo not found in configured sources
-bosch,Bosch,bosch.cl,already_exists,local,
-electrolux,Electrolux,electrolux.cl,missing,,logo not found in configured sources
-lg,LG,lg.com,already_exists,local,
-midea,Midea,midea.com,missing,,logo not found in configured sources
-samsung,Samsung,samsung.com,already_exists,local,
-whirlpool,Whirlpool,whirlpool.cl,missing,,logo not found in configured sources
-acana,Acana,acana.com,missing,,logo not found in configured sources
-bravery,Bravery,bravery.cl,missing,,logo not found in configured sources
-cat-chow,Cat Chow,purina.cl,missing,,logo not found in configured sources
+tvn,TVN,tvn.cl,downloaded,brandfetch,png
+bci,BCI,bci.cl,downloaded,brandfetch,png
+banco-bice,Banco BICE,bice.cl,downloaded,brandfetch,png
+banco-falabella,Banco Falabella,bancofalabella.cl,downloaded,brandfetch,png
+banco-de-chile,Banco de Chile,bancochile.cl,downloaded,brandfetch,png
+bancoestado,BancoEstado,bancoestado.cl,downloaded,brandfetch,png
+consorcio,Consorcio,consorcio.cl,downloaded,brandfetch,png
+itau,Itaú,itau.cl,downloaded,brandfetch,png
+santander,Santander,santander.cl,downloaded,brandfetch,png
+scotiabank,Scotiabank,scotiabankchile.cl,downloaded,brandfetch,png
+security,Security,security.cl,downloaded,brandfetch,png
+chek,Chek,simple.ripley.cl,downloaded,brandfetch,png
+fintual,Fintual,fintual.cl,downloaded,brandfetch,png
+global66,Global66,global66.com,downloaded,brandfetch,png
+mach,MACH,somosmach.com,downloaded,brandfetch,png
+mercado-pago,Mercado Pago,mercadopago.cl,downloaded,brandfetch,png
+prex,Prex,prexcard.cl,downloaded,brandfetch,png
+tapp,Tapp,tapp.cl,downloaded,brandfetch,png
+tenpo,Tenpo,tenpo.cl,downloaded,brandfetch,png
+bice-inversiones,BICE Inversiones,biceinversiones.cl,downloaded,brandfetch,png
+btg-pactual,BTG Pactual,btgpactual.cl,downloaded,brandfetch,png
+banchile-inversiones,Banchile Inversiones,banchileinversiones.cl,downloaded,brandfetch,png
+larrainvial,LarrainVial,larrainvial.com,downloaded,brandfetch,png
+mbi,MBI,mbi.cl,downloaded,brandfetch,png
+renta4,Renta4,renta4.cl,downloaded,brandfetch,png
+santander-corredora,Santander Corredora,santander.cl,downloaded,brandfetch,png
+american-express,American Express,americanexpress.com,downloaded,brandfetch,png
+cmr-falabella,CMR Falabella,cmrfalabella.com,downloaded,brandfetch,png
+getnet,Getnet,getnet.cl,downloaded,brandfetch,png
+mastercard,Mastercard,mastercard.cl,downloaded,simpleicons,svg
+redcompra,Redcompra,redcompra.cl,downloaded,brandfetch,png
+visa,Visa,visa.com,downloaded,simpleicons,svg
+webpay,Webpay,webpay.cl,downloaded,brandfetch,png
+dyson,Dyson,dyson.cl,downloaded,brandfetch,png
+electrolux,Electrolux,electrolux.cl,downloaded,brandfetch,png
+philips,Philips,philips.cl,downloaded,brandfetch,png
+thomas,Thomas,thomas.cl,downloaded,brandfetch,png
+ursus-trotter,Ursus Trotter,ursustrotter.cl,downloaded,brandfetch,png
+xiaomi,Xiaomi,xiaomi.cl,downloaded,simpleicons,svg
+cic,CIC,cic.cl,downloaded,brandfetch,png
+drimkip,Drimkip,drimkip.cl,downloaded,brandfetch,png
+emma,Emma,emma-colchon.cl,downloaded,brandfetch,png
+flex,Flex,flex.cl,downloaded,brandfetch,png
+mantahue,Mantahue,mantahue.cl,downloaded,brandfetch,png
+rosen,Rosen,rosen.cl,downloaded,brandfetch,png
+bosch,Bosch,bosch.cl,downloaded,simpleicons,svg
+fensa,Fensa,fensa.cl,downloaded,brandfetch,png
+lg,LG,lg.com,downloaded,simpleicons,svg
+midea,Midea,midea.cl,downloaded,brandfetch,png
+samsung,Samsung,samsung.com,downloaded,simpleicons,svg
+whirlpool,Whirlpool,whirlpool.cl,downloaded,brandfetch,png
+acana,Acana,acana.com,downloaded,brandfetch,png
+bravery,Bravery,bravery.cl,downloaded,brandfetch,png
+cat-chow,Cat Chow,purina.cl,downloaded,brandfetch,png
 pro-plan,Pro Plan,,missing,,logo not found in configured sources
-royal-canin,Royal Canin,royalcanin.com,missing,,logo not found in configured sources
-whiskas,Whiskas,whiskas.cl,missing,,logo not found in configured sources
-acana,Acana,acana.com,missing,,logo not found in configured sources
-bravery,Bravery,bravery.cl,missing,,logo not found in configured sources
+royal-canin,Royal Canin,royalcanin.com,downloaded,brandfetch,png
+whiskas,Whiskas,whiskas.cl,downloaded,brandfetch,png
 dog-chow,Dog Chow,,missing,,logo not found in configured sources
-pedigree,Pedigree,pedigree.cl,missing,,logo not found in configured sources
-pro-plan,Pro Plan,purina.cl,missing,,logo not found in configured sources
-royal-canin,Royal Canin,royalcanin.com,missing,,logo not found in configured sources
-clinica-veterinaria-alemana,Clínica Veterinaria Alemana,cv-alemana.cl,missing,,logo not found in configured sources
-hospital-clinico-veterinario-u-de-chile,Hospital Clínico Veterinario U. de Chile,hcv.uchile.cl,missing,,logo not found in configured sources
-petsalud,PetSalud,petsalud.cl,missing,,logo not found in configured sources
-vet24,Vet24,vet24.cl,missing,,logo not found in configured sources
-vetpoint,VetPoint,vetpoint.cl,missing,,logo not found in configured sources
-vets,Vets,vets.cl,missing,,logo not found in configured sources
-club-de-perros-y-gatos,Club de Perros y Gatos,clubdeperrosygatos.cl,missing,,logo not found in configured sources
-maspet,Maspet,maspet.cl,missing,,logo not found in configured sources
-pet-bj,Pet BJ,petbj.cl,missing,,logo not found in configured sources
-pet-happy,Pet Happy,pethappy.cl,missing,,logo not found in configured sources
-petslandia,Petslandia,petslandia.cl,missing,,logo not found in configured sources
-superzoo,SuperZoo,superzoo.cl,missing,,logo not found in configured sources
-amphora,Amphora,amphora.cl,missing,,logo not found in configured sources
-pandora,Pandora,pandoraoficial.com,downloaded,simpleicons,
-saxoline,Saxoline,saxoline.cl,missing,,logo not found in configured sources
-secret,Secret,secret.cl,missing,,logo not found in configured sources
-swarovski,Swarovski,swarovski.com,missing,,logo not found in configured sources
-tous,Tous,tous.com,missing,,logo not found in configured sources
-aldo,Aldo,aldoshoes.com,missing,,logo not found in configured sources
-bata,Bata,bata.cl,downloaded,simpleicons,
-guante,Guante,guante.cl,missing,,logo not found in configured sources
-hush-puppies,Hush Puppies,hushpuppies.cl,missing,,logo not found in configured sources
-nike,Nike,nike.com,downloaded,simpleicons,
-skechers,Skechers,skechers.cl,missing,,logo not found in configured sources
-adidas,adidas,adidas.cl,downloaded,simpleicons,
-decathlon,Decathlon,decathlon.cl,missing,,logo not found in configured sources
-new-balance,New Balance,newbalance.cl,missing,,logo not found in configured sources
-nike,Nike,nike.com,already_exists,local,
-puma,Puma,puma.com,downloaded,simpleicons,
-reebok,Reebok,reebok.com,downloaded,simpleicons,
-sparta,Sparta,sparta.cl,missing,,logo not found in configured sources
-under-armour,Under Armour,underarmour.cl,missing,,logo not found in configured sources
-adidas,adidas,adidas.cl,already_exists,local,
-bershka,Bershka,bershka.com,missing,,logo not found in configured sources
-forever-21,Forever 21,forever21.com,missing,,logo not found in configured sources
-h-m,H&M,cl.hm.com,missing,,logo not found in configured sources
-mango,Mango,shop.mango.com,missing,,logo not found in configured sources
-pull-bear,Pull&Bear,pullandbear.com,missing,,logo not found in configured sources
-stradivarius,Stradivarius,stradivarius.com,missing,,logo not found in configured sources
-zara,Zara,zara.com,downloaded,simpleicons,
-columbia,Columbia,columbiachile.cl,missing,,logo not found in configured sources
-doite,Doite,doite.cl,missing,,logo not found in configured sources
-lippi,Lippi,lippioutdoor.com,missing,,logo not found in configured sources
-marmot,Marmot,marmot.cl,missing,,logo not found in configured sources
-patagonia,Patagonia,patagonia.com,missing,,logo not found in configured sources
-the-north-face,The North Face,thenorthface.cl,missing,,logo not found in configured sources
-family-shop,Family Shop,familyshop.cl,missing,,logo not found in configured sources
-h-m,H&M,hm.com,missing,,logo not found in configured sources
-mango,Mango,shop.mango.com,missing,,logo not found in configured sources
-sybilla,Sybilla,falabella.com,missing,,logo not found in configured sources
-tricot,Tricot,tricot.cl,missing,,logo not found in configured sources
-zara,Zara,zara.com,already_exists,local,
-aliexpress,AliExpress,aliexpress.com,downloaded,simpleicons,
-amazon,Amazon,amazon.com,missing,,logo not found in configured sources
-falabella,Falabella,falabella.com,missing,,logo not found in configured sources
-linio,Linio,linio.cl,missing,,logo not found in configured sources
-mercado-libre,Mercado Libre,mercadolibre.cl,missing,,logo not found in configured sources
-paris,Paris,paris.cl,missing,,logo not found in configured sources
-ripley,Ripley,ripley.cl,missing,,logo not found in configured sources
-chilemat,Chilemat,chilemat.cl,missing,,logo not found in configured sources
-construmart,Construmart,construmart.cl,missing,,logo not found in configured sources
-easy,Easy,easy.cl,missing,,logo not found in configured sources
-imperial,Imperial,imperial.cl,missing,,logo not found in configured sources
-mts,MTS,mts.cl,missing,,logo not found in configured sources
-sodimac,Sodimac,sodimac.cl,missing,,logo not found in configured sources
-abc,ABC,abc.cl,missing,,logo not found in configured sources
-falabella,Falabella,falabella.com,missing,,logo not found in configured sources
-hites,Hites,hites.com,missing,,logo not found in configured sources
-la-polar,La Polar,lapolar.cl,missing,,logo not found in configured sources
-paris,Paris,paris.cl,missing,,logo not found in configured sources
-ripley,Ripley,ripley.cl,missing,,logo not found in configured sources
-tricot,Tricot,tricot.cl,missing,,logo not found in configured sources
-alvi,Alvi,alvi.cl,missing,,logo not found in configured sources
-jumbo,Jumbo,jumbo.cl,missing,,logo not found in configured sources
-lider,Líder,lider.cl,missing,,logo not found in configured sources
-santa-isabel,Santa Isabel,santaisabel.cl,missing,,logo not found in configured sources
-tottus,Tottus,tottus.cl,missing,,logo not found in configured sources
-unimarc,Unimarc,unimarc.cl,missing,,logo not found in configured sources
-acuenta,aCuenta,acuenta.cl,missing,,logo not found in configured sources
-falabella,Falabella,falabella.com,missing,,logo not found in configured sources
-maconline,MacOnline,maconline.com,missing,,logo not found in configured sources
-pc-factory,PC Factory,pcfactory.cl,missing,,logo not found in configured sources
-reifstore,Reifstore,reifstore.cl,missing,,logo not found in configured sources
-ripley,Ripley,ripley.cl,missing,,logo not found in configured sources
-sp-digital,SP Digital,spdigital.cl,missing,,logo not found in configured sources
-weplay,WePlay,weplay.cl,missing,,logo not found in configured sources
-bupa,Bupa,bupa.cl,missing,,logo not found in configured sources
-integramedica,IntegraMédica,integramedica.cl,missing,,logo not found in configured sources
-megasalud,Megasalud,megasalud.cl,missing,,logo not found in configured sources
-redsalud-centros-medicos,RedSalud Centros Médicos,redsalud.cl,missing,,logo not found in configured sources
-uc-christus,UC Christus,ucchristus.cl,missing,,logo not found in configured sources
-vidaintegra,Vidaintegra,vidaintegra.cl,missing,,logo not found in configured sources
-clinica-alemana,Clínica Alemana,alemana.cl,missing,,logo not found in configured sources
-clinica-indisa,Clínica Indisa,indisa.cl,missing,,logo not found in configured sources
-clinica-las-condes,Clínica Las Condes,clc.cl,missing,,logo not found in configured sources
-clinica-meds,Clínica MEDS,meds.cl,missing,,logo not found in configured sources
-clinica-santa-maria,Clínica Santa María,clinicasantamaria.cl,missing,,logo not found in configured sources
-redsalud,RedSalud,redsalud.cl,missing,,logo not found in configured sources
-cruz-verde,Cruz Verde,cruzverde.cl,missing,,logo not found in configured sources
-dr-simi,Dr. Simi,drsimi.cl,missing,,logo not found in configured sources
-farmacias-ahumada,Farmacias Ahumada,farmaciasahumada.cl,missing,,logo not found in configured sources
-fraccion,Fracción,farmaciafraccion.cl,missing,,logo not found in configured sources
-knop,Knop,knop.cl,missing,,logo not found in configured sources
-salcobrand,Salcobrand,salcobrand.cl,missing,,logo not found in configured sources
-banmedica,Banmédica,banmedica.cl,missing,,logo not found in configured sources
-colmena,Colmena,colmena.cl,missing,,logo not found in configured sources
-consalud,Consalud,consalud.cl,missing,,logo not found in configured sources
-cruz-blanca,Cruz Blanca,cruzblanca.cl,missing,,logo not found in configured sources
-nueva-masvida,Nueva Masvida,nuevamasvida.cl,missing,,logo not found in configured sources
-vida-tres,Vida Tres,vidatres.cl,missing,,logo not found in configured sources
-bci-seguros,BCI Seguros,bciseguros.cl,missing,,logo not found in configured sources
-consorcio,Consorcio,consorcio.cl,missing,,logo not found in configured sources
-hdi-seguros,HDI Seguros,hdi.cl,missing,,logo not found in configured sources
-mapfre,Mapfre,mapfre.cl,missing,,logo not found in configured sources
-metlife,MetLife,metlife.cl,missing,,logo not found in configured sources
-zurich,Zurich,zurich.cl,missing,,logo not found in configured sources
-apple-airpods,Apple AirPods,apple.com,missing,,logo not found in configured sources
-bose,Bose,bose.com,downloaded,simpleicons,
-jbl,JBL,jbl.cl,downloaded,simpleicons,
-samsung-galaxy-buds,Samsung Galaxy Buds,samsung.cl,missing,,logo not found in configured sources
+pedigree,Pedigree,pedigree.cl,downloaded,brandfetch,png
+clinica-veterinaria-alemana,Clínica Veterinaria Alemana,cv-alemana.cl,downloaded,brandfetch,png
+hospital-clinico-veterinario-u-de-chile,Hospital Clínico Veterinario U. de Chile,hcv.uchile.cl,downloaded,brandfetch,png
+petsalud,PetSalud,petsalud.cl,downloaded,brandfetch,png
+vet24,Vet24,vet24.cl,downloaded,brandfetch,png
+vetpoint,VetPoint,vetpoint.cl,downloaded,brandfetch,png
+vets,Vets,vets.cl,downloaded,brandfetch,png
+club-de-perros-y-gatos,Club de Perros y Gatos,clubdeperrosygatos.cl,downloaded,brandfetch,png
+maspet,Maspet,maspet.cl,downloaded,brandfetch,png
+pet-bj,Pet BJ,petbj.cl,downloaded,brandfetch,png
+pet-happy,Pet Happy,pethappy.cl,downloaded,brandfetch,png
+petslandia,Petslandia,petslandia.cl,downloaded,brandfetch,png
+superzoo,SuperZoo,superzoo.cl,downloaded,brandfetch,png
+amphora,Amphora,amphora.cl,downloaded,brandfetch,png
+pandora,Pandora,pandoraoficial.com,downloaded,simpleicons,svg
+saxoline,Saxoline,saxoline.cl,downloaded,brandfetch,png
+secret,Secret,secret.cl,downloaded,brandfetch,png
+swarovski,Swarovski,swarovski.com,downloaded,brandfetch,png
+tous,Tous,tous.com,downloaded,brandfetch,png
+aldo,Aldo,aldoshoes.com,downloaded,brandfetch,png
+bata,Bata,bata.cl,downloaded,simpleicons,svg
+guante,Guante,guante.cl,downloaded,brandfetch,png
+hush-puppies,Hush Puppies,hushpuppies.cl,downloaded,brandfetch,png
+nike,Nike,nike.com,downloaded,simpleicons,svg
+skechers,Skechers,skechers.cl,downloaded,brandfetch,png
+adidas,adidas,adidas.cl,already_exists,local,svg
+decathlon,Decathlon,decathlon.cl,downloaded,brandfetch,png
+new-balance,New Balance,newbalance.cl,downloaded,brandfetch,png
+puma,Puma,puma.com,downloaded,simpleicons,svg
+reebok,Reebok,reebok.com,downloaded,simpleicons,svg
+sparta,Sparta,sparta.cl,downloaded,brandfetch,png
+under-armour,Under Armour,underarmour.cl,downloaded,brandfetch,png
+bershka,Bershka,bershka.com,downloaded,brandfetch,png
+forever-21,Forever 21,forever21.com,downloaded,brandfetch,png
+h-m,H&M,cl.hm.com,downloaded,brandfetch,png
+mango,Mango,shop.mango.com,downloaded,brandfetch,png
+pull-bear,Pull&Bear,pullandbear.com,downloaded,brandfetch,png
+stradivarius,Stradivarius,stradivarius.com,downloaded,brandfetch,png
+zara,Zara,zara.com,downloaded,simpleicons,svg
+columbia,Columbia,columbiachile.cl,downloaded,brandfetch,png
+doite,Doite,doite.cl,downloaded,brandfetch,png
+lippi,Lippi,lippioutdoor.com,downloaded,brandfetch,png
+marmot,Marmot,marmot.cl,downloaded,brandfetch,png
+patagonia,Patagonia,patagonia.com,downloaded,brandfetch,png
+the-north-face,The North Face,thenorthface.cl,downloaded,brandfetch,png
+family-shop,Family Shop,familyshop.cl,downloaded,brandfetch,png
+sybilla,Sybilla,falabella.com,downloaded,brandfetch,png
+tricot,Tricot,tricot.cl,downloaded,brandfetch,png
+aliexpress,AliExpress,aliexpress.com,downloaded,simpleicons,svg
+amazon,Amazon,amazon.com,downloaded,brandfetch,png
+falabella,Falabella,falabella.com,downloaded,brandfetch,png
+linio,Linio,linio.cl,downloaded,brandfetch,png
+mercado-libre,Mercado Libre,mercadolibre.cl,downloaded,brandfetch,png
+paris,Paris,paris.cl,downloaded,brandfetch,png
+ripley,Ripley,ripley.cl,downloaded,brandfetch,png
+chilemat,Chilemat,chilemat.cl,downloaded,brandfetch,png
+construmart,Construmart,construmart.cl,downloaded,brandfetch,png
+easy,Easy,easy.cl,downloaded,brandfetch,png
+imperial,Imperial,imperial.cl,downloaded,brandfetch,png
+mts,MTS,mts.cl,downloaded,brandfetch,png
+sodimac,Sodimac,sodimac.cl,downloaded,brandfetch,png
+abc,ABC,abc.cl,downloaded,brandfetch,png
+hites,Hites,hites.com,downloaded,brandfetch,png
+la-polar,La Polar,lapolar.cl,downloaded,brandfetch,png
+alvi,Alvi,alvi.cl,downloaded,brandfetch,png
+jumbo,Jumbo,jumbo.cl,downloaded,brandfetch,png
+lider,Líder,lider.cl,downloaded,brandfetch,png
+santa-isabel,Santa Isabel,santaisabel.cl,downloaded,brandfetch,png
+tottus,Tottus,tottus.cl,downloaded,brandfetch,png
+unimarc,Unimarc,unimarc.cl,downloaded,brandfetch,png
+acuenta,aCuenta,acuenta.cl,downloaded,brandfetch,png
+maconline,MacOnline,maconline.com,downloaded,brandfetch,png
+pc-factory,PC Factory,pcfactory.cl,downloaded,brandfetch,png
+reifstore,Reifstore,reifstore.cl,downloaded,brandfetch,png
+sp-digital,SP Digital,spdigital.cl,downloaded,brandfetch,png
+weplay,WePlay,weplay.cl,downloaded,brandfetch,png
+bupa,Bupa,bupa.cl,downloaded,brandfetch,png
+integramedica,IntegraMédica,integramedica.cl,downloaded,brandfetch,png
+megasalud,Megasalud,megasalud.cl,downloaded,brandfetch,png
+redsalud,RedSalud,redsalud.cl,downloaded,brandfetch,png
+uc-christus,UC Christus,ucchristus.cl,downloaded,brandfetch,png
+vidaintegra,Vidaintegra,vidaintegra.cl,downloaded,brandfetch,png
+clinica-alemana,Clínica Alemana,alemana.cl,downloaded,brandfetch,png
+clinica-indisa,Clínica Indisa,indisa.cl,downloaded,brandfetch,png
+clinica-las-condes,Clínica Las Condes,clc.cl,downloaded,brandfetch,png
+clinica-meds,Clínica MEDS,meds.cl,downloaded,brandfetch,png
+clinica-santa-maria,Clínica Santa María,clinicasantamaria.cl,downloaded,brandfetch,png
+cruz-verde,Cruz Verde,cruzverde.cl,downloaded,brandfetch,png
+dr-simi,Dr. Simi,drsimi.cl,downloaded,brandfetch,png
+farmacias-ahumada,Farmacias Ahumada,farmaciasahumada.cl,downloaded,brandfetch,png
+fraccion,Fracción,farmaciafraccion.cl,downloaded,brandfetch,png
+knop,Knop,knop.cl,downloaded,brandfetch,png
+salcobrand,Salcobrand,salcobrand.cl,downloaded,brandfetch,png
+banmedica,Banmédica,banmedica.cl,downloaded,brandfetch,png
+colmena,Colmena,colmena.cl,downloaded,brandfetch,png
+consalud,Consalud,consalud.cl,downloaded,brandfetch,png
+cruz-blanca,Cruz Blanca,cruzblanca.cl,downloaded,brandfetch,png
+nueva-masvida,Nueva Masvida,nuevamasvida.cl,downloaded,brandfetch,png
+vida-tres,Vida Tres,vidatres.cl,downloaded,brandfetch,png
+bci-seguros,BCI Seguros,bciseguros.cl,downloaded,brandfetch,png
+hdi-seguros,HDI Seguros,hdi.cl,downloaded,brandfetch,png
+mapfre,Mapfre,mapfre.cl,downloaded,brandfetch,png
+metlife,MetLife,metlife.cl,downloaded,brandfetch,png
+zurich,Zurich,zurich.cl,downloaded,brandfetch,png
+apple,Apple,apple.com,downloaded,simpleicons,svg
+bose,Bose,bose.com,downloaded,simpleicons,svg
+jbl,JBL,jbl.cl,downloaded,simpleicons,svg
 skullcandy,Skullcandy,,missing,,logo not found in configured sources
-sony,Sony,sony.com,downloaded,simpleicons,
-asus-rog-ally,ASUS ROG Ally,rog.asus.com,missing,,logo not found in configured sources
-lenovo-legion-go,Lenovo Legion Go,lenovo.cl,missing,,logo not found in configured sources
-nintendo-switch,Nintendo Switch,nintendo.cl,missing,,logo not found in configured sources
-playstation,PlayStation,ps.com,downloaded,simpleicons,
-steam-deck,Steam Deck,steamdeck.com,missing,,logo not found in configured sources
-xbox,Xbox,xbox.com,missing,,logo not found in configured sources
-aoc,AOC,aocchile.cl,missing,,logo not found in configured sources
-asus-rog,ASUS ROG,rog.asus.com,missing,,logo not found in configured sources
-acer-predator,Acer Predator,acer.com,missing,,logo not found in configured sources
-lg-ultragear,LG UltraGear,lg.com,missing,,logo not found in configured sources
-msi,MSI,latam.msi.com,downloaded,simpleicons,
-samsung-odyssey,Samsung Odyssey,samsung.cl,missing,,logo not found in configured sources
-asus,ASUS,asus.com,downloaded,simpleicons,
-acer,Acer,acer.com,downloaded,simpleicons,
-apple-macbook,Apple MacBook,apple.com,missing,,logo not found in configured sources
-dell,Dell,dell.com,downloaded,simpleicons,
-hp,HP,hp.com,downloaded,simpleicons,
-lenovo,Lenovo,lenovo.com,downloaded,simpleicons,
-msi,MSI,latam.msi.com,already_exists,local,
-corsair,Corsair,corsair.com,downloaded,simpleicons,
-hyperx,HyperX,hyperx.com,downloaded,simpleicons,
-logitech-g,Logitech G,logitechg.com,missing,,logo not found in configured sources
-razer,Razer,razer.com,downloaded,simpleicons,
-redragon,Redragon,redragon.com,downloaded,simpleicons,
-steelseries,SteelSeries,steelseries.com,downloaded,simpleicons,
-apple-iphone,Apple iPhone,apple.com,missing,,logo not found in configured sources
-honor,Honor,honor.com,downloaded,simpleicons,
-huawei,Huawei,huawei.com,downloaded,simpleicons,
-motorola,Motorola,motorola.com,downloaded,simpleicons,
-oppo,Oppo,oppo.com,downloaded,simpleicons,
-realme,Realme,realme.com,missing,,logo not found in configured sources
-samsung-galaxy,Samsung Galaxy,samsung.cl,missing,,logo not found in configured sources
-xiaomi,Xiaomi,mi.com,already_exists,local,
-amazfit,Amazfit,amazfit.com,missing,,logo not found in configured sources
-apple-watch,Apple Watch,apple.com,missing,,logo not found in configured sources
-garmin,Garmin,garmin.com,downloaded,simpleicons,
-huawei-watch,Huawei Watch,huawei.com,missing,,logo not found in configured sources
-samsung-galaxy-watch,Samsung Galaxy Watch,samsung.cl,missing,,logo not found in configured sources
-xiaomi-watch,Xiaomi Watch,vxiaomi.cl,missing,,logo not found in configured sources
-apple-ipad,Apple iPad,apple.com,missing,,logo not found in configured sources
-honor-pad,Honor Pad,honorstore.cl,missing,,logo not found in configured sources
-huawei-matepad,Huawei MatePad,huawei.com,missing,,logo not found in configured sources
-lenovo-tab,Lenovo Tab,lenovo.cl,missing,,logo not found in configured sources
-samsung-galaxy-tab,Samsung Galaxy Tab,samsung.cl,missing,,logo not found in configured sources
-xiaomi-pad,Xiaomi Pad,xiaomi.cl,missing,,logo not found in configured sources
-hisense,Hisense,hisense.cl,missing,,logo not found in configured sources
-lg,LG,lg.com,already_exists,local,
-philips,Philips,philips.cl,missing,,logo not found in configured sources
-samsung,Samsung,samsung.cl,already_exists,local,
-sony,Sony,sony.com,already_exists,local,
-tcl,TCL,tclstore.cl,missing,,logo not found in configured sources
-claro-hogar,Claro Hogar,claro.cl,missing,,logo not found in configured sources
-entel-fibra,Entel Fibra,entel.cl,missing,,logo not found in configured sources
-gtd,GTD,gtd.cl,missing,,logo not found in configured sources
-movistar-fibra,Movistar Fibra,movistar.cl,missing,,logo not found in configured sources
-mundo,Mundo,mundo.cl,missing,,logo not found in configured sources
-telsur,Telsur,gtd.cl,missing,,logo not found in configured sources
-vtr,VTR,vtr.com,missing,,logo not found in configured sources
-claro-video,Claro video,clarovideo.com,missing,,logo not found in configured sources
-dgo,DGO,directvgo.com,missing,,logo not found in configured sources
-michv,MiCHV,michv.cl,missing,,logo not found in configured sources
-movistar-tv-app,Movistar TV App,movistar.cl,missing,,logo not found in configured sources
-tvn-play,TVN Play,tvnplay.cl,missing,,logo not found in configured sources
-zapping,Zapping,zapping.com,missing,,logo not found in configured sources
-claro-tv,Claro TV,claro.cl,missing,,logo not found in configured sources
-directv,DIRECTV,directtv.cl,missing,,logo not found in configured sources
-movistar-tv,Movistar TV,movistar.cl,missing,,logo not found in configured sources
-tuves,TuVes,tuves.cl,missing,,logo not found in configured sources
-vtr,VTR,vtr.com,missing,,logo not found in configured sources
-zapping,Zapping,zapping.com,missing,,logo not found in configured sources
-claro,Claro,claro.cl,missing,,logo not found in configured sources
-entel,Entel,entel.cl,missing,,logo not found in configured sources
-movistar,Movistar,movistar.cl,downloaded,simpleicons,
-mundo,Mundo,mundo.cl,missing,,logo not found in configured sources
-wom,WOM,wom.cl,missing,,logo not found in configured sources
-air-france,Air France,airfrance.cl,missing,,logo not found in configured sources
-american-airlines,American Airlines,aa.com,missing,,logo not found in configured sources
-avianca,Avianca,avianca.com,downloaded,simpleicons,
-copa-airlines,Copa Airlines,copaair.com,missing,,logo not found in configured sources
-delta-air-lines,Delta Air Lines,delta.com,missing,,logo not found in configured sources
-iberia,Iberia,iberia.com,downloaded,simpleicons,
-jetsmart,JetSMART,jetsmart.com,missing,,logo not found in configured sources
-klm,KLM,klm.cl,downloaded,simpleicons,
-latam,LATAM,latamairlines.com,missing,,logo not found in configured sources
-sky-airline,Sky Airline,skyairlines.com,missing,,logo not found in configured sources
-united-airlines,United Airlines,ua.com,missing,,logo not found in configured sources
-cabify,Cabify,cabify.cl,missing,,logo not found in configured sources
-didi,DiDi,didi.com,missing,,logo not found in configured sources
-transvip,Transvip,transvip.cl,missing,,logo not found in configured sources
-uber,Uber,uber.com,downloaded,simpleicons,
-indrive,inDrive,indrive.com,missing,,logo not found in configured sources
-discord,Discord,discord.com,already_exists,local,
-messenger,Messenger,messenger.com,downloaded,simpleicons,
-signal,Signal,signal.org,downloaded,simpleicons,
-telegram,Telegram,telegram.org,downloaded,simpleicons,
-wechat,WeChat,wechat.com,downloaded,simpleicons,
-whatsapp,WhatsApp,whatsapp.com,downloaded,simpleicons,
+sony,Sony,sony.com,downloaded,simpleicons,svg
+asus,ASUS,rog.asus.com,downloaded,simpleicons,svg
+lenovo,Lenovo,lenovo.cl,downloaded,simpleicons,svg
+nintendo,Nintendo,nintendo.cl,downloaded,brandfetch,png
+playstation,PlayStation,ps.com,downloaded,simpleicons,svg
+steam-deck,Steam Deck,steamdeck.com,downloaded,brandfetch,png
+xbox,Xbox,xbox.com,downloaded,brandfetch,png
+aoc,AOC,aocchile.cl,downloaded,brandfetch,png
+acer,Acer,acer.com,downloaded,simpleicons,svg
+msi,MSI,latam.msi.com,downloaded,simpleicons,svg
+dell,Dell,dell.com,downloaded,simpleicons,svg
+hp,HP,hp.com,downloaded,simpleicons,svg
+corsair,Corsair,corsair.com,downloaded,simpleicons,svg
+hyperx,HyperX,hyperx.com,downloaded,simpleicons,svg
+logitech-g,Logitech G,logitechg.com,downloaded,brandfetch,png
+razer,Razer,razer.com,downloaded,simpleicons,svg
+redragon,Redragon,redragon.com,downloaded,simpleicons,svg
+steelseries,SteelSeries,steelseries.com,downloaded,simpleicons,svg
+honor,Honor,honor.com,downloaded,simpleicons,svg
+huawei,Huawei,huawei.com,downloaded,simpleicons,svg
+motorola,Motorola,motorola.com,downloaded,simpleicons,svg
+oppo,Oppo,oppo.com,downloaded,simpleicons,svg
+realme,Realme,realme.com,downloaded,brandfetch,png
+amazfit,Amazfit,amazfit.com,downloaded,brandfetch,png
+garmin,Garmin,garmin.com,downloaded,simpleicons,svg
+hisense,Hisense,hisense.cl,downloaded,brandfetch,png
+tcl,TCL,tclstore.cl,downloaded,brandfetch,png
+claro,Claro,claro.cl,downloaded,brandfetch,png
+entel,Entel,entel.cl,downloaded,brandfetch,png
+gtd,GTD,gtd.cl,downloaded,brandfetch,png
+movistar,Movistar,movistar.cl,downloaded,simpleicons,svg
+mundo,Mundo,mundo.cl,downloaded,brandfetch,png
+telsur,Telsur,gtd.cl,downloaded,brandfetch,png
+vtr,VTR,vtr.com,downloaded,brandfetch,png
+dgo,DGO,directvgo.com,downloaded,brandfetch,png
+michv,MiCHV,michv.cl,downloaded,brandfetch,png
+tvn-play,TVN Play,tvnplay.cl,downloaded,brandfetch,png
+zapping,Zapping,zapping.com,downloaded,brandfetch,png
+directv,DIRECTV,directtv.cl,downloaded,brandfetch,png
+tuves,TuVes,tuves.cl,downloaded,brandfetch,png
+wom,WOM,wom.cl,downloaded,brandfetch,png
+air-france,Air France,airfrance.cl,downloaded,brandfetch,png
+american-airlines,American Airlines,aa.com,downloaded,brandfetch,png
+avianca,Avianca,avianca.com,downloaded,simpleicons,svg
+copa-airlines,Copa Airlines,copaair.com,downloaded,brandfetch,png
+delta-air-lines,Delta Air Lines,delta.com,downloaded,brandfetch,png
+iberia,Iberia,iberia.com,downloaded,simpleicons,svg
+jetsmart,JetSMART,jetsmart.com,downloaded,brandfetch,png
+klm,KLM,klm.cl,downloaded,simpleicons,svg
+latam,LATAM,latamairlines.com,downloaded,brandfetch,png
+sky-airline,Sky Airline,skyairlines.com,downloaded,brandfetch,png
+united-airlines,United Airlines,ua.com,downloaded,brandfetch,png
+cabify,Cabify,cabify.cl,downloaded,brandfetch,png
+didi,DiDi,didi.com,downloaded,brandfetch,png
+transvip,Transvip,transvip.cl,downloaded,brandfetch,png
+uber,Uber,uber.com,downloaded,simpleicons,svg
+indrive,inDrive,indrive.com,downloaded,brandfetch,png
+messenger,Messenger,messenger.com,downloaded,simpleicons,svg
+signal,Signal,signal.org,downloaded,simpleicons,svg
+telegram,Telegram,telegram.org,downloaded,simpleicons,svg
+wechat,WeChat,wechat.com,downloaded,simpleicons,svg
+whatsapp,WhatsApp,whatsapp.com,downloaded,simpleicons,svg

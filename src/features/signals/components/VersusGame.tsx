@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useVersusGame } from '../hooks/useVersusGame';
 
 import OptionCard from './OptionCard';
-import { Battle, BattleOption, ProgressiveBattle, VoteResult } from '../types';
+import { Battle, BattleOption, TorneoTournament, VoteResult } from '../types';
 import SessionSummary from './SessionSummary';
 import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
 import { GuestConversionModal } from '../../auth/components/GuestConversionModal';
@@ -18,8 +18,8 @@ type GameProps = {
     onVote: (battleId: string, optionId: string, opponentId: string) => Promise<VoteResult>;
     autoNextMs?: number;
     relatedTrendId?: string;
-    mode?: 'classic' | 'survival' | 'progressive';
-    progressiveData?: ProgressiveBattle;
+    mode?: 'classic' | 'survival' | 'torneo';
+    progressiveData?: TorneoTournament;
     onProgressiveComplete?: (result: { winner: BattleOption; defeated: BattleOption[] }) => void;
     enableAutoAdvance?: boolean;
     hideProgress?: boolean;
@@ -182,18 +182,75 @@ export default function VersusGame(props: GameProps) {
                         <div className="text-center">
                             {(() => {
                                 const formatTitle = (str: string) => {
-                                    const minorWords = ['del', 'de', 'la', 'el', 'los', 'las', 'y', 'o', 'en', 'a', 'un', 'una', 'por'];
-                                    return str.split(' ').map((word, index) => {
-                                        if (index > 0 && minorWords.includes(word.toLowerCase())) {
-                                            return word.toLowerCase();
-                                        }
-                                        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-                                    }).join(' ');
+                                    // Preserva minúsculas/mayúsculas originales, solo asegura que la primera letra sea mayúscula (ignorando puntuación inicial)
+                                    const match = str.match(/^([¿¡\s]*)(.*)/);
+                                    if (!match) return str;
+                                    const p1 = match[1];
+                                    const body = match[2];
+                                    if (body.length > 0) {
+                                        return p1 + body.charAt(0).toUpperCase() + body.slice(1);
+                                    }
+                                    return str;
                                 };
                                 const titleStr = formatTitle(effectiveBattle.title.replace(/[-_]/g, ' '));
                                 const words = titleStr.split(' ');
-                                const lastWord = words.pop() || '';
-                                const firstPart = words.join(' ');
+
+                                // Heurística avanzada para encontrar la frase principal a destacar (hasta 3 palabras):
+                                // Buscamos la subsecuencia (ventana) con mayor puntaje (suma de caracteres de palabras clave).
+                                // Penalizamos ventanas que empiecen o terminen con 'stopwords'.
+                                const stopWords = new Set([
+                                    'del', 'de', 'la', 'el', 'los', 'las', 'y', 'o', 'en', 'a', 'un', 'una', 
+                                    'por', 'con', 'para', 'sin', 'sobre', 'entre', 'pero', 'si', 'no', 'mas', 'más', 
+                                    'ya', 'que', 'cual', 'cuál', 'cuales', 'quien', 'quienes', 'como', 'cuando', 
+                                    'donde', 'dónde', 'porque', 'te', 'me', 'se', 'le', 'les', 'nos', 'es', 'son', 
+                                    'al', 'lo', 'tu', 'tus', 'su', 'sus', 'mi', 'mis', 'nuestro', 'nuestra', 
+                                    'nuestros', 'nuestras', 'menos', 'aqui', 'aquí', 'alli', 'allí', 'este', 'esta',
+                                    'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella', 'aquellos', 
+                                    'aquellas', 'todo', 'toda', 'todos', 'todas', 'nada', 'algo', 'mucho', 'mucha',
+                                    'muchos', 'muchas', 'poco', 'poca', 'pocos', 'pocas', 'muy', 'tan', 'hasta',
+                                    'desde', 'hacia', 'ni'
+                                ]);
+
+                                let bestStartIndex = words.length - 1;
+                                let bestLength = 1;
+                                let maxScore = -1;
+
+                                for (let size = 1; size <= Math.min(3, words.length); size++) {
+                                    for (let i = 0; i <= words.length - size; i++) {
+                                        const windowWords = words.slice(i, i + size);
+                                        let score = 0;
+                                        let isValid = true;
+                                        
+                                        windowWords.forEach((word, idx) => {
+                                            const cleanWord = word.replace(/^[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+|[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$/g, '').toLowerCase();
+                                            const isStop = stopWords.has(cleanWord) || cleanWord.length === 0;
+                                            
+                                            // No puede empezar ni terminar con stopword
+                                            if ((idx === 0 || idx === size - 1) && isStop) {
+                                                isValid = false;
+                                            }
+                                            if (!isStop) {
+                                                score += cleanWord.length;
+                                            }
+                                        });
+
+                                        if (isValid && score > maxScore) {
+                                            maxScore = score;
+                                            bestStartIndex = i;
+                                            bestLength = size;
+                                        }
+                                    }
+                                }
+
+                                if (maxScore === -1) {
+                                    bestStartIndex = words.length > 0 ? words.length - 1 : 0;
+                                    bestLength = 1;
+                                }
+
+                                const highlightWord = words.slice(bestStartIndex, bestStartIndex + bestLength).join(' ');
+                                const beforeHighlight = words.slice(0, bestStartIndex).join(' ');
+                                const afterHighlight = words.slice(bestStartIndex + bestLength).join(' ');
+
                                 return (
                                     <>
                                         <div className="flex items-center justify-between w-full mb-6">
@@ -213,7 +270,9 @@ export default function VersusGame(props: GameProps) {
                                         </div>
 
                                         <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 leading-[1.05] drop-shadow-sm">
-                                            {firstPart} <span className="text-gradient-brand drop-shadow-none">{lastWord}</span>
+                                            {beforeHighlight && <>{beforeHighlight} </>}
+                                            <span className="text-gradient-brand drop-shadow-none">{highlightWord}</span>
+                                            {afterHighlight && <> {afterHighlight}</>}
                                         </h1>
                                     </>
                                 );

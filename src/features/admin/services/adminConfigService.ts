@@ -2,7 +2,7 @@ import { supabase } from '../../../supabase/client';
 
 export const adminConfigService = {
     getAnalyticsMode: async (): Promise<'all' | 'clean'> => {
-        const { data, error } = await supabase.rpc('admin_get_analytics_mode' as any);
+        const { data, error } = await (supabase.rpc as unknown as (fn: string) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_get_analytics_mode');
 
         if (error) {
             throw error;
@@ -16,7 +16,7 @@ export const adminConfigService = {
     },
 
     setAnalyticsMode: async (mode: 'all' | 'clean'): Promise<{ ok: boolean; mode?: 'all' | 'clean'; error?: string }> => {
-        const { data, error } = await supabase.rpc('admin_set_analytics_mode' as any, { p_mode: mode });
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_set_analytics_mode', { p_mode: mode });
 
         if (error) {
             throw error;

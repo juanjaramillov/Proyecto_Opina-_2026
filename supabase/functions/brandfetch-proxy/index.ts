@@ -55,9 +55,9 @@ serve(async (req) => {
     }
 
     // Find the best quality SVG or PNG (preferably icon/symbol)
-    const bestLogo = logos.find((l: any) => l.type === 'icon' || l.type === 'symbol') || logos[0];
-    const format = bestLogo.formats.find((f: any) => f.format === 'svg') 
-        || bestLogo.formats.find((f: any) => f.format === 'png') 
+    const bestLogo = logos.find((l: { type: string; formats: { format: string; src: string }[] }) => l.type === 'icon' || l.type === 'symbol') || logos[0];
+    const format = bestLogo.formats.find((f: { format: string; src: string }) => f.format === 'svg') 
+        || bestLogo.formats.find((f: { format: string; src: string }) => f.format === 'png') 
         || bestLogo.formats[0];
 
     if (!format || !format.src) {

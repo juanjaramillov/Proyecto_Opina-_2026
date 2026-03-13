@@ -20,10 +20,10 @@ export default function ModuleEntry() {
         switch (activeModule.key) {
             case "versus":
                 return <Navigate to="/experience" state={{ nextBatch: 0 }} replace />;
-            case "progressive":
-                // Podrías pasarle state={{ mode: 'progressive' }} si Experience lo soporta
+            case "torneo":
+                // Podrías pasarle state={{ mode: 'torneo' }} si Experience lo soporta
                 return <Navigate to="/experience" replace />;
-            case "insights":
+            case "profundidad":
                 return <Navigate to="/experience" replace />;
             default:
                 return <Navigate to="/experience" replace />;

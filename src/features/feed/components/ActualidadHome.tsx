@@ -133,22 +133,22 @@ export function ActualidadHome({ topics, loading, onSelectTopic }: ActualidadHom
                                 Participaste
                             </div>
                         )}
-                        <div className="p-1.5 md:p-2 bg-white">
-                            <div className="bg-ink rounded-xl md:rounded-[1.5rem] p-6 md:p-10 lg:p-12 flex flex-col relative overflow-hidden h-[450px] md:h-[500px]">
-                                {/* Decoración Premium Opina+ (Corporate Blue/Ink) */}
-                                <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-blue-900/40 via-ink to-ink pointer-events-none z-0"></div>
-                                <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-600 rounded-full blur-[120px] opacity-20 pointer-events-none z-0"></div>
-                                <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-emerald-500 rounded-full blur-[120px] opacity-10 pointer-events-none z-0"></div>
+                        <div className="p-1.5 md:p-2 bg-white/50 backdrop-blur-sm">
+                            <div className="bg-gradient-to-br from-blue-50/90 via-white/95 to-slate-50/90 rounded-xl md:rounded-[1.5rem] p-6 md:p-10 lg:p-12 flex flex-col relative overflow-hidden h-[450px] md:h-[500px] shadow-[inset_0_0_20px_rgba(255,255,255,0.8)] border border-white/60">
+                                {/* Decoración Premium Opina+ (Corporate Colors con transparencias) */}
+                                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/60 via-transparent to-transparent pointer-events-none z-0"></div>
+                                <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-400 rounded-full blur-[100px] opacity-20 pointer-events-none z-0"></div>
+                                <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-emerald-400 rounded-full blur-[100px] opacity-15 pointer-events-none z-0"></div>
                                 
                                 <div className="relative z-10 flex flex-col h-full justify-between">
                                     <div className="flex-1 flex flex-col justify-center">
                                         <div className="flex items-center justify-between mb-6">
                                             <div className="flex items-center gap-3">
-                                                <span className="badge bg-blue-500/20 text-blue-200 border-blue-500/30 backdrop-blur-md hover:bg-blue-500/30 transition-colors uppercase font-bold tracking-widest text-[10px] px-3 py-1">
-                                                    <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-1 shadow-[0_0_8px_#60A5FA]"></span>
+                                                <span className="badge bg-blue-50 text-blue-700 border-blue-100 backdrop-blur-md hover:bg-blue-100 transition-colors uppercase font-bold tracking-widest text-[10px] px-3 py-1">
+                                                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1 shadow-[0_0_8px_#3B82F6]"></span>
                                                     Noticia Más Opinada
                                                 </span>
-                                                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                                                     {currentHeroTopic.category}
                                                 </span>
                                             </div>
@@ -160,7 +160,7 @@ export function ActualidadHome({ topics, loading, onSelectTopic }: ActualidadHom
                                                         <button 
                                                             key={idx} 
                                                             onClick={(e) => { e.stopPropagation(); setHeroIndex(idx); }}
-                                                            className={`w-2 h-2 rounded-full transition-all ${idx === heroIndex ? 'bg-blue-400 w-6' : 'bg-slate-500/50 hover:bg-slate-400'}`}
+                                                            className={`w-2 h-2 rounded-full transition-all ${idx === heroIndex ? 'bg-blue-500 w-6' : 'bg-slate-300 hover:bg-slate-400'}`}
                                                             aria-label={`Slide ${idx + 1}`}
                                                         />
                                                     ))}
@@ -174,54 +174,54 @@ export function ActualidadHome({ topics, loading, onSelectTopic }: ActualidadHom
                                                 {/* AI Impact Quote (If available) or Title */}
                                                 {currentHeroTopic.impact_quote ? (
                                                     <div className="mb-4">
-                                                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-[1.15] tracking-tight mb-2 group-hover:text-blue-100 transition-colors flex">
-                                                        <span className="text-emerald-400 mr-2 opacity-60 font-serif">"</span>
-                                                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-blue-100">{currentHeroTopic.impact_quote}</span>
-                                                        <span className="text-emerald-400 ml-2 opacity-60 font-serif self-end">"</span>
+                                                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-ink leading-[1.15] tracking-tight mb-2 group-hover:text-blue-900 transition-colors flex">
+                                                        <span className="text-blue-500 mr-2 opacity-70 font-serif">"</span>
+                                                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-ink to-blue-900">{currentHeroTopic.impact_quote}</span>
+                                                        <span className="text-blue-500 ml-2 opacity-70 font-serif self-end">"</span>
                                                         </h2>
-                                                        <p className="text-emerald-400/90 font-medium text-lg mt-4 flex items-center gap-2">
-                                                            Debate principal: <span className="text-white font-bold">{currentHeroTopic.title}</span>
+                                                        <p className="text-blue-600 font-medium text-lg mt-4 flex items-center gap-2">
+                                                            Debate principal: <span className="text-ink font-bold">{currentHeroTopic.title}</span>
                                                         </p>
                                                     </div>
                                                 ) : (
-                                                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-[1.1] tracking-tight mb-6 group-hover:text-blue-200 transition-colors">
+                                                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-ink leading-[1.1] tracking-tight mb-6 group-hover:text-blue-800 transition-colors">
                                                         {currentHeroTopic.title}
                                                     </h2>
                                                 )}
                                                 
-                                                <p className="text-slate-300 font-medium text-base line-clamp-2 md:line-clamp-3 max-w-2xl leading-relaxed mt-2 hidden md:block">
+                                                <p className="text-slate-600 font-medium text-base line-clamp-2 md:line-clamp-3 max-w-2xl leading-relaxed mt-2 hidden md:block">
                                                     {currentHeroTopic.short_summary}
                                                 </p>
                                             </div>
 
                                             {/* Columna Derecha: KPI (Si hay participantes, si no, placeholder invitando a votar) */}
                                             <div className="w-full md:w-64 lg:w-72 flex flex-col justify-center shrink-0">
-                                                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.12)] relative overflow-hidden group-hover:bg-white/15 transition-colors">
-                                                    <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-500 rounded-full blur-2xl opacity-20"></div>
+                                                <div className="bg-white/60 backdrop-blur-xl rounded-2xl p-5 border border-white shadow-[0_8px_32px_rgba(0,0,0,0.06)] relative overflow-hidden group-hover:bg-white/80 transition-colors">
+                                                    <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-400 rounded-full blur-2xl opacity-10"></div>
                                                     
                                                     {heroKpi ? (
                                                         <>
-                                                            <div className="flex items-center gap-2 text-blue-200 text-xs font-bold uppercase tracking-wider mb-3">
+                                                            <div className="flex items-center gap-2 text-blue-700 text-xs font-bold uppercase tracking-wider mb-3">
                                                                 <PieChart className="w-4 h-4" />
                                                                 Conclusión Opina+
                                                             </div>
-                                                            <div className="text-5xl font-black text-white mb-1 tracking-tighter">
+                                                            <div className="text-5xl font-black text-ink mb-1 tracking-tighter">
                                                                 {heroKpi.percentage}%
                                                             </div>
-                                                            <div className="text-sm font-medium text-slate-300 leading-snug">
-                                                                de los participantes <strong className="text-white">{heroKpi.conclusion}</strong>.
+                                                            <div className="text-sm font-medium text-slate-600 leading-snug">
+                                                                de los participantes <strong className="text-ink">{heroKpi.conclusion}</strong>.
                                                             </div>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <div className="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
+                                                            <div className="flex items-center gap-2 text-blue-600 text-xs font-bold uppercase tracking-wider mb-3">
                                                                 <Activity className="w-4 h-4" />
                                                                 Debate Nuevo
                                                             </div>
-                                                            <div className="text-2xl font-black text-white mb-2 leading-tight">
+                                                            <div className="text-2xl font-black text-ink mb-2 leading-tight">
                                                                 Aún sin conclusiones
                                                             </div>
-                                                            <div className="text-sm font-medium text-slate-300 leading-snug">
+                                                            <div className="text-sm font-medium text-slate-600 leading-snug">
                                                                 Sé de los primeros en dejar tu señal para generar estadísticas.
                                                             </div>
                                                         </>
@@ -231,28 +231,28 @@ export function ActualidadHome({ topics, loading, onSelectTopic }: ActualidadHom
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-slate-700/50 mt-auto">
-                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-300 bg-emerald-500/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-emerald-500/30">
-                                            <Users className="w-4 h-4 text-emerald-400" />
+                                    <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-slate-200 mt-auto">
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-100 px-4 py-2 rounded-xl">
+                                            <Users className="w-4 h-4 text-blue-500" />
                                             {currentHeroTopic.stats?.total_participants || 0} Interacciones
                                         </div>
-                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-300 bg-slate-800/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-slate-600/30">
-                                            <Clock className="w-4 h-4 text-slate-400" />
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+                                            <Clock className="w-4 h-4 text-slate-500" />
                                             {getRelativeTime(currentHeroTopic.published_at)}
                                         </div>
                                         
                                         <div className="ml-auto w-full md:w-auto mt-4 md:mt-0 flex gap-3">
                                             <a 
-                                                href={currentHeroTopic.metadata?.source_url || `https://news.google.com/search?q=${encodeURIComponent(currentHeroTopic.title)}&hl=es-419&gl=CL&ceid=CL%3Aes-419`} 
+                                                href={(currentHeroTopic.metadata?.source_url as string) || `https://news.google.com/search?q=${encodeURIComponent(currentHeroTopic.title)}&hl=es-419&gl=CL&ceid=CL%3Aes-419`} 
                                                 target="_blank" 
                                                 rel="noopener noreferrer"
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="flex items-center justify-center gap-2 bg-white/10 text-white font-bold text-sm md:text-base px-6 py-3 md:py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-all active:scale-95 w-full md:w-auto"
+                                                className="flex items-center justify-center gap-2 bg-white text-slate-700 font-bold text-sm md:text-base px-6 py-3 md:py-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all active:scale-95 w-full md:w-auto shadow-sm"
                                             >
                                                 <ExternalLink className="w-4 h-4" /> Leer noticia
                                             </a>
-                                            <div className="flex items-center justify-center gap-3 bg-white text-ink font-black text-sm md:text-base px-6 py-3 md:py-3.5 rounded-xl shadow-[0_4px_14px_0_rgba(255,255,255,0.2)] group-hover:bg-blue-50 group-hover:-translate-y-0.5 group-hover:shadow-[0_6px_20px_rgba(255,255,255,0.25)] transition-all active:scale-95 w-full md:w-auto">
-                                                Explorar Datos <ChevronRight className="w-5 h-5 text-blue-600" />
+                                            <div className="flex items-center justify-center gap-3 bg-gradient-brand text-white font-black text-sm md:text-base px-6 py-3 md:py-3.5 rounded-xl shadow-[0_4px_14px_0_rgba(59,130,246,0.4)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(59,130,246,0.5)] transition-all active:scale-95 w-full md:w-auto">
+                                                Explorar Datos <ChevronRight className="w-5 h-5 text-white" />
                                             </div>
                                         </div>
                                     </div>
@@ -369,7 +369,7 @@ export function ActualidadHome({ topics, loading, onSelectTopic }: ActualidadHom
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <a 
-                                            href={topic.metadata?.source_url || `https://news.google.com/search?q=${encodeURIComponent(topic.title)}&hl=es-419&gl=CL&ceid=CL%3Aes-419`}
+                                            href={(topic.metadata?.source_url as string) || `https://news.google.com/search?q=${encodeURIComponent(topic.title)}&hl=es-419&gl=CL&ceid=CL%3Aes-419`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={(e) => e.stopPropagation()}

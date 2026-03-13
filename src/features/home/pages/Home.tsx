@@ -71,7 +71,7 @@ export default function Home() {
           <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 relative z-10 w-full overflow-hidden">
             {/* Gradient Mask & Center CTA */}
             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent z-30 pointer-events-none flex flex-col items-center justify-end pb-8 sm:pb-12">
-              <Link to="/explore" className="pointer-events-auto bg-ink text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 border border-slate-700 group-hover:-translate-y-2 group-hover:bg-slate-800 transition-all duration-500">
+              <Link to="/results" className="pointer-events-auto bg-ink text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 border border-slate-700 group-hover:-translate-y-2 group-hover:bg-slate-800 transition-all duration-500">
                 <span className="material-symbols-outlined text-emerald-400 text-lg">public</span>
                 <span className="hidden sm:inline font-bold text-sm tracking-wide">Desbloquear el Dashboard</span>
                 <span className="sm:hidden font-bold text-sm tracking-wide">Desbloquear</span>
@@ -322,7 +322,7 @@ export default function Home() {
               <p className="body-base">El termómetro social del país en este preciso instante.</p>
             </div>
 
-            <Link to="/explore" className="btn-ghost flex items-center gap-2 text-primary-600 font-bold hover:text-emerald-500 transition-colors">
+            <Link to="/results" className="btn-ghost flex items-center gap-2 text-primary-600 font-bold hover:text-emerald-500 transition-colors">
               Ver todas las tendencias <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
           </div>
@@ -371,7 +371,7 @@ export default function Home() {
                 </li>
               </ul>
 
-              <Link to="/enterprise" className="btn-secondary px-8 py-3.5 inline-flex font-bold">
+              <Link to="/b2b" className="btn-secondary px-8 py-3.5 inline-flex font-bold">
                 Conocer la plataforma B2B
               </Link>
             </div>

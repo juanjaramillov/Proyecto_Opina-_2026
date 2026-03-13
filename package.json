@@ -11,13 +11,15 @@
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "create:admin": "tsx scripts/create_admin_user.ts",
-    "fetch:logos": "node scripts/catalog/fetch-entity-logos.mjs"
+    "fetch:logos": "node scripts/catalog/fetch-entity-logos.mjs",
+    "gen-types": "supabase gen types typescript --project-id <TU_ID> > src/supabase/database.types.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.91.0",
     "@vercel/analytics": "^1.6.1",
     "chart.js": "^4.4.1",
     "cheerio": "^1.2.0",
+    "csv-parse": "^6.1.0",
     "csv-parser": "^3.2.0",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.563.0",

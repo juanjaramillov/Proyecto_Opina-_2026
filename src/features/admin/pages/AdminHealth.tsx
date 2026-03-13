@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { adminHealthService, HealthCheckResult } from '../services/adminHealthService';
 import { adminConfigService } from '../services/adminConfigService';
 import { supabase } from '../../../supabase/client';
+import { logger } from '../../../lib/logger';
 
 type TestItem = {
     id: string;
@@ -45,7 +46,7 @@ export default function AdminHealth() {
                 })
             );
         } catch (error) {
-            console.error(error);
+            logger.error('Error running health checks', { domain: 'admin_actions', origin: 'AdminHealth', action: 'run_checks', state: 'failed' }, error);
         } finally {
             setRunning(false);
         }
@@ -81,7 +82,7 @@ export default function AdminHealth() {
                 await supabase.rpc('refresh_public_rank_snapshots_3h' as any);
                 // Podrías agregar un toast success aquí
             } catch (refreshErr) {
-                console.warn("Snapshots no pudieron refrescarse inmediatamente", refreshErr);
+                logger.warn("Snapshots no pudieron refrescarse inmediatamente", { domain: 'admin_actions', origin: 'AdminHealth', action: 'refresh_snapshots', state: 'failed', error_details: refreshErr });
                 // Fallo silencioso, el cron lo hará luego
             }
 

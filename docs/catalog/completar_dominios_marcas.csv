@@ -1,0 +1,519 @@
+Marca,Slug,Categoria,Subcategoria,Dominio Web (LLENAR AQUI),Tiene Logo?
+"ABC",abc,Retail,Multitiendas,www.abc.cl,SI
+"Acana",acana,Mascotas,Alimento para perros,,SI
+"Acana",acana-alimento-para-gatos,Mascotas,Alimento para gatos,,SI
+"Acer",acer,Tecnología,Notebooks,,SI
+"Acer Predator",acer-predator,Gaming,Monitores gamer,,SI
+"aCuenta",acuenta,Retail,Supermercados,acuenta.cl,SI
+"adidas",adidas-deportivo,Moda,Deportivo,,NO
+"adidas",adidas,Moda,Calzado,,SI
+"ADN Radio",adn-radio,Medios,Radios,,SI
+"AIEP",aiep,Educación,Institutos,,SI
+"Air France",air-france,Transporte,Aerolíneas,,SI
+"Aldo",aldo,Moda,Calzado,,NO
+"AliExpress",aliexpress,Retail,Marketplaces,www.aliexpress.com,SI
+"Alvi",alvi,Retail,Supermercados,alvi.cl,SI
+"Amazfit",amazfit,Tecnología,Smartwatches,,SI
+"Amazon",amazon,Retail,Marketplaces,amazon.com,NO
+"Amazon Music",amazon-music,Entretenimiento,Música,,SI
+"American Airlines",american-airlines,Transporte,Aerolíneas,,NO
+"American Express",american-express,Finanzas,Medios de pago,americanexpress.com,SI
+"Amphora",amphora,Moda,Accesorios,,SI
+"AOC",aoc,Gaming,Monitores gamer,,SI
+"Apple AirPods",apple-airpods,Tecnología,Audífonos,,SI
+"Apple iPad",apple-ipad,Tecnología,Tablets,,SI
+"Apple iPhone",apple-iphone,Tecnología,Smartphones,,SI
+"Apple MacBook",apple-macbook,Tecnología,Notebooks,,SI
+"Apple Music",apple-music,Entretenimiento,Música,,SI
+"Apple TV+",apple-tv,Entretenimiento,Video,,SI
+"Apple Watch",apple-watch,Tecnología,Smartwatches,,SI
+"Aquafresh",aquafresh,Cuidado Personal,Pastas dentales,,SI
+"Aquarius",aquarius,Bebidas,Aguas,,SI
+"ASUS",asus,Tecnología,Notebooks,,SI
+"ASUS ROG",asus-rog,Gaming,Monitores gamer,,NO
+"ASUS ROG Ally",asus-rog-ally,Gaming,Consolas,,SI
+"Avianca",avianca,Transporte,Aerolíneas,,SI
+"Awto",awto,Transporte,Apps,,NO
+"Axe",axe,Cuidado Personal,Desodorantes,,SI
+"Babysec",babysec,Bebés,Pañales,,SI
+"Babysec",babysec-toallitas-humedas,Bebés,Toallitas húmedas,,SI
+"Banchile Inversiones",banchile-inversiones,Finanzas,Inversiones / brokers,banchileinversiones.cl,NO
+"Banco BICE",banco-bice,Finanzas,Bancos,bice.cl,NO
+"Banco de Chile",banco-de-chile,Finanzas,Bancos,bancochile.cl,NO
+"Banco Falabella",banco-falabella,Finanzas,Bancos,bancofalabella.cl,SI
+"BancoEstado",bancoestado,Finanzas,Bancos,bancoestado.cl,SI
+"Banmédica",banmedica,Salud,Isapres,banmedica.cl,SI
+"Bata",bata,Moda,Calzado,,SI
+"BBTips",bbtips,Bebés,Pañales,,NO
+"BBTips",bbtips-toallitas-humedas,Bebés,Toallitas húmedas,,NO
+"BCI",bci,Finanzas,Bancos,bci.cl,SI
+"BCI Seguros",bci-seguros,Salud,Seguros de salud,bciseguros.cl,SI
+"Bebesit",bebesit,Bebés,Toallitas húmedas,,SI
+"Bebesit",bebesit-cochecitos,Bebés,Coches,,NO
+"Becker",becker,Bebidas,Cervezas,,NO
+"Benedictino",benedictino,Bebidas,Aguas,,NO
+"Bershka",bershka,Moda,Fast fashion,,NO
+"BICE Inversiones",bice-inversiones,Finanzas,Inversiones / brokers,biceinversiones.cl,NO
+"BioBioChile",biobiochile,Medios,Prensa digital,,NO
+"Bioderma",bioderma,Belleza,Skincare,,NO
+"BMW",bmw,Transporte,Marcas,,SI
+"Bosch",bosch-lavadoras,Hogar,Lavadoras,,NO
+"Bosch",bosch,Hogar,Refrigeradores,,SI
+"Bose",bose,Tecnología,Audífonos,,SI
+"Bravery",bravery-alimento-para-gatos,Mascotas,Alimento para gatos,,NO
+"Bravery",bravery,Mascotas,Alimento para perros,,NO
+"Bruno Fritsch",bruno-fritsch,Transporte,Automotoras,,NO
+"BTG Pactual",btg-pactual,Finanzas,Inversiones / brokers,btgpactual.cl,NO
+"Bupa",bupa,Salud,Centros médicos,bupa.cl,NO
+"Burger King",burger-king,Comida,Fast food,,NO
+"Burn",burn,Bebidas,Energéticas,,NO
+"BYD",byd,Transporte,Marcas chinas de autos,,NO
+"Cabify",cabify,Transporte,Apps,,NO
+"Cachantun",cachantun,Bebidas,Aguas,,NO
+"Café Haiti",cafe-haiti,Comida,Cafeterías,,NO
+"Calvin Klein",calvin-klein,Belleza,Perfumes,,NO
+"Canada Dry",canada-dry,Bebidas,Gaseosas,,NO
+"Canal 13",canal-13,Medios,TV abierta,,NO
+"Carolina",carolina,Medios,Radios,,NO
+"Carolina Herrera",carolina-herrera,Belleza,Perfumes,,NO
+"Castaño",castano,Comida,Cafeterías,,NO
+"Cat Chow",cat-chow,Mascotas,Alimento para gatos,,NO
+"Celsius",celsius,Bebidas,Energéticas,,NO
+"CeraVe",cerave,Belleza,Skincare,,NO
+"Cetaphil",cetaphil,Belleza,Skincare,,NO
+"Chanel",chanel,Belleza,Perfumes,,NO
+"Chek",chek,Finanzas,Fintech,chek.cl,NO
+"Chery",chery,Transporte,Marcas chinas de autos,,NO
+"Chevrolet",chevrolet,Transporte,Marcas,,SI
+"Chicco",chicco,Bebés,Coches,,NO
+"Chilemat",chilemat,Retail,Hogar,chilemat.cl,NO
+"Chilevisión",chilevision,Medios,TV abierta,,NO
+"CIC",cic,Hogar,Colchones,,NO
+"Cine Hoyts",cine-hoyts,Entretenimiento,Cines,,NO
+"Cinemark",cinemark,Entretenimiento,Cines,,NO
+"Cineplanet",cineplanet,Entretenimiento,Cines,,NO
+"Cinépolis",cinepolis,Entretenimiento,Cines,,NO
+"Cinestar",cinestar,Entretenimiento,Cines,,NO
+"Claro",claro,Telecom,Telefonía móvil,clarochile.cl,NO
+"Claro Hogar",claro-hogar,Telecom,Internet hogar,clarochile.cl,NO
+"Claro TV",claro-tv,Telecom,TV paga,clarochile.cl,NO
+"Claro video",claro-video,Telecom,TV online,clarovideo.com,NO
+"Clínica Alemana",clinica-alemana,Salud,Clínicas,clinicaalemana.cl,NO
+"Clínica Indisa",clinica-indisa,Salud,Clínicas,indisa.cl,NO
+"Clínica Las Condes",clinica-las-condes,Salud,Clínicas,clinicalascondes.cl,NO
+"Clínica MEDS",clinica-meds,Salud,Clínicas,meds.cl,NO
+"Clínica Santa María",clinica-santa-maria,Salud,Clínicas,clinicasantamaria.cl,NO
+"Clínica Veterinaria Alemana",clinica-veterinaria-alemana,Mascotas,Clínicas veterinarias,,NO
+"Closeup",closeup,Cuidado Personal,Pastas dentales,,NO
+"Club de Perros y Gatos",club-de-perros-y-gatos,Mascotas,Tiendas de mascotas,,NO
+"CMR Falabella",cmr-falabella,Finanzas,Medios de pago,bancofalabella.cl,NO
+"CNN Chile",cnn-chile,Medios,Prensa digital,,NO
+"Cobreloa",cobreloa,Deportes,Fútbol,,NO
+"Coca-Cola",coca-cola,Bebidas,Gaseosas,,NO
+"Colgate",colgate,Cuidado Personal,Pastas dentales,,NO
+"Colmena",colmena,Salud,Isapres,colmena.cl,NO
+"Colo-Colo",colo-colo,Deportes,Fútbol,,NO
+"Columbia",columbia,Moda,Outdoor,,NO
+"Concha y Toro",concha-y-toro,Vino,Viñas,,NO
+"Consalud",consalud,Salud,Isapres,consalud.cl,NO
+"Consorcio",consorcio-bancos,Finanzas,Bancos,consorcio.cl,NO
+"Consorcio",consorcio,Salud,Seguros de salud,consorcio.cl,NO
+"Construmart",construmart,Retail,Hogar,construmart.cl,NO
+"Cooperativa",cooperativa-prensa-digital,Medios,Prensa digital,,NO
+"Cooperativa",cooperativa,Medios,Radios,,NO
+"Copa Airlines",copa-airlines,Transporte,Aerolíneas,,NO
+"Corona",corona,Moda,Ropa básica,,NO
+"Corona",corona-cervezas,Bebidas,Cervezas,,NO
+"Corsair",corsair,Gaming,Periféricos gamer,,SI
+"Cpech",cpech,Educación,Preuniversitarios,,NO
+"Cristal",cristal,Bebidas,Cervezas,,NO
+"Cruz Blanca",cruz-blanca,Salud,Isapres,cruzblanca.cl,NO
+"Cruz Verde",cruz-verde,Salud,Farmacias,cruzverde.cl,NO
+"Decathlon",decathlon,Moda,Deportivo,,NO
+"Deezer",deezer,Entretenimiento,Música,,SI
+"Dell",dell,Tecnología,Notebooks,,SI
+"Delta Air Lines",delta-air-lines,Transporte,Aerolíneas,,NO
+"DercoCenter",dercocenter,Transporte,Automotoras,,NO
+"Descorcha",descorcha,Vino,Tiendas,,NO
+"DGO",dgo,Telecom,TV online,directvgo.com,NO
+"DiDi",didi,Transporte,Apps,,NO
+"DiDi Food",didi-food,Comida,Delivery de comida,,NO
+"Dior",dior,Belleza,Perfumes,,SI
+"DIRECTV",directv,Telecom,TV paga,directv.cl,NO
+"Discord",discord,Social,Mensajería,,SI
+"Discord",discord-comunidades-foros,Social,Comunidades,,NO
+"Disney+",disney,Entretenimiento,Video,,NO
+"Dog Chow",dog-chow,Mascotas,Alimento para perros,,NO
+"Doggis",doggis,Comida,Fast food,,NO
+"Doite",doite,Moda,Outdoor,,NO
+"Domino's",dominos,Comida,Pizza,,NO
+"Dove",dove,Cuidado Personal,Shampoo,,NO
+"Dove",dove-desodorantes,Cuidado Personal,Desodorantes,,NO
+"Dr. Simi",dr-simi,Salud,Farmacias,doctorsimi.cl,NO
+"Drimkip",drimkip,Hogar,Colchones,,NO
+"Dunkin",dunkin,Comida,Cafeterías,,NO
+"Duoc UC",duoc-uc,Educación,Institutos,,NO
+"Dyson",dyson,Hogar,Aspiradoras,,NO
+"Easy",easy,Retail,Hogar,easy.cl,NO
+"El Mostrador",el-mostrador,Medios,Prensa digital,,NO
+"El Mundo del Vino",el-mundo-del-vino,Vino,Tiendas,,NO
+"Electrolux",electrolux,Hogar,Refrigeradores,,NO
+"Electrolux",electrolux-aspiradoras,Hogar,Aspiradoras,,NO
+"Elvive",elvive,Cuidado Personal,Shampoo,,NO
+"Emma",emma,Hogar,Colchones,,NO
+"Emol",emol,Medios,Prensa digital,,NO
+"ENAC",enac,Educación,Institutos,,NO
+"Enfamil",enfamil,Bebés,Alimentación Infantil,,NO
+"Entel",entel,Telecom,Telefonía móvil,entel.cl,NO
+"Entel Fibra",entel-fibra,Telecom,Internet hogar,entel.cl,NO
+"Escudo",escudo,Bebidas,Cervezas,,NO
+"Eucerin",eucerin,Belleza,Skincare,,NO
+"Eucerin Sun",eucerin-sun,Cuidado Personal,Protección solar,,NO
+"Evian",evian,Bebidas,Aguas,,NO
+"Facebook",facebook,Social,Redes sociales,,SI
+"Falabella",falabella,Retail,Marketplaces,falabella.com,NO
+"Falabella",falabella-multitiendas,Retail,Multitiendas,falabella.com,NO
+"Falabella",falabella-tiendas-de-tecnologia,Retail,Tecnología,falabella.com,NO
+"Family Shop",family-shop,Moda,Ropa básica,,NO
+"Fanta",fanta,Bebidas,Gaseosas,,NO
+"Farmacias Ahumada",farmacias-ahumada,Salud,Farmacias,farmaciasahumada.cl,NO
+"Fensa",fensa,Hogar,Lavadoras,,NO
+"Filadd",filadd,Educación,Preuniversitarios,,NO
+"Fintual",fintual-inversiones-brokers,Finanzas,Inversiones / brokers,fintual.cl,NO
+"Fintual",fintual,Finanzas,Fintech,fintual.cl,NO
+"Flex",flex,Hogar,Colchones,,NO
+"Forever 21",forever-21,Moda,Fast fashion,,NO
+"Fracción",fraccion,Salud,Farmacias,fraccion.cl,NO
+"Garmin",garmin,Tecnología,Smartwatches,,SI
+"Geely",geely,Transporte,Marcas chinas de autos,,NO
+"Getnet",getnet,Finanzas,Medios de pago,getnet.cl,NO
+"Gildemeister",gildemeister,Transporte,Automotoras,,NO
+"Global66",global66,Finanzas,Fintech,global66.com,NO
+"Graco",graco,Bebés,Coches,,NO
+"Great Wall",great-wall,Transporte,Marcas chinas de autos,,NO
+"GTD",gtd,Telecom,Internet hogar,gtd.cl,NO
+"Guante",guante,Moda,Calzado,,NO
+"H&M",hm,Moda,Ropa básica,,NO
+"H&M",hm-fast-fashion,Moda,Fast fashion,,NO
+"Haval",haval,Transporte,Marcas chinas de autos,,NO
+"Hawaiian Tropic",hawaiian-tropic,Cuidado Personal,Protección solar,,NO
+"HDI Seguros",hdi-seguros,Salud,Seguros de salud,hdi.cl,NO
+"Head & Shoulders",head-shoulders,Cuidado Personal,Shampoo,,NO
+"Heineken",heineken,Bebidas,Cervezas,,NO
+"Hisense",hisense,Tecnología,Televisores,,NO
+"Hites",hites,Retail,Multitiendas,hites.cl,NO
+"Honor",honor,Tecnología,Smartphones,,SI
+"Honor Pad",honor-pad,Tecnología,Tablets,,NO
+"Hospital Clínico Veterinario U. de Chile",hospital-clinico-veterinario-u-de-chile,Mascotas,Clínicas veterinarias,,NO
+"HP",hp,Tecnología,Notebooks,,SI
+"Huawei",huawei,Tecnología,Smartphones,,SI
+"Huawei MatePad",huawei-matepad,Tecnología,Tablets,,NO
+"Huawei Watch",huawei-watch,Tecnología,Smartwatches,,NO
+"Huggies",huggies,Bebés,Pañales,,NO
+"Huggies",huggies-toallitas-humedas,Bebés,Toallitas húmedas,,NO
+"Huggies Natural Care",huggies-natural-care,Bebés,Pañales,,NO
+"Hugo Boss",hugo-boss,Belleza,Perfumes,,NO
+"Hush Puppies",hush-puppies,Moda,Calzado,,NO
+"HyperX",hyperx,Gaming,Periféricos gamer,,SI
+"Hyundai",hyundai,Transporte,Marcas,,SI
+"Iberia",iberia,Transporte,Aerolíneas,,SI
+"Imperial",imperial,Retail,Hogar,imperial.cl,NO
+"INACAP",inacap,Educación,Institutos,,NO
+"inDrive",indrive,Transporte,Apps,,NO
+"Infanti",infanti,Bebés,Coches,,NO
+"Instagram",instagram,Social,Redes sociales,,SI
+"IntegraMédica",integramedica,Salud,Centros médicos,integramedica.cl,NO
+"IPChile",ipchile,Educación,Institutos,,NO
+"ISDIN",isdin,Cuidado Personal,Protección solar,,NO
+"Itaú",itau,Finanzas,Bancos,itau.cl,NO
+"JAC",jac,Transporte,Marcas chinas de autos,,NO
+"JBL",jbl,Tecnología,Audífonos,,SI
+"Jetour",jetour,Transporte,Marcas chinas de autos,,NO
+"JetSMART",jetsmart,Transporte,Aerolíneas,,NO
+"Joie",joie,Bebés,Coches,,NO
+"Juan Maestro",juan-maestro,Comida,Fast food,,NO
+"Juan Valdez",juan-valdez,Comida,Cafeterías,,NO
+"Jumbo",jumbo,Retail,Supermercados,jumbo.cl,NO
+"Justo",justo,Comida,Delivery de comida,,NO
+"Kaufmann",kaufmann,Transporte,Automotoras,,NO
+"KFC",kfc,Comida,Fast food,,SI
+"Kia",kia,Transporte,Marcas,,SI
+"KLM",klm,Transporte,Aerolíneas,,SI
+"Knop",knop,Salud,Farmacias,knop.cl,NO
+"Kunstmann",kunstmann,Bebidas,Cervezas,,NO
+"L'Oréal Paris",loreal-paris,Belleza,Cosméticos,,NO
+"La Cav",la-cav,Vino,Tiendas,,NO
+"La Polar",la-polar,Retail,Multitiendas,lapolar.cl,NO
+"La Red",la-red,Medios,TV abierta,,NO
+"La Roche-Posay",la-roche-posay,Belleza,Skincare,,NO
+"La Roche-Posay Anthelios",la-roche-posay-anthelios,Cuidado Personal,Protección solar,,NO
+"La Tercera",la-tercera,Medios,Prensa digital,,NO
+"La Vinoteca",la-vinoteca,Vino,Tiendas,,NO
+"Lady Speed Stick",lady-speed-stick,Cuidado Personal,Desodorantes,,NO
+"LarrainVial",larrainvial,Finanzas,Inversiones / brokers,larrainvial.com,NO
+"LATAM",latam,Transporte,Aerolíneas,,NO
+"Lenovo",lenovo,Tecnología,Notebooks,,SI
+"Lenovo Legion Go",lenovo-legion-go,Gaming,Consolas,,NO
+"Lenovo Tab",lenovo-tab,Tecnología,Tablets,,NO
+"LG",lg-lavadoras,Hogar,Lavadoras,,NO
+"LG",lg-televisores,Tecnología,Televisores,,NO
+"LG",lg,Hogar,Refrigeradores,,SI
+"LG UltraGear",lg-ultragear,Gaming,Monitores gamer,,NO
+"Líder",lider,Retail,Supermercados,lider.cl,NO
+"Linio",linio,Retail,Marketplaces,linio.cl,NO
+"LinkedIn",linkedin,Social,Redes sociales,,NO
+"Lippi",lippi,Moda,Outdoor,,NO
+"Little Caesars",little-caesars,Comida,Pizza,,NO
+"Logitech G",logitech-g,Gaming,Periféricos gamer,,NO
+"M30M",m30m,Educación,Preuniversitarios,,NO
+"MAC",mac,Belleza,Cosméticos,,NO
+"MACH",mach,Finanzas,Fintech,somosmach.com,NO
+"MacOnline",maconline,Retail,Tecnología,maconline.cl,NO
+"Mango",mango-fast-fashion,Moda,Fast fashion,,NO
+"Mango",mango,Moda,Ropa básica,,NO
+"Mantahue",mantahue,Hogar,Colchones,,NO
+"Mapfre",mapfre,Salud,Seguros de salud,mapfre.cl,NO
+"Marmot",marmot,Moda,Outdoor,,NO
+"Maspet",maspet,Mascotas,Tiendas de mascotas,,NO
+"Mastercard",mastercard,Finanzas,Medios de pago,mastercard.cl,SI
+"Max",max,Entretenimiento,Video,,SI
+"Maxi-Cosi",maxi-cosi,Bebés,Coches,,NO
+"Maybelline",maybelline,Belleza,Cosméticos,,NO
+"Mazda",mazda,Transporte,Marcas,,SI
+"MBI",mbi,Finanzas,Inversiones / brokers,mbi.cl,NO
+"McDonald's",mcdonalds,Comida,Fast food,,NO
+"Mega",mega,Medios,TV abierta,,SI
+"Megasalud",megasalud,Salud,Centros médicos,megasalud.cl,NO
+"Melt Pizzas",melt-pizzas,Comida,Pizza,,NO
+"Mercado Libre",mercado-libre,Retail,Marketplaces,mercadolibre.cl,NO
+"Mercado Pago",mercado-pago,Finanzas,Fintech,mercadopago.cl,NO
+"Mercado Pago",mercado-pago-tarjetas-medios-de-pago,Finanzas,Medios de pago,mercadopago.cl,NO
+"Mercedes-Benz",mercedes-benz,Transporte,Marcas,,NO
+"Messenger",messenger,Social,Mensajería,,SI
+"MetLife",metlife,Salud,Seguros de salud,metlife.cl,NO
+"MG",mg,Transporte,Marcas chinas de autos,,SI
+"MiCHV",michv,Telecom,TV online,michv.cl,NO
+"Midea",midea-lavadoras,Hogar,Lavadoras,,NO
+"Midea",midea,Hogar,Refrigeradores,,NO
+"Miguel Torres",miguel-torres,Vino,Viñas,,NO
+"Monster",monster,Bebidas,Energéticas,,SI
+"Montes",montes,Vino,Viñas,,NO
+"Motorola",motorola,Tecnología,Smartphones,,SI
+"Movistar",movistar,Telecom,Telefonía móvil,movistar.cl,SI
+"Movistar Fibra",movistar-fibra,Telecom,Internet hogar,movistar.cl,NO
+"Movistar TV",movistar-tv,Telecom,TV paga,movistar.cl,NO
+"Movistar TV App",movistar-tv-app,Telecom,TV online,movistar.cl,NO
+"MSI",msi-monitores-gamer,Gaming,Monitores gamer,,NO
+"MSI",msi,Tecnología,Notebooks,,SI
+"MTS",mts,Retail,Hogar,,NO
+"MUBI",mubi,Entretenimiento,Video,,SI
+"Mundo",mundo-internet-hogar,Telecom,Internet hogar,tumundo.cl,NO
+"Mundo",mundo,Telecom,Telefonía móvil,tumundo.cl,NO
+"Muvix",muvix,Entretenimiento,Cines,,NO
+"NAN",nan,Bebés,Alimentación Infantil,,NO
+"Natura",natura,Belleza,Cosméticos,,NO
+"Netflix",netflix,Entretenimiento,Video,,SI
+"New Balance",new-balance,Moda,Deportivo,,NO
+"Nidal",nidal,Bebés,Alimentación Infantil,,NO
+"Nike",nike,Moda,Calzado,,SI
+"Nike",nike-deportivo,Moda,Deportivo,,NO
+"Nintendo Switch",nintendo-switch,Gaming,Consolas,,NO
+"Nissan",nissan,Transporte,Marcas,,SI
+"Nivea",nivea,Cuidado Personal,Desodorantes,,NO
+"Nueva Masvida",nueva-masvida,Salud,Isapres,nuevamasvida.cl,NO
+"NYX",nyx,Belleza,Cosméticos,,NO
+"Old Spice",old-spice,Cuidado Personal,Desodorantes,,NO
+"Oppo",oppo,Tecnología,Smartphones,,SI
+"Oral-B",oral-b,Cuidado Personal,Pastas dentales,,NO
+"Orders",orders,Comida,Delivery de comida,,NO
+"Pampers",pampers,Bebés,Pañales,,NO
+"Pampers",pampers-toallitas-humedas,Bebés,Toallitas húmedas,,NO
+"Pampers Premium Care",pampers-premium-care,Bebés,Pañales,,NO
+"Pandora",pandora,Moda,Accesorios,,SI
+"Pantene",pantene,Cuidado Personal,Shampoo,,NO
+"Papa Johns",papa-johns,Comida,Pizza,,NO
+"Paramount+",paramount,Entretenimiento,Video,,NO
+"Paris",paris-multitiendas,Retail,Multitiendas,paris.cl,NO
+"Paris",paris,Retail,Marketplaces,paris.cl,NO
+"Patagonia",patagonia,Moda,Outdoor,,NO
+"PC Factory",pc-factory,Retail,Tecnología,pcfactory.cl,NO
+"Pediasure",pediasure,Bebés,Alimentación Infantil,,NO
+"PedidosYa",pedidosya,Comida,Delivery de comida,,NO
+"Pedigree",pedigree,Mascotas,Alimento para perros,,NO
+"Pedro de Valdivia",pedro-de-valdivia,Educación,Preuniversitarios,,NO
+"Pedro, Juan & Diego",pedro-juan-diego,Comida,Fast food,,NO
+"Pepsi",pepsi,Bebidas,Gaseosas,,NO
+"Pepsodent",pepsodent,Cuidado Personal,Pastas dentales,,NO
+"Perrier",perrier,Bebidas,Aguas,,NO
+"Pet BJ",pet-bj,Mascotas,Tiendas de mascotas,,NO
+"Pet Happy",pet-happy,Mascotas,Tiendas de mascotas,,NO
+"Petrizzio",petrizzio,Belleza,Cosméticos,,NO
+"PetSalud",petsalud,Mascotas,Clínicas veterinarias,,NO
+"Petslandia",petslandia,Mascotas,Tiendas de mascotas,,NO
+"Peugeot",peugeot,Transporte,Marcas,,SI
+"Philips",philips,Hogar,Aspiradoras,,NO
+"Philips",philips-televisores,Tecnología,Televisores,,NO
+"Pinterest",pinterest,Social,Comunidades,,SI
+"Pizza Hut",pizza-hut,Comida,Pizza,,NO
+"PlayStation",playstation,Gaming,Consolas,,SI
+"Pontificia Universidad Católica",pontificia-universidad-catolica,Educación,Universidades,,NO
+"Portillo",portillo,Transporte,Automotoras,,NO
+"Preu UC",preu-uc,Educación,Preuniversitarios,,NO
+"Prex",prex,Finanzas,Fintech,prexcard.cl,NO
+"Prime Energy",prime-energy,Bebidas,Energéticas,,NO
+"Prime Video",prime-video,Entretenimiento,Video,,NO
+"Pro Plan",pro-plan,Mascotas,Alimento para perros,,NO
+"Pro Plan",pro-plan-alimento-para-gatos,Mascotas,Alimento para gatos,,NO
+"Pudahuel",pudahuel,Medios,Radios,,NO
+"Pull&Bear",pullbear,Moda,Fast fashion,,NO
+"Puma",puma,Moda,Deportivo,,SI
+"Puntaje Nacional",puntaje-nacional,Educación,Preuniversitarios,,NO
+"Quora",quora,Social,Comunidades,,SI
+"Rabanne",rabanne,Belleza,Perfumes,,NO
+"Radio Agricultura",radio-agricultura,Medios,Radios,,NO
+"Radio Bío Bío",radio-bio-bio,Medios,Radios,,NO
+"Rappi",rappi,Comida,Delivery de comida,,NO
+"Raytan",raytan,Cuidado Personal,Protección solar,,NO
+"Razer",razer,Gaming,Periféricos gamer,,SI
+"Realme",realme,Tecnología,Smartphones,,NO
+"Red Bull",red-bull,Bebidas,Energéticas,,NO
+"Redcompra",redcompra,Finanzas,Medios de pago,transbank.cl,NO
+"Reddit",reddit,Social,Comunidades,,SI
+"Redragon",redragon,Gaming,Periféricos gamer,,SI
+"RedSalud",redsalud,Salud,Clínicas,redsalud.cl,NO
+"RedSalud Centros Médicos",redsalud-centros-medicos,Salud,Centros médicos,redsalud.cl,NO
+"Reebok",reebok,Moda,Deportivo,,SI
+"Reifstore",reifstore,Retail,Tecnología,reifstore.cl,NO
+"Renta4",renta4,Finanzas,Inversiones / brokers,renta4.cl,NO
+"Rexona",rexona,Cuidado Personal,Desodorantes,,NO
+"Ripley",ripley,Retail,Marketplaces,ripley.cl,NO
+"Ripley",ripley-multitiendas,Retail,Multitiendas,ripley.cl,NO
+"Ripley",ripley-tiendas-de-tecnologia,Retail,Tecnología,ripley.cl,NO
+"Rockstar",rockstar,Bebidas,Energéticas,,NO
+"Rosen",rosen,Hogar,Colchones,,NO
+"Royal Canin",royal-canin,Mascotas,Alimento para perros,,NO
+"Royal Canin",royal-canin-alimento-para-gatos,Mascotas,Alimento para gatos,,NO
+"S-26",s-26,Bebés,Alimentación Infantil,,NO
+"Salazar Israel",salazar-israel,Transporte,Automotoras,,NO
+"Salcobrand",salcobrand,Salud,Farmacias,salcobrand.cl,NO
+"Samsung",samsung,Hogar,Refrigeradores,,SI
+"Samsung",samsung-lavadoras,Hogar,Lavadoras,,NO
+"Samsung",samsung-televisores,Tecnología,Televisores,,NO
+"Samsung Galaxy",samsung-galaxy,Tecnología,Smartphones,,NO
+"Samsung Galaxy Buds",samsung-galaxy-buds,Tecnología,Audífonos,,NO
+"Samsung Galaxy Tab",samsung-galaxy-tab,Tecnología,Tablets,,NO
+"Samsung Galaxy Watch",samsung-galaxy-watch,Tecnología,Smartwatches,,NO
+"Samsung Odyssey",samsung-odyssey,Gaming,Monitores gamer,,NO
+"San Pedro",san-pedro,Vino,Viñas,,NO
+"Santa Isabel",santa-isabel,Retail,Supermercados,santaisabel.cl,NO
+"Santa Rita",santa-rita,Vino,Viñas,,NO
+"Santander",santander,Finanzas,Bancos,santander.cl,NO
+"Santander Corredora",santander-corredora,Finanzas,Inversiones / brokers,santander.cl,NO
+"Santiago Wanderers",santiago-wanderers,Deportes,Fútbol,,NO
+"Santo Tomás",santo-tomas,Educación,Institutos,,NO
+"Saxoline",saxoline,Moda,Accesorios,,NO
+"Schweppes",schweppes,Bebidas,Gaseosas,,NO
+"Scotiabank",scotiabank,Finanzas,Bancos,scotiabank.cl,NO
+"Secret",secret,Moda,Accesorios,,NO
+"Security",security,Finanzas,Bancos,bancosecurity.cl,NO
+"Sedal",sedal,Cuidado Personal,Shampoo,,NO
+"Sensodyne",sensodyne,Cuidado Personal,Pastas dentales,,NO
+"Signal",signal,Social,Mensajería,,SI
+"Similac",similac,Bebés,Alimentación Infantil,,NO
+"Skechers",skechers,Moda,Calzado,,NO
+"Skullcandy",skullcandy,Tecnología,Audífonos,,NO
+"Sky Airline",sky-airline,Transporte,Aerolíneas,,NO
+"Snapchat",snapchat,Social,Redes sociales,,SI
+"Sodimac",sodimac,Retail,Hogar,sodimac.cl,NO
+"Sony",sony,Tecnología,Audífonos,,SI
+"Sony",sony-televisores,Tecnología,Televisores,,NO
+"SP Digital",sp-digital,Retail,Tecnología,,NO
+"Sparta",sparta,Moda,Deportivo,,NO
+"Spotify",spotify,Entretenimiento,Música,,SI
+"Sprite",sprite,Bebidas,Gaseosas,,NO
+"Starbucks",starbucks,Comida,Cafeterías,,SI
+"Steam Community",steam-community,Social,Comunidades,,NO
+"Steam Deck",steam-deck,Gaming,Consolas,,NO
+"SteelSeries",steelseries,Gaming,Periféricos gamer,,SI
+"Stradivarius",stradivarius,Moda,Fast fashion,,NO
+"Subway",subway,Comida,Fast food,,NO
+"SuperZoo",superzoo,Mascotas,Tiendas de mascotas,,NO
+"Suzuki",suzuki,Transporte,Marcas,,SI
+"Swarovski",swarovski,Moda,Accesorios,,NO
+"Sybilla",sybilla,Moda,Ropa básica,,NO
+"Tapp",tapp,Finanzas,Fintech,tapp.cl,NO
+"Tarragona",tarragona,Comida,Fast food,,NO
+"Tavelli",tavelli,Comida,Cafeterías,,NO
+"TCL",tcl,Tecnología,Televisores,,NO
+"Telegram",telegram,Social,Mensajería,,SI
+"Telepizza",telepizza,Comida,Pizza,,NO
+"Telsur",telsur,Telecom,Internet hogar,telsur.cl,NO
+"Tenpo",tenpo,Finanzas,Fintech,tenpo.cl,NO
+"The North Face",the-north-face,Moda,Outdoor,,NO
+"Thomas",thomas,Hogar,Aspiradoras,,NO
+"TIDAL",tidal,Entretenimiento,Música,,SI
+"Tienda Concha y Toro",tienda-concha-y-toro,Vino,Tiendas,,NO
+"Tienda Santa Rita",tienda-santa-rita,Vino,Tiendas,,NO
+"TikTok",tiktok,Social,Redes sociales,,SI
+"Tío Nacho",tio-nacho,Cuidado Personal,Shampoo,,NO
+"Tottus",tottus,Retail,Supermercados,tottus.cl,NO
+"Tous",tous,Moda,Accesorios,,NO
+"Toyota",toyota,Transporte,Marcas,,SI
+"Transvip",transvip,Transporte,Apps,,NO
+"Tricot",tricot-ropa-basica,Moda,Ropa básica,tricot.cl,NO
+"Tricot",tricot,Retail,Multitiendas,tricot.cl,NO
+"Tumblr",tumblr,Social,Comunidades,,SI
+"TuVes",tuves,Telecom,TV paga,tuves.cl,NO
+"TV+",tv,Medios,TV abierta,,NO
+"TVN",tvn,Medios,TV abierta,,NO
+"TVN Play",tvn-play,Telecom,TV online,tvnplay.com,NO
+"UAI",uai,Educación,Universidades,,NO
+"Uber",uber,Transporte,Apps,,SI
+"Uber Eats",uber-eats,Comida,Delivery de comida,,NO
+"UC Christus",uc-christus,Salud,Centros médicos,ucchristus.cl,NO
+"UDP",udp,Educación,Universidades,,NO
+"Under Armour",under-armour,Moda,Deportivo,,NO
+"Undurraga",undurraga,Vino,Viñas,,NO
+"Unimarc",unimarc,Retail,Supermercados,unimarc.cl,NO
+"Unión Española",union-espanola,Deportes,Fútbol,,NO
+"United Airlines",united-airlines,Transporte,Aerolíneas,,NO
+"Universal+",universal,Entretenimiento,Video,,NO
+"Universidad Católica",universidad-catolica,Deportes,Fútbol,,NO
+"Universidad de Chile",universidad-de-chile-futbol-chileno,Deportes,Fútbol,,NO
+"Universidad de Chile",universidad-de-chile,Educación,Universidades,,NO
+"Universidad de Concepción",universidad-de-concepcion,Educación,Universidades,,NO
+"Ursus Trotter",ursus-trotter,Hogar,Aspiradoras,,NO
+"USACH",usach,Educación,Universidades,,NO
+"Vet24",vet24,Mascotas,Clínicas veterinarias,,NO
+"VetPoint",vetpoint,Mascotas,Clínicas veterinarias,,NO
+"Vets",vets,Mascotas,Clínicas veterinarias,,NO
+"Vichy",vichy,Belleza,Skincare,,NO
+"Vichy Capital Soleil",vichy-capital-soleil,Cuidado Personal,Protección solar,,NO
+"Vida Tres",vida-tres,Salud,Isapres,vidatres.cl,NO
+"Vidaintegra",vidaintegra,Salud,Centros médicos,vidaintegra.cl,NO
+"Virgin Mobile",virgin-mobile,Telecom,Telefonía móvil,virginmobile.cl,NO
+"Visa",visa,Finanzas,Medios de pago,visa.cl,SI
+"Vital",vital,Bebidas,Aguas,,NO
+"VTR",vtr-tv-paga,Telecom,TV paga,vtr.com,NO
+"VTR",vtr,Telecom,Internet hogar,vtr.com,NO
+"WaterWipes",waterwipes,Bebés,Toallitas húmedas,,NO
+"Webpay",webpay,Finanzas,Medios de pago,transbank.cl,NO
+"WeChat",wechat,Social,Mensajería,,SI
+"WePlay",weplay,Retail,Tecnología,,NO
+"WhatsApp",whatsapp,Social,Mensajería,,SI
+"Whirlpool",whirlpool,Hogar,Refrigeradores,,NO
+"Whirlpool",whirlpool-lavadoras,Hogar,Lavadoras,,NO
+"Whiskas",whiskas,Mascotas,Alimento para gatos,,NO
+"WOM",wom,Telecom,Telefonía móvil,wom.cl,NO
+"X",x,Social,Redes sociales,,SI
+"Xbox",xbox,Gaming,Consolas,,NO
+"Xiaomi",xiaomi,Hogar,Aspiradoras,,SI
+"Xiaomi",xiaomi-smartphones,Tecnología,Smartphones,,NO
+"Xiaomi Pad",xiaomi-pad,Tecnología,Tablets,,NO
+"Xiaomi Watch",xiaomi-watch,Tecnología,Smartwatches,,NO
+"YouTube Music",youtube-music,Entretenimiento,Música,,NO
+"Zapping",zapping,Telecom,TV paga,zapping.com,NO
+"Zapping",zapping-tv-online,Telecom,TV online,zapping.com,NO
+"Zara",zara,Moda,Ropa básica,,SI
+"Zara",zara-fast-fashion,Moda,Fast fashion,,NO
+"Zurich",zurich,Salud,Seguros de salud,zurich.cl,NO

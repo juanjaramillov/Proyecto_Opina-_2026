@@ -3,10 +3,9 @@ import React from 'react';
 interface DepthHUDProps {
     currentStep: number;
     totalSteps: number;
-    onExit: () => void;
 }
 
-const DepthHUD: React.FC<DepthHUDProps> = ({ currentStep, totalSteps, onExit }) => {
+const DepthHUD: React.FC<DepthHUDProps> = ({ currentStep, totalSteps }) => {
     // Math to ensure smooth bar
     const progressPercent = Math.min(100, Math.max(0, (currentStep / totalSteps) * 100));
 
@@ -21,14 +20,6 @@ const DepthHUD: React.FC<DepthHUDProps> = ({ currentStep, totalSteps, onExit }) 
                         <span className="text-sm font-bold text-slate-400">{totalSteps}</span>
                     </span>
                 </div>
-
-                <button
-                    onClick={onExit}
-                    className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors p-2 -mr-2 rounded-xl flex items-center gap-1 hover:bg-slate-50"
-                >
-                    <span className="material-symbols-outlined text-sm">close</span>
-                    <span className="hidden sm:inline">Salir</span>
-                </button>
             </div>
 
             <div className="w-full h-1.5 sm:h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner relative z-10">

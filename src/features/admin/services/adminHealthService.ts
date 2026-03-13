@@ -12,38 +12,38 @@ export const adminHealthService = {
             if (error) throw error;
             if (!data.session) return { ok: false, detail: 'No activa' };
             return { ok: true, detail: `UID: ${data.session.user.id}` };
-        } catch (err: any) {
-            return { ok: false, detail: err.message };
+        } catch (err: unknown) {
+            return { ok: false, detail: (err as Error).message || 'Unknown error' };
         }
     },
 
     async checkListInvites(): Promise<HealthCheckResult> {
         try {
-            const { error } = await (supabase.rpc as any)('admin_list_invites', { p_limit: 1 });
+            const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_list_invites', { p_limit: 1 });
             if (error) throw error;
             return { ok: true, detail: 'RPC responde 200' };
-        } catch (err: any) {
-            return { ok: false, detail: err.message };
+        } catch (err: unknown) {
+            return { ok: false, detail: (err as Error).message || 'Unknown error' };
         }
     },
 
     async checkListRedemptions(): Promise<HealthCheckResult> {
         try {
-            const { error } = await (supabase.rpc as any)('admin_list_invite_redemptions', { p_limit: 1 });
+            const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_list_invite_redemptions', { p_limit: 1 });
             if (error) throw error;
             return { ok: true, detail: 'RPC responde 200' };
-        } catch (err: any) {
-            return { ok: false, detail: err.message };
+        } catch (err: unknown) {
+            return { ok: false, detail: (err as Error).message || 'Unknown error' };
         }
     },
 
     async checkListAppEvents(): Promise<HealthCheckResult> {
         try {
-            const { error } = await (supabase.rpc as any)('admin_list_app_events', { p_limit: 1 });
+            const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_list_app_events', { p_limit: 1 });
             if (error) throw error;
             return { ok: true, detail: 'RPC responde 200' };
-        } catch (err: any) {
-            return { ok: false, detail: err.message };
+        } catch (err: unknown) {
+            return { ok: false, detail: (err as Error).message || 'Unknown error' };
         }
     },
 
@@ -60,7 +60,7 @@ export const adminHealthService = {
             if (battleErr || !battle) {
                 // Dummy send
                 if (dryRun) return { ok: true, detail: 'DryRun: RPC (Dummy IDs) omitido' };
-                const { error: rpcErr } = await (supabase.rpc as any)('insert_signal_event', {
+                const { error: rpcErr } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('insert_signal_event', {
                     p_battle_id: crypto.randomUUID(),
                     p_option_id: crypto.randomUUID(),
                     p_session_id: null,
@@ -100,7 +100,7 @@ export const adminHealthService = {
                 p_client_event_id: crypto.randomUUID()
             };
 
-            const { error: insErr } = await (supabase.rpc as any)('insert_signal_event', payload);
+            const { error: insErr } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('insert_signal_event', payload);
             if (insErr) {
                 // Dependiendo de si la cuota ya fue cumplida o no es verificador
                 if (['PROFILE_MISSING', 'PROFILE_INCOMPLETE', 'SIGNAL_LIMIT_REACHED'].includes(insErr.message)) {
@@ -111,8 +111,8 @@ export const adminHealthService = {
 
             return { ok: true, detail: 'Señal insertada (200 OK)' };
 
-        } catch (err: any) {
-            return { ok: false, detail: err.message };
+        } catch (err: unknown) {
+            return { ok: false, detail: (err as Error).message || 'Unknown error' };
         }
     }
 };

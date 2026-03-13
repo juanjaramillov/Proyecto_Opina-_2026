@@ -1,5 +1,5 @@
 import { toast } from 'react-hot-toast';
-
+import { logger } from '../../lib/logger';
 /**
  * Servicio centralizado para notificaciones (toasts/alerts)
  * Reutiliza la librería react-hot-toast que ya está instalada en el proyecto.
@@ -8,17 +8,17 @@ import { toast } from 'react-hot-toast';
 export const notifyService = {
     success: (message: string) => {
         toast.success(message);
-        console.log('[Notify:Success]', message);
+        logger.info(`[Notify:Success] ${message}`, { domain: 'platform_core', origin: 'notifyService', action: 'toast_success', state: 'confirmed' });
     },
 
     error: (message: string) => {
         toast.error(message);
-        console.error('[Notify:Error]', message);
+        logger.error(`[Notify:Error] ${message}`, { domain: 'platform_core', origin: 'notifyService', action: 'toast_error', state: 'failed' });
     },
 
     info: (message: string) => {
         toast(message, { icon: 'ℹ️' });
-        console.log('[Notify:Info]', message);
+        logger.info(`[Notify:Info] ${message}`, { domain: 'platform_core', origin: 'notifyService', action: 'toast_info', state: 'pending' });
     }
 };
 

@@ -1,6 +1,8 @@
 
 
+
 import { track } from "../../features/telemetry/track";
+import { logger } from '../../lib/logger';
 
 export default function FeedbackFab() {
 
@@ -30,7 +32,7 @@ export default function FeedbackFab() {
         try {
             await navigator.clipboard.writeText(message);
         } catch (err) {
-            console.error('Failed to copy feedback text to clipboard', err);
+            logger.warn('Failed to copy feedback text to clipboard', { domain: 'platform_core', origin: 'FeedbackFab', action: 'copy_text', state: 'failed', error: err });
         }
         const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
         window.open(waUrl, "_blank");

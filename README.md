@@ -39,16 +39,15 @@ Copia `.env.example` a `.env.local` y define lo siguiente:
 Solo los módulos a continuación se consideran activos y de soporte primario:
 - **Autenticación (Access Gate)**: `AccessGate`, `Login`, `Register`, `ResetPassword`.
 - **Pre-Flujo**: Onboarding y Captura de Perfil (`ProfileWizard`).
-- **Hub y Votación Clásica**: El módulo principal de Señales en modalidad "Versus Clásico" interactivo.
-- **Resultados Globales**: Visión global de los rankeos resultantes de la votación (`Results`).
-- **Admin**: Acceso al panel de invitaciones (`AdminInvites`), chequeos de salud (`AdminHealth`) y antifraude (`AdminAntifraud`).
+- **Señales (Hub)**: `/signals`. El módulo principal para que el usuario participe en batallas o debata en actualidad (`SignalsHub`).
+- **Resultados Globales**: `/results`. Visión B2C de los rankeos resultantes de la votación (`Results`).
+- **Intelligence Landing**: `/intelligence`. Landing page orientada a captar leads comerciales B2B (`IntelligenceLanding`).
+- **Panel Intelligence B2B**: `/b2b`. Suite analítica profunda para segmentar señales poblacionales en tiempo real.
+- **Admin**: `/admin`. Acceso al panel de control interno, incluyendo overview del sistema (`AdminSystemOverview`), invitaciones, health, antifraude y editor de actualidad.
 
-## Módulos Congelados
-Los siguientes módulos permanecen en el código fuente para futura iteración, pero han sido desvinculados de la interfaz (Routing / Navigation):
-- Feed Progresivo y de Profundidad (`DepthHub`, `DepthRun`).
-- Vistas públicas extendidas de SEO (`PublicRankingPage`).
-- Plataforma de Inteligencia B2B e Insights (`IntelligencePage`, Dashboards B2B cerrados).
-- Panel de Admin extendido de Demanda y Prioridades de módulo.
+## Módulos de Archivo Legacy
+Otras piezas que formaron parte de prototipos anteriores (Depth, ModulesDemand, Rankings, etc.) han sido retiradas del core vivo y archivadas.
+Se pueden encontrar en `legacy_archive/src_graveyard/` con fines de referencia histórica, pero NO son importables ni forman parte del ruteo activo.
 
 ## 5 Reglas Operativas
 Para evitar recaídas técnicas y deudas estructurales, se debe operar bajo los siguientes principios:

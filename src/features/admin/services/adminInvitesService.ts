@@ -41,13 +41,13 @@ export const adminInvitesService = {
      * Generates multiple invites.
      */
     async generateInvites(count: number, prefix?: string): Promise<InviteRow[]> {
-        const { data, error } = await (supabase.rpc as any)('admin_generate_invites', {
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_generate_invites', {
             p_count: count,
             p_prefix: prefix ?? 'OP'
         });
 
         if (error) {
-            logger.error('Error in admin_generate_invites RPC:', error);
+            logger.error('Error in admin_generate_invites RPC', { domain: 'admin_actions', origin: 'adminInvitesService', action: 'generate_invites', state: 'failed' }, error);
             throw error;
         }
 
@@ -62,14 +62,14 @@ export const adminInvitesService = {
         searchTerm: string = '',
         limit: number = 200
     ): Promise<InviteRow[]> {
-        const { data, error } = await (supabase.rpc as any)('admin_list_invites', { 
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_list_invites', { 
             p_status_filter: statusFilter,
             p_search_term: searchTerm,
             p_limit: limit
         });
 
         if (error) {
-            logger.error('Error in admin_list_invites RPC:', error);
+            logger.error('Error in admin_list_invites RPC', { domain: 'admin_actions', origin: 'adminInvitesService', action: 'list_invites', state: 'failed' }, error);
             throw error;
         }
 
@@ -80,12 +80,12 @@ export const adminInvitesService = {
      * Revokes a specific invite by code.
      */
     async revokeInvite(code: string): Promise<{ ok: boolean; error?: string }> {
-        const { data, error } = await (supabase.rpc as any)('admin_revoke_invite', {
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_revoke_invite', {
             p_code: code
         });
 
         if (error) {
-            logger.error('Error in admin_revoke_invite RPC:', error);
+            logger.error('Error in admin_revoke_invite RPC', { domain: 'admin_actions', origin: 'adminInvitesService', action: 'revoke_invite', state: 'failed', invite_code: code }, error);
             throw error;
         }
 
@@ -96,12 +96,12 @@ export const adminInvitesService = {
      * Deletes a specific invite by ID (Hard delete).
      */
     async deleteInvite(inviteId: string): Promise<{ ok: boolean; error?: string }> {
-        const { error } = await (supabase.rpc as any)('admin_delete_invitation', {
+        const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_delete_invitation', {
             p_invite_id: inviteId
         });
 
         if (error) {
-            logger.error('Error in admin_delete_invitation RPC:', error);
+            logger.error('Error in admin_delete_invitation RPC', { domain: 'admin_actions', origin: 'adminInvitesService', action: 'delete_invite', state: 'failed', invite_id: inviteId }, error);
             throw error;
         }
 
@@ -112,12 +112,12 @@ export const adminInvitesService = {
      * Retrieves the current list of invite redemptions.
      */
     async listRedemptions(limit?: number): Promise<RedemptionRow[]> {
-        const { data, error } = await (supabase.rpc as any)('admin_list_invite_redemptions', {
+        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_list_invite_redemptions', {
             p_limit: limit ?? 200
         });
 
         if (error) {
-            logger.error('Error in admin_list_invite_redemptions RPC:', error);
+            logger.error('Error in admin_list_invite_redemptions RPC', { domain: 'admin_actions', origin: 'adminInvitesService', action: 'list_redemptions', state: 'failed' }, error);
             throw error;
         }
 
@@ -127,15 +127,26 @@ export const adminInvitesService = {
     /**
      * Sends a WhatsApp invitation using a Supabase Edge Function.
      */
-    async sendWhatsAppInvite(invitationId: string, phone: string): Promise<{ success: boolean; messageId?: string; error?: string; detail?: any }> {
+    async sendWhatsAppInvite(invitationId: string, phone: string): Promise<{ success: boolean; messageId?: string; error?: string; detail?: unknown }> {
         const { data, error } = await supabase.functions.invoke('send-whatsapp-invite', {
             body: { invitation_id: invitationId, phone_e164: phone }
         });
 
         if (error) {
-            console.error('Full Error from Supabase Function:', error);
-            logger.error('Error calling send-whatsapp-invite:', error);
-            return { success: false, error: error.message || 'Error de conexión con la función' };
+            // Check if error is FunctionsHttpError and contains custom body
+            let errorMessage = error.message;
+            if (error.context && typeof error.context.json === 'function') {
+                try {
+                    const ctxData = await error.context.json();
+                    if (ctxData && ctxData.error) {
+                        errorMessage = ctxData.error;
+                    }
+                } catch {
+                    // Ignore
+                }
+            }
+            logger.error('Error calling send-whatsapp-invite', { domain: 'admin_actions', origin: 'adminInvitesService', action: 'send_whatsapp_invite', state: 'failed', invitation_id: invitationId }, error);
+            return { success: false, error: errorMessage || 'Error de conexión con la función' };
         }
 
         if (data && !data.success) {

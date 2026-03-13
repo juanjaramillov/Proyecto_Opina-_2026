@@ -1,8 +1,8 @@
--- Seed master entities from curated catalog Excel
--- Generated: 2026-03-11T23:10:36.956Z
+-- Seed master entities from curated catalog CSV
+-- Generated: 2026-03-13T12:38:07.689Z
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bruno-fritsch',
   'Bruno Fritsch',
   'BRUNO FRITSCH',
@@ -11,10 +11,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Automotoras',
   '{"original_category":"Automotriz","original_subcategory":"Automotoras","original_domain":"brunofritsch.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dercocenter',
   'DercoCenter',
   'DERCOCENTER',
@@ -23,10 +27,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Automotoras',
   '{"original_category":"Automotriz","original_subcategory":"Automotoras","original_domain":"dercocenter.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'gildemeister',
   'Gildemeister',
   'GILDEMEISTER',
@@ -35,10 +43,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Automotoras',
   '{"original_category":"Automotriz","original_subcategory":"Automotoras","original_domain":"gildemeister.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'kaufmann',
   'Kaufmann',
   'KAUFMANN',
@@ -47,10 +59,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Automotoras',
   '{"original_category":"Automotriz","original_subcategory":"Automotoras","original_domain":"kaufmann.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'portillo',
   'Portillo',
   'PORTILLO',
@@ -59,10 +75,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Automotoras',
   '{"original_category":"Automotriz","original_subcategory":"Automotoras","original_domain":"portillo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'salazar-israel',
   'Salazar Israel',
   'SALAZAR ISRAEL',
@@ -71,10 +91,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Automotoras',
   '{"original_category":"Automotriz","original_subcategory":"Automotoras","original_domain":"salazarisrael.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'byd',
   'BYD',
   'BYD',
@@ -83,10 +107,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"byd.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'chery',
   'Chery',
   'CHERY',
@@ -95,10 +123,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"chery.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'geely',
   'Geely',
   'GEELY',
@@ -107,10 +139,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"geely.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'great-wall',
   'Great Wall',
   'GREAT WALL',
@@ -119,10 +155,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"gwm-global.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'haval',
   'Haval',
   'HAVAL',
@@ -131,10 +171,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"gwm.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'jac',
   'JAC',
   'JAC',
@@ -143,10 +187,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"jac.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'jetour',
   'Jetour',
   'JETOUR',
@@ -155,10 +203,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"jetourglobal.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mg',
   'MG',
   'MG',
@@ -167,10 +219,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"mgmotor.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bmw',
   'BMW',
   'BMW',
@@ -179,10 +235,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"bmw.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'chevrolet',
   'Chevrolet',
   'CHEVROLET',
@@ -191,10 +251,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"chevrolet.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hyundai',
   'Hyundai',
   'HYUNDAI',
@@ -203,10 +267,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"hyundai.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'kia',
   'Kia',
   'KIA',
@@ -215,10 +283,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"kia.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mazda',
   'Mazda',
   'MAZDA',
@@ -227,10 +299,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"mazda.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mercedes-benz',
   'Mercedes-Benz',
   'MERCEDESBENZ',
@@ -239,10 +315,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"mercedes-benz.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'nissan',
   'Nissan',
   'NISSAN',
@@ -251,10 +331,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"nissan.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'peugeot',
   'Peugeot',
   'PEUGEOT',
@@ -263,10 +347,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"peugeot.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'suzuki',
   'Suzuki',
   'SUZUKI',
@@ -275,10 +363,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"suzuki.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'toyota',
   'Toyota',
   'TOYOTA',
@@ -287,10 +379,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Automotriz',
   'Marcas de autos',
   '{"original_category":"Automotriz","original_subcategory":"Marcas de autos","original_domain":"toyota.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'aquarius',
   'Aquarius',
   'AQUARIUS',
@@ -299,10 +395,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Aguas',
   '{"original_category":"Bebidas","original_subcategory":"Aguas","original_domain":"coca-cola.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'benedictino',
   'Benedictino',
   'BENEDICTINO',
@@ -311,10 +411,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Aguas',
   '{"original_category":"Bebidas","original_subcategory":"Aguas","original_domain":"benedictino.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cachantun',
   'Cachantun',
   'CACHANTUN',
@@ -323,10 +427,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Aguas',
   '{"original_category":"Bebidas","original_subcategory":"Aguas","original_domain":"cachantun.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'evian',
   'Evian',
   'EVIAN',
@@ -335,10 +443,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Aguas',
   '{"original_category":"Bebidas","original_subcategory":"Aguas","original_domain":"evian.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'perrier',
   'Perrier',
   'PERRIER',
@@ -347,10 +459,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Aguas',
   '{"original_category":"Bebidas","original_subcategory":"Aguas","original_domain":"perrier.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'vital',
   'Vital',
   'VITAL',
@@ -359,10 +475,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Aguas',
   '{"original_category":"Bebidas","original_subcategory":"Aguas","original_domain":"vitalagua.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'becker',
   'Becker',
   'BECKER',
@@ -371,10 +491,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Cervezas',
   '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":"becker.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'corona',
   'Corona',
   'CORONA',
@@ -383,10 +507,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Cervezas',
   '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":"cervezacorona.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cristal',
   'Cristal',
   'CRISTAL',
@@ -394,11 +522,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Cervezas',
-  '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":null,"catalog_source":"excel","curation_status":"needs_review","notes":"Domain review needed."}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":"","catalog_source":"excel","curation_status":"needs_review","notes":"Domain review needed."}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'escudo',
   'Escudo',
   'ESCUDO',
@@ -406,11 +538,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Cervezas',
-  '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'heineken',
   'Heineken',
   'HEINEKEN',
@@ -419,10 +555,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Cervezas',
   '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":"heineken.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'kunstmann',
   'Kunstmann',
   'KUNSTMANN',
@@ -431,10 +571,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Cervezas',
   '{"original_category":"Bebidas","original_subcategory":"Cervezas","original_domain":"cerveza-kunstmann.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'burn',
   'Burn',
   'BURN',
@@ -442,11 +586,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Energéticas',
-  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'celsius',
   'Celsius',
   'CELSIUS',
@@ -454,11 +602,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Energéticas',
-  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'monster',
   'Monster',
   'MONSTER',
@@ -467,10 +619,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Energéticas',
   '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":"monsterenergy.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'prime-energy',
   'Prime Energy',
   'PRIME ENERGY',
@@ -478,11 +634,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Energéticas',
-  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'red-bull',
   'Red Bull',
   'RED BULL',
@@ -491,10 +651,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Energéticas',
   '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":"redbull.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'rockstar',
   'Rockstar',
   'ROCKSTAR',
@@ -502,11 +666,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Energéticas',
-  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Energéticas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'canada-dry',
   'Canada Dry',
   'CANADA DRY',
@@ -515,10 +683,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Gaseosas',
   '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":"canadadrychile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'coca-cola',
   'Coca-Cola',
   'COCACOLA',
@@ -527,10 +699,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Gaseosas',
   '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":"andina.micoca-cola.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'fanta',
   'Fanta',
   'FANTA',
@@ -539,10 +715,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Gaseosas',
   '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":"coca-cola.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pepsi',
   'Pepsi',
   'PEPSI',
@@ -551,10 +731,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Gaseosas',
   '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":"pepsi.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'schweppes',
   'Schweppes',
   'SCHWEPPES',
@@ -562,11 +746,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Gaseosas',
-  '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sprite',
   'Sprite',
   'SPRITE',
@@ -574,11 +762,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Gaseosas',
-  '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Gaseosas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'descorcha',
   'Descorcha',
   'DESCORCHA',
@@ -587,10 +779,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Tiendas de vino',
   '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":"descorcha.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'el-mundo-del-vino',
   'El Mundo del Vino',
   'EL MUNDO DEL VINO',
@@ -599,10 +795,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Tiendas de vino',
   '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":"elmundodelvino.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'la-cav',
   'La Cav',
   'LA CAV',
@@ -611,10 +811,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Tiendas de vino',
   '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":"cav.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'la-vinoteca',
   'La Vinoteca',
   'LA VINOTECA',
@@ -623,10 +827,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Tiendas de vino',
   '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":"lavinoteca.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tienda-concha-y-toro',
   'Tienda Concha y Toro',
   'TIENDA CONCHA Y TORO',
@@ -634,11 +842,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Tiendas de vino',
-  '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tienda-santa-rita',
   'Tienda Santa Rita',
   'TIENDA SANTA RITA',
@@ -646,11 +858,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebidas',
   'Tiendas de vino',
-  '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebidas","original_subcategory":"Tiendas de vino","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'concha-y-toro',
   'Concha y Toro',
   'CONCHA Y TORO',
@@ -659,10 +875,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Viñas',
   '{"original_category":"Bebidas","original_subcategory":"Viñas","original_domain":"conchaytoro.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'miguel-torres',
   'Miguel Torres',
   'MIGUEL TORRES',
@@ -671,10 +891,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Viñas',
   '{"original_category":"Bebidas","original_subcategory":"Viñas","original_domain":"migueltorres.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'montes',
   'Montes',
   'MONTES',
@@ -683,10 +907,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Viñas',
   '{"original_category":"Bebidas","original_subcategory":"Viñas","original_domain":"monteswines.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'san-pedro',
   'San Pedro',
   'SAN PEDRO',
@@ -695,10 +923,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Viñas',
   '{"original_category":"Bebidas","original_subcategory":"Viñas","original_domain":"sanpedro.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'santa-rita',
   'Santa Rita',
   'SANTA RITA',
@@ -707,10 +939,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Viñas',
   '{"original_category":"Bebidas","original_subcategory":"Viñas","original_domain":"santarita.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'undurraga',
   'Undurraga',
   'UNDURRAGA',
@@ -719,10 +955,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebidas',
   'Viñas',
   '{"original_category":"Bebidas","original_subcategory":"Viñas","original_domain":"undurraga.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bebesit',
   'Bebesit',
   'BEBESIT',
@@ -731,10 +971,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Coches',
   '{"original_category":"Bebés","original_subcategory":"Coches","original_domain":"bebesit.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'chicco',
   'Chicco',
   'CHICCO',
@@ -743,10 +987,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Cochecitos',
   '{"original_category":"Bebés","original_subcategory":"Cochecitos","original_domain":"chicco.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'graco',
   'Graco',
   'GRACO',
@@ -755,10 +1003,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Cochecitos',
   '{"original_category":"Bebés","original_subcategory":"Cochecitos","original_domain":"babygraco.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'infanti',
   'Infanti',
   'INFANTI',
@@ -767,10 +1019,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Cochecitos',
   '{"original_category":"Bebés","original_subcategory":"Cochecitos","original_domain":"infanti.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'joie',
   'Joie',
   'JOIE',
@@ -779,10 +1035,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Cochecitos',
   '{"original_category":"Bebés","original_subcategory":"Cochecitos","original_domain":"joiebaby.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'maxi-cosi',
   'Maxi-Cosi',
   'MAXICOSI',
@@ -791,10 +1051,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Cochecitos',
   '{"original_category":"Bebés","original_subcategory":"Cochecitos","original_domain":"maxicosi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'enfamil',
   'Enfamil',
   'ENFAMIL',
@@ -803,10 +1067,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Alimento Infantil',
   '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":"enfamil.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'nan',
   'NAN',
   'NAN',
@@ -815,10 +1083,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Alimento Infantil',
   '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":"nestle.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'nidal',
   'Nidal',
   'NIDAL',
@@ -826,11 +1098,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebés',
   'Alimento Infantil',
-  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pediasure',
   'Pediasure',
   'PEDIASURE',
@@ -838,11 +1114,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebés',
   'Alimento Infantil',
-  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   's-26',
   'S-26',
   'S26',
@@ -850,11 +1130,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebés',
   'Alimento Infantil',
-  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'similac',
   'Similac',
   'SIMILAC',
@@ -862,11 +1146,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebés',
   'Alimento Infantil',
-  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebés","original_subcategory":"Alimento Infantil","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bbtips',
   'BBTips',
   'BBTIPS',
@@ -874,11 +1162,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebés',
   'Pañales',
-  '{"original_category":"Bebés","original_subcategory":"Pañales","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebés","original_subcategory":"Pañales","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'babysec',
   'Babysec',
   'BABYSEC',
@@ -887,10 +1179,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Pañales',
   '{"original_category":"Bebés","original_subcategory":"Pañales","original_domain":"babysec.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'huggies',
   'Huggies',
   'HUGGIES',
@@ -899,10 +1195,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Pañales',
   '{"original_category":"Bebés","original_subcategory":"Pañales","original_domain":"huggies.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pampers',
   'Pampers',
   'PAMPERS',
@@ -911,82 +1211,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Bebés',
   'Pañales',
   '{"original_category":"Bebés","original_subcategory":"Pañales","original_domain":"pampers.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'pampers-premium-care',
-  'Pampers Premium Care',
-  'PAMPERS PREMIUM CARE',
-  'BRAND_PAMPERS_PREMIUM_CARE',
-  'CL',
-  'Bebés',
-  'Pañales',
-  '{"original_category":"Bebés","original_subcategory":"Pañales","original_domain":"pampers.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'bbtips',
-  'BBTips',
-  'BBTIPS',
-  'BRAND_BBTIPS',
-  NULL,
-  'Bebés',
-  'Toallitas húmedas',
-  '{"original_category":"Bebés","original_subcategory":"Toallitas húmedas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'babysec',
-  'Babysec',
-  'BABYSEC',
-  'BRAND_BABYSEC',
-  'CL',
-  'Bebés',
-  'Toallitas húmedas',
-  '{"original_category":"Bebés","original_subcategory":"Toallitas húmedas","original_domain":"babysec.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'bebesit',
-  'Bebesit',
-  'BEBESIT',
-  'BRAND_BEBESIT',
-  'CL',
-  'Bebés',
-  'Toallitas húmedas',
-  '{"original_category":"Bebés","original_subcategory":"Toallitas húmedas","original_domain":"bebesit.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'huggies',
-  'Huggies',
-  'HUGGIES',
-  'BRAND_HUGGIES',
-  'CL',
-  'Bebés',
-  'Toallitas húmedas',
-  '{"original_category":"Bebés","original_subcategory":"Toallitas húmedas","original_domain":"huggies.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'pampers',
-  'Pampers',
-  'PAMPERS',
-  'BRAND_PAMPERS',
-  'CL',
-  'Bebés',
-  'Toallitas húmedas',
-  '{"original_category":"Bebés","original_subcategory":"Toallitas húmedas","original_domain":"pampers.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'waterwipes',
   'WaterWipes',
   'WATERWIPES',
@@ -994,11 +1226,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Bebés',
   'Toallitas húmedas',
-  '{"original_category":"Bebés","original_subcategory":"Toallitas húmedas","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Bebés","original_subcategory":"Toallitas húmedas","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'l-oreal-paris',
   'L''Oréal Paris',
   'LOREAL PARIS',
@@ -1007,10 +1243,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Maquillaje',
   '{"original_category":"Belleza","original_subcategory":"Maquillaje","original_domain":"loreal-paris.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mac',
   'MAC',
   'MAC',
@@ -1019,10 +1259,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Maquillaje',
   '{"original_category":"Belleza","original_subcategory":"Maquillaje","original_domain":"maccosmetics.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'maybelline',
   'Maybelline',
   'MAYBELLINE',
@@ -1031,10 +1275,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Maquillaje',
   '{"original_category":"Belleza","original_subcategory":"Maquillaje","original_domain":"maybelline.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'nyx',
   'NYX',
   'NYX',
@@ -1043,10 +1291,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Maquillaje',
   '{"original_category":"Belleza","original_subcategory":"Maquillaje","original_domain":"nyxcosmetics.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'natura',
   'Natura',
   'NATURA',
@@ -1055,10 +1307,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Maquillaje',
   '{"original_category":"Belleza","original_subcategory":"Maquillaje","original_domain":"natura.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'petrizzio',
   'Petrizzio',
   'PETRIZZIO',
@@ -1067,10 +1323,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Maquillaje',
   '{"original_category":"Belleza","original_subcategory":"Maquillaje","original_domain":"petrizzio.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'axe',
   'Axe',
   'AXE',
@@ -1079,10 +1339,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Desodorantes',
   '{"original_category":"Belleza","original_subcategory":"Desodorantes","original_domain":"axe.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dove',
   'Dove',
   'DOVE',
@@ -1091,10 +1355,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Desodorantes',
   '{"original_category":"Belleza","original_subcategory":"Desodorantes","original_domain":"dove.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'lady-speed-stick',
   'Lady Speed Stick',
   'LADY SPEED STICK',
@@ -1103,10 +1371,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Desodorantes',
   '{"original_category":"Belleza","original_subcategory":"Desodorantes","original_domain":"ladyspeedstick.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'nivea',
   'Nivea',
   'NIVEA',
@@ -1115,10 +1387,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Desodorantes',
   '{"original_category":"Belleza","original_subcategory":"Desodorantes","original_domain":"nivea.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'old-spice',
   'Old Spice',
   'OLD SPICE',
@@ -1127,10 +1403,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Desodorantes',
   '{"original_category":"Belleza","original_subcategory":"Desodorantes","original_domain":"oldspice.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'rexona',
   'Rexona',
   'REXONA',
@@ -1139,10 +1419,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Desodorantes',
   '{"original_category":"Belleza","original_subcategory":"Desodorantes","original_domain":"rexona.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'aquafresh',
   'Aquafresh',
   'AQUAFRESH',
@@ -1151,10 +1435,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Pastas dentales',
   '{"original_category":"Belleza","original_subcategory":"Pastas dentales","original_domain":"aquafresh.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'closeup',
   'Closeup',
   'CLOSEUP',
@@ -1163,10 +1451,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Pastas dentales',
   '{"original_category":"Belleza","original_subcategory":"Pastas dentales","original_domain":"closeup.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'colgate',
   'Colgate',
   'COLGATE',
@@ -1175,10 +1467,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Pastas dentales',
   '{"original_category":"Belleza","original_subcategory":"Pastas dentales","original_domain":"colgate.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'oral-b',
   'Oral-B',
   'ORALB',
@@ -1187,10 +1483,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Pastas dentales',
   '{"original_category":"Belleza","original_subcategory":"Pastas dentales","original_domain":"oralb.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pepsodent',
   'Pepsodent',
   'PEPSODENT',
@@ -1199,10 +1499,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Pastas dentales',
   '{"original_category":"Belleza","original_subcategory":"Pastas dentales","original_domain":"pepsodent.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sensodyne',
   'Sensodyne',
   'SENSODYNE',
@@ -1211,10 +1515,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Pastas dentales',
   '{"original_category":"Belleza","original_subcategory":"Pastas dentales","original_domain":"sensodyne.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'calvin-klein',
   'Calvin Klein',
   'CALVIN KLEIN',
@@ -1223,10 +1531,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Perfumes',
   '{"original_category":"Belleza","original_subcategory":"Perfumes","original_domain":"calvinklein.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'carolina-herrera',
   'Carolina Herrera',
   'CAROLINA HERRERA',
@@ -1235,10 +1547,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Perfumes',
   '{"original_category":"Belleza","original_subcategory":"Perfumes","original_domain":"carolinaherrera.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'chanel',
   'Chanel',
   'CHANEL',
@@ -1247,10 +1563,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Perfumes',
   '{"original_category":"Belleza","original_subcategory":"Perfumes","original_domain":"chanel.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dior',
   'Dior',
   'DIOR',
@@ -1259,10 +1579,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Perfumes',
   '{"original_category":"Belleza","original_subcategory":"Perfumes","original_domain":"dior.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hugo-boss',
   'Hugo Boss',
   'HUGO BOSS',
@@ -1271,10 +1595,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Perfumes',
   '{"original_category":"Belleza","original_subcategory":"Perfumes","original_domain":"hugoboss.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'rabanne',
   'Rabanne',
   'RABANNE',
@@ -1283,10 +1611,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Perfumes',
   '{"original_category":"Belleza","original_subcategory":"Perfumes","original_domain":"rabanne.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'eucerin-sun',
   'Eucerin Sun',
   'EUCERIN SUN',
@@ -1295,10 +1627,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Protección solar',
   '{"original_category":"Belleza","original_subcategory":"Protección solar","original_domain":"eucerin.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hawaiian-tropic',
   'Hawaiian Tropic',
   'HAWAIIAN TROPIC',
@@ -1307,10 +1643,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Protección solar',
   '{"original_category":"Belleza","original_subcategory":"Protección solar","original_domain":"hawaiiantropic.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'isdin',
   'ISDIN',
   'ISDIN',
@@ -1319,22 +1659,30 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Protección solar',
   '{"original_category":"Belleza","original_subcategory":"Protección solar","original_domain":"isdin.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'la-roche-posay-anthelios',
-  'La Roche-Posay Anthelios',
-  'LA ROCHEPOSAY ANTHELIOS',
-  'BRAND_LA_ROCHEPOSAY_ANTHELIOS',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'la-roche-posay',
+  'La Roche-Posay',
+  'LA ROCHEPOSAY',
+  'BRAND_LA_ROCHEPOSAY',
   'CL',
   'Belleza',
   'Protección solar',
   '{"original_category":"Belleza","original_subcategory":"Protección solar","original_domain":"laroche-posay.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'raytan',
   'Raytan',
   'RAYTAN',
@@ -1343,34 +1691,30 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Protección solar',
   '{"original_category":"Belleza","original_subcategory":"Protección solar","original_domain":"raytan.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'vichy-capital-soleil',
-  'Vichy Capital Soleil',
-  'VICHY CAPITAL SOLEIL',
-  'BRAND_VICHY_CAPITAL_SOLEIL',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'vichy',
+  'Vichy',
+  'VICHY',
+  'BRAND_VICHY',
   'CL',
   'Belleza',
   'Protección solar',
   '{"original_category":"Belleza","original_subcategory":"Protección solar","original_domain":"vichy.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'dove',
-  'Dove',
-  'DOVE',
-  'BRAND_DOVE',
-  NULL,
-  'Belleza',
-  'Shampoo',
-  '{"original_category":"Belleza","original_subcategory":"Shampoo","original_domain":"dove.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'elvive',
   'Elvive',
   'ELVIVE',
@@ -1379,10 +1723,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Shampoo',
   '{"original_category":"Belleza","original_subcategory":"Shampoo","original_domain":"loreal-paris.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'head-shoulders',
   'Head & Shoulders',
   'HEAD SHOULDERS',
@@ -1391,10 +1739,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Shampoo',
   '{"original_category":"Belleza","original_subcategory":"Shampoo","original_domain":"headandshoulders.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pantene',
   'Pantene',
   'PANTENE',
@@ -1403,10 +1755,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Shampoo',
   '{"original_category":"Belleza","original_subcategory":"Shampoo","original_domain":"pantenela.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sedal',
   'Sedal',
   'SEDAL',
@@ -1415,10 +1771,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Shampoo',
   '{"original_category":"Belleza","original_subcategory":"Shampoo","original_domain":"sedal.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tio-nacho',
   'Tío Nacho',
   'TIO NACHO',
@@ -1427,10 +1787,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Shampoo',
   '{"original_category":"Belleza","original_subcategory":"Shampoo","original_domain":"tionacho.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bioderma',
   'Bioderma',
   'BIODERMA',
@@ -1439,10 +1803,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Skincare',
   '{"original_category":"Belleza","original_subcategory":"Skincare","original_domain":"bioderma.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cerave',
   'CeraVe',
   'CERAVE',
@@ -1451,10 +1819,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Skincare',
   '{"original_category":"Belleza","original_subcategory":"Skincare","original_domain":"cerave.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cetaphil',
   'Cetaphil',
   'CETAPHIL',
@@ -1463,10 +1835,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Skincare',
   '{"original_category":"Belleza","original_subcategory":"Skincare","original_domain":"cetaphil.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'eucerin',
   'Eucerin',
   'EUCERIN',
@@ -1475,34 +1851,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Belleza',
   'Skincare',
   '{"original_category":"Belleza","original_subcategory":"Skincare","original_domain":"eucerin.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'la-roche-posay',
-  'La Roche-Posay',
-  'LA ROCHEPOSAY',
-  'BRAND_LA_ROCHEPOSAY',
-  'CL',
-  'Belleza',
-  'Skincare',
-  '{"original_category":"Belleza","original_subcategory":"Skincare","original_domain":"laroche-posay.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'vichy',
-  'Vichy',
-  'VICHY',
-  'BRAND_VICHY',
-  'CL',
-  'Belleza',
-  'Skincare',
-  '{"original_category":"Belleza","original_subcategory":"Skincare","original_domain":"vichy.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cafe-haiti',
   'Café Haiti',
   'CAFE HAITI',
@@ -1511,10 +1867,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Cafeterías',
   '{"original_category":"Comida","original_subcategory":"Cafeterías","original_domain":"cafehaiti.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'castano',
   'Castaño',
   'CASTANO',
@@ -1523,10 +1883,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Cafeterías',
   '{"original_category":"Comida","original_subcategory":"Cafeterías","original_domain":"castano.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dunkin',
   'Dunkin',
   'DUNKIN',
@@ -1535,10 +1899,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Cafeterías',
   '{"original_category":"Comida","original_subcategory":"Cafeterías","original_domain":"dunkin.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'juan-valdez',
   'Juan Valdez',
   'JUAN VALDEZ',
@@ -1547,10 +1915,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Cafeterías',
   '{"original_category":"Comida","original_subcategory":"Cafeterías","original_domain":"juanvaldezcafe.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'starbucks',
   'Starbucks',
   'STARBUCKS',
@@ -1559,10 +1931,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Cafeterías',
   '{"original_category":"Comida","original_subcategory":"Cafeterías","original_domain":"starbucks.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tavelli',
   'Tavelli',
   'TAVELLI',
@@ -1571,10 +1947,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Cafeterías',
   '{"original_category":"Comida","original_subcategory":"Cafeterías","original_domain":"tavelli.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'didi-food',
   'DiDi Food',
   'DIDI FOOD',
@@ -1583,10 +1963,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Delivery',
   '{"original_category":"Comida","original_subcategory":"Delivery","original_domain":"didiglobal.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'justo',
   'Justo',
   'JUSTO',
@@ -1595,10 +1979,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Delivery',
   '{"original_category":"Comida","original_subcategory":"Delivery","original_domain":"justo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'orders',
   'Orders',
   'ORDERS',
@@ -1607,10 +1995,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Delivery',
   '{"original_category":"Comida","original_subcategory":"Delivery","original_domain":"orders.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pedidosya',
   'PedidosYa',
   'PEDIDOSYA',
@@ -1619,10 +2011,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Delivery',
   '{"original_category":"Comida","original_subcategory":"Delivery","original_domain":"pedidosya.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'rappi',
   'Rappi',
   'RAPPI',
@@ -1631,10 +2027,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Delivery',
   '{"original_category":"Comida","original_subcategory":"Delivery","original_domain":"rappi.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'uber-eats',
   'Uber Eats',
   'UBER EATS',
@@ -1643,10 +2043,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Delivery',
   '{"original_category":"Comida","original_subcategory":"Delivery","original_domain":"ubereats.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'burger-king',
   'Burger King',
   'BURGER KING',
@@ -1655,10 +2059,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"burgerking.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'doggis',
   'Doggis',
   'DOGGIS',
@@ -1667,10 +2075,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"doggis.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'juan-maestro',
   'Juan Maestro',
   'JUAN MAESTRO',
@@ -1679,10 +2091,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"juanmaestro.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'kfc',
   'KFC',
   'KFC',
@@ -1691,10 +2107,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"kfc.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mcdonald-s',
   'McDonald''s',
   'MCDONALDS',
@@ -1703,10 +2123,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"mcdonalds.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pedro-juan-diego',
   'Pedro, Juan & Diego',
   'PEDRO JUAN DIEGO',
@@ -1715,10 +2139,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"pyd.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'subway',
   'Subway',
   'SUBWAY',
@@ -1727,10 +2155,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"subway.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tarragona',
   'Tarragona',
   'TARRAGONA',
@@ -1739,10 +2171,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Fast food',
   '{"original_category":"Comida","original_subcategory":"Fast food","original_domain":"tarragona.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'domino-s',
   'Domino''s',
   'DOMINOS',
@@ -1751,10 +2187,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Pizza',
   '{"original_category":"Comida","original_subcategory":"Pizza","original_domain":"dominos.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'little-caesars',
   'Little Caesars',
   'LITTLE CAESARS',
@@ -1763,10 +2203,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Pizza',
   '{"original_category":"Comida","original_subcategory":"Pizza","original_domain":"littlecaesars.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'melt-pizzas',
   'Melt Pizzas',
   'MELT PIZZAS',
@@ -1775,10 +2219,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Pizza',
   '{"original_category":"Comida","original_subcategory":"Pizza","original_domain":"meltpizzas.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'papa-johns',
   'Papa Johns',
   'PAPA JOHNS',
@@ -1787,10 +2235,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Pizza',
   '{"original_category":"Comida","original_subcategory":"Pizza","original_domain":"papajohns.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pizza-hut',
   'Pizza Hut',
   'PIZZA HUT',
@@ -1799,10 +2251,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Pizza',
   '{"original_category":"Comida","original_subcategory":"Pizza","original_domain":"pizzahut.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'telepizza',
   'Telepizza',
   'TELEPIZZA',
@@ -1811,10 +2267,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Comida',
   'Pizza',
   '{"original_category":"Comida","original_subcategory":"Pizza","original_domain":"telepizza.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cobreloa',
   'Cobreloa',
   'COBRELOA',
@@ -1823,10 +2283,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Deportes',
   'Fútbol',
   '{"original_category":"Deportes","original_subcategory":"Fútbol","original_domain":"cobreloa.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'colo-colo',
   'Colo-Colo',
   'COLOCOLO',
@@ -1835,10 +2299,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Deportes',
   'Fútbol',
   '{"original_category":"Deportes","original_subcategory":"Fútbol","original_domain":"colocolo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'santiago-wanderers',
   'Santiago Wanderers',
   'SANTIAGO WANDERERS',
@@ -1847,10 +2315,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Deportes',
   'Fútbol',
   '{"original_category":"Deportes","original_subcategory":"Fútbol","original_domain":"santiagowanderers.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'universidad-catolica',
   'Universidad Católica',
   'UNIVERSIDAD CATOLICA',
@@ -1859,10 +2331,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Deportes',
   'Fútbol',
   '{"original_category":"Deportes","original_subcategory":"Fútbol","original_domain":"lacatolica.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'universidad-de-chile',
   'Universidad de Chile',
   'UNIVERSIDAD DE CHILE',
@@ -1871,10 +2347,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Deportes',
   'Fútbol',
   '{"original_category":"Deportes","original_subcategory":"Fútbol","original_domain":"udechile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'union-espanola',
   'Unión Española',
   'UNION ESPANOLA',
@@ -1883,10 +2363,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Deportes',
   'Fútbol',
   '{"original_category":"Deportes","original_subcategory":"Fútbol","original_domain":"unionespanola.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'aiep',
   'AIEP',
   'AIEP',
@@ -1895,10 +2379,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Institutos',
   '{"original_category":"Educación","original_subcategory":"Institutos","original_domain":"aiep.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'duoc-uc',
   'Duoc UC',
   'DUOC UC',
@@ -1907,10 +2395,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Institutos',
   '{"original_category":"Educación","original_subcategory":"Institutos","original_domain":"duoc.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'enac',
   'ENAC',
   'ENAC',
@@ -1919,10 +2411,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Institutos',
   '{"original_category":"Educación","original_subcategory":"Institutos","original_domain":"enac.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'inacap',
   'INACAP',
   'INACAP',
@@ -1931,10 +2427,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Institutos',
   '{"original_category":"Educación","original_subcategory":"Institutos","original_domain":"inacap.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'ipchile',
   'IPChile',
   'IPCHILE',
@@ -1943,10 +2443,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Institutos',
   '{"original_category":"Educación","original_subcategory":"Institutos","original_domain":"ipchile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'santo-tomas',
   'Santo Tomás',
   'SANTO TOMAS',
@@ -1955,10 +2459,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Institutos',
   '{"original_category":"Educación","original_subcategory":"Institutos","original_domain":"ust.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cpech',
   'Cpech',
   'CPECH',
@@ -1967,10 +2475,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Preuniversitarios',
   '{"original_category":"Educación","original_subcategory":"Preuniversitarios","original_domain":"cpech.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'filadd',
   'Filadd',
   'FILADD',
@@ -1979,10 +2491,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Preuniversitarios',
   '{"original_category":"Educación","original_subcategory":"Preuniversitarios","original_domain":"filadd.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'm30m',
   'M30M',
   'M30M',
@@ -1991,10 +2507,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Preuniversitarios',
   '{"original_category":"Educación","original_subcategory":"Preuniversitarios","original_domain":"preuniversitariom30m.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pedro-de-valdivia',
   'Pedro de Valdivia',
   'PEDRO DE VALDIVIA',
@@ -2003,10 +2523,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Preuniversitarios',
   '{"original_category":"Educación","original_subcategory":"Preuniversitarios","original_domain":"pdv.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'preu-uc',
   'Preu UC',
   'PREU UC',
@@ -2015,10 +2539,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Preuniversitarios',
   '{"original_category":"Educación","original_subcategory":"Preuniversitarios","original_domain":"preupdv.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'puntaje-nacional',
   'Puntaje Nacional',
   'PUNTAJE NACIONAL',
@@ -2027,10 +2555,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Preuniversitarios',
   '{"original_category":"Educación","original_subcategory":"Preuniversitarios","original_domain":"puntajenacional.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pontificia-universidad-catolica',
   'Pontificia Universidad Católica',
   'PONTIFICIA UNIVERSIDAD CATOLICA',
@@ -2039,10 +2571,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Universidades',
   '{"original_category":"Educación","original_subcategory":"Universidades","original_domain":"uc.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'uai',
   'UAI',
   'UAI',
@@ -2051,10 +2587,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Universidades',
   '{"original_category":"Educación","original_subcategory":"Universidades","original_domain":"uai.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'udp',
   'UDP',
   'UDP',
@@ -2063,10 +2603,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Universidades',
   '{"original_category":"Educación","original_subcategory":"Universidades","original_domain":"udp.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'usach',
   'USACH',
   'USACH',
@@ -2075,22 +2619,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Universidades',
   '{"original_category":"Educación","original_subcategory":"Universidades","original_domain":"usach.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'universidad-de-chile',
-  'Universidad de Chile',
-  'UNIVERSIDAD DE CHILE',
-  'BRAND_UNIVERSIDAD_DE_CHILE',
-  'CL',
-  'Educación',
-  'Universidades',
-  '{"original_category":"Educación","original_subcategory":"Universidades","original_domain":"uchile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'universidad-de-concepcion',
   'Universidad de Concepción',
   'UNIVERSIDAD DE CONCEPCION',
@@ -2099,10 +2635,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Educación',
   'Universidades',
   '{"original_category":"Educación","original_subcategory":"Universidades","original_domain":"udec.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cine-hoyts',
   'Cine Hoyts',
   'CINE HOYTS',
@@ -2111,10 +2651,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Cines',
   '{"original_category":"Entretenimiento","original_subcategory":"Cines","original_domain":"cinehoyts.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cinemark',
   'Cinemark',
   'CINEMARK',
@@ -2123,10 +2667,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Cines',
   '{"original_category":"Entretenimiento","original_subcategory":"Cines","original_domain":"cinemark.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cineplanet',
   'Cineplanet',
   'CINEPLANET',
@@ -2135,10 +2683,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Cines',
   '{"original_category":"Entretenimiento","original_subcategory":"Cines","original_domain":"cineplanet.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cinestar',
   'Cinestar',
   'CINESTAR',
@@ -2147,10 +2699,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Cines',
   '{"original_category":"Entretenimiento","original_subcategory":"Cines","original_domain":"cinestar.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cinepolis',
   'Cinépolis',
   'CINEPOLIS',
@@ -2159,10 +2715,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Cines',
   '{"original_category":"Entretenimiento","original_subcategory":"Cines","original_domain":"cinepolis.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'muvix',
   'Muvix',
   'MUVIX',
@@ -2171,10 +2731,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Cines',
   '{"original_category":"Entretenimiento","original_subcategory":"Cines","original_domain":"muvix.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'discord',
   'Discord',
   'DISCORD',
@@ -2183,10 +2747,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Comunidades',
   '{"original_category":"Entretenimiento","original_subcategory":"Comunidades","original_domain":"discord.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pinterest',
   'Pinterest',
   'PINTEREST',
@@ -2195,10 +2763,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Comunidades',
   '{"original_category":"Entretenimiento","original_subcategory":"Comunidades","original_domain":"cl.pinterest.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'quora',
   'Quora',
   'QUORA',
@@ -2207,10 +2779,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Comunidades',
   '{"original_category":"Entretenimiento","original_subcategory":"Comunidades","original_domain":"quora.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'reddit',
   'Reddit',
   'REDDIT',
@@ -2219,10 +2795,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Comunidades',
   '{"original_category":"Entretenimiento","original_subcategory":"Comunidades","original_domain":"reddit.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'steam-community',
   'Steam Community',
   'STEAM COMMUNITY',
@@ -2231,10 +2811,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Comunidades',
   '{"original_category":"Entretenimiento","original_subcategory":"Comunidades","original_domain":"steamcommunity.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tumblr',
   'Tumblr',
   'TUMBLR',
@@ -2243,10 +2827,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Comunidades',
   '{"original_category":"Entretenimiento","original_subcategory":"Comunidades","original_domain":"tumblr.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'biobiochile',
   'BioBioChile',
   'BIOBIOCHILE',
@@ -2255,10 +2843,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Prensa digital',
   '{"original_category":"Medios","original_subcategory":"Prensa digital","original_domain":"biobiochile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cnn-chile',
   'CNN Chile',
   'CNN CHILE',
@@ -2267,10 +2859,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Prensa digital',
   '{"original_category":"Medios","original_subcategory":"Prensa digital","original_domain":"cnnchile.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cooperativa',
   'Cooperativa',
   'COOPERATIVA',
@@ -2279,10 +2875,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Prensa digital',
   '{"original_category":"Medios","original_subcategory":"Prensa digital","original_domain":"cooperativa.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'el-mostrador',
   'El Mostrador',
   'EL MOSTRADOR',
@@ -2291,10 +2891,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Prensa digital',
   '{"original_category":"Medios","original_subcategory":"Prensa digital","original_domain":"elmostrador.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'emol',
   'Emol',
   'EMOL',
@@ -2303,10 +2907,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Prensa digital',
   '{"original_category":"Medios","original_subcategory":"Prensa digital","original_domain":"emol.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'la-tercera',
   'La Tercera',
   'LA TERCERA',
@@ -2315,10 +2923,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Prensa digital',
   '{"original_category":"Medios","original_subcategory":"Prensa digital","original_domain":"latercera.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'adn-radio',
   'ADN Radio',
   'ADN RADIO',
@@ -2327,10 +2939,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Radios',
   '{"original_category":"Medios","original_subcategory":"Radios","original_domain":"adnradio.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'carolina',
   'Carolina',
   'CAROLINA',
@@ -2339,22 +2955,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Radios',
   '{"original_category":"Medios","original_subcategory":"Radios","original_domain":"radiocarolina.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'cooperativa',
-  'Cooperativa',
-  'COOPERATIVA',
-  'BRAND_COOPERATIVA',
-  'CL',
-  'Medios',
-  'Radios',
-  '{"original_category":"Medios","original_subcategory":"Radios","original_domain":"cooperativa.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pudahuel',
   'Pudahuel',
   'PUDAHUEL',
@@ -2363,10 +2971,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Radios',
   '{"original_category":"Medios","original_subcategory":"Radios","original_domain":"pudahuel.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'radio-agricultura',
   'Radio Agricultura',
   'RADIO AGRICULTURA',
@@ -2375,10 +2987,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Radios',
   '{"original_category":"Medios","original_subcategory":"Radios","original_domain":"radioagricultura.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'radio-bio-bio',
   'Radio Bío Bío',
   'RADIO BIO BIO',
@@ -2387,10 +3003,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Radios',
   '{"original_category":"Medios","original_subcategory":"Radios","original_domain":"biobiochile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'facebook',
   'Facebook',
   'FACEBOOK',
@@ -2399,10 +3019,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Redes sociales',
   '{"original_category":"Medios","original_subcategory":"Redes sociales","original_domain":"facebook.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'instagram',
   'Instagram',
   'INSTAGRAM',
@@ -2411,10 +3035,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Redes sociales',
   '{"original_category":"Medios","original_subcategory":"Redes sociales","original_domain":"instagram.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'linkedin',
   'LinkedIn',
   'LINKEDIN',
@@ -2423,10 +3051,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Redes sociales',
   '{"original_category":"Medios","original_subcategory":"Redes sociales","original_domain":"linkedin.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'snapchat',
   'Snapchat',
   'SNAPCHAT',
@@ -2435,10 +3067,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Redes sociales',
   '{"original_category":"Medios","original_subcategory":"Redes sociales","original_domain":"snapchat.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tiktok',
   'TikTok',
   'TIKTOK',
@@ -2447,10 +3083,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Redes sociales',
   '{"original_category":"Medios","original_subcategory":"Redes sociales","original_domain":"tiktok.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'x',
   'X',
   'X',
@@ -2459,10 +3099,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Medios',
   'Redes sociales',
   '{"original_category":"Medios","original_subcategory":"Redes sociales","original_domain":"x.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'amazon-music',
   'Amazon Music',
   'AMAZON MUSIC',
@@ -2471,10 +3115,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de música',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de música","original_domain":"music.amazon.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'apple-music',
   'Apple Music',
   'APPLE MUSIC',
@@ -2483,10 +3131,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de música',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de música","original_domain":"music.apple.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'deezer',
   'Deezer',
   'DEEZER',
@@ -2495,10 +3147,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de música',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de música","original_domain":"deezer.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'spotify',
   'Spotify',
   'SPOTIFY',
@@ -2507,10 +3163,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de música',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de música","original_domain":"spotify.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tidal',
   'TIDAL',
   'TIDAL',
@@ -2519,10 +3179,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de música',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de música","original_domain":"tidal.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'youtube-music',
   'YouTube Music',
   'YOUTUBE MUSIC',
@@ -2531,10 +3195,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de música',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de música","original_domain":"music.youtube.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'apple-tv',
   'Apple TV+',
   'APPLE TV',
@@ -2543,10 +3211,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"tv.apple.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'disney',
   'Disney+',
   'DISNEY',
@@ -2555,10 +3227,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"disneyplus.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mubi',
   'MUBI',
   'MUBI',
@@ -2567,10 +3243,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"mubi.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'max',
   'Max',
   'MAX',
@@ -2579,10 +3259,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"max.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'netflix',
   'Netflix',
   'NETFLIX',
@@ -2591,10 +3275,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"netflix.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'paramount',
   'Paramount+',
   'PARAMOUNT',
@@ -2603,10 +3291,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"paramountplus.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'prime-video',
   'Prime Video',
   'PRIME VIDEO',
@@ -2615,10 +3307,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"primevideo.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'universal',
   'Universal+',
   'UNIVERSAL',
@@ -2627,10 +3323,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'Streaming de video',
   '{"original_category":"Entretenimiento","original_subcategory":"Streaming de video","original_domain":"universalplus.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'canal-13',
   'Canal 13',
   'CANAL 13',
@@ -2639,10 +3339,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'TV abierta',
   '{"original_category":"Entretenimiento","original_subcategory":"TV abierta","original_domain":"13.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'chilevision',
   'Chilevisión',
   'CHILEVISION',
@@ -2651,10 +3355,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'TV abierta',
   '{"original_category":"Entretenimiento","original_subcategory":"TV abierta","original_domain":"chv.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'la-red',
   'La Red',
   'LA RED',
@@ -2663,10 +3371,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'TV abierta',
   '{"original_category":"Entretenimiento","original_subcategory":"TV abierta","original_domain":"lared.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mega',
   'Mega',
   'MEGA',
@@ -2675,10 +3387,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'TV abierta',
   '{"original_category":"Entretenimiento","original_subcategory":"TV abierta","original_domain":"mega.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tv',
   'TV+',
   'TV',
@@ -2686,11 +3402,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Entretenimiento',
   'TV abierta',
-  '{"original_category":"Entretenimiento","original_subcategory":"TV abierta","original_domain":null,"catalog_source":"excel","curation_status":"needs_review","notes":"Domain review needed."}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Entretenimiento","original_subcategory":"TV abierta","original_domain":"","catalog_source":"excel","curation_status":"needs_review","notes":"Domain review needed."}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tvn',
   'TVN',
   'TVN',
@@ -2699,10 +3419,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Entretenimiento',
   'TV abierta',
   '{"original_category":"Entretenimiento","original_subcategory":"TV abierta","original_domain":"tvn.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bci',
   'BCI',
   'BCI',
@@ -2711,10 +3435,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"bci.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'banco-bice',
   'Banco BICE',
   'BANCO BICE',
@@ -2723,10 +3451,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"bice.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'banco-falabella',
   'Banco Falabella',
   'BANCO FALABELLA',
@@ -2735,10 +3467,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"bancofalabella.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'banco-de-chile',
   'Banco de Chile',
   'BANCO DE CHILE',
@@ -2747,10 +3483,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"bancochile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bancoestado',
   'BancoEstado',
   'BANCOESTADO',
@@ -2759,10 +3499,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"bancoestado.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'consorcio',
   'Consorcio',
   'CONSORCIO',
@@ -2771,10 +3515,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"consorcio.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'itau',
   'Itaú',
   'ITAU',
@@ -2783,10 +3531,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"itau.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'santander',
   'Santander',
   'SANTANDER',
@@ -2795,10 +3547,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"santander.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'scotiabank',
   'Scotiabank',
   'SCOTIABANK',
@@ -2807,10 +3563,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"scotiabankchile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'security',
   'Security',
   'SECURITY',
@@ -2819,10 +3579,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Bancos',
   '{"original_category":"Finanzas","original_subcategory":"Bancos","original_domain":"security.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'chek',
   'Chek',
   'CHEK',
@@ -2831,10 +3595,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"simple.ripley.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'fintual',
   'Fintual',
   'FINTUAL',
@@ -2843,10 +3611,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"fintual.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'global66',
   'Global66',
   'GLOBAL66',
@@ -2855,10 +3627,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"global66.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mach',
   'MACH',
   'MACH',
@@ -2867,10 +3643,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"somosmach.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mercado-pago',
   'Mercado Pago',
   'MERCADO PAGO',
@@ -2879,10 +3659,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"mercadopago.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'prex',
   'Prex',
   'PREX',
@@ -2891,10 +3675,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"prexcard.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tapp',
   'Tapp',
   'TAPP',
@@ -2903,10 +3691,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"tapp.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tenpo',
   'Tenpo',
   'TENPO',
@@ -2915,10 +3707,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Fintech',
   '{"original_category":"Finanzas","original_subcategory":"Fintech","original_domain":"tenpo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bice-inversiones',
   'BICE Inversiones',
   'BICE INVERSIONES',
@@ -2927,10 +3723,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Inversiones',
   '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"biceinversiones.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'btg-pactual',
   'BTG Pactual',
   'BTG PACTUAL',
@@ -2939,10 +3739,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Inversiones',
   '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"btgpactual.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'banchile-inversiones',
   'Banchile Inversiones',
   'BANCHILE INVERSIONES',
@@ -2951,22 +3755,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Inversiones',
   '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"banchileinversiones.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'fintual',
-  'Fintual',
-  'FINTUAL',
-  'BRAND_FINTUAL',
-  'CL',
-  'Finanzas',
-  'Inversiones',
-  '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"fintual.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'larrainvial',
   'LarrainVial',
   'LARRAINVIAL',
@@ -2975,10 +3771,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Inversiones',
   '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"larrainvial.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mbi',
   'MBI',
   'MBI',
@@ -2987,10 +3787,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Inversiones',
   '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"mbi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'renta4',
   'Renta4',
   'RENTA4',
@@ -2999,10 +3803,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Inversiones',
   '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"renta4.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'santander-corredora',
   'Santander Corredora',
   'SANTANDER CORREDORA',
@@ -3011,10 +3819,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Inversiones',
   '{"original_category":"Finanzas","original_subcategory":"Inversiones","original_domain":"santander.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'american-express',
   'American Express',
   'AMERICAN EXPRESS',
@@ -3023,10 +3835,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Medios de Pago',
   '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"americanexpress.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cmr-falabella',
   'CMR Falabella',
   'CMR FALABELLA',
@@ -3035,10 +3851,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Medios de Pago',
   '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"cmrfalabella.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'getnet',
   'Getnet',
   'GETNET',
@@ -3047,10 +3867,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Medios de Pago',
   '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"getnet.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mastercard',
   'Mastercard',
   'MASTERCARD',
@@ -3059,22 +3883,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Medios de Pago',
   '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"mastercard.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'mercado-pago',
-  'Mercado Pago',
-  'MERCADO PAGO',
-  'BRAND_MERCADO_PAGO',
-  'CL',
-  'Finanzas',
-  'Medios de Pago',
-  '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"mercadopago.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'redcompra',
   'Redcompra',
   'REDCOMPRA',
@@ -3083,10 +3899,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Medios de Pago',
   '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"redcompra.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'visa',
   'Visa',
   'VISA',
@@ -3095,10 +3915,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Medios de Pago',
   '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"visa.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'webpay',
   'Webpay',
   'WEBPAY',
@@ -3107,10 +3931,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Finanzas',
   'Medios de Pago',
   '{"original_category":"Finanzas","original_subcategory":"Medios de Pago","original_domain":"webpay.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dyson',
   'Dyson',
   'DYSON',
@@ -3119,10 +3947,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Aspiradoras',
   '{"original_category":"Hogar","original_subcategory":"Aspiradoras","original_domain":"dyson.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'electrolux',
   'Electrolux',
   'ELECTROLUX',
@@ -3131,10 +3963,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Aspiradoras',
   '{"original_category":"Hogar","original_subcategory":"Aspiradoras","original_domain":"electrolux.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'philips',
   'Philips',
   'PHILIPS',
@@ -3143,10 +3979,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Aspiradoras',
   '{"original_category":"Hogar","original_subcategory":"Aspiradoras","original_domain":"philips.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'thomas',
   'Thomas',
   'THOMAS',
@@ -3155,10 +3995,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Aspiradoras',
   '{"original_category":"Hogar","original_subcategory":"Aspiradoras","original_domain":"thomas.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'ursus-trotter',
   'Ursus Trotter',
   'URSUS TROTTER',
@@ -3167,10 +4011,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Aspiradoras',
   '{"original_category":"Hogar","original_subcategory":"Aspiradoras","original_domain":"ursustrotter.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'xiaomi',
   'Xiaomi',
   'XIAOMI',
@@ -3179,10 +4027,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Aspiradoras',
   '{"original_category":"Hogar","original_subcategory":"Aspiradoras","original_domain":"xiaomi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cic',
   'CIC',
   'CIC',
@@ -3191,10 +4043,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Colchones',
   '{"original_category":"Hogar","original_subcategory":"Colchones","original_domain":"cic.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'drimkip',
   'Drimkip',
   'DRIMKIP',
@@ -3203,10 +4059,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Colchones',
   '{"original_category":"Hogar","original_subcategory":"Colchones","original_domain":"drimkip.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'emma',
   'Emma',
   'EMMA',
@@ -3215,10 +4075,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Colchones',
   '{"original_category":"Hogar","original_subcategory":"Colchones","original_domain":"emma-colchon.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'flex',
   'Flex',
   'FLEX',
@@ -3227,10 +4091,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Colchones',
   '{"original_category":"Hogar","original_subcategory":"Colchones","original_domain":"flex.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mantahue',
   'Mantahue',
   'MANTAHUE',
@@ -3239,10 +4107,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Colchones',
   '{"original_category":"Hogar","original_subcategory":"Colchones","original_domain":"mantahue.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'rosen',
   'Rosen',
   'ROSEN',
@@ -3251,10 +4123,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Colchones',
   '{"original_category":"Hogar","original_subcategory":"Colchones","original_domain":"rosen.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bosch',
   'Bosch',
   'BOSCH',
@@ -3263,10 +4139,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Lavadoras',
   '{"original_category":"Hogar","original_subcategory":"Lavadoras","original_domain":"bosch.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'fensa',
   'Fensa',
   'FENSA',
@@ -3275,10 +4155,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Lavadoras',
   '{"original_category":"Hogar","original_subcategory":"Lavadoras","original_domain":"fensa.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'lg',
   'LG',
   'LG',
@@ -3287,10 +4171,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Lavadoras',
   '{"original_category":"Hogar","original_subcategory":"Lavadoras","original_domain":"lg.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'midea',
   'Midea',
   'MIDEA',
@@ -3299,10 +4187,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Lavadoras',
   '{"original_category":"Hogar","original_subcategory":"Lavadoras","original_domain":"midea.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'samsung',
   'Samsung',
   'SAMSUNG',
@@ -3311,10 +4203,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Lavadoras',
   '{"original_category":"Hogar","original_subcategory":"Lavadoras","original_domain":"samsung.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'whirlpool',
   'Whirlpool',
   'WHIRLPOOL',
@@ -3323,82 +4219,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Hogar',
   'Lavadoras',
   '{"original_category":"Hogar","original_subcategory":"Lavadoras","original_domain":"whirlpool.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'bosch',
-  'Bosch',
-  'BOSCH',
-  'BRAND_BOSCH',
-  'CL',
-  'Hogar',
-  'Refrigeradores',
-  '{"original_category":"Hogar","original_subcategory":"Refrigeradores","original_domain":"bosch.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'electrolux',
-  'Electrolux',
-  'ELECTROLUX',
-  'BRAND_ELECTROLUX',
-  'CL',
-  'Hogar',
-  'Refrigeradores',
-  '{"original_category":"Hogar","original_subcategory":"Refrigeradores","original_domain":"electrolux.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'lg',
-  'LG',
-  'LG',
-  'BRAND_LG',
-  NULL,
-  'Hogar',
-  'Refrigeradores',
-  '{"original_category":"Hogar","original_subcategory":"Refrigeradores","original_domain":"lg.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'midea',
-  'Midea',
-  'MIDEA',
-  'BRAND_MIDEA',
-  NULL,
-  'Hogar',
-  'Refrigeradores',
-  '{"original_category":"Hogar","original_subcategory":"Refrigeradores","original_domain":"midea.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'samsung',
-  'Samsung',
-  'SAMSUNG',
-  'BRAND_SAMSUNG',
-  NULL,
-  'Hogar',
-  'Refrigeradores',
-  '{"original_category":"Hogar","original_subcategory":"Refrigeradores","original_domain":"samsung.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'whirlpool',
-  'Whirlpool',
-  'WHIRLPOOL',
-  'BRAND_WHIRLPOOL',
-  'CL',
-  'Hogar',
-  'Refrigeradores',
-  '{"original_category":"Hogar","original_subcategory":"Refrigeradores","original_domain":"whirlpool.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'acana',
   'Acana',
   'ACANA',
@@ -3407,10 +4235,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Alimento para gatos',
   '{"original_category":"Mascotas","original_subcategory":"Alimento para gatos","original_domain":"acana.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bravery',
   'Bravery',
   'BRAVERY',
@@ -3419,10 +4251,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Alimento para gatos',
   '{"original_category":"Mascotas","original_subcategory":"Alimento para gatos","original_domain":"bravery.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cat-chow',
   'Cat Chow',
   'CAT CHOW',
@@ -3431,10 +4267,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Alimento para gatos',
   '{"original_category":"Mascotas","original_subcategory":"Alimento para gatos","original_domain":"purina.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pro-plan',
   'Pro Plan',
   'PRO PLAN',
@@ -3442,11 +4282,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Mascotas',
   'Alimento para gatos',
-  '{"original_category":"Mascotas","original_subcategory":"Alimento para gatos","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Mascotas","original_subcategory":"Alimento para gatos","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'royal-canin',
   'Royal Canin',
   'ROYAL CANIN',
@@ -3455,10 +4299,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Alimento para gatos',
   '{"original_category":"Mascotas","original_subcategory":"Alimento para gatos","original_domain":"royalcanin.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'whiskas',
   'Whiskas',
   'WHISKAS',
@@ -3467,34 +4315,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Alimento para gatos',
   '{"original_category":"Mascotas","original_subcategory":"Alimento para gatos","original_domain":"whiskas.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'acana',
-  'Acana',
-  'ACANA',
-  'BRAND_ACANA',
-  NULL,
-  'Mascotas',
-  'Alimento para perros',
-  '{"original_category":"Mascotas","original_subcategory":"Alimento para perros","original_domain":"acana.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'bravery',
-  'Bravery',
-  'BRAVERY',
-  'BRAND_BRAVERY',
-  'CL',
-  'Mascotas',
-  'Alimento para perros',
-  '{"original_category":"Mascotas","original_subcategory":"Alimento para perros","original_domain":"bravery.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dog-chow',
   'Dog Chow',
   'DOG CHOW',
@@ -3502,11 +4330,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Mascotas',
   'Alimento para perros',
-  '{"original_category":"Mascotas","original_subcategory":"Alimento para perros","original_domain":null,"catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Mascotas","original_subcategory":"Alimento para perros","original_domain":"","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pedigree',
   'Pedigree',
   'PEDIGREE',
@@ -3515,34 +4347,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Alimento para perros',
   '{"original_category":"Mascotas","original_subcategory":"Alimento para perros","original_domain":"pedigree.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'pro-plan',
-  'Pro Plan',
-  'PRO PLAN',
-  'BRAND_PRO_PLAN',
-  'CL',
-  'Mascotas',
-  'Alimento para perros',
-  '{"original_category":"Mascotas","original_subcategory":"Alimento para perros","original_domain":"purina.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'royal-canin',
-  'Royal Canin',
-  'ROYAL CANIN',
-  'BRAND_ROYAL_CANIN',
-  NULL,
-  'Mascotas',
-  'Alimento para perros',
-  '{"original_category":"Mascotas","original_subcategory":"Alimento para perros","original_domain":"royalcanin.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'clinica-veterinaria-alemana',
   'Clínica Veterinaria Alemana',
   'CLINICA VETERINARIA ALEMANA',
@@ -3551,10 +4363,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Clínicas veterinarias',
   '{"original_category":"Mascotas","original_subcategory":"Clínicas veterinarias","original_domain":"cv-alemana.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hospital-clinico-veterinario-u-de-chile',
   'Hospital Clínico Veterinario U. de Chile',
   'HOSPITAL CLINICO VETERINARIO U DE CHILE',
@@ -3563,10 +4379,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Clínicas veterinarias',
   '{"original_category":"Mascotas","original_subcategory":"Clínicas veterinarias","original_domain":"hcv.uchile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'petsalud',
   'PetSalud',
   'PETSALUD',
@@ -3575,10 +4395,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Clínicas veterinarias',
   '{"original_category":"Mascotas","original_subcategory":"Clínicas veterinarias","original_domain":"petsalud.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'vet24',
   'Vet24',
   'VET24',
@@ -3587,10 +4411,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Clínicas veterinarias',
   '{"original_category":"Mascotas","original_subcategory":"Clínicas veterinarias","original_domain":"vet24.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'vetpoint',
   'VetPoint',
   'VETPOINT',
@@ -3599,10 +4427,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Clínicas veterinarias',
   '{"original_category":"Mascotas","original_subcategory":"Clínicas veterinarias","original_domain":"vetpoint.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'vets',
   'Vets',
   'VETS',
@@ -3611,10 +4443,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Clínicas veterinarias',
   '{"original_category":"Mascotas","original_subcategory":"Clínicas veterinarias","original_domain":"vets.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'club-de-perros-y-gatos',
   'Club de Perros y Gatos',
   'CLUB DE PERROS Y GATOS',
@@ -3623,10 +4459,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Tiendas de mascotas',
   '{"original_category":"Mascotas","original_subcategory":"Tiendas de mascotas","original_domain":"clubdeperrosygatos.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'maspet',
   'Maspet',
   'MASPET',
@@ -3635,10 +4475,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Tiendas de mascotas',
   '{"original_category":"Mascotas","original_subcategory":"Tiendas de mascotas","original_domain":"maspet.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pet-bj',
   'Pet BJ',
   'PET BJ',
@@ -3647,10 +4491,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Tiendas de mascotas',
   '{"original_category":"Mascotas","original_subcategory":"Tiendas de mascotas","original_domain":"petbj.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pet-happy',
   'Pet Happy',
   'PET HAPPY',
@@ -3659,10 +4507,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Tiendas de mascotas',
   '{"original_category":"Mascotas","original_subcategory":"Tiendas de mascotas","original_domain":"pethappy.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'petslandia',
   'Petslandia',
   'PETSLANDIA',
@@ -3671,10 +4523,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Tiendas de mascotas',
   '{"original_category":"Mascotas","original_subcategory":"Tiendas de mascotas","original_domain":"petslandia.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'superzoo',
   'SuperZoo',
   'SUPERZOO',
@@ -3683,10 +4539,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Mascotas',
   'Tiendas de mascotas',
   '{"original_category":"Mascotas","original_subcategory":"Tiendas de mascotas","original_domain":"superzoo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'amphora',
   'Amphora',
   'AMPHORA',
@@ -3695,10 +4555,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Accesorios',
   '{"original_category":"Moda","original_subcategory":"Accesorios","original_domain":"amphora.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pandora',
   'Pandora',
   'PANDORA',
@@ -3707,10 +4571,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Accesorios',
   '{"original_category":"Moda","original_subcategory":"Accesorios","original_domain":"pandoraoficial.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'saxoline',
   'Saxoline',
   'SAXOLINE',
@@ -3719,10 +4587,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Accesorios',
   '{"original_category":"Moda","original_subcategory":"Accesorios","original_domain":"saxoline.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'secret',
   'Secret',
   'SECRET',
@@ -3731,10 +4603,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Accesorios',
   '{"original_category":"Moda","original_subcategory":"Accesorios","original_domain":"secret.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'swarovski',
   'Swarovski',
   'SWAROVSKI',
@@ -3743,10 +4619,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Accesorios',
   '{"original_category":"Moda","original_subcategory":"Accesorios","original_domain":"swarovski.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tous',
   'Tous',
   'TOUS',
@@ -3755,10 +4635,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Accesorios',
   '{"original_category":"Moda","original_subcategory":"Accesorios","original_domain":"tous.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'aldo',
   'Aldo',
   'ALDO',
@@ -3767,10 +4651,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Calzado',
   '{"original_category":"Moda","original_subcategory":"Calzado","original_domain":"aldoshoes.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bata',
   'Bata',
   'BATA',
@@ -3779,10 +4667,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Calzado',
   '{"original_category":"Moda","original_subcategory":"Calzado","original_domain":"bata.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'guante',
   'Guante',
   'GUANTE',
@@ -3791,10 +4683,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Calzado',
   '{"original_category":"Moda","original_subcategory":"Calzado","original_domain":"guante.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hush-puppies',
   'Hush Puppies',
   'HUSH PUPPIES',
@@ -3803,10 +4699,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Calzado',
   '{"original_category":"Moda","original_subcategory":"Calzado","original_domain":"hushpuppies.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'nike',
   'Nike',
   'NIKE',
@@ -3815,10 +4715,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Calzado',
   '{"original_category":"Moda","original_subcategory":"Calzado","original_domain":"nike.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'skechers',
   'Skechers',
   'SKECHERS',
@@ -3827,10 +4731,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Calzado',
   '{"original_category":"Moda","original_subcategory":"Calzado","original_domain":"skechers.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'adidas',
   'adidas',
   'ADIDAS',
@@ -3839,10 +4747,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Calzado',
   '{"original_category":"Moda","original_subcategory":"Calzado","original_domain":"adidas.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'decathlon',
   'Decathlon',
   'DECATHLON',
@@ -3851,10 +4763,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Deportivo',
   '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"decathlon.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'new-balance',
   'New Balance',
   'NEW BALANCE',
@@ -3863,22 +4779,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Deportivo',
   '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"newbalance.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'nike',
-  'Nike',
-  'NIKE',
-  'BRAND_NIKE',
-  NULL,
-  'Moda',
-  'Deportivo',
-  '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"nike.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'puma',
   'Puma',
   'PUMA',
@@ -3887,10 +4795,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Deportivo',
   '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"puma.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'reebok',
   'Reebok',
   'REEBOK',
@@ -3899,10 +4811,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Deportivo',
   '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"reebok.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sparta',
   'Sparta',
   'SPARTA',
@@ -3911,10 +4827,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Deportivo',
   '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"sparta.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'under-armour',
   'Under Armour',
   'UNDER ARMOUR',
@@ -3923,22 +4843,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Deportivo',
   '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"underarmour.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'adidas',
-  'adidas',
-  'ADIDAS',
-  'BRAND_ADIDAS',
-  'CL',
-  'Moda',
-  'Deportivo',
-  '{"original_category":"Moda","original_subcategory":"Deportivo","original_domain":"adidas.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bershka',
   'Bershka',
   'BERSHKA',
@@ -3947,10 +4859,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Fast fashion',
   '{"original_category":"Moda","original_subcategory":"Fast fashion","original_domain":"bershka.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'forever-21',
   'Forever 21',
   'FOREVER 21',
@@ -3959,10 +4875,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Fast fashion',
   '{"original_category":"Moda","original_subcategory":"Fast fashion","original_domain":"forever21.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'h-m',
   'H&M',
   'HM',
@@ -3971,10 +4891,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Fast fashion',
   '{"original_category":"Moda","original_subcategory":"Fast fashion","original_domain":"cl.hm.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mango',
   'Mango',
   'MANGO',
@@ -3983,10 +4907,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Fast fashion',
   '{"original_category":"Moda","original_subcategory":"Fast fashion","original_domain":"shop.mango.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pull-bear',
   'Pull&Bear',
   'PULLBEAR',
@@ -3995,10 +4923,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Fast fashion',
   '{"original_category":"Moda","original_subcategory":"Fast fashion","original_domain":"pullandbear.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'stradivarius',
   'Stradivarius',
   'STRADIVARIUS',
@@ -4007,10 +4939,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Fast fashion',
   '{"original_category":"Moda","original_subcategory":"Fast fashion","original_domain":"stradivarius.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'zara',
   'Zara',
   'ZARA',
@@ -4019,10 +4955,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Fast fashion',
   '{"original_category":"Moda","original_subcategory":"Fast fashion","original_domain":"zara.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'columbia',
   'Columbia',
   'COLUMBIA',
@@ -4031,10 +4971,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Outdoor',
   '{"original_category":"Moda","original_subcategory":"Outdoor","original_domain":"columbiachile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'doite',
   'Doite',
   'DOITE',
@@ -4043,10 +4987,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Outdoor',
   '{"original_category":"Moda","original_subcategory":"Outdoor","original_domain":"doite.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'lippi',
   'Lippi',
   'LIPPI',
@@ -4055,10 +5003,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Outdoor',
   '{"original_category":"Moda","original_subcategory":"Outdoor","original_domain":"lippioutdoor.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'marmot',
   'Marmot',
   'MARMOT',
@@ -4067,10 +5019,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Outdoor',
   '{"original_category":"Moda","original_subcategory":"Outdoor","original_domain":"marmot.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'patagonia',
   'Patagonia',
   'PATAGONIA',
@@ -4079,10 +5035,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Outdoor',
   '{"original_category":"Moda","original_subcategory":"Outdoor","original_domain":"patagonia.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'the-north-face',
   'The North Face',
   'THE NORTH FACE',
@@ -4091,10 +5051,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Outdoor',
   '{"original_category":"Moda","original_subcategory":"Outdoor","original_domain":"thenorthface.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'family-shop',
   'Family Shop',
   'FAMILY SHOP',
@@ -4103,34 +5067,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Ropa básica',
   '{"original_category":"Moda","original_subcategory":"Ropa básica","original_domain":"familyshop.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'h-m',
-  'H&M',
-  'HM',
-  'BRAND_HM',
-  NULL,
-  'Moda',
-  'Ropa básica',
-  '{"original_category":"Moda","original_subcategory":"Ropa básica","original_domain":"hm.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'mango',
-  'Mango',
-  'MANGO',
-  'BRAND_MANGO',
-  NULL,
-  'Moda',
-  'Ropa básica',
-  '{"original_category":"Moda","original_subcategory":"Ropa básica","original_domain":"shop.mango.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sybilla',
   'Sybilla',
   'SYBILLA',
@@ -4139,10 +5083,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Ropa básica',
   '{"original_category":"Moda","original_subcategory":"Ropa básica","original_domain":"falabella.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tricot',
   'Tricot',
   'TRICOT',
@@ -4151,22 +5099,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Moda',
   'Ropa básica',
   '{"original_category":"Moda","original_subcategory":"Ropa básica","original_domain":"tricot.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'zara',
-  'Zara',
-  'ZARA',
-  'BRAND_ZARA',
-  NULL,
-  'Moda',
-  'Ropa básica',
-  '{"original_category":"Moda","original_subcategory":"Ropa básica","original_domain":"zara.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'aliexpress',
   'AliExpress',
   'ALIEXPRESS',
@@ -4175,10 +5115,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Marketplaces',
   '{"original_category":"Retail","original_subcategory":"Marketplaces","original_domain":"aliexpress.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'amazon',
   'Amazon',
   'AMAZON',
@@ -4187,10 +5131,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Marketplaces',
   '{"original_category":"Retail","original_subcategory":"Marketplaces","original_domain":"amazon.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'falabella',
   'Falabella',
   'FALABELLA',
@@ -4199,10 +5147,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Marketplaces',
   '{"original_category":"Retail","original_subcategory":"Marketplaces","original_domain":"falabella.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'linio',
   'Linio',
   'LINIO',
@@ -4211,10 +5163,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Marketplaces',
   '{"original_category":"Retail","original_subcategory":"Marketplaces","original_domain":"linio.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mercado-libre',
   'Mercado Libre',
   'MERCADO LIBRE',
@@ -4223,10 +5179,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Marketplaces',
   '{"original_category":"Retail","original_subcategory":"Marketplaces","original_domain":"mercadolibre.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'paris',
   'Paris',
   'PARIS',
@@ -4235,10 +5195,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Marketplaces',
   '{"original_category":"Retail","original_subcategory":"Marketplaces","original_domain":"paris.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'ripley',
   'Ripley',
   'RIPLEY',
@@ -4247,10 +5211,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Marketplaces',
   '{"original_category":"Retail","original_subcategory":"Marketplaces","original_domain":"ripley.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'chilemat',
   'Chilemat',
   'CHILEMAT',
@@ -4259,10 +5227,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Mejoramiento del hogar',
   '{"original_category":"Retail","original_subcategory":"Mejoramiento del hogar","original_domain":"chilemat.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'construmart',
   'Construmart',
   'CONSTRUMART',
@@ -4271,10 +5243,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Mejoramiento del hogar',
   '{"original_category":"Retail","original_subcategory":"Mejoramiento del hogar","original_domain":"construmart.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'easy',
   'Easy',
   'EASY',
@@ -4283,10 +5259,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Mejoramiento del hogar',
   '{"original_category":"Retail","original_subcategory":"Mejoramiento del hogar","original_domain":"easy.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'imperial',
   'Imperial',
   'IMPERIAL',
@@ -4295,10 +5275,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Mejoramiento del hogar',
   '{"original_category":"Retail","original_subcategory":"Mejoramiento del hogar","original_domain":"imperial.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mts',
   'MTS',
   'MTS',
@@ -4307,10 +5291,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Mejoramiento del hogar',
   '{"original_category":"Retail","original_subcategory":"Mejoramiento del hogar","original_domain":"mts.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sodimac',
   'Sodimac',
   'SODIMAC',
@@ -4319,10 +5307,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Mejoramiento del hogar',
   '{"original_category":"Retail","original_subcategory":"Mejoramiento del hogar","original_domain":"sodimac.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'abc',
   'ABC',
   'ABC',
@@ -4331,22 +5323,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Multitiendas',
   '{"original_category":"Retail","original_subcategory":"Multitiendas","original_domain":"abc.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'falabella',
-  'Falabella',
-  'FALABELLA',
-  'BRAND_FALABELLA',
-  NULL,
-  'Retail',
-  'Multitiendas',
-  '{"original_category":"Retail","original_subcategory":"Multitiendas","original_domain":"falabella.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hites',
   'Hites',
   'HITES',
@@ -4355,10 +5339,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Multitiendas',
   '{"original_category":"Retail","original_subcategory":"Multitiendas","original_domain":"hites.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'la-polar',
   'La Polar',
   'LA POLAR',
@@ -4367,46 +5355,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Multitiendas',
   '{"original_category":"Retail","original_subcategory":"Multitiendas","original_domain":"lapolar.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'paris',
-  'Paris',
-  'PARIS',
-  'BRAND_PARIS',
-  'CL',
-  'Retail',
-  'Multitiendas',
-  '{"original_category":"Retail","original_subcategory":"Multitiendas","original_domain":"paris.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'ripley',
-  'Ripley',
-  'RIPLEY',
-  'BRAND_RIPLEY',
-  'CL',
-  'Retail',
-  'Multitiendas',
-  '{"original_category":"Retail","original_subcategory":"Multitiendas","original_domain":"ripley.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'tricot',
-  'Tricot',
-  'TRICOT',
-  'BRAND_TRICOT',
-  'CL',
-  'Retail',
-  'Multitiendas',
-  '{"original_category":"Retail","original_subcategory":"Multitiendas","original_domain":"tricot.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'alvi',
   'Alvi',
   'ALVI',
@@ -4415,10 +5371,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Supermercados',
   '{"original_category":"Retail","original_subcategory":"Supermercados","original_domain":"alvi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'jumbo',
   'Jumbo',
   'JUMBO',
@@ -4427,10 +5387,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Supermercados',
   '{"original_category":"Retail","original_subcategory":"Supermercados","original_domain":"jumbo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'lider',
   'Líder',
   'LIDER',
@@ -4439,10 +5403,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Supermercados',
   '{"original_category":"Retail","original_subcategory":"Supermercados","original_domain":"lider.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'santa-isabel',
   'Santa Isabel',
   'SANTA ISABEL',
@@ -4451,10 +5419,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Supermercados',
   '{"original_category":"Retail","original_subcategory":"Supermercados","original_domain":"santaisabel.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tottus',
   'Tottus',
   'TOTTUS',
@@ -4463,10 +5435,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Supermercados',
   '{"original_category":"Retail","original_subcategory":"Supermercados","original_domain":"tottus.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'unimarc',
   'Unimarc',
   'UNIMARC',
@@ -4475,10 +5451,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Supermercados',
   '{"original_category":"Retail","original_subcategory":"Supermercados","original_domain":"unimarc.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'acuenta',
   'aCuenta',
   'ACUENTA',
@@ -4487,22 +5467,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Supermercados',
   '{"original_category":"Retail","original_subcategory":"Supermercados","original_domain":"acuenta.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'falabella',
-  'Falabella',
-  'FALABELLA',
-  'BRAND_FALABELLA',
-  NULL,
-  'Retail',
-  'Tiendas de tecnología',
-  '{"original_category":"Retail","original_subcategory":"Tiendas de tecnología","original_domain":"falabella.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'maconline',
   'MacOnline',
   'MACONLINE',
@@ -4511,10 +5483,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Tiendas de tecnología',
   '{"original_category":"Retail","original_subcategory":"Tiendas de tecnología","original_domain":"maconline.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'pc-factory',
   'PC Factory',
   'PC FACTORY',
@@ -4523,10 +5499,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Tiendas de tecnología',
   '{"original_category":"Retail","original_subcategory":"Tiendas de tecnología","original_domain":"pcfactory.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'reifstore',
   'Reifstore',
   'REIFSTORE',
@@ -4535,22 +5515,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Tiendas de tecnología',
   '{"original_category":"Retail","original_subcategory":"Tiendas de tecnología","original_domain":"reifstore.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'ripley',
-  'Ripley',
-  'RIPLEY',
-  'BRAND_RIPLEY',
-  'CL',
-  'Retail',
-  'Tiendas de tecnología',
-  '{"original_category":"Retail","original_subcategory":"Tiendas de tecnología","original_domain":"ripley.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sp-digital',
   'SP Digital',
   'SP DIGITAL',
@@ -4559,10 +5531,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Tiendas de tecnología',
   '{"original_category":"Retail","original_subcategory":"Tiendas de tecnología","original_domain":"spdigital.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'weplay',
   'WePlay',
   'WEPLAY',
@@ -4571,10 +5547,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Retail',
   'Tiendas de tecnología',
   '{"original_category":"Retail","original_subcategory":"Tiendas de tecnología","original_domain":"weplay.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bupa',
   'Bupa',
   'BUPA',
@@ -4583,10 +5563,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Centros médicos',
   '{"original_category":"Salud","original_subcategory":"Centros médicos","original_domain":"bupa.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'integramedica',
   'IntegraMédica',
   'INTEGRAMEDICA',
@@ -4595,10 +5579,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Centros médicos',
   '{"original_category":"Salud","original_subcategory":"Centros médicos","original_domain":"integramedica.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'megasalud',
   'Megasalud',
   'MEGASALUD',
@@ -4607,22 +5595,30 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Centros médicos',
   '{"original_category":"Salud","original_subcategory":"Centros médicos","original_domain":"megasalud.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'redsalud-centros-medicos',
-  'RedSalud Centros Médicos',
-  'REDSALUD CENTROS MEDICOS',
-  'BRAND_REDSALUD_CENTROS_MEDICOS',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'redsalud',
+  'RedSalud',
+  'REDSALUD',
+  'BRAND_REDSALUD',
   'CL',
   'Salud',
   'Centros médicos',
   '{"original_category":"Salud","original_subcategory":"Centros médicos","original_domain":"redsalud.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'uc-christus',
   'UC Christus',
   'UC CHRISTUS',
@@ -4631,10 +5627,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Centros médicos',
   '{"original_category":"Salud","original_subcategory":"Centros médicos","original_domain":"ucchristus.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'vidaintegra',
   'Vidaintegra',
   'VIDAINTEGRA',
@@ -4643,10 +5643,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Centros médicos',
   '{"original_category":"Salud","original_subcategory":"Centros médicos","original_domain":"vidaintegra.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'clinica-alemana',
   'Clínica Alemana',
   'CLINICA ALEMANA',
@@ -4655,10 +5659,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Clínicas',
   '{"original_category":"Salud","original_subcategory":"Clínicas","original_domain":"alemana.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'clinica-indisa',
   'Clínica Indisa',
   'CLINICA INDISA',
@@ -4667,10 +5675,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Clínicas',
   '{"original_category":"Salud","original_subcategory":"Clínicas","original_domain":"indisa.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'clinica-las-condes',
   'Clínica Las Condes',
   'CLINICA LAS CONDES',
@@ -4679,10 +5691,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Clínicas',
   '{"original_category":"Salud","original_subcategory":"Clínicas","original_domain":"clc.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'clinica-meds',
   'Clínica MEDS',
   'CLINICA MEDS',
@@ -4691,10 +5707,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Clínicas',
   '{"original_category":"Salud","original_subcategory":"Clínicas","original_domain":"meds.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'clinica-santa-maria',
   'Clínica Santa María',
   'CLINICA SANTA MARIA',
@@ -4703,22 +5723,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Clínicas',
   '{"original_category":"Salud","original_subcategory":"Clínicas","original_domain":"clinicasantamaria.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'redsalud',
-  'RedSalud',
-  'REDSALUD',
-  'BRAND_REDSALUD',
-  'CL',
-  'Salud',
-  'Clínicas',
-  '{"original_category":"Salud","original_subcategory":"Clínicas","original_domain":"redsalud.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cruz-verde',
   'Cruz Verde',
   'CRUZ VERDE',
@@ -4727,10 +5739,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Farmacias',
   '{"original_category":"Salud","original_subcategory":"Farmacias","original_domain":"cruzverde.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dr-simi',
   'Dr. Simi',
   'DR SIMI',
@@ -4739,10 +5755,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Farmacias',
   '{"original_category":"Salud","original_subcategory":"Farmacias","original_domain":"drsimi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'farmacias-ahumada',
   'Farmacias Ahumada',
   'FARMACIAS AHUMADA',
@@ -4751,10 +5771,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Farmacias',
   '{"original_category":"Salud","original_subcategory":"Farmacias","original_domain":"farmaciasahumada.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'fraccion',
   'Fracción',
   'FRACCION',
@@ -4763,10 +5787,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Farmacias',
   '{"original_category":"Salud","original_subcategory":"Farmacias","original_domain":"farmaciafraccion.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'knop',
   'Knop',
   'KNOP',
@@ -4775,10 +5803,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Farmacias',
   '{"original_category":"Salud","original_subcategory":"Farmacias","original_domain":"knop.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'salcobrand',
   'Salcobrand',
   'SALCOBRAND',
@@ -4787,10 +5819,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Farmacias',
   '{"original_category":"Salud","original_subcategory":"Farmacias","original_domain":"salcobrand.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'banmedica',
   'Banmédica',
   'BANMEDICA',
@@ -4799,10 +5835,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Isapres',
   '{"original_category":"Salud","original_subcategory":"Isapres","original_domain":"banmedica.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'colmena',
   'Colmena',
   'COLMENA',
@@ -4811,10 +5851,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Isapres',
   '{"original_category":"Salud","original_subcategory":"Isapres","original_domain":"colmena.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'consalud',
   'Consalud',
   'CONSALUD',
@@ -4823,10 +5867,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Isapres',
   '{"original_category":"Salud","original_subcategory":"Isapres","original_domain":"consalud.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cruz-blanca',
   'Cruz Blanca',
   'CRUZ BLANCA',
@@ -4835,10 +5883,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Isapres',
   '{"original_category":"Salud","original_subcategory":"Isapres","original_domain":"cruzblanca.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'nueva-masvida',
   'Nueva Masvida',
   'NUEVA MASVIDA',
@@ -4847,10 +5899,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Isapres',
   '{"original_category":"Salud","original_subcategory":"Isapres","original_domain":"nuevamasvida.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'vida-tres',
   'Vida Tres',
   'VIDA TRES',
@@ -4859,10 +5915,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Isapres',
   '{"original_category":"Salud","original_subcategory":"Isapres","original_domain":"vidatres.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bci-seguros',
   'BCI Seguros',
   'BCI SEGUROS',
@@ -4871,22 +5931,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Seguros de salud',
   '{"original_category":"Salud","original_subcategory":"Seguros de salud","original_domain":"bciseguros.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'consorcio',
-  'Consorcio',
-  'CONSORCIO',
-  'BRAND_CONSORCIO',
-  'CL',
-  'Salud',
-  'Seguros de salud',
-  '{"original_category":"Salud","original_subcategory":"Seguros de salud","original_domain":"consorcio.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hdi-seguros',
   'HDI Seguros',
   'HDI SEGUROS',
@@ -4895,10 +5947,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Seguros de salud',
   '{"original_category":"Salud","original_subcategory":"Seguros de salud","original_domain":"hdi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mapfre',
   'Mapfre',
   'MAPFRE',
@@ -4907,10 +5963,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Seguros de salud',
   '{"original_category":"Salud","original_subcategory":"Seguros de salud","original_domain":"mapfre.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'metlife',
   'MetLife',
   'METLIFE',
@@ -4919,10 +5979,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Seguros de salud',
   '{"original_category":"Salud","original_subcategory":"Seguros de salud","original_domain":"metlife.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'zurich',
   'Zurich',
   'ZURICH',
@@ -4931,22 +5995,30 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Salud',
   'Seguros de salud',
   '{"original_category":"Salud","original_subcategory":"Seguros de salud","original_domain":"zurich.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'apple-airpods',
-  'Apple AirPods',
-  'APPLE AIRPODS',
-  'BRAND_APPLE_AIRPODS',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'apple',
+  'Apple',
+  'APPLE',
+  'BRAND_APPLE',
   NULL,
   'Tecnología',
   'Audífonos',
   '{"original_category":"Tecnología","original_subcategory":"Audífonos","original_domain":"apple.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'bose',
   'Bose',
   'BOSE',
@@ -4955,10 +6027,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Audífonos',
   '{"original_category":"Tecnología","original_subcategory":"Audífonos","original_domain":"bose.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'jbl',
   'JBL',
   'JBL',
@@ -4967,22 +6043,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Audífonos',
   '{"original_category":"Tecnología","original_subcategory":"Audífonos","original_domain":"jbl.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'samsung-galaxy-buds',
-  'Samsung Galaxy Buds',
-  'SAMSUNG GALAXY BUDS',
-  'BRAND_SAMSUNG_GALAXY_BUDS',
-  'CL',
-  'Tecnología',
-  'Audífonos',
-  '{"original_category":"Tecnología","original_subcategory":"Audífonos","original_domain":"samsung.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'skullcandy',
   'Skullcandy',
   'SKULLCANDY',
@@ -4990,11 +6058,15 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   NULL,
   'Tecnología',
   'Audífonos',
-  '{"original_category":"Tecnología","original_subcategory":"Audífonos","original_domain":null,"catalog_source":"excel","curation_status":"needs_review","notes":"Domain review needed."}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+  '{"original_category":"Tecnología","original_subcategory":"Audífonos","original_domain":"","catalog_source":"excel","curation_status":"needs_review","notes":"Domain review needed."}'::jsonb
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sony',
   'Sony',
   'SONY',
@@ -5003,46 +6075,62 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Audífonos',
   '{"original_category":"Tecnología","original_subcategory":"Audífonos","original_domain":"sony.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'asus-rog-ally',
-  'ASUS ROG Ally',
-  'ASUS ROG ALLY',
-  'BRAND_ASUS_ROG_ALLY',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'asus',
+  'ASUS',
+  'ASUS',
+  'BRAND_ASUS',
   NULL,
   'Tecnología',
   'Consolas',
   '{"original_category":"Tecnología","original_subcategory":"Consolas","original_domain":"rog.asus.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'lenovo-legion-go',
-  'Lenovo Legion Go',
-  'LENOVO LEGION GO',
-  'BRAND_LENOVO_LEGION_GO',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'lenovo',
+  'Lenovo',
+  'LENOVO',
+  'BRAND_LENOVO',
   'CL',
   'Tecnología',
   'Consolas',
   '{"original_category":"Tecnología","original_subcategory":"Consolas","original_domain":"lenovo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'nintendo-switch',
-  'Nintendo Switch',
-  'NINTENDO SWITCH',
-  'BRAND_NINTENDO_SWITCH',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'nintendo',
+  'Nintendo',
+  'NINTENDO',
+  'BRAND_NINTENDO',
   'CL',
   'Tecnología',
   'Consolas',
   '{"original_category":"Tecnología","original_subcategory":"Consolas","original_domain":"nintendo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'playstation',
   'PlayStation',
   'PLAYSTATION',
@@ -5051,10 +6139,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Consolas',
   '{"original_category":"Tecnología","original_subcategory":"Consolas","original_domain":"ps.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'steam-deck',
   'Steam Deck',
   'STEAM DECK',
@@ -5063,10 +6155,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Consolas',
   '{"original_category":"Tecnología","original_subcategory":"Consolas","original_domain":"steamdeck.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'xbox',
   'Xbox',
   'XBOX',
@@ -5075,10 +6171,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Consolas',
   '{"original_category":"Tecnología","original_subcategory":"Consolas","original_domain":"xbox.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'aoc',
   'AOC',
   'AOC',
@@ -5087,46 +6187,30 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Monitores gamer',
   '{"original_category":"Tecnología","original_subcategory":"Monitores gamer","original_domain":"aocchile.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'asus-rog',
-  'ASUS ROG',
-  'ASUS ROG',
-  'BRAND_ASUS_ROG',
-  NULL,
-  'Tecnología',
-  'Monitores gamer',
-  '{"original_category":"Tecnología","original_subcategory":"Monitores gamer","original_domain":"rog.asus.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'acer-predator',
-  'Acer Predator',
-  'ACER PREDATOR',
-  'BRAND_ACER_PREDATOR',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'acer',
+  'Acer',
+  'ACER',
+  'BRAND_ACER',
   NULL,
   'Tecnología',
   'Monitores gamer',
   '{"original_category":"Tecnología","original_subcategory":"Monitores gamer","original_domain":"acer.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'lg-ultragear',
-  'LG UltraGear',
-  'LG ULTRAGEAR',
-  'BRAND_LG_ULTRAGEAR',
-  NULL,
-  'Tecnología',
-  'Monitores gamer',
-  '{"original_category":"Tecnología","original_subcategory":"Monitores gamer","original_domain":"lg.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'msi',
   'MSI',
   'MSI',
@@ -5135,58 +6219,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Monitores gamer',
   '{"original_category":"Tecnología","original_subcategory":"Monitores gamer","original_domain":"latam.msi.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'samsung-odyssey',
-  'Samsung Odyssey',
-  'SAMSUNG ODYSSEY',
-  'BRAND_SAMSUNG_ODYSSEY',
-  'CL',
-  'Tecnología',
-  'Monitores gamer',
-  '{"original_category":"Tecnología","original_subcategory":"Monitores gamer","original_domain":"samsung.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'asus',
-  'ASUS',
-  'ASUS',
-  'BRAND_ASUS',
-  NULL,
-  'Tecnología',
-  'Notebooks',
-  '{"original_category":"Tecnología","original_subcategory":"Notebooks","original_domain":"asus.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'acer',
-  'Acer',
-  'ACER',
-  'BRAND_ACER',
-  NULL,
-  'Tecnología',
-  'Notebooks',
-  '{"original_category":"Tecnología","original_subcategory":"Notebooks","original_domain":"acer.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'apple-macbook',
-  'Apple MacBook',
-  'APPLE MACBOOK',
-  'BRAND_APPLE_MACBOOK',
-  NULL,
-  'Tecnología',
-  'Notebooks',
-  '{"original_category":"Tecnología","original_subcategory":"Notebooks","original_domain":"apple.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dell',
   'Dell',
   'DELL',
@@ -5195,10 +6235,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Notebooks',
   '{"original_category":"Tecnología","original_subcategory":"Notebooks","original_domain":"dell.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hp',
   'HP',
   'HP',
@@ -5207,34 +6251,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Notebooks',
   '{"original_category":"Tecnología","original_subcategory":"Notebooks","original_domain":"hp.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'lenovo',
-  'Lenovo',
-  'LENOVO',
-  'BRAND_LENOVO',
-  NULL,
-  'Tecnología',
-  'Notebooks',
-  '{"original_category":"Tecnología","original_subcategory":"Notebooks","original_domain":"lenovo.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'msi',
-  'MSI',
-  'MSI',
-  'BRAND_MSI',
-  NULL,
-  'Tecnología',
-  'Notebooks',
-  '{"original_category":"Tecnología","original_subcategory":"Notebooks","original_domain":"latam.msi.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'corsair',
   'Corsair',
   'CORSAIR',
@@ -5243,10 +6267,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Periféricos gamer',
   '{"original_category":"Tecnología","original_subcategory":"Periféricos gamer","original_domain":"corsair.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hyperx',
   'HyperX',
   'HYPERX',
@@ -5255,10 +6283,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Periféricos gamer',
   '{"original_category":"Tecnología","original_subcategory":"Periféricos gamer","original_domain":"hyperx.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'logitech-g',
   'Logitech G',
   'LOGITECH G',
@@ -5267,10 +6299,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Periféricos gamer',
   '{"original_category":"Tecnología","original_subcategory":"Periféricos gamer","original_domain":"logitechg.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'razer',
   'Razer',
   'RAZER',
@@ -5279,10 +6315,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Periféricos gamer',
   '{"original_category":"Tecnología","original_subcategory":"Periféricos gamer","original_domain":"razer.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'redragon',
   'Redragon',
   'REDRAGON',
@@ -5291,10 +6331,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Periféricos gamer',
   '{"original_category":"Tecnología","original_subcategory":"Periféricos gamer","original_domain":"redragon.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'steelseries',
   'SteelSeries',
   'STEELSERIES',
@@ -5303,22 +6347,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Periféricos gamer',
   '{"original_category":"Tecnología","original_subcategory":"Periféricos gamer","original_domain":"steelseries.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'apple-iphone',
-  'Apple iPhone',
-  'APPLE IPHONE',
-  'BRAND_APPLE_IPHONE',
-  NULL,
-  'Tecnología',
-  'Smartphones',
-  '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"apple.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'honor',
   'Honor',
   'HONOR',
@@ -5327,10 +6363,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Smartphones',
   '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"honor.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'huawei',
   'Huawei',
   'HUAWEI',
@@ -5339,10 +6379,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Smartphones',
   '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"huawei.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'motorola',
   'Motorola',
   'MOTOROLA',
@@ -5351,10 +6395,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Smartphones',
   '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"motorola.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'oppo',
   'Oppo',
   'OPPO',
@@ -5363,10 +6411,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Smartphones',
   '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"oppo.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'realme',
   'Realme',
   'REALME',
@@ -5375,34 +6427,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Smartphones',
   '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"realme.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'samsung-galaxy',
-  'Samsung Galaxy',
-  'SAMSUNG GALAXY',
-  'BRAND_SAMSUNG_GALAXY',
-  'CL',
-  'Tecnología',
-  'Smartphones',
-  '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"samsung.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'xiaomi',
-  'Xiaomi',
-  'XIAOMI',
-  'BRAND_XIAOMI',
-  NULL,
-  'Tecnología',
-  'Smartphones',
-  '{"original_category":"Tecnología","original_subcategory":"Smartphones","original_domain":"mi.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'amazfit',
   'Amazfit',
   'AMAZFIT',
@@ -5411,22 +6443,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Smartwatches',
   '{"original_category":"Tecnología","original_subcategory":"Smartwatches","original_domain":"amazfit.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'apple-watch',
-  'Apple Watch',
-  'APPLE WATCH',
-  'BRAND_APPLE_WATCH',
-  NULL,
-  'Tecnología',
-  'Smartwatches',
-  '{"original_category":"Tecnología","original_subcategory":"Smartwatches","original_domain":"apple.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'garmin',
   'Garmin',
   'GARMIN',
@@ -5435,118 +6459,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Smartwatches',
   '{"original_category":"Tecnología","original_subcategory":"Smartwatches","original_domain":"garmin.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'huawei-watch',
-  'Huawei Watch',
-  'HUAWEI WATCH',
-  'BRAND_HUAWEI_WATCH',
-  NULL,
-  'Tecnología',
-  'Smartwatches',
-  '{"original_category":"Tecnología","original_subcategory":"Smartwatches","original_domain":"huawei.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'samsung-galaxy-watch',
-  'Samsung Galaxy Watch',
-  'SAMSUNG GALAXY WATCH',
-  'BRAND_SAMSUNG_GALAXY_WATCH',
-  'CL',
-  'Tecnología',
-  'Smartwatches',
-  '{"original_category":"Tecnología","original_subcategory":"Smartwatches","original_domain":"samsung.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'xiaomi-watch',
-  'Xiaomi Watch',
-  'XIAOMI WATCH',
-  'BRAND_XIAOMI_WATCH',
-  'CL',
-  'Tecnología',
-  'Smartwatches',
-  '{"original_category":"Tecnología","original_subcategory":"Smartwatches","original_domain":"vxiaomi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'apple-ipad',
-  'Apple iPad',
-  'APPLE IPAD',
-  'BRAND_APPLE_IPAD',
-  NULL,
-  'Tecnología',
-  'Tablets',
-  '{"original_category":"Tecnología","original_subcategory":"Tablets","original_domain":"apple.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'honor-pad',
-  'Honor Pad',
-  'HONOR PAD',
-  'BRAND_HONOR_PAD',
-  'CL',
-  'Tecnología',
-  'Tablets',
-  '{"original_category":"Tecnología","original_subcategory":"Tablets","original_domain":"honorstore.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'huawei-matepad',
-  'Huawei MatePad',
-  'HUAWEI MATEPAD',
-  'BRAND_HUAWEI_MATEPAD',
-  NULL,
-  'Tecnología',
-  'Tablets',
-  '{"original_category":"Tecnología","original_subcategory":"Tablets","original_domain":"huawei.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'lenovo-tab',
-  'Lenovo Tab',
-  'LENOVO TAB',
-  'BRAND_LENOVO_TAB',
-  'CL',
-  'Tecnología',
-  'Tablets',
-  '{"original_category":"Tecnología","original_subcategory":"Tablets","original_domain":"lenovo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'samsung-galaxy-tab',
-  'Samsung Galaxy Tab',
-  'SAMSUNG GALAXY TAB',
-  'BRAND_SAMSUNG_GALAXY_TAB',
-  'CL',
-  'Tecnología',
-  'Tablets',
-  '{"original_category":"Tecnología","original_subcategory":"Tablets","original_domain":"samsung.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'xiaomi-pad',
-  'Xiaomi Pad',
-  'XIAOMI PAD',
-  'BRAND_XIAOMI_PAD',
-  'CL',
-  'Tecnología',
-  'Tablets',
-  '{"original_category":"Tecnología","original_subcategory":"Tablets","original_domain":"xiaomi.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'hisense',
   'Hisense',
   'HISENSE',
@@ -5555,58 +6475,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Televisores',
   '{"original_category":"Tecnología","original_subcategory":"Televisores","original_domain":"hisense.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'lg',
-  'LG',
-  'LG',
-  'BRAND_LG',
-  NULL,
-  'Tecnología',
-  'Televisores',
-  '{"original_category":"Tecnología","original_subcategory":"Televisores","original_domain":"lg.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'philips',
-  'Philips',
-  'PHILIPS',
-  'BRAND_PHILIPS',
-  'CL',
-  'Tecnología',
-  'Televisores',
-  '{"original_category":"Tecnología","original_subcategory":"Televisores","original_domain":"philips.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'samsung',
-  'Samsung',
-  'SAMSUNG',
-  'BRAND_SAMSUNG',
-  'CL',
-  'Tecnología',
-  'Televisores',
-  '{"original_category":"Tecnología","original_subcategory":"Televisores","original_domain":"samsung.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'sony',
-  'Sony',
-  'SONY',
-  'BRAND_SONY',
-  NULL,
-  'Tecnología',
-  'Televisores',
-  '{"original_category":"Tecnología","original_subcategory":"Televisores","original_domain":"sony.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tcl',
   'TCL',
   'TCL',
@@ -5615,34 +6491,46 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Tecnología',
   'Televisores',
   '{"original_category":"Tecnología","original_subcategory":"Televisores","original_domain":"tclstore.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'claro-hogar',
-  'Claro Hogar',
-  'CLARO HOGAR',
-  'BRAND_CLARO_HOGAR',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'claro',
+  'Claro',
+  'CLARO',
+  'BRAND_CLARO',
   'CL',
   'Telecomunicaciones',
   'Internet hogar',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Internet hogar","original_domain":"claro.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'entel-fibra',
-  'Entel Fibra',
-  'ENTEL FIBRA',
-  'BRAND_ENTEL_FIBRA',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'entel',
+  'Entel',
+  'ENTEL',
+  'BRAND_ENTEL',
   'CL',
   'Telecomunicaciones',
   'Internet hogar',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Internet hogar","original_domain":"entel.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'gtd',
   'GTD',
   'GTD',
@@ -5651,22 +6539,30 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'Internet hogar',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Internet hogar","original_domain":"gtd.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'movistar-fibra',
-  'Movistar Fibra',
-  'MOVISTAR FIBRA',
-  'BRAND_MOVISTAR_FIBRA',
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
+  'movistar',
+  'Movistar',
+  'MOVISTAR',
+  'BRAND_MOVISTAR',
   'CL',
   'Telecomunicaciones',
   'Internet hogar',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Internet hogar","original_domain":"movistar.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'mundo',
   'Mundo',
   'MUNDO',
@@ -5675,10 +6571,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'Internet hogar',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Internet hogar","original_domain":"mundo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'telsur',
   'Telsur',
   'TELSUR',
@@ -5687,10 +6587,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'Internet hogar',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Internet hogar","original_domain":"gtd.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'vtr',
   'VTR',
   'VTR',
@@ -5699,22 +6603,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'Internet hogar',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Internet hogar","original_domain":"vtr.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'claro-video',
-  'Claro video',
-  'CLARO VIDEO',
-  'BRAND_CLARO_VIDEO',
-  NULL,
-  'Telecomunicaciones',
-  'TV online',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"TV online","original_domain":"clarovideo.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'dgo',
   'DGO',
   'DGO',
@@ -5723,10 +6619,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'TV online',
   '{"original_category":"Telecomunicaciones","original_subcategory":"TV online","original_domain":"directvgo.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'michv',
   'MiCHV',
   'MICHV',
@@ -5735,22 +6635,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'TV online',
   '{"original_category":"Telecomunicaciones","original_subcategory":"TV online","original_domain":"michv.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'movistar-tv-app',
-  'Movistar TV App',
-  'MOVISTAR TV APP',
-  'BRAND_MOVISTAR_TV_APP',
-  'CL',
-  'Telecomunicaciones',
-  'TV online',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"TV online","original_domain":"movistar.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tvn-play',
   'TVN Play',
   'TVN PLAY',
@@ -5759,10 +6651,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'TV online',
   '{"original_category":"Telecomunicaciones","original_subcategory":"TV online","original_domain":"tvnplay.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'zapping',
   'Zapping',
   'ZAPPING',
@@ -5771,22 +6667,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'TV online',
   '{"original_category":"Telecomunicaciones","original_subcategory":"TV online","original_domain":"zapping.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'claro-tv',
-  'Claro TV',
-  'CLARO TV',
-  'BRAND_CLARO_TV',
-  'CL',
-  'Telecomunicaciones',
-  'TV paga',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"TV paga","original_domain":"claro.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'directv',
   'DIRECTV',
   'DIRECTV',
@@ -5795,22 +6683,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'TV paga',
   '{"original_category":"Telecomunicaciones","original_subcategory":"TV paga","original_domain":"directtv.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'movistar-tv',
-  'Movistar TV',
-  'MOVISTAR TV',
-  'BRAND_MOVISTAR_TV',
-  'CL',
-  'Telecomunicaciones',
-  'TV paga',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"TV paga","original_domain":"movistar.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'tuves',
   'TuVes',
   'TUVES',
@@ -5819,82 +6699,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'TV paga',
   '{"original_category":"Telecomunicaciones","original_subcategory":"TV paga","original_domain":"tuves.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'vtr',
-  'VTR',
-  'VTR',
-  'BRAND_VTR',
-  NULL,
-  'Telecomunicaciones',
-  'TV paga',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"TV paga","original_domain":"vtr.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'zapping',
-  'Zapping',
-  'ZAPPING',
-  'BRAND_ZAPPING',
-  NULL,
-  'Telecomunicaciones',
-  'TV paga',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"TV paga","original_domain":"zapping.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'claro',
-  'Claro',
-  'CLARO',
-  'BRAND_CLARO',
-  'CL',
-  'Telecomunicaciones',
-  'Telefonía móvil',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"Telefonía móvil","original_domain":"claro.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'entel',
-  'Entel',
-  'ENTEL',
-  'BRAND_ENTEL',
-  'CL',
-  'Telecomunicaciones',
-  'Telefonía móvil',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"Telefonía móvil","original_domain":"entel.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'movistar',
-  'Movistar',
-  'MOVISTAR',
-  'BRAND_MOVISTAR',
-  'CL',
-  'Telecomunicaciones',
-  'Telefonía móvil',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"Telefonía móvil","original_domain":"movistar.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'mundo',
-  'Mundo',
-  'MUNDO',
-  'BRAND_MUNDO',
-  'CL',
-  'Telecomunicaciones',
-  'Telefonía móvil',
-  '{"original_category":"Telecomunicaciones","original_subcategory":"Telefonía móvil","original_domain":"mundo.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'wom',
   'WOM',
   'WOM',
@@ -5903,10 +6715,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Telecomunicaciones',
   'Telefonía móvil',
   '{"original_category":"Telecomunicaciones","original_subcategory":"Telefonía móvil","original_domain":"wom.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'air-france',
   'Air France',
   'AIR FRANCE',
@@ -5915,10 +6731,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"airfrance.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'american-airlines',
   'American Airlines',
   'AMERICAN AIRLINES',
@@ -5927,10 +6747,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"aa.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'avianca',
   'Avianca',
   'AVIANCA',
@@ -5939,10 +6763,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"avianca.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'copa-airlines',
   'Copa Airlines',
   'COPA AIRLINES',
@@ -5951,10 +6779,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"copaair.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'delta-air-lines',
   'Delta Air Lines',
   'DELTA AIR LINES',
@@ -5963,10 +6795,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"delta.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'iberia',
   'Iberia',
   'IBERIA',
@@ -5975,10 +6811,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"iberia.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'jetsmart',
   'JetSMART',
   'JETSMART',
@@ -5987,10 +6827,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"jetsmart.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'klm',
   'KLM',
   'KLM',
@@ -5999,10 +6843,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"klm.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'latam',
   'LATAM',
   'LATAM',
@@ -6011,10 +6859,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"latamairlines.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'sky-airline',
   'Sky Airline',
   'SKY AIRLINE',
@@ -6023,10 +6875,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"skyairlines.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'united-airlines',
   'United Airlines',
   'UNITED AIRLINES',
@@ -6035,10 +6891,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Aerolíneas',
   '{"original_category":"Viajes y transporte","original_subcategory":"Aerolíneas","original_domain":"ua.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'cabify',
   'Cabify',
   'CABIFY',
@@ -6047,10 +6907,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Apps de transporte',
   '{"original_category":"Viajes y transporte","original_subcategory":"Apps de transporte","original_domain":"cabify.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'didi',
   'DiDi',
   'DIDI',
@@ -6059,10 +6923,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Apps de transporte',
   '{"original_category":"Viajes y transporte","original_subcategory":"Apps de transporte","original_domain":"didi.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'transvip',
   'Transvip',
   'TRANSVIP',
@@ -6071,10 +6939,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Apps de transporte',
   '{"original_category":"Viajes y transporte","original_subcategory":"Apps de transporte","original_domain":"transvip.cl","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'uber',
   'Uber',
   'UBER',
@@ -6083,10 +6955,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Apps de transporte',
   '{"original_category":"Viajes y transporte","original_subcategory":"Apps de transporte","original_domain":"uber.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'indrive',
   'inDrive',
   'INDRIVE',
@@ -6095,22 +6971,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Apps de transporte',
   '{"original_category":"Viajes y transporte","original_subcategory":"Apps de transporte","original_domain":"indrive.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
-  'discord',
-  'Discord',
-  'DISCORD',
-  'BRAND_DISCORD',
-  NULL,
-  'Viajes y transporte',
-  'Mensajería',
-  '{"original_category":"Viajes y transporte","original_subcategory":"Mensajería","original_domain":"discord.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
-
-INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'messenger',
   'Messenger',
   'MESSENGER',
@@ -6119,10 +6987,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Mensajería',
   '{"original_category":"Viajes y transporte","original_subcategory":"Mensajería","original_domain":"messenger.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'signal',
   'Signal',
   'SIGNAL',
@@ -6131,10 +7003,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Mensajería',
   '{"original_category":"Viajes y transporte","original_subcategory":"Mensajería","original_domain":"signal.org","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'telegram',
   'Telegram',
   'TELEGRAM',
@@ -6143,10 +7019,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Mensajería',
   '{"original_category":"Viajes y transporte","original_subcategory":"Mensajería","original_domain":"telegram.org","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'wechat',
   'WeChat',
   'WECHAT',
@@ -6155,10 +7035,14 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Mensajería',
   '{"original_category":"Viajes y transporte","original_subcategory":"Mensajería","original_domain":"wechat.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 
 INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normalized_name, canonical_code, country_code, primary_category, primary_subcategory, metadata) VALUES (
-  (SELECT id FROM public.entity_types WHERE slug = 'brand'),
+  (SELECT id FROM public.entity_types WHERE code = 'BRAND'),
   'whatsapp',
   'WhatsApp',
   'WHATSAPP',
@@ -6167,5 +7051,9 @@ INSERT INTO public.signal_entities (entity_type_id, slug, display_name, normaliz
   'Viajes y transporte',
   'Mensajería',
   '{"original_category":"Viajes y transporte","original_subcategory":"Mensajería","original_domain":"whatsapp.com","catalog_source":"excel","curation_status":"curated","notes":""}'::jsonb
-) ON CONFLICT (canonical_code) DO NOTHING;
+) ON CONFLICT (canonical_code) WHERE canonical_code IS NOT NULL DO UPDATE SET
+  display_name = EXCLUDED.display_name,
+  normalized_name = EXCLUDED.normalized_name,
+  slug = EXCLUDED.slug,
+  metadata = EXCLUDED.metadata;
 

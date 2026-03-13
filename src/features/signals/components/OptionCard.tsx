@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BattleOption } from '../types';
 import EntityLogo from '../../../components/entities/EntityLogo';
 import { FallbackAvatar } from '../../../components/ui/FallbackAvatar';
+import { resolveEntitySlug } from '../../../lib/entities/resolveEntitySlug';
 
 interface OptionCardProps {
     option: BattleOption;
@@ -95,13 +96,13 @@ export default function OptionCard({
                                 style={{ background: `radial-gradient(circle, ${theme?.primary || '#10b981'}20 0%, transparent 60%)` }}
                             />
 
-                            <div className="flex items-center justify-center w-full h-[120px] md:h-[260px] p-4 md:p-6 relative">
+                            <div className="flex items-center justify-center w-full h-[120px] md:h-[260px] p-2 md:p-4 relative">
                                 <EntityLogo
                                     name={option.label}
-                                    slug={option.slug || option.entity_slug}
+                                    slug={resolveEntitySlug(option)}
                                     size="lg"
                                     rounded={false}
-                                    className={`!w-[90px] !h-[90px] md:!w-[180px] md:!h-[180px] relative z-10 mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''} bg-transparent !border-none`}
+                                    className={`!w-[100px] !h-[100px] md:!w-[190px] md:!h-[190px] relative z-10 mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''} bg-transparent !border-none`}
                                 />
                             </div>
                         </div>

@@ -1,13 +1,15 @@
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 
+export type TopicQuestionOption = string | { label?: string; value?: string; text?: string; id?: string; [key: string]: unknown };
+
 export interface TopicQuestion {
     id: string;
     set_id?: string;
     question_order: number;
     question_text: string;
     answer_type: string;
-    options_json: any;
+    options_json: TopicQuestionOption[] | null | unknown;
 }
 
 export interface ActualidadTopic {
@@ -33,8 +35,11 @@ export interface ActualidadTopic {
     cluster_id?: string | null;
     created_by_ai?: boolean | null;
     admin_edited?: boolean | null;
+    created_by?: string | null;
+    reviewed_by?: string | null;
+    approved_by?: string | null;
     archived_at?: string | null;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
     stats?: {
         total_participants: number | null;
         total_signals: number | null;
@@ -44,7 +49,7 @@ export interface ActualidadTopic {
 
 export interface ActualidadTopicDetail extends ActualidadTopic {
     questions: TopicQuestion[];
-    user_answers?: any[];
+    user_answers?: unknown[];
 }
 
 export const actualidadService = {
@@ -100,8 +105,7 @@ export const actualidadService = {
                 short_summary: t.short_summary,
                 category: t.category,
                 status: t.status,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                impact_quote: (t as any).impact_quote,
+                impact_quote: (t as unknown as { impact_quote?: string }).impact_quote,
                 published_at: t.published_at,
                 tags: t.tags,
                 actors: t.actors,
@@ -118,7 +122,7 @@ export const actualidadService = {
                 created_by_ai: t.created_by_ai,
                 admin_edited: t.admin_edited,
                 archived_at: t.archived_at,
-                metadata: t.metadata as Record<string, any> || undefined,
+                metadata: t.metadata as Record<string, unknown> || undefined,
                 stats: statsMap.get(t.id) || { total_participants: 0, total_signals: 0 },
                 has_answered: answeredTopicIds.has(t.id)
             }));
@@ -140,6 +144,7 @@ export const actualidadService = {
                 .from('current_topics')
                 .select('*')
                 .eq('id', topicId)
+                .eq('status', 'published')
                 .single();
 
             if (topicError || !topic) return null;
@@ -164,7 +169,7 @@ export const actualidadService = {
             }
 
             // 3. Get User answers
-            let userAnswers: any[] = [];
+            let userAnswers: unknown[] = [];
             if (user) {
                 const { data: ans } = await supabase
                     .from('topic_answers')
@@ -197,8 +202,7 @@ export const actualidadService = {
                 short_summary: topic.short_summary,
                 category: topic.category,
                 status: topic.status,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                impact_quote: (topic as any).impact_quote,
+                impact_quote: (topic as unknown as { impact_quote?: string }).impact_quote,
                 published_at: topic.published_at,
                 tags: topic.tags,
                 actors: topic.actors,
@@ -236,6 +240,25 @@ export const actualidadService = {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return false;
 
+            // 1. ESCRITURA CANÓNICA (Signal Engine)
+            // Import signalService dynamically to avoid circular dependencies if any
+            const { signalService } = await import('./signalService');
+            
+            for (const answer of answers) {
+                // Mapeamos el answer_value usando el question_id como contexto o sub-entidad
+                // Para actualidad, el battle_id es el topicId y el option_id es la respuesta
+                await signalService.saveSignalEvent({
+                    battle_id: topicId,
+                    option_id: answer.answer_value,
+                    attribute_id: answer.question_id, // Usamos attribute_id para guardar a qué pregunta corresponde
+                    meta: { 
+                        source: 'actualidad',
+                        temporal_mode: temporalMode
+                    }
+                });
+            }
+
+            // 2. METADATA ESPECÍFICA DEL MÓDULO ALMACENADA DESPUÉS
             const inserts = answers.map(a => ({
                 topic_id: topicId,
                 question_id: a.question_id,
@@ -244,19 +267,23 @@ export const actualidadService = {
                 temporal_mode: temporalMode
             }));
 
+            // Usamos upsert o ignoramos error si falla el guardado de metadata, 
+            // ya que la señal canónica es lo que realmente importa.
             const { error } = await supabase
                 .from('topic_answers')
-                .insert(inserts);
+                .upsert(inserts, { onConflict: 'user_id, topic_id, question_id' });
 
             if (error) {
-                logger.error('Error inserting topic answers', { error });
-                return false;
+                logger.error('Error inserting topic answers fallback metadata', { error });
+                // No retornamos false porque la escritura canónica tuvo éxito
             }
 
             return true;
         } catch (error) {
             logger.error('Unexpected error submitting answers', { error });
-            return false;
+            // Dejamos que la exception burbujee o retorne false según convenga. 
+            // En caso de fallar signalService.saveSignalEvent (por Auth o Profiles), lanzará error real.
+            throw error; 
         }
     }
 };

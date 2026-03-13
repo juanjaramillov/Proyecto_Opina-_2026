@@ -1,0 +1,190 @@
+Industria,Categoria,Subcategoria,Marca,Slug,Dominio
+Tecnología,Dispositivos,Smartphones,Apple iPhone,apple-iphone,https://www.apple.com
+Tecnología,Dispositivos,Smartphones,Samsung Galaxy,samsung-galaxy,https://www.samsung.com
+Tecnología,Dispositivos,Smartphones,Xiaomi,xiaomi-smartphones,https://www.mi.com
+Tecnología,Dispositivos,Smartphones,Huawei,huawei-smartphones,https://consumer.huawei.com
+Tecnología,Dispositivos,Smartphones,Motorola,motorola-smartphones,https://www.motorola.com
+Tecnología,Dispositivos,Smartphones,Honor,honor-smartphones,https://www.honor.com
+Tecnología,Dispositivos,Smartphones,Oppo,oppo-smartphones,https://www.oppo.com
+Tecnología,Dispositivos,Smartphones,Realme,realme-smartphones,https://www.realme.com
+Tecnología,Dispositivos,Smartphones,OnePlus,oneplus-smartphones,https://www.oneplus.com
+Tecnología,Dispositivos,Smartphones,Google Pixel,google-pixel,https://store.google.com
+Tecnología,Dispositivos,Smartphones,Sony Xperia,sony-xperia,https://www.sony.com
+Tecnología,Dispositivos,Smartphones,Asus Zenfone,asus-zenfone,https://www.asus.com
+Tecnología,Dispositivos,Smartphones,ZTE,zte-smartphones,https://www.zte.com
+Tecnología,Dispositivos,Smartphones,Nothing Phone,nothing-phone,https://nothing.tech
+Tecnología,Dispositivos,Smartphones,Vivo,vivo-smartphones,https://www.vivo.com
+Tecnología,Dispositivos,Smartphones,Tecno,tecno-smartphones,https://www.tecno-mobile.com
+Tecnología,Dispositivos,Smartphones,Infinix,infinix-smartphones,https://www.infinixmobility.com
+Tecnología,Dispositivos,Smartphones,RedMagic,redmagic-smartphones,https://redmagic.gg
+Tecnología,Dispositivos,Smartphones,Black Shark,black-shark-smartphones,https://www.blackshark.com
+Tecnología,Dispositivos,Smartphones,Meizu,meizu-smartphones,https://www.meizu.com
+Tecnología,Dispositivos,Notebooks,Apple MacBook,apple-macbook,https://www.apple.com
+Tecnología,Dispositivos,Notebooks,Dell,dell-notebooks,https://www.dell.com
+Tecnología,Dispositivos,Notebooks,HP,hp-notebooks,https://www.hp.com
+Tecnología,Dispositivos,Notebooks,Lenovo,lenovo-notebooks,https://www.lenovo.com
+Tecnología,Dispositivos,Notebooks,Acer,acer-notebooks,https://www.acer.com
+Tecnología,Dispositivos,Notebooks,Asus,asus-notebooks,https://www.asus.com
+Tecnología,Dispositivos,Notebooks,MSI,msi-notebooks,https://www.msi.com
+Tecnología,Dispositivos,Notebooks,Microsoft Surface,microsoft-surface,https://www.microsoft.com
+Tecnología,Dispositivos,Notebooks,Samsung Notebook,samsung-notebook,https://www.samsung.com
+Tecnología,Dispositivos,Notebooks,Huawei MateBook,huawei-matebook,https://consumer.huawei.com
+Tecnología,Dispositivos,Notebooks,LG Gram,lg-gram,https://www.lg.com
+Tecnología,Dispositivos,Notebooks,Gigabyte Aorus,gigabyte-aorus,https://www.aorus.com
+Tecnología,Dispositivos,Notebooks,Alienware,alienware,https://www.dell.com
+Tecnología,Dispositivos,Notebooks,Razer Blade,razer-blade,https://www.razer.com
+Tecnología,Dispositivos,Notebooks,Framework,framework-notebooks,https://frame.work
+Tecnología,Dispositivos,Notebooks,Honor MagicBook,honor-magicbook,https://www.honor.com
+Tecnología,Dispositivos,Notebooks,Chuwi,chuwi-notebooks,https://www.chuwi.com
+Tecnología,Dispositivos,Notebooks,Teclast,teclast-notebooks,https://www.teclast.com
+Tecnología,Dispositivos,Tablets,Apple iPad,apple-ipad,https://www.apple.com
+Tecnología,Dispositivos,Tablets,Samsung Galaxy Tab,samsung-galaxy-tab,https://www.samsung.com
+Tecnología,Dispositivos,Tablets,Xiaomi Pad,xiaomi-pad,https://www.mi.com
+Tecnología,Dispositivos,Tablets,Huawei MatePad,huawei-matepad,https://consumer.huawei.com
+Tecnología,Dispositivos,Tablets,Lenovo Tab,lenovo-tab,https://www.lenovo.com
+Tecnología,Dispositivos,Tablets,Honor Pad,honor-pad,https://www.honor.com
+Tecnología,Dispositivos,Tablets,Amazon Fire,amazon-fire-tablet,https://www.amazon.com
+Tecnología,Dispositivos,Tablets,Microsoft Surface Pro,microsoft-surface-pro,https://www.microsoft.com
+Tecnología,Dispositivos,Tablets,Realme Pad,realme-pad,https://www.realme.com
+Tecnología,Dispositivos,Tablets,Oppo Pad,oppo-pad,https://www.oppo.com
+Tecnología,Dispositivos,Smartwatches,Apple Watch,apple-watch,https://www.apple.com
+Tecnología,Dispositivos,Smartwatches,Samsung Galaxy Watch,samsung-galaxy-watch,https://www.samsung.com
+Tecnología,Dispositivos,Smartwatches,Garmin,garmin-smartwatch,https://www.garmin.com
+Tecnología,Dispositivos,Smartwatches,Huawei Watch,huawei-watch,https://consumer.huawei.com
+Tecnología,Dispositivos,Smartwatches,Amazfit,amazfit-smartwatch,https://www.amazfit.com
+Tecnología,Dispositivos,Smartwatches,Fitbit,fitbit-smartwatch,https://www.fitbit.com
+Tecnología,Dispositivos,Smartwatches,Polar,polar-smartwatch,https://www.polar.com
+Tecnología,Dispositivos,Smartwatches,Suunto,suunto-smartwatch,https://www.suunto.com
+Tecnología,Dispositivos,Smartwatches,Coros,coros-smartwatch,https://coros.com
+Tecnología,Dispositivos,Smartwatches,Withings,withings-smartwatch,https://www.withings.com
+Tecnología,Audio,Audífonos,Apple AirPods,apple-airpods,https://www.apple.com
+Tecnología,Audio,Audífonos,Sony,sony-audifonos,https://www.sony.com
+Tecnología,Audio,Audífonos,Bose,bose-audifonos,https://www.bose.com
+Tecnología,Audio,Audífonos,JBL,jbl-audifonos,https://www.jbl.com
+Tecnología,Audio,Audífonos,Sennheiser,sennheiser-audifonos,https://www.sennheiser.com
+Tecnología,Audio,Audífonos,Skullcandy,skullcandy-audifonos,https://www.skullcandy.com
+Tecnología,Audio,Audífonos,Beats,beats-audifonos,https://www.beatsbydre.com
+Tecnología,Audio,Audífonos,Bang & Olufsen,bang-olufsen-audifonos,https://www.bang-olufsen.com
+Tecnología,Audio,Audífonos,Marshall,marshall-audifonos,https://www.marshallheadphones.com
+Tecnología,Audio,Audífonos,Audio-Technica,audio-technica-audifonos,https://www.audio-technica.com
+Tecnología,Audio,Audífonos,AKG,akg-audifonos,https://www.akg.com
+Tecnología,Audio,Audífonos,Anker Soundcore,soundcore-audifonos,https://www.soundcore.com
+Tecnología,Audio,Audífonos,Logitech G,logitech-g-audifonos,https://www.logitechg.com
+Tecnología,Audio,Audífonos,Razer,razer-audifonos,https://www.razer.com
+Tecnología,Audio,Parlantes,JBL,jbl-parlantes,https://www.jbl.com
+Tecnología,Audio,Parlantes,Bose,bose-parlantes,https://www.bose.com
+Tecnología,Audio,Parlantes,Sony,sony-parlantes,https://www.sony.com
+Tecnología,Audio,Parlantes,Marshall,marshall-parlantes,https://www.marshallheadphones.com
+Tecnología,Audio,Parlantes,Ultimate Ears,ultimate-ears,https://www.ultimateears.com
+Tecnología,Audio,Parlantes,Harman Kardon,harman-kardon,https://www.harmankardon.com
+Tecnología,Audio,Parlantes,LG XBOOM,lg-xboom,https://www.lg.com
+Tecnología,Audio,Parlantes,Anker Soundcore,soundcore-parlantes,https://www.soundcore.com
+Tecnología,Audio,Parlantes,Amazon Echo,amazon-echo,https://www.amazon.com
+Tecnología,Audio,Parlantes,Apple HomePod,apple-homepod,https://www.apple.com
+Tecnología,Gaming,Consolas,PlayStation,playstation,https://www.playstation.com
+Tecnología,Gaming,Consolas,Xbox,xbox,https://www.xbox.com
+Tecnología,Gaming,Consolas,Nintendo Switch,nintendo-switch,https://www.nintendo.com
+Tecnología,Gaming,Consolas,Steam Deck,steam-deck,https://store.steampowered.com
+Tecnología,Gaming,Consolas,ASUS ROG Ally,asus-rog-ally,https://rog.asus.com
+Tecnología,Gaming,Consolas,Lenovo Legion Go,lenovo-legion-go,https://www.lenovo.com
+Tecnología,Gaming,Periféricos gamer,Logitech G,logitech-g,https://www.logitechg.com
+Tecnología,Gaming,Periféricos gamer,Razer,razer,https://www.razer.com
+Tecnología,Gaming,Periféricos gamer,SteelSeries,steelseries,https://steelseries.com
+Tecnología,Gaming,Periféricos gamer,Corsair,corsair,https://www.corsair.com
+Tecnología,Gaming,Periféricos gamer,HyperX,hyperx,https://hyperx.com
+Tecnología,Gaming,Periféricos gamer,Redragon,redragon,https://redragon.com
+Tecnología,Gaming,Periféricos gamer,Glorious,glorious,https://www.gloriousgaming.com
+Tecnología,Gaming,Periféricos gamer,Cooler Master,cooler-master,https://www.coolermaster.com
+Tecnología,Gaming,Periféricos gamer,Thermaltake,thermaltake,https://www.thermaltake.com
+Tecnología,Gaming,Periféricos gamer,Turtle Beach,turtle-beach,https://www.turtlebeach.com
+Tecnología,Gaming,Periféricos gamer,Astro Gaming,astro-gaming,https://www.astrogaming.com
+Tecnología,Gaming,Periféricos gamer,Scuf Gaming,scuf-gaming,https://scufgaming.com
+Tecnología,Gaming,Periféricos gamer,Thrustmaster,thrustmaster,https://www.thrustmaster.com
+Tecnología,Gaming,Periféricos gamer,8BitDo,8bitdo,https://www.8bitdo.com
+Tecnología,Gaming,Periféricos gamer,PowerA,powera,https://www.powera.com
+Tecnología,Gaming,Monitores gamer,ASUS ROG,asus-rog-monitores,https://rog.asus.com
+Tecnología,Gaming,Monitores gamer,Acer Predator,acer-predator,https://www.acer.com
+Tecnología,Gaming,Monitores gamer,LG UltraGear,lg-ultragear,https://www.lg.com
+Tecnología,Gaming,Monitores gamer,Samsung Odyssey,samsung-odyssey,https://www.samsung.com
+Tecnología,Gaming,Monitores gamer,MSI,msi-monitores,https://www.msi.com
+Tecnología,Gaming,Monitores gamer,AOC,aoc-monitores,https://www.aoc.com
+Tecnología,Gaming,Monitores gamer,Gigabyte Aorus,gigabyte-aorus-monitores,https://www.aorus.com
+Tecnología,Televisores,TVs,Samsung,samsung-tvs,https://www.samsung.com
+Tecnología,Televisores,TVs,LG,lg-tvs,https://www.lg.com
+Tecnología,Televisores,TVs,Sony,sony-tvs,https://www.sony.com
+Tecnología,Televisores,TVs,TCL,tcl-tvs,https://www.tcl.com
+Tecnología,Televisores,TVs,Hisense,hisense-tvs,https://www.hisense.com
+Tecnología,Televisores,TVs,Philips,philips-tvs,https://www.philips.com
+Tecnología,Televisores,TVs,Xiaomi,xiaomi-tvs,https://www.mi.com
+Tecnología,Televisores,TVs,Huawei Vision,huawei-vision,https://consumer.huawei.com
+Telecomunicaciones,Internet,Internet hogar,Movistar Fibra,movistar-fibra,https://www.movistar.cl
+Telecomunicaciones,Internet,Internet hogar,Entel Fibra,entel-fibra,https://www.entel.cl
+Telecomunicaciones,Internet,Internet hogar,Claro Hogar,claro-hogar,https://www.clarochile.cl
+Telecomunicaciones,Internet,Internet hogar,GTD,gtd,https://www.gtd.cl
+Telecomunicaciones,Internet,Internet hogar,VTR,vtr-internet,https://www.vtr.com
+Telecomunicaciones,Internet,Internet hogar,Telsur,telsur,https://www.telsur.cl
+Telecomunicaciones,Internet,Internet hogar,Mundo,mundo-internet,https://www.tumundo.cl
+Telecomunicaciones,Internet,Internet hogar,Tu Ves Fibra,tu-ves-fibra,https://www.tuves.cl
+Telecomunicaciones,Internet,Internet móvil,WOM Internet Móvil,wom-internet-movil,https://www.wom.cl
+Telecomunicaciones,Internet,Internet móvil,Entel Internet Móvil,entel-internet-movil,https://www.entel.cl
+Telecomunicaciones,Internet,Internet móvil,Movistar Internet Móvil,movistar-internet-movil,https://www.movistar.cl
+Telecomunicaciones,Internet,Internet móvil,Claro Internet Móvil,claro-internet-movil,https://www.clarochile.cl
+Telecomunicaciones,Telefonía,Telefonía móvil,Entel,entel,https://www.entel.cl
+Telecomunicaciones,Telefonía,Telefonía móvil,Movistar,movistar,https://www.movistar.cl
+Telecomunicaciones,Telefonía,Telefonía móvil,Claro,claro,https://www.clarochile.cl
+Telecomunicaciones,Telefonía,Telefonía móvil,WOM,wom,https://www.wom.cl
+Telecomunicaciones,Telefonía,Telefonía móvil,Virgin Mobile,virgin-mobile,https://www.virginmobile.cl
+Telecomunicaciones,Telefonía,Telefonía móvil,Mundo,mundo-movil,https://www.tumundo.cl
+Telecomunicaciones,Televisión,TV paga,VTR TV,vtr-tv,https://www.vtr.com
+Telecomunicaciones,Televisión,TV paga,Movistar TV,movistar-tv,https://www.movistar.cl
+Telecomunicaciones,Televisión,TV paga,Claro TV,claro-tv,https://www.clarochile.cl
+Telecomunicaciones,Televisión,TV paga,DIRECTV,directv,https://www.directv.cl
+Telecomunicaciones,Televisión,TV paga,Tu Ves,tu-ves,https://www.tuves.cl
+Telecomunicaciones,Televisión,TV paga,Zapping,zapping-tv-paga,https://www.zapping.com
+Telecomunicaciones,Televisión,TV online,Movistar TV App,movistar-tv-app,https://www.movistar.cl
+Telecomunicaciones,Televisión,TV online,Claro Video,claro-video,https://www.clarovideo.com
+Telecomunicaciones,Televisión,TV online,DGO,dgo,https://www.directvgo.com
+Telecomunicaciones,Televisión,TV online,Zapping,zapping-tv-online,https://www.zapping.com
+Telecomunicaciones,Televisión,TV online,MiCHV,michv,https://www.michv.cl
+Telecomunicaciones,Televisión,TV online,TVN Play,tvn-play,https://www.tvnplay.cl
+Entretenimiento,Streaming,Streaming de video,Netflix,netflix,https://www.netflix.com
+Entretenimiento,Streaming,Streaming de video,Disney+,disney-plus,https://www.disneyplus.com
+Entretenimiento,Streaming,Streaming de video,Prime Video,prime-video,https://www.primevideo.com
+Entretenimiento,Streaming,Streaming de video,Apple TV+,apple-tv-plus,https://tv.apple.com
+Entretenimiento,Streaming,Streaming de video,Max,max-streaming,https://www.max.com
+Entretenimiento,Streaming,Streaming de video,Paramount+,paramount-plus,https://www.paramountplus.com
+Entretenimiento,Streaming,Streaming de video,MUBI,mubi,https://mubi.com
+Entretenimiento,Streaming,Streaming de video,Universal+,universal-plus,https://universalplus.com
+Entretenimiento,Streaming,Streaming de video,Crunchyroll,crunchyroll,https://www.crunchyroll.com
+Entretenimiento,Streaming,Streaming de video,Pluto TV,pluto-tv,https://pluto.tv
+Entretenimiento,Streaming,Streaming de video,Tubi,tubi,https://tubitv.com
+Entretenimiento,Streaming,Streaming de video,DAZN,dazn,https://www.dazn.com
+Entretenimiento,Streaming,Streaming de video,Rakuten TV,rakuten-tv,https://rakuten.tv
+Entretenimiento,Streaming,Streaming de música,Spotify,spotify,https://www.spotify.com
+Entretenimiento,Streaming,Streaming de música,Apple Music,apple-music,https://music.apple.com
+Entretenimiento,Streaming,Streaming de música,YouTube Music,youtube-music,https://music.youtube.com
+Entretenimiento,Streaming,Streaming de música,Deezer,deezer,https://www.deezer.com
+Entretenimiento,Streaming,Streaming de música,Tidal,tidal,https://tidal.com
+Entretenimiento,Streaming,Streaming de música,Amazon Music,amazon-music,https://music.amazon.com
+Entretenimiento,Streaming,Streaming de música,SoundCloud,soundcloud,https://soundcloud.com
+Entretenimiento,Streaming,Streaming de música,Bandcamp,bandcamp,https://bandcamp.com
+Entretenimiento,Streaming,Streaming de música,Pandora,pandora,https://www.pandora.com
+Entretenimiento,Streaming,Streaming de música,Qobuz,qobuz,https://www.qobuz.com
+Entretenimiento,Social,Redes sociales,Facebook,facebook,https://www.facebook.com
+Entretenimiento,Social,Redes sociales,Instagram,instagram,https://www.instagram.com
+Entretenimiento,Social,Redes sociales,TikTok,tiktok,https://www.tiktok.com
+Entretenimiento,Social,Redes sociales,LinkedIn,linkedin,https://www.linkedin.com
+Entretenimiento,Social,Redes sociales,Snapchat,snapchat,https://www.snapchat.com
+Entretenimiento,Social,Redes sociales,X,x-social,https://x.com
+Entretenimiento,Social,Comunidades online,Discord,discord,https://discord.com
+Entretenimiento,Social,Comunidades online,Reddit,reddit,https://www.reddit.com
+Entretenimiento,Social,Comunidades online,Pinterest,pinterest,https://www.pinterest.com
+Entretenimiento,Social,Comunidades online,Quora,quora,https://www.quora.com
+Entretenimiento,Social,Comunidades online,Tumblr,tumblr,https://www.tumblr.com
+Entretenimiento,Social,Comunidades online,Steam Community,steam-community,https://steamcommunity.com
+Entretenimiento,Cine,Cines,Cine Hoyts,cine-hoyts,https://www.cinehoyts.cl
+Entretenimiento,Cine,Cines,Cinemark,cinemark,https://www.cinemark.cl
+Entretenimiento,Cine,Cines,Cineplanet,cineplanet,https://www.cineplanet.cl
+Entretenimiento,Cine,Cines,Cinépolis,cinepolis,https://www.cinepolis.cl
+Entretenimiento,Cine,Cines,Cinestar,cinestar,https://www.cinestar.cl
+Entretenimiento,Cine,Cines,Muvix,muvix,https://www.muvix.cl

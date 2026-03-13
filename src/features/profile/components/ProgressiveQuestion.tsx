@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { DemographicData, authService as profileService } from '../../auth';
 import { motion, AnimatePresence } from 'framer-motion';
+import { logger } from '../../../lib/logger';
 
 type QuestionConfig = {
     key: keyof DemographicData;
@@ -51,7 +52,7 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                     toast.error("Solo puedes cambiar tu perfil cada 30 días.", { id: 'cooldown-error', duration: 4000 });
                 });
             } else {
-                console.error("Error al guardar demográfica:", error);
+                logger.error("Error al guardar demográfica", { domain: 'signal_write', origin: 'ProgressiveQuestion', action: 'save_demographic', state: 'failed' }, error);
             }
         }
     };

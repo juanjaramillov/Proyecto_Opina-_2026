@@ -1,198 +1,38 @@
-import { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { 
   ArrowLeft, Save, CheckCircle, UploadCloud, Archive, XCircle, 
-  AlertCircle, Plus, Trash2, Globe, Clock, Edit2
+  AlertCircle, Globe, Clock, Edit2, Activity, FileEdit
 } from "lucide-react";
-import { adminActualidadService } from "../services/adminActualidadService";
-import { Topic, TopicQuestion, TopicStatus, QuestionType } from "../../signals/types/actualidad";
+import { TopicStatus } from "../../signals/types/actualidad";
+
+import { useActualidadEditor } from "../hooks/useActualidadEditor";
+import { EditorNarrativa } from "../components/EditorNarrativa";
+import { EditorClasificacion } from "../components/EditorClasificacion";
+import { EditorPreguntas } from "../components/EditorPreguntas";
+import { ActualidadPreview } from "../components/ActualidadPreview";
 
 export default function AdminActualidadEditor() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [topic, setTopic] = useState<Topic | null>(null);
-
-  // Form State
-  const [formData, setFormData] = useState<Partial<Topic>>({});
-  const [questions, setQuestions] = useState<TopicQuestion[]>([]);
-  const [tagsInput, setTagsInput] = useState("");
-  const [actorsInput, setActorsInput] = useState("");
-
-  const fetchTopic = useCallback(async () => {
-    if (!id) return;
-    setLoading(true);
-    try {
-      const data = await adminActualidadService.getAdminTopicById(id);
-      if (data) {
-        setTopic(data);
-        setFormData({
-          title: data.title,
-          summary: data.summary,
-          impact_phrase: data.impact_phrase || (window as any).impact_quote, // Backward mapping
-          category: data.category,
-          intensity: data.intensity,
-          relevance_chile: data.relevance_chile,
-          event_stage: data.event_stage,
-          topic_duration: data.topic_duration,
-          opinion_maturity: data.opinion_maturity,
-          status: data.status,
-          tags: data.tags,
-          actors: data.actors,
-        });
-
-        const sortedQ = [...(data.questions || [])].sort((a, b) => a.order - b.order);
-        // Ensure strictly 3 questions exist
-        while (sortedQ.length < 3) {
-          const defaultTypes: QuestionType[] = ['scale_0_10', 'single_choice', 'single_choice_polar'];
-          sortedQ.push({
-            order: sortedQ.length + 1,
-            text: "",
-            type: defaultTypes[sortedQ.length] || 'single_choice',
-            options: []
-          });
-        }
-        setQuestions(sortedQ.slice(0, 3));
-        setTagsInput(data.tags?.join(", ") || "");
-        setActorsInput(data.actors?.join(", ") || "");
-      }
-    } catch (err) {
-      console.error("Error fetching topic", err);
-      // alert("Error al cargar el tema.");
-    } finally {
-      setLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    fetchTopic();
-  }, [fetchTopic]);
-
-  const handleTagsChange = (val: string) => {
-    setTagsInput(val);
-    setFormData(prev => ({ ...prev, tags: val.split(',').map(t => t.trim()).filter(Boolean) }));
-  };
-
-  const handleActorsChange = (val: string) => {
-    setActorsInput(val);
-    setFormData(prev => ({ ...prev, actors: val.split(',').map(a => a.trim()).filter(Boolean) }));
-  };
-
-  const handleQuestionChange = (orderIdx: number, field: string, value: any) => {
-    setQuestions(prev => {
-      const newQ = [...prev];
-      newQ[orderIdx] = { ...newQ[orderIdx], [field]: value };
-      return newQ;
-    });
-  };
-
-  const handleQuestionOptionAdd = (orderIdx: number) => {
-    setQuestions(prev => {
-      const newQ = [...prev];
-      newQ[orderIdx].options = [...(newQ[orderIdx].options || []), "Nueva Opción"];
-      return newQ;
-    });
-  };
-
-  const handleQuestionOptionChange = (orderIdx: number, optIdx: number, value: string) => {
-    setQuestions(prev => {
-      const newQ = [...prev];
-      const newOpts = [...(newQ[orderIdx].options || [])];
-      newOpts[optIdx] = value;
-      newQ[orderIdx].options = newOpts;
-      return newQ;
-    });
-  };
-
-  const handleQuestionOptionRemove = (orderIdx: number, optIdx: number) => {
-    setQuestions(prev => {
-      const newQ = [...prev];
-      const newOpts = [...(newQ[orderIdx].options || [])];
-      newOpts.splice(optIdx, 1);
-      newQ[orderIdx].options = newOpts;
-      return newQ;
-    });
-  };
-
-  // Validators
-  const validateForm = () => {
-    if (!formData.title?.trim()) return "El título es obligatorio.";
-    if (!formData.summary?.trim()) return "El resumen neutral es obligatorio.";
-    if (!formData.category) return "Debe tener una categoría.";
-    
-    // Check questions
-    for (let i = 0; i < 3; i++) {
-        const q = questions[i];
-        if (!q.text.trim()) return `La Pregunta ${i+1} debe tener texto.`;
-        if (q.type === 'single_choice' || q.type === 'single_choice_polar') {
-            if (!q.options || q.options.length < 2) return `La Pregunta ${i+1} (${q.type}) requiere al menos 2 opciones.`;
-            if (q.options.some(opt => !opt.trim())) return `La Pregunta ${i+1} tiene opciones vacías.`;
-        }
-    }
-    return null;
-  };
-
-  const handleSave = async (silent = false) => {
-    if (!topic || !id) return false;
-    
-    const err = validateForm();
-    if (err) {
-      if (!silent) alert(err);
-      return false;
-    }
-
-    setSaving(true);
-    try {
-      const updates = { ...formData };
-      await adminActualidadService.updateTopicEditorialData(id, updates, true);
-      await adminActualidadService.updateTopicQuestions(id, questions);
-      
-      // Refresh local copy
-      setTopic(prev => prev ? { ...prev, ...formData, admin_edited: true } as Topic : null);
-      
-      if (!silent) alert("Cambios guardados exitosamente.");
-      return true;
-    } catch (e) {
-      console.error(e);
-      if (!silent) alert("Error al guardar cambios.");
-      return false;
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleStatusChange = async (newStatus: TopicStatus) => {
-    if (!id || !topic) return;
-    
-    // Required to save cleanly before publishing or approving
-    if (newStatus === 'published' || newStatus === 'approved') {
-        const saved = await handleSave(true);
-        if (!saved) {
-            alert("Corrige los errores del formulario antes de transicionar estado.");
-            return;
-        }
-    }
-
-    setSaving(true);
-    try {
-      const success = await adminActualidadService.updateTopicStatus(id, newStatus);
-      if (success) {
-        setTopic(prev => prev ? { ...prev, status: newStatus } : null);
-        setFormData(prev => ({ ...prev, status: newStatus }));
-        if (newStatus === 'published') {
-           navigate('/admin/actualidad');
-        }
-      } else {
-        alert("No se pudo cambiar el estado.");
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setSaving(false);
-    }
-  };
+  
+  const {
+      topic,
+      formData,
+      setFormData,
+      questions,
+      tagsInput,
+      actorsInput,
+      loading,
+      saving,
+      handleTagsChange,
+      handleActorsChange,
+      handleQuestionChange,
+      handleQuestionOptionAdd,
+      handleQuestionOptionChange,
+      handleQuestionOptionRemove,
+      handleSave,
+      handleStatusChange,
+      navigate
+  } = useActualidadEditor(id);
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50">
@@ -239,7 +79,6 @@ export default function AdminActualidadEditor() {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24">
-      {/* Sticky Top Bar */}
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button 
@@ -270,342 +109,151 @@ export default function AdminActualidadEditor() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* INFO ALERTS */}
-        <div className="flex flex-col gap-3">
-            {topic.confidence_score !== null && topic.confidence_score < 70 && (
-                <div className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-                    <div>
-                        <p className="text-sm font-bold">Confianza de IA Basa ({topic.confidence_score}%)</p>
-                        <p className="text-xs opacity-80">Este tema requiere revisión narrativa estricta. La IA reportó baja confianza en los datos estructurados.</p>
-                    </div>
-                </div>
-            )}
-            {topic.admin_edited && (
-                <div className="bg-indigo-50 border border-indigo-200 text-indigo-800 p-3 rounded-xl flex items-center gap-3">
-                    <Edit2 className="w-4 h-4 shrink-0" />
-                    <p className="text-sm font-bold">Este tema ya fue intervenido manualmente por un editor de Opina+.</p>
-                </div>
-            )}
-        </div>
-
-        {/* Bloque 1: Titulo y Resumen */}
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 lg:p-8">
-            <div className="mb-6 border-b border-slate-100 pb-4">
-              <h2 className="text-lg font-black text-slate-900">1. Narrativa Editorial</h2>
-              <p className="text-xs text-slate-500">Define cómo los usuarios leerán este contexto.</p>
-            </div>
-
-            <div className="space-y-6">
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Título Corto del Tema (Máx 5 Palabras)</label>
-                    <input 
-                        type="text" 
-                        value={formData.title} 
-                        onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all font-bold text-xl text-slate-900"
-                        placeholder="Ej: Aprobación de la Ley Corta"
-                    />
-                </div>
-                
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Cuerpo Neutral (News Summary)</label>
-                    <textarea 
-                        value={formData.summary} 
-                        onChange={e => setFormData(prev => ({ ...prev, summary: e.target.value }))}
-                        rows={4}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all resize-none text-slate-700 leading-relaxed"
-                        placeholder="Redacta los hechos de forma objetiva..."
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Cita / Frase de Impacto Corta</label>
-                    <input 
-                        type="text" 
-                        value={formData.impact_phrase || ''} 
-                        onChange={e => setFormData(prev => ({ ...prev, impact_phrase: e.target.value }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all text-sm italic text-slate-600"
-                        placeholder="Ej: «Aún queda mucho camino que recorrer» - M. Marcel"
-                    />
-                </div>
-            </div>
-        </section>
-
-        {/* Bloque 2: Clasificación */}
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 lg:p-8">
-            <div className="mb-6 border-b border-slate-100 pb-4">
-              <h2 className="text-lg font-black text-slate-900">2. Clasificación y Contexto Algorítmico</h2>
-              <p className="text-xs text-slate-500">Parámetros que organizan este tema en los dashboards y feeds.</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Categoría Principal</label>
-                    <select 
-                        value={formData.category} 
-                        onChange={e => setFormData(prev => ({ ...prev, category: e.target.value as any }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
-                    >
-                        <option value="País">País</option>
-                        <option value="Economía">Economía</option>
-                        <option value="Ciudad / Vida diaria">Ciudad / Vida diaria</option>
-                        <option value="Marcas y Consumo">Marcas y Consumo</option>
-                        <option value="Deportes y Cultura">Deportes y Cultura</option>
-                        <option value="Tendencias y Sociedad">Tendencias y Sociedad</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Intensidad IA (1-3)</label>
-                    <input 
-                        type="number" min="1" max="3"
-                        value={formData.intensity || 1} 
-                        onChange={e => setFormData(prev => ({ ...prev, intensity: parseInt(e.target.value) }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Fase de Discusión</label>
-                    <select 
-                        value={formData.event_stage || 'discussion'} 
-                        onChange={e => setFormData(prev => ({ ...prev, event_stage: e.target.value as any }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
-                    >
-                        <option value="announcement">Anuncio / Urgente</option>
-                        <option value="discussion">En Debate Creciente</option>
-                        <option value="implementation">Implementación / Efectos</option>
-                        <option value="crisis">Crisis / Polémica</option>
-                        <option value="result">Resolución</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Tags (Separados por coma)</label>
-                    <input 
-                        type="text" 
-                        value={tagsInput} 
-                        onChange={e => handleTagsChange(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none text-sm"
-                        placeholder="IPC, Marcel, Banco Central"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Actores (Separados por coma)</label>
-                    <input 
-                        type="text" 
-                        value={actorsInput} 
-                        onChange={e => handleActorsChange(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none text-sm"
-                        placeholder="Gobierno, Central Unitaria"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Madurez de Opinión</label>
-                    <select 
-                        value={formData.opinion_maturity || 'low'} 
-                        onChange={e => setFormData(prev => ({ ...prev, opinion_maturity: e.target.value as any }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
-                    >
-                        <option value="low">1. Emocional / Reacción Temprana</option>
-                        <option value="medium">2. Debate Informado</option>
-                        <option value="high">3. Posición Cristalizada</option>
-                    </select>
-                </div>
-
-            </div>
-        </section>
-
-
-        {/* Bloque 3: Setup de Preguntas Estrictas */}
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 lg:p-8">
-            <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
-                <div>
-                  <h2 className="text-lg font-black text-slate-900">3. Embudo Evaluativo Estricto</h2>
-                  <p className="text-xs text-slate-500">Diseña las 3 preguntas consecutivas necesarias para capturar la señal completa.</p>
-                </div>
-                <div className="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-bold">
-                    Regla de 3 Estricta Activa
-                </div>
-            </div>
-
-            <div className="space-y-6">
-                {questions.map((q, idx) => {
-                    const titles = [
-                        "1. Postura de Entrada", 
-                        "2. Diagnóstico / Interpretación", 
-                        "3. Sentencia Final / Política"
-                    ];
-                    
-                    return (
-                        <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-5 relative">
-                            <div className="flex flex-col md:flex-row gap-5">
-                                {/* Order indicator */}
-                                <div className="absolute -left-3 -top-3 w-8 h-8 bg-slate-800 text-white rounded-full flex justify-center items-center shadow-sm font-black text-sm border-2 border-white">
-                                    {idx + 1}
-                                </div>
-                                
-                                <div className="flex-1 pl-2">
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">
-                                        {titles[idx]}
-                                    </label>
-                                    <input 
-                                        type="text" 
-                                        value={q.text} 
-                                        onChange={e => handleQuestionChange(idx, 'text', e.target.value)}
-                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-slate-800 text-base shadow-sm"
-                                        placeholder="Ej: ¿Qué tan de acuerdo estás con..."
-                                    />
-                                </div>
-
-                                <div className="w-full md:w-56">
-                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">
-                                        Formato de Captura
-                                    </label>
-                                    <select 
-                                        value={q.type} 
-                                        onChange={e => handleQuestionChange(idx, 'type', e.target.value)}
-                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700 shadow-sm"
-                                    >
-                                        <option value="scale_0_10">Escala 0-10</option>
-                                        <option value="scale_5">Escala de 5 (Likert)</option>
-                                        <option value="single_choice">Múltiple Opción</option>
-                                        <option value="single_choice_polar">Opciones Polarizadas</option>
-                                        <option value="yes_no">Botonera Sí / No</option>
-                                    </select>
-                                </div>
+        <div className="flex flex-col xl:flex-row gap-8 items-start">
+            
+            {/* LEFT COLUMN: Editor Flow */}
+            <div className="w-full xl:w-2/3 space-y-8 pb-32">
+                <div className="flex flex-col gap-3">
+                    {topic.confidence_score !== null && topic.confidence_score < 70 && (
+                        <div className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl flex items-start gap-3">
+                            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                            <div>
+                                <p className="text-sm font-bold">Confianza de IA Basa ({topic.confidence_score}%)</p>
+                                <p className="text-xs opacity-80">Este tema requiere revisión narrativa estricta. La IA reportó baja confianza en los datos estructurados.</p>
                             </div>
-
-                            {/* Options Editor */}
-                            {(q.type === 'single_choice' || q.type === 'single_choice_polar') && (
-                                <div className="mt-4 pt-4 border-t border-slate-200 pl-2">
-                                    <div className="flex justify-between items-center mb-3">
-                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest">
-                                            Opciones de Respuesta
-                                        </label>
-                                        <button 
-                                            onClick={() => handleQuestionOptionAdd(idx)}
-                                            className="text-xs font-bold text-primary-600 bg-primary-50 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-primary-100"
-                                        >
-                                            <Plus className="w-3 h-3" /> Añadir
-                                        </button>
-                                    </div>
-                                    <div className="space-y-2">
-                                        {q.options?.map((opt, oIdx) => (
-                                            <div key={oIdx} className="flex gap-2 items-center">
-                                                <div className="w-6 text-center text-xs font-bold text-slate-300">
-                                                    {String.fromCharCode(65 + oIdx)}
-                                                </div>
-                                                <input 
-                                                    type="text" 
-                                                    value={opt} 
-                                                    onChange={e => handleQuestionOptionChange(idx, oIdx, e.target.value)}
-                                                    className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none text-sm font-medium"
-                                                    placeholder="Valor de la alternativa..."
-                                                />
-                                                <button 
-                                                    onClick={() => handleQuestionOptionRemove(idx, oIdx)}
-                                                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {q.type === 'yes_no' && (
-                                <div className="mt-4 pt-4 border-t border-slate-200 pl-2">
-                                   <div className="flex gap-3">
-                                        <div className="px-4 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-sm font-bold shadow-sm">Sí / A Favor</div>
-                                        <div className="px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-xl text-sm font-bold shadow-sm">No / En Contra</div>
-                                   </div>
-                                </div>
-                            )}
                         </div>
-                    );
-                })}
-            </div>
-        </section>
+                    )}
+                    {topic.admin_edited && (
+                        <div className="bg-indigo-50 border border-indigo-200 text-indigo-800 p-3 rounded-xl flex items-center gap-3">
+                            <Edit2 className="w-4 h-4 shrink-0" />
+                            <p className="text-sm font-bold">Este tema ya fue intervenido manualmente por un editor de Opina+.</p>
+                        </div>
+                    )}
+                </div>
 
-        {/* Bloque 4: Meta info Fuente */}
-        <section className="bg-slate-100 rounded-2xl p-6 border border-slate-200">
-            <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <Globe className="w-4 h-4 text-slate-500" />
-                Auditoría de Fuente Noticiosa
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                   <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Dominio Scraping</span>
-                   <span className="font-mono text-xs text-slate-700 bg-white px-2 py-1 rounded border border-slate-200">{topic.source_domain || 'Desconocido'}</span>
-                </div>
-                <div>
-                   <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Fecha Publicación Reporte</span>
-                   <span className="text-sm font-medium text-slate-700 flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {topic.source_published_at ? new Date(topic.source_published_at).toLocaleString('es-CL') : 'No capturada'}
-                   </span>
-                </div>
-            </div>
-            {getSourceURL() && (
-                <div className="mt-4">
-                    <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">URL Original</span>
-                    <a href={getSourceURL()} target="_blank" rel="noreferrer" className="text-sm text-primary-600 hover:underline break-all truncate block">
-                        {getSourceURL()}
-                    </a>
-                </div>
-            )}
-        </section>
+                <EditorNarrativa formData={formData} setFormData={setFormData} />
 
+                <EditorClasificacion 
+                    formData={formData} 
+                    setFormData={setFormData}
+                    tagsInput={tagsInput}
+                    handleTagsChange={handleTagsChange}
+                    actorsInput={actorsInput}
+                    handleActorsChange={handleActorsChange}
+                />
+
+                <EditorPreguntas 
+                    questions={questions}
+                    handleQuestionChange={handleQuestionChange}
+                    handleQuestionOptionAdd={handleQuestionOptionAdd}
+                    handleQuestionOptionChange={handleQuestionOptionChange}
+                    handleQuestionOptionRemove={handleQuestionOptionRemove}
+                />
+            </div>
+
+            {/* RIGHT COLUMN: Preview & Metadata */}
+            <div className="w-full xl:w-1/3 xl:sticky xl:top-24 space-y-6 pb-32">
+                <ActualidadPreview data={formData} />
+                
+                <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                    <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <Globe className="w-4 h-4 text-slate-500" />
+                        Auditoría de Fuente Noticiosa
+                    </h3>
+                    <div className="grid grid-cols-1 gap-4">
+                        <div>
+                        <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Dominio Scraping</span>
+                        <span className="font-mono text-xs text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 block">{topic.source_domain || 'Desconocido'}</span>
+                        </div>
+                        <div>
+                        <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Fecha Publicación Reporte</span>
+                        <span className="text-sm font-medium text-slate-700 flex items-center gap-1.5 bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
+                            <Clock className="w-3.5 h-3.5" />
+                            {topic.source_published_at ? new Date(topic.source_published_at).toLocaleString('es-CL') : 'No capturada'}
+                        </span>
+                        </div>
+                    </div>
+                    {getSourceURL() && (
+                        <div className="mt-5 pt-4 border-t border-slate-100">
+                            <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">URL Original</span>
+                            <a href={getSourceURL()!} target="_blank" rel="noreferrer" className="text-sm text-primary-600 hover:text-primary-700 hover:underline break-all block">
+                                Abrir fuente original &rarr;
+                            </a>
+                        </div>
+                    )}
+                </section>
+            </div>
+            
+        </div>
       </div>
 
-      {/* Editor Fixed Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg px-4 py-4 z-50">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            
-            <div className="text-sm font-medium text-slate-500 w-full sm:w-auto text-center sm:text-left">
-                Estado actual: <strong className="text-slate-800 uppercase tracking-widest text-xs border border-slate-300 px-2 py-1 rounded ml-1 bg-slate-50">{getStatusLabel(formData.status as TopicStatus)}</strong>
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)] px-4 py-4 z-50 transition-all">
+        <div className="max-w-[1600px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="text-sm font-medium text-slate-500 w-full sm:w-auto text-center sm:text-left flex items-center justify-center sm:justify-start gap-2">
+                Flujo actual: 
+                <span className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest border ${getStatusColor(formData.status as TopicStatus)}`}>
+                   {getStatusLabel(formData.status as TopicStatus)}
+                </span>
             </div>
 
-            <div className="flex gap-2 w-full sm:w-auto">
+            <div className="flex gap-3 w-full sm:w-auto justify-end">
                 {formData.status === 'detected' && (
                     <>
-                        <button onClick={() => handleStatusChange('rejected')} className="flex-1 sm:flex-none px-4 py-2.5 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50">
-                            <XCircle className="w-4 h-4" /> Rechazar
+                        <button onClick={() => handleStatusChange('rejected')} className="w-full sm:w-auto px-5 py-3 bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                            <XCircle className="w-4 h-4" /> Rechazar IA
                         </button>
-                        <button onClick={() => handleStatusChange('approved')} className="flex-1 sm:flex-none px-6 py-2.5 bg-slate-800 text-white hover:bg-slate-900 shadow-sm rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
-                            <CheckCircle className="w-4 h-4" /> Aprobar y Cerrar Edición
+                        <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-8 py-3 bg-slate-900 text-white hover:bg-slate-800 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                            <FileEdit className="w-4 h-4" /> Convertir a Borrador
+                        </button>
+                    </>
+                )}
+
+                {formData.status === 'draft' && (
+                    <>
+                        <button onClick={() => handleStatusChange('review')} className="w-full sm:w-auto px-8 py-3 bg-indigo-600 text-white hover:bg-indigo-500 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                            <Activity className="w-4 h-4" /> Enviar a Revisión
+                        </button>
+                    </>
+                )}
+
+                {formData.status === 'review' && (
+                    <>
+                        <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-5 py-3 bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 hover:border-orange-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                            <XCircle className="w-4 h-4" /> Rechazar (Borrador)
+                        </button>
+                        <button onClick={() => handleStatusChange('approved')} className="w-full sm:w-auto px-8 py-3 bg-teal-600 text-white hover:bg-teal-500 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                            <CheckCircle className="w-4 h-4" /> Aprobar Tema
                         </button>
                     </>
                 )}
 
                 {formData.status === 'approved' && (
                     <>
-                        <button onClick={() => handleStatusChange('rejected')} className="flex-1 sm:flex-none px-4 py-2.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50">
-                            <ArrowLeft className="w-4 h-4" /> Revertir a Detectado
+                        <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-5 py-3 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                            <ArrowLeft className="w-4 h-4" /> Volver a Borrador
                         </button>
-                        <button onClick={() => handleStatusChange('published')} className="flex-1 sm:flex-none px-8 py-2.5 btn-primary shadow-md rounded-xl font-black flex items-center justify-center gap-2 transition-all hover:scale-105 disabled:opacity-50">
-                            <UploadCloud className="w-5 h-5 text-white/90" /> PUBLICAR A USUARIOS
+                        <button onClick={() => handleStatusChange('published')} className="w-full sm:w-auto px-10 py-3 bg-emerald-600 text-white hover:bg-emerald-500 shadow-md hover:shadow-emerald-500/30 hover:-translate-y-0.5 rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                            <UploadCloud className="w-5 h-5" /> PUBLICAR A USUARIOS
                         </button>
                     </>
                 )}
 
-                {(formData.status === 'published' || formData.status === 'rejected') && (
-                    <button onClick={() => handleStatusChange('archived')} className="w-full sm:w-auto px-6 py-2.5 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
-                        <Archive className="w-4 h-4" /> Enviar a Archivo Muerto
+                {(formData.status === 'published') && (
+                    <button onClick={() => handleStatusChange('archived')} className="w-full sm:w-auto px-8 py-3 bg-slate-800 text-slate-100 hover:bg-slate-900 hover:shadow-lg rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                        <Archive className="w-4 h-4" /> Mover al Archivo
+                    </button>
+                )}
+                
+                {(formData.status === 'rejected' || formData.status === 'archived') && (
+                    <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-8 py-3 bg-primary-600 text-white hover:bg-primary-500 shadow-md rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                        <Edit2 className="w-4 h-4" /> Restaurar a Borrador
                     </button>
                 )}
             </div>
-
         </div>
       </div>
-
     </div>
   );
 }

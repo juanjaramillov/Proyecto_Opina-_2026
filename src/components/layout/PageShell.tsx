@@ -1,15 +1,16 @@
 import { NavLink, useLocation, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../features/auth";
-import { useRole } from "../../hooks/useRole";
+import { useAuthContext } from "../../features/auth/context/AuthContext";
 import { useSignalStore } from "../../store/signalStore";
 import { MIN_SIGNALS_THRESHOLD } from "../../config/constants";
 import FeedbackFab from "../ui/FeedbackFab";
+import { GlobalLoyaltySummary } from "../../features/loyalty/components/GlobalLoyaltySummary";
 
 const MENU_ITEMS = [
-  { id: 'participa', label: 'Señales', route: '/experience' },
+  { id: 'participa', label: 'Señales', route: '/signals' },
   { id: 'results', label: 'Resultados', route: '/results' },
-  { id: 'intelligence', label: 'Inteligencia', route: '/intelligence-dashboard' },
+  { id: 'intelligence', label: 'Inteligencia', route: '/b2b' },
   { id: 'about', label: 'Nosotros', route: '/about' },
 ];
 
@@ -17,7 +18,8 @@ const MENU_ITEMS = [
 export default function PageShell({ children }: { children: React.ReactNode }) {
   // Simplified user check logic, relying on profile or extending later
   const { profile } = useAuth();
-  const { role } = useRole();
+  const { accessState } = useAuthContext();
+  const role = accessState.role;
   const signals = useSignalStore(s => s.signals);
   const [scrolled, setScrolled] = useState(false);
 
@@ -163,6 +165,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   <div className="px-3 py-2 mb-1">
                     <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Panel de Control</p>
                   </div>
+                  <NavLink to="/admin/system" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
+                    <span className="material-symbols-outlined text-[16px]">data_usage</span>
+                    System Overview
+                  </NavLink>
                   <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
@@ -177,7 +183,11 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   </NavLink>
                   <NavLink to="/admin/actualidad" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">newspaper</span>
-                    Actualidad
+                    Mesa Editorial
+                  </NavLink>
+                  <NavLink to="/admin/users" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
+                    <span className="material-symbols-outlined text-[16px]">group</span>
+                    Usuarios CRM
                   </NavLink>
                 </div>
               </div>
@@ -259,6 +269,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
                 <div className={`transition-all duration-300 ease-in-out ${isMobileAdminOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
                   <div className="flex flex-col gap-1 p-2 bg-white/50 border-t border-slate-100">
+                    <NavLink to="/admin/system" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">data_usage</span>
+                      System Overview
+                    </NavLink>
                     <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                       Invitaciones
@@ -271,9 +285,17 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                       <span className="material-symbols-outlined text-[16px]">local_police</span>
                       Antifraude
                     </NavLink>
+                    <NavLink to="/admin/signals" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">database</span>
+                      Catálogo Maestro
+                    </NavLink>
                     <NavLink to="/admin/actualidad" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[16px]">newspaper</span>
-                      Actualidad
+                      Mesa Editorial
+                    </NavLink>
+                    <NavLink to="/admin/users" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">group</span>
+                      Usuarios CRM
                     </NavLink>
                   </div>
                 </div>
@@ -284,6 +306,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <main id="main-content" className="flex-1 flex flex-col relative w-full z-10">
+        <GlobalLoyaltySummary />
         {children}
       </main>
 

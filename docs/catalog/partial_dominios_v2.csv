@@ -1,0 +1,60 @@
+Marca,Slug,Categoria,Subcategoria,Dominio
+Banco Santander,santander-banco,Finanzas,Bancos,https://www.santander.cl
+Banco de Chile,banco-de-chile,Finanzas,Bancos,https://www.bancochile.cl
+BancoEstado,bancoestado,Finanzas,Bancos,https://www.bancoestado.cl
+BCI,bci-banco,Finanzas,Bancos,https://www.bci.cl
+Banco BICE,banco-bice,Finanzas,Bancos,https://www.bice.cl
+Scotiabank,scotiabank-banco,Finanzas,Bancos,https://www.scotiabankchile.cl
+Banco Falabella,banco-falabella,Finanzas,Bancos,https://www.bancofalabella.cl
+Banco Security,banco-security,Finanzas,Bancos,https://www.security.cl
+Banco Consorcio,banco-consorcio,Finanzas,Bancos,https://www.consorcio.cl
+Itaú,itau-banco,Finanzas,Bancos,https://www.itau.cl
+Mach,mach-fintech,Finanzas,Fintech,https://www.somosmach.com
+Tenpo,tenpo-fintech,Finanzas,Fintech,https://www.tenpo.cl
+Mercado Pago,mercado-pago-fintech,Finanzas,Fintech,https://www.mercadopago.cl
+Fintual,fintual-fintech,Finanzas,Fintech,https://www.fintual.cl
+Global66,global66-fintech,Finanzas,Fintech,https://www.global66.com
+Chek,chek-fintech,Finanzas,Fintech,https://simple.ripley.cl
+Prex,prex-fintech,Finanzas,Fintech,https://www.prexcard.cl
+Tapp,tapp-fintech,Finanzas,Fintech,https://www.tapp.cl
+PayPal,paypal-fintech,Finanzas,Fintech,https://www.paypal.com
+Wise,wise-fintech,Finanzas,Fintech,https://wise.com
+Stripe,stripe-fintech,Finanzas,Fintech,https://stripe.com
+Square,square-fintech,Finanzas,Fintech,https://squareup.com
+Visa,visa-medios-pago,Finanzas,Medios de Pago,https://www.visa.com
+Mastercard,mastercard-medios-pago,Finanzas,Medios de Pago,https://www.mastercard.cl
+American Express,american-express-medios-pago,Finanzas,Medios de Pago,https://www.americanexpress.com
+Redcompra,redcompra-medios-pago,Finanzas,Medios de Pago,https://www.redcompra.cl
+Webpay,webpay-medios-pago,Finanzas,Medios de Pago,https://www.webpay.cl
+Getnet,getnet-medios-pago,Finanzas,Medios de Pago,https://www.getnet.cl
+LATAM,latam-aerolinea,Viajes y transporte,Aerolíneas,https://www.latamairlines.com
+Sky Airline,sky-airline-aerolinea,Viajes y transporte,Aerolíneas,https://www.skyairline.com
+JetSMART,jetsmart-aerolinea,Viajes y transporte,Aerolíneas,https://www.jetsmart.com
+Delta Air Lines,delta-airlines,Viajes y transporte,Aerolíneas,https://www.delta.com
+American Airlines,american-airlines,Viajes y transporte,Aerolíneas,https://www.aa.com
+United Airlines,united-airlines,Viajes y transporte,Aerolíneas,https://www.united.com
+Air France,air-france,Viajes y transporte,Aerolíneas,https://www.airfrance.com
+KLM,klm-aerolinea,Viajes y transporte,Aerolíneas,https://www.klm.com
+Iberia,iberia-aerolinea,Viajes y transporte,Aerolíneas,https://www.iberia.com
+Copa Airlines,copa-airlines,Viajes y transporte,Aerolíneas,https://www.copaair.com
+Avianca,avianca-aerolinea,Viajes y transporte,Aerolíneas,https://www.avianca.com
+Uber,uber-transporte,Viajes y transporte,Apps de transporte,https://www.uber.com
+Cabify,cabify-transporte,Viajes y transporte,Apps de transporte,https://www.cabify.com
+DiDi,didi-transporte,Viajes y transporte,Apps de transporte,https://www.didi.com
+inDrive,indrive-transporte,Viajes y transporte,Apps de transporte,https://indrive.com
+Transvip,transvip-transporte,Viajes y transporte,Apps de transporte,https://www.transvip.cl
+Booking,booking-hoteles,Viajes y transporte,Hoteles y reservas,https://www.booking.com
+Expedia,expedia-hoteles,Viajes y transporte,Hoteles y reservas,https://www.expedia.com
+Airbnb,airbnb-hoteles,Viajes y transporte,Hoteles y reservas,https://www.airbnb.com
+Hotels.com,hotels-hoteles,Viajes y transporte,Hoteles y reservas,https://www.hotels.com
+Trivago,trivago-hoteles,Viajes y transporte,Hoteles y reservas,https://www.trivago.com
+Hilton,hilton-hoteles,Viajes y transporte,Hoteles,https://www.hilton.com
+Marriott,marriott-hoteles,Viajes y transporte,Hoteles,https://www.marriott.com
+Hyatt,hyatt-hoteles,Viajes y transporte,Hoteles,https://www.hyatt.com
+Accor,accor-hoteles,Viajes y transporte,Hoteles,https://group.accor.com
+Ibis,ibis-hoteles,Viajes y transporte,Hoteles,https://all.accor.com
+Novotel,novotel-hoteles,Viajes y transporte,Hoteles,https://all.accor.com
+NH Hotels,nh-hotels,Viajes y transporte,Hoteles,https://www.nh-hotels.com
+Holiday Inn,holiday-inn-hoteles,Viajes y transporte,Hoteles,https://www.ihg.com
+Sheraton,sheraton-hoteles,Viajes y transporte,Hoteles,https://www.marriott.com
+W Hotels,w-hotels,Viajes y transporte,Hoteles,https://www.marriott.com

@@ -1,0 +1,175 @@
+Industria,Categoria,Subcategoria,Marca,Slug,Dominio
+Moda,Ropa,Fast fashion,Zara,zara,https://www.zara.com
+Moda,Ropa,Fast fashion,H&M,hm,https://cl.hm.com
+Moda,Ropa,Fast fashion,Mango,mango,https://shop.mango.com
+Moda,Ropa,Fast fashion,Bershka,bershka,https://www.bershka.com
+Moda,Ropa,Fast fashion,Pull&Bear,pull-and-bear,https://www.pullandbear.com
+Moda,Ropa,Fast fashion,Stradivarius,stradivarius,https://www.stradivarius.com
+Moda,Ropa,Fast fashion,Forever 21,forever-21,https://www.forever21.com
+Moda,Ropa,Fast fashion,Uniqlo,uniqlo,https://www.uniqlo.com
+Moda,Ropa,Fast fashion,COS,cos,https://www.cos.com
+Moda,Ropa,Fast fashion,Massimo Dutti,massimo-dutti,https://www.massimodutti.com
+Moda,Ropa,Fast fashion,Oysho,oysho,https://www.oysho.com
+Moda,Ropa,Fast fashion,C&A,ca,https://www.c-and-a.com
+Moda,Ropa,Fast fashion,Primark,primark,https://www.primark.com
+Moda,Ropa,Fast fashion,Gap,gap,https://www.gap.com
+Moda,Ropa,Fast fashion,Old Navy,old-navy,https://oldnavy.gap.com
+Moda,Ropa,Fast fashion,Banana Republic,banana-republic,https://bananarepublic.gap.com
+Moda,Ropa,Fast fashion,American Eagle,american-eagle,https://www.ae.com
+Moda,Ropa,Fast fashion,Hollister,hollister,https://www.hollisterco.com
+Moda,Ropa,Fast fashion,Abercrombie & Fitch,abercrombie-and-fitch,https://www.abercrombie.com
+Moda,Ropa,Fast fashion,Urban Outfitters,urban-outfitters,https://www.urbanoutfitters.com
+Moda,Ropa,Fast fashion,Reserved,reserved,https://www.reserved.com
+Moda,Ropa,Fast fashion,Boohoo,boohoo,https://www.boohoo.com
+Moda,Ropa,Fast fashion,PrettyLittleThing,prettylittlething,https://www.prettylittlething.com
+Moda,Ropa,Fast fashion,Shein Fashion,shein-fashion,https://www.shein.com
+Moda,Ropa,Fast fashion,Cotton On,cotton-on,https://cottonon.com
+Moda,Ropa,Ropa deportiva,adidas,adidas,https://www.adidas.cl
+Moda,Ropa,Ropa deportiva,Nike,nike,https://www.nike.com
+Moda,Ropa,Ropa deportiva,Puma,puma,https://www.puma.com
+Moda,Ropa,Ropa deportiva,Reebok,reebok,https://www.reebok.com
+Moda,Ropa,Ropa deportiva,Under Armour,under-armour,https://www.underarmour.cl
+Moda,Ropa,Ropa deportiva,New Balance,new-balance,https://www.newbalance.cl
+Moda,Ropa,Ropa deportiva,Decathlon,decathlon,https://www.decathlon.cl
+Moda,Ropa,Ropa deportiva,Sparta,sparta,https://www.sparta.cl
+Moda,Ropa,Ropa deportiva,Champion,champion,https://www.champion.com
+Moda,Ropa,Ropa deportiva,Fila,fila,https://www.fila.com
+Moda,Ropa,Ropa deportiva,Asics,asics,https://www.asics.com
+Moda,Ropa,Ropa deportiva,Converse,converse,https://www.converse.com
+Moda,Ropa,Ropa deportiva,Vans,vans,https://www.vans.com
+Moda,Ropa,Ropa deportiva,Umbro,umbro,https://www.umbro.com
+Moda,Ropa,Ropa deportiva,Diadora,diadora,https://www.diadora.com
+Moda,Ropa,Ropa deportiva,Kappa,kappa,https://www.kappa.com
+Moda,Ropa,Ropa deportiva,Mizuno,mizuno,https://www.mizuno.com
+Moda,Ropa,Ropa deportiva,Salomon,salomon,https://www.salomon.com
+Moda,Ropa,Ropa deportiva,Gymshark,gymshark,https://www.gymshark.com
+Moda,Ropa,Ropa deportiva,Lululemon,lululemon,https://www.lululemon.com
+Moda,Ropa,Ropa deportiva,On Running,on-running,https://www.on-running.com
+Moda,Ropa,Ropa deportiva,Hoka,hoka,https://www.hoka.com
+Moda,Ropa,Ropa deportiva,Brooks,brooks,https://www.brooksrunning.com
+Moda,Ropa,Ropa deportiva,Saucony,saucony,https://www.saucony.com
+Moda,Ropa,Ropa outdoor,Columbia,columbia,https://www.columbiachile.cl
+Moda,Ropa,Ropa outdoor,The North Face,the-north-face,https://www.thenorthface.cl
+Moda,Ropa,Ropa outdoor,Doite,doite,https://www.doite.cl
+Moda,Ropa,Ropa outdoor,Lippi,lippi,https://www.lippioutdoor.com
+Moda,Ropa,Ropa outdoor,Patagonia,patagonia,https://www.patagonia.com
+Moda,Ropa,Ropa outdoor,Marmot,marmot,https://www.marmot.com
+Moda,Ropa,Ropa outdoor,Arc'teryx,arcteryx,https://arcteryx.com
+Moda,Ropa,Ropa outdoor,Merrell,merrell,https://www.merrell.com
+Moda,Ropa,Ropa outdoor,La Sportiva,la-sportiva,https://www.lasportiva.com
+Moda,Ropa,Ropa outdoor,Mountain Hardwear,mountain-hardwear,https://www.mountainhardwear.com
+Moda,Ropa,Ropa outdoor,Quechua,quechua,https://www.decathlon.cl
+Moda,Calzado,Zapatillas deportivas,Nike Sportswear,nike-sportswear,https://www.nike.com
+Moda,Calzado,Zapatillas deportivas,adidas Originals,adidas-originals,https://www.adidas.cl
+Moda,Calzado,Zapatillas deportivas,New Balance Sneakers,new-balance-sneakers,https://www.newbalance.cl
+Moda,Calzado,Zapatillas deportivas,Puma Sneakers,puma-sneakers,https://www.puma.com
+Moda,Calzado,Zapatillas deportivas,Reebok Classics,reebok-classics,https://www.reebok.com
+Moda,Calzado,Zapatillas deportivas,Converse Chuck Taylor,converse-chuck-taylor,https://www.converse.com
+Moda,Calzado,Zapatillas deportivas,Vans Old Skool,vans-old-skool,https://www.vans.com
+Moda,Calzado,Zapatillas deportivas,Asics Sportstyle,asics-sportstyle,https://www.asics.com
+Moda,Calzado,Zapatillas deportivas,Skechers,skechers,https://www.skechers.cl
+Moda,Calzado,Zapatillas deportivas,Under Armour Shoes,under-armour-shoes,https://www.underarmour.cl
+Moda,Calzado,Zapatillas deportivas,Fila Sneakers,fila-sneakers,https://www.fila.com
+Moda,Calzado,Zapatillas deportivas,On Sneakers,on-sneakers,https://www.on-running.com
+Moda,Calzado,Zapatos,Bata,bata,https://www.bata.cl
+Moda,Calzado,Zapatos,Guante,guante,https://www.guante.cl
+Moda,Calzado,Zapatos,Hush Puppies,hush-puppies,https://www.hushpuppies.cl
+Moda,Calzado,Zapatos,Aldo,aldo,https://www.aldoshoes.com
+Moda,Calzado,Zapatos,Clarks,clarks,https://www.clarks.com
+Moda,Calzado,Zapatos,Steve Madden,steve-madden,https://www.stevemadden.com
+Moda,Calzado,Zapatos,Geox,geox,https://www.geox.com
+Moda,Calzado,Zapatos,Timberland,timberland,https://www.timberland.com
+Moda,Calzado,Zapatos,Dr. Martens,dr-martens,https://www.drmartens.com
+Moda,Calzado,Zapatos,Crocs,crocs,https://www.crocs.com
+Moda,Accesorios,Accesorios de moda,Amphora,amphora,https://www.amphora.cl
+Moda,Accesorios,Accesorios de moda,Pandora,pandora,https://pandoraoficial.com
+Moda,Accesorios,Accesorios de moda,Saxoline,saxoline,https://www.saxoline.cl
+Moda,Accesorios,Accesorios de moda,Secret,secret,https://www.secret.cl
+Moda,Accesorios,Accesorios de moda,Swarovski,swarovski,https://www.swarovski.com
+Moda,Accesorios,Accesorios de moda,Tous,tous,https://www.tous.com
+Moda,Accesorios,Accesorios de moda,Michael Kors,michael-kors,https://www.michaelkors.com
+Moda,Accesorios,Accesorios de moda,Coach,coach,https://www.coach.com
+Moda,Accesorios,Accesorios de moda,Kate Spade,kate-spade,https://www.katespade.com
+Moda,Accesorios,Accesorios de moda,Longchamp,longchamp,https://www.longchamp.com
+Moda,Accesorios,Accesorios de moda,Fossil,fossil,https://www.fossil.com
+Moda,Accesorios,Accesorios de moda,Guess,guess,https://www.guess.com
+Moda,Accesorios,Accesorios de moda,Tumi,tumi,https://www.tumi.com
+Moda,Accesorios,Accesorios de moda,Samsonite,samsonite,https://www.samsonite.com
+Moda,Accesorios,Accesorios de moda,Herschel,herschel,https://herschel.com
+Moda,Accesorios,Accesorios de moda,Eastpak,eastpak,https://www.eastpak.com
+Retail,Grandes tiendas,Multitiendas,Falabella Retail,falabella-retail,https://www.falabella.com
+Retail,Grandes tiendas,Multitiendas,Paris Retail,paris-retail,https://www.paris.cl
+Retail,Grandes tiendas,Multitiendas,Ripley Retail,ripley-retail,https://www.ripley.cl
+Retail,Grandes tiendas,Multitiendas,La Polar Retail,la-polar-retail,https://www.lapolar.cl
+Retail,Grandes tiendas,Multitiendas,Hites Retail,hites-retail,https://www.hites.com
+Retail,Grandes tiendas,Multitiendas,ABCDIN,abcdin,https://www.abc.cl
+Retail,Grandes tiendas,Multitiendas,Tricot Retail,tricot-retail,https://www.tricot.cl
+Retail,Grandes tiendas,Multitiendas,Sybilla,sybilla,https://www.falabella.com
+Retail,Grandes tiendas,Multitiendas,Maui and Sons,maui-and-sons,https://www.mauiandsons.cl
+Retail,Grandes tiendas,Multitiendas,Corona,corona-retail,https://www.corona.cl
+Retail,Alimentación,Supermercados,Jumbo Super,jumbo-super,https://www.jumbo.cl
+Retail,Alimentación,Supermercados,Lider Super,lider-super,https://www.lider.cl
+Retail,Alimentación,Supermercados,Tottus Super,tottus-super,https://www.tottus.cl
+Retail,Alimentación,Supermercados,Unimarc Super,unimarc-super,https://www.unimarc.cl
+Retail,Alimentación,Supermercados,Santa Isabel Super,santa-isabel-super,https://www.santaisabel.cl
+Retail,Alimentación,Supermercados,Alvi Super,alvi-super,https://www.alvi.cl
+Retail,Alimentación,Supermercados,aCuenta Super,acuenta-super,https://www.acuenta.cl
+Retail,Alimentación,Supermercados,Mayorista 10 Super,mayorista-10-super,https://www.mayorista10.cl
+Retail,Alimentación,Minimarkets,Oxxo Chile,oxxo-chile,https://www.oxxo.cl
+Retail,Alimentación,Minimarkets,Upa Market,upa-market,https://www.upa.cl
+Retail,Alimentación,Minimarkets,Spid Market,spid-market,https://www.spid.cl
+Retail,Alimentación,Minimarkets,Big John Market,big-john-market,https://www.bigjohn.cl
+Retail,Alimentación,Minimarkets,Pronto Copec Market,pronto-copec-market,https://www.pronto.cl
+Retail,Mejoramiento del hogar,Ferreterías,Sodimac,sodimac,https://www.sodimac.cl
+Retail,Mejoramiento del hogar,Ferreterías,Easy,easy,https://www.easy.cl
+Retail,Mejoramiento del hogar,Ferreterías,Construmart,construmart,https://www.construmart.cl
+Retail,Mejoramiento del hogar,Ferreterías,Chilemat,chilemat,https://www.chilemat.cl
+Retail,Mejoramiento del hogar,Ferreterías,Imperial,imperial,https://www.imperial.cl
+Retail,Mejoramiento del hogar,Ferreterías,MTS,mts,https://www.mts.cl
+Retail,Mejoramiento del hogar,Ferreterías,Homecenter,homecenter,https://www.homecenter.com
+Retail,Mejoramiento del hogar,Materiales de construcción,Construmart Materiales,construmart-materiales,https://www.construmart.cl
+Retail,Mejoramiento del hogar,Materiales de construcción,Chilemat Materiales,chilemat-materiales,https://www.chilemat.cl
+Retail,Mejoramiento del hogar,Materiales de construcción,Imperial Materiales,imperial-materiales,https://www.imperial.cl
+Retail,Mejoramiento del hogar,Materiales de construcción,MTS Materiales,mts-materiales,https://www.mts.cl
+Retail,Tecnología,Tiendas de tecnología,PC Factory Retail,pc-factory-retail,https://www.pcfactory.cl
+Retail,Tecnología,Tiendas de tecnología,SP Digital Retail,sp-digital-retail,https://www.spdigital.cl
+Retail,Tecnología,Tiendas de tecnología,WePlay Retail,weplay-retail,https://www.weplay.cl
+Retail,Tecnología,Tiendas de tecnología,Reifstore Retail,reifstore-retail,https://www.reifstore.cl
+Retail,Tecnología,Tiendas de tecnología,MacOnline Retail,maconline-retail,https://www.maconline.com
+Retail,Tecnología,Tiendas de tecnología,Audiomusica,audiomusica,https://www.audiomusica.com
+Retail,Tecnología,Tiendas de tecnología,Canon Center,canon-center,https://store.canon.cl
+Retail,Tecnología,Tiendas Apple,MacOnline Apple,maconline-apple-retail,https://www.maconline.com
+Retail,Tecnología,Tiendas Apple,iShop Apple,ishop-apple,https://www.ishopmixup.com
+Retail,Tecnología,Tiendas Apple,Apple Store Online Chile,apple-store-online-chile,https://www.apple.com
+Hogar,Electrodomésticos,Refrigeradores,Samsung Refrigeradores,samsung-refrigeradores,https://www.samsung.com
+Hogar,Electrodomésticos,Refrigeradores,LG Refrigeradores,lg-refrigeradores,https://www.lg.com
+Hogar,Electrodomésticos,Refrigeradores,Bosch Refrigeradores,bosch-refrigeradores,https://www.bosch-home.cl
+Hogar,Electrodomésticos,Refrigeradores,Electrolux Refrigeradores,electrolux-refrigeradores,https://www.electrolux.cl
+Hogar,Electrodomésticos,Refrigeradores,Midea Refrigeradores,midea-refrigeradores,https://www.midea.cl
+Hogar,Electrodomésticos,Refrigeradores,Whirlpool Refrigeradores,whirlpool-refrigeradores,https://www.whirlpool.cl
+Hogar,Electrodomésticos,Refrigeradores,Fensa Refrigeradores,fensa-refrigeradores,https://www.fensa.cl
+Hogar,Electrodomésticos,Refrigeradores,Ursus Trotter Refrigeradores,ursus-trotter-refrigeradores,https://www.ursustrotter.cl
+Hogar,Electrodomésticos,Lavadoras,Samsung Lavadoras,samsung-lavadoras,https://www.samsung.com
+Hogar,Electrodomésticos,Lavadoras,LG Lavadoras,lg-lavadoras,https://www.lg.com
+Hogar,Electrodomésticos,Lavadoras,Bosch Lavadoras,bosch-lavadoras,https://www.bosch-home.cl
+Hogar,Electrodomésticos,Lavadoras,Electrolux Lavadoras,electrolux-lavadoras,https://www.electrolux.cl
+Hogar,Electrodomésticos,Lavadoras,Midea Lavadoras,midea-lavadoras,https://www.midea.cl
+Hogar,Electrodomésticos,Lavadoras,Whirlpool Lavadoras,whirlpool-lavadoras,https://www.whirlpool.cl
+Hogar,Electrodomésticos,Lavadoras,Fensa Lavadoras,fensa-lavadoras,https://www.fensa.cl
+Hogar,Electrodomésticos,Lavadoras,Hisense Lavadoras,hisense-lavadoras,https://www.hisense.com
+Hogar,Electrodomésticos,Aspiradoras,Dyson,dyson,https://www.dyson.cl
+Hogar,Electrodomésticos,Aspiradoras,Electrolux Aspiradoras,electrolux-aspiradoras,https://www.electrolux.cl
+Hogar,Electrodomésticos,Aspiradoras,Philips Aspiradoras,philips-aspiradoras,https://www.philips.cl
+Hogar,Electrodomésticos,Aspiradoras,Thomas,thomas,https://www.thomas.cl
+Hogar,Electrodomésticos,Aspiradoras,Ursus Trotter Aspiradoras,ursus-trotter-aspiradoras,https://www.ursustrotter.cl
+Hogar,Electrodomésticos,Aspiradoras,Xiaomi Aspiradoras,xiaomi-aspiradoras,https://www.mi.com
+Hogar,Electrodomésticos,Aspiradoras,Taurus Aspiradoras,taurus-aspiradoras,https://taurus-home.com
+Hogar,Electrodomésticos,Aspiradoras,Black+Decker Aspiradoras,black-and-decker-aspiradoras,https://www.blackanddecker.cl
+Hogar,Descanso,Colchones,CIC,cic,https://www.cic.cl
+Hogar,Descanso,Colchones,Rosen,rosen,https://www.rosen.cl
+Hogar,Descanso,Colchones,Emma,emma,https://www.emma-colchon.cl
+Hogar,Descanso,Colchones,Flex,flex,https://www.flex.cl
+Hogar,Descanso,Colchones,Mantahue,mantahue,https://www.mantahue.cl
+Hogar,Descanso,Colchones,Drimkip,drimkip,https://www.drimkip.cl
+Hogar,Descanso,Colchones,Rosen Ergo T,rosen-ergo-t,https://www.rosen.cl
+Hogar,Descanso,Colchones,CIC Ortopedic,cic-ortopedic,https://www.cic.cl

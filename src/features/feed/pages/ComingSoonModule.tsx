@@ -60,8 +60,8 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
             case "context_check":
                 return <PreviewContextCheck checkins={data.checkins} />;
 
-            case "filters_places":
-            case "filters_services":
+            case "lugares":
+            case "servicios":
                 return (
                     <div className="flex gap-8">
                         <div className="flex-1">
@@ -108,7 +108,7 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
                     </div>
                 );
 
-            case "scanner_product":
+            case "productos":
                 return <PreviewProductSheet product={data.product} />;
 
             case "nps_survey":

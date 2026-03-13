@@ -41,9 +41,3 @@ export const SEG_REGIONS: SegmentOption[] = [
     { value: "XV", label: "Arica y Parinacota" },
 ];
 
-/**
- * Helpers: convierte UI selections a parámetros RPC, si aplica.
- */
-export function normalizeAllToNull(v: string): string | null {
-    return v === "all" ? null : v;
-}

@@ -9,7 +9,7 @@ import { logger } from '../../../lib/logger';
 import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../supabase/client';
-import { recordDepthSignalsFromLegacy, DepthAnswerPayload } from '../../../lib/signals/recordDepthSignalsFromLegacy';
+
 
 interface InsightPackProps {
     optionId: string;
@@ -149,33 +149,6 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
 
             await depthService.saveDepthStructured(optionId, structuredAnswers);
             setUserAnswers(answers);
-
-            // --- INICIO DOBLE ESCRITURA (Double Write) ---
-            try {
-                // Preparar las respuestas extendiéndolas con meta-información
-                const depthAnswers: DepthAnswerPayload[] = Object.entries(answers).map(([key, val], index) => {
-                    const qDef = depthQuestions.find(q => q.id === key);
-                    return {
-                        question_key: key,
-                        question_label: qDef?.question || key, // Fallback key si manual
-                        response_type: qDef?.type || 'scale', // Fallback type
-                        response_value: val,
-                        order_index: index + 1
-                    };
-                });
-
-                recordDepthSignalsFromLegacy({
-                    instance_id: optionId, // en insight pack, optionId (o brand_id) en el modal
-                    instance_title: `Insight Pack: ${optionLabel}`,
-                    entity_name: optionLabel,
-                    subcategory: categorySlug,
-                    answers: depthAnswers
-                }).catch(e => logger.warn('[InsightPack] Double write failed', e));
-
-            } catch (dwErr) {
-                logger.warn('[InsightPack] Double write error wrapper', dwErr);
-            }
-            // --- FIN DOBLE ESCRITURA ---
 
             // Background fetch
             fetchAnalytics(answers).catch(e => logger.error('Background fetch error:', e));

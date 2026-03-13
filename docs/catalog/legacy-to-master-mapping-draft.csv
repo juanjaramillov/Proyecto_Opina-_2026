@@ -75,7 +75,7 @@ opciones (legacy),unknown_yet,BBTips,BRAND_BBTIPS,BBTips,predicted,1.0,Exact mat
 opciones (legacy),unknown_yet,Babysec,BRAND_BABYSEC,Babysec,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Huggies,BRAND_HUGGIES,Huggies,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Pampers,BRAND_PAMPERS,Pampers,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Pampers Premium Care,BRAND_PAMPERS_PREMIUM_CARE,Pampers Premium Care,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Pampers Premium Care,BRAND_PAMPERS,Pampers Premium Care,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,BBTips,BRAND_BBTIPS,BBTips,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Babysec,BRAND_BABYSEC,Babysec,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Bebesit,BRAND_BEBESIT,Bebesit,predicted,1.0,Exact match from Excel generation
@@ -109,9 +109,9 @@ opciones (legacy),unknown_yet,Rabanne,BRAND_RABANNE,Rabanne,predicted,1.0,Exact 
 opciones (legacy),unknown_yet,Eucerin Sun,BRAND_EUCERIN_SUN,Eucerin Sun,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Hawaiian Tropic,BRAND_HAWAIIAN_TROPIC,Hawaiian Tropic,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,ISDIN,BRAND_ISDIN,ISDIN,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,La Roche-Posay Anthelios,BRAND_LA_ROCHEPOSAY_ANTHELIOS,La Roche-Posay Anthelios,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,La Roche-Posay Anthelios,BRAND_LA_ROCHEPOSAY,La Roche-Posay Anthelios,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Raytan,BRAND_RAYTAN,Raytan,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Vichy Capital Soleil,BRAND_VICHY_CAPITAL_SOLEIL,Vichy Capital Soleil,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Vichy Capital Soleil,BRAND_VICHY,Vichy Capital Soleil,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Dove,BRAND_DOVE,Dove,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Elvive,BRAND_ELVIVE,Elvive,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Head & Shoulders,BRAND_HEAD_SHOULDERS,Head & Shoulders,predicted,1.0,Exact match from Excel generation
@@ -383,7 +383,7 @@ opciones (legacy),unknown_yet,WePlay,BRAND_WEPLAY,WePlay,predicted,1.0,Exact mat
 opciones (legacy),unknown_yet,Bupa,BRAND_BUPA,Bupa,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,IntegraMédica,BRAND_INTEGRAMEDICA,IntegraMédica,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Megasalud,BRAND_MEGASALUD,Megasalud,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,RedSalud Centros Médicos,BRAND_REDSALUD_CENTROS_MEDICOS,RedSalud Centros Médicos,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,RedSalud Centros Médicos,BRAND_REDSALUD,RedSalud Centros Médicos,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,UC Christus,BRAND_UC_CHRISTUS,UC Christus,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Vidaintegra,BRAND_VIDAINTEGRA,Vidaintegra,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Clínica Alemana,BRAND_CLINICA_ALEMANA,Clínica Alemana,predicted,1.0,Exact match from Excel generation
@@ -410,27 +410,27 @@ opciones (legacy),unknown_yet,HDI Seguros,BRAND_HDI_SEGUROS,HDI Seguros,predicte
 opciones (legacy),unknown_yet,Mapfre,BRAND_MAPFRE,Mapfre,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,MetLife,BRAND_METLIFE,MetLife,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Zurich,BRAND_ZURICH,Zurich,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Apple AirPods,BRAND_APPLE_AIRPODS,Apple AirPods,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Apple AirPods,BRAND_APPLE,Apple AirPods,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Bose,BRAND_BOSE,Bose,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,JBL,BRAND_JBL,JBL,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Samsung Galaxy Buds,BRAND_SAMSUNG_GALAXY_BUDS,Samsung Galaxy Buds,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Samsung Galaxy Buds,BRAND_SAMSUNG,Samsung Galaxy Buds,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Skullcandy,BRAND_SKULLCANDY,Skullcandy,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Sony,BRAND_SONY,Sony,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,ASUS ROG Ally,BRAND_ASUS_ROG_ALLY,ASUS ROG Ally,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Lenovo Legion Go,BRAND_LENOVO_LEGION_GO,Lenovo Legion Go,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Nintendo Switch,BRAND_NINTENDO_SWITCH,Nintendo Switch,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,ASUS ROG Ally,BRAND_ASUS,ASUS ROG Ally,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Lenovo Legion Go,BRAND_LENOVO,Lenovo Legion Go,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Nintendo Switch,BRAND_NINTENDO,Nintendo Switch,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,PlayStation,BRAND_PLAYSTATION,PlayStation,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Steam Deck,BRAND_STEAM_DECK,Steam Deck,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Xbox,BRAND_XBOX,Xbox,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,AOC,BRAND_AOC,AOC,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,ASUS ROG,BRAND_ASUS_ROG,ASUS ROG,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Acer Predator,BRAND_ACER_PREDATOR,Acer Predator,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,LG UltraGear,BRAND_LG_ULTRAGEAR,LG UltraGear,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,ASUS ROG,BRAND_ASUS,ASUS ROG,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Acer Predator,BRAND_ACER,Acer Predator,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,LG UltraGear,BRAND_LG,LG UltraGear,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,MSI,BRAND_MSI,MSI,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Samsung Odyssey,BRAND_SAMSUNG_ODYSSEY,Samsung Odyssey,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Samsung Odyssey,BRAND_SAMSUNG,Samsung Odyssey,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,ASUS,BRAND_ASUS,ASUS,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Acer,BRAND_ACER,Acer,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Apple MacBook,BRAND_APPLE_MACBOOK,Apple MacBook,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Apple MacBook,BRAND_APPLE,Apple MacBook,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Dell,BRAND_DELL,Dell,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,HP,BRAND_HP,HP,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Lenovo,BRAND_LENOVO,Lenovo,predicted,1.0,Exact match from Excel generation
@@ -441,48 +441,48 @@ opciones (legacy),unknown_yet,Logitech G,BRAND_LOGITECH_G,Logitech G,predicted,1
 opciones (legacy),unknown_yet,Razer,BRAND_RAZER,Razer,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Redragon,BRAND_REDRAGON,Redragon,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,SteelSeries,BRAND_STEELSERIES,SteelSeries,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Apple iPhone,BRAND_APPLE_IPHONE,Apple iPhone,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Apple iPhone,BRAND_APPLE,Apple iPhone,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Honor,BRAND_HONOR,Honor,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Huawei,BRAND_HUAWEI,Huawei,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Motorola,BRAND_MOTOROLA,Motorola,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Oppo,BRAND_OPPO,Oppo,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Realme,BRAND_REALME,Realme,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Samsung Galaxy,BRAND_SAMSUNG_GALAXY,Samsung Galaxy,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Samsung Galaxy,BRAND_SAMSUNG,Samsung Galaxy,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Xiaomi,BRAND_XIAOMI,Xiaomi,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Amazfit,BRAND_AMAZFIT,Amazfit,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Apple Watch,BRAND_APPLE_WATCH,Apple Watch,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Apple Watch,BRAND_APPLE,Apple Watch,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Garmin,BRAND_GARMIN,Garmin,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Huawei Watch,BRAND_HUAWEI_WATCH,Huawei Watch,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Samsung Galaxy Watch,BRAND_SAMSUNG_GALAXY_WATCH,Samsung Galaxy Watch,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Xiaomi Watch,BRAND_XIAOMI_WATCH,Xiaomi Watch,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Apple iPad,BRAND_APPLE_IPAD,Apple iPad,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Honor Pad,BRAND_HONOR_PAD,Honor Pad,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Huawei MatePad,BRAND_HUAWEI_MATEPAD,Huawei MatePad,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Lenovo Tab,BRAND_LENOVO_TAB,Lenovo Tab,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Samsung Galaxy Tab,BRAND_SAMSUNG_GALAXY_TAB,Samsung Galaxy Tab,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Xiaomi Pad,BRAND_XIAOMI_PAD,Xiaomi Pad,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Huawei Watch,BRAND_HUAWEI,Huawei Watch,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Samsung Galaxy Watch,BRAND_SAMSUNG_WATCH,Samsung Galaxy Watch,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Xiaomi Watch,BRAND_XIAOMI,Xiaomi Watch,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Apple iPad,BRAND_APPLE,Apple iPad,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Honor Pad,BRAND_HONOR,Honor Pad,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Huawei MatePad,BRAND_HUAWEI,Huawei MatePad,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Lenovo Tab,BRAND_LENOVO,Lenovo Tab,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Samsung Galaxy Tab,BRAND_SAMSUNG_TAB,Samsung Galaxy Tab,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Xiaomi Pad,BRAND_XIAOMI,Xiaomi Pad,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Hisense,BRAND_HISENSE,Hisense,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,LG,BRAND_LG,LG,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Philips,BRAND_PHILIPS,Philips,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Samsung,BRAND_SAMSUNG,Samsung,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Sony,BRAND_SONY,Sony,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,TCL,BRAND_TCL,TCL,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Claro Hogar,BRAND_CLARO_HOGAR,Claro Hogar,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Entel Fibra,BRAND_ENTEL_FIBRA,Entel Fibra,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Claro Hogar,BRAND_CLARO,Claro Hogar,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Entel Fibra,BRAND_ENTEL,Entel Fibra,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,GTD,BRAND_GTD,GTD,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Movistar Fibra,BRAND_MOVISTAR_FIBRA,Movistar Fibra,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Movistar Fibra,BRAND_MOVISTAR,Movistar Fibra,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Mundo,BRAND_MUNDO,Mundo,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Telsur,BRAND_TELSUR,Telsur,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,VTR,BRAND_VTR,VTR,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Claro video,BRAND_CLARO_VIDEO,Claro video,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Claro video,BRAND_CLARO,Claro video,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,DGO,BRAND_DGO,DGO,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,MiCHV,BRAND_MICHV,MiCHV,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Movistar TV App,BRAND_MOVISTAR_TV_APP,Movistar TV App,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Movistar TV App,BRAND_MOVISTAR,Movistar TV App,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,TVN Play,BRAND_TVN_PLAY,TVN Play,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Zapping,BRAND_ZAPPING,Zapping,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Claro TV,BRAND_CLARO_TV,Claro TV,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Claro TV,BRAND_CLARO,Claro TV,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,DIRECTV,BRAND_DIRECTV,DIRECTV,predicted,1.0,Exact match from Excel generation
-opciones (legacy),unknown_yet,Movistar TV,BRAND_MOVISTAR_TV,Movistar TV,predicted,1.0,Exact match from Excel generation
+opciones (legacy),unknown_yet,Movistar TV,BRAND_MOVISTAR,Movistar TV,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,TuVes,BRAND_TUVES,TuVes,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,VTR,BRAND_VTR,VTR,predicted,1.0,Exact match from Excel generation
 opciones (legacy),unknown_yet,Zapping,BRAND_ZAPPING,Zapping,predicted,1.0,Exact match from Excel generation

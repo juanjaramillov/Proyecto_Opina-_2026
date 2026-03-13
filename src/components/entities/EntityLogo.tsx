@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 type EntityLogoSize = "sm" | "md" | "lg";
 
@@ -13,13 +13,13 @@ type EntityLogoProps = {
 const sizeMap: Record<EntityLogoSize, string> = {
   sm: "h-10 w-10",
   md: "h-14 w-14",
-  lg: "h-20 w-20",
+  lg: "h-24 w-24",
 };
 
 const imagePaddingMap: Record<EntityLogoSize, string> = {
-  sm: "p-2",
-  md: "p-3",
-  lg: "p-4",
+  sm: "p-[10%]",
+  md: "p-[12%]",
+  lg: "p-[12%]",
 };
 
 function getInitial(name: string): string {
@@ -39,14 +39,26 @@ export default function EntityLogo({
   className,
   rounded = true,
 }: EntityLogoProps) {
+  const [currentSrcIndex, setCurrentSrcIndex] = useState(0);
   const [hasError, setHasError] = useState(false);
 
-  const logoSrc = useMemo(() => {
-    if (!slug) return null;
-    return `/logos/entities/${slug}.svg`;
+  const logoSrcs = useMemo(() => {
+    if (!slug) return [];
+    return [
+      `/logos/entities/${slug}.svg`,
+      `/logos/entities/${slug}.png`,
+      `/logos/entities/${slug}.jpg`,
+      `/logos/entities/${slug}.webp`
+    ];
   }, [slug]);
 
   const initial = useMemo(() => getInitial(name), [name]);
+
+  useEffect(() => {
+    // Reset state if slug changes
+    setCurrentSrcIndex(0);
+    setHasError(false);
+  }, [slug]);
 
   const shellClass = cn(
     "relative flex shrink-0 items-center justify-center overflow-hidden border border-black/5 bg-white",
@@ -55,7 +67,7 @@ export default function EntityLogo({
     className
   );
 
-  if (!logoSrc || hasError) {
+  if (!logoSrcs.length || hasError || currentSrcIndex >= logoSrcs.length) {
     return (
       <div className={shellClass} aria-label={name} title={name}>
         <span className="select-none text-sm font-semibold text-neutral-700">
@@ -68,11 +80,11 @@ export default function EntityLogo({
   return (
     <div className={shellClass} aria-label={name} title={name}>
       <img
-        src={logoSrc}
+        src={logoSrcs[currentSrcIndex]}
         alt={name}
         className={cn("h-full w-full object-contain", imagePaddingMap[size])}
         loading="lazy"
-        onError={() => setHasError(true)}
+        onError={() => setCurrentSrcIndex(prev => prev + 1)}
       />
     </div>
   );

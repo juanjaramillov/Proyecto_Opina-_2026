@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { resolveEntitySlug } from '../../lib/entities/resolveEntitySlug';
 
 const guessBrandDomain = (name: string) => {
     const known: Record<string, string> = {
@@ -37,7 +38,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
     const cleanBrandDomain = (brandDomain || "").replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0].toLowerCase().trim();
     const domainToTry = cleanBrandDomain || guessBrandDomain(name);
-
+    
+    const slug = resolveEntitySlug(name);
+    const localSvgUrl = slug ? `/logos/entities/${slug}.svg` : null;
 
     const clearbitUrl = `https://logo.clearbit.com/${domainToTry}?size=512`;
     const unavatarUrl = `https://unavatar.io/${domainToTry}?fallback=false`;
@@ -48,6 +51,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
     const urlsToTry = [
         imageUrl,
+        localSvgUrl,
         clearbitUrl,
         unavatarUrl,
         iconHorseUrl,

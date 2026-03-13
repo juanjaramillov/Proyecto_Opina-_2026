@@ -138,7 +138,7 @@ export default function ProfileWizard() {
             await authService.signOut();
             navigate("/login");
         } catch (err) {
-            logger.error(err);
+            logger.error("Error updates profile", err);
         }
     };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { adminAntifraudService, AntifraudFlagRow, DeviceSummary } from '../services/adminAntifraudService';
+import { logger } from '../../../lib/logger';
 
 const AdminAntifraud: React.FC = () => {
     const [flags, setFlags] = useState<AntifraudFlagRow[]>([]);
@@ -71,7 +72,7 @@ const AdminAntifraud: React.FC = () => {
                 const summary = await adminAntifraudService.getDeviceSummary(deviceHash);
                 setSummaries(prev => ({ ...prev, [deviceHash]: summary }));
             } catch (err: any) {
-                console.error("Failed to fetch summary", err);
+                logger.error("Failed to fetch summary", { domain: 'admin_actions', origin: 'AdminAntifraud', action: 'fetch_summary', state: 'failed' }, err);
             } finally {
                 setLoadingSummary(prev => ({ ...prev, [deviceHash]: false }));
             }

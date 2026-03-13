@@ -92,7 +92,7 @@ export function getQueuedVotesForSession(sessionId: string): string[] {
     const optionIds: string[] = [];
     for (const job of q) {
         if (job.rpc !== 'insert_signal_event') continue;
-        const args = job.args as any;
+        const args = job.args as Record<string, unknown>;
         if (args?.p_session_id === sessionId && typeof args?.p_option_id === 'string') {
             optionIds.push(args.p_option_id);
         }
@@ -101,7 +101,7 @@ export function getQueuedVotesForSession(sessionId: string): string[] {
 }
 
 export function enqueueInsertSignalEvent(args: Record<string, unknown>): { status: 'queued' | 'deduped'; id: string } {
-    const existingId = (args as any)?.p_client_event_id as string | undefined;
+    const existingId = (args as Record<string, unknown>)?.p_client_event_id as string | undefined;
     const id = existingId || crypto.randomUUID();
 
     const queue = loadQueue();
@@ -146,15 +146,15 @@ export async function flushSignalOutbox(maxJobs: number = 50): Promise<{ sent: n
 
         for (const job of due) {
             try {
-                let res = await (supabase.rpc as any)(job.rpc, job.args);
+                let res = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)(job.rpc, job.args);
 
                 if (res.error && String(res.error.message).includes('p_device_hash')) {
-                    const fallbackArgs = { ...job.args } as Record<string, any>;
+                    const fallbackArgs = { ...job.args } as Record<string, unknown>;
                     delete fallbackArgs.p_device_hash;
-                    res = await (supabase.rpc as any)(job.rpc, fallbackArgs);
+                    res = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)(job.rpc, fallbackArgs);
                 }
 
-                let { error } = res;
+                const { error } = res;
 
                 if (error) {
                     const msg = error?.message ? String(error.message) : 'Unknown RPC error';
@@ -164,7 +164,7 @@ export async function flushSignalOutbox(maxJobs: number = 50): Promise<{ sent: n
                         saveQueue(queue);
                         emitSignalEvent();
                         failed++;
-                        logger.error('[Outbox] Drop non-retriable job', { id: job.id, msg });
+                        logger.error('[Outbox] Drop non-retriable job', { domain: 'sync_outbox', origin: 'signalOutbox', action: 'flush', state: 'failed', job_id: job.id, reject_reason: msg });
                         continue;
                     }
 
@@ -178,12 +178,12 @@ export async function flushSignalOutbox(maxJobs: number = 50): Promise<{ sent: n
 
                 // Notificar a la app que se sincronizó una señal pendiente
                 emitSignalEvent();
-            } catch (e: any) {
-                const msg = e?.message ? String(e.message) : 'Unknown error';
+            } catch (e: unknown) {
+                const msg = (e as { message?: string })?.message ? String((e as { message?: string }).message) : 'Unknown error';
 
                 // Si no hay red, deja de intentar
                 if (typeof navigator !== 'undefined' && navigator.onLine === false) {
-                    logger.warn('[Outbox] Offline, stopping flush');
+                    logger.warn('[Outbox] Offline, stopping flush', { domain: 'sync_outbox', origin: 'signalOutbox', action: 'flush', state: 'blocked' });
                     break;
                 }
 
@@ -201,7 +201,7 @@ export async function flushSignalOutbox(maxJobs: number = 50): Promise<{ sent: n
 
                 saveQueue(queue);
                 failed++;
-                logger.warn('[Outbox] Retry scheduled', { id: job.id, msg });
+                logger.warn('[Outbox] Retry scheduled', { domain: 'sync_outbox', origin: 'signalOutbox', action: 'retry', state: 'retrying', job_id: job.id, retry_reason: msg });
             }
         }
 
@@ -218,7 +218,7 @@ export function startSignalOutbox() {
     if (started) return;
     started = true;
 
-    const safeFlush = () => flushSignalOutbox().catch(err => logger.error('[Outbox] Flush failed', err));
+    const safeFlush = () => flushSignalOutbox().catch(err => logger.error('[Outbox] Flush failed', { domain: 'sync_outbox', origin: 'signalOutbox', action: 'flush', state: 'failed' }, err));
 
     // Flush inicial
     if (typeof navigator === 'undefined' || navigator.onLine) safeFlush();
@@ -262,8 +262,7 @@ export function getQueuedRecentVersusSignals(limit: number = 12): PendingMySigna
     for (const job of q) {
         if (job.rpc !== 'insert_signal_event') continue;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const args: any = job.args || {};
+        const args = (job.args || {}) as Record<string, unknown>;
         const createdAtIso = new Date(job.createdAt).toISOString();
 
         rows.push({

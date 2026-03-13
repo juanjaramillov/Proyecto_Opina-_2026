@@ -1,0 +1,17 @@
+UPDATE battle_options SET label = 'Pampers' WHERE label = 'Pampers Premium Care';
+UPDATE battle_options SET label = 'La Roche-Posay' WHERE label = 'La Roche-Posay Anthelios';
+UPDATE battle_options SET label = 'Vichy' WHERE label = 'Vichy Capital Soleil';
+UPDATE battle_options SET label = 'Apple' WHERE label IN ('Apple AirPods', 'Apple iPhone', 'Apple MacBook', 'Apple Watch', 'Apple iPad');
+UPDATE battle_options SET label = 'Samsung' WHERE label IN ('Samsung Galaxy', 'Samsung Galaxy Buds', 'Samsung Galaxy Watch', 'Samsung Galaxy Tab', 'Samsung Odyssey');
+UPDATE battle_options SET label = 'ASUS' WHERE label IN ('ASUS ROG', 'ASUS ROG Ally');
+UPDATE battle_options SET label = 'Acer' WHERE label = 'Acer Predator';
+UPDATE battle_options SET label = 'LG' WHERE label = 'LG UltraGear';
+UPDATE battle_options SET label = 'Lenovo' WHERE label IN ('Lenovo Legion Go', 'Lenovo Tab');
+UPDATE battle_options SET label = 'Xiaomi' WHERE label IN ('Xiaomi Pad', 'Xiaomi Watch');
+UPDATE battle_options SET label = 'Huawei' WHERE label IN ('Huawei MatePad', 'Huawei Watch');
+UPDATE battle_options SET label = 'Honor' WHERE label = 'Honor Pad';
+UPDATE battle_options SET label = 'Nintendo' WHERE label = 'Nintendo Switch';
+UPDATE battle_options SET label = 'Claro' WHERE label IN ('Claro Hogar', 'Claro video', 'Claro TV');
+UPDATE battle_options SET label = 'Entel' WHERE label = 'Entel Fibra';
+UPDATE battle_options SET label = 'Movistar' WHERE label IN ('Movistar Fibra', 'Movistar TV', 'Movistar TV App');
+UPDATE battle_options SET label = 'RedSalud' WHERE label = 'RedSalud Centros Médicos';

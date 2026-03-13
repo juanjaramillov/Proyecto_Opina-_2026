@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../../../supabase/client';
 import toast from 'react-hot-toast';
+import { logger } from '../../../lib/logger';
 
 export const B2BLeadForm = () => {
     const [name, setName] = useState('');
@@ -21,13 +22,13 @@ export const B2BLeadForm = () => {
             ]);
 
             if (error) {
-                console.error("Error saving lead:", error);
+                logger.error("Error saving lead", { domain: 'b2b_intelligence', origin: 'B2BLeadForm', action: 'submit_lead', state: 'failed' }, error);
                 // Fail graceful in UI as requested by user.
             }
             toast.success("Solicitud recibida. Te contactaremos pronto.");
             setSubmitted(true);
         } catch (err) {
-            console.error(err);
+            logger.error("Error in lead form submission", { domain: 'b2b_intelligence', origin: 'B2BLeadForm', action: 'submit_lead_fatal', state: 'failed' }, err);
             toast.success("Solicitud recibida. Te contactaremos pronto.");
             setSubmitted(true);
         } finally {
