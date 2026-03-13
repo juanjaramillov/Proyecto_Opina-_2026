@@ -2,25 +2,40 @@ import fs from "fs";
 import path from "path";
 import csv from "csv-parser";
 import fetch from "node-fetch";
+import dotenv from "dotenv";
+
+// Load environment variables for potential API keys (e.g. BRANDFETCH_API_KEY)
+dotenv.config({ path: path.resolve(".env.local") });
 
 const catalogFile = path.resolve("./docs/catalog/master-entity-catalog-curated.csv");
+const overrideFile = path.resolve("./docs/catalog/logo-overrides.csv");
 const outputDir = path.resolve("./public/logos/entities");
 const reportDir = path.resolve("./docs/catalog");
 const reportFile = path.resolve("./docs/catalog/logo-fetch-report.csv");
 
+// CLI Arguments
+const args = process.argv.slice(2);
+const flagMissing = args.includes("--missing");
+const flagForce = args.includes("--force");
+const sourceArg = args.find(a => a.startsWith("--source="));
+const forceSource = sourceArg ? sourceArg.split("=")[1] : null;
+const entityArg = args.find(a => a.startsWith("--entity="));
+const forceEntitySlug = entityArg ? entityArg.split("=")[1] : null;
+
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
-
 if (!fs.existsSync(reportDir)) {
   fs.mkdirSync(reportDir, { recursive: true });
+}
+if (!fs.existsSync(overrideFile)) {
+  fs.writeFileSync(overrideFile, "entity_slug,forced_url,preferred_variant,notes\n", "utf8");
 }
 
 function sanitizeSvg(svgText) {
   if (!svgText || typeof svgText !== "string") return null;
   let trimmed = svgText.trim();
   if (trimmed.startsWith("<?xml")) {
-      // Find where <svg begins and slice from there just in case, or just trust it
       const svgStart = trimmed.indexOf("<svg");
       if (svgStart !== -1) {
           trimmed = trimmed.slice(svgStart);
@@ -30,12 +45,13 @@ function sanitizeSvg(svgText) {
   return trimmed;
 }
 
-async function downloadImage(url) {
+async function downloadImage(url, customHeaders = {}) {
   try {
     const res = await fetch(url, {
       headers: {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
         "Accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        ...customHeaders
       }
     });
 
@@ -49,6 +65,21 @@ async function downloadImage(url) {
     else if (contentType.includes("image/webp")) ext = "webp";
     
     let buffer = Buffer.from(await res.arrayBuffer());
+
+    const importCrypto = await import('crypto');
+    const hashSum = importCrypto.createHash('md5');
+    hashSum.update(buffer);
+    const hashHex = hashSum.digest('hex');
+    
+    // Known MD5 hashes of the Brandfetch generic placeholder error image
+    const PLACEHOLDER_HASHES = [
+      '25a2dfbd88a38ae9e55b1fce6fcdd245', // Old 242859 bytes
+      '61adddcce049bf69ecbb291c94411135', // New 242979 bytes
+    ];
+    
+    if (PLACEHOLDER_HASHES.includes(hashHex) || buffer.length === 242979 || buffer.length === 242859) {
+      return null;
+    }
 
     if (!ext) {
        if (buffer.length > 4) {
@@ -81,6 +112,43 @@ function getExistingLogoExt(slug) {
   return null;
 }
 
+function cleanOldLogos(slug) {
+  const exts = ["svg", "png", "jpg", "webp"];
+  for (const ext of exts) {
+    const p = path.join(outputDir, `${slug}.${ext}`);
+    if (fs.existsSync(p)) {
+      fs.unlinkSync(p);
+    }
+  }
+}
+
+async function tryOverride(entity, overrides) {
+  const slug = entity.entity_slug?.trim();
+  const override = overrides.find(o => o.entity_slug === slug);
+  if (!override || !override.forced_url) return null;
+
+  const imgRes = await downloadImage(override.forced_url);
+  if (!imgRes) return null;
+
+  return { source: "override", tier: "official", ...imgRes };
+}
+
+async function tryBrandfetch(entity) {
+  const domain = entity.domain?.trim();
+  if (!domain) return null;
+
+  const url = `https://cdn.brandfetch.io/${domain}/logo`;
+  const headers = {};
+  if (process.env.BRANDFETCH_API_KEY) {
+      headers['Authorization'] = `Bearer ${process.env.BRANDFETCH_API_KEY}`;
+  }
+
+  const imgRes = await downloadImage(url, headers);
+  if (!imgRes) return null;
+
+  return { source: "brandfetch", tier: "official", ...imgRes };
+}
+
 async function trySimpleIcons(entity) {
   const slug = entity.entity_slug?.trim();
   if (!slug) return null;
@@ -89,29 +157,7 @@ async function trySimpleIcons(entity) {
   const imgRes = await downloadImage(url);
   if (!imgRes || imgRes.ext !== "svg") return null;
 
-  return { source: "simpleicons", ...imgRes };
-}
-
-async function tryBrandfetch(entity) {
-  const domain = entity.domain?.trim();
-  if (!domain) return null;
-
-  const url = `https://cdn.brandfetch.io/${domain}/logo`;
-  const imgRes = await downloadImage(url);
-  if (!imgRes) return null;
-
-  return { source: "brandfetch", ...imgRes };
-}
-
-async function tryClearbit(entity) {
-  const domain = entity.domain?.trim();
-  if (!domain) return null;
-
-  const url = `https://logo.clearbit.com/${domain}`;
-  const imgRes = await downloadImage(url);
-  if (!imgRes || imgRes.buffer.length < 500) return null;
-
-  return { source: "clearbit", ...imgRes };
+  return { source: "simpleicons", tier: "acceptable", ...imgRes };
 }
 
 async function tryGoogleFavicon(entity) {
@@ -122,45 +168,82 @@ async function tryGoogleFavicon(entity) {
   const imgRes = await downloadImage(url);
   if (!imgRes || imgRes.buffer.length < 500) return null; 
 
-  return { source: "google_favicon", ...imgRes };
+  return { source: "google_favicon", tier: "fallback", ...imgRes };
 }
 
-async function processEntity(entity, reportRows) {
+async function processEntity(entity, reportRows, overrides) {
   const slug = entity.entity_slug?.trim();
   const name = entity.entity_name?.trim() || "";
   const domain = entity.domain?.trim() || "";
 
   if (!slug) {
-    reportRows.push({ entity_slug: "", entity_name: name, domain, status: "skipped", source: "", notes: "missing entity_slug" });
+    reportRows.push({ entity_slug: "", entity_name: name, domain, status: "skipped", tier: "none", source: "", notes: "missing entity_slug" });
     return;
+  }
+
+  if (forceEntitySlug && forceEntitySlug !== slug) {
+    return; 
   }
 
   const existingExt = getExistingLogoExt(slug);
-  if (existingExt) {
-    reportRows.push({ entity_slug: slug, entity_name: name, domain, status: "already_exists", source: "local", notes: existingExt });
-    console.log(`✓ already exists: ${slug}.${existingExt}`);
+  
+  if (existingExt && !flagForce && !flagMissing) {
+    // If we have it and aren't forcing, just report local
+    reportRows.push({ entity_slug: slug, entity_name: name, domain, status: "already_exists", tier: "unknown", source: "local", notes: existingExt });
     return;
   }
 
-  const sources = [trySimpleIcons, tryBrandfetch, tryClearbit, tryGoogleFavicon];
-  
-  for (const sourceFn of sources) {
-    const result = await sourceFn(entity);
-    if (result) {
-      const filePath = path.join(outputDir, `${slug}.${result.ext}`);
-      fs.writeFileSync(filePath, result.buffer);
-      reportRows.push({ entity_slug: slug, entity_name: name, domain, status: "downloaded", source: result.source, notes: result.ext });
-      console.log(`✓ ${result.source}: ${slug}.${result.ext}`);
-      return;
-    }
+  if (flagMissing && existingExt) {
+    // If --missing is set and we have it, skip completely to save time in console logs
+    reportRows.push({ entity_slug: slug, entity_name: name, domain, status: "already_exists", tier: "unknown", source: "local", notes: existingExt });
+    return;
   }
 
-  reportRows.push({ entity_slug: slug, entity_name: name, domain, status: "missing", source: "", notes: "logo not found in configured sources" });
-  console.log(`✗ missing logo: ${slug}`);
+  // Determine allowed sources based on filters
+  const allSources = [
+    { name: "brandfetch", fn: tryBrandfetch },
+    { name: "simpleicons", fn: trySimpleIcons },
+    { name: "google_favicon", fn: tryGoogleFavicon },
+  ];
+  
+  let sourcesToTry = allSources;
+  if (forceSource) {
+      sourcesToTry = allSources.filter(s => s.name === forceSource);
+  }
+
+  let result = await tryOverride(entity, overrides);
+
+  if (!result) {
+      for (const src of sourcesToTry) {
+        result = await src.fn(entity);
+        if (result) break;
+      }
+  }
+
+  if (result) {
+    cleanOldLogos(slug); // garbage collect any old formats
+    const filePath = path.join(outputDir, `${slug}.${result.ext}`);
+    fs.writeFileSync(filePath, result.buffer);
+    reportRows.push({ 
+        entity_slug: slug, 
+        entity_name: name, 
+        domain, 
+        status: "downloaded", 
+        tier: result.tier,
+        source: result.source, 
+        notes: result.ext 
+    });
+    console.log(`✓ [${result.tier.toUpperCase()}] ${result.source}: ${slug}.${result.ext}`);
+    return;
+  }
+
+  reportRows.push({ entity_slug: slug, entity_name: name, domain, status: "missing", tier: "orphan", source: "", notes: "logo not found" });
+  console.log(`✗ [ORPHAN] missing logo: ${slug}`);
 }
 
 function writeReport(rows) {
-  const headers = ["entity_slug", "entity_name", "domain", "status", "source", "notes"];
+  const headers = ["entity_slug", "entity_name", "domain", "status", "tier", "source", "notes", "updated_at"];
+  const now = new Date().toISOString();
 
   const escapeCsv = (value) => {
     const str = String(value ?? "");
@@ -172,16 +255,20 @@ function writeReport(rows) {
 
   const lines = [
     headers.join(","),
-    ...rows.map((row) => headers.map((h) => escapeCsv(row[h])).join(","))
+    ...rows.map((row) => {
+        row.updated_at = now;
+        return headers.map((h) => escapeCsv(row[h])).join(",");
+    })
   ];
 
   fs.writeFileSync(reportFile, lines.join("\n"), "utf8");
 }
 
-async function loadEntities() {
+async function loadCsv(filePath) {
   return new Promise((resolve, reject) => {
     const rows = [];
-    fs.createReadStream(catalogFile)
+    if (!fs.existsSync(filePath)) resolve([]);
+    fs.createReadStream(filePath)
       .pipe(csv())
       .on("data", (data) => rows.push(data))
       .on("end", () => resolve(rows))
@@ -195,19 +282,22 @@ async function run() {
     process.exit(1);
   }
 
-  const entities = await loadEntities();
+  console.log("Loading entities limit flags: ", { missing: flagMissing, force: flagForce, source: forceSource, entity: forceEntitySlug });
+
+  const entities = await loadCsv(catalogFile);
+  const overrides = await loadCsv(overrideFile);
   const reportRows = [];
 
   for (const entity of entities) {
-    await processEntity(entity, reportRows);
-    await new Promise(r => setTimeout(r, 200));
+    await processEntity(entity, reportRows, overrides);
+    await new Promise(r => setTimeout(r, 200)); // Rate limit
   }
 
   writeReport(reportRows);
 
   console.log("");
   console.log("Logo fetch complete");
-  console.log(`Catalog processed: ${entities.length}`);
+  console.log(`Entities processed: ${entities.length}`);
   console.log(`Report written to: ${reportFile}`);
 }
 

@@ -435,7 +435,7 @@ export default function Home() {
           </p>
 
           <Link to={mainCtaPath} className="btn-hero min-w-[280px]">
-            {isAuthenticated ? "Emite tu señal" : "Crear cuenta gratis ahora"}
+            {isAuthenticated ? "Emite tu señal" : "Crear cuenta ahora"}
           </Link>
 
           {!isAuthenticated && (
@@ -449,7 +449,7 @@ export default function Home() {
       {/* 8. STICKY MOBILE CTA */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-xl border-t border-slate-200 z-[45] sm:hidden flex justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.08)] animate-in slide-in-from-bottom-5 duration-500">
         <Link to={mainCtaPath} className="btn-hero w-full max-w-sm py-3.5 text-base shadow-lg shadow-primary-600/20 flex items-center justify-center gap-2">
-          {isAuthenticated ? "Empezar a votar" : "Crear cuenta gratis ahora"}
+          {isAuthenticated ? "Empezar a votar" : "Crear cuenta ahora"}
           <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
         </Link>
       </div>

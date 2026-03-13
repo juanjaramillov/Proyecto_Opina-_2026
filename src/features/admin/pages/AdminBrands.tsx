@@ -96,8 +96,8 @@ export default function AdminBrands() {
         alert("Error al actualizar estado");
       }
     } catch (err) {
-        setBrands(prev => prev.map(b => b.id === id ? { ...b, is_active: currentStatus } : b));
-        logger.error("Error updating status", err);
+      setBrands(prev => prev.map(b => b.id === id ? { ...b, is_active: currentStatus } : b));
+      logger.error("Error updating status", err);
     }
   };
 
@@ -269,20 +269,20 @@ export default function AdminBrands() {
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
-                             onClick={() => handleModifierChange(brand.id, brand.elo_modifier_pct, -5)}
+                             onClick={() => handleModifierChange(brand.id, brand.elo_modifier_pct, -15)}
                              className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors border border-red-100 flex items-center gap-1"
-                             title="Restar 5% al Modificador"
+                             title="Restar 15% al Modificador"
                           >
                             <TrendingDown className="w-3.5 h-3.5" />
-                            <span className="text-[10px] font-bold">-5%</span>
+                            <span className="text-[10px] font-bold">-15%</span>
                           </button>
                           <button
-                             onClick={() => handleModifierChange(brand.id, brand.elo_modifier_pct, 5)}
+                             onClick={() => handleModifierChange(brand.id, brand.elo_modifier_pct, 15)}
                              className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition-colors border border-emerald-100 flex items-center gap-1"
-                             title="Sumar 5% al Modificador"
+                             title="Sumar 15% al Modificador"
                           >
                             <TrendingUp className="w-3.5 h-3.5" />
-                            <span className="text-[10px] font-bold">+5%</span>
+                            <span className="text-[10px] font-bold">+15%</span>
                           </button>
                         </div>
                       </td>

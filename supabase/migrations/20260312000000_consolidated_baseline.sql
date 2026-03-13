@@ -4594,6 +4594,12 @@ BEGIN
     PERFORM public.raise_sanitized('Unauthorized');
   END IF;
 
+  -- 🛡️ Exclusión de señales de Administradores
+  -- Evitar que las pruebas del usuario administrador contaminen las métricas
+  IF public.is_admin_user() = true THEN
+    RETURN;
+  END IF;
+
   -- Invite obligatorio (1:1)
   SELECT u.invitation_code_id, COALESCE(u.is_identity_verified, false)
   INTO v_invite_id, v_is_verified

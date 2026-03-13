@@ -1,442 +1,442 @@
-entity_slug,entity_name,domain,status,source,notes
-bruno-fritsch,Bruno Fritsch,brunofritsch.cl,downloaded,brandfetch,png
-dercocenter,DercoCenter,dercocenter.cl,downloaded,brandfetch,png
-gildemeister,Gildemeister,gildemeister.cl,downloaded,brandfetch,png
-kaufmann,Kaufmann,kaufmann.cl,downloaded,brandfetch,png
-portillo,Portillo,portillo.cl,downloaded,brandfetch,png
-salazar-israel,Salazar Israel,salazarisrael.cl,downloaded,brandfetch,png
-byd,BYD,byd.com,downloaded,brandfetch,png
-chery,Chery,chery.cl,downloaded,brandfetch,png
-geely,Geely,geely.cl,downloaded,brandfetch,png
-great-wall,Great Wall,gwm-global.com,downloaded,brandfetch,png
-haval,Haval,gwm.cl,downloaded,brandfetch,png
-jac,JAC,jac.cl,downloaded,brandfetch,png
-jetour,Jetour,jetourglobal.com,downloaded,brandfetch,png
-mg,MG,mgmotor.cl,downloaded,simpleicons,svg
-bmw,BMW,bmw.cl,downloaded,simpleicons,svg
-chevrolet,Chevrolet,chevrolet.cl,downloaded,simpleicons,svg
-hyundai,Hyundai,hyundai.cl,downloaded,simpleicons,svg
-kia,Kia,kia.cl,downloaded,simpleicons,svg
-mazda,Mazda,mazda.cl,downloaded,simpleicons,svg
-mercedes-benz,Mercedes-Benz,mercedes-benz.cl,downloaded,brandfetch,png
-nissan,Nissan,nissan.cl,downloaded,simpleicons,svg
-peugeot,Peugeot,peugeot.cl,downloaded,simpleicons,svg
-suzuki,Suzuki,suzuki.cl,downloaded,simpleicons,svg
-toyota,Toyota,toyota.cl,downloaded,simpleicons,svg
-aquarius,Aquarius,coca-cola.com,downloaded,brandfetch,png
-benedictino,Benedictino,benedictino.cl,downloaded,brandfetch,png
-cachantun,Cachantun,cachantun.cl,downloaded,brandfetch,png
-evian,Evian,evian.com,downloaded,brandfetch,png
-perrier,Perrier,perrier.com,downloaded,brandfetch,png
-vital,Vital,vitalagua.cl,downloaded,brandfetch,png
-becker,Becker,becker.cl,downloaded,brandfetch,png
-corona,Corona,cervezacorona.cl,downloaded,brandfetch,png
-cristal,Cristal,,missing,,logo not found in configured sources
-escudo,Escudo,,missing,,logo not found in configured sources
-heineken,Heineken,heineken.com,downloaded,brandfetch,png
-kunstmann,Kunstmann,cerveza-kunstmann.cl,downloaded,brandfetch,png
-burn,Burn,,missing,,logo not found in configured sources
-celsius,Celsius,,missing,,logo not found in configured sources
-monster,Monster,monsterenergy.com,downloaded,simpleicons,svg
-prime-energy,Prime Energy,,missing,,logo not found in configured sources
-red-bull,Red Bull,redbull.com,downloaded,brandfetch,png
-rockstar,Rockstar,,missing,,logo not found in configured sources
-canada-dry,Canada Dry,canadadrychile.cl,downloaded,brandfetch,png
-coca-cola,Coca-Cola,andina.micoca-cola.cl,downloaded,brandfetch,png
-fanta,Fanta,coca-cola.com,downloaded,brandfetch,png
-pepsi,Pepsi,pepsi.com,downloaded,brandfetch,png
-schweppes,Schweppes,,missing,,logo not found in configured sources
-sprite,Sprite,,missing,,logo not found in configured sources
-descorcha,Descorcha,descorcha.com,downloaded,brandfetch,png
-el-mundo-del-vino,El Mundo del Vino,elmundodelvino.cl,downloaded,brandfetch,png
-la-cav,La Cav,cav.cl,downloaded,brandfetch,png
-la-vinoteca,La Vinoteca,lavinoteca.cl,downloaded,brandfetch,png
-tienda-concha-y-toro,Tienda Concha y Toro,,missing,,logo not found in configured sources
-tienda-santa-rita,Tienda Santa Rita,,missing,,logo not found in configured sources
-concha-y-toro,Concha y Toro,conchaytoro.com,downloaded,brandfetch,png
-miguel-torres,Miguel Torres,migueltorres.cl,downloaded,brandfetch,png
-montes,Montes,monteswines.com,downloaded,brandfetch,png
-san-pedro,San Pedro,sanpedro.cl,downloaded,brandfetch,png
-santa-rita,Santa Rita,santarita.com,downloaded,brandfetch,png
-undurraga,Undurraga,undurraga.cl,downloaded,brandfetch,png
-bebesit,Bebesit,bebesit.cl,downloaded,brandfetch,png
-chicco,Chicco,chicco.cl,downloaded,brandfetch,png
-graco,Graco,babygraco.cl,downloaded,brandfetch,png
-infanti,Infanti,infanti.cl,downloaded,brandfetch,png
-joie,Joie,joiebaby.com,downloaded,brandfetch,png
-maxi-cosi,Maxi-Cosi,maxicosi.cl,downloaded,brandfetch,png
-enfamil,Enfamil,enfamil.com,downloaded,brandfetch,png
-nan,NAN,nestle.cl,downloaded,brandfetch,png
-nidal,Nidal,,missing,,logo not found in configured sources
-pediasure,Pediasure,,missing,,logo not found in configured sources
-s-26,S-26,,missing,,logo not found in configured sources
-similac,Similac,,missing,,logo not found in configured sources
-bbtips,BBTips,,missing,,logo not found in configured sources
-babysec,Babysec,babysec.cl,downloaded,brandfetch,png
-huggies,Huggies,huggies.cl,downloaded,brandfetch,png
-pampers,Pampers,pampers.cl,downloaded,brandfetch,png
-waterwipes,WaterWipes,,missing,,logo not found in configured sources
-l-oreal-paris,L'Oréal Paris,loreal-paris.cl,downloaded,brandfetch,png
-mac,MAC,maccosmetics.cl,downloaded,brandfetch,png
-maybelline,Maybelline,maybelline.cl,downloaded,brandfetch,png
-nyx,NYX,nyxcosmetics.com,downloaded,brandfetch,png
-natura,Natura,natura.cl,downloaded,brandfetch,png
-petrizzio,Petrizzio,petrizzio.cl,downloaded,brandfetch,png
-axe,Axe,axe.com,downloaded,brandfetch,png
-dove,Dove,dove.com,downloaded,brandfetch,png
-lady-speed-stick,Lady Speed Stick,ladyspeedstick.com,downloaded,brandfetch,png
-nivea,Nivea,nivea.cl,downloaded,brandfetch,png
-old-spice,Old Spice,oldspice.com,downloaded,brandfetch,png
-rexona,Rexona,rexona.com,downloaded,brandfetch,png
-aquafresh,Aquafresh,aquafresh.com,downloaded,brandfetch,png
-closeup,Closeup,closeup.com,downloaded,brandfetch,png
-colgate,Colgate,colgate.cl,downloaded,brandfetch,png
-oral-b,Oral-B,oralb.cl,downloaded,brandfetch,png
-pepsodent,Pepsodent,pepsodent.com,downloaded,brandfetch,png
-sensodyne,Sensodyne,sensodyne.cl,downloaded,brandfetch,png
-calvin-klein,Calvin Klein,calvinklein.cl,downloaded,brandfetch,png
-carolina-herrera,Carolina Herrera,carolinaherrera.com,downloaded,brandfetch,png
-chanel,Chanel,chanel.com,downloaded,brandfetch,png
-dior,Dior,dior.com,downloaded,simpleicons,svg
-hugo-boss,Hugo Boss,hugoboss.com,downloaded,brandfetch,png
-rabanne,Rabanne,rabanne.com,downloaded,brandfetch,png
-eucerin-sun,Eucerin Sun,eucerin.cl,downloaded,brandfetch,png
-hawaiian-tropic,Hawaiian Tropic,hawaiiantropic.com,downloaded,brandfetch,png
-isdin,ISDIN,isdin.com,downloaded,brandfetch,png
-la-roche-posay,La Roche-Posay,laroche-posay.cl,downloaded,brandfetch,png
-raytan,Raytan,raytan.cl,downloaded,brandfetch,png
-vichy,Vichy,vichy.cl,downloaded,brandfetch,png
-elvive,Elvive,loreal-paris.cl,downloaded,brandfetch,png
-head-shoulders,Head & Shoulders,headandshoulders.cl,downloaded,brandfetch,png
-pantene,Pantene,pantenela.com,downloaded,brandfetch,png
-sedal,Sedal,sedal.cl,downloaded,brandfetch,png
-tio-nacho,Tío Nacho,tionacho.com,downloaded,brandfetch,png
-bioderma,Bioderma,bioderma.cl,downloaded,brandfetch,png
-cerave,CeraVe,cerave.cl,downloaded,brandfetch,png
-cetaphil,Cetaphil,cetaphil.cl,downloaded,brandfetch,png
-eucerin,Eucerin,eucerin.cl,downloaded,brandfetch,png
-cafe-haiti,Café Haiti,cafehaiti.cl,downloaded,brandfetch,png
-castano,Castaño,castano.cl,downloaded,brandfetch,png
-dunkin,Dunkin,dunkin.cl,downloaded,brandfetch,png
-juan-valdez,Juan Valdez,juanvaldezcafe.com,downloaded,brandfetch,png
-starbucks,Starbucks,starbucks.cl,downloaded,simpleicons,svg
-tavelli,Tavelli,tavelli.cl,downloaded,brandfetch,png
-didi-food,DiDi Food,didiglobal.com,downloaded,brandfetch,png
-justo,Justo,justo.cl,downloaded,brandfetch,png
-orders,Orders,orders.cl,downloaded,brandfetch,png
-pedidosya,PedidosYa,pedidosya.cl,downloaded,brandfetch,png
-rappi,Rappi,rappi.com,downloaded,brandfetch,png
-uber-eats,Uber Eats,ubereats.com,downloaded,brandfetch,png
-burger-king,Burger King,burgerking.cl,downloaded,brandfetch,png
-doggis,Doggis,doggis.cl,downloaded,brandfetch,png
-juan-maestro,Juan Maestro,juanmaestro.cl,downloaded,brandfetch,png
-kfc,KFC,kfc.cl,downloaded,simpleicons,svg
-mcdonald-s,McDonald's,mcdonalds.cl,downloaded,brandfetch,png
-pedro-juan-diego,"Pedro, Juan & Diego",pyd.cl,downloaded,brandfetch,png
-subway,Subway,subway.com,downloaded,brandfetch,png
-tarragona,Tarragona,tarragona.cl,downloaded,brandfetch,png
-domino-s,Domino's,dominos.cl,downloaded,brandfetch,png
-little-caesars,Little Caesars,littlecaesars.cl,downloaded,brandfetch,png
-melt-pizzas,Melt Pizzas,meltpizzas.com,downloaded,brandfetch,png
-papa-johns,Papa Johns,papajohns.cl,downloaded,brandfetch,png
-pizza-hut,Pizza Hut,pizzahut.cl,downloaded,brandfetch,png
-telepizza,Telepizza,telepizza.cl,downloaded,brandfetch,png
-cobreloa,Cobreloa,cobreloa.cl,downloaded,brandfetch,png
-colo-colo,Colo-Colo,colocolo.cl,downloaded,brandfetch,png
-santiago-wanderers,Santiago Wanderers,santiagowanderers.cl,downloaded,brandfetch,png
-universidad-catolica,Universidad Católica,lacatolica.cl,downloaded,brandfetch,png
-universidad-de-chile,Universidad de Chile,udechile.cl,downloaded,brandfetch,png
-union-espanola,Unión Española,unionespanola.cl,downloaded,brandfetch,png
-aiep,AIEP,aiep.cl,downloaded,brandfetch,png
-duoc-uc,Duoc UC,duoc.cl,downloaded,brandfetch,png
-enac,ENAC,enac.cl,downloaded,brandfetch,png
-inacap,INACAP,inacap.cl,downloaded,brandfetch,png
-ipchile,IPChile,ipchile.cl,downloaded,brandfetch,png
-santo-tomas,Santo Tomás,ust.cl,downloaded,brandfetch,png
-cpech,Cpech,cpech.cl,downloaded,brandfetch,png
-filadd,Filadd,filadd.cl,downloaded,brandfetch,png
-m30m,M30M,preuniversitariom30m.com,downloaded,brandfetch,png
-pedro-de-valdivia,Pedro de Valdivia,pdv.cl,downloaded,brandfetch,png
-preu-uc,Preu UC,preupdv.cl,downloaded,brandfetch,png
-puntaje-nacional,Puntaje Nacional,puntajenacional.cl,downloaded,brandfetch,png
-pontificia-universidad-catolica,Pontificia Universidad Católica,uc.cl,downloaded,brandfetch,png
-uai,UAI,uai.cl,downloaded,brandfetch,png
-udp,UDP,udp.cl,downloaded,brandfetch,png
-usach,USACH,usach.cl,downloaded,brandfetch,png
-universidad-de-concepcion,Universidad de Concepción,udec.cl,downloaded,brandfetch,png
-cine-hoyts,Cine Hoyts,cinehoyts.cl,downloaded,brandfetch,png
-cinemark,Cinemark,cinemark.cl,downloaded,brandfetch,png
-cineplanet,Cineplanet,cineplanet.cl,downloaded,brandfetch,png
-cinestar,Cinestar,cinestar.cl,downloaded,brandfetch,png
-cinepolis,Cinépolis,cinepolis.cl,downloaded,brandfetch,png
-muvix,Muvix,muvix.cl,downloaded,brandfetch,png
-discord,Discord,discord.com,downloaded,simpleicons,svg
-pinterest,Pinterest,cl.pinterest.com,downloaded,simpleicons,svg
-quora,Quora,quora.com,downloaded,simpleicons,svg
-reddit,Reddit,reddit.com,downloaded,simpleicons,svg
-steam-community,Steam Community,steamcommunity.com,downloaded,brandfetch,png
-tumblr,Tumblr,tumblr.com,downloaded,simpleicons,svg
-biobiochile,BioBioChile,biobiochile.cl,downloaded,brandfetch,png
-cnn-chile,CNN Chile,cnnchile.com,downloaded,brandfetch,png
-cooperativa,Cooperativa,cooperativa.cl,downloaded,brandfetch,png
-el-mostrador,El Mostrador,elmostrador.cl,downloaded,brandfetch,png
-emol,Emol,emol.com,downloaded,brandfetch,png
-la-tercera,La Tercera,latercera.com,downloaded,brandfetch,png
-adn-radio,ADN Radio,adnradio.cl,downloaded,brandfetch,png
-carolina,Carolina,radiocarolina.cl,downloaded,brandfetch,png
-pudahuel,Pudahuel,pudahuel.cl,downloaded,brandfetch,png
-radio-agricultura,Radio Agricultura,radioagricultura.cl,downloaded,brandfetch,png
-radio-bio-bio,Radio Bío Bío,biobiochile.cl,downloaded,brandfetch,png
-facebook,Facebook,facebook.com,downloaded,simpleicons,svg
-instagram,Instagram,instagram.com,downloaded,simpleicons,svg
-linkedin,LinkedIn,linkedin.com,downloaded,brandfetch,png
-snapchat,Snapchat,snapchat.com,downloaded,simpleicons,svg
-tiktok,TikTok,tiktok.com,downloaded,simpleicons,svg
-x,X,x.com,downloaded,simpleicons,svg
-amazon-music,Amazon Music,music.amazon.com,downloaded,brandfetch,png
-apple-music,Apple Music,music.apple.com,downloaded,brandfetch,png
-deezer,Deezer,deezer.com,downloaded,simpleicons,svg
-spotify,Spotify,spotify.com,downloaded,simpleicons,svg
-tidal,TIDAL,tidal.com,downloaded,simpleicons,svg
-youtube-music,YouTube Music,music.youtube.com,downloaded,brandfetch,png
-apple-tv,Apple TV+,tv.apple.com,downloaded,brandfetch,png
-disney,Disney+,disneyplus.com,downloaded,brandfetch,png
-mubi,MUBI,mubi.com,downloaded,simpleicons,svg
-max,Max,max.com,downloaded,simpleicons,svg
-netflix,Netflix,netflix.com,downloaded,simpleicons,svg
-paramount,Paramount+,paramountplus.com,downloaded,brandfetch,png
-prime-video,Prime Video,primevideo.com,downloaded,brandfetch,png
-universal,Universal+,universalplus.com,downloaded,brandfetch,png
-canal-13,Canal 13,13.cl,downloaded,brandfetch,png
-chilevision,Chilevisión,chv.cl,downloaded,brandfetch,png
-la-red,La Red,lared.cl,downloaded,brandfetch,png
-mega,Mega,mega.cl,downloaded,simpleicons,svg
-tv,TV+,,missing,,logo not found in configured sources
-tvn,TVN,tvn.cl,downloaded,brandfetch,png
-bci,BCI,bci.cl,downloaded,brandfetch,png
-banco-bice,Banco BICE,bice.cl,downloaded,brandfetch,png
-banco-falabella,Banco Falabella,bancofalabella.cl,downloaded,brandfetch,png
-banco-de-chile,Banco de Chile,bancochile.cl,downloaded,brandfetch,png
-bancoestado,BancoEstado,bancoestado.cl,downloaded,brandfetch,png
-consorcio,Consorcio,consorcio.cl,downloaded,brandfetch,png
-itau,Itaú,itau.cl,downloaded,brandfetch,png
-santander,Santander,santander.cl,downloaded,brandfetch,png
-scotiabank,Scotiabank,scotiabankchile.cl,downloaded,brandfetch,png
-security,Security,security.cl,downloaded,brandfetch,png
-chek,Chek,simple.ripley.cl,downloaded,brandfetch,png
-fintual,Fintual,fintual.cl,downloaded,brandfetch,png
-global66,Global66,global66.com,downloaded,brandfetch,png
-mach,MACH,somosmach.com,downloaded,brandfetch,png
-mercado-pago,Mercado Pago,mercadopago.cl,downloaded,brandfetch,png
-prex,Prex,prexcard.cl,downloaded,brandfetch,png
-tapp,Tapp,tapp.cl,downloaded,brandfetch,png
-tenpo,Tenpo,tenpo.cl,downloaded,brandfetch,png
-bice-inversiones,BICE Inversiones,biceinversiones.cl,downloaded,brandfetch,png
-btg-pactual,BTG Pactual,btgpactual.cl,downloaded,brandfetch,png
-banchile-inversiones,Banchile Inversiones,banchileinversiones.cl,downloaded,brandfetch,png
-larrainvial,LarrainVial,larrainvial.com,downloaded,brandfetch,png
-mbi,MBI,mbi.cl,downloaded,brandfetch,png
-renta4,Renta4,renta4.cl,downloaded,brandfetch,png
-santander-corredora,Santander Corredora,santander.cl,downloaded,brandfetch,png
-american-express,American Express,americanexpress.com,downloaded,brandfetch,png
-cmr-falabella,CMR Falabella,cmrfalabella.com,downloaded,brandfetch,png
-getnet,Getnet,getnet.cl,downloaded,brandfetch,png
-mastercard,Mastercard,mastercard.cl,downloaded,simpleicons,svg
-redcompra,Redcompra,redcompra.cl,downloaded,brandfetch,png
-visa,Visa,visa.com,downloaded,simpleicons,svg
-webpay,Webpay,webpay.cl,downloaded,brandfetch,png
-dyson,Dyson,dyson.cl,downloaded,brandfetch,png
-electrolux,Electrolux,electrolux.cl,downloaded,brandfetch,png
-philips,Philips,philips.cl,downloaded,brandfetch,png
-thomas,Thomas,thomas.cl,downloaded,brandfetch,png
-ursus-trotter,Ursus Trotter,ursustrotter.cl,downloaded,brandfetch,png
-xiaomi,Xiaomi,xiaomi.cl,downloaded,simpleicons,svg
-cic,CIC,cic.cl,downloaded,brandfetch,png
-drimkip,Drimkip,drimkip.cl,downloaded,brandfetch,png
-emma,Emma,emma-colchon.cl,downloaded,brandfetch,png
-flex,Flex,flex.cl,downloaded,brandfetch,png
-mantahue,Mantahue,mantahue.cl,downloaded,brandfetch,png
-rosen,Rosen,rosen.cl,downloaded,brandfetch,png
-bosch,Bosch,bosch.cl,downloaded,simpleicons,svg
-fensa,Fensa,fensa.cl,downloaded,brandfetch,png
-lg,LG,lg.com,downloaded,simpleicons,svg
-midea,Midea,midea.cl,downloaded,brandfetch,png
-samsung,Samsung,samsung.com,downloaded,simpleicons,svg
-whirlpool,Whirlpool,whirlpool.cl,downloaded,brandfetch,png
-acana,Acana,acana.com,downloaded,brandfetch,png
-bravery,Bravery,bravery.cl,downloaded,brandfetch,png
-cat-chow,Cat Chow,purina.cl,downloaded,brandfetch,png
-pro-plan,Pro Plan,,missing,,logo not found in configured sources
-royal-canin,Royal Canin,royalcanin.com,downloaded,brandfetch,png
-whiskas,Whiskas,whiskas.cl,downloaded,brandfetch,png
-dog-chow,Dog Chow,,missing,,logo not found in configured sources
-pedigree,Pedigree,pedigree.cl,downloaded,brandfetch,png
-clinica-veterinaria-alemana,Clínica Veterinaria Alemana,cv-alemana.cl,downloaded,brandfetch,png
-hospital-clinico-veterinario-u-de-chile,Hospital Clínico Veterinario U. de Chile,hcv.uchile.cl,downloaded,brandfetch,png
-petsalud,PetSalud,petsalud.cl,downloaded,brandfetch,png
-vet24,Vet24,vet24.cl,downloaded,brandfetch,png
-vetpoint,VetPoint,vetpoint.cl,downloaded,brandfetch,png
-vets,Vets,vets.cl,downloaded,brandfetch,png
-club-de-perros-y-gatos,Club de Perros y Gatos,clubdeperrosygatos.cl,downloaded,brandfetch,png
-maspet,Maspet,maspet.cl,downloaded,brandfetch,png
-pet-bj,Pet BJ,petbj.cl,downloaded,brandfetch,png
-pet-happy,Pet Happy,pethappy.cl,downloaded,brandfetch,png
-petslandia,Petslandia,petslandia.cl,downloaded,brandfetch,png
-superzoo,SuperZoo,superzoo.cl,downloaded,brandfetch,png
-amphora,Amphora,amphora.cl,downloaded,brandfetch,png
-pandora,Pandora,pandoraoficial.com,downloaded,simpleicons,svg
-saxoline,Saxoline,saxoline.cl,downloaded,brandfetch,png
-secret,Secret,secret.cl,downloaded,brandfetch,png
-swarovski,Swarovski,swarovski.com,downloaded,brandfetch,png
-tous,Tous,tous.com,downloaded,brandfetch,png
-aldo,Aldo,aldoshoes.com,downloaded,brandfetch,png
-bata,Bata,bata.cl,downloaded,simpleicons,svg
-guante,Guante,guante.cl,downloaded,brandfetch,png
-hush-puppies,Hush Puppies,hushpuppies.cl,downloaded,brandfetch,png
-nike,Nike,nike.com,downloaded,simpleicons,svg
-skechers,Skechers,skechers.cl,downloaded,brandfetch,png
-adidas,adidas,adidas.cl,already_exists,local,svg
-decathlon,Decathlon,decathlon.cl,downloaded,brandfetch,png
-new-balance,New Balance,newbalance.cl,downloaded,brandfetch,png
-puma,Puma,puma.com,downloaded,simpleicons,svg
-reebok,Reebok,reebok.com,downloaded,simpleicons,svg
-sparta,Sparta,sparta.cl,downloaded,brandfetch,png
-under-armour,Under Armour,underarmour.cl,downloaded,brandfetch,png
-bershka,Bershka,bershka.com,downloaded,brandfetch,png
-forever-21,Forever 21,forever21.com,downloaded,brandfetch,png
-h-m,H&M,cl.hm.com,downloaded,brandfetch,png
-mango,Mango,shop.mango.com,downloaded,brandfetch,png
-pull-bear,Pull&Bear,pullandbear.com,downloaded,brandfetch,png
-stradivarius,Stradivarius,stradivarius.com,downloaded,brandfetch,png
-zara,Zara,zara.com,downloaded,simpleicons,svg
-columbia,Columbia,columbiachile.cl,downloaded,brandfetch,png
-doite,Doite,doite.cl,downloaded,brandfetch,png
-lippi,Lippi,lippioutdoor.com,downloaded,brandfetch,png
-marmot,Marmot,marmot.cl,downloaded,brandfetch,png
-patagonia,Patagonia,patagonia.com,downloaded,brandfetch,png
-the-north-face,The North Face,thenorthface.cl,downloaded,brandfetch,png
-family-shop,Family Shop,familyshop.cl,downloaded,brandfetch,png
-sybilla,Sybilla,falabella.com,downloaded,brandfetch,png
-tricot,Tricot,tricot.cl,downloaded,brandfetch,png
-aliexpress,AliExpress,aliexpress.com,downloaded,simpleicons,svg
-amazon,Amazon,amazon.com,downloaded,brandfetch,png
-falabella,Falabella,falabella.com,downloaded,brandfetch,png
-linio,Linio,linio.cl,downloaded,brandfetch,png
-mercado-libre,Mercado Libre,mercadolibre.cl,downloaded,brandfetch,png
-paris,Paris,paris.cl,downloaded,brandfetch,png
-ripley,Ripley,ripley.cl,downloaded,brandfetch,png
-chilemat,Chilemat,chilemat.cl,downloaded,brandfetch,png
-construmart,Construmart,construmart.cl,downloaded,brandfetch,png
-easy,Easy,easy.cl,downloaded,brandfetch,png
-imperial,Imperial,imperial.cl,downloaded,brandfetch,png
-mts,MTS,mts.cl,downloaded,brandfetch,png
-sodimac,Sodimac,sodimac.cl,downloaded,brandfetch,png
-abc,ABC,abc.cl,downloaded,brandfetch,png
-hites,Hites,hites.com,downloaded,brandfetch,png
-la-polar,La Polar,lapolar.cl,downloaded,brandfetch,png
-alvi,Alvi,alvi.cl,downloaded,brandfetch,png
-jumbo,Jumbo,jumbo.cl,downloaded,brandfetch,png
-lider,Líder,lider.cl,downloaded,brandfetch,png
-santa-isabel,Santa Isabel,santaisabel.cl,downloaded,brandfetch,png
-tottus,Tottus,tottus.cl,downloaded,brandfetch,png
-unimarc,Unimarc,unimarc.cl,downloaded,brandfetch,png
-acuenta,aCuenta,acuenta.cl,downloaded,brandfetch,png
-maconline,MacOnline,maconline.com,downloaded,brandfetch,png
-pc-factory,PC Factory,pcfactory.cl,downloaded,brandfetch,png
-reifstore,Reifstore,reifstore.cl,downloaded,brandfetch,png
-sp-digital,SP Digital,spdigital.cl,downloaded,brandfetch,png
-weplay,WePlay,weplay.cl,downloaded,brandfetch,png
-bupa,Bupa,bupa.cl,downloaded,brandfetch,png
-integramedica,IntegraMédica,integramedica.cl,downloaded,brandfetch,png
-megasalud,Megasalud,megasalud.cl,downloaded,brandfetch,png
-redsalud,RedSalud,redsalud.cl,downloaded,brandfetch,png
-uc-christus,UC Christus,ucchristus.cl,downloaded,brandfetch,png
-vidaintegra,Vidaintegra,vidaintegra.cl,downloaded,brandfetch,png
-clinica-alemana,Clínica Alemana,alemana.cl,downloaded,brandfetch,png
-clinica-indisa,Clínica Indisa,indisa.cl,downloaded,brandfetch,png
-clinica-las-condes,Clínica Las Condes,clc.cl,downloaded,brandfetch,png
-clinica-meds,Clínica MEDS,meds.cl,downloaded,brandfetch,png
-clinica-santa-maria,Clínica Santa María,clinicasantamaria.cl,downloaded,brandfetch,png
-cruz-verde,Cruz Verde,cruzverde.cl,downloaded,brandfetch,png
-dr-simi,Dr. Simi,drsimi.cl,downloaded,brandfetch,png
-farmacias-ahumada,Farmacias Ahumada,farmaciasahumada.cl,downloaded,brandfetch,png
-fraccion,Fracción,farmaciafraccion.cl,downloaded,brandfetch,png
-knop,Knop,knop.cl,downloaded,brandfetch,png
-salcobrand,Salcobrand,salcobrand.cl,downloaded,brandfetch,png
-banmedica,Banmédica,banmedica.cl,downloaded,brandfetch,png
-colmena,Colmena,colmena.cl,downloaded,brandfetch,png
-consalud,Consalud,consalud.cl,downloaded,brandfetch,png
-cruz-blanca,Cruz Blanca,cruzblanca.cl,downloaded,brandfetch,png
-nueva-masvida,Nueva Masvida,nuevamasvida.cl,downloaded,brandfetch,png
-vida-tres,Vida Tres,vidatres.cl,downloaded,brandfetch,png
-bci-seguros,BCI Seguros,bciseguros.cl,downloaded,brandfetch,png
-hdi-seguros,HDI Seguros,hdi.cl,downloaded,brandfetch,png
-mapfre,Mapfre,mapfre.cl,downloaded,brandfetch,png
-metlife,MetLife,metlife.cl,downloaded,brandfetch,png
-zurich,Zurich,zurich.cl,downloaded,brandfetch,png
-apple,Apple,apple.com,downloaded,simpleicons,svg
-bose,Bose,bose.com,downloaded,simpleicons,svg
-jbl,JBL,jbl.cl,downloaded,simpleicons,svg
-skullcandy,Skullcandy,,missing,,logo not found in configured sources
-sony,Sony,sony.com,downloaded,simpleicons,svg
-asus,ASUS,rog.asus.com,downloaded,simpleicons,svg
-lenovo,Lenovo,lenovo.cl,downloaded,simpleicons,svg
-nintendo,Nintendo,nintendo.cl,downloaded,brandfetch,png
-playstation,PlayStation,ps.com,downloaded,simpleicons,svg
-steam-deck,Steam Deck,steamdeck.com,downloaded,brandfetch,png
-xbox,Xbox,xbox.com,downloaded,brandfetch,png
-aoc,AOC,aocchile.cl,downloaded,brandfetch,png
-acer,Acer,acer.com,downloaded,simpleicons,svg
-msi,MSI,latam.msi.com,downloaded,simpleicons,svg
-dell,Dell,dell.com,downloaded,simpleicons,svg
-hp,HP,hp.com,downloaded,simpleicons,svg
-corsair,Corsair,corsair.com,downloaded,simpleicons,svg
-hyperx,HyperX,hyperx.com,downloaded,simpleicons,svg
-logitech-g,Logitech G,logitechg.com,downloaded,brandfetch,png
-razer,Razer,razer.com,downloaded,simpleicons,svg
-redragon,Redragon,redragon.com,downloaded,simpleicons,svg
-steelseries,SteelSeries,steelseries.com,downloaded,simpleicons,svg
-honor,Honor,honor.com,downloaded,simpleicons,svg
-huawei,Huawei,huawei.com,downloaded,simpleicons,svg
-motorola,Motorola,motorola.com,downloaded,simpleicons,svg
-oppo,Oppo,oppo.com,downloaded,simpleicons,svg
-realme,Realme,realme.com,downloaded,brandfetch,png
-amazfit,Amazfit,amazfit.com,downloaded,brandfetch,png
-garmin,Garmin,garmin.com,downloaded,simpleicons,svg
-hisense,Hisense,hisense.cl,downloaded,brandfetch,png
-tcl,TCL,tclstore.cl,downloaded,brandfetch,png
-claro,Claro,claro.cl,downloaded,brandfetch,png
-entel,Entel,entel.cl,downloaded,brandfetch,png
-gtd,GTD,gtd.cl,downloaded,brandfetch,png
-movistar,Movistar,movistar.cl,downloaded,simpleicons,svg
-mundo,Mundo,mundo.cl,downloaded,brandfetch,png
-telsur,Telsur,gtd.cl,downloaded,brandfetch,png
-vtr,VTR,vtr.com,downloaded,brandfetch,png
-dgo,DGO,directvgo.com,downloaded,brandfetch,png
-michv,MiCHV,michv.cl,downloaded,brandfetch,png
-tvn-play,TVN Play,tvnplay.cl,downloaded,brandfetch,png
-zapping,Zapping,zapping.com,downloaded,brandfetch,png
-directv,DIRECTV,directtv.cl,downloaded,brandfetch,png
-tuves,TuVes,tuves.cl,downloaded,brandfetch,png
-wom,WOM,wom.cl,downloaded,brandfetch,png
-air-france,Air France,airfrance.cl,downloaded,brandfetch,png
-american-airlines,American Airlines,aa.com,downloaded,brandfetch,png
-avianca,Avianca,avianca.com,downloaded,simpleicons,svg
-copa-airlines,Copa Airlines,copaair.com,downloaded,brandfetch,png
-delta-air-lines,Delta Air Lines,delta.com,downloaded,brandfetch,png
-iberia,Iberia,iberia.com,downloaded,simpleicons,svg
-jetsmart,JetSMART,jetsmart.com,downloaded,brandfetch,png
-klm,KLM,klm.cl,downloaded,simpleicons,svg
-latam,LATAM,latamairlines.com,downloaded,brandfetch,png
-sky-airline,Sky Airline,skyairlines.com,downloaded,brandfetch,png
-united-airlines,United Airlines,ua.com,downloaded,brandfetch,png
-cabify,Cabify,cabify.cl,downloaded,brandfetch,png
-didi,DiDi,didi.com,downloaded,brandfetch,png
-transvip,Transvip,transvip.cl,downloaded,brandfetch,png
-uber,Uber,uber.com,downloaded,simpleicons,svg
-indrive,inDrive,indrive.com,downloaded,brandfetch,png
-messenger,Messenger,messenger.com,downloaded,simpleicons,svg
-signal,Signal,signal.org,downloaded,simpleicons,svg
-telegram,Telegram,telegram.org,downloaded,simpleicons,svg
-wechat,WeChat,wechat.com,downloaded,simpleicons,svg
-whatsapp,WhatsApp,whatsapp.com,downloaded,simpleicons,svg
+entity_slug,entity_name,domain,status,tier,source,notes,updated_at
+bruno-fritsch,Bruno Fritsch,brunofritsch.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+dercocenter,DercoCenter,dercocenter.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+gildemeister,Gildemeister,gildemeister.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+kaufmann,Kaufmann,kaufmann.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+portillo,Portillo,portillo.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+salazar-israel,Salazar Israel,salazarisrael.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+byd,BYD,byd.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+chery,Chery,chery.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+geely,Geely,geely.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+great-wall,Great Wall,gwm-global.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+haval,Haval,gwm.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+jac,JAC,jac.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+jetour,Jetour,jetourglobal.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+mg,MG,mgmotor.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+bmw,BMW,bmw.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+chevrolet,Chevrolet,chevrolet.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+hyundai,Hyundai,hyundai.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+kia,Kia,kia.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+mazda,Mazda,mazda.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+mercedes-benz,Mercedes-Benz,mercedes-benz.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+nissan,Nissan,nissan.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+peugeot,Peugeot,peugeot.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+suzuki,Suzuki,suzuki.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+toyota,Toyota,toyota.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+aquarius,Aquarius,coca-cola.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+benedictino,Benedictino,benedictino.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+cachantun,Cachantun,cachantun.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+evian,Evian,evian.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+perrier,Perrier,perrier.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+vital,Vital,vitalagua.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+becker,Becker,becker.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+corona,Corona,cervezacorona.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cristal,Cristal,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+escudo,Escudo,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+heineken,Heineken,heineken.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+kunstmann,Kunstmann,cerveza-kunstmann.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+burn,Burn,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+celsius,Celsius,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+monster,Monster,monsterenergy.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+prime-energy,Prime Energy,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+red-bull,Red Bull,redbull.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+rockstar,Rockstar,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+canada-dry,Canada Dry,canadadrychile.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+coca-cola,Coca-Cola,andina.micoca-cola.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+fanta,Fanta,coca-cola.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pepsi,Pepsi,pepsi.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+schweppes,Schweppes,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+sprite,Sprite,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+descorcha,Descorcha,descorcha.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+el-mundo-del-vino,El Mundo del Vino,elmundodelvino.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+la-cav,La Cav,cav.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+la-vinoteca,La Vinoteca,lavinoteca.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+tienda-concha-y-toro,Tienda Concha y Toro,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+tienda-santa-rita,Tienda Santa Rita,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+concha-y-toro,Concha y Toro,conchaytoro.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+miguel-torres,Miguel Torres,migueltorres.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+montes,Montes,monteswines.com,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+san-pedro,San Pedro,sanpedro.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+santa-rita,Santa Rita,santarita.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+undurraga,Undurraga,undurraga.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+bebesit,Bebesit,bebesit.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+chicco,Chicco,chicco.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+graco,Graco,babygraco.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+infanti,Infanti,infanti.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+joie,Joie,joiebaby.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+maxi-cosi,Maxi-Cosi,maxicosi.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+enfamil,Enfamil,enfamil.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+nan,NAN,nestle.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+nidal,Nidal,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+pediasure,Pediasure,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+s-26,S-26,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+similac,Similac,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+bbtips,BBTips,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+babysec,Babysec,babysec.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+huggies,Huggies,huggies.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pampers,Pampers,pampers.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+waterwipes,WaterWipes,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+l-oreal-paris,L'Oréal Paris,loreal-paris.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+mac,MAC,maccosmetics.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+maybelline,Maybelline,maybelline.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+nyx,NYX,nyxcosmetics.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+natura,Natura,natura.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+petrizzio,Petrizzio,petrizzio.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+axe,Axe,axe.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+dove,Dove,dove.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+lady-speed-stick,Lady Speed Stick,ladyspeedstick.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+nivea,Nivea,nivea.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+old-spice,Old Spice,oldspice.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+rexona,Rexona,rexona.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+aquafresh,Aquafresh,aquafresh.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+closeup,Closeup,closeup.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+colgate,Colgate,colgate.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+oral-b,Oral-B,oralb.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pepsodent,Pepsodent,pepsodent.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+sensodyne,Sensodyne,sensodyne.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+calvin-klein,Calvin Klein,calvinklein.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+carolina-herrera,Carolina Herrera,carolinaherrera.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+chanel,Chanel,chanel.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+dior,Dior,dior.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+hugo-boss,Hugo Boss,hugoboss.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+rabanne,Rabanne,rabanne.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+eucerin-sun,Eucerin Sun,eucerin.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+hawaiian-tropic,Hawaiian Tropic,hawaiiantropic.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+isdin,ISDIN,isdin.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+la-roche-posay,La Roche-Posay,laroche-posay.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+raytan,Raytan,raytan.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+vichy,Vichy,vichy.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+elvive,Elvive,loreal-paris.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+head-shoulders,Head & Shoulders,headandshoulders.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+pantene,Pantene,pantenela.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+sedal,Sedal,sedal.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+tio-nacho,Tío Nacho,tionacho.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+bioderma,Bioderma,bioderma.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cerave,CeraVe,cerave.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cetaphil,Cetaphil,cetaphil.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+eucerin,Eucerin,eucerin.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+cafe-haiti,Café Haiti,cafehaiti.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+castano,Castaño,castano.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+dunkin,Dunkin,dunkin.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+juan-valdez,Juan Valdez,juanvaldezcafe.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+starbucks,Starbucks,starbucks.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+tavelli,Tavelli,tavelli.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+didi-food,DiDi Food,didiglobal.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+justo,Justo,justo.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+orders,Orders,orders.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+pedidosya,PedidosYa,pedidosya.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+rappi,Rappi,rappi.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+uber-eats,Uber Eats,ubereats.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+burger-king,Burger King,burgerking.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+doggis,Doggis,doggis.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+juan-maestro,Juan Maestro,juanmaestro.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+kfc,KFC,kfc.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+mcdonald-s,McDonald's,mcdonalds.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pedro-juan-diego,"Pedro, Juan & Diego",pyd.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+subway,Subway,subway.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+tarragona,Tarragona,tarragona.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+domino-s,Domino's,dominos.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+little-caesars,Little Caesars,littlecaesars.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+melt-pizzas,Melt Pizzas,meltpizzas.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+papa-johns,Papa Johns,papajohns.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pizza-hut,Pizza Hut,pizzahut.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+telepizza,Telepizza,telepizza.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+cobreloa,Cobreloa,cobreloa.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+colo-colo,Colo-Colo,colocolo.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+santiago-wanderers,Santiago Wanderers,santiagowanderers.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+universidad-catolica,Universidad Católica,lacatolica.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+universidad-de-chile,Universidad de Chile,udechile.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+union-espanola,Unión Española,unionespanola.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+aiep,AIEP,aiep.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+duoc-uc,Duoc UC,duoc.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+enac,ENAC,enac.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+inacap,INACAP,inacap.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+ipchile,IPChile,ipchile.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+santo-tomas,Santo Tomás,ust.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+cpech,Cpech,cpech.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+filadd,Filadd,filadd.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+m30m,M30M,preuniversitariom30m.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+pedro-de-valdivia,Pedro de Valdivia,pdv.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+preu-uc,Preu UC,preupdv.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+puntaje-nacional,Puntaje Nacional,puntajenacional.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pontificia-universidad-catolica,Pontificia Universidad Católica,uc.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+uai,UAI,uai.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+udp,UDP,udp.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+usach,USACH,usach.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+universidad-de-concepcion,Universidad de Concepción,udec.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cine-hoyts,Cine Hoyts,cinehoyts.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cinemark,Cinemark,cinemark.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cineplanet,Cineplanet,cineplanet.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cinestar,Cinestar,cinestar.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cinepolis,Cinépolis,cinepolis.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+muvix,Muvix,muvix.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+discord,Discord,discord.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+pinterest,Pinterest,cl.pinterest.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+quora,Quora,quora.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+reddit,Reddit,reddit.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+steam-community,Steam Community,steamcommunity.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+tumblr,Tumblr,tumblr.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+biobiochile,BioBioChile,biobiochile.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cnn-chile,CNN Chile,cnnchile.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cooperativa,Cooperativa,cooperativa.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+el-mostrador,El Mostrador,elmostrador.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+emol,Emol,emol.com,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+la-tercera,La Tercera,latercera.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+adn-radio,ADN Radio,adnradio.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+carolina,Carolina,radiocarolina.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pudahuel,Pudahuel,pudahuel.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+radio-agricultura,Radio Agricultura,radioagricultura.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+radio-bio-bio,Radio Bío Bío,biobiochile.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+facebook,Facebook,facebook.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+instagram,Instagram,instagram.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+linkedin,LinkedIn,linkedin.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+snapchat,Snapchat,snapchat.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+tiktok,TikTok,tiktok.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+x,X,x.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+amazon-music,Amazon Music,music.amazon.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+apple-music,Apple Music,music.apple.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+deezer,Deezer,deezer.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+spotify,Spotify,spotify.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+tidal,TIDAL,tidal.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+youtube-music,YouTube Music,music.youtube.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+apple-tv,Apple TV+,tv.apple.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+disney,Disney+,disneyplus.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+mubi,MUBI,mubi.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+max,Max,max.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+netflix,Netflix,netflix.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+paramount,Paramount+,paramountplus.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+prime-video,Prime Video,primevideo.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+universal,Universal+,universalplus.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+canal-13,Canal 13,13.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+chilevision,Chilevisión,chv.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+la-red,La Red,lared.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+mega,Mega,mega.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+tv,TV+,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+tvn,TVN,tvn.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+bci,BCI,bci.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+banco-bice,Banco BICE,bice.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+banco-falabella,Banco Falabella,bancofalabella.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+banco-de-chile,Banco de Chile,bancochile.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+bancoestado,BancoEstado,bancoestado.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+consorcio,Consorcio,consorcio.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+itau,Itaú,itau.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+santander,Santander,santander.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+scotiabank,Scotiabank,scotiabankchile.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+security,Security,security.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+chek,Chek,simple.ripley.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+fintual,Fintual,fintual.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+global66,Global66,global66.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+mach,MACH,somosmach.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+mercado-pago,Mercado Pago,mercadopago.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+prex,Prex,prexcard.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+tapp,Tapp,tapp.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+tenpo,Tenpo,tenpo.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+bice-inversiones,BICE Inversiones,biceinversiones.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+btg-pactual,BTG Pactual,btgpactual.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+banchile-inversiones,Banchile Inversiones,banchileinversiones.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+larrainvial,LarrainVial,larrainvial.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+mbi,MBI,mbi.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+renta4,Renta4,renta4.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+santander-corredora,Santander Corredora,santander.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+american-express,American Express,americanexpress.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+cmr-falabella,CMR Falabella,cmrfalabella.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+getnet,Getnet,getnet.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+mastercard,Mastercard,mastercard.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+redcompra,Redcompra,redcompra.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+visa,Visa,visa.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+webpay,Webpay,webpay.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+dyson,Dyson,dyson.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+electrolux,Electrolux,electrolux.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+philips,Philips,philips.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+thomas,Thomas,thomas.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+ursus-trotter,Ursus Trotter,ursustrotter.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+xiaomi,Xiaomi,xiaomi.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+cic,CIC,cic.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+drimkip,Drimkip,drimkip.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+emma,Emma,emma-colchon.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+flex,Flex,flex.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+mantahue,Mantahue,mantahue.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+rosen,Rosen,rosen.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+bosch,Bosch,bosch.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+fensa,Fensa,fensa.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+lg,LG,lg.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+midea,Midea,midea.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+samsung,Samsung,samsung.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+whirlpool,Whirlpool,whirlpool.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+acana,Acana,acana.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+bravery,Bravery,bravery.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cat-chow,Cat Chow,purina.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+pro-plan,Pro Plan,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+royal-canin,Royal Canin,royalcanin.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+whiskas,Whiskas,whiskas.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+dog-chow,Dog Chow,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+pedigree,Pedigree,pedigree.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+clinica-veterinaria-alemana,Clínica Veterinaria Alemana,cv-alemana.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+hospital-clinico-veterinario-u-de-chile,Hospital Clínico Veterinario U. de Chile,hcv.uchile.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+petsalud,PetSalud,petsalud.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+vet24,Vet24,vet24.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+vetpoint,VetPoint,vetpoint.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+vets,Vets,vets.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+club-de-perros-y-gatos,Club de Perros y Gatos,clubdeperrosygatos.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+maspet,Maspet,maspet.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+pet-bj,Pet BJ,petbj.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pet-happy,Pet Happy,pethappy.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+petslandia,Petslandia,petslandia.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+superzoo,SuperZoo,superzoo.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+amphora,Amphora,amphora.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+pandora,Pandora,pandoraoficial.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+saxoline,Saxoline,saxoline.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+secret,Secret,secret.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+swarovski,Swarovski,swarovski.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+tous,Tous,tous.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+aldo,Aldo,aldoshoes.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+bata,Bata,bata.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+guante,Guante,guante.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+hush-puppies,Hush Puppies,hushpuppies.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+nike,Nike,nike.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+skechers,Skechers,skechers.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+adidas,adidas,adidas.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+decathlon,Decathlon,decathlon.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+new-balance,New Balance,newbalance.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+puma,Puma,puma.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+reebok,Reebok,reebok.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+sparta,Sparta,sparta.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+under-armour,Under Armour,underarmour.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+bershka,Bershka,bershka.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+forever-21,Forever 21,forever21.com,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+h-m,H&M,cl.hm.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+mango,Mango,shop.mango.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pull-bear,Pull&Bear,pullandbear.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+stradivarius,Stradivarius,stradivarius.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+zara,Zara,zara.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+columbia,Columbia,columbiachile.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+doite,Doite,doite.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+lippi,Lippi,lippioutdoor.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+marmot,Marmot,marmot.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+patagonia,Patagonia,patagonia.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+the-north-face,The North Face,thenorthface.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+family-shop,Family Shop,familyshop.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+sybilla,Sybilla,falabella.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+tricot,Tricot,tricot.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+aliexpress,AliExpress,aliexpress.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+amazon,Amazon,amazon.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+falabella,Falabella,falabella.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+linio,Linio,linio.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+mercado-libre,Mercado Libre,mercadolibre.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+paris,Paris,paris.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+ripley,Ripley,ripley.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+chilemat,Chilemat,chilemat.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+construmart,Construmart,construmart.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+easy,Easy,easy.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+imperial,Imperial,imperial.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+mts,MTS,mts.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+sodimac,Sodimac,sodimac.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+abc,ABC,abc.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+hites,Hites,hites.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+la-polar,La Polar,lapolar.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+alvi,Alvi,alvi.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+jumbo,Jumbo,jumbo.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+lider,Líder,lider.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+santa-isabel,Santa Isabel,santaisabel.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+tottus,Tottus,tottus.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+unimarc,Unimarc,unimarc.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+acuenta,aCuenta,acuenta.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+maconline,MacOnline,maconline.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+pc-factory,PC Factory,pcfactory.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+reifstore,Reifstore,reifstore.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+sp-digital,SP Digital,spdigital.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+weplay,WePlay,weplay.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+bupa,Bupa,bupa.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+integramedica,IntegraMédica,integramedica.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+megasalud,Megasalud,megasalud.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+redsalud,RedSalud,redsalud.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+uc-christus,UC Christus,ucchristus.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+vidaintegra,Vidaintegra,vidaintegra.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+clinica-alemana,Clínica Alemana,alemana.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+clinica-indisa,Clínica Indisa,indisa.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+clinica-las-condes,Clínica Las Condes,clc.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+clinica-meds,Clínica MEDS,meds.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+clinica-santa-maria,Clínica Santa María,clinicasantamaria.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cruz-verde,Cruz Verde,cruzverde.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+dr-simi,Dr. Simi,drsimi.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+farmacias-ahumada,Farmacias Ahumada,farmaciasahumada.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+fraccion,Fracción,farmaciafraccion.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+knop,Knop,knop.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+salcobrand,Salcobrand,salcobrand.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+banmedica,Banmédica,banmedica.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+colmena,Colmena,colmena.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+consalud,Consalud,consalud.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+cruz-blanca,Cruz Blanca,cruzblanca.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+nueva-masvida,Nueva Masvida,nuevamasvida.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+vida-tres,Vida Tres,vidatres.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+bci-seguros,BCI Seguros,bciseguros.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+hdi-seguros,HDI Seguros,hdi.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+mapfre,Mapfre,mapfre.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+metlife,MetLife,metlife.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+zurich,Zurich,zurich.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+apple,Apple,apple.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+bose,Bose,bose.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+jbl,JBL,jbl.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+skullcandy,Skullcandy,,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+sony,Sony,sony.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+asus,ASUS,rog.asus.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+lenovo,Lenovo,lenovo.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+nintendo,Nintendo,nintendo.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+playstation,PlayStation,ps.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+steam-deck,Steam Deck,steamdeck.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+xbox,Xbox,xbox.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+aoc,AOC,aocchile.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+acer,Acer,acer.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+msi,MSI,latam.msi.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+dell,Dell,dell.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+hp,HP,hp.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+corsair,Corsair,corsair.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+hyperx,HyperX,hyperx.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+logitech-g,Logitech G,logitechg.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+razer,Razer,razer.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+redragon,Redragon,redragon.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+steelseries,SteelSeries,steelseries.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+honor,Honor,honor.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+huawei,Huawei,huawei.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+motorola,Motorola,motorola.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+oppo,Oppo,oppo.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+realme,Realme,realme.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+amazfit,Amazfit,amazfit.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+garmin,Garmin,garmin.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+hisense,Hisense,hisense.cl,already_exists,unknown,local,jpg,2026-03-13T19:59:22.687Z
+tcl,TCL,tclstore.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+claro,Claro,claro.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+entel,Entel,entel.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+gtd,GTD,gtd.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+movistar,Movistar,movistar.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+mundo,Mundo,mundo.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+telsur,Telsur,gtd.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+vtr,VTR,vtr.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+dgo,DGO,directvgo.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+michv,MiCHV,michv.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+tvn-play,TVN Play,tvnplay.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+zapping,Zapping,zapping.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+directv,DIRECTV,directtv.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+tuves,TuVes,tuves.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+wom,WOM,wom.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+air-france,Air France,airfrance.cl,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+american-airlines,American Airlines,aa.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+avianca,Avianca,avianca.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+copa-airlines,Copa Airlines,copaair.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+delta-air-lines,Delta Air Lines,delta.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+iberia,Iberia,iberia.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+jetsmart,JetSMART,jetsmart.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+klm,KLM,klm.cl,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+latam,LATAM,latamairlines.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+sky-airline,Sky Airline,skyairlines.com,missing,orphan,,logo not found,2026-03-13T19:59:22.687Z
+united-airlines,United Airlines,ua.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+cabify,Cabify,cabify.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+didi,DiDi,didi.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+transvip,Transvip,transvip.cl,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+uber,Uber,uber.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+indrive,inDrive,indrive.com,already_exists,unknown,local,png,2026-03-13T19:59:22.687Z
+messenger,Messenger,messenger.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+signal,Signal,signal.org,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+telegram,Telegram,telegram.org,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+wechat,WeChat,wechat.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z
+whatsapp,WhatsApp,whatsapp.com,already_exists,unknown,local,svg,2026-03-13T19:59:22.687Z

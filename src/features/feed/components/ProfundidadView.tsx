@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Battle, BattleOption } from "../../signals/types";
 import { PARENT_INDUSTRIES } from "../data/industries";
 import { IndustrySelector } from "./IndustrySelector";
@@ -12,7 +11,6 @@ interface ProfundidadViewProps {
 }
 
 export default function ProfundidadView({ battles, onClose }: ProfundidadViewProps) {
-    const navigate = useNavigate();
     const [selectedTheme, setSelectedTheme] = useState<string | 'mix'>('mix');
     const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
     const [selectedOption, setSelectedOption] = useState<BattleOption | null>(null);
@@ -64,7 +62,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                                 })))
                                 .filter((v, i, a) => a.findIndex((o) => o.label.trim().toLowerCase() === v.label.trim().toLowerCase()) === i)}
                             onSelect={(option) => {
-                                navigate(`/versus/${option.battleSlug}`, { state: { targetOptionId: option.id, startInDepth: true } });
+                                setSelectedOption(option as unknown as BattleOption);
                             }}
                         />
                     </div>
@@ -83,7 +81,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                 <InsightPack
                     optionId={selectedOption.id}
                     optionLabel={selectedOption.label}
-                    categorySlug={(selectedOption as any).category}
+                    categorySlug={typeof (selectedOption as any).category === 'object' ? (selectedOption as any).category?.slug : (selectedOption as any).category}
                     onComplete={() => {
                         setSelectedOption(null);
                         onClose();

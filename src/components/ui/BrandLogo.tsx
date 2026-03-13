@@ -41,8 +41,11 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     
     const slug = resolveEntitySlug(name);
     const localSvgUrl = slug ? `/logos/entities/${slug}.svg` : null;
+    const localPngUrl = slug ? `/logos/entities/${slug}.png` : null;
+    const localJpgUrl = slug ? `/logos/entities/${slug}.jpg` : null;
+    const localWebpUrl = slug ? `/logos/entities/${slug}.webp` : null;
 
-    const clearbitUrl = `https://logo.clearbit.com/${domainToTry}?size=512`;
+    const brandfetchUrl = `https://cdn.brandfetch.io/${domainToTry}/logo`;
     const unavatarUrl = `https://unavatar.io/${domainToTry}?fallback=false`;
     const iconHorseUrl = `https://icon.horse/icon/${domainToTry}`;
     const upleadUrl = `https://logo.uplead.com/${domainToTry}`;
@@ -52,7 +55,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     const urlsToTry = [
         imageUrl,
         localSvgUrl,
-        clearbitUrl,
+        localPngUrl,
+        localJpgUrl,
+        localWebpUrl,
+        brandfetchUrl,
         unavatarUrl,
         iconHorseUrl,
         upleadUrl,

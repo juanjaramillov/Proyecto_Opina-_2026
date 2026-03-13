@@ -10,6 +10,7 @@ import SessionSummary from './SessionSummary';
 import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
 import { GuestConversionModal } from '../../auth/components/GuestConversionModal';
 import { FallbackAvatar } from '../../../components/ui/FallbackAvatar';
+import InsightPack from './InsightPack';
 
 // --- CONSTANTS & HELPERS ---
 
@@ -63,6 +64,7 @@ export default function VersusGame(props: GameProps) {
     const [showFinalMessage, setShowFinalMessage] = useState(false);
     const [clickPosition, setClickPosition] = useState<{ x: number, y: number } | null>(null);
     const [showGuestConversionModal, setShowGuestConversionModal] = useState(false);
+    const [showInsightPack, setShowInsightPack] = useState(false);
 
     // Reset local state when battle changes
     useEffect(() => {
@@ -408,7 +410,7 @@ export default function VersusGame(props: GameProps) {
                                                 </div>
 
                                                 <button
-                                                    onClick={() => navigate(`/depth/run/${effectiveBattle.slug || effectiveBattle.id}/${selectedOption.id}`)}
+                                                    onClick={() => setShowInsightPack(true)}
                                                     className="h-12 px-6 rounded-xl bg-gradient-brand text-white font-black text-sm shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.23)] hover:-translate-y-0.5 transition-all active:scale-95 whitespace-nowrap uppercase tracking-wider"
                                                 >
                                                     Aportar contexto
@@ -553,6 +555,18 @@ export default function VersusGame(props: GameProps) {
                             setShowGuestConversionModal(false);
                             navigate('/dashboard'); // Temporarily navigating to dashboard or specialized signup page
                         }}
+                    />
+                )}
+                {showInsightPack && selectedOption && (
+                    <InsightPack
+                        optionId={selectedOption.id}
+                        optionLabel={selectedOption.label}
+                        categorySlug={typeof effectiveBattle.category === 'object' ? (effectiveBattle.category as any).slug : effectiveBattle.category}
+                        onComplete={() => {
+                            setShowInsightPack(false);
+                            next();
+                        }}
+                        onCancel={() => setShowInsightPack(false)}
                     />
                 )}
             </AnimatePresence>
