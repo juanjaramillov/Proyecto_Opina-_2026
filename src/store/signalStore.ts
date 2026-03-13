@@ -26,6 +26,7 @@ type SignalActions = {
     addSignal: (input: number | { amount: number; voteId?: string; eventDetail?: any }) => void;
     completeOnboarding: () => void;
     markMissionCelebrated: () => void;
+    setSignalState: (state: Partial<SignalState>) => void;
 };
 
 
@@ -53,6 +54,13 @@ export const useSignalStore = create<SignalState & SignalActions>()(
             ...INITIAL_STATE,
 
             completeOnboarding: () => set({ onboardingDone: true }),
+
+            setSignalState: (newState) => {
+                set((state) => ({
+                    ...state,
+                    ...newState
+                }));
+            },
 
             markMissionCelebrated: () => {
                 const { dailyMission } = get();

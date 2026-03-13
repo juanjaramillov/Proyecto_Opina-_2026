@@ -3,6 +3,7 @@ import { computeAccountProfile } from './account';
 import { AccountProfile, AccountTier, DemographicData } from '../types';
 import { logger } from '../../../lib/logger';
 import { normalizeAgeBucket, normalizeGender, normalizeRegion, computeAgeBucketFromBirthYear } from "../../../lib/demographicsNormalize";
+import { useSignalStore } from '../../../store/signalStore';
 
 interface UserProfileRow {
     user_id: string;
@@ -108,6 +109,11 @@ export const authService = {
                 finalTier = 'verified_full_ci';
             } else if (isProfileComplete) {
                 finalTier = 'verified_basic';
+            }
+
+            // Sync the real signals count from the backend to the local signalStore
+            if (profileData.signal_weight !== undefined && profileData.signal_weight !== null) {
+                useSignalStore.getState().setSignalState({ signals: profileData.signal_weight });
             }
 
             return computeAccountProfile({

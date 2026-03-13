@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.0";
 
 const VERIFY_TOKEN = Deno.env.get('WHATSAPP_WEBHOOK_VERIFY_TOKEN') || 'my_super_secret_token';
 
@@ -25,6 +26,18 @@ serve(async (req) => {
       const body = await req.json();
       console.log("=== INCOMING WEBHOOK FROM META ===");
       console.log(JSON.stringify(body, null, 2));
+
+      // Save to database for permanent logging
+      try {
+        const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
+        const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
+        if (supabaseUrl && supabaseKey) {
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          await supabase.from('whatsapp_webhook_logs').insert([{ payload: body }]);
+        }
+      } catch (dbErr) {
+        console.error("Database logging error:", dbErr);
+      }
 
       // Extract status updates
       if (body.entry?.[0]?.changes?.[0]?.value?.statuses) {
