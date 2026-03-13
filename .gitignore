@@ -55,3 +55,4 @@ supabase/.temp/zip
 supabase/migrations/_history/
 supabase/.temp/
 .vercel
+.env*.local

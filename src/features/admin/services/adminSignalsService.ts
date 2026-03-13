@@ -33,7 +33,7 @@ export const adminSignalsService = {
                 throw error;
             }
 
-            return data as AdminSignalRow[];
+            return data as unknown as AdminSignalRow[];
         } catch (error) {
             logger.error("Unexpected error searching signals", { domain: 'admin_actions', origin: 'adminSignalsService', action: 'search_signals' }, error);
             return [];

@@ -50,3 +50,13 @@ enabled = true
 verify_jwt = false
 entrypoint = "./functions/send-whatsapp-invite/index.ts"
 
+
+[functions.wa-webhook]
+enabled = true
+verify_jwt = false
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/wa-webhook/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/wa-webhook/*.html" ]
