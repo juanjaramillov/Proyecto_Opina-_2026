@@ -1,4 +1,17 @@
 {
+    "redirects": [
+        {
+            "source": "/(.*)",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "www.opinamas.app"
+                }
+            ],
+            "destination": "https://opinamas.app/$1",
+            "permanent": true
+        }
+    ],
     "rewrites": [
         {
             "source": "/(.*)",

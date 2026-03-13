@@ -846,6 +846,7 @@ export type Database = {
           city: string | null
           country_code: string | null
           created_at: string | null
+          elo_modifier_pct: number | null
           elo_score: number | null
           id: string
           image_url: string | null
@@ -867,6 +868,7 @@ export type Database = {
           city?: string | null
           country_code?: string | null
           created_at?: string | null
+          elo_modifier_pct?: number | null
           elo_score?: number | null
           id?: string
           image_url?: string | null
@@ -888,6 +890,7 @@ export type Database = {
           city?: string | null
           country_code?: string | null
           created_at?: string | null
+          elo_modifier_pct?: number | null
           elo_score?: number | null
           id?: string
           image_url?: string | null

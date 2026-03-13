@@ -185,6 +185,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <span className="material-symbols-outlined text-[16px]">newspaper</span>
                     Mesa Editorial
                   </NavLink>
+                  <NavLink to="/admin/brands" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
+                    <span className="material-symbols-outlined text-[16px]">stars</span>
+                    Gestión ELO Marcas
+                  </NavLink>
                   <NavLink to="/admin/users" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">group</span>
                     Usuarios CRM
@@ -292,6 +296,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <NavLink to="/admin/actualidad" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[16px]">newspaper</span>
                       Mesa Editorial
+                    </NavLink>
+                    <NavLink to="/admin/brands" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[16px]">stars</span>
+                      Gestión ELO Marcas
                     </NavLink>
                     <NavLink to="/admin/users" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[16px]">group</span>

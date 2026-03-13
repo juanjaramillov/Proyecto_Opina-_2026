@@ -38,6 +38,7 @@ const AdminActualidad = lazy(() => import("./features/admin/pages/AdminActualida
 const AdminActualidadEditor = lazy(() => import("./features/admin/pages/AdminActualidadEditor"));
 const AdminUsers = lazy(() => import("./features/admin/pages/AdminUsers"));
 const AdminSignals = lazy(() => import("./features/admin/pages/AdminSignals"));
+const AdminBrands = lazy(() => import("./features/admin/pages/AdminBrands"));
 
 const AboutUs = lazy(() => import("./pages/static/AboutUs"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -112,6 +113,7 @@ export default function App() {
             <Route path="/admin/actualidad/:id" element={<Gate module="admin"><AdminActualidadEditor /></Gate>} />
             <Route path="/admin/users" element={<Gate module="admin"><AdminUsers /></Gate>} />
             <Route path="/admin/signals" element={<Gate module="admin"><AdminSignals /></Gate>} />
+            <Route path="/admin/brands" element={<Gate module="admin"><AdminBrands /></Gate>} />
 
             {/* Fallback */}
             <Route path="*" element={<NotFound />} />

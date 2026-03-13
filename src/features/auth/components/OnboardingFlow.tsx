@@ -297,7 +297,7 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                         <div className="space-y-5">
                             <div>
                                 <div id="gender-label" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Género</div>
-                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Opcional. Pero ayuda a mejorar el análisis general.</p>
+                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Requerido para el análisis colaborativo.</p>
                                 <div className="grid grid-cols-3 gap-2">
                                     {[
                                         { id: "male", label: "Hombre" },

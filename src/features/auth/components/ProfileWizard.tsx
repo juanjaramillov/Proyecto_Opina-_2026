@@ -190,7 +190,7 @@ export default function ProfileWizard() {
 
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Género</label>
-                                <p className="text-[11px] text-slate-400 ml-1 mt-[-4px] font-medium">Opcional. Pero ayuda a leer mejor la data.</p>
+                                <p className="text-[11px] text-slate-400 ml-1 mt-[-4px] font-medium">Requerido para leer mejor la data.</p>
                                 <div className="grid grid-cols-3 gap-3">
                                     {[
                                         { id: "female", label: "Mujer" },

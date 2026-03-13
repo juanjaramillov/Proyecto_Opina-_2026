@@ -20,7 +20,7 @@ export default function Home() {
   }, []);
 
   const isAuthenticated = profile && profile.tier !== 'guest';
-  const mainCtaText = isAuthenticated ? "Emite tu señal" : "Empezar gratis";
+  const mainCtaText = isAuthenticated ? "Emite tu señal" : "Empezar";
   const mainCtaPath = isAuthenticated ? "/experience" : "/register";
   const mainCtaState = isAuthenticated ? { category: 'mix', autoStart: true } : undefined;
 

@@ -58,11 +58,12 @@ export const authService = {
         // 2. REAL USER MODE (Continue if auth.user exists)
         if (auth?.user) {
             // Parallel fetch for speed: Profile, Identity, and Subscription
-            const [profileRes, identityRes, subRes, userRes] = await Promise.all([
+            const [profileRes, identityRes, subRes, userRes, statsRes] = await Promise.all([
                 supabase.from('user_profiles').select('*').eq('user_id', auth.user.id).maybeSingle(),
                 supabase.from('users').select('is_identity_verified').eq('user_id', auth.user.id).maybeSingle(),
                 (supabase as any).from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle(),
-                (supabase as any).from('users').select('role, invitation_code_id').eq('user_id', auth.user.id).maybeSingle()
+                (supabase as any).from('users').select('role, invitation_code_id').eq('user_id', auth.user.id).maybeSingle(),
+                supabase.from('user_stats').select('total_signals').eq('user_id', auth.user.id).maybeSingle()
             ]);
 
             if (profileRes.error) {
@@ -112,7 +113,10 @@ export const authService = {
             }
 
             // Sync the real signals count from the backend to the local signalStore
-            if (profileData.signal_weight !== undefined && profileData.signal_weight !== null) {
+            if (statsRes.data && typeof statsRes.data.total_signals === 'number') {
+                useSignalStore.getState().setSignalState({ signals: statsRes.data.total_signals });
+            } else if (profileData.signal_weight !== undefined && profileData.signal_weight !== null) {
+                // Fallback for legacy
                 useSignalStore.getState().setSignalState({ signals: profileData.signal_weight });
             }
 
