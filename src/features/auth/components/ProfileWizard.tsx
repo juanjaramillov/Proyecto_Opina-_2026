@@ -7,7 +7,7 @@ import { logger } from "../../../lib/logger";
 import AuthLayout from "../layout/AuthLayout";
 import { DemographicData } from "../types";
 import { useToast } from "../../../components/ui/useToast";
-import { SEG_REGIONS } from "../../../lib/segmentation";
+import { SEG_REGIONS } from "../../../lib/demographicsNormalize";
 import { normalizeRegion } from "../../../lib/demographicsNormalize";
 import { track, trackPage } from "../../telemetry/track";
 import { useEffect } from "react";
@@ -51,6 +51,13 @@ export default function ProfileWizard() {
     useEffect(() => {
         trackPage("profile_wizard", { step });
     }, [step]);
+
+    // Admin bypass: if they somehow land here, redirect them immediately
+    useEffect(() => {
+        if (profile?.role === 'admin') {
+            navigate("/", { replace: true });
+        }
+    }, [profile?.role, navigate]);
 
     const [formData, setFormData] = useState<Partial<DemographicData>>({
         name: profile?.demographics?.name || "",
@@ -102,7 +109,7 @@ export default function ProfileWizard() {
 
             if (Object.keys(payload).length > 0) {
                 await authService.updateProfileDemographics(payload);
-                track("profile_wizard_step_completed", "info", { step, isSkip, profile_stage: (payload as any).profileStage });
+                track("profile_wizard_step_completed", "info", { step, isSkip, profile_stage: payload.profileStage });
                 await refreshProfile();
             }
 
@@ -112,9 +119,9 @@ export default function ProfileWizard() {
             } else {
                 setStep((s) => s + 1);
             }
-        } catch (error: any) {
+        } catch (error) {
             logger.error("Error submitting step:", error);
-            const errMsg = error.message || "";
+            const errMsg = error instanceof Error ? error.message : String(error);
 
             if (step === 1 && (errMsg.includes("unique constraint") || errMsg.toLowerCase().includes("duplicate") || errMsg.includes("Nickname ya definido"))) {
                 showToast("El nickname ya está en uso o ya fue definido anteriormente.", "error");
@@ -323,15 +330,6 @@ export default function ProfileWizard() {
                         </button>
                     </div>
 
-                    {(step === 3 || step === 4) && (
-                        <button
-                            onClick={() => submitStep(true)}
-                            disabled={loading}
-                            className="w-full py-4 mt-2 border-2 border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 font-bold tracking-wide rounded-2xl uppercase text-[11px] transition-all relative flex items-center justify-center gap-2 group"
-                        >
-                            <span className="group-hover:translate-x-1 transition-transform">Saltar y generar mi primera señal ›</span>
-                        </button>
-                    )}
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-slate-100 text-center">

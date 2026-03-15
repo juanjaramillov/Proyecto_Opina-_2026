@@ -25,10 +25,12 @@ export const adminActualidadService = {
         throw error;
       }
 
-      return data.map((d: { short_summary?: string | null; impact_quote?: string | null; [key: string]: unknown }) => ({
+      const rawData = data || [];
+      return rawData.map((d) => ({
         ...d,
-        summary: d.short_summary,
-        impact_phrase: d.impact_quote
+        summary: d.short_summary || '',
+        impact_phrase: d.impact_quote || '',
+        questions: []
       })) as unknown as Topic[];
     } catch (e) {
       logger.error('Error inesperado en getAdminTopics', { error: e });
@@ -75,10 +77,11 @@ export const adminActualidadService = {
         }
       }
 
+      const rawTopic = topic as Record<string, unknown>;
       return {
-        ...(topic as Record<string, unknown>),
-        summary: topic.short_summary,
-        impact_phrase: topic.impact_quote,
+        ...rawTopic,
+        summary: rawTopic.short_summary || '',
+        impact_phrase: rawTopic.impact_quote || '',
         questions
       } as unknown as Topic;
     } catch (e) {

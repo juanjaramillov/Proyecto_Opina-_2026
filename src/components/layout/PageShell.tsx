@@ -102,7 +102,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
           <nav className="hidden sm:flex items-center gap-2 lg:gap-4 justify-end flex-nowrap">
             {/* Desktop Menu Mapping */}
             {MENU_ITEMS.map((item) => {
-              const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
+              const isResultsLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
+              const isB2BLocked = item.id === 'intelligence' && role !== 'admin' && role !== 'b2b';
+              const isLocked = isResultsLocked || isB2BLocked;
 
               return (
                 <NavLink
@@ -203,7 +205,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
         {isMobileMenuOpen && (
           <div className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-xl sm:hidden flex flex-col z-40 py-2 animate-in slide-in-from-top-2 duration-200">
             {MENU_ITEMS.map((item) => {
-              const isLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
+              const isResultsLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
+              const isB2BLocked = item.id === 'intelligence' && role !== 'admin' && role !== 'b2b';
+              const isLocked = isResultsLocked || isB2BLocked;
 
               return (
                 <NavLink

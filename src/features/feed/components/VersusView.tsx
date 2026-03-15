@@ -40,7 +40,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
     const filteredVersusBattles = useMemo(() => {
         if (versusIndustry === 'mix') return battles;
         return battles.filter(b => {
-            const categorySlug = b.category ? (b.category as { slug?: string }).slug : null;
+            const categorySlug = typeof b.category === 'object' ? b.category.slug : b.category;
             const parent = PARENT_INDUSTRIES[versusIndustry];
             if (parent) {
                 if (selectedSubcategoryId) {
@@ -57,7 +57,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
     const battlesForQueue = useMemo(() => {
         if (filteredVersusBattles.length === 0) return [];
         
-        const getCat = (b: Battle) => b.category ? (b.category as { slug?: string }).slug : 'unknown';
+        const getCat = (b: Battle) => typeof b.category === 'object' ? b.category.slug : b.category;
         const shuffled = [...filteredVersusBattles].sort(() => 0.5 - Math.random());
         const queue: Battle[] = [];
         const seenInQueue = new Set<string>(); // Evitar mostrar la misma marca en este batch
@@ -68,13 +68,13 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
             // 1. Ideal: Distinta categoría (si es mix) y que las marcas no hayan salido en esta tanda
             let idx = shuffled.findIndex(b => {
                 const isDiffCat = versusIndustry === 'mix' ? getCat(b) !== lastCat : true;
-                const usesNewBrands = !b.options.some((o: any) => seenInQueue.has(o.label));
+                const usesNewBrands = !b.options.some((o: BattleOption) => seenInQueue.has(o.label));
                 return isDiffCat && usesNewBrands;
             });
 
             // 2. Fallback: Ignorar regla de categoría (en mix), pero seguir forzando marcas nuevas
             if (idx === -1) {
-                idx = shuffled.findIndex(b => !b.options.some((o: any) => seenInQueue.has(o.label)));
+                idx = shuffled.findIndex(b => !b.options.some((o: BattleOption) => seenInQueue.has(o.label)));
             }
 
             // 3. Fallback: Ya no quedan batallas sin marcas repetidas. Buscar que la batalla no repita con la *inmediatamente anterior*
@@ -82,9 +82,9 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
                 idx = shuffled.findIndex(b => {
                     const prevBattle = queue[queue.length - 1];
                     if (!prevBattle) return true;
-                    const prevLabels = prevBattle.options.map((o: any) => o.label);
+                    const prevLabels = prevBattle.options.map((o: BattleOption) => o.label);
                     // Ninguna marca de esta batalla debe estar en la anterior
-                    return !b.options.some((o: any) => prevLabels.includes(o.label));
+                    return !b.options.some((o: BattleOption) => prevLabels.includes(o.label));
                 });
             }
 
@@ -95,7 +95,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
 
             const selectedBattle = shuffled[idx];
             queue.push(selectedBattle);
-            selectedBattle.options.forEach((o: any) => seenInQueue.add(o.label));
+            selectedBattle.options.forEach((o: BattleOption) => seenInQueue.add(o.label));
             shuffled.splice(idx, 1);
         }
 
@@ -126,7 +126,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
                     loser_option_id: rejected.id,
                     selected_option_name: selected.label,
                     loser_option_name: rejected.label,
-                    subcategory: (b.category as any)?.slug || b.industry,
+                    subcategory: typeof b.category === 'object' ? b.category.slug : b.category || b.industry,
                 });
             } else {
                 await signalService.saveSignalEvent({ 

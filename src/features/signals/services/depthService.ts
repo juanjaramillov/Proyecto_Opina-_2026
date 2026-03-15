@@ -30,9 +30,9 @@ export const depthService = {
         
         for (const answer of answers) {
             await signalService.saveSignalEvent({
-                battle_id: optionId, // Actúa como entidad/contexto principal
-                option_id: answer.answer_value, // El valor seleccionado
-                attribute_id: answer.question_key, // La pregunta específica
+                entity_id: optionId, // La entidad evaluada
+                context_id: answer.question_key, // La pregunta específica (el contexto)
+                value_numeric: parseFloat(answer.answer_value), // En depth, se evaluan numeros (del 1 al 10, o scores)
                 meta: {
                     source: 'depth'
                 }

@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { supabase } from '../../../supabase/client';
 import { AccountProfile } from '../types';
-import { authService as profileService } from '../services/authService';
+import { authService } from '../services/authService';
+import { profileService } from '../../profile/services/profileService';
 import { logger } from '../../../lib/logger';
 import { AccessState, AppRole } from '../../access/types/policy';
 import { accessGate } from '../../access/services/accessGate';
@@ -23,7 +24,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const looksLikeUuid = (x: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(x);
     const normalizeCodeToken = (tokenId: string) => (tokenId.startsWith("CODE:") ? tokenId.slice(5) : tokenId).trim().toUpperCase();
 
-    const loadProfile = async () => {
+    const loadProfile = useCallback(async () => {
         setLoading(true);
         try {
             const p = await profileService.getEffectiveProfile();
@@ -37,20 +38,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 const tokenId = accessGate.getTokenId();
                 if (tokenId) {
                     if (looksLikeUuid(tokenId)) {
-                        const { data: ok } = await (supabase as any).rpc("validate_invite_token", { p_invite_id: tokenId });
+                        const { data: ok } = await (supabase.rpc as unknown as (n: string, a: object) => Promise<{data: boolean}>)("validate_invite_token", { p_invite_id: tokenId });
                         tokenIsValid = Boolean(ok);
                     } else {
                         const code = normalizeCodeToken(tokenId);
-                        const { data: isValid } = await (supabase as any).rpc("validate_invitation", { p_code: code });
+                        const { data: isValid } = await (supabase.rpc as unknown as (n: string, a: object) => Promise<{data: boolean}>)("validate_invitation", { p_code: code });
                         
                         // Auto-consume if recently signed up
                         if (isValid && p && p.tier !== 'guest' && !p.invitation_code_id) {
                             try {
                                 const nickname = p.displayName || "user";
-                                await profileService.bootstrapUserAfterSignup(nickname, code);
+                                await authService.bootstrapUserAfterSignup(nickname, code);
                                 tokenIsValid = true;
-                                // Need to refetch profile to get the invitation_code_id
-                                setTimeout(() => loadProfile(), 500);
+                                // We'll trigger another refresh via profile update listener or manual call
                             } catch (e) {
                                 logger.warn("Early consume error", { domain: 'auth', origin: 'AuthContext', action: 'bootstrap_user', error_details: e });
                                 tokenIsValid = Boolean(isValid);
@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         loadProfile();
@@ -87,7 +87,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             window.removeEventListener('storage', onUpdate);
             window.removeEventListener('opina:verification_update', onUpdate);
         };
-    }, []);
+    }, [loadProfile]);
 
     const accessState: AccessState = {
         isAuthenticated: !!profile && profile.tier !== 'guest',

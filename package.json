@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "create:admin": "tsx scripts/create_admin_user.ts",
-    "fetch:logos": "node scripts/catalog/fetch-entity-logos.mjs",
+    "create:admin": "tsx scripts/ops/create_admin_user.ts",
+    "fetch:logos": "node scripts/ops/catalog/fetch-entity-logos.mjs",
     "gen-types": "supabase gen types typescript --project-id <TU_ID> > src/supabase/database.types.ts"
   },
   "dependencies": {

@@ -1,4 +1,11 @@
-export function resolveEntitySlug(input: any): string | null {
+interface SluggableEntity {
+  entity_slug?: string | null;
+  slug?: string | null;
+  name?: string | null;
+  label?: string | null;
+}
+
+export function resolveEntitySlug(input: string | SluggableEntity | null | undefined): string | null {
   if (!input) return null
 
   if (typeof input === "string") {
@@ -12,6 +19,8 @@ export function resolveEntitySlug(input: any): string | null {
   if (input.name) {
     return input.name
       .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "")
   }
@@ -19,6 +28,8 @@ export function resolveEntitySlug(input: any): string | null {
   if (input.label) {
     return input.label
       .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "")
   }

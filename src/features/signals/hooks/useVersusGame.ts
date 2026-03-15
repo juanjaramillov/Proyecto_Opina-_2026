@@ -18,7 +18,7 @@ interface UseVersusGameProps {
 
     // UX controls
     hideProgress?: boolean;
-    onQueueComplete?: (history: any[]) => void;
+    onQueueComplete?: (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number }>) => void;
     isSubmitting?: boolean;
 }
 
@@ -28,7 +28,7 @@ export function useVersusGame({
     mode = 'classic',
     autoNextMs,
     progressiveData,
-    onProgressiveComplete,
+    onProgressiveComplete: _onProgressiveComplete,
     enableAutoAdvance = true,
     isQueueFinite = false,
     hideProgress = false,
@@ -176,10 +176,13 @@ export function useVersusGame({
                 amount: 1,
                 voteId: `${effectiveBattle.id}-${Date.now()}`,
                 eventDetail: {
-                    sourceType: 'versus',
-                    sourceId: effectiveBattle.id,
-                    title: effectiveBattle.title,
-                    choiceLabel: choiceLabel,
+                    type: 'versus',
+                    description: `Votó por ${choiceLabel} en ${effectiveBattle.title}`,
+                    metadata: {
+                        sourceId: effectiveBattle.id,
+                        choiceLabel: choiceLabel,
+                        sourceType: 'versus'
+                    }
                 }
             });
 
@@ -213,9 +216,9 @@ export function useVersusGame({
                 // Fetch Momentum Context Post-Vote asynchronously without blocking
                 (async () => {
                     try {
-                        const { data: momData, error: momError } = await (supabase.rpc as any)('get_battle_momentum', { p_battle_id: effectiveBattle.id });
+                        const { data: momData, error: momError } = await supabase.rpc('get_battle_momentum', { p_battle_id: effectiveBattle.id });
                         if (!momError && momData) {
-                            setMomentum(momData as BattleMomentum);
+                            setMomentum(momData as unknown as BattleMomentum);
                         }
                     } catch (e) {
                         logger.warn("Failed to fetch momentum", e);
@@ -235,14 +238,8 @@ export function useVersusGame({
         if (isQueueFinite && idx >= battles.length && onQueueComplete) {
             onQueueComplete(sessionHistory);
         }
-    }, [idx, battles.length, isQueueFinite, onQueueComplete, sessionHistory]);
+    }, [idx, battles.length, isQueueFinite, onQueueComplete]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Use unused var to suppress warning
-    useEffect(() => {
-        if (mode === 'torneo' && onProgressiveComplete) {
-            // no-op, just to usage
-        }
-    }, [mode, onProgressiveComplete]);
 
     return {
         battle: effectiveBattle,

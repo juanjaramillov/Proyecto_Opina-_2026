@@ -4,19 +4,21 @@ import { authService } from '../services/authService';
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 import { notifyService, formatKnownError } from '../../notifications/notifyService';
-import { SEG_AGE_BUCKETS, SEG_REGIONS } from "../../../lib/segmentation";
+import { SEG_AGE_BUCKETS, SEG_REGIONS } from "../../../lib/demographicsNormalize";
 import { track } from "../../telemetry/track";
 
 interface OnboardingFlowProps {
     onClose: () => void;
     onSuccess: () => void;
+    isMandatory?: boolean;
+    initialStep?: Step;
 }
 
 type Step = 'identity' | 'demographics' | 'success';
 type Mode = 'register' | 'login';
 
-export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowProps) {
-    const [step, setStep] = useState<Step>('identity');
+export default function OnboardingFlow({ onClose, onSuccess, isMandatory = false, initialStep = 'identity' }: OnboardingFlowProps) {
+    const [step, setStep] = useState<Step>(initialStep);
     const [mode, setMode] = useState<Mode>('register');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,13 +32,29 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
     const [ageRange, setAgeRange] = useState('');
     const [region, setRegion] = useState('');
 
+    // Recover OAuth bootstrap data on mount
+    useState(() => {
+        const stored = authService.getStoredOAuthBootstrap();
+        if (stored) {
+            setNickname(stored.nickname);
+            setInviteCode(stored.inviteCode);
+            // Si hay datos guardados, es probable que vengamos de un redirect exitoso
+            // pero el bootstrap se disparará en el ciclo de vida de AuthContext o aquí si hay sesión activa.
+        }
+    });
+
     const handleOAuth = async (provider: 'google' | 'apple') => {
         setLoading(true);
         setErrorMsg('');
         try {
-            if (mode === 'register' && (!nickname.trim() || inviteCode.trim().length < 4)) {
-                throw new Error("Por favor ingresa un código de invitación válido y un nickname para registrarte.");
+            if (mode === 'register') {
+                if (!nickname.trim() || inviteCode.trim().length < 4) {
+                    throw new Error("Ingresa tu Alias y Código de invitación antes de continuar.");
+                }
+                // Persistimos para recuperarlo tras el redirect
+                authService.prepareOAuthBootstrap(nickname, inviteCode);
             }
+
             const { error } = await supabase.auth.signInWithOAuth({
                 provider,
                 options: {
@@ -47,9 +65,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
             // Si es OAuth, Supabase maneja la redirección.
             // Tras volver, el authService.getEffectiveProfile() detectará la sesión real.
             // Nota: En OAuth el chequeo del código se hará al recargar la app (verificación externa) o mediante un middleware.
-        } catch (err: any) {
-            logger.error(err);
-            const msg = formatKnownError(err) || err.message || 'Error al conectar con el proveedor';
+        } catch (err: unknown) {
+            logger.error('OAuth falló', err);
+            const msg = formatKnownError(err) || (err instanceof Error ? err.message : 'Error al conectar con el proveedor');
             setErrorMsg(msg);
             notifyService.error(msg);
             setLoading(false);
@@ -79,9 +97,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                 }
                 try {
                     await authService.bootstrapUserAfterSignup(nickname, inviteCode);
-                } catch (bsErr: any) {
+                } catch (bsErr: unknown) {
                     await authService.signOut();
-                    track("auth_bootstrap_failed", "warn", { mode });
+                    track("auth_bootstrap_failed", "warn", { mode, error: bsErr });
                     throw new Error("Código inválido / expirado / ya usado.");
                 }
             }
@@ -89,9 +107,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
             // Si funciona correctamente, pasamos al step de demográficos
             track("auth_email_success", "info", { mode });
             setStep('demographics');
-        } catch (err: any) {
-            logger.error(err);
-            const msg = formatKnownError(err) || err.message || 'Error en las credenciales';
+        } catch (err: unknown) {
+            logger.error('Email auth falló', err);
+            const msg = formatKnownError(err) || (err instanceof Error ? err.message : 'Error en las credenciales');
             setErrorMsg(msg);
             notifyService.error(msg);
         } finally {
@@ -112,9 +130,9 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
             track("profile_stage_1_completed", "info", { source: "onboarding", gender, region, age_bucket: ageRange });
             track("onboarding_completed", "info");
             setStep('success');
-        } catch (err: any) {
-            logger.error(err);
-            const msg = formatKnownError(err) || err.message || 'Error al guardar perfil. Intenta nuevamente.';
+        } catch (err: unknown) {
+            logger.error('Actualización de demográficos falló', err);
+            const msg = formatKnownError(err) || (err instanceof Error ? err.message : 'Error al guardar perfil. Intenta nuevamente.');
             setErrorMsg(msg);
             notifyService.error(msg);
         } finally {
@@ -406,14 +424,16 @@ export default function OnboardingFlow({ onClose, onSuccess }: OnboardingFlowPro
                 )}
             </AnimatePresence>
 
-            <div className="p-4 bg-slate-50 flex items-center justify-center">
-                <button
-                    onClick={onClose}
-                    className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 p-2 rounded-lg"
-                >
-                    Cerrar
-                </button>
-            </div>
+            {(!isMandatory || step === 'success') && (
+                <div className="p-4 bg-slate-50 flex items-center justify-center">
+                    <button
+                        onClick={onClose}
+                        className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 p-2 rounded-lg"
+                    >
+                        Cerrar
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

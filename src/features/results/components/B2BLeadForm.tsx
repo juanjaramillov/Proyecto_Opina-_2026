@@ -27,8 +27,8 @@ export const B2BLeadForm = () => {
             }
             toast.success("Solicitud recibida. Te contactaremos pronto.");
             setSubmitted(true);
-        } catch (err) {
-            logger.error("Error in lead form submission", { domain: 'b2b_intelligence', origin: 'B2BLeadForm', action: 'submit_lead_fatal', state: 'failed' }, err);
+        } catch (error) {
+            logger.error("Error in lead form submission", { domain: 'b2b_intelligence', origin: 'B2BLeadForm', action: 'submit_lead_fatal', state: 'failed' }, error);
             toast.success("Solicitud recibida. Te contactaremos pronto.");
             setSubmitted(true);
         } finally {

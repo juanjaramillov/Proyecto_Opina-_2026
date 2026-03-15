@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
 export type QuestionType =
@@ -20,7 +20,7 @@ interface DepthQuestionCardProps {
         options?: string[];
         subtext?: string;
     };
-    onAnswer: (value: any) => void;
+    onAnswer: (value: string | number) => void;
     onBack?: () => void;
     isFirst: boolean;
     isLast: boolean;
@@ -45,7 +45,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
         setIsAutoAdvancing(false);
     }, [currentValue, question.id]);
 
-    const handleSelection = (val: string | number) => {
+    const handleSelection = useCallback((val: string | number) => {
         if (isAutoAdvancing || isSubmitting) return;
         setLocalValue(val);
 
@@ -53,7 +53,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
             setIsAutoAdvancing(true);
             setTimeout(() => onAnswer(val), 350);
         }
-    };
+    }, [isAutoAdvancing, isSubmitting, question.type, onAnswer]);
 
     // Handle Keyboard
     useEffect(() => {
@@ -88,7 +88,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [question.type, question.id, localValue, isSubmitting, isAutoAdvancing, onAnswer]);
+    }, [question.type, question.id, localValue, isSubmitting, isAutoAdvancing, onAnswer, handleSelection]);
 
     const renderInput = () => {
         const type = question.type;
@@ -108,7 +108,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
             return (
                 <div className="flex flex-col gap-6 w-full animate-in fade-in zoom-in duration-500">
                     <div className={`grid ${max === 10 ? 'grid-cols-11 gap-1 sm:gap-2' : 'grid-cols-5 gap-3'} w-full`}>
-                        {values.map((val: any) => {
+                        {values.map((val) => {
                             let colorClass = 'text-slate-600 bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md hover:-translate-y-1';
                             let activeClass = 'bg-slate-900 border-slate-900 text-white shadow-[0_10px_20px_-10px_rgba(0,0,0,0.3)] scale-105 z-10';
                             let glowColor = '';
@@ -291,7 +291,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
 
                 {(question.type === 'short_text' || question.type === 'text' || isSubmitting) && (
                     <button
-                        onClick={() => onAnswer(localValue)}
+                        onClick={() => localValue !== undefined && onAnswer(localValue)}
                         disabled={isSubmitting || isAutoAdvancing || localValue === undefined}
                         className={`py-3 px-6 rounded-2xl font-black text-sm uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 shadow-md ${localValue !== undefined
                             ? 'bg-primary-600 text-white shadow-primary-200'

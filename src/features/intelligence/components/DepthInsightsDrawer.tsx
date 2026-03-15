@@ -1,7 +1,32 @@
-import { X, Zap, PieChart, Users, Clock, TrendingUp, TrendingDown, Activity, Database } from "lucide-react";
-import { TrendingItem } from "../../../types/trending";
-import { DepthInsight, TemporalComparison, VolatilityData, PolarizationData, SegmentInfluence, EarlySignal } from "../../signals/services/insightsService";
+import { useState } from 'react';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler,
+} from 'chart.js';
 import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
+);
+import { X, Zap, PieChart, Users, Clock, TrendingUp, TrendingDown, Activity, Database, CheckCircle, AlertTriangle, ShieldAlert, Target, MonitorPlay, Settings2 } from "lucide-react";
+import { TrendingItem } from "../../../types/trending";
+import { DepthInsight, TemporalComparison, VolatilityData, PolarizationData, SegmentInfluence, EarlySignal, B2BBattleAnalytics, B2BEligibility, IntegrityFlags } from "../../signals/services/insightsService";
+import { PremiumExportCard } from './PremiumExportCard';
+import { PILOT_DEMO_RECORDS } from "../../admin/demo-records";
 
 interface DepthInsightsDrawerProps {
     selectedBattle: TrendingItem;
@@ -20,6 +45,9 @@ interface DepthInsightsDrawerProps {
     setDaysBack: (days: number) => void;
     loadDepthData: (item: TrendingItem, days?: number) => void;
     depthInsights: DepthInsight[];
+    b2bAnalytics?: B2BBattleAnalytics | null;
+    b2bEligibility?: B2BEligibility | null;
+    integrityFlags?: IntegrityFlags | null;
 }
 
 export function DepthInsightsDrawer({
@@ -38,24 +66,260 @@ export function DepthInsightsDrawer({
     temporalComparison,
     setDaysBack,
     loadDepthData,
-    depthInsights
+    depthInsights,
+    b2bAnalytics,
+    b2bEligibility,
+    integrityFlags
 }: DepthInsightsDrawerProps) {
+    const [isDemoMode, setIsDemoMode] = useState(false);
+
     return (
         <>
             <div className="fixed inset-y-0 right-0 w-full lg:w-[450px] bg-white shadow-2xl z-50 transform transition-transform duration-300 border-l border-slate-100 overflow-y-auto">
                 <div className="p-8">
-                    <div className="flex items-center justify-between mb-8">
-                        <div>
-                            <h3 className="text-xl font-bold text-slate-900 tracking-tight">{selectedBattle.title}</h3>
-                            <p className="text-xs text-slate-400 font-medium">Análisis de profundidad segmentado</p>
+                    {/* Header Preamble & Close Button */}
+                    <div className="flex items-start justify-between mb-4 print:hidden">
+                        <div className="flex-1 pr-4">
+                            <h3 className="text-xl font-bold text-slate-900 tracking-tight leading-tight">{selectedBattle.title}</h3>
                         </div>
-                        <button
-                            onClick={() => setSelectedBattle(null)}
-                            className="p-2 hover:bg-slate-50 rounded-full transition"
-                        >
-                            <X className="w-6 h-6 text-slate-400" />
-                        </button>
+                        <div className="flex items-center gap-2">
+                            {b2bEligibility && (
+                                <button
+                                    onClick={() => setIsDemoMode(!isDemoMode)}
+                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-colors border ${
+                                        isDemoMode 
+                                            ? 'bg-indigo-50 text-indigo-700 border-indigo-200' 
+                                            : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    {isDemoMode ? <MonitorPlay className="w-3.5 h-3.5" /> : <Settings2 className="w-3.5 h-3.5" />}
+                                    {isDemoMode ? 'Demo Activo' : 'Panel Técnico'}
+                                </button>
+                            )}
+                            <button
+                                onClick={() => setSelectedBattle(null)}
+                                className="p-2 hover:bg-slate-100 rounded-full transition bg-slate-50 text-slate-500"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
                     </div>
+
+                    {isDemoMode ? (
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 print:mt-0">
+                            <PremiumExportCard 
+                                item={selectedBattle}
+                                b2bEligibility={b2bEligibility || null}
+                                b2bAnalytics={b2bAnalytics || null}
+                                integrityFlags={integrityFlags || null}
+                            />
+                            
+                            {/* PRESENTER NOTES (Only visible on screen, hidden on print) */}
+                            {(() => {
+                                const demoRecord = PILOT_DEMO_RECORDS.find(r => r.id === selectedBattle.id);
+                                if (!demoRecord) return null;
+                                return (
+                                    <div className="mt-8 p-4 bg-indigo-50 border border-indigo-200 rounded-xl print:hidden animate-in fade-in">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <MonitorPlay className="w-4 h-4 text-indigo-600" />
+                                            <span className="text-xs font-bold uppercase tracking-wider text-indigo-900">Guía de Pitch Comercial</span>
+                                        </div>
+                                        <p className="text-sm text-indigo-800 font-medium">
+                                            {demoRecord.commercialBullet}
+                                        </p>
+                                    </div>
+                                );
+                            })()}
+
+                            <div className="mt-8 text-center print:hidden">
+                                <button
+                                    onClick={() => setIsDemoMode(false)}
+                                    className="text-xs font-bold text-slate-400 hover:text-slate-600 underline decoration-slate-300 underline-offset-4"
+                                >
+                                    Volver a controles técnicos
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            {/* B2B Eligibility Banner */}
+                            {b2bEligibility && (
+                        <div className={`mb-6 p-4 rounded-2xl border ${
+                            b2bEligibility.eligibility_status === 'PUBLISHABLE' 
+                                ? 'bg-emerald-50 border-emerald-200' 
+                                : b2bEligibility.eligibility_status === 'EXPLORATORY'
+                                    ? 'bg-amber-50 border-amber-200'
+                                    : 'bg-rose-50 border-rose-200'
+                        }`}>
+                            <div className="flex items-start gap-3">
+                                <div className="mt-0.5">
+                                    {b2bEligibility.eligibility_status === 'PUBLISHABLE' ? <CheckCircle className="w-5 h-5 text-emerald-600" /> :
+                                     b2bEligibility.eligibility_status === 'EXPLORATORY' ? <AlertTriangle className="w-5 h-5 text-amber-600" /> :
+                                     <ShieldAlert className="w-5 h-5 text-rose-600" />}
+                                </div>
+                                <div className="flex-1">
+                                    <h4 className={`font-bold text-sm ${
+                                        b2bEligibility.eligibility_status === 'PUBLISHABLE' ? 'text-emerald-900' :
+                                        b2bEligibility.eligibility_status === 'EXPLORATORY' ? 'text-amber-900' :
+                                        'text-rose-900'
+                                    }`}>
+                                        {b2bEligibility.eligibility_status === 'PUBLISHABLE' ? 'Premium Exportable (Data B2B Lista)' :
+                                         b2bEligibility.eligibility_status === 'EXPLORATORY' ? 'Consumo Exploratorio (Tendencia Volátil)' :
+                                         'Consumo Interno Bloqueado (Riesgo Estadístico)'}
+                                    </h4>
+                                    
+                                    {b2bEligibility.eligibility_reasons && b2bEligibility.eligibility_reasons.length > 0 && (
+                                        <ul className="mt-2 space-y-1">
+                                            {b2bEligibility.eligibility_reasons.map((reason, idx) => (
+                                                <li key={idx} className={`text-xs flex items-center gap-1.5 ${
+                                                    b2bEligibility.eligibility_status === 'EXPLORATORY' ? 'text-amber-700' : 'text-rose-700'
+                                                }`}>
+                                                    <div className="w-1 h-1 rounded-full bg-current opacity-50"></div>
+                                                    {reason}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* B2B Executive Cards Grid */}
+                    {(b2bEligibility || b2bAnalytics || integrityFlags) && (
+                        <div className="grid grid-cols-2 gap-3 mb-8">
+                            {/* Card 1: Score Principal */}
+                            {b2bEligibility && (
+                                <div className="bg-gradient-to-br from-indigo-900 to-slate-900 p-4 rounded-2xl relative overflow-hidden group">
+                                    <div className="relative z-10 flex flex-col h-full justify-between">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest">OpinaScore</span>
+                                            <span className="text-[10px] bg-white/10 text-white px-1.5 py-0.5 rounded font-mono border border-white/20 uppercase">
+                                                {b2bEligibility.opinascore_context}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-baseline gap-2 mt-1">
+                                            <span className="text-3xl font-black text-white">{Math.round(b2bEligibility.opinascore_value || 0)}</span>
+                                            <span className="text-[10px] text-indigo-300 font-bold uppercase tracking-widest leading-none">/ 1000</span>
+                                        </div>
+                                        <div className="mt-4 text-[9px] text-indigo-200/70 font-mono flex items-center gap-1 pt-2 border-t border-indigo-800/50">
+                                            <span>B: {Math.round(b2bEligibility.opinascore_base || 0)}</span>
+                                            <span>×</span>
+                                            <span>M: {b2bEligibility.integrity_multiplier || 1}</span>
+                                        </div>
+                                    </div>
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                                        <Target className="w-24 h-24 text-white -rotate-12 transform translate-x-4 -translate-y-4" />
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Card 2: Confianza de Mercado */}
+                            {b2bAnalytics && (
+                                <div className="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+                                    <div className="flex flex-col h-full justify-between">
+                                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Confianza Estd.</span>
+                                        <div className="flex items-baseline gap-1.5 mt-1">
+                                            <span className="text-2xl font-black text-slate-800">{Math.round(b2bAnalytics.n_eff)}</span>
+                                            <span className="text-[10px] font-bold text-slate-400">N_EFF</span>
+                                        </div>
+                                        {b2bAnalytics?.analytics_payload?.[0]?.technical_tie_flag ? (
+                                            <div className="mt-4 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-amber-600">
+                                                <AlertTriangle className="w-3.5 h-3.5" />
+                                                <span className="text-[9px] font-bold uppercase tracking-wide">Empate Técnico</span>
+                                            </div>
+                                        ) : (
+                                            <div className="mt-4 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-emerald-600">
+                                                <CheckCircle className="w-3.5 h-3.5" />
+                                                <span className="text-[9px] font-bold uppercase tracking-wide">Líder Claro</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Card 3: Integridad Analítica */}
+                            {integrityFlags && (
+                                <div className={`border p-4 rounded-2xl ${
+                                    integrityFlags.integrity_score >= 90 ? 'bg-emerald-50/50 border-emerald-100' :
+                                    integrityFlags.integrity_score >= 50 ? 'bg-amber-50/50 border-amber-100' :
+                                    'bg-rose-50/50 border-rose-100'
+                                }`}>
+                                    <div className="flex flex-col h-full justify-between">
+                                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Integridad</span>
+                                        <div className="flex items-baseline gap-1.5 mt-1">
+                                            <span className={`text-2xl font-black ${
+                                                integrityFlags.integrity_score >= 90 ? 'text-emerald-700' :
+                                                integrityFlags.integrity_score >= 50 ? 'text-amber-700' :
+                                                'text-rose-700'
+                                            }`}>{Math.round(integrityFlags.integrity_score)}</span>
+                                            <span className="text-[10px] font-bold text-slate-400">/ 100</span>
+                                        </div>
+                                        <div className={`mt-4 pt-2 border-t flex flex-col gap-1 ${
+                                            integrityFlags.integrity_score >= 90 ? 'border-emerald-200/50' :
+                                            integrityFlags.integrity_score >= 50 ? 'border-amber-200/50' :
+                                            'border-rose-200/50'
+                                        }`}>
+                                            {integrityFlags.flag_device_concentration && (
+                                                <span className="text-[9px] font-bold text-rose-600 flex items-center gap-1 uppercase tracking-wide">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Bot Concentrado
+                                                </span>
+                                            )}
+                                            {integrityFlags.flag_velocity_burst && (
+                                                <span className="text-[9px] font-bold text-rose-600 flex items-center gap-1 uppercase tracking-wide">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Ráfaga Anómala
+                                                </span>
+                                            )}
+                                            {integrityFlags.flag_repetitive_pattern && (
+                                                <span className="text-[9px] font-bold text-rose-600 flex items-center gap-1 uppercase tracking-wide">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Scripting Pattern
+                                                </span>
+                                            )}
+                                            {integrityFlags.integrity_score === 100 && (
+                                                <span className="text-[9px] font-bold text-emerald-600 flex items-center gap-1 uppercase tracking-wide">
+                                                    <CheckCircle className="w-3 h-3" /> Ecosistema Sano
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Card 4: Estructura (Entropía o Estabilidad) */}
+                            {b2bEligibility && (b2bEligibility.entropy_normalized !== null || b2bEligibility.stability_label) && (
+                                <div className="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+                                    <div className="flex flex-col h-full justify-between">
+                                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Estructura</span>
+                                        {b2bEligibility.opinascore_context === 'news' ? (
+                                            <>
+                                                <div className="flex items-baseline gap-1.5 mt-1">
+                                                    <span className="text-2xl font-black text-slate-800">{b2bEligibility.entropy_normalized?.toFixed(2) || '0.00'}</span>
+                                                    <span className="text-[10px] font-bold text-slate-400">ENTROPÍA</span>
+                                                </div>
+                                                <div className="mt-4 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-slate-500">
+                                                    <Activity className="w-3.5 h-3.5" />
+                                                    <span className="text-[9px] font-bold uppercase tracking-wide leading-tight">
+                                                        {(b2bEligibility.entropy_normalized ?? 0) > 0.8 ? 'Alta Fragmentación' : 
+                                                         (b2bEligibility.entropy_normalized ?? 0) > 0.5 ? 'Consenso Moderado' : 'Consenso Fuerte'}
+                                                    </span>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="flex items-center gap-2 h-8 mt-1">
+                                                    <span className="text-lg font-black text-slate-800 capitalize leading-tight">{b2bEligibility.stability_label || 'Pendiente'}</span>
+                                                </div>
+                                                <div className="mt-4 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-slate-500">
+                                                    <TrendingUp className="w-3.5 h-3.5" />
+                                                    <span className="text-[9px] font-bold uppercase tracking-wide leading-tight">Estadío Actual</span>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     {loadingDetails ? (
                         <div className="space-y-6">
@@ -104,6 +368,48 @@ export function DepthInsightsDrawer({
                                 </div>
                             </div>
 
+                            {/* PREMIUM COMPARATIVE TABLE (B2B) */}
+                            {b2bAnalytics?.analytics_payload && b2bAnalytics.analytics_payload.length > 0 && b2bEligibility?.opinascore_context === 'versus' && (
+                                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mt-8">
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <Database className="w-4 h-4 text-indigo-500" />
+                                            <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Estructura Competitiva</h4>
+                                        </div>
+                                        <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest border border-slate-200 px-2 py-1 rounded-md">
+                                            Wilson Confidence Interval
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {b2bAnalytics.analytics_payload?.map((opt: Record<string, any>, idx: number) => (
+                                            <div key={idx} className={`p-4 rounded-2xl border ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-emerald-50/50 border-emerald-100' : 'bg-slate-50/50 border-slate-100'}`}>
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <span className="font-bold text-slate-800 text-sm">Opción {idx + 1} <span className="text-[10px] font-mono text-slate-400 font-normal ml-1">({String(opt.option_id).substring(0,8)})</span></span>
+                                                    <div className="flex items-baseline gap-1">
+                                                        <span className="text-lg font-black text-indigo-600">{Math.round((opt.normalized_score || opt.raw_win_rate || 0) * 1000)}</span>
+                                                        {opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag && (
+                                                            <CheckCircle className="w-3 h-3 text-emerald-500 ml-1" />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <div className="w-full bg-slate-200 rounded-full h-1.5 mb-2 overflow-hidden">
+                                                    <div className={`h-1.5 rounded-full ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-emerald-500' : 'bg-indigo-400'}`} style={{ width: `${Math.max(0, Math.min(100, (opt.normalized_score || opt.raw_win_rate || 0) * 100))}%` }}></div>
+                                                </div>
+                                                <div className="flex justify-between text-[9px] font-mono text-slate-400 font-bold mt-3 pt-2 border-t border-slate-200/50">
+                                                    <span>Límite Inferior: {((opt.lower_bound || 0) * 100).toFixed(1)}%</span>
+                                                    <span>Límite Superior: {((opt.upper_bound || 0) * 100).toFixed(1)}%</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="mt-5 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                        <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
+                                            Las bandas (Lower/Upper) representan el intervalo de confianza de Wilson al 95%. Un <strong className="text-amber-600">empate técnico</strong> se declara cuando el límite inferior del líder se solapa matemáticamente con el límite superior del contendiente más cercano.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* VOLATILITY CARD WITH AREA CHART */}
                             <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-rose-50 border-rose-100' : volatility?.classification === 'moderate' ? 'bg-emerald-50 border-emerald-100' : 'bg-slate-50 border-slate-200'}`}>
                                 <div className="flex items-center justify-between mb-4">
@@ -119,6 +425,7 @@ export function DepthInsightsDrawer({
 
                                 <div className="h-24 w-full">
                                     <Line
+                                        key={`volatility-${selectedBattle?.id}`}
                                         data={{
                                             labels: ['D-30', 'D-20', 'D-10', 'Hoy'], // Mock de etiquetas temporales; en un caso real vendría del backend
                                             datasets: [{
@@ -266,6 +573,7 @@ export function DepthInsightsDrawer({
                                 {temporalComparison.length > 0 ? (
                                     <div className="h-48 w-full mb-6">
                                         <Line
+                                            key={`temporal-${selectedBattle?.id}`}
                                             data={{
                                                 labels: [`D-${daysBack}`, 'Actual'], // Eje X simplificado
                                                 datasets: temporalComparison.map((comp, idx) => ({
@@ -383,6 +691,8 @@ export function DepthInsightsDrawer({
                             Estos datos provienen del motor de analíticas de profundidad. El score es el promedio de valoraciones (1-10) capturadas en los Insight Packs.
                         </p>
                     </div>
+                        </>
+                    )}
                 </div>
             </div>
             

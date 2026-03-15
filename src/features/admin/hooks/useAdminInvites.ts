@@ -156,7 +156,7 @@ export function useAdminInvites() {
                 await adminInvitesService.deleteInvite(inviteId);
                 setInvites(invites.filter((i) => i.id !== inviteId));
             } else {
-                const { error } = await (supabase as any).rpc('admin_set_invitation_status', {
+                const { error } = await (supabase.rpc as unknown as (n: string, a: object) => Promise<{ error: unknown }>)('admin_set_invitation_status', {
                     p_invite_id: inviteId,
                     p_status: action,
                 });
@@ -215,7 +215,7 @@ export function useAdminInvites() {
                 if (action === 'delete') {
                     return adminInvitesService.deleteInvite(inviteId);
                 } else {
-                    return (supabase as any).rpc('admin_set_invitation_status', {
+                    return (supabase.rpc as unknown as (n: string, a: object) => Promise<{ error: unknown }>)('admin_set_invitation_status', {
                         p_invite_id: inviteId,
                         p_status: action,
                     });

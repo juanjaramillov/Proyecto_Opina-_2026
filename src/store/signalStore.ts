@@ -1,6 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export interface SignalEvent {
+    id: string;
+    createdAt: string;
+    amount: number;
+    type: string;
+    description?: string;
+    metadata?: Record<string, unknown>;
+}
+
 export type SignalState = {
     signals: number;
 
@@ -19,11 +28,11 @@ export type SignalState = {
         celebrated: boolean;
     };
 
-    signalEvents: any[];
+    signalEvents: SignalEvent[];
 };
 
 type SignalActions = {
-    addSignal: (input: number | { amount: number; voteId?: string; eventDetail?: any }) => void;
+    addSignal: (input: number | { amount: number; voteId?: string; eventDetail?: Partial<SignalEvent> }) => void;
     completeOnboarding: () => void;
     markMissionCelebrated: () => void;
     setSignalState: (state: Partial<SignalState>) => void;
@@ -74,7 +83,7 @@ export const useSignalStore = create<SignalState & SignalActions>()(
             addSignal: (input) => {
                 const state = get();
                 let delta = 0;
-                let eventDetail: any | undefined;
+                let eventDetail: Partial<SignalEvent> | undefined;
 
                 if (typeof input === 'number') {
                     delta = input;
@@ -129,9 +138,11 @@ export const useSignalStore = create<SignalState & SignalActions>()(
                 // Event Log
                 let nextSignalEvents = [...signalEvents];
                 if (eventDetail) {
-                    const newEvent: any = {
+                    const newEvent: SignalEvent = {
                         id: 'evt_' + Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
                         createdAt: new Date().toISOString(),
+                        amount: delta,
+                        type: eventDetail.type || 'generic',
                         ...eventDetail
                     };
                     nextSignalEvents = [newEvent, ...nextSignalEvents].slice(0, 50);

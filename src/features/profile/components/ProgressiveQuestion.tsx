@@ -45,7 +45,7 @@ export default function ProgressiveQuestion({ currentData }: Props) {
 
     const handleAnswer = async (key: keyof DemographicData, value: string) => {
         try {
-            await profileService.saveDemographic(key, value);
+            await profileService.saveDemographic({ [key]: value });
         } catch (error: any) {
             if (error?.message?.includes('Demographics can only be updated every 30 days') || error?.code === 'P0001') {
                 import('react-hot-toast').then(({ toast }) => {

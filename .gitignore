@@ -1,17 +1,17 @@
-# dependencies
+# Dependencies
 node_modules/
-node_modules
+.pnp
+.pnp.js
 
-# build output
+# Build / Output
 dist/
-dist
-dist-ssr
+dist-ssr/
 build/
-build
+.vercel
 .vite
 *.tsbuildinfo
 
-# env (never commit real secrets)
+# Env (Never commit real secrets)
 .env
 .env.local
 .env.*.local
@@ -23,36 +23,36 @@ build
 .DS_Store
 __MACOSX/
 .vscode/
-
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# Build / Output
-dist/
-dist-ssr/
-build/
-.vercel
-
-# Local env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
 # Supabase
-supabase/.temp/zip
-
-# Supabase
-supabase/migrations/_history/
 supabase/.temp/
-.vercel
-.env*.local
+supabase/migrations/_history/
+
+# Audit & Archive (Optional to ignore if they are shared, but typically ignored in lean zips)
+# archive/audits/ 
+# Dejaremos archive/ fuera del ignore por ahora para que el usuario vea los reportes si lo desea, 
+# pero documentaremos su exclusión en la política de zip limpio.
+
+# Temporary / Junk
+proxy.txt
+any_locations.txt
+any_report_complete.txt
+warnings_details.txt
+count_lint.py
+Opina+ V13.textClipping
+*.bak
+*.tmp

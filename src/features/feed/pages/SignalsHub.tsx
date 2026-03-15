@@ -10,11 +10,12 @@ import { SkeletonModuleCard } from "../../../components/ui/Skeleton";
 
 import HubMenuSimplified from "../components/HubMenuSimplified";
 import { ActualidadHubManager } from "../components/ActualidadHubManager";
-
 import VersusView from "../components/VersusView";
 import TorneoView from "../components/TorneoView";
 import ProfundidadView from "../components/ProfundidadView";
 import BatchSessionResults, { BatchSessionResultRecord } from "../components/BatchSessionResults";
+import { ModuleErrorBoundary } from "../../../components/ui/ModuleErrorBoundary";
+
 
 import { useExperienceMode, useExperienceStats } from "../hooks/useExperienceMode";
 import { Battle } from "../../signals/types";
@@ -25,7 +26,7 @@ export default function SignalsHub() {
     const { mode, setMode, requestedBatch, resetToMenu } = useExperienceMode();
     const { hubStats, hubTopNow } = useExperienceStats();
     
-    const { battles, loading } = useActiveBattles();
+    const { battles, loading, error } = useActiveBattles();
     const { profile } = useAuth();
     const { signals, signalsToday } = useSignalStore();
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function SignalsHub() {
 
     if (profile && !profile.isProfileComplete && profile.role !== 'admin') return null;
 
-    const handleBatchComplete = (history: BatchSessionResultRecord[]) => {
+    const handleBatchComplete = (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number }>) => {
         setBatchSessionHistory(history || []);
         setShowBatchResults(true);
     };
@@ -84,6 +85,20 @@ export default function SignalsHub() {
         );
     }
 
+    if (error) {
+        return (
+            <div className="container-ws section-y">
+                <PageState
+                    type="error"
+                    title="Error al conectar con el servidor"
+                    description="No pudimos cargar las señales activas. Revisa tu conexión."
+                    icon="cloud_off"
+                    primaryAction={{ label: "Intentar de nuevo", onClick: () => window.location.reload() }}
+                />
+            </div>
+        );
+    }
+
     if (!loading && battles.length === 0) {
         return (
             <div className="container-ws section-y">
@@ -110,7 +125,7 @@ export default function SignalsHub() {
                     onViewResults={() => navigate("/results")}
                     stats={hubStats}
                     topNow={hubTopNow}
-                    previewVersus={battles.length > 0 ? (battles[0] as any) : null}
+                    previewVersus={battles.length > 0 ? (battles[0] as Battle) : null}
                     signalsToday={signalsToday}
                     signalsLimit={signalsLimit === '∞' ? '∞' : Number(signalsLimit)}
                 />
@@ -129,23 +144,35 @@ export default function SignalsHub() {
             )}
 
             {mode === "versus" && (
-                <VersusView 
-                    battles={(battles as unknown as Battle[])} 
-                    batchIndex={batchIndex} 
-                    onBatchComplete={handleBatchComplete} 
-                />
+                <ModuleErrorBoundary moduleName="Versus">
+                    <VersusView 
+                        battles={(battles as unknown as Battle[])} 
+                        batchIndex={batchIndex} 
+                        onBatchComplete={handleBatchComplete} 
+                    />
+                </ModuleErrorBoundary>
             )}
 
-            {mode === "torneo" && <TorneoView battles={(battles as unknown as Battle[])} />}
+            {mode === "torneo" && (
+                <ModuleErrorBoundary moduleName="Torneo">
+                    <TorneoView battles={(battles as unknown as Battle[])} />
+                </ModuleErrorBoundary>
+            )}
 
-            {mode === "profundidad" && <ProfundidadView battles={(battles as unknown as Battle[])} onClose={resetToMenu} />}
+            {mode === "profundidad" && (
+                <ModuleErrorBoundary moduleName="Profundidad">
+                    <ProfundidadView battles={(battles as unknown as Battle[])} onClose={resetToMenu} />
+                </ModuleErrorBoundary>
+            )}
 
             {mode === "actualidad" && (
-                <div className="space-y-8 animate-in fade-in duration-500">
-                    <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
-                        <ActualidadHubManager onClose={resetToMenu} />
+                <ModuleErrorBoundary moduleName="Actualidad">
+                    <div className="space-y-8 animate-in fade-in duration-500">
+                        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
+                            <ActualidadHubManager onClose={resetToMenu} />
+                        </div>
                     </div>
-                </div>
+                </ModuleErrorBoundary>
             )}
 
             <BatchSessionResults 

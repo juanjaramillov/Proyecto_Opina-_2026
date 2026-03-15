@@ -10,8 +10,10 @@ import { useSignalStore } from "../../../store/signalStore";
 import { NextActionRecommendation, ActionType } from "../../../components/ui/NextActionRecommendation";
 
 // Import custom B2C services
-import { metricsService, LeaderboardEntry, TrendSummary, TrendEntry, ComparisonSummary, ModuleHighlight } from "../../../features/metrics/services/metricsService";
+import { metricsService, LeaderboardEntry, TrendSummary, TrendEntry, ComparisonSummary, ModuleHighlight, ResultsKPIs, DemographicInsight } from "../../../features/metrics/services/metricsService";
 import { PremiumGate } from "../../../components/ui/PremiumGate";
+import { ResultKPIs } from "../components/ResultKPIs";
+import { InsightCards } from "../components/InsightCards";
 
 // Trend Chart Visual Component
 function BasicTrendChart({ isUp }: { isUp: boolean }) {
@@ -77,27 +79,32 @@ export default function ResultsPage() {
   const { signals } = useSignalStore();
 
   const [loading, setLoading] = useState(true);
-  const [locked] = useState(false);
 
   // B2C Data states
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [trends, setTrends] = useState<TrendSummary>({ trendingUp: [], trendingDown: [], stable: [] });
   const [comparison, setComparison] = useState<ComparisonSummary | null>(null);
   const [highlights, setHighlights] = useState<ModuleHighlight[]>([]);
+  const [kpis, setKpis] = useState<ResultsKPIs | null>(null);
+  const [demoInsights, setDemoInsights] = useState<DemographicInsight[]>([]);
 
   const loadAll = useCallback(async () => {
     setLoading(true);
     try {
-      const [lb, tr, cmp, hl] = await Promise.all([
+      const [lb, tr, cmp, hl, kpiData, insightsData] = await Promise.all([
         metricsService.getGlobalLeaderboard(10),
         metricsService.getTrendSummary(),
         metricsService.getComparisonSummary(), // Mock personal comp
-        metricsService.getModuleHighlights()
+        metricsService.getModuleHighlights(),
+        metricsService.getResultsKPIs(),
+        metricsService.getDemographicInsights(3)
       ]);
       setLeaderboard(lb);
       setTrends(tr);
       setComparison(cmp);
       setHighlights(hl);
+      setKpis(kpiData);
+      setDemoInsights(insightsData);
     } catch (e) {
       logger.error("Error loading results data", { domain: 'network_api', origin: 'Results', action: 'load_data', state: 'failed' }, e);
     } finally {
@@ -118,13 +125,13 @@ export default function ResultsPage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8 border-b border-stroke pb-8">
           <div>
             <h1 className="text-3xl lg:text-4xl font-black text-ink tracking-tight animate-in fade-in slide-in-from-left-4 duration-500">
-              Resultados <span className="text-gradient-brand">Colectivos</span>
+              Inteligencia <span className="text-gradient-brand">Colectiva</span>
             </h1>
             <p className="text-sm text-text-secondary font-medium mt-2 max-w-xl animate-in fade-in slide-in-from-left-6 duration-700">
               Conoce las tendencias y el pulso principal de la comunidad basados en interacciones reales.
               <br/>
               <span className="text-[10px] font-black uppercase text-primary tracking-widest mt-2 inline-block bg-primary/10 px-2 py-1 rounded-md">
-                Lectura Parcial - Analysis B2C
+                Inteligencia Predictiva B2C
               </span>
             </p>
           </div>
@@ -138,15 +145,25 @@ export default function ResultsPage() {
         </div>
 
         {/* Content */}
-        <div className={locked ? "pointer-events-none select-none blur-sm opacity-60 transition-all duration-500" : "transition-all duration-500"}>
+        <div className="transition-all duration-500">
           
           {loading ? (
             <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                {[1, 2, 3, 4].map(i => <div key={i} className="h-32 bg-white/5 animate-pulse rounded-2xl" />)}
+              </div>
               <SkeletonRankingRow />
               <SkeletonRankingRow />
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="fade-in duration-500">
+              {/* KPIs Header */}
+              {kpis && <ResultKPIs kpis={kpis} loading={loading} />}
+
+              {/* Demographic Insights */}
+              <InsightCards insights={demoInsights} loading={loading} />
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
               {/* Leaderboard Principal (Columna Izquierda 2x) */}
               <div className="lg:col-span-2 flex flex-col gap-6">
@@ -187,13 +204,13 @@ export default function ResultsPage() {
                           {/* Fondo de progreso de Share */}
                           <div className="absolute top-0 bottom-0 left-0 bg-primary/5 -z-10 group-hover:bg-primary/10 transition-colors" style={{ width: `${Math.round(r.win_rate * 100)}%` }} />
                           
-                          <div className="flex items-center gap-4 z-10 w-full">
+                            <div className="flex items-center gap-5 z-10 w-full">
                             <div className={`w-8 font-black text-lg ${idx < 3 ? 'text-primary' : 'text-text-muted'}`}>
                               {idx + 1}
                             </div>
-                            <BrandLogo name={r.entity_name} className="w-10 h-10 rounded-lg shadow-sm" fallbackClassName="w-10 h-10 rounded-lg flex items-center text-[10px] uppercase font-bold justify-center bg-white border border-stroke text-text-muted" />
+                            <BrandLogo name={r.entity_name} className="w-12 h-12" />
                             <div className="flex-1 min-w-0">
-                              <p className="font-black text-ink text-base truncate">{r.entity_name}</p>
+                              <p className="font-black text-ink text-lg truncate">{r.entity_name}</p>
                               <div className="flex gap-3 text-[10px] font-bold uppercase tracking-widest text-text-muted mt-0.5">
                                 <span>{r.wins_count} Wins</span>
                                 <span>{r.total_comparisons} Votos</span>
@@ -213,7 +230,7 @@ export default function ResultsPage() {
 
               {/* Sidebar Derecho (Highlights & Trends) */}
               <div className="space-y-6 flex flex-col">
-                <PremiumGate featureName="Tendencias de Mercado" isLocked={true}>
+                <PremiumGate featureName="Tendencias de Mercado" isLocked={false}>
                   <div className="space-y-6">
                     {/* 3. Trends Generales */}
                     {trends.trendingUp.length > 0 && (
@@ -255,6 +272,7 @@ export default function ResultsPage() {
                 </PremiumGate>
               </div>
             </div>
+          </div>
           )}
           
           <div className="mt-12 mb-8">
@@ -271,7 +289,7 @@ export default function ResultsPage() {
             />
             
             <p className="text-center text-xs font-medium text-text-muted mt-6 max-w-sm mx-auto">
-              Esta es una vista parcial. Los reportes corporativos multidimensionales se acceden exclusivamente desde Intelligence B2B.
+              Analítica colectiva basada en señales reales. Accede a insights más profundos a través de nuestros canales corporativos.
             </p>
           </div>
 

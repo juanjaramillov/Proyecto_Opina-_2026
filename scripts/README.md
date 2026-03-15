@@ -11,4 +11,4 @@ The `scripts/` directory is explicitly organized to separate operational concern
 
 ## Archive Policy
 
-If a script becomes entirely obsolete or represents a one-time migration that will never be run again, it must be either deleted or moved to `../legacy_archive/scripts_orphan/` to avoid polluting the workspace.
+If a script becomes entirely obsolete or represents a one-time migration that will never be run again, it must be either deleted or moved to `../archive/legacy/` to avoid polluting the workspace.

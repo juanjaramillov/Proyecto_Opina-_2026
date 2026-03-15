@@ -27,6 +27,10 @@
         "vite.config.ts"
   ],
   "exclude": [
-    "src/pages/_unused/**"
+    "archive/**",
+    "scripts/debug/**",
+    "scripts/seed/**",
+    "dist/**",
+    "node_modules/**"
   ]
 }

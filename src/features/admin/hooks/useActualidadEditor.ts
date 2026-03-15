@@ -25,7 +25,7 @@ export function useActualidadEditor(id: string | undefined) {
                 setFormData({
                     title: data.title,
                     summary: data.summary,
-                    impact_phrase: data.impact_phrase || (window as any).impact_quote,
+                    impact_phrase: data.impact_phrase, // Removed window.impact_quote fallback which used any
                     category: data.category,
                     intensity: data.intensity,
                     relevance_chile: data.relevance_chile,
@@ -73,7 +73,7 @@ export function useActualidadEditor(id: string | undefined) {
         setFormData(prev => ({ ...prev, actors: val.split(',').map(a => a.trim()).filter(Boolean) }));
     };
 
-    const handleQuestionChange = (orderIdx: number, field: string, value: any) => {
+    const handleQuestionChange = (orderIdx: number, field: string, value: string | string[] | number) => {
         setQuestions(prev => {
             const newQ = [...prev];
             newQ[orderIdx] = { ...newQ[orderIdx], [field]: value };

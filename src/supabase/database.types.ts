@@ -3217,6 +3217,24 @@ export type Database = {
         }
         Relationships: []
       }
+      whatsapp_webhook_logs: {
+        Row: {
+          created_at: string
+          id: string
+          payload: Json
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          payload: Json
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          payload?: Json
+        }
+        Relationships: []
+      }
     }
     Views: {
       actualidad_stats_view: {
@@ -4539,28 +4557,20 @@ export type Database = {
         Args: { p_answers: Json; p_option_id: string }
         Returns: undefined
       }
-      insert_signal_event:
-        | {
-            Args: {
-              p_attribute_id?: string
-              p_battle_id: string
-              p_client_event_id?: string
-              p_option_id: string
-              p_session_id?: string
-            }
-            Returns: undefined
-          }
-        | {
-            Args: {
-              p_attribute_id?: string
-              p_battle_id: string
-              p_client_event_id?: string
-              p_device_hash?: string
-              p_option_id: string
-              p_session_id?: string
-            }
-            Returns: undefined
-          }
+      insert_signal_event: {
+        Args: {
+          p_attribute_id?: string
+          p_battle_id: string
+          p_client_event_id?: string
+          p_device_hash?: string
+          p_module_type?: string
+          p_option_id: string
+          p_session_id?: string
+          p_signal_type_code?: string
+          p_value_json?: Json
+        }
+        Returns: undefined
+      }
       is_admin_user: { Args: never; Returns: boolean }
       is_b2b_user: { Args: never; Returns: boolean }
       kpi_engagement_quality: {

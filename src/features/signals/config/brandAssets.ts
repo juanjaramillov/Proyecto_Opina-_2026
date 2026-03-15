@@ -8,8 +8,8 @@ export function getAssetPathForOption(_label: string, dbImageUrl: string | null)
         return null;
     }
 
-    // Business Logic: Ignore legacy DB paths
-    const isLegacyPath = dbImageUrl.startsWith('/brands/') || dbImageUrl.startsWith('/logos/');
+    // Business Logic: Ignore legacy DB paths (only /brands/ is truly legacy now)
+    const isLegacyPath = dbImageUrl.startsWith('/brands/');
 
     if (isLegacyPath) {
         return null;

@@ -1,134 +1,112 @@
 import { supabase } from '../../../supabase/client';
+import { Database } from '../../../supabase/database.types';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { computeAccountProfile } from './account';
-import { AccountProfile, AccountTier, DemographicData } from '../types';
+import { DemographicData, AccountProfile, AccountTier } from '../types';
 import { logger } from '../../../lib/logger';
-import { normalizeAgeBucket, normalizeGender, normalizeRegion, computeAgeBucketFromBirthYear } from "../../../lib/demographicsNormalize";
-import { useSignalStore } from '../../../store/signalStore';
+import { normalizeAllDemographics } from '../../../lib/demographicsNormalize';
 
-interface UserProfileRow {
-    user_id: string;
-    nickname: string | null;
-    gender: string | null;
-    age_range: string | null; // Legacy
-    birth_year: number | null;
-    region: string | null;
-    comuna: string | null;
-    housing_type: string | null;
-    education_level: string | null;
-    employment_status: string | null;
-    income_range: string | null;
-    purchase_behavior: string | null;
-    influence_level: string | null;
-    interests: string[] | null;
-    profile_completion_percentage: number | null;
-    profile_stage: number;
-    signal_weight: number;
-    verified: boolean;
-    household_size: string | null;
-    children_count: string | null;
-    car_count: string | null;
-}
+const sb = supabase as unknown as SupabaseClient<Database>;
 
-interface UserIdentityRow {
-    id: string;
-    is_identity_verified: boolean;
-}
+type UserProfileRow = Database['public']['Tables']['user_profiles']['Row'];
+type UserRow = Database['public']['Tables']['users']['Row'];
+type SubscriptionRow = Database['public']['Tables']['subscription_plans']['Row'];
 
 export const authService = {
     /**
-     * Deterministic logic to load an account profile.
-     * 1. Check for Real User session in Supabase.
-     * 2. Fallback to Guest mode.
+     * Fetches complete profile from multiple tables + computed tiers.
+     * Source of truth for AccountProfile.
      */
-    getEffectiveProfile: async (): Promise<AccountProfile> => {
-        // 1. CHECK FOR REAL USER SESSION FIRST
-        const { data: auth, error: authError } = await supabase.auth.getUser();
-
-        if (authError) {
-            logger.error("Auth GetUser Error:", authError);
+    async fetchFullProfile(): Promise<AccountProfile | null> {
+        const { data: auth, error: authErr } = await sb.auth.getSession();
+        if (authErr || !auth?.session?.user) {
+            // Guest mode
+            return computeAccountProfile({
+                tier: 'guest',
+                profileCompleteness: 0,
+                isProfileComplete: false,
+                hasCI: false
+            });
         }
 
-        // Load local demographics for persistence across reloads
-        let localDemographics: DemographicData = {};
-        try {
-            const raw = localStorage.getItem('opina_demographics');
-            if (raw) localDemographics = JSON.parse(raw);
-        } catch { /* empty */ }
-
         // 2. REAL USER MODE (Continue if auth.user exists)
-        if (auth?.user) {
-            // Parallel fetch for speed: Profile, Identity, and Subscription
-            const [profileRes, identityRes, subRes, userRes, statsRes] = await Promise.all([
-                supabase.from('user_profiles').select('*').eq('user_id', auth.user.id).maybeSingle(),
-                supabase.from('users').select('is_identity_verified').eq('user_id', auth.user.id).maybeSingle(),
-                (supabase as any).from('subscriptions').select('plan, status').eq('user_id', auth.user.id).eq('status', 'active').maybeSingle(),
-                (supabase as any).from('users').select('role, invitation_code_id').eq('user_id', auth.user.id).maybeSingle(),
-                supabase.from('user_stats').select('total_signals').eq('user_id', auth.user.id).maybeSingle()
+        if (auth?.session?.user) {
+            const user = auth.session.user;
+            const [profileRes, identityRes, subRes, userRes] = await Promise.all([
+                sb.from('user_profiles').select('*').eq('user_id', user.id).maybeSingle(),
+                sb.from('users').select('is_identity_verified').eq('user_id', user.id).maybeSingle(),
+                sb.from('subscription_plans').select('plan_name').eq('user_id', user.id).maybeSingle(),
+                sb.from('users').select('role, invitation_code_id').eq('user_id', user.id).maybeSingle()
             ]);
 
-            if (profileRes.error) {
-                logger.error("Fetch Profile Error:", profileRes.error);
-            }
-
             const profileData = profileRes.data as UserProfileRow | null;
-            const identityData = identityRes.data as UserIdentityRow | null;
-            const subData = subRes.data;
-            const role = userRes.data?.role as string | undefined;
-            const invitationCodeId = userRes.data?.invitation_code_id as string | undefined;
+            const identityData = identityRes.data as Pick<UserRow, 'is_identity_verified'> | null;
+            const userMetaData = userRes.data as Pick<UserRow, 'role' | 'invitation_code_id'> | null;
+            const role = userMetaData?.role as string | undefined;
+            const invitationCodeId = userMetaData?.invitation_code_id as string | undefined;
 
             if (!profileData) {
-                // If user exists in Auth but profiles fetch failed (new signup edge case before trigger finishes, or RLS block)
-                logger.warn("Profile Missing for Auth User. Falling back to 'registered' tier.");
+                // If user exists in Auth but profiles fetch failed
                 return computeAccountProfile({
-                    tier: 'registered',
+                    id: user.id,
+                    tier: role === 'admin' ? 'verified_full_ci' : 'registered',
                     profileCompleteness: 0,
                     isProfileComplete: false,
                     hasCI: false,
-                    displayName: auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
-                    email: auth.user.email,
+                    displayName: user.user_metadata?.display_name || user.email?.split('@')[0],
+                    email: user.email,
                     role: role,
-                    invitation_code_id: invitationCodeId,
-                    demographics: localDemographics
+                    invitation_code_id: invitationCodeId
                 });
             }
 
             // Business Logic: Subscription overrides Tier
-            const isPro = subData?.plan === 'pro_user';
-            const isEnterprise = subData?.plan === 'enterprise';
+            const planName = (subRes.data as SubscriptionRow | null)?.plan_name;
+            const isPro = planName === 'pro_user';
+            const isEnterprise = planName === 'enterprise';
 
-            const completionPercentage = profileData.profile_completion_percentage || 0;
+            const completionPercentage = profileData.profile_completeness || 0;
             const profileStage = profileData.profile_stage || 0;
-            const isProfileComplete = profileStage >= 1;
+            const isProfileComplete = completionPercentage === 100 || profileStage >= 4;
             const hasCI = identityData?.is_identity_verified || false;
 
-            // Strict priority: Enterprise > Pro > Verified Identity > Basic Verified > Registered
-            let finalTier: AccountTier = 'registered';
+            // Determine final tier
+            let finalTier: AccountTier = "registered";
+            if (role === 'admin') finalTier = "verified_full_ci";
+            else if (isEnterprise) finalTier = "verified_full_ci"; // Enterprise are full
+            else if (isPro) finalTier = "verified_full_ci";     // Pro are full
+            else if (hasCI) finalTier = "verified_full_ci";
+            else if (isProfileComplete) finalTier = "verified_basic";
 
-            if (isEnterprise || isPro) {
-                finalTier = 'verified_full_ci';
-            } else if (hasCI) {
-                finalTier = 'verified_full_ci';
-            } else if (isProfileComplete) {
-                finalTier = 'verified_basic';
-            }
-
-            // Sync the real signals count from the backend to the local signalStore
-            if (statsRes.data && typeof statsRes.data.total_signals === 'number') {
-                useSignalStore.getState().setSignalState({ signals: statsRes.data.total_signals });
-            } else if (profileData.signal_weight !== undefined && profileData.signal_weight !== null) {
-                // Fallback for legacy
-                useSignalStore.getState().setSignalState({ signals: profileData.signal_weight });
-            }
+            // Normalization
+            const localDemographics: DemographicData = normalizeAllDemographics({
+                birthYear: profileData.birth_year,
+                gender: profileData.gender,
+                region: profileData.region,
+                comuna: profileData.comuna,
+                employmentStatus: profileData.employment_status,
+                incomeRange: profileData.income_range,
+                educationLevel: profileData.education_level,
+                housingType: profileData.housing_type,
+                purchaseBehavior: profileData.purchase_behavior,
+                influenceLevel: profileData.influence_level,
+                profileStage: profileData.profile_stage,
+                signalWeight: profileData.signal_weight,
+                householdSize: profileData.household_size,
+                childrenCount: profileData.children_count,
+                carCount: profileData.car_count
+            });
 
             return computeAccountProfile({
+                id: user.id,
                 tier: finalTier,
                 profileCompleteness: completionPercentage,
                 isProfileComplete: isProfileComplete,
                 hasCI: hasCI,
-                displayName: profileData.nickname || auth.user.user_metadata?.display_name || auth.user.email?.split('@')[0],
-                email: auth.user.email,
-                role: role,
-                invitation_code_id: invitationCodeId,
+                displayName: profileData.nickname || user.user_metadata?.display_name || user.email?.split('@')[0],
+                email: user.email,
+                role: userMetaData?.role || undefined,
+                invitation_code_id: userMetaData?.invitation_code_id || undefined,
                 demographics: {
                     ...localDemographics,
                     birthYear: profileData.birth_year || localDemographics.birthYear,
@@ -143,303 +121,270 @@ export const authService = {
                     influenceLevel: profileData.influence_level || localDemographics.influenceLevel,
                     profileStage: profileData.profile_stage || localDemographics.profileStage,
                     signalWeight: profileData.signal_weight || localDemographics.signalWeight,
-                    householdSize: (profileData as any).household_size || localDemographics.householdSize,
-                    childrenCount: (profileData as any).children_count || localDemographics.childrenCount,
-                    carCount: (profileData as any).car_count || localDemographics.carCount,
+                    householdSize: profileData.household_size || localDemographics.householdSize,
+                    childrenCount: profileData.children_count || localDemographics.childrenCount,
+                    carCount: profileData.car_count || localDemographics.carCount,
                 }
             });
         }
 
-        // 3. GUEST MODE
-        return computeAccountProfile({
-            tier: 'guest',
-            profileCompleteness: 0,
-            isProfileComplete: false,
-            hasCI: false,
-            demographics: localDemographics
-        });
+        return null;
     },
 
-    saveDemographic: async (field: string, value: string): Promise<void> => {
-        const payload: any = { [field]: value };
-        // Si es birthYear, convertir a número para el esquema
-        if (field === 'birthYear') {
-            payload.birthYear = parseInt(value, 10);
+    async updateProfileDisplayName(nickname: string): Promise<void> {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) throw new Error("No authenticated user");
+
+        const { error } = await sb
+            .from('user_profiles')
+            .update({ nickname })
+            .eq('user_id', user.id);
+
+        if (error) {
+            logger.error("Update Nickname Error:", error);
+            throw error;
         }
-        await authService.updateProfileDemographics(payload);
     },
 
-    getBootstrapStatus: async (): Promise<{ needsBootstrap: boolean; hasInvite: boolean; hasProfile: boolean }> => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { needsBootstrap: false, hasInvite: false, hasProfile: false };
+    /**
+     * Direct demographic save (legacy/Wizard).
+     * Now using normalization.
+     */
+    async saveDemographic(payload: DemographicData): Promise<void> {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) throw new Error("No authenticated user");
 
-        const [inviteRes, profileRes] = await Promise.all([
-            supabase.from('users').select('invitation_code_id').eq('user_id', user.id).maybeSingle(),
-            supabase.from('user_profiles').select('user_id').eq('user_id', user.id).maybeSingle()
-        ]);
-
-        const hasInvite = !!inviteRes.data?.invitation_code_id;
-        const hasProfile = !!profileRes.data?.user_id;
-
-        return {
-            hasInvite,
-            hasProfile,
-            needsBootstrap: !(hasInvite && hasProfile)
+        // Convert frontend keys to DB snake_case
+        const updatePayload = {
+            birth_year: payload.birthYear,
+            gender: payload.gender,
+            region: payload.region,
+            comuna: payload.commune,
+            employment_status: payload.employmentStatus,
+            income_range: payload.incomeRange,
+            education_level: payload.educationLevel,
+            housing_type: payload.housingType,
+            purchase_behavior: payload.purchaseBehavior,
+            influence_level: payload.influenceLevel,
+            profile_stage: payload.profileStage,
+            signal_weight: payload.signalWeight,
+            household_size: payload.householdSize,
+            children_count: payload.childrenCount,
+            car_count: payload.carCount,
+            updated_at: new Date().toISOString()
         };
+
+        const { error } = await sb
+            .from('user_profiles')
+            .update(updatePayload as Database['public']['Tables']['user_profiles']['Update'])
+            .eq('user_id', user.id);
+
+        if (error) {
+            logger.error("Save Demographic Error:", error);
+            throw error;
+        }
     },
 
-    bootstrapUserAfterSignup: async (nickname: string, invitationCode: string): Promise<void> => {
-        const cleanNickname = nickname.trim();
-        const cleanCode = invitationCode.trim();
+    /**
+     * High level demographics updater (V2).
+     */
+    async updateProfileDemographics(data: Partial<DemographicData>): Promise<void> {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) throw new Error("No authenticated user");
 
-        if (cleanNickname.length < 3 || cleanCode.length < 4) {
-            throw new Error("Falta nickname o el código de invitación es muy corto");
+        const updatePayload: Record<string, unknown> = {
+            updated_at: new Date().toISOString()
+        };
+
+        if (data.birthYear !== undefined) updatePayload.birth_year = data.birthYear;
+        if (data.gender !== undefined) updatePayload.gender = data.gender;
+        if (data.region !== undefined) updatePayload.region = data.region;
+        if (data.commune !== undefined) updatePayload.comuna = data.commune;
+        if (data.employmentStatus !== undefined) updatePayload.employment_status = data.employmentStatus;
+        if (data.incomeRange !== undefined) updatePayload.income_range = data.incomeRange;
+        if (data.educationLevel !== undefined) updatePayload.education_level = data.educationLevel;
+        if (data.housingType !== undefined) updatePayload.housing_type = data.housingType;
+        if (data.purchaseBehavior !== undefined) updatePayload.purchase_behavior = data.purchaseBehavior;
+        if (data.influenceLevel !== undefined) updatePayload.influence_level = data.influenceLevel;
+        if (data.profileStage !== undefined) updatePayload.profile_stage = data.profileStage;
+        if (data.signalWeight !== undefined) updatePayload.signal_weight = data.signalWeight;
+        if (data.householdSize !== undefined) updatePayload.household_size = data.householdSize;
+        if (data.childrenCount !== undefined) updatePayload.children_count = data.childrenCount;
+        if (data.carCount !== undefined) updatePayload.car_count = data.carCount;
+
+        const { error } = await sb
+            .from('user_profiles')
+            .update(updatePayload as Database['public']['Tables']['user_profiles']['Update'])
+            .eq('user_id', user.id);
+
+        if (error) {
+            logger.error("Update Demographics Error:", error);
+            throw error;
         }
+    },
 
-        const appVersion = (import.meta as any).env?.VITE_APP_VERSION ?? 'unknown';
-        const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown';
-
-        let rpcData: any = null;
-        let rpcError: any = null;
-
-        // Try v2 first
-        const v2Response = await (supabase.rpc as any)('bootstrap_user_after_signup_v2', {
-            p_nickname: cleanNickname,
-            p_invitation_code: cleanCode,
-            p_app_version: appVersion,
-            p_user_agent: userAgent
-        });
-
-        if (v2Response.error && (v2Response.error.code === '42883' || v2Response.error.message.includes('No function matches the given name'))) {
-            logger.warn('[authService] bootstrap_user_after_signup_v2 not found, falling back to v1');
-            // Fallback to v1
-            const v1Response = await (supabase.rpc as any)('bootstrap_user_after_signup', {
-                p_nickname: cleanNickname,
-                p_invitation_code: cleanCode
+    /**
+     * Consuming invitation code $invitation_code user $nickname
+     */
+    async consumeInvitation(code: string, _nickname: string): Promise<void> {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) throw new Error("No authenticated user");
+        const userId = user.id;
+        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('consume_invitation_code_v2', {
+                p_code: code,
+                p_user_id: userId
             });
-            rpcData = v1Response.data;
-            rpcError = v1Response.error;
-        } else {
-            rpcData = v2Response.data;
-            rpcError = v2Response.error;
-        }
 
-        if (rpcError) {
-            logger.error('[authService] Error on bootstrap RPC call:', rpcError);
-            throw new Error("No se pudo validar el código. Intenta de nuevo.");
+        if (error) {
+            logger.error("Error consumiendo código de invitación", { domain: 'auth', action: 'consume_invitation', code }, error);
+            throw error;
         }
-
-        // Supabase RPC returns standard structure like { ok: boolean, error?: string } for custom logic
-        const responseData = rpcData as { ok: boolean; error?: string } | null;
-        if (responseData && responseData.ok !== true) {
-            const errCode = responseData.error || '';
-            switch (errCode) {
-                case 'RATE_LIMITED':
-                    throw new Error("Demasiados intentos. Espera 10 minutos y prueba de nuevo.");
-                case 'INVITE_INVALID':
-                case 'INVITE_ALREADY_USED':
-                    throw new Error("Código inválido o expirado.");
-                case 'NICKNAME_TOO_SHORT':
-                    throw new Error("El nickname debe tener al menos 3 caracteres.");
-                case 'UNAUTHORIZED':
-                    throw new Error("Tu sesión expiró. Vuelve a iniciar.");
-                case 'UNKNOWN_ERROR':
-                default:
-                    throw new Error("No se pudo validar el código. Intenta de nuevo.");
-            }
+        
+        if (!data || !data.ok) {
+            throw new Error(data?.error || "Error consumiendo código");
         }
     },
 
-    updateProfileDemographics: async (demographics: Partial<DemographicData>): Promise<void> => {
-        // 1. Update local demographics
-        const rawDemographics = localStorage.getItem('opina_demographics');
-        const currentDemographics = rawDemographics ? JSON.parse(rawDemographics) : {};
-        const nextDemographics = { ...currentDemographics, ...demographics };
-        localStorage.setItem('opina_demographics', JSON.stringify(nextDemographics));
-
-        // 2. Real Supabase update (if logged in)
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            const normalizedGender = demographics.gender !== undefined ? normalizeGender(demographics.gender) : undefined;
-            const normalizedRegion = demographics.region !== undefined ? normalizeRegion(demographics.region) : undefined;
-
-            const directAgeBucket = demographics.ageBucket !== undefined ? normalizeAgeBucket(demographics.ageBucket) : undefined;
-            const fromBirthYear = demographics.birthYear !== undefined ? computeAgeBucketFromBirthYear(demographics.birthYear) : undefined;
-            const finalAgeBucket = directAgeBucket ?? fromBirthYear;
-
-            // Remove undefined fields so Supabase only updates what we pass
-            const updatePayload: any = {
-                updated_at: new Date().toISOString()
-            };
-            if (demographics.name !== undefined) updatePayload.nickname = demographics.name;
-            if (demographics.birthYear !== undefined) updatePayload.birth_year = demographics.birthYear;
-            if (finalAgeBucket !== undefined) updatePayload.age_bucket = finalAgeBucket;
-            if (normalizedGender !== undefined) updatePayload.gender = normalizedGender;
-            if (normalizedRegion !== undefined) updatePayload.region = normalizedRegion;
-            if (demographics.commune !== undefined) updatePayload.comuna = demographics.commune;
-            if (demographics.employmentStatus !== undefined) updatePayload.employment_status = demographics.employmentStatus;
-            if (demographics.incomeRange !== undefined) updatePayload.income_range = demographics.incomeRange;
-            if (demographics.educationLevel !== undefined) updatePayload.education_level = demographics.educationLevel;
-            if (demographics.housingType !== undefined) updatePayload.housing_type = demographics.housingType;
-            if (demographics.purchaseBehavior !== undefined) updatePayload.purchase_behavior = demographics.purchaseBehavior;
-            if (demographics.influenceLevel !== undefined) updatePayload.influence_level = demographics.influenceLevel;
-            if (demographics.profileStage !== undefined) updatePayload.profile_stage = demographics.profileStage;
-            if (demographics.signalWeight !== undefined) updatePayload.signal_weight = demographics.signalWeight;
-            if (demographics.householdSize !== undefined) updatePayload.household_size = demographics.householdSize;
-            if (demographics.childrenCount !== undefined) updatePayload.children_count = demographics.childrenCount;
-            if (demographics.carCount !== undefined) updatePayload.car_count = demographics.carCount;
-
-            const { error } = await (supabase as any)
-                .from('user_profiles')
-                .update(updatePayload)
-                .eq('user_id', user.id);
-
-            if (error) {
-                logger.error("[authService] Failed to update user profile:", error);
-                throw error;
-            }
-        }
-
-        // Trigger UI update
-        window.dispatchEvent(new Event('storage'));
-        window.dispatchEvent(new Event('opina:verification_update'));
-    },
-
-    registerWithEmail: async (email: string, password: string, nickname?: string): Promise<void> => {
-        const { error, data } = await supabase.auth.signUp({
+    async registerWithEmail(email: string, password: string, nickname?: string): Promise<void> {
+        const { error } = await sb.auth.signUp({
             email,
             password,
             options: {
-                data: {
-                    display_name: nickname
-                }
+                data: { nickname }
             }
         });
-        if (error) throw error;
-
-        // If nickname provided, update demographics immediately
-        if (data.user && nickname) {
-            try {
-                await authService.updateProfileDemographics({
-                    name: nickname,
-                    profileStage: 1
-                });
-            } catch (err) {
-                logger.warn("[authService] Failed to set nickname after registration:", err);
-            }
-
-            // Intentar consumir el código de invitación del AccessGate
-            try {
-                const accessGateRaw = localStorage.getItem('opina_access_gate_v1');
-                if (accessGateRaw) {
-                    const parsed = JSON.parse(accessGateRaw);
-                    if (parsed && typeof parsed.tokenId === 'string' && parsed.tokenId.startsWith('CODE:')) {
-                        const code = parsed.tokenId.slice(5).trim();
-                        logger.info(`[authService] Consuming invitation code ${code} for new user ${nickname}`);
-                        await authService.bootstrapUserAfterSignup(nickname, code);
-                    }
-                }
-            } catch (err) {
-                logger.warn("[authService] Failed to consume invitation code during registration:", err);
-            }
+        if (error) {
+            logger.error("Error en registro por email", { domain: 'auth', action: 'register_email', email }, error);
+            throw error;
         }
-
-        // Try to claim any guest activity prior to this official signup
-        if (data.user) {
-            const anonId = localStorage.getItem('opina_anon_id');
-            if (anonId) {
-                try {
-                    await supabase.rpc('claim_guest_activity', { p_anon_id: anonId });
-                } catch (err) {
-                    logger.warn("[authService] Failed to claim guest activity on register:", err);
-                }
-            }
-        }
-
-        // Auto-sync after registration (Supabase might auto-login)
-        await authService.syncProfileFromLocal();
     },
 
-    loginWithEmail: async (email: string, password: string): Promise<void> => {
-        const { error, data } = await supabase.auth.signInWithPassword({
-            email,
-            password
-        });
-        if (error) throw error;
-
-        // Try to claim any guest activity prior to this official login
-        if (data.user) {
-            const anonId = localStorage.getItem('opina_anon_id');
-            if (anonId) {
-                try {
-                    await supabase.rpc('claim_guest_activity', { p_anon_id: anonId });
-                } catch (err) {
-                    logger.warn("[authService] Failed to claim guest activity on login:", err);
-                }
-            }
+    async loginWithEmail(email: string, password: string): Promise<void> {
+        const { error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) {
+            logger.error("Error en login por email", { domain: 'auth', action: 'login_email', email }, error);
+            throw error;
         }
-
-        // Trigger UI update
-        window.dispatchEvent(new Event('storage'));
-        window.dispatchEvent(new Event('opina:verification_update'));
     },
 
-    resetPasswordForEmail: async (email: string): Promise<void> => {
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    async resetPasswordForEmail(email: string): Promise<void> {
+        const { error } = await sb.auth.resetPasswordForEmail(email, {
             redirectTo: `${window.location.origin}/reset-password`,
         });
         if (error) throw error;
     },
 
-    updateUserPassword: async (password: string): Promise<void> => {
-        const { error } = await supabase.auth.updateUser({ password });
+    async updateUserPassword(password: string): Promise<void> {
+        const { error } = await sb.auth.updateUser({ password });
         if (error) throw error;
     },
 
-    signOut: async (): Promise<void> => {
-        await supabase.auth.signOut();
-        // Clear local caches
-        localStorage.removeItem('opina_demographics');
+    async getBootstrapStatus(): Promise<{ needsBootstrap: boolean }> {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) return { needsBootstrap: false };
 
-        window.dispatchEvent(new Event('storage'));
-        window.dispatchEvent(new Event('opina:verification_update'));
-    },
-
-    // Utilities to fetch full models if needed
-    fetchFullProfile: async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return null;
-
-        const { data, error } = await supabase
+        const { data, error } = await sb
             .from('user_profiles')
-            .select('*')
+            .select('profile_stage')
             .eq('user_id', user.id)
             .maybeSingle();
 
-        if (error) {
-            logger.error("Failed to fetch full profile", error);
-            return null;
-        }
+        if (error || !data) return { needsBootstrap: true };
 
-        return data;
+        return {
+            needsBootstrap: (data as { profile_stage: number | null }).profile_stage === 0
+        };
     },
 
-    syncProfileFromLocal: async (): Promise<void> => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+    async signOut(): Promise<void> {
+        const { error } = await sb.auth.signOut();
+        if (error) throw error;
+    },
 
-        let localDemographics: Partial<DemographicData> = {};
-        try {
-            const raw = localStorage.getItem('opina_demographics');
-            if (raw) localDemographics = JSON.parse(raw);
-        } catch { /* empty */ }
+    /**
+     * Bootstraps user record after signup using RPC
+     */
+    async bootstrapUserAfterSignup(_nickname: string, invitationCode: string = ''): Promise<void> {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) throw new Error("No authenticated user");
+        const userId = user.id;
+        const role = user.role; // Assuming role is available on user object or derived
+        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('bootstrap_user_aftersignup_v2', {
+                p_user_id: userId,
+                p_role: role,
+                p_invitation_code: invitationCode
+            });
 
-        if (Object.keys(localDemographics).length > 0) {
-            try {
-                await authService.updateProfileDemographics(localDemographics);
-            } catch (e) {
-                logger.error("[authService] Error syncing demographics to cloud", e);
-            }
+        if (error) {
+            logger.error("Error crítico en Bootstrap de usuario (RPC falló)", { 
+                domain: 'auth', 
+                action: 'bootstrap_user', 
+                state: 'failed',
+                userId,
+                invitationCode
+            }, error);
+            throw error;
         }
+
+        const result = data as { success: boolean, error?: string } | boolean | null;
+        if (typeof result === 'object' && result !== null && !result.success) {
+            throw new Error(result.error || "Bootstrap failed");
+        } else if (result === false) {
+            throw new Error("Bootstrap failed");
+        }
+    },
+
+    /**
+     * Sync profile metrics from local stats (rarely used, mostly for loyalty jumps)
+     */
+    async syncProfileFromLocal(): Promise<void> {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) return;
+        const userId = user.id;
+
+        // Force a fresh calculation in backend
+        const { error: rpcError } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ error: unknown }>)('refresh_user_influence_rank', {
+            p_user_id: userId
+        });
+        if (rpcError) {
+            logger.error("Failed to refresh influence rank", { domain: 'auth', action: 'refresh_rank' }, rpcError);
+        }
+    },
+
+    /**
+     * Verifies if an invitation code is valid BEFORE signup
+     */
+    async verifyInvitationCode(code: string): Promise<{ valid: boolean; message?: string }> {
+        const { data, error } = await sb
+            .from('invitation_codes')
+            .select('status')
+            .eq('code', code.trim().toUpperCase())
+            .maybeSingle();
+
+        if (error || !data) return { valid: false, message: "Código no encontrado" };
+        if (data.status !== 'active') return { valid: false, message: "Código ya utilizado o inactivo" };
+
+        return { valid: true };
+    },
+
+    /**
+     * OAuth Handlers
+     */
+    prepareOAuthBootstrap(nickname: string, inviteCode: string) {
+        localStorage.setItem('pending_oauth_data', JSON.stringify({ nickname, inviteCode }));
+    },
+
+    getStoredOAuthBootstrap(): { nickname: string; inviteCode: string } | null {
+        const raw = localStorage.getItem('pending_oauth_data');
+        if (!raw) return null;
+        try {
+            return JSON.parse(raw);
+        } catch {
+            return null;
+        }
+    },
+
+    clearOAuthBootstrap() {
+        localStorage.removeItem('pending_oauth_data');
     }
 };

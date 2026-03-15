@@ -31,6 +31,13 @@ export type BattleMomentum = {
     }[];
 };
 
+export type BattleCategory = {
+    slug: string;
+    name: string;
+    emoji?: string;
+    cover_url?: string | null;
+};
+
 export type Battle = {
     id: string;
     slug?: string;
@@ -47,7 +54,7 @@ export type Battle = {
     mainImageUrl?: string | null; // Primary subject image for 'opinion' layout
     separatorText?: string;
     industry?: string;
-    category: string; // Tailored survey category
+    category: string | BattleCategory; // Tailored survey category
     isRepeatable?: boolean;
     insights?: InsightQuestion[];
 };

@@ -4,6 +4,7 @@ import AuthLayout from "../layout/AuthLayout";
 import { authService } from "../services/authService";
 import { supabase } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
+import { accessGate } from "../../access/services/accessGate";
 
 function getParam(search: string, key: string) {
     return new URLSearchParams(search).get(key);
@@ -28,11 +29,16 @@ export default function RegisterPage() {
     const [err, setErr] = useState<string | null>(null);
 
     useEffect(() => {
+        if (accessGate.isEnabled() && !accessGate.hasAccess()) {
+            nav(`/access?next=${encodeURIComponent(loc.pathname + loc.search)}`, { replace: true });
+            return;
+        }
+
         (async () => {
             const { data: s } = await supabase.auth.getSession();
             if (s?.session) nav("/complete-profile", { replace: true });
         })();
-    }, [nav]);
+    }, [nav, loc]);
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();

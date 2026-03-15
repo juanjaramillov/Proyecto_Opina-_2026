@@ -70,7 +70,7 @@ export interface Topic {
   archived_at: string | null;
   created_at: string;
   updated_at: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   questions: TopicQuestion[];
 }
 
@@ -91,32 +91,30 @@ export interface AiTopicPayload {
   questions: TopicQuestion[];
 }
 
-export interface AiTopicsResponse {
-  topics: AiTopicPayload[];
-}
-
 /**
  * Validaciones Mínimas Requeridas del Payload IA (Bloque 1)
  */
-export const validateAiTopicPayload = (payload: any): string[] => {
+export const validateAiTopicPayload = (payload: unknown): string[] => {
   const errors: string[] = [];
 
   if (!payload || typeof payload !== 'object') {
     return ['Payload es nulo o no es un objeto'];
   }
 
+  const p = payload as Record<string, unknown>;
+
   // título obligatorio
-  if (!payload.title || typeof payload.title !== 'string' || payload.title.trim().length === 0) {
+  if (!p.title || typeof p.title !== 'string' || p.title.trim().length === 0) {
     errors.push('title es obligatorio y no puede estar vacío');
   }
 
   // summary obligatorio
-  if (!payload.summary || typeof payload.summary !== 'string' || payload.summary.trim().length === 0) {
+  if (!p.summary || typeof p.summary !== 'string' || p.summary.trim().length === 0) {
     errors.push('summary es obligatorio y no puede estar vacío');
   }
 
   // impact_phrase obligatorio
-  if (!payload.impact_phrase || typeof payload.impact_phrase !== 'string' || payload.impact_phrase.trim().length === 0) {
+  if (!p.impact_phrase || typeof p.impact_phrase !== 'string' || p.impact_phrase.trim().length === 0) {
     errors.push('impact_phrase (Cita de impacto) es obligatoria');
   }
 
@@ -124,26 +122,27 @@ export const validateAiTopicPayload = (payload: any): string[] => {
   const validCategories: TopicCategory[] = [
     'País', 'Economía', 'Ciudad / Vida diaria', 'Marcas y Consumo', 'Deportes y Cultura', 'Tendencias y Sociedad'
   ];
-  if (!validCategories.includes(payload.category as TopicCategory)) {
-    errors.push(`category inválida: ${payload.category}`);
+  if (!validCategories.includes(p.category as TopicCategory)) {
+    errors.push(`category inválida: ${p.category}`);
   }
 
   // source_url obligatorio
-  if (!payload.source_url || typeof payload.source_url !== 'string' || payload.source_url.trim().length === 0) {
+  if (!p.source_url || typeof p.source_url !== 'string' || p.source_url.trim().length === 0) {
     errors.push('source_url es obligatorio y no puede estar vacío');
   }
 
   // limits: intensity (1-3)
-  if (typeof payload.intensity !== 'number' || payload.intensity < 1 || payload.intensity > 3) {
+  if (typeof p.intensity !== 'number' || p.intensity < 1 || p.intensity > 3) {
     errors.push('intensity debe ser un número entre 1 y 3');
   }
 
   // questions debe tener exactamente 3 preguntas
-  if (!Array.isArray(payload.questions) || payload.questions.length !== 3) {
+  if (!Array.isArray(p.questions) || p.questions.length !== 3) {
     errors.push('questions debe ser un arreglo de exactamente 3 preguntas');
   } else {
     const orders = new Set<number>();
-    payload.questions.forEach((q: any, i: number) => {
+    (p.questions as unknown[]).forEach((rawQ: unknown, i: number) => {
+      const q = rawQ as Partial<TopicQuestion>;
       if (!q || typeof q !== 'object') {
         errors.push(`Pregunta [${i}] no es un objeto válido`);
         return;
@@ -162,16 +161,16 @@ export const validateAiTopicPayload = (payload: any): string[] => {
       }
       
       const validTypes: QuestionType[] = ['yes_no', 'single_choice', 'single_choice_polar', 'scale_5', 'scale_0_10'];
-      if (!validTypes.includes(q.type as QuestionType)) {
+      if (!q.type || !validTypes.includes(q.type as QuestionType)) {
         errors.push(`Pregunta [${i}] tiene tipo inválido: ${q.type}`);
       }
 
       // Validar que existan opciones si el tipo lo requiere
-      if (['single_choice', 'single_choice_polar'].includes(q.type)) {
+      if (q.type && ['single_choice', 'single_choice_polar'].includes(q.type)) {
         if (!Array.isArray(q.options) || q.options.length < 2) {
           errors.push(`Pregunta [${i}] tipo ${q.type} requiere arreglo de options con al menos 2 ítemes`);
         } else {
-          if (q.options.some((opt: any) => typeof opt !== 'string' || opt.trim() === '')) {
+          if ((q.options as unknown[]).some((opt) => typeof opt !== 'string' || opt.trim() === '')) {
             errors.push(`Pregunta [${i}] contiene opciones vacías o inválidas`);
           }
         }
@@ -180,9 +179,4 @@ export const validateAiTopicPayload = (payload: any): string[] => {
   }
 
   return errors;
-};
-
-export const isValidAiTopicsResponse = (response: any): response is AiTopicsResponse => {
-  if (!response || !Array.isArray(response.topics)) return false;
-  return response.topics.every((topic: any) => validateAiTopicPayload(topic).length === 0);
 };

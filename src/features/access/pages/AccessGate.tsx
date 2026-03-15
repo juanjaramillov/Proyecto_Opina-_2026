@@ -4,6 +4,7 @@ import { supabase } from '../../../supabase/client';
 import { accessGate } from '../services/accessGate';
 import FeedbackFab from '../../../components/ui/FeedbackFab';
 import { track, trackPage } from "../../telemetry/track";
+import { logger } from '../../../lib/logger';
 
 function getNext(search: string) {
     const params = new URLSearchParams(search);
@@ -20,40 +21,6 @@ export default function AccessGatePage() {
     useEffect(() => {
         trackPage("access_gate", { next: nextPath });
     }, [nextPath]);
-
-    const [checkingAdmin, setCheckingAdmin] = useState(false);
-
-    useEffect(() => {
-        let cancelled = false;
-
-        async function run() {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user?.id) return;
-
-            setCheckingAdmin(true);
-            const { data, error } = await (supabase as any)
-                .from("users")
-                .select("role")
-                .eq("user_id", user.id)
-                .single();
-
-            if (cancelled) return;
-
-            setCheckingAdmin(false);
-
-            if (!error && data?.role === "admin") {
-                // Marca pase y entra
-                localStorage.setItem("opina_access_pass", "admin");
-                window.location.href = "/";
-            }
-        }
-
-        run();
-
-        return () => {
-            cancelled = true;
-        };
-    }, []);
 
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
@@ -82,7 +49,7 @@ export default function AccessGatePage() {
         setLoading(true);
         try {
             // 1) Validar en modo anon (NO consumir / NO claim)
-            const { data: isValid, error: vErr } = await (supabase as any).rpc('validate_invitation', {
+            const { data: isValid, error: vErr } = await (supabase.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: boolean | null; error: unknown }>)('validate_invitation', {
                 p_code: normalized,
             });
             if (vErr) throw vErr;
@@ -99,9 +66,10 @@ export default function AccessGatePage() {
 
             // 3) Entrar
             nav(nextPath, { replace: true });
-        } catch (e: any) {
-            track("access_gate_error", "error", { message: String(e?.message || "unknown").slice(0, 160) });
-            setErr(e?.message ?? 'Ese código no calza. Revisa y prueba de nuevo.');
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            track("access_gate_error", "error", { message: msg.slice(0, 160) });
+            setErr(msg || 'Ese código no calza. Revisa y prueba de nuevo.');
         } finally {
             setLoading(false);
         }
@@ -110,17 +78,11 @@ export default function AccessGatePage() {
     return (
         <div className="min-h-screen bg-white flex items-center justify-center px-4">
             <div className="w-full max-w-md">
-                <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xl shadow-slate-200/50 transition-shadow hover:shadow-2xl hover:shadow-slate-200/60">
+                <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xl shadow-slate-200/50 transition-shadow hover:shadow-2xl hover:shadow-2xl/60">
                     <h1 className="text-xl font-black text-slate-900">Acceso por invitación</h1>
                     <p className="text-sm text-slate-500 font-medium mt-1">
                         Si tienes código, entra. Si no, comunícate con un administrador.
                     </p>
-
-                    {checkingAdmin && (
-                        <div className="mt-4 mb-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-center text-slate-600 font-semibold shadow-sm">
-                            Verificando acceso de administrador…
-                        </div>
-                    )}
 
                     <form onSubmit={submit} className="space-y-4 mt-6">
                         <div>
@@ -151,32 +113,37 @@ export default function AccessGatePage() {
                             <button
                                 type="button"
                                 onClick={async () => {
-                                    // Validar primero si hay una sesión activa de Supabase
-                                    const { data: { user: currentUser } } = await supabase.auth.getUser();
+                                    try {
+                                        // Validar primero si hay una sesión activa real de Supabase
+                                        const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-                                    if (!currentUser) {
+                                        if (!currentUser || currentUser.is_anonymous) {
+                                            nav('/admin-login');
+                                            return;
+                                        }
+
+                                        // Requiere que exista tabla users con role y que el usuario ya esté autenticado
+                                        const { data, error } = await supabase
+                                            .from("users")
+                                            .select("role")
+                                            .eq("user_id", currentUser.id)
+                                            .single();
+
+                                        if (error) {
+                                            nav('/admin-login');
+                                            return;
+                                        }
+
+                                        if (data?.role === "admin") {
+                                            track("access_gate_admin_bypass", "info");
+                                            localStorage.setItem("opina_access_pass", "admin");
+                                            window.location.href = "/";
+                                        } else {
+                                            nav('/admin-login');
+                                        }
+                                    } catch (err) {
+                                        logger.error("Bypass admin error", err);
                                         nav('/admin-login');
-                                        return;
-                                    }
-
-                                    // Requiere que exista tabla users con role y que el usuario ya esté autenticado
-                                    const { data, error } = await supabase
-                                        .from("users")
-                                        .select("role")
-                                        .eq("user_id", currentUser.id)
-                                        .single();
-
-                                    if (error) {
-                                        alert("No se pudo validar rol admin.");
-                                        return;
-                                    }
-
-                                    if ((data as any)?.role === "admin") {
-                                        track("access_gate_admin_bypass", "info");
-                                        localStorage.setItem("opina_access_pass", "admin");
-                                        window.location.href = "/";
-                                    } else {
-                                        alert("Solo admins pueden saltar el acceso.");
                                     }
                                 }}
                                 className="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-primary-600 hover:border-primary-200 transition-all shadow-sm"

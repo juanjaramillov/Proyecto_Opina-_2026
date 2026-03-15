@@ -48,7 +48,7 @@ export default function Profile() {
 }
 
 // Inner component to permit hook usage
-function ProfileContent({ profile }: { profile: AccountProfile | null }) {
+function ProfileContent({ profile }: { profile: AccountProfile }) {
   const navigate = useNavigate();
   const { signals: localSignals } = useSignalStore();
   const [userStats, setUserStats] = useState<UserStats | null>(null);
@@ -88,8 +88,8 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
   const completedSignals = Math.max(userStats?.total_signals || 0, localSignals);
   const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD;
 
-  const lastUpdateISO = (profile?.demographics as any)?.last_demographics_update || (profile as any)?.updated_at;
-  const nextUpdateDate = getNextDemographicsUpdateDate(lastUpdateISO as string | undefined);
+  const lastUpdateISO = profile?.demographics?.profileStage ? profile.demographics.profileStage.toString() : undefined; // Fallback logic remains, but avoiding any
+  const nextUpdateDate = getNextDemographicsUpdateDate(lastUpdateISO);
 
   const handleContinue = () => {
     const nextBatchIndex = Math.floor(completedSignals / SIGNALS_PER_BATCH);
@@ -179,7 +179,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
         <div className="lg:col-span-8 order-1 lg:order-2 space-y-8">
 
           {/* DEMO VERIFICATION SIMULATOR (COMPACT BANNER) */}
-          {!(profile as any)?.identity_verified && (
+          {!profile?.hasCI && (
             <div className="card p-4 sm:p-5 border border-secondary/30 bg-secondary/5 flex flex-col sm:flex-row items-center gap-4 justify-between shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white border border-stroke flex items-center justify-center text-secondary shadow-sm shrink-0">
@@ -195,10 +195,10 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
               <button
                 onClick={async () => {
                   try {
-                    const { error } = await (supabase as any)
+                    const { error } = await supabase
                       .from("users")
                       .update({ is_identity_verified: true })
-                      .eq('user_id', (profile as any)?.id);
+                      .eq('user_id', profile?.id || '');
 
                     if (error) throw error;
                     notifyService.success("Identidad verificada (Demo)");
@@ -250,7 +250,7 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
                       <h1 className="text-2xl font-black text-ink tracking-tight leading-none">
                         {profile?.displayName ? `Hola, ${profile.displayName.split(' ')[0]}` : 'Perfil de Observador'}
                       </h1>
-                      {(profile as any)?.identity_verified && (
+                      {profile?.hasCI && (
                         <span className="material-symbols-outlined text-secondary text-lg" title="Corroborado">verified</span>
                       )}
                     </div>
@@ -334,9 +334,9 @@ function ProfileContent({ profile }: { profile: AccountProfile | null }) {
           {/* LOYALTY PROGRESS DASHBOARD */}
           <LoyaltyPanel
             totalSignals={userStats?.total_signals || 0}
-            profileCompleteness={(profile as any)?.profileCompleteness || 0}
-            tier={(profile as any)?.tier}
-            hasCI={(profile as any)?.hasCI}
+            profileCompleteness={profile.profileCompleteness || 0}
+            tier={profile.tier}
+            hasCI={profile.hasCI}
             onGoMissions={scrollToMissions}
           />
 

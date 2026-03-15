@@ -1,5 +1,6 @@
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
+import { AccountProfile } from '../../auth/types';
 
 export interface UserStats {
     total_signals: number;
@@ -99,14 +100,14 @@ export const profileService = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return null;
 
-        const { data, error } = await (supabase as any).rpc('get_user_ranking');
+        const { data, error } = await supabase.rpc('get_user_ranking');
 
         if (error) {
             logger.error('Error fetching user ranking:', error);
             return null;
         }
 
-        return data as UserRanking;
+        return (data as unknown) as UserRanking;
     },
 
     /**
@@ -117,10 +118,10 @@ export const profileService = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { versus_count: 0, progressive_count: 0, depth_count: 0 };
 
-        const { data, error } = await (supabase as any).rpc('get_my_participation_summary');
+        const { data, error } = await supabase.rpc('get_my_participation_summary');
         if (error) throw error;
 
-        const row = (data as any)?.[0] as any;
+        const row = data?.[0];
 
         return {
             versus_count: Number(row?.versus_count ?? 0),
@@ -139,13 +140,13 @@ export const profileService = {
 
         const safeLimit = Math.max(1, Math.min(limit, 100));
 
-        const { data, error } = await (supabase as any).rpc('get_my_activity_history', {
+        const { data, error } = await supabase.rpc('get_my_activity_history', {
             p_limit: safeLimit
         });
 
         if (error) throw error;
 
-        return ((data as any) || []) as ActivityEvent[];
+        return ((data as unknown) || []) as ActivityEvent[];
     },
 
     /**
@@ -155,7 +156,7 @@ export const profileService = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { allowed: true, daysRemaining: 0 };
 
-        const { data, error } = await (supabase as any)
+        const { data, error } = await supabase
             .from('user_profiles')
             .select('profile_stage,last_demographics_update,updated_at')
             .eq('user_id', user.id)
@@ -163,7 +164,7 @@ export const profileService = {
 
         if (error || !data) return { allowed: true, daysRemaining: 0 };
 
-        const profile = data as any;
+        const profile = data;
 
         if (typeof profile.profile_stage === 'number' && profile.profile_stage < 4) {
             return { allowed: true, daysRemaining: 0 };
@@ -194,7 +195,7 @@ export const profileService = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return [];
 
-        const { data, error } = await (supabase.rpc as any)('calculate_user_segment_comparison', {
+        const { data, error } = await supabase.rpc('calculate_user_segment_comparison', {
             p_user_id: user.id
         });
 
@@ -224,5 +225,15 @@ export const profileService = {
             avg_score: p.value_numeric ? Number(p.value_numeric) : 0,
             module_type: (p.module_type === 'depth' ? 'depth' : 'versus')
         }));
+    },
+
+    /**
+     * Proxy for Auth Service fetchFullProfile (Legacy/Compat)
+     */
+    async getEffectiveProfile(): Promise<AccountProfile | null> {
+        // En este proyecto, authService es el dueño del perfil consolidado
+        const { authService } = await import('../../auth/services/authService');
+        return authService.fetchFullProfile();
     }
 };
+

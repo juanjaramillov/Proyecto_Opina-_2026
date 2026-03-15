@@ -40,6 +40,23 @@ export interface ModuleHighlight {
   value?: string;
 }
 
+export interface DemographicInsight {
+  battle_id: string;
+  battle_title: string;
+  entity_id: string;
+  entity_name: string;
+  gender: string | null;
+  age_bucket: string | null;
+  preference_percentage: number;
+}
+
+export interface ResultsKPIs {
+  total_signals: number;
+  active_users_24h: number;
+  top_segment: string;
+  growth_percentage: number;
+}
+
 // ----------------------------------------------------------------------------
 // Central Metrics Service
 // ----------------------------------------------------------------------------
@@ -53,7 +70,7 @@ export const metricsService = {
    * v_comparative_preference_summary limitando a las que tienen suficiente data.
    */
   async getGlobalLeaderboard(limit = 10): Promise<LeaderboardEntry[]> {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await supabase
       .from('v_comparative_preference_summary')
       .select('entity_id, entity_name, wins_count, losses_count, preference_share, win_rate, total_comparisons')
       .order('win_rate', { ascending: false })
@@ -72,7 +89,7 @@ export const metricsService = {
    * Utiliza la vista SQL construida para este propósito.
    */
   async getTrendSummary(): Promise<TrendSummary> {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await supabase
       .from('v_trend_week_over_week')
       .select('entity_id, entity_name, current_signal_count, trend_status')
       .order('current_signal_count', { ascending: false });
@@ -86,9 +103,9 @@ export const metricsService = {
 
     for (const row of data) {
       const entry: TrendEntry = {
-        entity_id: row.entity_id,
-        entity_name: row.entity_name,
-        signal_count: row.current_signal_count
+        entity_id: row.entity_id || '',
+        entity_name: row.entity_name || 'Desconocido',
+        signal_count: row.current_signal_count || 0
       };
 
       if (row.trend_status === 'acelerando') {
@@ -113,25 +130,27 @@ export const metricsService = {
       return null;
     }
 
-    const { data } = await (supabase as any)
+    const { data } = await supabase
       .from('v_comparative_preference_summary')
       .select('preference_share, wins_count, losses_count')
       .eq('entity_id', entityId)
       .single();
 
-    if (!data) {
+    const row = data as { preference_share: number; wins_count: number; losses_count: number } | null;
+
+    if (!row) {
       return {
         message: "Aún estamos recopilando suficientes señales sobre tu entidad reciente.",
         isMajority: false
       };
     }
 
-    const isMaj = data.preference_share > 50;
+    const isMaj = (row.preference_share || 0) > 50;
     
     return {
       message: isMaj 
-        ? `Tu elección coincide con la mayoría (${data.preference_share}% de las veces prefiere esta opción).` 
-        : `Tu preferencia fue minoritaria (sólo elegida un ${data.preference_share}% de las veces).`,
+        ? `Tu elección coincide con la mayoría (${row.preference_share}% de las veces prefiere esta opción).` 
+        : `Tu preferencia fue minoritaria (sólo elegida un ${row.preference_share}% de las veces).`,
       isMajority: isMaj
     };
   },
@@ -143,7 +162,7 @@ export const metricsService = {
     const highlights: ModuleHighlight[] = [];
 
     // Highlight de Versus
-    const { data: versusData } = await (supabase as any)
+    const { data: versusData } = await supabase
       .from('v_comparative_preference_summary')
       .select('entity_name, win_rate, preference_share')
       .order('win_rate', { ascending: false })
@@ -160,7 +179,7 @@ export const metricsService = {
     }
 
     // Highlight de Depth 
-    const { data: depthData } = await (supabase as any)
+    const { data: depthData } = await supabase
       .from('v_depth_entity_question_summary')
       .select('entity_name, question_label, average_score')
       .not('average_score', 'is', null)
@@ -178,5 +197,38 @@ export const metricsService = {
     }
 
     return highlights;
+  },
+
+  /**
+   * Obtiene insights demográficos resumidos para tarjetas de "Inteligencia".
+   */
+  async getDemographicInsights(limit = 6): Promise<DemographicInsight[]> {
+    const { data, error } = await supabase
+      .from('v_demographic_preference_insights' as unknown as 'categories') // cast to known table to satisfy types but target the view
+      .select('*')
+      .order('preference_percentage', { ascending: false })
+      .filter('preference_percentage', 'gt', 50) // Solo mayorías interesantes
+      .limit(limit);
+
+    if (error) {
+      logger.error('Error fetching demographic insights', { domain: 'b2b_intelligence', origin: 'metricsService', action: 'fetch_demographics', state: 'failed' }, error);
+      return [];
+    }
+
+    return (data as unknown as DemographicInsight[]) || [];
+  },
+
+  /**
+   * Obtiene los KPIs globales de la plataforma para el dashboard de resultados.
+   */
+  async getResultsKPIs(): Promise<ResultsKPIs | null> {
+    const { data, error } = await (supabase.rpc as unknown as (name: string) => Promise<{ data: ResultsKPIs | null; error: unknown }>)('get_results_kpis');
+
+    if (error) {
+      logger.error('Error fetching results KPIs', { domain: 'b2b_intelligence', origin: 'metricsService', action: 'fetch_kpis', state: 'failed' }, error);
+      return null;
+    }
+
+    return data;
   }
 };

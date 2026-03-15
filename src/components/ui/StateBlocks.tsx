@@ -85,40 +85,4 @@ export const PageState: React.FC<PageStateProps> = ({
     );
 };
 
-export const CardState: React.FC<BaseProps> = ({
-    type,
-    title,
-    description,
-    icon = "info",
-    loadingLabel = "Cargando...",
-    className,
-}) => {
-    if (type === "loading") {
-        return (
-            <div className={["w-full flex items-center justify-center p-10", className].filter(Boolean).join(" ")}>
-                <div className="flex flex-col items-center justify-center space-y-3 animate-in fade-in duration-500">
-                    <span className="material-symbols-outlined animate-spin text-primary-500/70 text-3xl">
-                        progress_activity
-                    </span>
-                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">{loadingLabel}</p>
-                </div>
-            </div>
-        );
-    }
 
-    return (
-        <div className={["w-full rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-8 text-center", className].filter(Boolean).join(" ")}>
-            <div className="w-12 h-12 bg-white border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-                <span className="material-symbols-outlined text-2xl text-slate-500">{icon}</span>
-            </div>
-
-            <div className="text-sm font-black text-ink">
-                {title || (type === "error" ? "No pudimos cargar esto" : "Aún no hay datos")}
-            </div>
-
-            {description ? (
-                <p className="text-xs text-slate-500 font-medium mt-2 max-w-md mx-auto">{description}</p>
-            ) : null}
-        </div>
-    );
-};

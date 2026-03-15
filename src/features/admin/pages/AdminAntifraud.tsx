@@ -17,8 +17,8 @@ const AdminAntifraud: React.FC = () => {
             setError(null);
             const data = await adminAntifraudService.listFlags();
             setFlags(data);
-        } catch (err: any) {
-            setError(err.message || String(err));
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : String(err));
         } finally {
             setLoading(false);
         }
@@ -51,8 +51,8 @@ const AdminAntifraud: React.FC = () => {
             }
 
             await fetchFlags(); // Refresh list to get updated row from DB
-        } catch (err: any) {
-            setError(err.message || String(err));
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : String(err));
             setLoading(false); // only set to false on error, fetchFlags handles success
         }
     };
@@ -71,7 +71,7 @@ const AdminAntifraud: React.FC = () => {
                 setLoadingSummary(prev => ({ ...prev, [deviceHash]: true }));
                 const summary = await adminAntifraudService.getDeviceSummary(deviceHash);
                 setSummaries(prev => ({ ...prev, [deviceHash]: summary }));
-            } catch (err: any) {
+            } catch (err: unknown) {
                 logger.error("Failed to fetch summary", { domain: 'admin_actions', origin: 'AdminAntifraud', action: 'fetch_summary', state: 'failed' }, err);
             } finally {
                 setLoadingSummary(prev => ({ ...prev, [deviceHash]: false }));

@@ -33,6 +33,7 @@ export type DemographicData = {
 
 export type AccountProfile = {
     // Identity info
+    id?: string;
     displayName?: string;
     nickname?: string;
     email?: string;

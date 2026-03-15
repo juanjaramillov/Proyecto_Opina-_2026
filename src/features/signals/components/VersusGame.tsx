@@ -25,7 +25,7 @@ type GameProps = {
     enableAutoAdvance?: boolean;
     hideProgress?: boolean;
     isQueueFinite?: boolean;
-    onQueueComplete?: (history: any[]) => void;
+    onQueueComplete?: (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number }>) => void;
     isSubmitting?: boolean;
     theme?: {
         primary: string;
@@ -561,7 +561,7 @@ export default function VersusGame(props: GameProps) {
                     <InsightPack
                         optionId={selectedOption.id}
                         optionLabel={selectedOption.label}
-                        categorySlug={typeof effectiveBattle.category === 'object' ? (effectiveBattle.category as any).slug : effectiveBattle.category}
+                        categorySlug={typeof effectiveBattle.category === 'object' && effectiveBattle.category !== null ? (effectiveBattle.category as { slug: string }).slug : String(effectiveBattle.category || '')}
                         onComplete={() => {
                             setShowInsightPack(false);
                             next();

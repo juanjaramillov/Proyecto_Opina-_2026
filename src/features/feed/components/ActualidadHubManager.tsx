@@ -13,6 +13,7 @@ interface ActualidadHubManagerProps {
 export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
     const [topics, setTopics] = useState<ActualidadTopic[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<boolean>(false);
     
     // Store either the detail of the selected topic or null to show Home
     const [selectedTopicDetail, setSelectedTopicDetail] = useState<ActualidadTopicDetail | null>(null);
@@ -22,11 +23,13 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
 
     const loadTopics = useCallback(async () => {
         setLoading(true);
+        setError(false);
         try {
             const activeTopics = await actualidadService.getPublishedTopics();
             setTopics(activeTopics);
-        } catch (error) {
-            logger.error("Error loading actualidad topics", { domain: 'actualidad_editorial', origin: 'ActualidadHubManager', action: 'load_topics', state: 'failed' }, error);
+        } catch (err) {
+            setError(true);
+            logger.error("Error loading actualidad topics", { domain: 'actualidad_editorial', origin: 'ActualidadHubManager', action: 'load_topics', state: 'failed' }, err);
             showToast("Error al cargar temas de actualidad.", "error");
         } finally {
             setLoading(false);
@@ -129,11 +132,27 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
             </header>
 
             <div className="flex-1 pb-24 px-4 sm:px-6">
-                <ActualidadHome 
-                    topics={topics} 
-                    loading={loading} 
-                    onSelectTopic={handleSelectTopic} 
-                />
+                {error ? (
+                    <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in zoom-in duration-300">
+                        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-4">
+                            <span className="material-symbols-outlined text-[32px]">cloud_off</span>
+                        </div>
+                        <h3 className="text-lg font-black text-ink mb-1">Sin conexión</h3>
+                        <p className="text-sm text-text-secondary max-w-xs mb-6">No pudimos cargar los temas de actualidad. Revisa tu internet.</p>
+                        <button 
+                            onClick={loadTopics}
+                            className="h-11 px-8 rounded-full bg-slate-900 text-white text-sm font-bold hover:bg-slate-800 transition-all shadow-md active:scale-95"
+                        >
+                            Reintentar carga
+                        </button>
+                    </div>
+                ) : (
+                    <ActualidadHome 
+                        topics={topics} 
+                        loading={loading} 
+                        onSelectTopic={handleSelectTopic} 
+                    />
+                )}
             </div>
         </div>
     );

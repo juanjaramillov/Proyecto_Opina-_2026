@@ -1,3 +1,4 @@
+import { Battle } from '../../signals/types';
 
 
 interface HubMenuSimplifiedProps {
@@ -17,12 +18,7 @@ interface HubMenuSimplifiedProps {
         top_versus: { slug: string; title: string; signals_24h: number } | null;
         top_tournament: { slug: string; title: string; signals_24h: number } | null;
     } | null;
-    previewVersus: {
-        id: string;
-        title: string;
-        category: { slug?: string; name?: string } | null;
-        options: { id: string; label: string;[key: string]: unknown }[];
-    } | null;
+    previewVersus: Battle | null;
     signalsToday: number;
     signalsLimit: number | string;
 }

@@ -1,14 +1,18 @@
 import React, { useState, useMemo } from 'react';
 import { BrandLogo } from '../../../components/ui/BrandLogo';
 
+import { BattleCategory } from '../types';
+
 export interface DepthOption {
     id: string;
     label: string;
     image_url?: string | null;
-    category?: string;
+    category?: string | BattleCategory;
     type?: "icon" | "image" | "brand" | "text" | undefined;
     battleSlug?: string;
     battleTitle?: string;
+    imageUrl?: string | null;
+    brand_domain?: string | null;
 }
 
 interface ProfundidadSelectorProps {
@@ -21,8 +25,9 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
     // Format known category slugs to human-readable text
-    const formatCategory = (cat: string) => {
-        if (!cat) return 'General';
+    const formatCategory = (catRaw: string | BattleCategory | undefined) => {
+        if (!catRaw) return 'General';
+        const cat = typeof catRaw === 'object' ? catRaw.slug : catRaw;
         const known: Record<string, string> = {
             "salud-clinicas-privadas-scl": "Clínicas Privadas",
             "salud-farmacias-scl": "Farmacias",
@@ -125,8 +130,8 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
                                 <div className={`w-16 h-16 rounded-xl flex-shrink-0 overflow-hidden flex items-center justify-center transition-transform ${isSelected ? 'scale-110 shadow-sm bg-white' : 'bg-slate-50 group-hover:scale-105'}`}>
                                     <BrandLogo
                                         name={opt.label}
-                                        imageUrl={opt.image_url || (opt as any).imageUrl}
-                                        brandDomain={(opt as any).brand_domain}
+                                        imageUrl={opt.image_url || opt.imageUrl}
+                                        brandDomain={opt.brand_domain || undefined}
                                         className="w-full h-full object-contain p-2 mix-blend-multiply"
                                     />
                                 </div>

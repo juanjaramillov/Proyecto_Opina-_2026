@@ -29,8 +29,8 @@ export function useSessionTracker() {
                     // ignore
                 }
 
-                await (supabase.rpc as any)('track_user_session', {
-                    p_anon_id: anonId || null,
+                await supabase.rpc('track_user_session', {
+                    p_anon_id: anonId ?? undefined,
                     p_seconds_spent: secondsSpent,
                     p_is_new_session: isNewSession
                 });

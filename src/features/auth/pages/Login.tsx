@@ -4,6 +4,7 @@ import AuthLayout from "../layout/AuthLayout";
 import { authService } from "../services/authService";
 import { supabase } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
+import { accessGate } from "../../access/services/accessGate";
 
 function getParam(search: string, key: string) {
     return new URLSearchParams(search).get(key);
@@ -41,12 +42,36 @@ export default function LoginPage() {
     const [err, setErr] = useState<string | null>(null);
 
     useEffect(() => {
-        // Si ya está logueado, no mostrar login
+        // Redirigir a Access Gate si no tiene token y está encendido, excepto si es admin-login
+        if (loc.pathname !== '/admin-login' && accessGate.isEnabled() && !accessGate.hasAccess()) {
+            nav(`/access?next=${encodeURIComponent(loc.pathname + loc.search)}`, { replace: true });
+            return;
+        }
+
+        // Si ya está logueado y no es anónimo, verificar si es admin
         (async () => {
             const { data: s } = await supabase.auth.getSession();
-            if (s?.session) nav(nextPath, { replace: true });
+            
+            if (s?.session) {
+                if (loc.pathname === '/admin-login') {
+                    // Si intenta loguearse como admin y ya tiene sesión, verificar su rol
+                    const { data: userData } = await supabase.from('users').select('role').eq('user_id', s.session.user.id).single();
+                    if (userData?.role === 'admin') {
+                        localStorage.setItem("opina_access_pass", "admin");
+                        window.location.href = "/";
+                        return;
+                    } else {
+                        // Es un usuario normal (o anónimo), pero quiere entrar al panel de admin.
+                        // Lo deslogueamos para que pueda poner sus credenciales de administrador reales.
+                        await authService.signOut();
+                    }
+                } else if (!s.session.user.is_anonymous) {
+                    // Si no es admin-login, y es un usuario normal (no anónimo), lo mandamos a la app
+                    nav(nextPath, { replace: true });
+                }
+            }
         })();
-    }, [nextPath, nav]);
+    }, [nextPath, nav, loc]);
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,9 +80,19 @@ export default function LoginPage() {
 
         try {
             await authService.loginWithEmail(email.trim(), password);
+            
+            // Si es admin, otorgar el bypass automáticamente
+            const { data: s } = await supabase.auth.getSession();
+            if (s?.session) {
+                const { data: userData } = await supabase.from('users').select('role').eq('user_id', s.session.user.id).single();
+                if (userData?.role === 'admin') {
+                    localStorage.setItem("opina_access_pass", "admin");
+                }
+            }
+            
             nav(nextPath, { replace: true });
-        } catch (e: any) {
-            logger.error(e);
+        } catch (error) {
+            logger.error("Error en login con email", error);
             setErr("Email o contraseña incorrectos.");
         } finally {
             setLoading(false);

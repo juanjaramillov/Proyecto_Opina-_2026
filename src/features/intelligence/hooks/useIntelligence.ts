@@ -5,7 +5,7 @@ import {
     RecentActivity
 } from "../../signals/services/platformService";
 import { SystemHealth, SuspiciousUser, PlatformAlert, healthService } from "../../signals/services/healthService";
-import { DepthInsight, TemporalComparison, VolatilityData, PolarizationData, SegmentInfluence, EarlySignal, insightsService } from "../../signals/services/insightsService";
+import { DepthInsight, TemporalComparison, VolatilityData, PolarizationData, SegmentInfluence, EarlySignal, B2BBattleAnalytics, B2BEligibility, IntegrityFlags, insightsService } from "../../signals/services/insightsService";
 import { ActivityKPIs, RetentionMetrics, kpiService } from "../../signals/services/kpiService";
 import { TrendingItem } from "../../../types/trending";
 import { logger } from "../../../lib/logger";
@@ -42,6 +42,9 @@ export function useIntelligence() {
     const [polarization, setPolarization] = useState<PolarizationData | null>(null);
     const [segmentInfluence, setSegmentInfluence] = useState<SegmentInfluence[]>([]);
     const [earlySignals, setEarlySignals] = useState<EarlySignal[]>([]);
+    const [b2bAnalytics, setB2bAnalytics] = useState<B2BBattleAnalytics | null>(null);
+    const [b2bEligibility, setB2bEligibility] = useState<B2BEligibility | null>(null);
+    const [integrityFlags, setIntegrityFlags] = useState<IntegrityFlags | null>(null);
     const [daysBack, setDaysBack] = useState(7);
     const [loadingDetails, setLoadingDetails] = useState(false);
 
@@ -88,14 +91,17 @@ export function useIntelligence() {
         setSelectedBattle(item);
         setLoadingDetails(true);
         try {
-            const [insights, vData, tData, pData, iData, eData, summary] = await Promise.all([
+            const [insights, vData, tData, pData, iData, eData, summary, b2bData, eligibilityData, integrityData] = await Promise.all([
                 insightsService.getDepthInsights(item.slug, '00000000-0000-0000-0000-000000000000', ageRange, gender, commune),
                 insightsService.getBattleVolatility(item.slug, 30), // Fijo 30 días para volatilidad por estándar
                 insightsService.getTemporalComparison(item.slug, days),
                 insightsService.getBattlePolarization(item.slug),
                 insightsService.getSegmentInfluence(item.slug, days),
                 insightsService.getEarlySignals(item.slug, 6), // Ventana de 6h para detección temprana
-                insightsService.getBattleAiSummary(item.slug)
+                insightsService.getBattleAiSummary(item.slug),
+                insightsService.getB2BBattleAnalytics(item.id),
+                insightsService.getPremiumEligibility(item.id, 'versus'),
+                insightsService.getAnalyticalIntegrity(item.id)
             ]);
             setDepthInsights(insights);
             setVolatility(vData);
@@ -104,6 +110,9 @@ export function useIntelligence() {
             setSegmentInfluence(iData);
             setEarlySignals(eData);
             setAiSummary(summary);
+            setB2bAnalytics(b2bData);
+            setB2bEligibility(eligibilityData);
+            setIntegrityFlags(integrityData);
         } catch (error) {
             logger.error("[IntelligencePage] Error loading depth data:", error);
         } finally {
@@ -151,7 +160,7 @@ export function useIntelligence() {
         gender, setGender,
         commune, setCommune,
         selectedBattle, setSelectedBattle,
-        depthInsights, temporalComparison, volatility, polarization, segmentInfluence, earlySignals,
+        depthInsights, temporalComparison, volatility, polarization, segmentInfluence, earlySignals, b2bAnalytics, b2bEligibility, integrityFlags,
         daysBack, setDaysBack,
         loadingDetails, aiSummary, isGeneratingAi,
         loadData, loadDepthData,

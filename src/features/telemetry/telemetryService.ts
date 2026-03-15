@@ -1,11 +1,12 @@
 import { supabase } from '../../supabase/client';
+import { Database } from "../../supabase/database.types";
 
 type TelemetrySeverity = 'info' | 'warn' | 'error';
 
 type QueuedEvent = {
     eventName: string;
     severity: TelemetrySeverity;
-    context: Record<string, any>;
+    context: Record<string, unknown>;
     clientEventId?: string | null;
     ts: number;
 };
@@ -19,7 +20,7 @@ function readQueue(): QueuedEvent[] {
         if (!raw) return [];
         const parsed = JSON.parse(raw);
         if (!Array.isArray(parsed)) return [];
-        return parsed.slice(0, MAX_QUEUE);
+        return (parsed as QueuedEvent[]).slice(0, MAX_QUEUE);
     } catch {
         return [];
     }
@@ -39,9 +40,10 @@ function enqueue(ev: QueuedEvent) {
     writeQueue(q.slice(-MAX_QUEUE));
 }
 
-function isAuthOrPermError(err: any): boolean {
-    const msg = String(err?.message || '').toLowerCase();
-    const code = String(err?.code || '').toLowerCase();
+function isAuthOrPermError(err: unknown): boolean {
+    const error = err as { message?: string; code?: string } | null;
+    const msg = String(error?.message || '').toLowerCase();
+    const code = String(error?.code || '').toLowerCase();
     return (
         msg.includes('permission denied') ||
         msg.includes('jwt') ||
@@ -51,10 +53,11 @@ function isAuthOrPermError(err: any): boolean {
 }
 
 async function sendOne(ev: QueuedEvent) {
-    const appVersion = (import.meta as any).env?.VITE_APP_VERSION ?? 'unknown';
+    const env = (import.meta as { env?: Record<string, string> }).env;
+    const appVersion = env?.VITE_APP_VERSION ?? 'unknown';
     const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown';
 
-    let safeContext = ev.context || {};
+    let safeContext: Record<string, unknown> = ev.context || {};
     try {
         const strContext = JSON.stringify(safeContext);
         if (strContext.length > 4000) safeContext = { truncated: true, reason: 'payload_too_large' };
@@ -62,11 +65,11 @@ async function sendOne(ev: QueuedEvent) {
         safeContext = { parse_error: true };
     }
 
-    const { error } = await (supabase.rpc as any)('log_app_event', {
+    const { error } = await supabase.rpc('log_app_event', {
         p_event_name: ev.eventName,
         p_severity: ev.severity,
-        p_context: safeContext,
-        p_client_event_id: ev.clientEventId || null,
+        p_context: (safeContext as unknown) as Database['public']['Tables']['app_events']['Row']['context'],
+        p_client_event_id: ev.clientEventId || undefined,
         p_app_version: appVersion,
         p_user_agent: userAgent
     });
@@ -82,7 +85,7 @@ async function flushQueueBestEffort() {
     for (const ev of q) {
         try {
             await sendOne(ev);
-        } catch (err: any) {
+        } catch (err: unknown) {
             // Si aún no hay permisos/sesión, paramos y dejamos el resto.
             if (isAuthOrPermError(err)) {
                 remaining.push(ev, ...q.slice(q.indexOf(ev) + 1));
@@ -103,7 +106,7 @@ export const telemetryService = {
     logEvent: (
         eventName: string,
         severity: TelemetrySeverity = 'info',
-        context?: Record<string, any>,
+        context?: Record<string, unknown>,
         clientEventId?: string
     ): void => {
         try {
@@ -119,14 +122,15 @@ export const telemetryService = {
             };
 
             // Fire and forget
-            sendOne(ev).catch((err: any) => {
+            sendOne(ev).catch((err: unknown) => {
                 // Si no hay permisos/sesión, encolamos para flush posterior
                 if (isAuthOrPermError(err)) {
                     enqueue(ev);
                     return;
                 }
                 // Silenciar errores (offline, adblockers)
-                console.debug('[Telemetry] Failed to log event:', err?.message || err);
+                const message = (err as { message?: string })?.message || String(err);
+                console.debug('[Telemetry] Failed to log event:', message);
             });
 
         } catch (err) {

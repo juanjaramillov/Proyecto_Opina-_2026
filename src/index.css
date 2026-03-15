@@ -13,12 +13,12 @@
     --brand-opina-teal-light: #34D399;
 
     /* ✅ BRAND ACCENT GLOBAL DEFINITION - STRICT FROM THEME */
-    --brand-accent: linear-gradient(135deg, #4F46E5 0%, #10B981 100%);
-    --brand-accent-solid: #4F46E5;
+    --brand-accent: linear-gradient(135deg, var(--brand-opina-blue) 0%, var(--brand-opina-teal) 100%);
+    --brand-accent-solid: var(--brand-opina-blue);
 
     /* ✅ DESIGN TOKENS */
-    --primary: #4F46E5;
-    --secondary: #10B981;
+    --primary: var(--brand-opina-blue);
+    --secondary: var(--brand-opina-teal);
     --ink: #0F172A;
     --surface2: #F8FAFC;
     --stroke: #E2E8F0;

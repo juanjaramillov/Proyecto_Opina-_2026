@@ -30,7 +30,7 @@ export function EditorClasificacion({
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Categoría Principal</label>
                     <select
                         value={formData.category || ""}
-                        onChange={e => setFormData(prev => ({ ...prev, category: e.target.value as any }))}
+                        onChange={e => setFormData(prev => ({ ...prev, category: e.target.value as Topic['category'] }))}
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
                     >
                         <option value="País">País</option>
@@ -56,7 +56,7 @@ export function EditorClasificacion({
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Fase de Discusión</label>
                     <select
                         value={formData.event_stage || 'discussion'}
-                        onChange={e => setFormData(prev => ({ ...prev, event_stage: e.target.value as any }))}
+                        onChange={e => setFormData(prev => ({ ...prev, event_stage: e.target.value as Topic['event_stage'] }))}
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
                     >
                         <option value="announcement">Anuncio / Urgente</option>
@@ -93,7 +93,7 @@ export function EditorClasificacion({
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Madurez de Opinión</label>
                     <select
                         value={formData.opinion_maturity || 'low'}
-                        onChange={e => setFormData(prev => ({ ...prev, opinion_maturity: e.target.value as any }))}
+                        onChange={e => setFormData(prev => ({ ...prev, opinion_maturity: e.target.value as Topic['opinion_maturity'] }))}
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
                     >
                         <option value="low">1. Emocional / Reacción Temprana</option>

@@ -59,8 +59,9 @@ export default function AdminHealth() {
             try {
                 const mode = await adminConfigService.getAnalyticsMode();
                 if (mounted) setAnalyticsMode(mode);
-            } catch (err: any) {
-                if (mounted) setConfigError('Error cargando configuración: ' + (err.message || String(err)));
+            } catch (err: unknown) {
+                const msg = err instanceof Error ? err.message : String(err);
+                if (mounted) setConfigError('Error cargando configuración: ' + msg);
             }
         };
         loadConfig();
@@ -79,15 +80,15 @@ export default function AdminHealth() {
 
             // Opcional: Refrescar snapshots ahora
             try {
-                await supabase.rpc('refresh_public_rank_snapshots_3h' as any);
+                await (supabase.rpc as unknown as (n: string) => Promise<void>)('refresh_public_rank_snapshots_3h');
                 // Podrías agregar un toast success aquí
             } catch (refreshErr) {
                 logger.warn("Snapshots no pudieron refrescarse inmediatamente", { domain: 'admin_actions', origin: 'AdminHealth', action: 'refresh_snapshots', state: 'failed', error_details: refreshErr });
                 // Fallo silencioso, el cron lo hará luego
             }
 
-        } catch (err: any) {
-            setConfigError(err.message || String(err));
+        } catch (err: unknown) {
+            setConfigError(err instanceof Error ? err.message : String(err));
         } finally {
             setUpdatingMode(false);
         }

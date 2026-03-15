@@ -41,7 +41,7 @@ export const adminInvitesService = {
      * Generates multiple invites.
      */
     async generateInvites(count: number, prefix?: string): Promise<InviteRow[]> {
-        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_generate_invites', {
+        const { data, error } = await supabase.rpc('admin_generate_invites', {
             p_count: count,
             p_prefix: prefix ?? 'OP'
         });
@@ -51,7 +51,7 @@ export const adminInvitesService = {
             throw error;
         }
 
-        return (data as unknown as InviteRow[]) || [];
+        return (data as InviteRow[]) || [];
     },
 
     /**
@@ -62,7 +62,7 @@ export const adminInvitesService = {
         searchTerm: string = '',
         limit: number = 200
     ): Promise<InviteRow[]> {
-        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_list_invites', { 
+        const { data, error } = await supabase.rpc('admin_list_invites', { 
             p_status_filter: statusFilter,
             p_search_term: searchTerm,
             p_limit: limit
@@ -73,14 +73,14 @@ export const adminInvitesService = {
             throw error;
         }
 
-        return (data as unknown as InviteRow[]) || [];
+        return (data as InviteRow[]) || [];
     },
 
     /**
      * Revokes a specific invite by code.
      */
     async revokeInvite(code: string): Promise<{ ok: boolean; error?: string }> {
-        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_revoke_invite', {
+        const { data, error } = await supabase.rpc('admin_revoke_invite', {
             p_code: code
         });
 
@@ -89,14 +89,14 @@ export const adminInvitesService = {
             throw error;
         }
 
-        return (data as unknown) as { ok: boolean; error?: string };
+        return (data as { ok: boolean; error?: string });
     },
 
     /**
      * Deletes a specific invite by ID (Hard delete).
      */
     async deleteInvite(inviteId: string): Promise<{ ok: boolean; error?: string }> {
-        const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_delete_invitation', {
+        const { error } = await supabase.rpc('admin_delete_invitation', {
             p_invite_id: inviteId
         });
 
@@ -112,7 +112,7 @@ export const adminInvitesService = {
      * Retrieves the current list of invite redemptions.
      */
     async listRedemptions(limit?: number): Promise<RedemptionRow[]> {
-        const { data, error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ data: unknown, error: { message: string } | null }>)('admin_list_invite_redemptions', {
+        const { data, error } = await supabase.rpc('admin_list_invite_redemptions', {
             p_limit: limit ?? 200
         });
 
@@ -121,7 +121,7 @@ export const adminInvitesService = {
             throw error;
         }
 
-        return (data as unknown as RedemptionRow[]) || [];
+        return (data as RedemptionRow[]) || [];
     },
 
     /**

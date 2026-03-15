@@ -48,6 +48,7 @@ export default function EntityLogo({
       `/logos/entities/${slug}.svg`,
       `/logos/entities/${slug}.png`,
       `/logos/entities/${slug}.jpg`,
+      `/logos/entities/${slug}.jpeg`,
       `/logos/entities/${slug}.webp`
     ];
   }, [slug]);

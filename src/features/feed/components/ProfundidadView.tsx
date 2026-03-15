@@ -51,7 +51,8 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                                         ? [parent.subcategories.find((s: { id: string, slug: string }) => s.id === selectedSubcategoryId)?.slug]
                                         : parent.subcategories.map((s: { slug: string }) => s.slug);
 
-                                    const catSlug = (b.category as { slug?: string })?.slug;
+                                    const cat = b.category as { slug?: string } | string | undefined;
+                                    const catSlug = typeof cat === 'object' ? cat?.slug : cat;
                                     return targetSlugs.includes(catSlug) || targetSlugs.includes(b.industry);
                                 })
                                 .flatMap((b) => (b.options || []).map(opt => ({
@@ -81,7 +82,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                 <InsightPack
                     optionId={selectedOption.id}
                     optionLabel={selectedOption.label}
-                    categorySlug={typeof (selectedOption as any).category === 'object' ? (selectedOption as any).category?.slug : (selectedOption as any).category}
+                    categorySlug={typeof selectedOption.category === 'object' ? (selectedOption.category as { slug?: string })?.slug : selectedOption.category}
                     onComplete={() => {
                         setSelectedOption(null);
                         onClose();

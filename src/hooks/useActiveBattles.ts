@@ -5,11 +5,14 @@ import { logger } from '../lib/logger';
 export function useActiveBattles() {
     const [battles, setBattles] = useState<ActiveBattle[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         let mounted = true;
 
         const fetchBattles = async () => {
+            setLoading(true);
+            setError(null);
             try {
                 // Fetch real data from Supabase
                 const data = await signalService.getActiveBattles();
@@ -22,9 +25,9 @@ export function useActiveBattles() {
                         setBattles([]);
                     }
                 }
-            } catch (err) {
+            } catch (err: unknown) {
                 logger.error("Failed to load battles:", err);
-                if (mounted) setBattles([]);
+                if (mounted) setError(err instanceof Error ? err : new Error(String(err)));
             } finally {
                 if (mounted) setLoading(false);
             }
@@ -35,5 +38,5 @@ export function useActiveBattles() {
         return () => { mounted = false; };
     }, []);
 
-    return { battles, loading };
+    return { battles, loading, error };
 }

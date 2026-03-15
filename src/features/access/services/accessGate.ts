@@ -22,6 +22,9 @@ export const accessGate = {
     },
 
     hasAccess(): boolean {
+        // Verificar si es un admin con pase directo
+        if (localStorage.getItem("opina_access_pass") === "admin") return true;
+
         const st = this.getState();
         if (!st) return false;
         return Date.now() < st.expiresAt;
@@ -44,5 +47,3 @@ export const accessGate = {
         localStorage.removeItem(STORAGE_KEY);
     }
 };
-
-export const ACCESS_GATE_STORAGE_KEY = STORAGE_KEY;

@@ -107,7 +107,7 @@ export default function TorneoView({ battles }: TorneoViewProps) {
 
                 <TorneoRunner
                     progressiveData={progressiveData}
-                    onVote={async (battle_id: string, option_id: string, opponentId: string, metadata?: Record<string, any>) => {
+                    onVote={async (battle_id, option_id, opponentId, metadata) => {
                         try {
                             const selected = progressiveData?.candidates?.find(o => o.id === option_id);
                             const rejected = progressiveData?.candidates?.find(o => o.id === opponentId);
@@ -123,7 +123,7 @@ export default function TorneoView({ battles }: TorneoViewProps) {
                                     selected_option_name: selected.label,
                                     loser_option_name: rejected.label,
                                     subcategory: progressiveData.industry,
-                                    stage: metadata?.round || 1,
+                                    stage: (metadata?.round as number) || 1,
                                 });
                             } else {
                                 await signalService.saveSignalEvent({
@@ -135,7 +135,6 @@ export default function TorneoView({ battles }: TorneoViewProps) {
 
                             await new Promise(r => setTimeout(r, 400));
                             showToast("Decisión confirmada. Nueva opción en camino.", "success");
-                            return {};
                         } catch (err) {
                             logger.error("Error votando en progresivo", { domain: 'signal_write', origin: 'TorneoView', action: 'progressive_vote', state: 'failed' }, err);
                             showToast("No se pudo registrar tu señal. Intenta de nuevo.", "error");

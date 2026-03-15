@@ -34,7 +34,7 @@ export interface LogBaseContext {
     origin?: string; // Nombre de componente, hook o función
     action?: string; // e.g., 'login', 'sync_queue', 'create_topic'
     state?: LogState;
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 const isDev = import.meta.env.DEV;

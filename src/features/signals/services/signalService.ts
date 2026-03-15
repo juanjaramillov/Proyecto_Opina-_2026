@@ -21,6 +21,11 @@ export type SignalEventPayload = {
     option_id?: string;
     session_id?: string;
     attribute_id?: string;
+    entity_id?: string;
+    entity_type?: string;
+    context_id?: string;
+    value_numeric?: number;
+    value_text?: string;
     meta?: Record<string, unknown>;
 };
 
@@ -89,10 +94,15 @@ export const signalService = {
     // STEP 2: RICH SIGNAL EVENTS
     // =========================
     saveSignalEvent: async (payload: SignalEventPayload): Promise<void> => {
-        // 1. VALIDACIÓN ESTRICTA
-        if (!payload.battle_id || !payload.option_id) {
-            logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing battle_id or option_id', payload);
+        // 1. VALIDACIÓN ESTRICTA RELAJADA (Depende del módulo)
+        const isBattleFlow = !payload.meta?.source || payload.meta?.source === 'versus' || payload.meta?.source === 'progressive';
+        if (isBattleFlow && (!payload.battle_id || !payload.option_id)) {
+            logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing battle_id or option_id for battle flow', payload);
             throw new Error('Invalid signal payload: missing battle_id or option_id');
+        }
+        if (!isBattleFlow && !payload.entity_id && !payload.battle_id) {
+            logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing entity_id for non-battle flow', payload);
+            throw new Error('Invalid signal payload: missing entity_id');
         }
 
         // Lógica Device Hash
@@ -102,12 +112,36 @@ export const signalService = {
             localStorage.setItem('opina_device_hash', deviceHash);
         }
 
-        const args: Record<string, unknown> = {
-            p_battle_id: payload.battle_id,
-            p_option_id: payload.option_id,
+        let signalTypeCode = 'VERSUS_SIGNAL';
+        let moduleType = 'versus';
+        if (payload.meta?.source === 'progressive') {
+            signalTypeCode = 'PROGRESSIVE_SIGNAL';
+            moduleType = 'progressive';
+        } else if (payload.meta?.source === 'depth') {
+            signalTypeCode = 'DEPTH_SIGNAL';
+            moduleType = 'depth';
+        } else if (payload.meta?.source === 'actualidad' || payload.meta?.source === 'news') {
+            signalTypeCode = 'CONTEXT_SIGNAL';
+            moduleType = 'news';
+        } else if (payload.meta?.source === 'pulse') {
+            signalTypeCode = 'PERSONAL_PULSE_SIGNAL';
+            moduleType = 'pulse';
+        }
+
+        const args = {
+            p_battle_id: payload.battle_id || undefined,
+            p_option_id: payload.option_id || undefined,
             p_session_id: payload.session_id || undefined,
             p_attribute_id: payload.attribute_id || undefined,
-            p_device_hash: deviceHash
+            p_entity_id: payload.entity_id || undefined,
+            p_entity_type: payload.entity_type || undefined,
+            p_context_id: payload.context_id || undefined,
+            p_value_numeric: payload.value_numeric || undefined,
+            p_value_text: payload.value_text || undefined,
+            p_device_hash: deviceHash,
+            p_value_json: (payload.meta as Database['public']['Tables']['signal_events']['Row']['value_json']) || {},
+            p_signal_type_code: signalTypeCode,
+            p_module_type: moduleType
         };
 
         // 3. ENCOLAR SIEMPRE
@@ -125,13 +159,13 @@ export const signalService = {
             let res = await sb.rpc('insert_signal_event', {
                 ...args,
                 p_client_event_id: id
-            } as unknown as { p_battle_id: string; p_option_id: string; p_client_event_id?: string; p_device_hash?: string; p_session_id?: string });
+            } as any);
 
             // Si falla por p_device_hash, reintento sin ese campo (fallback)
             if (res.error && String(res.error.message).includes('p_device_hash')) {
-                const fallbackArgs = { ...args, p_client_event_id: id } as { p_battle_id: string; p_option_id: string; p_client_event_id?: string; p_device_hash?: string; p_session_id?: string };
-                delete fallbackArgs.p_device_hash;
-                res = await sb.rpc('insert_signal_event', fallbackArgs);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { p_device_hash: _, ...fallbackArgs } = { ...args, p_client_event_id: id };
+                res = await sb.rpc('insert_signal_event', (fallbackArgs as unknown) as Database['public']['Functions']['insert_signal_event']['Args']);
             }
 
             const { error } = res;
@@ -140,7 +174,7 @@ export const signalService = {
                 const eMsg = String((error as { message?: string })?.message || error);
 
                 // DG-A01: Convertir gating en flujo guiado
-                const msg = (error?.message || '').toUpperCase();
+                const msg = (error as { message?: string }).message?.toUpperCase() || '';
                 const code = (error as { code?: string })?.code ? String((error as { code?: string }).code).toUpperCase() : '';
 
                 const isInviteRequired =
@@ -349,11 +383,12 @@ export const signalService = {
             description: b.description || null,
             created_at: b.created_at,
             category: b.category || null,
-            options: (b.options || []).map((opt: { id: string; label: string; image_url: string | null; brand_domain?: string | null; category?: string | null }) => ({
-                ...opt,
+            options: (b.options || []).map((opt) => ({
+                id: opt.id,
+                label: opt.label,
                 image_url: getAssetPathForOption(opt.label, opt.image_url),
                 brand_domain: opt.brand_domain || null,
-                category: opt.category || null,
+                category: (opt as { category?: string | null }).category || null,
                 type: 'brand',
                 imageFit: 'contain'
             }))

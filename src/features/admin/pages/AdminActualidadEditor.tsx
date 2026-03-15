@@ -72,8 +72,9 @@ export default function AdminActualidadEditor() {
   };
 
   const getSourceURL = () => {
-    if (topic.metadata?.source_url) return topic.metadata.source_url;
-    if (topic.metadata?.raw_ai_payload?.source_url) return topic.metadata.raw_ai_payload.source_url;
+    if (topic.metadata?.source_url) return topic.metadata.source_url as string;
+    const aiPayload = topic.metadata?.raw_ai_payload as { source_url?: string } | undefined;
+    if (aiPayload?.source_url) return aiPayload.source_url;
     return null;
   };
 

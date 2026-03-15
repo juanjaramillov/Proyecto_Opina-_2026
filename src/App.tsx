@@ -75,25 +75,28 @@ export default function App() {
           <Route path="/access" element={<AccessGatePage />} />
           <Route path="/admin-login" element={<Login />} />
           <Route element={<MainLayout />}>
-            {/* Public Routes */}
+            {/* 1. PUBLIC ROUTES (No session required, No gate) */}
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/complete-profile" element={<Gate module="public"><ProfileWizard /></Gate>} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/intelligence" element={<IntelligenceLanding />} />
+            
+            {/* 2. AUTH ROUTES (Public) */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/admin-login" element={<Login />} />
 
-            {/* Protected Routes (Experience Module) */}
+            {/* 3. PROTECTED ROUTES - EXPERIENCE (Users/Admin) */}
             <Route path="/signals" element={<Gate module="experience"><SignalsHub /></Gate>} />
             <Route path="/experience" element={<Navigate to="/signals" replace />} />
             <Route path="/m/:slug" element={<Gate module="experience"><ModuleEntry /></Gate>} />
             <Route path="/battle/:battleSlug" element={<Gate module="experience"><BattlePage /></Gate>} />
             <Route path="/results" element={<Gate module="experience"><Results /></Gate>} />
             <Route path="/profile" element={<Gate module="experience"><Profile /></Gate>} />
+            <Route path="/complete-profile" element={<Gate module="experience"><ProfileWizard /></Gate>} />
             
-            {/* New B2B Intelligence Suite Router */}
+            {/* 4. PROTECTED ROUTES - B2B INTELLIGENCE (B2B/Admin) */}
             <Route path="/b2b" element={<Gate module="b2b_dashboard"><B2BLayout /></Gate>}>
                 <Route path="overview" element={<OverviewB2B />} />
                 <Route path="benchmark" element={<BenchmarkB2B />} />
@@ -101,10 +104,9 @@ export default function App() {
                 <Route path="deep-dive" element={<DeepDiveB2B />} />
                 <Route path="reports" element={<ReportsB2B />} />
             </Route>
-            
-            {/* Legacy routes redirect to B2B architecture */}
             <Route path="/intelligence-dashboard" element={<Navigate to="/b2b" replace />} />
 
+            {/* 5. PROTECTED ROUTES - ADMIN ONLY */}
             <Route path="/admin/system" element={<Gate module="admin"><AdminSystemOverview /></Gate>} />
             <Route path="/admin/invitaciones" element={<Gate module="admin"><AdminInvites /></Gate>} />
             <Route path="/admin/health" element={<Gate module="admin"><AdminHealth /></Gate>} />
@@ -115,7 +117,7 @@ export default function App() {
             <Route path="/admin/signals" element={<Gate module="admin"><AdminSignals /></Gate>} />
             <Route path="/admin/brands" element={<Gate module="admin"><AdminBrands /></Gate>} />
 
-            {/* Fallback */}
+            {/* 6. FALLBACK */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

@@ -15,6 +15,44 @@ export interface TemporalComparison {
     variation_percent: number;
 }
 
+export interface B2BBattleAnalytics {
+    battle_id: string;
+    stats_version: string;
+    total_effective_weight: number;
+    n_eff: number;
+    options_count: number;
+    analytics_payload: Record<string, any>[];
+    global_entropy_normalized: number;
+    global_fragmentation_label: string;
+}
+
+export interface B2BEligibility {
+    entity_id: string;
+    opinascore_value: number;
+    opinascore_base: number;
+    integrity_multiplier: number;
+    opinascore_version: string;
+    opinascore_context: string;
+    eligibility_status: 'PUBLISHABLE' | 'EXPLORATORY' | 'INTERNAL_ONLY';
+    eligibility_reasons: string[];
+    integrity_score: number;
+    integrity_flags: string[];
+    n_eff: number;
+    technical_tie_flag: boolean;
+    stability_label: string;
+    entropy_normalized: number;
+    decay_applied: boolean;
+    stats_version: string;
+}
+
+export interface IntegrityFlags {
+    integrity_score: number;
+    flag_device_concentration: boolean;
+    flag_velocity_burst: boolean;
+    flag_repetitive_pattern: boolean;
+    analysis_warning_label: string;
+}
+
 export interface VolatilityData {
     volatility_score: number;
     volatility_index: number;
@@ -87,6 +125,46 @@ export const insightsService = {
         }
 
         return data || [];
+    },
+
+    getB2BBattleAnalytics: async (battleId: string): Promise<B2BBattleAnalytics | null> => {
+        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: B2BBattleAnalytics[] | null, error: unknown }>)('get_b2b_battle_analytics', {
+            p_battle_id: battleId
+        });
+
+        if (error) {
+            logger.error('[InsightsService] Error fetching B2B Battle Analytics:', error);
+            return null;
+        }
+
+        return data?.[0] || null;
+    },
+
+    getPremiumEligibility: async (entityId: string, moduleType: 'versus' | 'news' | 'depth'): Promise<B2BEligibility | null> => {
+        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: B2BEligibility[] | null, error: unknown }>)('get_premium_eligibility_v1_1', {
+            p_entity_id: entityId,
+            p_module_type: moduleType
+        });
+
+        if (error) {
+            logger.error('[InsightsService] Error fetching Premium Eligibility:', error);
+            return null;
+        }
+
+        return data?.[0] || null;
+    },
+
+    getAnalyticalIntegrity: async (entityId: string): Promise<IntegrityFlags | null> => {
+        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: IntegrityFlags[] | null, error: unknown }>)('get_analytical_integrity_flags', {
+            p_entity_id: entityId
+        });
+
+        if (error) {
+            logger.error('[InsightsService] Error fetching Analytical Integrity:', error);
+            return null;
+        }
+
+        return data?.[0] || null;
     },
 
     getTemporalComparison: async (

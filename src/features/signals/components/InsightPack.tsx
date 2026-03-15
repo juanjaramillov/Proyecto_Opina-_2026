@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import DepthWizard from '../../profundidad/DepthWizard';
 import RequestLoginModal from '../../auth/components/RequestLoginModal';
 import { depthService, DepthImmediateComparison } from '../services/depthService';
+// Eliminamos importación incorrecta de TopicQuestion
 import { useAuth } from '../../auth';
 import { useToast } from '../../../components/ui/useToast';
 import { logger } from '../../../lib/logger';
@@ -10,6 +11,14 @@ import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../supabase/client';
 
+
+interface DepthQuestion {
+    id: string;
+    type: string;
+    question: string;
+    options?: string[];
+    subtext?: string;
+}
 
 interface InsightPackProps {
     optionId: string;
@@ -30,7 +39,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
     // Segmentación y Comparativa
     const [comparisonData, setComparisonData] = useState<Record<string, DepthImmediateComparison>>({});
     const [userAnswers, setUserAnswers] = useState<Record<string, string | number>>({});
-    const [depthQuestions, setDepthQuestions] = useState<any[]>([]);
+    const [depthQuestions, setDepthQuestions] = useState<DepthQuestion[]>([]);
     const [loadingDefs, setLoadingDefs] = useState(true);
 
     React.useEffect(() => {
@@ -69,31 +78,32 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
 
                 if (error) throw error;
 
-                const defs = (data || []).map((d: any) => {
+                const rawData = data || [];
+                const defs = rawData.map((d) => {
                     let parsedOptions: string[] = [];
                     if (typeof d.options === 'string') {
                         try {
                             parsedOptions = JSON.parse(d.options);
-                        } catch (e) {
+                        } catch {
                             parsedOptions = [];
                         }
                     } else if (Array.isArray(d.options)) {
-                        parsedOptions = d.options;
+                        parsedOptions = d.options as string[];
                     }
 
                     return {
-                        id: d.question_key,
-                        type: d.question_type || (parsedOptions.length ? "choice" : "scale_1_5"),
-                        question: d.question_text,
+                        id: d.question_key as string,
+                        type: (d.question_type as string) || (parsedOptions.length ? "choice" : "scale_1_5"),
+                        question: d.question_text as string,
                         options: parsedOptions,
-                    };
+                    } as DepthQuestion;
                 });
 
                 if (mounted) {
                     setDepthQuestions(defs);
                     setLoadingDefs(false);
                 }
-            } catch (e) {
+            } catch {
                 if (mounted) {
                     setDepthQuestions([]);
                     setLoadingDefs(false);
@@ -160,8 +170,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
         }
     };
 
-    // @ts-expect-error - feature toggle en desarrollo
-    const [showAnalyticsResults, setShowAnalyticsResults] = useState(false);
+    const [showAnalyticsResults] = useState(false);
 
     if (loadingDefs) {
         return (

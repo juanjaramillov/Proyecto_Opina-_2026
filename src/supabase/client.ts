@@ -9,5 +9,10 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
+        // Override default lock to handle the "Acquiring an exclusive Navigator LockManager lock timed out" error
+        // Some mobile browsers fail to release locks, causing a 10s timeout that blocks login.
+        lock: (_name, _acquireTimeout, fn) => {
+            return fn()
+        },
     },
 })

@@ -8,8 +8,8 @@ import { logger } from '../../../lib/logger';
 
 interface TorneoRunnerProps {
     progressiveData: Omit<TorneoTournament, 'stage'> | null;
-    onVote: (battle_id: string, option_id: string, opponentId: string, metadata?: Record<string, any>) => Promise<any>;
-    onComplete?: (results: any) => void;
+    onVote: (battle_id: string, option_id: string, opponentId: string, metadata?: Record<string, unknown>) => Promise<void>;
+    onComplete?: (results: Record<string, unknown>) => void;
     onPlayAgain?: () => void;
 }
 
@@ -150,7 +150,7 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                         industry: progressiveData?.industry,
                         hasData: !!progressiveData,
                         candidates: candidates?.length,
-                        candidatesList: candidates?.map((c: any) => c?.label)
+                        candidatesList: (candidates as BattleOption[])?.map((c) => c?.label)
                     }, null, 2)}
                     </pre>
                 </div>

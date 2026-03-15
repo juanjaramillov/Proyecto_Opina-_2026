@@ -9,6 +9,7 @@ const TIER_LIMITS = {
 };
 
 export function computeAccountProfile(input: {
+    id?: string;
     tier: AccountTier;
     profileCompleteness: number;
     isProfileComplete: boolean;
@@ -19,7 +20,7 @@ export function computeAccountProfile(input: {
     role?: string;
     invitation_code_id?: string;
 }): AccountProfile {
-    const { tier, profileCompleteness, isProfileComplete, hasCI, demographics = {}, displayName, email, role, invitation_code_id } = input;
+    const { id, tier, profileCompleteness, isProfileComplete, hasCI, demographics = {}, displayName, email, role, invitation_code_id } = input;
 
     if (tier === "guest") {
         return {
@@ -61,6 +62,7 @@ export function computeAccountProfile(input: {
 
     if (tier === "verified_basic") {
         return {
+            id,
             tier,
             profileCompleteness,
             isProfileComplete,
@@ -79,6 +81,7 @@ export function computeAccountProfile(input: {
 
     // verified_full_ci
     return {
+        id,
         tier,
         profileCompleteness,
         isProfileComplete,
