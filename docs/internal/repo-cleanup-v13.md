@@ -30,3 +30,8 @@ Se limpiaron los siguientes elementos basura:
 - `node_modules` **NO EXISTE** actualmente en la raíz.
 - `dist` **NO EXISTE** actualmente en la raíz.
 - `__MACOSX` **NO EXISTE** en el proyecto.
+
+## 5. Actualización Bloque 1 (Saneamiento Estructural Real)
+La limpieza manual descrita anteriormente fue reemplazada por un flujo determinístico.
+La exportación limpia **nunca se hace manualmente**. El comando oficial pasa a ser `npm run ops:repo-hygiene` y luego `npm run ops:zip-clean`.
+Esto asegura invariantes estructurales (ej: los archivos `.env` locales nunca se empaquetan, `archive/` se suprime por defecto).

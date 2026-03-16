@@ -69,7 +69,7 @@ export default function BenchmarkB2B() {
                         <span className="text-gradient-brand">Market Benchmark</span>
                     </h1>
                     <p className="text-slate-500 mt-1">
-                        Tabla competitiva completa, win rates y volúmenes con capacidades de inmersión corporativa.
+                        ¿Quién gana la atención del consumidor? Comparativa de retención, volumen y preferencias frente a competidores.
                     </p>
                 </div>
                 

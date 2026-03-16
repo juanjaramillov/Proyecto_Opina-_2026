@@ -32,7 +32,7 @@ BEGIN
     UPDATE public.signal_events
     SET 
         module_type = 'news',
-        signal_type_code = 'CONTEXT_SIGNAL',
+        signal_type_id = (SELECT id FROM public.signal_types WHERE code = 'CONTEXT_SIGNAL' LIMIT 1),
         value_json = jsonb_set(value_json, '{source}', '"news"')
     WHERE module_type = 'versus' 
       AND value_json->>'source' = 'actualidad';
@@ -49,7 +49,7 @@ BEGIN
         v_detected, 
         v_affected, 
         v_filter, 
-        'module_type, signal_type_code, value_json.source',
+        'module_type, signal_type_id, value_json.source',
         'Corrección histórica de Bloque 2. Solo apuntó a anomalías exactas de fuente: actualidad erróneamente en versus.'
     );
 END $$;

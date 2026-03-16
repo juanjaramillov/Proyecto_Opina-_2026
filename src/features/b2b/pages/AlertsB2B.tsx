@@ -2,13 +2,15 @@ import { useEffect, useState, useCallback } from "react";
 import { logger } from "../../../lib/logger";
 import { Bell, Activity, Search } from "lucide-react";
 
+import { metricsService } from "../../metrics/services/metricsService";
+
 interface SystemAlert {
     id: string;
     entityName: string;
     severity: string;
     category: string;
     message: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     createdAt: string;
 }
 
@@ -21,8 +23,37 @@ export default function AlertsB2B() {
     const loadData = useCallback(async () => {
         setLoading(true);
         try {
-            // const activeAlerts = await alertEngine.getActiveAlerts();
-            setAlerts([]);
+            const trends = await metricsService.getTrendSummary();
+            const activeAlerts: SystemAlert[] = [];
+            
+            if (trends && trends.trendingDown.length > 0) {
+                 const worst = [...trends.trendingDown].sort((a,b) => b.signal_count - a.signal_count)[0];
+                 if (worst) {
+                     activeAlerts.push({
+                         id: `alert-down-${worst.entity_id}`,
+                         entityName: worst.entity_name,
+                         severity: 'WARNING',
+                         category: 'Pérdida de Momentum',
+                         message: `La entidad ${worst.entity_name} registra caída sostenida en preferencia comparativa.`,
+                         createdAt: new Date().toISOString()
+                     });
+                 }
+            }
+            if (trends && trends.trendingUp.length > 0) {
+                 const best = [...trends.trendingUp].sort((a,b) => b.signal_count - a.signal_count)[0];
+                 if (best) {
+                     activeAlerts.push({
+                         id: `alert-up-${best.entity_id}`,
+                         entityName: best.entity_name,
+                         severity: 'INFO',
+                         category: 'Aceleración Positiva',
+                         message: `La entidad ${best.entity_name} lidera las tendencias positivas en atención B2C.`,
+                         createdAt: new Date().toISOString()
+                     });
+                 }
+            }
+            
+            setAlerts(activeAlerts);
         } catch (err) {
             logger.error("[AlertsB2B] Error loading alerts:", err);
         } finally {
@@ -50,7 +81,7 @@ export default function AlertsB2B() {
                         <span className="text-gradient-brand">Early Warnings</span>
                     </h1>
                     <p className="text-slate-500 mt-1">
-                        Centro de notificaciones de anomalías, picos de interés y variaciones aceleradas.
+                        ¿Dónde cambió algo importante? Detección automática de riesgos e incrementos de preferencia traccionados por el consumidor B2C.
                     </p>
                 </div>
                 

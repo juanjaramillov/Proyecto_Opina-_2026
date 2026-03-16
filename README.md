@@ -1,7 +1,10 @@
 ## Documentación Maestra (Fuente de Verdad)
 
 Para entender la arquitectura de acceso, el estado de los módulos funcionales y el historial de estabilización del proyecto, consulta:
-👉 **[PROJECT_MASTER_STATUS.md](file:///Users/juanignaciojaramillo/Desktop/Opina+/Antigravity - Proyecto/Opina+ V13/docs/PROJECT_MASTER_STATUS.md)**
+👉 **[PROJECT_MASTER_STATUS.md](./docs/PROJECT_MASTER_STATUS.md)**
+
+Para supervisar los atajos técnicos que no fueron corregidos todavía y se documentaron como deuda explícita, revisar rigurosamente:
+👉 **[DEBT_REGISTER_V13.md](./docs/DEBT_REGISTER_V13.md)**
 
 ---
 
@@ -12,9 +15,10 @@ Para entender la arquitectura de acceso, el estado de los módulos funcionales y
    npm install
    ```
 
-2. **Verificar Salud del Código (Obligatorio antes de Commits):**
+2. **Regla Obligatoria de No-Regresión del Core (Pre-Commits):**
+   Cualquier iteración al core estable requiere comprobación nula de errores.
    ```bash
-   npm run typecheck && npm run build
+   npm run typecheck && npm run test:run && npm run build
    ```
 
 3. **Iniciar Servidor de Desarrollo:**
@@ -34,9 +38,19 @@ Copia `.env.example` a `.env.local` y define lo siguiente:
 
 ## Política de "Zip Limpio"
 
-Para auditorías o respaldos, el empaquetado debe ser ligero e higiénico:
-- **INCLUIR**: `src/`, `public/`, `supabase/`, `docs/`, `package.json`, `tsconfig.json`, `vite.config.ts`, `README.md`.
-- **EXCLUIR**: `node_modules/`, `dist/`, `.DS_Store`, archivos `.log`.
+Para auditorías o respaldos, el empaquetado **nunca debe ser manual**. Utiliza los comandos automatizados para garantizar higiene y portabilidad:
+
+1. **Verificar Higiene:**
+   ```bash
+   npm run ops:repo-hygiene
+   ```
+2. **Generar Zip:**
+   ```bash
+   npm run ops:zip-clean
+   ```
+
+- **INCLUIDOS EN ZIP**: `src/`, `public/`, `supabase/`, `docs/`, `scripts/`, configs de raíz y `.env.example`.
+- **EXCLUIDOS EXPLÍCITAMENTE**: `node_modules/`, `dist/`, `.git/`, `.vercel/`, `.env.*` locales, logs e informes temporales. La carpeta `archive/` queda fuera por defecto.
 
 ---
 

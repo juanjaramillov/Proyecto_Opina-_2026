@@ -1,9 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { metricsService } from "../../metrics/services/metricsService";
-import { LeaderboardEntry, TrendSummary } from "../../metrics/services/metricsService";
+import { platformOverviewReadModel } from "../../../read-models/b2b/platformOverviewReadModel";
+import { PlatformOverviewSnapshot, LeaderboardEntry } from "../../../read-models/types";
 import { logger } from "../../../lib/logger";
 import { useAuthContext } from "../../../features/auth/context/AuthContext";
-import { Building2, Search, TrendingUp, TrendingDown, Target, Bell, Zap, ChevronRight, Activity, X } from "lucide-react";
+import { Building2, Search, TrendingUp, Target, Bell, Zap, ChevronRight, Activity, X, Users, AlertTriangle } from "lucide-react";
 
 // Stub for SystemAlert
 interface SystemAlert {
@@ -12,7 +12,7 @@ interface SystemAlert {
     severity: string;
     category: string;
     message: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     createdAt: string;
 }
 
@@ -31,8 +31,7 @@ export default function OverviewB2B() {
     const role = accessState.role;
     const isB2B = role === 'b2b' || role === 'admin'; // Admin also has access
     
-    const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-    const [trendSummary, setTrendSummary] = useState<TrendSummary | null>(null);
+    const [snapshot, setSnapshot] = useState<PlatformOverviewSnapshot | null>(null);
     const [alerts, setAlerts] = useState<SystemAlert[]>([]);
     
     // Deep dive state
@@ -46,17 +45,39 @@ export default function OverviewB2B() {
     const loadData = useCallback(async () => {
         setLoading(true);
         try {
-            const [board, trends] = await Promise.all([
-                metricsService.getGlobalLeaderboard(),
-                metricsService.getTrendSummary()
-            ]);
+            const data = await platformOverviewReadModel.getOverviewSnapshot();
             
-            // Get Active Market Alerts directly from Alert Engine
-            // const activeAlerts = await alertEngine.getActiveAlerts();
             const activeAlerts: SystemAlert[] = [];
+            
+            // Dynamic alerts based on momentum data
+            if (data.trendSummary && data.trendSummary.trendingDown.length > 0) {
+                 const worst = [...data.trendSummary.trendingDown].sort((a,b) => b.signalCount - a.signalCount)[0];
+                 if (worst) {
+                     activeAlerts.push({
+                         id: `alert-down-${worst.entityId}`,
+                         entityName: worst.entityName,
+                         severity: 'WARNING',
+                         category: 'Pérdida de Momentum',
+                         message: `La entidad ${worst.entityName} registra caída sostenida en preferencia comparativa.`,
+                         createdAt: new Date().toISOString()
+                     });
+                 }
+            }
+            if (data.trendSummary && data.trendSummary.trendingUp.length > 0) {
+                 const best = [...data.trendSummary.trendingUp].sort((a,b) => b.signalCount - a.signalCount)[0];
+                 if (best) {
+                     activeAlerts.push({
+                         id: `alert-up-${best.entityId}`,
+                         entityName: best.entityName,
+                         severity: 'INFO',
+                         category: 'Aceleración Positiva',
+                         message: `La entidad ${best.entityName} lidera las tendencias positivas en atención B2C.`,
+                         createdAt: new Date().toISOString()
+                     });
+                 }
+            }
 
-            setLeaderboard(board);
-            setTrendSummary(trends);
+            setSnapshot(data);
             setAlerts(activeAlerts);
         } catch (err) {
             logger.error("[OverviewB2B] Error loading data:", err);
@@ -98,8 +119,9 @@ export default function OverviewB2B() {
         );
     }
 
+    const leaderboard = snapshot?.leaderboardTop10 || [];
     const filteredRankings = leaderboard.filter(item => 
-        item.entity_name.toLowerCase().includes(searchTerm.toLowerCase())
+        item.entityName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -109,10 +131,10 @@ export default function OverviewB2B() {
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
                         <Building2 className="w-8 h-8 text-indigo-600" />
-                        <span className="text-gradient-brand">Inteligencia de Mercado</span>
+                        <span className="text-gradient-brand">Executive Overview</span>
                     </h1>
                     <p className="text-slate-500 mt-1">
-                        Monitor comparativo de entidades, variaciones de tendencia y alertas automáticas B2B.
+                        ¿Qué está pasando en el mercado? Monitor en tiempo real de preferencias B2C y posicionamiento competitivo.
                     </p>
                 </div>
                 
@@ -127,45 +149,69 @@ export default function OverviewB2B() {
                 </div>
             </div>
 
+            {snapshot?.sufficiency === 'insufficient_data' && (
+                <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-4">
+                    <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
+                    <div>
+                        <h4 className="font-bold text-amber-900">Datos Insuficientes</h4>
+                        <p className="text-sm text-amber-700">Aún no hay suficiente actividad (menos de 50 señales) en la plataforma para reflejar tendencias válidas globales. Las métricas mostradas tienen alcance exploratorio únicamente.</p>
+                    </div>
+                </div>
+            )}
+
             {/* KPI Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-3 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div className="flex items-center gap-3 mb-4 relative z-10">
                         <div className="p-3 bg-indigo-50 rounded-2xl">
-                            <Target className="w-6 h-6 text-indigo-600" />
+                            <Activity className="w-6 h-6 text-indigo-600" />
                         </div>
                         <div>
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Entidades Activas</p>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Atención Capturada</p>
                             <h3 className="text-2xl font-black text-slate-900">
-                                {((trendSummary?.trendingUp.length || 0) + (trendSummary?.trendingDown.length || 0) + (trendSummary?.stable.length || 0))}
+                                {snapshot?.globalStats.totalSignalsProcessed ? snapshot.globalStats.totalSignalsProcessed.toLocaleString() : "---"}
                             </h3>
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-3 mb-4">
+                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div className="flex items-center gap-3 mb-4 relative z-10">
+                        <div className="p-3 bg-emerald-50 rounded-2xl">
+                            <Users className="w-6 h-6 text-emerald-600" />
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Activos (24h)</p>
+                            <h3 className="text-2xl font-black text-slate-900">
+                                {snapshot?.globalStats.activeUsers24h ? snapshot.globalStats.activeUsers24h.toLocaleString() : "---"}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div className="flex items-center gap-3 mb-4 relative z-10">
+                        <div className="p-3 bg-blue-50 rounded-2xl">
+                            <Target className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Entidades en Radar</p>
+                            <h3 className="text-2xl font-black text-slate-900">
+                                {((snapshot?.trendSummary.trendingUp.length || 0) + (snapshot?.trendSummary.trendingDown.length || 0) + (snapshot?.trendSummary.stable.length || 0)).toLocaleString()}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div className="flex items-center gap-3 mb-4 relative z-10">
                         <div className="p-3 bg-emerald-50 rounded-2xl">
                             <TrendingUp className="w-6 h-6 text-emerald-600" />
                         </div>
                         <div>
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Acelerando</p>
                             <h3 className="text-2xl font-black text-slate-900">
-                                {trendSummary?.trendingUp.length || 0} entidades
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="p-3 bg-rose-50 rounded-2xl">
-                            <TrendingDown className="w-6 h-6 text-rose-600" />
-                        </div>
-                        <div>
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Bajando</p>
-                            <h3 className="text-2xl font-black text-slate-900">
-                                {trendSummary?.trendingDown.length || 0} entidades
+                                {snapshot?.trendSummary.trendingUp.length || 0}
                             </h3>
                         </div>
                     </div>
@@ -177,7 +223,7 @@ export default function OverviewB2B() {
                 <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-slate-50 flex items-center justify-between flex-wrap gap-4">
                         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                            Ranking Competitivo
+                            Top Performers (Global)
                             <span className="text-xs font-medium bg-slate-100 text-slate-500 px-2.5 py-1 rounded-full">{leaderboard.length}</span>
                         </h2>
                         
@@ -213,22 +259,22 @@ export default function OverviewB2B() {
                                 ) : filteredRankings.length > 0 ? (
                                     filteredRankings.map((entity, index) => (
                                         <tr 
-                                            key={entity.entity_id} 
+                                            key={entity.entityId} 
                                             onClick={() => handleSelectEntity(entity)}
-                                            className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedEntity?.entity_id === entity.entity_id ? 'bg-indigo-50/30' : ''}`}
+                                            className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedEntity?.entityId === entity.entityId ? 'bg-indigo-50/30' : ''}`}
                                         >
                                             <td className="px-6 py-4">
-                                                <div className="font-semibold text-slate-900">{entity.entity_name}</div>
+                                                <div className="font-semibold text-slate-900">{entity.entityName}</div>
                                                 <div className="text-[10px] text-slate-400 mt-0.5">Rank #{index + 1} • General</div>
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                <div className="text-sm font-bold text-slate-700">{(entity.win_rate * 100).toFixed(1)}%</div>
+                                                <div className="text-sm font-bold text-slate-700">{(entity.winRate * 100).toFixed(1)}%</div>
                                                 <div className="w-full bg-slate-100 rounded-full h-1.5 mt-2">
-                                                    <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: `${entity.win_rate * 100}%` }}></div>
+                                                    <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: `${entity.winRate * 100}%` }}></div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                <div className="text-sm font-bold text-slate-700">{entity.total_comparisons}</div>
+                                                <div className="text-sm font-bold text-slate-700">{entity.totalComparisons}</div>
                                                 <div className="text-[10px] text-slate-400">batallas</div>
                                             </td>
                                             <td className="px-6 py-4 text-right">
@@ -300,7 +346,7 @@ export default function OverviewB2B() {
                     <div className="p-8 border-b border-slate-100">
                         <div className="flex items-start justify-between">
                             <div>
-                                <h3 className="text-2xl font-black text-slate-900 tracking-tight">{selectedEntity.entity_name}</h3>
+                                <h3 className="text-2xl font-black text-slate-900 tracking-tight">{selectedEntity.entityName}</h3>
                                 <div className="text-xs font-bold text-indigo-600 uppercase tracking-widest mt-1">Deep Dive B2B</div>
                             </div>
                             <button 
@@ -364,17 +410,17 @@ export default function OverviewB2B() {
                                         <div>
                                             <div className="flex justify-between items-end mb-1">
                                                 <span className="text-sm font-bold text-slate-700">Win Rate Relativo</span>
-                                                <span className="text-lg font-black text-slate-900">{(selectedEntity.win_rate * 100).toFixed(1)}%</span>
+                                                <span className="text-lg font-black text-slate-900">{(selectedEntity.winRate * 100).toFixed(1)}%</span>
                                             </div>
                                             <div className="w-full bg-slate-100 rounded-full h-2">
-                                                <div className="bg-emerald-500 h-2 rounded-full" style={{ width: `${selectedEntity.win_rate * 100}%` }}></div>
+                                                <div className="bg-emerald-500 h-2 rounded-full" style={{ width: `${selectedEntity.winRate * 100}%` }}></div>
                                             </div>
                                         </div>
                                         
                                         <div>
                                             <div className="flex justify-between items-end mb-1">
                                                 <span className="text-sm font-bold text-slate-700">Batallas Consignadas</span>
-                                                <span className="text-lg font-black text-slate-900">{selectedEntity.total_comparisons} batallas</span>
+                                                <span className="text-lg font-black text-slate-900">{selectedEntity.totalComparisons} batallas</span>
                                             </div>
                                         </div>
                                         

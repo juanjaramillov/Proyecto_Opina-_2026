@@ -12,7 +12,7 @@ export const InsightCards: React.FC<InsightCardsProps> = ({ insights, loading })
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="animate-pulse bg-white/5 border border-white/10 rounded-3xl h-48" />
+          <div key={i} className="animate-pulse bg-slate-100 border border-stroke rounded-2xl h-48" />
         ))}
       </div>
     );
@@ -22,14 +22,6 @@ export const InsightCards: React.FC<InsightCardsProps> = ({ insights, loading })
 
   return (
     <div className="mb-12">
-      <div className="flex items-center gap-2 mb-6">
-        <Sparkles className="w-5 h-5 text-amber-400" />
-        <h3 className="text-xl font-bold text-white">Insights de Inteligencia</h3>
-        <span className="px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold text-amber-400 uppercase tracking-widest">
-          Nuevo
-        </span>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {insights.map((insight, idx) => {
           const isGender = insight.gender !== null;
@@ -40,39 +32,36 @@ export const InsightCards: React.FC<InsightCardsProps> = ({ insights, loading })
           return (
             <div 
               key={idx}
-              className="group relative p-8 bg-gradient-to-br from-white to-blue-50/30 border border-blue-100 rounded-[2.5rem] overflow-hidden hover:border-blue-400 transition-all duration-500 shadow-sm hover:shadow-xl hover:scale-[1.01]"
+              className="group relative p-6 bg-white border border-stroke rounded-2xl overflow-hidden hover:border-primary/50 transition-colors duration-500 shadow-sm hover:shadow-md"
             >
-              {/* Decorative accent - more subtle for light mode */}
-              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 group-hover:scale-110 transition-all duration-500">
-                {isGender ? <User className="w-16 h-16 text-blue-600" /> : <Target className="w-16 h-16 text-emerald-600" />}
+              {/* Decorative accent - watermark */}
+              <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 transition-all duration-500 transform origin-top-right">
+                {isGender ? <User className="w-24 h-24 text-primary" /> : <Target className="w-24 h-24 text-secondary" />}
               </div>
 
-              <div className="relative z-10">
+              <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 bg-blue-500/10 rounded-xl border border-blue-500/20">
-                    <Users2 className="w-4 h-4 text-blue-600" />
+                  <div className="w-8 h-8 rounded-full bg-surface2 flex items-center justify-center border border-stroke shadow-sm">
+                    <Users2 className="w-4 h-4 text-secondary" />
                   </div>
-                  <span className="text-xs font-black text-blue-600/60 uppercase tracking-[0.15em]">{segmentLabel}</span>
+                  <span className="text-[10px] font-black text-text-secondary uppercase tracking-widest">{segmentLabel}</span>
                 </div>
 
-                <p className="text-xl text-blue-950 leading-relaxed font-medium mb-8">
-                  El <span className="text-blue-600 font-black text-3xl tabular-nums tracking-tight">{insight.preference_percentage}%</span> de los {segmentLabel.toLowerCase()} prefiere <span className="text-blue-900 font-black underline decoration-blue-500/30 underline-offset-8 transition-colors group-hover:decoration-blue-600">{insight.entity_name}</span> en la batalla "{insight.battle_title}".
+                <p className="text-xl text-ink leading-snug font-medium mb-8">
+                  El <span className="text-primary font-black text-3xl tabular-nums tracking-tighter">{insight.preference_percentage}%</span> de {segmentLabel.toLowerCase()} prefiere <span className="text-ink font-black border-b-[3px] border-primary/30 pb-0.5 group-hover:border-primary transition-colors">{insight.entity_name}</span> en "{insight.battle_title}".
                 </p>
 
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-blue-100 text-[10px] font-black text-blue-600/70 uppercase tracking-widest transition-all group-hover:bg-blue-50 group-hover:border-blue-200">
-                    <Sparkles className="w-3 h-3 text-amber-500" />
-                    Análisis Predictivo
+                <div className="mt-auto flex flex-wrap items-center gap-2 pt-4 border-t border-stroke">
+                  <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-surface2 border border-stroke text-[9px] font-black text-text-secondary uppercase tracking-widest transition-colors group-hover:bg-primary/5 group-hover:border-primary/20 group-hover:text-primary">
+                    <Sparkles className="w-3 h-3" />
+                    Predictivo
                   </div>
-                  <div className="flex items-center gap-1.5 text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+                  <div className="flex items-center gap-1 text-[9px] font-black text-text-muted uppercase tracking-widest ml-auto">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Real-time
+                    En vivo
                   </div>
                 </div>
               </div>
-
-              {/* Hover Glow - Very soft light glow */}
-              <div className="absolute -inset-2 bg-gradient-to-tr from-blue-500/5 to-emerald-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
           );
         })}

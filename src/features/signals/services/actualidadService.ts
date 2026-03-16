@@ -245,16 +245,21 @@ export const actualidadService = {
             const { signalService } = await import('./signalService');
             
             for (const answer of answers) {
-                // Para actualidad, el entity_id es el topicId y el context_id es la pregunta
-                await signalService.saveSignalEvent({
-                    entity_id: topicId,
-                    context_id: answer.question_id,
-                    value_text: answer.answer_value, // Guardamos la respuesta explícitamente The original fallback option_id also works but value_text is semantically better.
-                    meta: { 
-                        source: 'actualidad',
-                        temporal_mode: temporalMode
-                    }
-                });
+                try {
+                    // Para actualidad, el entity_id es el topicId y el context_id es la pregunta
+                    await signalService.saveSignalEvent({
+                        entity_id: topicId,
+                        context_id: answer.question_id,
+                        value_text: answer.answer_value, // Guardamos la respuesta explícitamente The original fallback option_id also works but value_text is semantically better.
+                        meta: { 
+                            source: 'actualidad',
+                            temporal_mode: temporalMode
+                        }
+                    });
+                } catch (err: unknown) {
+                    logger.error(`[ActualidadService] Failed to submit answer for question_id: ${answer.question_id}`, { error: err });
+                    throw err;
+                }
             }
 
             // 2. METADATA ESPECÍFICA DEL MÓDULO ALMACENADA DESPUÉS

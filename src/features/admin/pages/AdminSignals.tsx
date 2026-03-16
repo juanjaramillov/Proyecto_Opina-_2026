@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { Search, Database, Power, PowerOff, Activity, ImageIcon, Edit2 } from "lucide-react";
+import { Search, Database, Power, PowerOff, Activity, ImageIcon, BarChart2 } from "lucide-react";
 import { adminSignalsService, AdminSignalRow } from "../services/adminSignalsService";
+import { AdminSignalAnalyticsDrawer } from "../components/AdminSignalAnalyticsDrawer";
 
 export default function AdminSignals() {
     const [signals, setSignals] = useState<AdminSignalRow[]>([]);
@@ -9,6 +10,10 @@ export default function AdminSignals() {
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     
+    // Analytics Drawer State
+    const [selectedBattleId, setSelectedBattleId] = useState<string | null>(null);
+    const [selectedBattleTitle, setSelectedBattleTitle] = useState("");
+
     // Pagination
     const [page, setPage] = useState(0);
     const limit = 50;
@@ -162,8 +167,13 @@ export default function AdminSignals() {
                                             >
                                                 {signal.status === 'active' ? <PowerOff className="w-4 h-4" /> : <Power className="w-4 h-4" />}
                                             </button>
-                                            <button className="p-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors" title="Ver Detalles (Próximamente)">
-                                                <Edit2 className="w-4 h-4" />
+                                            <button 
+                                                onClick={() => {
+                                                    setSelectedBattleId(signal.id);
+                                                    setSelectedBattleTitle(signal.title);
+                                                }}
+                                                className="p-2 bg-slate-50 text-slate-600 hover:bg-primary-50 rounded-xl transition-colors" title="Modelos y Analítica">
+                                                <BarChart2 className="w-4 h-4" />
                                             </button>
                                         </div>
                                     </td>
@@ -199,6 +209,14 @@ export default function AdminSignals() {
                     </div>
                 )}
             </div>
+
+            {selectedBattleId && (
+                <AdminSignalAnalyticsDrawer
+                    battleId={selectedBattleId}
+                    battleTitle={selectedBattleTitle}
+                    onClose={() => setSelectedBattleId(null)}
+                />
+            )}
         </div>
     );
 }

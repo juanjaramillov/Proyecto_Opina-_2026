@@ -58,7 +58,7 @@ export default function ReportsB2B() {
 
                     <div className="inline-flex items-center gap-3 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm shadow-xl shadow-slate-900/10 cursor-not-allowed opacity-80">
                         <Download className="w-4 h-4 opacity-50" />
-                        <span className="opacity-90">Exportar Demo Report (.pdf)</span>
+                        <span className="opacity-90">Exportar Reporte (.pdf)</span>
                         <ChevronRight className="w-4 h-4 opacity-30 ml-2" />
                     </div>
                 </div>

@@ -29,14 +29,19 @@ export const depthService = {
         const { signalService } = await import('./signalService');
         
         for (const answer of answers) {
-            await signalService.saveSignalEvent({
-                entity_id: optionId, // La entidad evaluada
-                context_id: answer.question_key, // La pregunta específica (el contexto)
-                value_numeric: parseFloat(answer.answer_value), // En depth, se evaluan numeros (del 1 al 10, o scores)
-                meta: {
-                    source: 'depth'
-                }
-            });
+            try {
+                await signalService.saveSignalEvent({
+                    entity_id: optionId, // La entidad evaluada
+                    context_id: answer.question_key, // La pregunta específica (el contexto)
+                    value_numeric: parseFloat(answer.answer_value), // En depth, se evaluan numeros (del 1 al 10, o scores)
+                    meta: {
+                        source: 'depth'
+                    }
+                });
+            } catch (err: unknown) {
+                logger.error(`[DepthService] Failed to submit answer for question_key: ${answer.question_key}`, { error: err });
+                throw err;
+            }
         }
 
         // 2. METADATA ESPECÍFICA (Legacy RPC)

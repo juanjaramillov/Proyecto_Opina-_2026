@@ -124,7 +124,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
                 </div>
             </motion.div>
 
-            {/* Content Mockup Area */}
+            {/* Content Preview Area */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}

@@ -72,7 +72,7 @@ export default function DeepDiveB2B() {
                         <span className="text-gradient-brand">Entity Deep Dive</span>
                     </h1>
                     <p className="text-slate-500 mt-1">
-                        Análisis focalizado, performance histórico y narrativas específicas por marca o entidad.
+                        ¿Por qué está pasando esto? Análisis focalizado y drivers de performance específicos por entidad.
                     </p>
                 </div>
                 
@@ -280,6 +280,27 @@ export default function DeepDiveB2B() {
                                         </div>
                                     </div>
                                 )}
+                            </div>
+                            
+                            {/* Cierre Comercial / Takeaways Ejecutivos */}
+                            <div className="mt-8 bg-gradient-to-br from-indigo-900 to-slate-900 rounded-3xl p-8 border border-indigo-800 shadow-lg text-white relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                                <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
+                                    <div className="p-4 bg-white/10 rounded-2xl border border-white/10 backdrop-blur-sm shrink-0">
+                                        <Zap className="w-8 h-8 text-indigo-300" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold mb-2 text-indigo-50">Takeaway Ejecutivo Opina+</h3>
+                                        <p className="text-indigo-100/80 leading-relaxed text-sm">
+                                            A diferencia de una encuesta estática, Opina+ detecta tracción continua en el consumidor final. Opina+ captura la intención B2C real sin sesgos de cuestionario, revelando el verdadero posicionamiento orgánico en el mercado.
+                                        </p>
+                                    </div>
+                                    <div className="shrink-0 w-full md:w-auto">
+                                        <button className="w-full md:w-auto px-6 py-3 bg-indigo-500 hover:bg-indigo-400 text-white rounded-xl font-bold transition shadow-sm border border-indigo-400">
+                                            Exportar Board
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </>
                     ) : (

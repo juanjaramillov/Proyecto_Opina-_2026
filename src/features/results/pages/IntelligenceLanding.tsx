@@ -240,7 +240,7 @@ export default function IntelligenceLanding() {
                                     <span className="badge badge-accent bg-primary/10 text-primary border-none">Crecimiento Rápido</span>
                                 </div>
 
-                                {/* Line Chart Mock Simplified */}
+                                {/* Line Chart Structure */}
                                 <div className="relative h-48 w-full flex items-end">
                                     {/* Grid */}
                                     <div className="absolute inset-0 flex flex-col justify-between">

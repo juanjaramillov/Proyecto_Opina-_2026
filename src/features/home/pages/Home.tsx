@@ -48,10 +48,10 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Hero Mockup */}
+        {/* Hero Vista Previa */}
         <div className="w-full max-w-5xl mx-auto rounded-3xl border border-stroke shadow-[0_20px_50px_rgba(0,0,0,0.1)] bg-slate-50 aspect-[16/9] sm:aspect-[21/9] flex flex-col relative animate-fade-up overflow-hidden group" style={{ animationDelay: '200ms' }}>
 
-          {/* Header Mock */}
+          {/* Header UI */}
           <div className="h-14 sm:h-16 bg-white border-b border-stroke flex items-center justify-between px-4 sm:px-6 relative z-20 shrink-0">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -67,7 +67,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Body Mock */}
+          {/* Body UI */}
           <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 relative z-10 w-full overflow-hidden">
             {/* Gradient Mask & Center CTA */}
             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent z-30 pointer-events-none flex flex-col items-center justify-end pb-8 sm:pb-12">
@@ -106,7 +106,7 @@ export default function Home() {
 
             {/* Content Row */}
             <div className="flex-1 flex gap-4 sm:gap-6 min-h-0 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
-              {/* Chart Mock */}
+              {/* Exploración Gráfica */}
               <div className="flex-[2] bg-white rounded-2xl border border-stroke shadow-sm p-4 sm:p-5 flex flex-col">
                 <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <div className="flex flex-col">
@@ -134,7 +134,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Activity Feed Mock */}
+              {/* Activity Feed Simulado Visualmente */}
               <div className="flex-1 bg-white rounded-2xl border border-stroke shadow-sm p-4 sm:p-5 hidden md:flex flex-col relative overflow-hidden">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm font-bold text-ink">Últimas Interacciones</span>
@@ -377,7 +377,7 @@ export default function Home() {
             </div>
 
             <div className="lg:w-7/12 w-full">
-              {/* Mockup Premium */}
+              {/* Estructura Premium */}
               <div className="w-full aspect-[4/3] sm:aspect-video lg:aspect-[4/3] xl:aspect-video bg-white rounded-2xl border border-stroke shadow-[0_20px_50px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
                 <div className="h-12 bg-surface2 border-b border-stroke flex items-center px-4 gap-2">
                   <div className="w-3 h-3 rounded-full bg-slate-300"></div>

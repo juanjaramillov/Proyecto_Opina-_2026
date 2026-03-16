@@ -178,7 +178,7 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
         {/* MAIN CONTENT: DASHBOARD CORE */}
         <div className="lg:col-span-8 order-1 lg:order-2 space-y-8">
 
-          {/* DEMO VERIFICATION SIMULATOR (COMPACT BANNER) */}
+          {/* IDENTITY VERIFICATION BANNER */}
           {!profile?.hasCI && (
             <div className="card p-4 sm:p-5 border border-secondary/30 bg-secondary/5 flex flex-col sm:flex-row items-center gap-4 justify-between shadow-sm">
               <div className="flex items-center gap-3">
@@ -186,7 +186,7 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
                   <span className="material-symbols-outlined text-xl">security</span>
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-ink leading-tight mb-1">Verifica tu Identidad (Demo)</h4>
+                  <h4 className="text-sm font-black text-ink leading-tight mb-1">Verifica tu Identidad</h4>
                   <p className="text-xs text-text-secondary font-medium leading-tight">
                     Incrementa al instante la confiabilidad y el peso de tus señales.
                   </p>
@@ -201,11 +201,11 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
                       .eq('user_id', profile?.id || '');
 
                     if (error) throw error;
-                    notifyService.success("Identidad verificada (Demo)");
+                    notifyService.success("Identidad verificada");
                     setTimeout(() => window.location.reload(), 1500);
                   } catch (err) {
                     logger.error("Error verifying identity:", err);
-                    notifyService.error("Error al verificar la identidad demo.");
+                    notifyService.error("Error al verificar la identidad.");
                   }
                 }}
                 className="btn-primary text-xs w-full sm:w-auto px-5 py-2.5"

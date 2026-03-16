@@ -31,13 +31,13 @@ export function WalletView() {
           </button>
         </div>
 
-        {/* Dummy content in background */}
+        {/* Blocked state background overlay (blurred) */}
         <div className="opacity-30 blur-[2px]">
           <div className="flex items-center gap-2 mb-4">
             <WalletIcon className="w-5 h-5 text-green-400" />
             <h3 className="text-xl font-bold text-white">Billetera Opina+</h3>
           </div>
-          <div className="text-4xl font-bold text-white">$0 <span className="text-sm font-normal text-slate-400">CLP</span></div>
+          <div className="text-4xl font-bold text-white">$-- <span className="text-sm font-normal text-slate-400">CLP</span></div>
         </div>
       </div>
     );

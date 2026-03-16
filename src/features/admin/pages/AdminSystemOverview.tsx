@@ -7,12 +7,9 @@ import {
     Clock,
     Building2,
     ShieldAlert,
-    TrendingUp,
-    PlayCircle,
-    CheckCircle2
+    TrendingUp
 } from "lucide-react";
 
-import { PILOT_DEMO_RECORDS, isDemoHubReady } from "../demo-records";
 
 import { useIntelligence } from "../../intelligence/hooks/useIntelligence";
 import { RankingTable } from "../../intelligence/components/RankingTable";
@@ -104,70 +101,7 @@ export default function AdminSystemOverview() {
                 </div>
             )}
 
-            {/* PILOT DEMO LAUNCHER (ADMIN ONLY) */}
-            {role === 'admin' && (
-                <div className="mb-8 rounded-2xl bg-slate-900 border border-slate-800 p-6 shadow-xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
-                        <Target className="w-32 h-32 text-emerald-500" />
-                    </div>
-                    
-                    <div className="flex items-center justify-between mb-6 relative z-10">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                                <PlayCircle className="w-5 h-5 text-emerald-400" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                    Pilot Demo Launcher
-                                    {isDemoHubReady() ? (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
-                                            <CheckCircle2 className="w-3 h-3" /> Ready
-                                        </span>
-                                    ) : (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[10px] font-bold text-amber-400 uppercase tracking-wider">
-                                            Config Pending
-                                        </span>
-                                    )}
-                                </h3>
-                                <p className="text-xs text-slate-400 mt-0.5">Golden Records preestablecidos para presentaciones comerciales sin azar (B2B).</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
-                        {PILOT_DEMO_RECORDS.map(record => (
-                            <button
-                                key={record.id}
-                                onClick={() => {
-                                    const matchingItem = filteredRankings.find(r => r.id === record.id);
-                                    if (matchingItem) {
-                                        setSelectedBattle(matchingItem);
-                                    } else {
-                                        // Mock the item so the drawer opens and fetches the real depth data
-                                        setSelectedBattle({
-                                            id: record.id,
-                                            title: record.title,
-                                            slug: record.slug,
-                                            total_signals: 100,
-                                            trend_score: 8.5,
-                                            snapshot_at: new Date().toISOString(),
-                                            variation: 0,
-                                            variation_percent: 0,
-                                            direction: 'stable'
-                                        });
-                                    }
-                                }}
-                                className={`text-left p-4 rounded-xl border transition-all ${record.isReady ? 'bg-slate-800 hover:bg-slate-700 border-slate-700 hover:border-emerald-500/50 cursor-pointer shadow-sm hover:shadow-md' : 'bg-slate-800/50 border-slate-800 opacity-50 cursor-not-allowed hidden'}`}
-                                disabled={!record.isReady}
-                            >
-                                <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{record.type}</div>
-                                <div className="text-sm font-bold text-slate-200 mb-2 leading-tight">{record.title}</div>
-                                <div className="text-xs text-slate-400 line-clamp-2">{record.description}</div>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
 
             {/* SEGMENTATION FILTERS */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-8 flex flex-wrap items-center gap-4">

@@ -47,13 +47,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                         // Auto-consume if recently signed up
                         if (isValid && p && p.tier !== 'guest' && !p.invitation_code_id) {
                             try {
-                                const nickname = p.displayName || "user";
+                                const stored = authService.getStoredOAuthBootstrap();
+                                const nickname = stored?.nickname || p.displayName || "user";
                                 await authService.bootstrapUserAfterSignup(nickname, code);
                                 tokenIsValid = true;
+                                if (stored) authService.clearOAuthBootstrap();
                                 // We'll trigger another refresh via profile update listener or manual call
                             } catch (e) {
-                                logger.warn("Early consume error", { domain: 'auth', origin: 'AuthContext', action: 'bootstrap_user', error_details: e });
-                                tokenIsValid = Boolean(isValid);
+                                logger.error("Early consume error (Access Denied)", { domain: 'auth', origin: 'AuthContext', action: 'bootstrap_user', error_details: e });
+                                tokenIsValid = false; // Restrict access if code application failed
                             }
                         } else {
                             tokenIsValid = Boolean(isValid);

@@ -134,9 +134,9 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
                                     <span className="font-bold text-slate-700">Opción {idx + 1} <span className="font-normal text-[10px] text-slate-400">({String(opt.option_id).substring(0,8)})</span></span>
                                     <div className="flex items-center gap-4">
                                         <div className="w-32 bg-slate-100 h-2 rounded-full overflow-hidden">
-                                            <div className={`h-full ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-emerald-500' : 'bg-indigo-400'}`} style={{ width: `${Math.max(0, Math.min(100, (opt.normalized_score || opt.raw_win_rate) * 100))}%` }}></div>
+                                            <div className={`h-full ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-emerald-500' : 'bg-indigo-400'}`} style={{ width: `${Math.max(0, Math.min(100, (opt.normalized_score || opt.raw_win_rate || 0) * 100))}%` }}></div>
                                         </div>
-                                        <span className="font-mono font-bold text-slate-900 text-right w-12">{((opt.normalized_score || opt.raw_win_rate) * 100).toFixed(1)}%</span>
+                                        <span className="font-mono font-bold text-slate-900 text-right w-12">{((opt.normalized_score || opt.raw_win_rate || 0) * 100).toFixed(1)}%</span>
                                     </div>
                                 </div>
                             ))}

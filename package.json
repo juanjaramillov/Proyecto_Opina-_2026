@@ -10,9 +10,13 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "create:admin": "tsx scripts/ops/create_admin_user.ts",
-    "fetch:logos": "node scripts/ops/catalog/fetch-entity-logos.mjs",
-    "gen-types": "supabase gen types typescript --project-id <TU_ID> > src/supabase/database.types.ts"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:auth": "tsx scripts/tests/auth.integration.ts",
+    "ops:create-admin": "tsx scripts/ops/create_admin_user.ts",
+    "ops:fetch-logos": "node scripts/ops/catalog/fetch-entity-logos.mjs",
+    "ops:zip-clean": "bash scripts/ops/export_clean_zip.sh",
+    "ops:repo-hygiene": "node scripts/ops/verify_repo_hygiene.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.91.0",
@@ -37,6 +41,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^25.3.3",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
@@ -47,6 +54,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^17.0.0",
+    "jsdom": "^29.0.0",
     "madge": "^8.0.0",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
@@ -55,6 +63,7 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.51.0",
-    "vite": "^6.4.1"
+    "vite": "^6.4.1",
+    "vitest": "^4.1.0"
   }
 }

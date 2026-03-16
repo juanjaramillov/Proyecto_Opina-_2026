@@ -26,7 +26,6 @@ import { X, Zap, PieChart, Users, Clock, TrendingUp, TrendingDown, Activity, Dat
 import { TrendingItem } from "../../../types/trending";
 import { DepthInsight, TemporalComparison, VolatilityData, PolarizationData, SegmentInfluence, EarlySignal, B2BBattleAnalytics, B2BEligibility, IntegrityFlags } from "../../signals/services/insightsService";
 import { PremiumExportCard } from './PremiumExportCard';
-import { PILOT_DEMO_RECORDS } from "../../admin/demo-records";
 
 interface DepthInsightsDrawerProps {
     selectedBattle: TrendingItem;
@@ -71,7 +70,7 @@ export function DepthInsightsDrawer({
     b2bEligibility,
     integrityFlags
 }: DepthInsightsDrawerProps) {
-    const [isDemoMode, setIsDemoMode] = useState(false);
+    const [isExportView, setIsExportView] = useState(false);
 
     return (
         <>
@@ -85,15 +84,15 @@ export function DepthInsightsDrawer({
                         <div className="flex items-center gap-2">
                             {b2bEligibility && (
                                 <button
-                                    onClick={() => setIsDemoMode(!isDemoMode)}
+                                    onClick={() => setIsExportView(!isExportView)}
                                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-colors border ${
-                                        isDemoMode 
+                                        isExportView 
                                             ? 'bg-indigo-50 text-indigo-700 border-indigo-200' 
                                             : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                     }`}
                                 >
-                                    {isDemoMode ? <MonitorPlay className="w-3.5 h-3.5" /> : <Settings2 className="w-3.5 h-3.5" />}
-                                    {isDemoMode ? 'Demo Activo' : 'Panel Técnico'}
+                                    {isExportView ? <MonitorPlay className="w-3.5 h-3.5" /> : <Settings2 className="w-3.5 h-3.5" />}
+                                    {isExportView ? 'Vista Premium' : 'Panel Técnico'}
                                 </button>
                             )}
                             <button
@@ -105,7 +104,7 @@ export function DepthInsightsDrawer({
                         </div>
                     </div>
 
-                    {isDemoMode ? (
+                    {isExportView ? (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 print:mt-0">
                             <PremiumExportCard 
                                 item={selectedBattle}
@@ -113,27 +112,10 @@ export function DepthInsightsDrawer({
                                 b2bAnalytics={b2bAnalytics || null}
                                 integrityFlags={integrityFlags || null}
                             />
-                            
-                            {/* PRESENTER NOTES (Only visible on screen, hidden on print) */}
-                            {(() => {
-                                const demoRecord = PILOT_DEMO_RECORDS.find(r => r.id === selectedBattle.id);
-                                if (!demoRecord) return null;
-                                return (
-                                    <div className="mt-8 p-4 bg-indigo-50 border border-indigo-200 rounded-xl print:hidden animate-in fade-in">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <MonitorPlay className="w-4 h-4 text-indigo-600" />
-                                            <span className="text-xs font-bold uppercase tracking-wider text-indigo-900">Guía de Pitch Comercial</span>
-                                        </div>
-                                        <p className="text-sm text-indigo-800 font-medium">
-                                            {demoRecord.commercialBullet}
-                                        </p>
-                                    </div>
-                                );
-                            })()}
 
                             <div className="mt-8 text-center print:hidden">
                                 <button
-                                    onClick={() => setIsDemoMode(false)}
+                                    onClick={() => setIsExportView(false)}
                                     className="text-xs font-bold text-slate-400 hover:text-slate-600 underline decoration-slate-300 underline-offset-4"
                                 >
                                     Volver a controles técnicos
@@ -421,7 +403,7 @@ export function DepthInsightsDrawer({
                                         {volatility?.classification === 'volatile' ? 'Volátil' : volatility?.classification === 'moderate' ? 'Moderado' : 'Estable'}
                                     </span>
                                 </div>
-                                <div className="text-3xl font-black text-slate-900 mb-4">{volatility?.volatility_index.toFixed(1)}%</div>
+                                <div className="text-3xl font-black text-slate-900 mb-4">{(volatility?.volatility_index || 0).toFixed(1)}%</div>
 
                                 <div className="h-24 w-full">
                                     <Line
@@ -466,7 +448,7 @@ export function DepthInsightsDrawer({
                                         {polarization?.classification === 'polarized' ? 'Polarizado' : polarization?.classification === 'competitive' ? 'Competitivo' : 'Consenso'}
                                     </span>
                                 </div>
-                                <div className="text-3xl font-black text-slate-900">{polarization?.polarization_index.toFixed(1)}%</div>
+                                <div className="text-3xl font-black text-slate-900">{(polarization?.polarization_index || 0).toFixed(1)}%</div>
                                 <p className="text-[10px] text-slate-400 mt-2 font-medium">Brecha entre las dos opciones principales. Menos es más polarizado.</p>
                             </div>
 
@@ -490,7 +472,7 @@ export function DepthInsightsDrawer({
                                                     </span>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className="text-xs font-black text-emerald-600">{seg.contribution_percent.toFixed(1)}%</div>
+                                                    <div className="text-xs font-black text-emerald-600">{(seg.contribution_percent || 0).toFixed(1)}%</div>
                                                     <div className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Impacto</div>
                                                 </div>
                                             </div>
@@ -531,7 +513,7 @@ export function DepthInsightsDrawer({
                                                 </div>
                                                 <div className="text-right">
                                                     <div className={`text-xs font-black ${item.momentum_ratio > 1 ? 'text-emerald-600' : 'text-slate-600'}`}>
-                                                        {item.momentum_ratio.toFixed(2)}x
+                                                        {(item.momentum_ratio || 0).toFixed(2)}x
                                                     </div>
                                                     <div className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Ratio</div>
                                                 </div>
@@ -634,7 +616,7 @@ export function DepthInsightsDrawer({
                                             <div className="text-sm font-black text-slate-900 mb-1">{comp.current_score.toLocaleString()}</div>
                                             <div className={`text-[10px] font-black flex items-center gap-1 ${comp.variation >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
                                                 {comp.variation >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                                                {comp.variation_percent.toFixed(1)}% ({comp.variation > 0 ? '+' : ''}{comp.variation})
+                                                {(comp.variation_percent || 0).toFixed(1)}% ({comp.variation > 0 ? '+' : ''}{comp.variation})
                                             </div>
                                         </div>
                                     ))}
@@ -658,7 +640,7 @@ export function DepthInsightsDrawer({
                                             </h4>
                                             <div className="flex items-end gap-3">
                                                 <div className="text-4xl font-black text-slate-900 tracking-tighter">
-                                                    {insight.average_score.toFixed(1)}
+                                                    {(insight.average_score || 0).toFixed(1)}
                                                 </div>
                                                 <div className="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-widest">Promedio</div>
                                             </div>

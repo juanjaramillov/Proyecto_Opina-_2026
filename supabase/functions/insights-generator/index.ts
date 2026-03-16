@@ -1,11 +1,6 @@
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts"
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3"
 import OpenAI from "https://esm.sh/openai@4.28.0"
-
-const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { requireAdmin, corsHeaders } from "../_shared/requireAdmin.ts";
 
 serve(async (req) => {
     // Handle CORS preflight
@@ -14,34 +9,33 @@ serve(async (req) => {
     }
 
     try {
-        const authHeader = req.headers.get('Authorization');
-        if (!authHeader) {
-            throw new Error("Missing Authorization header");
-        }
+        const { supabaseAdmin: supabase } = await requireAdmin(req);
 
-        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-        // Usamos Service Role Key para poder actualizar la columna protegida de la batalla si es necesario
-        const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || Deno.env.get('SUPABASE_ANON_KEY')!;
         const openAiKey = Deno.env.get('OPENAI_API_KEY');
 
         if (!openAiKey) {
             throw new Error("OPENAI_API_KEY no está configurada.");
         }
 
-        const supabase = createClient(supabaseUrl, supabaseKey);
         const openai = new OpenAI({ apiKey: openAiKey });
 
         // Parse payload
         let body;
         try {
             body = await req.json();
-        } catch(e) {
-            throw new Error("Body is not valid JSON." + e);
+        } catch {
+            return new Response(JSON.stringify({ error: "Body is not valid JSON." }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 400,
+            })
         }
 
         const battleSlug = body.battle_slug;
         if (!battleSlug) {
-            throw new Error("Se requiere 'battle_slug' en el body.");
+            return new Response(JSON.stringify({ error: "Se requiere 'battle_slug' en el body." }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 400,
+            })
         }
 
         console.log(`Iniciando Generador de Insights para la batalla: ${battleSlug}...`);
@@ -149,11 +143,13 @@ ${scoresContext}`
         )
 
     } catch (error: unknown) {
+        console.error("Error en function insights-generator:", error);
+        if (error instanceof Response) return error;
+
         const errorMessage = error instanceof Error ? error.message : String(error);
-        console.error("Error en function insights-generator:", errorMessage);
         return new Response(JSON.stringify({ error: errorMessage }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-            status: 400,
+            status: 500,
         })
     }
 })

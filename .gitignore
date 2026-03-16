@@ -47,6 +47,15 @@ supabase/migrations/_history/
 # Dejaremos archive/ fuera del ignore por ahora para que el usuario vea los reportes si lo desea, 
 # pero documentaremos su exclusión en la política de zip limpio.
 
+# Saneamiento estructural real
+.git/
+.vercel/
+__MACOSX/
+reset.log
+validacion_bloque_*.txt
+test-lock.ts
+test_fix.ts
+
 # Temporary / Junk
 proxy.txt
 any_locations.txt

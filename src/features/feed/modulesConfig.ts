@@ -9,9 +9,9 @@ export interface OpinaModule {
     icon: string;
     tone: "primary" | "secondary" | "emerald" | "rose" | "slate";
     tags: string[];
-    mockTitle?: string;
-    mockSubtitle?: string;
-    mockBullets?: string[];
+    previewTitle?: string;
+    previewSubtitle?: string;
+    previewBullets?: string[];
 }
 
 export const MODULES: OpinaModule[] = [
@@ -54,9 +54,9 @@ export const MODULES: OpinaModule[] = [
         icon: "favorite",
         tone: "rose",
         tags: ["Privado", "Anónimo"],
-        mockTitle: "Tu estado personal a un click",
-        mockSubtitle: "Sincroniza tus dimensiones vitales del día a día.",
-        mockBullets: [
+        previewTitle: "Tu estado personal a un click",
+        previewSubtitle: "Sincroniza tus dimensiones vitales del día a día.",
+        previewBullets: [
             "Registra tu estado de ánimo, felicidad y finanzas en segundos.",
             "100% privado y desvinculado de tu identidad pública.",
             "Desbloquea análisis de tendencias según el estado anímico general."
@@ -71,9 +71,9 @@ export const MODULES: OpinaModule[] = [
         icon: "location_on",
         tone: "slate",
         tags: ["Presencial", "Geo"],
-        mockTitle: "Rankea lugares en el mundo real",
-        mockSubtitle: "Evalúa parques, restaurantes o locales físicos al instante.",
-        mockBullets: [
+        previewTitle: "Rankea lugares en el mundo real",
+        previewSubtitle: "Evalúa parques, restaurantes o locales físicos al instante.",
+        previewBullets: [
             "Checa la mejor ubicación valorada a pocos kilómetros.",
             "Registra tus visitas y valora experiencias in-situ.",
             "Mira mapas de calor basados en la opinión colectiva."
@@ -88,9 +88,9 @@ export const MODULES: OpinaModule[] = [
         icon: "support_agent",
         tone: "slate",
         tags: ["Atención", "Calidad"],
-        mockTitle: "Inteligencia en Servicios Locales",
-        mockSubtitle: "¿Quién da la mejor atención en tu zona?",
-        mockBullets: [
+        previewTitle: "Inteligencia en Servicios Locales",
+        previewSubtitle: "¿Quién da la mejor atención en tu zona?",
+        previewBullets: [
             "Ranqueo de isapres, aseguradoras, telecomunicaciones y más.",
             "Comparador directo de beneficios y calidad percibida.",
             "Vota para influir cómo operan estas redes de servicio."
@@ -105,9 +105,9 @@ export const MODULES: OpinaModule[] = [
         icon: "newspaper",
         tone: "slate",
         tags: ["Polémica", "A/B"],
-        mockTitle: "Debate en tiempo real",
-        mockSubtitle: "Participa en los grandes debates mientras ocurren.",
-        mockBullets: [
+        previewTitle: "Debate en tiempo real",
+        previewSubtitle: "Participa en los grandes debates mientras ocurren.",
+        previewBullets: [
             "Opiniones a favor / en contra de los temas calientes del día.",
             "Visualiza cómo opinan distintos rangos de edad en tiempo real.",
             "Entiende si vives en una burbuja ideológica o sigues la norma."
@@ -122,9 +122,9 @@ export const MODULES: OpinaModule[] = [
         icon: "qr_code_scanner",
         tone: "slate",
         tags: ["Supermercado", "Cámara"],
-        mockTitle: "Inteligencia colectiva de bolsillo",
-        mockSubtitle: "Conoce lo que otros opinan escaneando el código de barras.",
-        mockBullets: [
+        previewTitle: "Inteligencia colectiva de bolsillo",
+        previewSubtitle: "Conoce lo que otros opinan escaneando el código de barras.",
+        previewBullets: [
             "Ve directo al supermercado: escanea y visualiza quién lo recomienda.",
             "Añade alternativas hiper-locales y descubre si es ecológico.",
             "Conoce la relación precio/calidad sin leer foros largos."
@@ -139,9 +139,9 @@ export const MODULES: OpinaModule[] = [
         icon: "speed",
         tone: "slate",
         tags: ["Lealtad", "Puntuación"],
-        mockTitle: "Descubriendo tu lealtad",
-        mockSubtitle: "Métrica estándar para conocer marcas ultra recomendadas.",
-        mockBullets: [
+        previewTitle: "Descubriendo tu lealtad",
+        previewSubtitle: "Métrica estándar para conocer marcas ultra recomendadas.",
+        previewBullets: [
             "Responde en escala rápida del 1 al 10 si recomendarías la marca.",
             "Descubre si tu marca favorita realmente es amada u odiada.",
             "Ve listados Top de Lovemarks en tu industria preferida."

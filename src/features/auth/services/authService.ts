@@ -229,10 +229,9 @@ export const authService = {
     async consumeInvitation(code: string, _nickname: string): Promise<void> {
         const { data: { user } } = await sb.auth.getUser();
         if (!user) throw new Error("No authenticated user");
-        const userId = user.id;
-        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('consume_invitation_code_v2', {
-                p_code: code,
-                p_user_id: userId
+        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('bootstrap_user_after_signup_v2', {
+                p_nickname: _nickname,
+                p_invitation_code: code
             });
 
         if (error) {
@@ -308,10 +307,8 @@ export const authService = {
         const { data: { user } } = await sb.auth.getUser();
         if (!user) throw new Error("No authenticated user");
         const userId = user.id;
-        const role = user.role; // Assuming role is available on user object or derived
-        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('bootstrap_user_aftersignup_v2', {
-                p_user_id: userId,
-                p_role: role,
+        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('bootstrap_user_after_signup_v2', {
+                p_nickname: _nickname,
                 p_invitation_code: invitationCode
             });
 

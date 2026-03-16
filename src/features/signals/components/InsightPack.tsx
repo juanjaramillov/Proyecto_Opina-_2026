@@ -117,7 +117,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
 
     const { showToast } = useToast();
 
-    // Mock segment filter based on profile to send to RPC
+    // Basic segment filter based on profile to send to RPC
     const segmentFilter = profile?.demographics?.region || null;
 
     const fetchAnalytics = async (answers: Record<string, string | number>) => {

@@ -1,14 +1,13 @@
 import { NavLink, Outlet, Navigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../../features/auth/context/AuthContext";
-import { Building2, Bell, Zap, TrendingUp, Presentation, Search, Activity, ChevronLeft, Menu, X } from "lucide-react";
+import { Building2, Bell, Zap, TrendingUp, Search, Activity, ChevronLeft, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const B2B_MODULES = [
     { id: 'overview', label: 'Executive Overview', icon: Activity, path: '/b2b/overview' },
+    { id: 'alerts', label: 'Early Warnings', icon: Bell, path: '/b2b/alerts' },
     { id: 'benchmark', label: 'Market Benchmark', icon: TrendingUp, path: '/b2b/benchmark' },
     { id: 'deep-dive', label: 'Entity Deep Dive', icon: Search, path: '/b2b/deep-dive' },
-    { id: 'alerts', label: 'Early Warnings', icon: Bell, path: '/b2b/alerts' },
-    { id: 'reports', label: 'C-Level Reports', icon: Presentation, path: '/b2b/reports' },
 ];
 
 export default function B2BLayout() {

@@ -25,3 +25,7 @@ Puede consumir lecturas más profundas:
 ## Regla central
 
 Resultados e Inteligencia pueden compartir base agregada, pero no deben exponer el mismo nivel de detalle ni la misma profundidad analítica.
+
+## Arquitectura Ficticia de Resultados (V13)
+
+Actualmente, la página de Resultados consume una única fuente de verdad ficticia (`results-fictional-provider`). Esto unifica la experiencia visual, previene la mezcla con datos reales incompletos y ofrece un **Demo Mode exclusivo para admin** que permite transicionar entre perfiles (Explorador, Consistente, Divergente, Intenso). Los usuarios base ven un escenario fijo consolidado. La ingesta de datos reales queda postergada y la UI opera como un contenedor estructural puro (sin lógica de lectura cruzada).

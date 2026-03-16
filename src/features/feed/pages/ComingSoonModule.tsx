@@ -132,11 +132,11 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
             />
 
             <PreviewShell
-                title={activeModule.mockTitle || `El futuro de ${activeModule.title}`}
-                description={activeModule.mockSubtitle || activeModule.description}
+                title={activeModule.previewTitle || `El futuro de ${activeModule.title}`}
+                description={activeModule.previewSubtitle || activeModule.description}
                 icon={activeModule.icon}
                 tone={activeModule.tone}
-                bullets={activeModule.mockBullets || []}
+                bullets={activeModule.previewBullets || []}
                 onBack={() => nav(-1)}
                 onRequestLaunch={() => {
                     // Acción visual para el usuario

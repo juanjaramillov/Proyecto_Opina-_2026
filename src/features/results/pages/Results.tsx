@@ -1,299 +1,323 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { BrandLogo } from '../../../components/ui/BrandLogo';
 import { logger } from '../../../lib/logger';
-import { SkeletonRankingRow } from "../../../components/ui/Skeleton";
-import { EmptyState } from "../../../components/ui/EmptyState";
 import { trackPage } from "../../telemetry/track";
 import { useAuth } from "../../auth";
-import { useSignalStore } from "../../../store/signalStore";
-import { NextActionRecommendation, ActionType } from "../../../components/ui/NextActionRecommendation";
 
-// Import custom B2C services
-import { metricsService, LeaderboardEntry, TrendSummary, TrendEntry, ComparisonSummary, ModuleHighlight, ResultsKPIs, DemographicInsight } from "../../../features/metrics/services/metricsService";
-import { PremiumGate } from "../../../components/ui/PremiumGate";
-import { ResultKPIs } from "../components/ResultKPIs";
-import { InsightCards } from "../components/InsightCards";
+import { Activity, AlertCircle, Info, Swords, Trophy, FileText, Target } from 'lucide-react';
 
-// Trend Chart Visual Component
-function BasicTrendChart({ isUp }: { isUp: boolean }) {
-  const colorVariant = isUp ? 'primary' : 'danger';
-  const strokeColor = `var(--color-${colorVariant})`;
-  const fillColor = `var(--color-${colorVariant}-muted)`;
-  
-  // Fake smooth curve
-  const pts = isUp === true
-    ? "0,80 20,70 40,40 60,60 80,30 100,10" 
-    : isUp === false 
-      ? "0,20 20,30 40,60 60,50 80,70 100,90"
-      : "0,50 20,45 40,55 60,45 80,55 100,50"; // Stable
+// === DATA PROVIDERS ===
+import { userMasterResultsReadModel } from "../../../read-models/b2c/userMasterResultsReadModel";
+import { MasterHubSnapshot, HubFilters } from "../../../read-models/b2c/hub-types";
 
-  return (
-    <div className="relative w-full h-12 mt-4 opacity-80">
-      <svg viewBox="0 0 100 100" className="w-full h-full preserve-3d" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id={`grad-${colorVariant}-trend`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={strokeColor} stopOpacity="0.4" />
-            <stop offset="100%" stopColor={fillColor} stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <polyline fill={`url(#grad-${colorVariant}-trend)`} points={`0,100 ${pts} 100,100`} />
-        <polyline fill="none" stroke={strokeColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" points={pts} />
-        <circle cx="100" cy={isUp === true ? 10 : isUp === false ? 90 : 50} r="4" fill={strokeColor} className="animate-pulse" />
-      </svg>
-    </div>
-  );
-}
+import { FilterBar } from "../components/hub/FilterBar";
+import { VersusHubSection } from "../components/hub/VersusHubSection";
+import { TournamentHubSection } from "../components/hub/TournamentHubSection";
+// Nuevos Hubs de Demo
+import { ActualidadHubSection } from "../components/hub/ActualidadHubSection";
+import { ProfundidadHubSection } from "../components/hub/ProfundidadHubSection";
 
-function TrendCard({ title, items, isUp }: { title: string, items: TrendEntry[], isUp: boolean | null }) {
-  if (items.length === 0) return null;
-  const colorLabel = isUp === true ? "text-primary" : isUp === false ? "text-danger" : "text-secondary";
-  const iconName = isUp === true ? 'trending_up' : isUp === false ? 'trending_down' : 'trending_flat';
+import { MySignalsSummary } from "../components/MySignalsSummary";
+import { TransversalComparator } from "../components/hub/TransversalComparator";
+import { RealTimelineChart } from "../components/RealTimelineChart";
+import { NextActionRecommendation } from "../../../components/ui/NextActionRecommendation";
 
-  return (
-    <div className="card p-6 border border-stroke bg-white shadow-sm hover:shadow-md transition-all group">
-      <div className="flex items-center gap-2 mb-4 border-b border-stroke pb-2">
-        <span className={`material-symbols-outlined ${colorLabel} text-[20px]`}>
-          {iconName}
-        </span>
-        <h3 className="text-sm font-black uppercase tracking-widest text-ink">{title}</h3>
-      </div>
-      <div className="space-y-4">
-        {items.map(item => (
-          <div key={item.entity_id} className="flex items-center justify-between">
-            <p className="font-bold text-ink text-lg line-clamp-1 flex-1 relative z-10">{item.entity_name}</p>
-            <span className="text-xs font-black text-text-muted bg-surface2 px-2 py-0.5 rounded-md shrink-0">
-              {item.signal_count} señales
-            </span>
-          </div>
-        ))}
-        <BasicTrendChart isUp={isUp !== null ? isUp : true} />
-      </div>
-    </div>
-  );
-}
+type HubTab = 'versus' | 'tournament' | 'actualidad' | 'profundidad';
 
 export default function ResultsPage() {
   const nav = useNavigate();
   const { profile } = useAuth();
-  const { signals } = useSignalStore();
-
+  
+  // 1. Estado Local y Filtros Demográficos
   const [loading, setLoading] = useState(true);
+  const [snapshot, setSnapshot] = useState<MasterHubSnapshot | null>(null);
+  const [filters, setFilters] = useState<HubFilters>({});
+  const [activeTab, setActiveTab] = useState<HubTab>('versus');
 
-  // B2C Data states
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [trends, setTrends] = useState<TrendSummary>({ trendingUp: [], trendingDown: [], stable: [] });
-  const [comparison, setComparison] = useState<ComparisonSummary | null>(null);
-  const [highlights, setHighlights] = useState<ModuleHighlight[]>([]);
-  const [kpis, setKpis] = useState<ResultsKPIs | null>(null);
-  const [demoInsights, setDemoInsights] = useState<DemographicInsight[]>([]);
-
-  const loadAll = useCallback(async () => {
+  const loadData = useCallback(async () => {
+    if (!profile?.id) return;
+    
     setLoading(true);
     try {
-      const [lb, tr, cmp, hl, kpiData, insightsData] = await Promise.all([
-        metricsService.getGlobalLeaderboard(10),
-        metricsService.getTrendSummary(),
-        metricsService.getComparisonSummary(), // Mock personal comp
-        metricsService.getModuleHighlights(),
-        metricsService.getResultsKPIs(),
-        metricsService.getDemographicInsights(3)
-      ]);
-      setLeaderboard(lb);
-      setTrends(tr);
-      setComparison(cmp);
-      setHighlights(hl);
-      setKpis(kpiData);
-      setDemoInsights(insightsData);
+      const snap = await userMasterResultsReadModel.getMasterHubSnapshot(profile.id, filters);
+      setSnapshot(snap);
     } catch (e) {
-      logger.error("Error loading results data", { domain: 'network_api', origin: 'Results', action: 'load_data', state: 'failed' }, e);
+      logger.error("Error loading master hub data", { domain: 'network_api', origin: 'Results_Hub_B2C', action: 'load_data', state: 'failed' }, e);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [profile, filters]); 
 
   useEffect(() => {
-    loadAll();
-    trackPage("results_b2c");
-  }, [loadAll]);
+    loadData();
+    trackPage("results_hub_b2c");
+  }, [loadData]);
+
+
+  if (!snapshot) {
+     return (
+        <div className="min-h-screen bg-transparent flex items-center justify-center">
+           <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+        </div>
+     );
+  }
 
   return (
     <div className="min-h-screen bg-transparent relative z-10 w-full mb-12">
-      <div className="max-w-6xl mx-auto px-4 py-8 relative text-ink">
 
-        {/* Hero corto */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8 border-b border-stroke pb-8">
-          <div>
-            <h1 className="text-3xl lg:text-4xl font-black text-ink tracking-tight animate-in fade-in slide-in-from-left-4 duration-500">
-              Inteligencia <span className="text-gradient-brand">Colectiva</span>
-            </h1>
-            <p className="text-sm text-text-secondary font-medium mt-2 max-w-xl animate-in fade-in slide-in-from-left-6 duration-700">
-              Conoce las tendencias y el pulso principal de la comunidad basados en interacciones reales.
-              <br/>
-              <span className="text-[10px] font-black uppercase text-primary tracking-widest mt-2 inline-block bg-primary/10 px-2 py-1 rounded-md">
-                Inteligencia Predictiva B2C
-              </span>
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => nav("/signals")}
-            className="btn-primary shrink-0 shadow-md text-sm px-6"
-          >
-            Seguir señalando →
-          </button>
-        </div>
+      <div className="max-w-6xl mx-auto px-4 py-4 relative text-ink">
 
-        {/* Content */}
-        <div className="transition-all duration-500">
-          
-          {loading ? (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                {[1, 2, 3, 4].map(i => <div key={i} className="h-32 bg-white/5 animate-pulse rounded-2xl" />)}
+        {/* 1. Hero Hub B2C EDITORIAL */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 pb-16 border-b border-stroke/50 animate-in fade-in slide-in-from-bottom-4 duration-700">
+           
+           {/* Columna Izquierda: Copys y micro insights (7/12) */}
+           <div className="lg:col-span-7 flex flex-col justify-center">
+              {/* Badges de apoyo */}
+              <div className="flex flex-wrap items-center gap-3 mb-6">
+                 <span className={`px-2.5 py-1 rounded-full border text-[10px] font-black text-ink uppercase tracking-widest flex items-center gap-1.5 shadow-sm ${
+                    snapshot.sufficiency === 'sufficient_data' 
+                      ? 'bg-primary/5 border-primary/20 text-primary' 
+                      : snapshot.sufficiency === 'partial_data'
+                        ? 'bg-amber-500/5 border-amber-500/20 text-amber-600'
+                        : 'bg-red-500/5 border-red-500/20 text-red-600'
+                  }`}>
+                    {snapshot.sufficiency === 'sufficient_data' && <Activity className="w-3.5 h-3.5" />}
+                    {snapshot.sufficiency === 'partial_data' && <Info className="w-3.5 h-3.5" />}
+                    {snapshot.sufficiency === 'insufficient_data' && <AlertCircle className="w-3.5 h-3.5" />}
+                    {snapshot.sufficiency === 'sufficient_data' ? 'Señal Robusta' : snapshot.sufficiency === 'partial_data' ? 'Señal en Consolidación' : 'Señal Exploratoria'}
+                 </span>
+                 <span className="px-3 py-1 bg-surface border border-stroke rounded-full text-[10px] font-bold tracking-widest uppercase text-text-muted">
+                    Perfil {snapshot.user.profileCompleteness}%
+                 </span>
               </div>
-              <SkeletonRankingRow />
-              <SkeletonRankingRow />
-            </div>
-          ) : (
-            <div className="fade-in duration-500">
-              {/* KPIs Header */}
-              {kpis && <ResultKPIs kpis={kpis} loading={loading} />}
 
-              {/* Demographic Insights */}
-              <InsightCards insights={demoInsights} loading={loading} />
+              {/* Titular Editorial Fuerte */}
+              <h1 className="text-4xl md:text-5xl lg:text-[52px] font-black text-ink leading-[1.05] tracking-tight mb-5 text-balance">
+                 {snapshot.sufficiency === 'sufficient_data' 
+                     ? <>Tus posiciones frente al consumo, <span className="text-gradient-brand">en un solo lugar.</span></>
+                     : <>Tu perfil analítico <span className="text-gradient-brand">comienza a tomar forma</span> en base a tus decisiones.</>
+                 }
+              </h1>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
-              {/* Leaderboard Principal (Columna Izquierda 2x) */}
-              <div className="lg:col-span-2 flex flex-col gap-6">
-                
-                {/* 1. Comparison & Intro Card */}
-                {comparison && (
-                  <div className={`card p-6 border-l-4 ${comparison.isMajority ? 'border-l-primary bg-primary/5' : 'border-l-secondary bg-secondary/5'} shadow-sm flex items-center gap-4`}>
-                    <div className="w-12 h-12 shrink-0 rounded-full bg-white shadow-sm flex items-center justify-center">
-                      <span className={`material-symbols-outlined text-[24px] ${comparison.isMajority ? 'text-primary' : 'text-secondary'}`}>
-                        {comparison.isMajority ? 'group' : 'psychology'}
-                      </span>
-                    </div>
+              {/* Subtítulo Útil */}
+              <p className="text-lg text-text-secondary font-medium leading-relaxed max-w-xl text-balance">
+                 {snapshot.sufficiency === 'sufficient_data'
+                     ? 'Tus patrones muestran una alta estabilidad comparado con tu grupo demográfico en los módulos core.'
+                     : 'Sigue participando en Torneos y Actualidad para desbloquear una lectura interpretativa mucho más profunda.'
+                 }
+              </p>
+
+              {/* Micro-insights secundarios */}
+              {snapshot.cohortState.isFiltered && (
+                 <div className="mt-8 flex items-start gap-3 p-4 bg-primary/5 border border-primary/20 rounded-2xl w-max">
+                    <Target className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="text-sm font-black uppercase tracking-widest text-ink mb-1">Cruce de Preferencias</h3>
-                      <p className="text-sm font-medium text-text-secondary">{comparison.message}</p>
+                      <p className="text-sm font-bold text-ink leading-tight">Lente Demográfico Activo</p>
+                      <p className="text-xs text-text-secondary mt-0.5">La lectura actual compara solo contra {snapshot.cohortState.cohortSize} perfiles similares.</p>
                     </div>
-                  </div>
-                )}
+                 </div>
+              )}
+           </div>
 
-                {/* 2. Top Leaderboard */}
-                <div className="card shadow-md flex-1 min-h-[400px]">
-                  <div className="p-6 border-b border-stroke flex justify-between items-center bg-surface2/30">
-                    <div className="flex items-center gap-2">
-                       <span className="material-symbols-outlined text-primary">trophy</span>
-                       <h2 className="text-xl font-black text-ink">Global Leaderboard</h2>
-                    </div>
-                    <span className="text-[10px] text-text-muted font-bold tracking-widest uppercase bg-surface2 px-2 py-1 rounded">
-                      Top 10 Net Win Rate
-                    </span>
+           {/* Columna Derecha: Visual Principal (5/12) */}
+           <div className="lg:col-span-5 flex items-center justify-end relative mt-8 lg:mt-0">
+               <div className="w-full max-w-md bg-surface border border-stroke rounded-[32px] p-8 shadow-sm relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-700 pointer-events-none">
+                     <Activity className="w-48 h-48 text-primary -mr-12 -mt-12" />
+                  </div>
+
+                  <h3 className="text-sm font-black uppercase tracking-widest text-ink mb-8">Huella de Señal</h3>
+                  
+                  <div className="space-y-6 relative z-10">
+                     {[
+                        { label: 'Decisiones Rápidas (Versus)', type: 'versus', color: 'bg-primary' },
+                        { label: 'Comparación Múltiple (Torneos)', type: 'tournament', color: 'bg-indigo-500' },
+                        { label: 'Temas Coyunturales (Actualidad)', type: 'actualidad', color: 'bg-rose-500' }
+                     ].map(mod => {
+                        const totalSignals = snapshot.overview.totalSignals || 1; // avoid /0
+                        const count = snapshot.overview.topModules.find(m => m.moduleType === mod.type)?.count || 0;
+                        const pct = (count / totalSignals) * 100;
+
+                        return (
+                           <div key={mod.type} className="flex flex-col gap-2">
+                              <div className="flex justify-between items-center text-xs font-bold">
+                                 <span className="text-text-secondary">{mod.label}</span>
+                                 <span className="text-ink">{pct.toFixed(0)}%</span>
+                              </div>
+                              <div className="h-2 w-full bg-surface2 rounded-full overflow-hidden">
+                                 <div className={`h-full ${mod.color} rounded-full transition-all duration-1000 ease-out`} style={{ width: `${pct}%` }} />
+                              </div>
+                           </div>
+                        );
+                     })}
                   </div>
                   
-                  {leaderboard.length === 0 ? (
-                    <EmptyState title="No hay suficiente data" description="Aún no hay interacciones procesadas en la vista." icon="data_alert" />
-                  ) : (
-                    <div className="p-2 space-y-1">
-                      {leaderboard.map((r, idx) => (
-                        <div key={r.entity_id} className="flex items-center justify-between p-4 hover:bg-surface2/50 transition-colors rounded-xl group relative overflow-hidden">
-                          {/* Fondo de progreso de Share */}
-                          <div className="absolute top-0 bottom-0 left-0 bg-primary/5 -z-10 group-hover:bg-primary/10 transition-colors" style={{ width: `${Math.round(r.win_rate * 100)}%` }} />
-                          
-                            <div className="flex items-center gap-5 z-10 w-full">
-                            <div className={`w-8 font-black text-lg ${idx < 3 ? 'text-primary' : 'text-text-muted'}`}>
-                              {idx + 1}
-                            </div>
-                            <BrandLogo name={r.entity_name} className="w-12 h-12" />
-                            <div className="flex-1 min-w-0">
-                              <p className="font-black text-ink text-lg truncate">{r.entity_name}</p>
-                              <div className="flex gap-3 text-[10px] font-bold uppercase tracking-widest text-text-muted mt-0.5">
-                                <span>{r.wins_count} Wins</span>
-                                <span>{r.total_comparisons} Votos</span>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-xl font-black text-ink">{Math.round(r.win_rate * 100)}%</p>
-                              <p className="text-[10px] uppercase tracking-widest font-black text-text-muted">Win Rate</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Sidebar Derecho (Highlights & Trends) */}
-              <div className="space-y-6 flex flex-col">
-                <PremiumGate featureName="Tendencias de Mercado" isLocked={false}>
-                  <div className="space-y-6">
-                    {/* 3. Trends Generales */}
-                    {trends.trendingUp.length > 0 && (
-                      <TrendCard title="Mayor Tracción (WoW)" items={trends.trendingUp} isUp={true} />
-                    )}
-                    {trends.stable.length > 0 && (
-                      <TrendCard title="Tracción Estable (WoW)" items={trends.stable} isUp={null} />
-                    )}
-                    {trends.trendingDown.length > 0 && (
-                      <TrendCard title="Pérdida de Tracción (WoW)" items={trends.trendingDown} isUp={false} />
-                    )}
-
-                    {/* 4. Highlights por Módulo */}
-                    <div className="card shadow-md flex-1 bg-gradient-to-b from-white to-surface2/50 relative z-0">
-                      <div className="p-5 border-b border-stroke">
-                        <h2 className="text-sm font-black text-ink uppercase tracking-widest flex items-center gap-2">
-                          <span className="material-symbols-outlined text-secondary">star_half</span>
-                          Módulos Destacados
-                        </h2>
-                      </div>
-                      <div className="p-5 space-y-5">
-                        {highlights.length === 0 ? (
-                          <p className="text-xs text-text-muted text-center py-4">No hay highlights actuales</p>
-                        ) : (
-                          highlights.map((h, i) => (
-                            <div key={i} className="border-l-2 border-stroke pl-3 hover:border-primary transition-colors">
-                              <p className="text-[10px] uppercase tracking-widest font-black text-primary mb-1">{h.module}</p>
-                              <h4 className="font-bold text-ink text-sm mb-1">{h.title}</h4>
-                              <p className="text-xs font-medium text-text-secondary leading-snug">{h.description}</p>
-                              {h.value && (
-                                <span className="inline-block mt-2 bg-surface2 px-2 py-0.5 rounded text-[10px] font-black text-ink uppercase tracking-wider border border-stroke/50 shadow-sm">{h.value}</span>
-                              )}
-                            </div>
-                          ))
+                  <div className="mt-8 pt-6 border-t border-stroke flex items-center justify-between">
+                     <div className="flex flex-col">
+                        <span className="text-[10px] uppercase font-bold text-text-muted tracking-wider">Volumen Total</span>
+                        <div className="text-2xl font-black text-ink">{snapshot.overview.totalSignals} <span className="text-sm text-text-secondary font-medium">señales</span></div>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        {snapshot.user.profileCompleteness < 100 && (
+                           <button 
+                             onClick={() => nav('/complete-profile')}
+                             className="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-primary-muted transition-colors flex items-center gap-1"
+                             disabled={loading}
+                           >
+                              Completar Perfil
+                           </button>
                         )}
-                      </div>
-                    </div>
+                        <div className="w-10 h-10 rounded-full border border-stroke flex items-center justify-center bg-surface2 relative">
+                           <div className="absolute inset-0 rounded-full border-[3px] border-primary border-t-transparent animate-spin-slow" style={{ animationDuration: '3s', opacity: 0.3 }} />
+                           <Target className="w-4 h-4 text-primary" />
+                        </div>
+                     </div>
                   </div>
-                </PremiumGate>
-              </div>
-            </div>
-          </div>
-          )}
-          
-          <div className="mt-12 mb-8">
-            <NextActionRecommendation
-              totalSignals={signals}
-              profileCompleteness={(profile as { profileCompleteness?: number })?.profileCompleteness || 0}
-              onAction={(action: ActionType) => {
-                if (action === 'profile') nav('/complete-profile');
-                if (action === 'versus') nav('/signals');
-                if (action === 'results') window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              customTitle="Profundiza con nosotros"
-              showSecondaryOption={false}
-            />
-            
-            <p className="text-center text-xs font-medium text-text-muted mt-6 max-w-sm mx-auto">
-              Analítica colectiva basada en señales reales. Accede a insights más profundos a través de nuestros canales corporativos.
-            </p>
-          </div>
+               </div>
+           </div>
 
         </div>
+
+        {/* 2. Resumen Transversal */}
+        <div className="mb-16 bg-surface2/20 rounded-[2rem] p-8 border border-stroke/50 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 relative">
+          {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
+          <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Tu Resumen Transversal</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <MySignalsSummary 
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
+              loading={loading} 
+            />
+            {/* Status Card Rehecha Visualmente (Opina+ Brand Look) */}
+            <div className={`card p-6 border shadow-sm flex flex-col justify-start relative overflow-hidden group border-stroke bg-surface2/30`}>
+                 <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 group-hover:scale-110 transform origin-top-right">
+                   <span className="material-symbols-outlined text-[100px] text-primary">diamond</span>
+                 </div>
+                 
+                 <div className="flex items-center gap-2 mb-4 z-10">
+                   <div className="w-8 h-8 rounded-full bg-surface border border-stroke flex items-center justify-center shadow-sm">
+                     <span className={`material-symbols-outlined text-[16px] text-text-muted`}>workspace_premium</span>
+                   </div>
+                   <h3 className="text-xs font-black uppercase tracking-widest text-text-secondary">Rango Cívico en Opina+</h3>
+                 </div>
+
+                 <div className="z-10 mt-2">
+                   <h4 className="text-3xl font-black text-ink tracking-tight mb-1">
+                      {snapshot.sufficiency !== 'insufficient_data' ? 'Influyente' : 'Recién Llegado'}
+                   </h4>
+                   <p className="text-sm font-bold text-text-muted mb-6">
+                      {snapshot.sufficiency !== 'insufficient_data' ? 'Comienzas a influir' : 'Fase de Calibración'}
+                   </p>
+                   
+                   <div className="space-y-4">
+                     <div>
+                       <div className="flex justify-between text-xs font-bold text-ink mb-1 uppercase tracking-widest text-[9px]">
+                         <span>Progreso al Siguiente Nivel</span>
+                         <span className="text-primary">{snapshot.overview?.totalSignals || 0} / 50</span>
+                       </div>
+                       <div className="h-2 w-full bg-surface2 hover:bg-stroke transition-colors rounded-full overflow-hidden border border-stroke/50">
+                         <div className="h-full bg-primary rounded-full transition-all duration-1000" style={{ width: `${Math.min(((snapshot.overview?.totalSignals || 0) / 50) * 100, 100)}%` }}></div>
+                       </div>
+                     </div>
+
+                     {snapshot.sufficiency !== 'insufficient_data' && (
+                       <div className="bg-surface/60 p-3 rounded-xl border border-stroke backdrop-blur-sm">
+                         <p className="text-xs font-medium text-text-secondary leading-relaxed">
+                           <span className="font-bold text-ink block mb-1">Status Activo:</span> 
+                           Sube de nivel para acceder a encuestas exclusivas.
+                         </p>
+                       </div>
+                     )}
+                   </div>
+                 </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. Barra de Filtro Demográfica (Aplica cruzado) - MÁS CERCA DE LA COMPARACIÓN */}
+        <div className="mb-4 sticky top-[68px] z-40">
+           <FilterBar 
+             filters={filters} 
+             onChange={setFilters} 
+             isFiltered={snapshot.cohortState.isFiltered}
+             cohortSize={snapshot.cohortState.cohortSize}
+           />
+        </div>
+
+        {/* 4. Bloque de Comparaciones Clave (NUEVO COMPARADOR TRANSVERSAL) */}
+        <div className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200 relative">
+          <TransversalComparator 
+            snapshot={snapshot} 
+            loading={loading}
+            onClearFilter={() => setFilters({})}
+          />
+        </div>
+
+        {/* 5. Navegación Intrasitio (Tabs) por Módulos */}
+        <div className="mb-6">
+          <h2 className="text-xl font-black text-ink mb-4 px-2 tracking-tight">Análisis Modular de Decisiones</h2>
+          <div className="flex items-center gap-2 border-b border-stroke pb-0 overflow-x-auto no-scrollbar relative">
+             <button 
+               onClick={() => setActiveTab('versus')}
+               className={`pb-3 px-4 text-sm font-black uppercase tracking-widest border-b-2 whitespace-nowrap flex items-center gap-2 transition-colors ${activeTab === 'versus' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-ink'}`}
+             >
+               <Swords className="w-4 h-4" /> Versus
+             </button>
+             <button 
+               onClick={() => setActiveTab('tournament')}
+               className={`pb-3 px-4 text-sm font-black uppercase tracking-widest border-b-2 whitespace-nowrap flex items-center gap-2 transition-colors ${activeTab === 'tournament' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-ink'}`}
+             >
+               <Trophy className="w-4 h-4" /> Torneos
+             </button>
+             <button 
+               onClick={() => setActiveTab('actualidad')}
+               className={`pb-3 px-4 text-sm font-black uppercase tracking-widest border-b-2 whitespace-nowrap flex items-center gap-2 transition-colors ${activeTab === 'actualidad' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-ink'}`}
+             >
+               <FileText className="w-4 h-4" /> Actualidad
+             </button>
+             <button 
+               onClick={() => setActiveTab('profundidad')}
+               className={`pb-3 px-4 text-sm font-black uppercase tracking-widest border-b-2 whitespace-nowrap flex items-center gap-2 transition-colors ${activeTab === 'profundidad' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-ink'}`}
+             >
+               <Target className="w-4 h-4" /> Profundidad
+             </button>
+          </div>
+        </div>
+
+        {/* Contenedor de Vistas Modulares (Tabs Content) */}
+        <div className="min-h-[250px] mb-12 relative">
+           {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 rounded-2xl"></div>}
+           {activeTab === 'versus' && <VersusHubSection snapshot={snapshot} loading={loading} />}
+           {activeTab === 'tournament' && <TournamentHubSection snapshot={snapshot} loading={loading} />}
+           {activeTab === 'actualidad' && <ActualidadHubSection snapshot={snapshot} loading={loading} />}
+           {activeTab === 'profundidad' && <ProfundidadHubSection snapshot={snapshot} loading={loading} />}
+        </div>
+
+        {/* 6. Bloque de Evolución */}
+        <div className="mb-16 bg-surface2/30 rounded-[2rem] p-8 border border-stroke/50 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 relative">
+          {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
+          <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Ruta de Enganche Activo</h2>
+          <RealTimelineChart 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
+            loading={loading} 
+          />
+        </div>
+
+        {/* 7. Siguiente Acción (Cierre) */}
+        {!loading && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-500">
+             <NextActionRecommendation 
+               totalSignals={snapshot.overview?.totalSignals || 0}
+               profileCompleteness={snapshot.user?.profileCompleteness || 0}
+               onAction={(action) => {
+                 if (action === 'profile') nav('/complete-profile');
+                 else if (action === 'versus') nav('/versus');
+                 else if (action === 'tournament') nav('/tournament');
+               }}
+             />
+          </div>
+        )}
 
       </div>
     </div>

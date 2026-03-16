@@ -100,9 +100,15 @@ export const signalService = {
             logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing battle_id or option_id for battle flow', payload);
             throw new Error('Invalid signal payload: missing battle_id or option_id');
         }
-        if (!isBattleFlow && !payload.entity_id && !payload.battle_id) {
-            logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing entity_id for non-battle flow', payload);
-            throw new Error('Invalid signal payload: missing entity_id');
+        if (!isBattleFlow) {
+            if (!payload.entity_id && !payload.battle_id) {
+                logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing entity_id for non-battle flow', payload);
+                throw new Error('Invalid signal payload: missing entity_id');
+            }
+            if ((payload.meta?.source === 'depth' || payload.meta?.source === 'news' || payload.meta?.source === 'actualidad') && !payload.context_id) {
+                logger.error('[SignalService] INVALID SIGNAL PAYLOAD: Missing context_id for multi-response non-battle flow', payload);
+                throw new Error('Invalid signal payload: missing context_id for multi-response signal');
+            }
         }
 
         // Lógica Device Hash
@@ -136,7 +142,7 @@ export const signalService = {
             p_entity_id: payload.entity_id || undefined,
             p_entity_type: payload.entity_type || undefined,
             p_context_id: payload.context_id || undefined,
-            p_value_numeric: payload.value_numeric || undefined,
+            p_value_numeric: payload.value_numeric ?? undefined,
             p_value_text: payload.value_text || undefined,
             p_device_hash: deviceHash,
             p_value_json: (payload.meta as Database['public']['Tables']['signal_events']['Row']['value_json']) || {},

@@ -1,10 +1,5 @@
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.8";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { requireAdmin, corsHeaders } from "../_shared/requireAdmin.ts";
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -12,37 +7,15 @@ serve(async (req) => {
   }
 
   try {
+    const { supabaseAdmin } = await requireAdmin(req);
+
     const body = await req.json();
     const { invitation_id, phone_e164 } = body;
 
     if (!invitation_id || !phone_e164) {
-      throw new Error("Missing invitation_id or phone_e164");
-    }
-
-    const authHeader = req.headers.get('Authorization');
-    
-    // Initialize Supabase admin client to do admin tasks and optionally verify user
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
-
-    if (!authHeader) {
-      return new Response(JSON.stringify({ success: false, error: 'Missing Authorization header' }), {
+      return new Response(JSON.stringify({ success: false, error: 'Bad Request: Missing invitation_id or phone_e164' }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 401,
-      });
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    const { error: userError } = await supabaseAdmin.auth.getUser(token);
-    
-    // Check if valid user or if it's the anon key (Anon key getUser usually fails, but we can verify role)
-    // Actually, in an admin function, we should verify the user has some permission.
-    // For now, just ensure the token isn't completely invalid if they aren't using anon key.
-    if (userError && token !== Deno.env.get('SUPABASE_ANON_KEY')) {
-      return new Response(JSON.stringify({ success: false, error: 'Unauthorized: Invalid token' }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 401,
+        status: 400,
       });
     }
 
@@ -157,12 +130,14 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("Function error:", error);
+    if (error instanceof Response) return error; // Propagate the fetch/API Response errors internally handled by requireAdmin
+
     return new Response(JSON.stringify({ 
       success: false, 
       error: error instanceof Error ? error.message : "Unknown error occurred"
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200, // Return 200 to prevent Supabase JS client from swallowing the exact error message
+      status: 500,
     });
   }
 });
