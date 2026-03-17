@@ -1,6 +1,6 @@
 /* =========================================================
    OPINA+ SEÑALES - SOURCE CODE PARA NOTEBOOKLM
-   FECHA ACTUALIZADA: 2026-03-16T21:00:12.050984Z
+   FECHA ACTUALIZADA: 2026-03-17T18:22:26.842Z
    ========================================================= */
 
 
@@ -33,7 +33,7 @@ const BATCH_SIZE = 12;
 
 export default function SignalsHub() {
     const { mode, setMode, requestedBatch, resetToMenu } = useExperienceMode();
-    const { hubStats, hubTopNow } = useExperienceStats();
+    const { hubTopNow } = useExperienceStats();
     
     const { battles, loading, error } = useActiveBattles();
     const { profile } = useAuth();
@@ -143,15 +143,10 @@ export default function SignalsHub() {
                         setMode("profundidad");
                         trackEvent('user_started_module', { module: 'profundidad' });
                     }}
-                    onEnterActualidad={() => {
-                        setMode("actualidad");
-                        trackEvent('user_started_module', { module: 'actualidad' });
-                    }}
                     onViewResults={() => {
                         trackEvent('user_clicked_next_action', { target_action: 'view_results' });
                         navigate("/results");
                     }}
-                    stats={hubStats}
                     topNow={hubTopNow}
                     previewVersus={battles.length > 0 ? (battles[0] as Battle) : null}
                     signalsToday={signalsToday}
@@ -216,7 +211,6 @@ export default function SignalsHub() {
 
 /* ------------------ src/features/feed/components/HubMenuSimplified.tsx ------------------ */
 
-import { Battle } from '../../signals/types';
 
 
 interface HubMenuSimplifiedProps {
@@ -234,9 +228,14 @@ interface HubMenuSimplifiedProps {
     } | null;
     topNow: {
         top_versus: { slug: string; title: string; signals_24h: number } | null;
-        top_torneo: { slug: string; title: string; signals_24h: number } | null;
+        top_tournament: { slug: string; title: string; signals_24h: number } | null;
     } | null;
-    previewVersus: Battle | null;
+    previewVersus: {
+        id: string;
+        title: string;
+        category: { slug?: string; name?: string } | null;
+        options: { id: string; label: string;[key: string]: unknown }[];
+    } | null;
     signalsToday: number;
     signalsLimit: number | string;
 }
@@ -298,7 +297,7 @@ export default function HubMenuSimplified({
                                     En Vivo Ahora <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
                                 </div>
                                 <h4 className="text-sm font-bold text-ink mb-3 line-clamp-2 leading-snug">
-                                    {previewVersus?.title || "¿Cuál es tu sistema operativo de preferencia?"}
+                                    {previewVersus?.title || "¿Cuál es tu sistema operativo favorito?"}
                                 </h4>
                                 <div className="flex gap-2">
                                     <div className="flex-1 bg-surface2 border border-stroke rounded-lg py-1.5 px-2 text-center text-xs font-bold text-ink truncate">
@@ -1579,7 +1578,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVersusGame } from '../hooks/useVersusGame';
-import { trackEvent } from '../../../services/analytics/trackEvent';
 
 import OptionCard from './OptionCard';
 import { Battle, BattleOption, TorneoTournament, VoteResult } from '../types';
@@ -1709,7 +1707,7 @@ export default function VersusGame(props: GameProps) {
                     Estamos preparando nuevas opciones. Vuelve en un rato.
                 </p>
                 <div className="mt-8">
-                    <button onClick={() => navigate('/signals')} className="px-6 py-3 bg-gradient-brand text-white rounded-xl font-black shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.23)] transition-all active:scale-95 uppercase tracking-wider text-sm">
+                    <button onClick={() => navigate('/experience')} className="px-6 py-3 bg-gradient-brand text-white rounded-xl font-black shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.23)] transition-all active:scale-95 uppercase tracking-wider text-sm">
                         Volver a Participa
                     </button>
                 </div>
@@ -1725,7 +1723,6 @@ export default function VersusGame(props: GameProps) {
 
     const handleVote = async (optionId: string, e?: React.MouseEvent) => {
         if (isCurrentlySubmitting) return;
-        trackEvent('user_submitted_signal', { module: 'versus', signal_id: effectiveBattle.id, target_action: optionId });
 
         if (e) {
             setClickPosition({ x: e.clientX, y: e.clientY });
@@ -2151,5 +2148,4 @@ export default function VersusGame(props: GameProps) {
         </div >
     );
 }
-
 
