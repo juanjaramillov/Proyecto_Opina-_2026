@@ -7,9 +7,12 @@ node_modules/
 dist/
 dist-ssr/
 build/
+coverage/
 .vercel
 .vite
+.next/
 *.tsbuildinfo
+*.zip
 
 # Env (Never commit real secrets)
 .env

@@ -15,7 +15,7 @@
     "test:auth": "tsx scripts/tests/auth.integration.ts",
     "ops:create-admin": "tsx scripts/ops/create_admin_user.ts",
     "ops:fetch-logos": "node scripts/ops/catalog/fetch-entity-logos.mjs",
-    "ops:zip-clean": "bash scripts/ops/export_clean_zip.sh",
+    "export:clean": "bash scripts/ops/export-clean-zip.sh",
     "ops:repo-hygiene": "node scripts/ops/verify_repo_hygiene.mjs"
   },
   "dependencies": {

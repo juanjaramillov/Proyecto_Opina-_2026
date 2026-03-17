@@ -7,9 +7,16 @@ export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "act
 export function useExperienceMode() {
     const location = useLocation();
     
-    // Parse location state for initial batch mode requests
+    const requestedMode = location.state?.mode as ExperienceMode | undefined;
     const requestedBatch = (location.state as { nextBatch?: number })?.nextBatch;
-    const initialMode: ExperienceMode = typeof requestedBatch === "number" ? "versus" : "menu";
+    
+    // Priority:
+    // 1. Explicit mode requested via state
+    // 2. Legacy batch parameter => implies versus
+    // 3. Fallback => menu
+    const initialMode: ExperienceMode = requestedMode 
+        ? requestedMode 
+        : (typeof requestedBatch === "number" ? "versus" : "menu");
     
     const [mode, setMode] = useState<ExperienceMode>(initialMode);
     
@@ -26,7 +33,7 @@ export function useExperienceMode() {
 export function useExperienceStats() {
     const [hubTopNow, setHubTopNow] = useState<{
         top_versus: { slug: string; title: string; signals_24h: number } | null;
-        top_tournament: { slug: string; title: string; signals_24h: number } | null;
+        top_torneo: { slug: string; title: string; signals_24h: number } | null;
     } | null>(null);
 
     const [hubStats, setHubStats] = useState<{

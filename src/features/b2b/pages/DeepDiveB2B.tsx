@@ -1,346 +1,160 @@
-import { useEffect, useState, useCallback } from "react";
-import { metricsService } from "../../metrics/services/metricsService";
-import { LeaderboardEntry } from "../../metrics/services/metricsService";
-import { logger } from "../../../lib/logger";
-import { Search, Activity, Zap, Building2, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { useEffect } from "react";
+import { ArrowLeftRight, Building2, TrendingUp, TrendingDown, Target, ShieldAlert, Sparkles } from "lucide-react";
+import { trackEvent } from "../../../services/analytics/trackEvent";
+import { Link } from "react-router-dom";
 import { PremiumGate } from "../../../components/ui/PremiumGate";
-
-interface SystemNarrative {
-    intelligenceText: string;
-    confidence: string;
-    category: string;
-    backingMetrics?: {
-        deltaPercentage?: number;
-    }
-}
+import { b2bCuratedSnapshot } from "../../../read-models/b2b/b2bCuratedSnapshot";
 
 export default function DeepDiveB2B() {
-    const [entities, setEntities] = useState<LeaderboardEntry[]>([]);
-    const [selectedEntity, setSelectedEntity] = useState<LeaderboardEntry | null>(null);
-    const [entityNarrative, setEntityNarrative] = useState<SystemNarrative | null>(null);
-    
-    const [loadingList, setLoadingList] = useState(true);
-    const [loadingDetails, setLoadingDetails] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-
-    const loadEntities = useCallback(async () => {
-        setLoadingList(true);
-        try {
-            const board = await metricsService.getGlobalLeaderboard();
-            setEntities(board);
-            // Auto-select first entity if available
-            if (board.length > 0 && !selectedEntity) {
-                handleSelectEntity(board[0]);
-            }
-        } catch (err) {
-            logger.error("[DeepDiveB2B] Error loading entities:", err);
-        } finally {
-            setLoadingList(false);
-        }
-    }, [selectedEntity]);
-
     useEffect(() => {
-        loadEntities();
-    }, [loadEntities]);
+        trackEvent('b2b_opened_deep_dive');
+    }, []);
 
-    const handleSelectEntity = async (entity: LeaderboardEntry) => {
-        setSelectedEntity(entity);
-        setLoadingDetails(true);
-        setEntityNarrative(null);
-        
-        try {
-            // const narrative = await narrativeEngine.generateEntityNarrative(entity.entity_id);
-            setEntityNarrative(null);
-        } catch (error) {
-            logger.error("[DeepDiveB2B] Error fetching narrative:", error);
-        } finally {
-            setLoadingDetails(false);
-        }
-    };
-
-    const filteredEntities = entities.filter(item => 
-        item.entity_name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const { deepDive } = b2bCuratedSnapshot;
 
     return (
-        <div className="p-6 lg:p-10 flex flex-col h-full">
+        <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC]">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 shrink-0">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                        <ZoomInIcon className="w-8 h-8 text-indigo-600" />
-                        <span className="text-gradient-brand">Entity Deep Dive</span>
+                        <ArrowLeftRight className="w-8 h-8 text-indigo-600" />
+                        <span className="text-gradient-brand">Comparativa Estratégica</span>
                     </h1>
                     <p className="text-slate-500 mt-1">
-                        ¿Por qué está pasando esto? Análisis focalizado y drivers de performance específicos por entidad.
+                        Head-to-Head: Análisis de brecha de preferencia y drivers de performance.
                     </p>
                 </div>
                 
                 <div className="flex items-center gap-3">
-                    <button 
-                        onClick={loadEntities}
-                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
+                    <Link 
+                        to="/b2b"
+                        onClick={() => trackEvent('b2b_clicked_next_view', { destination_view: 'overview' })}
+                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm"
                     >
-                        <Activity className="w-4 h-4 text-indigo-500" />
-                        Refrescar
-                    </button>
+                        Volver al Overview
+                    </Link>
                 </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-8 flex-1 min-h-0">
-                {/* Left Sidebar - Entity List */}
-                <div className="w-full lg:w-80 flex flex-col bg-white rounded-3xl border border-slate-100 shadow-sm shrink-0 overflow-hidden">
-                    <div className="p-4 border-b border-slate-100 bg-slate-50/50">
-                        <div className="relative">
-                            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                            <input
-                                type="text"
-                                placeholder="Buscar entidad..."
-                                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 transition"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
+            <div className="max-w-6xl mx-auto w-full space-y-8">
+                
+                {/* Comparativa Head to Head */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    {/* Opción Lider */}
+                    <div className="bg-white rounded-3xl border-2 border-indigo-100 shadow-xl overflow-hidden relative">
+                        <div className="absolute top-0 right-0 px-4 py-1 bg-indigo-500 text-white text-xs font-bold rounded-bl-xl z-20">LÍDER ACTUAL</div>
+                        <div className="p-8 text-center bg-gradient-to-b from-indigo-50/50 to-white relative z-10">
+                            <div className="w-20 h-20 bg-white rounded-2xl border border-indigo-100 shadow-md flex items-center justify-center mx-auto mb-6 transform rotate-3">
+                                <Building2 className="w-10 h-10 text-indigo-600" />
+                            </div>
+                            <h2 className="text-4xl font-black text-slate-900 -tracking-wide mb-2">{deepDive.winner.name}</h2>
+                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{deepDive.winner.id}</p>
+                        </div>
+                        
+                        <div className="p-8 border-t border-slate-100 bg-white">
+                            <div className="text-center mb-8">
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Share of Preference</p>
+                                <h3 className="text-5xl font-black text-indigo-600">{(deepDive.winner.winRate * 100).toFixed(1)}%</h3>
+                                <div className="flex items-center justify-center gap-1 text-slate-500 mt-2 text-sm font-medium">
+                                    <Target className="w-4 h-4" /> Base: {deepDive.winner.comparisons.toLocaleString()} duelos
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                <span className="text-sm font-bold text-slate-600">Momentum (30d)</span>
+                                <div className="flex items-center gap-2 text-rose-500 font-bold bg-white px-3 py-1 rounded-xl shadow-sm border border-slate-100">
+                                    <TrendingDown className="w-4 h-4" />
+                                    {deepDive.winner.delta}%
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div className="flex-1 overflow-y-auto p-2">
-                        {loadingList ? (
-                            Array(8).fill(0).map((_, i) => (
-                                <div key={i} className="h-16 bg-slate-50 rounded-xl mb-2 animate-pulse mx-2"></div>
-                            ))
-                        ) : filteredEntities.length > 0 ? (
-                            <div className="space-y-1">
-                                {filteredEntities.map((entity) => (
-                                    <button
-                                        key={entity.entity_id}
-                                        onClick={() => handleSelectEntity(entity)}
-                                        className={`w-full text-left px-4 py-3 rounded-xl transition-all flex items-center justify-between group ${
-                                            selectedEntity?.entity_id === entity.entity_id 
-                                                ? 'bg-indigo-50 border-indigo-100/50 shadow-sm' 
-                                                : 'hover:bg-slate-50'
-                                        }`}
-                                    >
-                                        <div className="flex flex-col">
-                                            <span className={`font-bold ${selectedEntity?.entity_id === entity.entity_id ? 'text-indigo-900' : 'text-slate-700 group-hover:text-slate-900'}`}>
-                                                {entity.entity_name}
-                                            </span>
-                                            <span className="text-[10px] text-slate-400 mt-0.5">
-                                                {entity.total_comparisons} señales
-                                            </span>
-                                        </div>
-                                        <div className={`text-xs font-bold ${selectedEntity?.entity_id === entity.entity_id ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600'}`}>
-                                            {(entity.win_rate * 100).toFixed(1)}%
-                                        </div>
-                                    </button>
-                                ))}
+
+                    {/* Retador */}
+                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden relative opacity-95">
+                        <div className="p-8 text-center bg-gradient-to-b from-slate-50/50 to-white relative z-10">
+                            <div className="w-20 h-20 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center mx-auto mb-6 transform -rotate-3">
+                                <Building2 className="w-10 h-10 text-slate-400" />
                             </div>
-                        ) : (
-                            <div className="p-8 text-center text-slate-500 text-sm">
-                                <Building2 className="w-8 h-8 mx-auto text-slate-300 mb-2" />
-                                No se encontraron entidades
+                            <h2 className="text-4xl font-black text-slate-900 -tracking-wide mb-2">{deepDive.challenger.name}</h2>
+                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{deepDive.challenger.id}</p>
+                        </div>
+                        
+                        <div className="p-8 border-t border-slate-100 bg-white">
+                            <div className="text-center mb-8">
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Share of Preference</p>
+                                <h3 className="text-5xl font-black text-slate-700">{(deepDive.challenger.winRate * 100).toFixed(1)}%</h3>
+                                <div className="flex items-center justify-center gap-1 text-slate-500 mt-2 text-sm font-medium">
+                                    <Target className="w-4 h-4" /> Base: {deepDive.challenger.comparisons.toLocaleString()} duelos
+                                </div>
                             </div>
-                        )}
+                            
+                            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                <span className="text-sm font-bold text-slate-600">Momentum (30d)</span>
+                                <div className="flex items-center gap-2 text-emerald-500 font-bold bg-white px-3 py-1 rounded-xl shadow-sm border border-slate-100">
+                                    <TrendingUp className="w-4 h-4" />
+                                    +{deepDive.challenger.delta}%
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
-                {/* Right Panel - Entity Details */}
-                <div className="flex-1 bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col min-h-[600px]">
-                    {selectedEntity ? (
-                        <>
-                            <div className="p-8 border-b border-slate-100 shrink-0 bg-slate-50/50">
-                                <div className="flex items-start justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-16 h-16 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center">
-                                            <Building2 className="w-8 h-8 text-indigo-300" />
+                {/* Brecha / Insight Ejecutivo */}
+                <PremiumGate featureName="Deep Dive Insight Comparativo" isLocked={true}>
+                    <div className="bg-slate-900 p-8 md:p-10 rounded-3xl shadow-xl relative overflow-hidden border border-slate-800">
+                        <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                            <ArrowLeftRight className="w-48 h-48 text-white -rotate-12 transform" />
+                        </div>
+                        
+                        <div className="relative z-10">
+                            <div className="flex flex-col md:flex-row items-start gap-8">
+                                <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <div className="p-2 bg-indigo-500/20 rounded-xl backdrop-blur-sm border border-indigo-500/20">
+                                            <Sparkles className="w-5 h-5 text-indigo-400" />
                                         </div>
-                                        <div>
-                                            <h2 className="text-3xl font-black text-slate-900 tracking-tight">{selectedEntity.entity_name}</h2>
-                                            <div className="flex items-center gap-3 mt-2 text-sm">
-                                                <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-bold text-xs ring-1 ring-inset ring-indigo-500/10">
-                                                    ID: {selectedEntity.entity_id.split('-')[0].toUpperCase()}
-                                                </span>
-                                            </div>
-                                        </div>
+                                        <span className="text-xs font-black uppercase tracking-widest text-indigo-400">Insight Comparativo de IA</span>
                                     </div>
                                     
-                                    <div className="text-right">
-                                        <div className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Win Rate Global</div>
-                                        <div className="text-3xl font-black text-slate-900">{(selectedEntity.win_rate * 100).toFixed(1)}%</div>
+                                    <p className="text-lg md:text-xl font-medium text-white leading-relaxed mb-6">
+                                        "{deepDive.executiveInsight.intelligenceText}"
+                                    </p>
+                                    
+                                    <div className="flex flex-wrap items-center gap-3">
+                                        <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-mono font-bold tracking-wide border border-slate-700">
+                                            Confianza: {deepDive.executiveInsight.confidence}
+                                        </span>
+                                        <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-200 text-xs font-bold uppercase tracking-wider">
+                                            Categoría: {deepDive.executiveInsight.category}
+                                        </span>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div className="flex-1 overflow-y-auto p-8 bg-slate-50/30">
-                                {loadingDetails ? (
-                                    <div className="space-y-6 animate-pulse">
-                                        <div className="h-48 bg-slate-50 rounded-3xl"></div>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                            <div className="h-32 bg-slate-50 rounded-3xl"></div>
-                                            <div className="h-32 bg-slate-50 rounded-3xl"></div>
-                                            <div className="h-32 bg-slate-50 rounded-3xl"></div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-8 max-w-5xl mx-auto">
-                                        
-                                        {/* Executive Narrative */}
-                                        <PremiumGate featureName="Análisis Narrativo Ejecutivo" isLocked={true}>
-                                            <div className="bg-gradient-to-br from-slate-900 to-indigo-950 p-8 rounded-3xl shadow-lg relative overflow-hidden">
-                                                <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                                                    <Zap className="w-48 h-48 text-white -rotate-12 transform" />
-                                                </div>
-                                                
-                                                <div className="relative z-10 max-w-3xl">
-                                                    <div className="flex items-center gap-2 mb-6">
-                                                        <div className="p-2 bg-indigo-500/20 rounded-xl backdrop-blur-sm">
-                                                            <Zap className="w-5 h-5 text-indigo-300" />
-                                                        </div>
-                                                        <span className="text-xs font-black uppercase tracking-widest text-indigo-300">Inteligencia Ejecutiva</span>
-                                                    </div>
-                                                    
-                                                    {entityNarrative ? (
-                                                        <div className="space-y-6">
-                                                            <p className="text-lg md:text-xl font-medium text-white leading-relaxed">
-                                                                "{entityNarrative.intelligenceText}"
-                                                            </p>
-                                                            <div className="flex items-center gap-3 pt-6 border-t border-white/10">
-                                                                <span className="px-3 py-1 rounded-full bg-white/5 text-slate-300 text-xs font-mono font-bold tracking-wide border border-white/5">
-                                                                    Confidence: {entityNarrative.confidence}
-                                                                </span>
-                                                                <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-200 text-xs font-bold uppercase tracking-wider">
-                                                                    {entityNarrative.category}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    ) : (
-                                                        <p className="text-base text-indigo-200/60 leading-relaxed italic">
-                                                            Pendiente de análisis. No hay variaciones bruscas suficientes en la ventana de tiempo actual para generar un reporte automatizado.
-                                                        </p>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </PremiumGate>
-                                        
-                                        {/* Hard Metrics Grid */}
+
+                                <div className="w-full md:w-72 bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 backdrop-blur-sm shrink-0">
+                                    <h4 className="text-sm font-bold text-slate-300 mb-4 pb-4 border-b border-slate-700/50 flex items-center gap-2">
+                                        <ShieldAlert className="w-4 h-4 text-amber-500" /> Riesgo de Brecha
+                                    </h4>
+                                    <div className="space-y-4">
                                         <div>
-                                            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                                <Activity className="w-5 h-5 text-indigo-500" />
-                                                Métricas de Soporte
-                                            </h3>
-                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-indigo-100">
-                                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Volumen Total</p>
-                                                    <div className="flex items-end gap-2">
-                                                        <h4 className="text-3xl font-black text-slate-900">{selectedEntity.total_comparisons}</h4>
-                                                        <span className="text-sm font-medium text-slate-500 mb-1">interacciones</span>
-                                                    </div>
-                                                </div>
-
-                                                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-indigo-100">
-                                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Posición Relativa</p>
-                                                    <div className="flex items-end gap-2">
-                                                        <h4 className="text-3xl font-black text-slate-900">
-                                                            {((selectedEntity.win_rate) * 100).toFixed(0)}
-                                                        </h4>
-                                                        <span className="text-sm font-medium text-slate-500 mb-1">Puntos Base</span>
-                                                    </div>
-                                                </div>
-
-                                                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-indigo-100">
-                                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Variación Reciente</p>
-                                                    <div className="flex items-center gap-2 h-[42px]">
-                                                        {entityNarrative?.backingMetrics?.deltaPercentage !== undefined ? (
-                                                            <>
-                                                                {entityNarrative.backingMetrics.deltaPercentage > 0 ? (
-                                                                    <div className="flex items-center gap-2 text-emerald-600">
-                                                                        <TrendingUp className="w-8 h-8" />
-                                                                        <h4 className="text-3xl font-black">+{entityNarrative.backingMetrics.deltaPercentage.toFixed(1)}%</h4>
-                                                                    </div>
-                                                                ) : entityNarrative.backingMetrics.deltaPercentage < 0 ? (
-                                                                    <div className="flex items-center gap-2 text-rose-600">
-                                                                        <TrendingDown className="w-8 h-8" />
-                                                                        <h4 className="text-3xl font-black">{entityNarrative.backingMetrics.deltaPercentage.toFixed(1)}%</h4>
-                                                                    </div>
-                                                                ) : (
-                                                                    <div className="flex items-center gap-2 text-slate-400">
-                                                                        <Minus className="w-8 h-8" />
-                                                                        <h4 className="text-3xl font-black">0.0%</h4>
-                                                                    </div>
-                                                                )}
-                                                            </>
-                                                        ) : (
-                                                            <div className="flex items-center gap-2 text-slate-300">
-                                                                <Minus className="w-8 h-8" />
-                                                                <h4 className="text-3xl font-black text-slate-300">N/A</h4>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Brecha Actual</p>
+                                            <p className="text-2xl font-black text-white">24.8 <span className="text-sm text-slate-400 font-medium">puntos</span></p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Proyección 90d</p>
+                                            <p className="text-xl font-bold text-amber-500">12.5 <span className="text-sm text-amber-500/50 font-medium">puntos</span> <TrendingDown className="inline w-4 h-4" /></p>
                                         </div>
                                     </div>
-                                )}
-                            </div>
-                            
-                            {/* Cierre Comercial / Takeaways Ejecutivos */}
-                            <div className="mt-8 bg-gradient-to-br from-indigo-900 to-slate-900 rounded-3xl p-8 border border-indigo-800 shadow-lg text-white relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                                <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
-                                    <div className="p-4 bg-white/10 rounded-2xl border border-white/10 backdrop-blur-sm shrink-0">
-                                        <Zap className="w-8 h-8 text-indigo-300" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2 text-indigo-50">Takeaway Ejecutivo Opina+</h3>
-                                        <p className="text-indigo-100/80 leading-relaxed text-sm">
-                                            A diferencia de una encuesta estática, Opina+ detecta tracción continua en el consumidor final. Opina+ captura la intención B2C real sin sesgos de cuestionario, revelando el verdadero posicionamiento orgánico en el mercado.
-                                        </p>
-                                    </div>
-                                    <div className="shrink-0 w-full md:w-auto">
-                                        <button className="w-full md:w-auto px-6 py-3 bg-indigo-500 hover:bg-indigo-400 text-white rounded-xl font-bold transition shadow-sm border border-indigo-400">
-                                            Exportar Board
-                                        </button>
-                                    </div>
                                 </div>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="flex-1 flex items-center justify-center p-8 bg-slate-50/50">
-                            <div className="text-center max-w-sm">
-                                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-slate-100">
-                                    <ZoomInIcon className="w-10 h-10 text-slate-300 mx-auto" />
-                                </div>
-                                <h3 className="text-lg font-bold text-slate-900 mb-2">Selecciona una entidad</h3>
-                                <p className="text-slate-500 text-sm">
-                                    Elige una marca o proyecto del listado izquierdo para iniciar la inmersión de inteligencia artificial en sus métricas y narrativas.
-                                </p>
                             </div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                </PremiumGate>
             </div>
         </div>
     );
 }
 
-// Simple internal icon definition if lucide doesn't export ZoomIn directly in some contexts
-function ZoomInIcon(props: React.SVGProps<SVGSVGElement>) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            {...props}
-        >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" x2="16.65" y1="21" y2="16.65" />
-            <line x1="11" x2="11" y1="8" y2="14" />
-            <line x1="8" x2="14" y1="11" y2="11" />
-        </svg>
-    )
-}

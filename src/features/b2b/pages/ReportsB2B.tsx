@@ -1,66 +1,140 @@
-import { FileText, Download, Lock, ChevronRight, Zap } from "lucide-react";
+import { useEffect } from "react";
+import { FileText, Download, Target, CalendarDays, BarChart3, AlertTriangle, LightbulbIcon, ArrowLeft } from "lucide-react";
+import { trackEvent } from "../../../services/analytics/trackEvent";
+import { Link } from "react-router-dom";
+import { b2bCuratedSnapshot } from "../../../read-models/b2b/b2bCuratedSnapshot";
 
 export default function ReportsB2B() {
+    useEffect(() => {
+        trackEvent('b2b_opened_reports');
+    }, []);
+
+    const { reports } = b2bCuratedSnapshot;
+
     return (
-        <div className="p-6 lg:p-10 flex flex-col h-full">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 shrink-0">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                        <FileText className="w-8 h-8 text-indigo-600" />
-                        <span className="text-gradient-brand">C-Level Reports</span>
-                    </h1>
-                    <p className="text-slate-500 mt-1">
-                        Exportación de inteligencia accionable, resúmenes ejecutivos y análisis sectoriales.
-                    </p>
-                </div>
+        <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC]">
+            {/* Header / Tools */}
+            <div className="flex items-center justify-between mb-8 max-w-5xl mx-auto w-full">
+                <Link 
+                    to="/b2b" 
+                    onClick={() => trackEvent('b2b_clicked_next_view', { destination_view: 'overview' })}
+                    className="text-slate-500 hover:text-indigo-600 transition flex items-center gap-2 font-medium text-sm"
+                >
+                    <ArrowLeft className="w-4 h-4" />
+                    Volver
+                </Link>
+                
+                <button className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-bold transition shadow-lg shadow-slate-900/20">
+                    <Download className="w-4 h-4" />
+                    Exportar PDF
+                </button>
             </div>
 
-            <div className="flex-1 flex items-center justify-center p-8 bg-white border border-slate-100 rounded-3xl shadow-sm relative overflow-hidden">
-                {/* Decoration */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-50/30 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
-
-                <div className="max-w-2xl w-full text-center relative z-10">
-                    <div className="w-24 h-24 bg-white rounded-3xl shadow-xl shadow-indigo-500/10 border border-indigo-100 flex items-center justify-center mx-auto mb-8 rotate-3 transition-transform hover:rotate-6">
-                        <Lock className="w-10 h-10 text-indigo-400" />
-                    </div>
+            {/* A4 Document Simulation Wrapper */}
+            <div className="flex-1 w-full max-w-5xl mx-auto">
+                <div className="bg-white rounded-t-3xl border-t border-l border-r border-slate-200 shadow-2xl p-8 md:p-16 min-h-[1056px] relative overflow-hidden">
                     
-                    <h2 className="text-2xl lg:text-3xl font-black text-slate-900 mb-4 tracking-tight">
-                        Módulo de Reportería en Desarrollo
-                    </h2>
-                    
-                    <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-                        Estamos calibrando nuestros modelos generativos para entregar reportes ejecutivos automatizados en PDF y formatos presentables listos para la junta directiva.
-                    </p>
+                    {/* Watermark/Decoration */}
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mb-10">
-                        <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex items-start gap-4 hover:border-indigo-200 transition-colors">
-                            <div className="p-2 bg-indigo-100 text-indigo-600 rounded-xl shrink-0">
-                                <FileText className="w-5 h-5" />
+                    {/* Report Header */}
+                    <header className="border-b-2 border-slate-900 pb-8 mb-12 relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/20">
+                                    <FileText className="w-6 h-6" />
+                                </div>
+                                <span className="font-black text-2xl tracking-tight text-slate-900">Opina+ <span className="text-slate-400 font-light">Intelligence</span></span>
                             </div>
-                            <div>
-                                <h4 className="font-bold text-slate-900 text-sm mb-1">One-Pagers Comerciales</h4>
-                                <p className="text-xs text-slate-500">Resúmenes de 1 página con KPIs críticos y posicionamiento vs. competidores directos.</p>
-                            </div>
+                            <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight max-w-2xl">
+                                {reports.title}
+                            </h1>
                         </div>
 
-                        <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex items-start gap-4 hover:border-indigo-200 transition-colors">
-                            <div className="p-2 bg-emerald-100 text-emerald-600 rounded-xl shrink-0">
-                                <Zap className="w-5 h-5" />
+                        <div className="flex flex-col gap-3 text-right shrink-0">
+                            <div className="flex items-center justify-end gap-2 text-slate-600 font-medium">
+                                <CalendarDays className="w-4 h-4 text-indigo-500" />
+                                {reports.dateRange}
                             </div>
-                            <div>
-                                <h4 className="font-bold text-slate-900 text-sm mb-1">Alertas Automatizadas</h4>
-                                <p className="text-xs text-slate-500">Despachos programados semanales o mensuales directo a su equipo de marketing.</p>
+                            <div className="flex items-center justify-end gap-2 text-slate-600 font-medium">
+                                <Target className="w-4 h-4 text-indigo-500" />
+                                Universo: {reports.universe.split('(')[0].trim()}
                             </div>
                         </div>
+                    </header>
+
+                    {/* Report Content */}
+                    <div className="space-y-12 relative z-10">
+
+                        {/* Executive Summary Section */}
+                        <section>
+                            <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <BarChart3 className="w-4 h-4" /> Resumen Ejecutivo
+                            </h2>
+                            <p className="text-2xl font-medium text-slate-800 leading-relaxed border-l-4 border-indigo-500 pl-6 py-2">
+                                {reports.summary}
+                            </p>
+                        </section>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            {/* Key Findings List */}
+                            <section>
+                                <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                    <Target className="w-4 h-4" /> Hallazgos Principales
+                                </h2>
+                                <ul className="space-y-4">
+                                    {reports.findings.map((finding, idx) => (
+                                        <li key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs shrink-0">
+                                                {idx + 1}
+                                            </span>
+                                            <span className="text-slate-700 font-medium leading-relaxed">{finding}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </section>
+
+                            {/* Alert Box */}
+                            <section>
+                                <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                    <AlertTriangle className="w-4 h-4 text-rose-500" /> Riesgo Inminente
+                                </h2>
+                                <div className="bg-rose-50 p-6 rounded-3xl border border-rose-200 shadow-sm relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                                        <AlertTriangle className="w-32 h-32 text-rose-900 -rotate-12" />
+                                    </div>
+                                    <p className="text-lg font-bold text-rose-900 leading-snug relative z-10">
+                                        {reports.criticalAlert}
+                                    </p>
+                                </div>
+                            </section>
+                        </div>
+
+                        {/* Strategic Recommendation */}
+                        <section className="pt-8 mt-12 border-t border-slate-100">
+                            <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                <LightbulbIcon className="w-4 h-4 text-amber-500" /> Recomendación Táctica C-Level
+                            </h2>
+                            <div className="bg-slate-900 p-8 md:p-10 rounded-3xl shadow-xl text-white">
+                                <div className="flex items-start gap-4">
+                                    <div className="p-3 bg-white/10 rounded-2xl mt-1 shrink-0">
+                                        <LightbulbIcon className="w-6 h-6 text-amber-400" />
+                                    </div>
+                                    <p className="text-xl md:text-2xl font-medium leading-relaxed text-slate-100">
+                                        "{reports.strategicRecommendation}"
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                    
+                    {/* Footer */}
+                    <div className="absolute bottom-16 left-16 right-16 pt-8 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        <span>Generado Automáticamente</span>
+                        <span>Opina+ Intelligence System</span>
                     </div>
 
-                    <div className="inline-flex items-center gap-3 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm shadow-xl shadow-slate-900/10 cursor-not-allowed opacity-80">
-                        <Download className="w-4 h-4 opacity-50" />
-                        <span className="opacity-90">Exportar Reporte (.pdf)</span>
-                        <ChevronRight className="w-4 h-4 opacity-30 ml-2" />
-                    </div>
                 </div>
             </div>
         </div>

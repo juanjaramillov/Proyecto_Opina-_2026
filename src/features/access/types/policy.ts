@@ -12,7 +12,7 @@ export interface AccessState {
 
 export type AppRouteModule = 
     | 'public' 
-    | 'experience' 
+    | 'signals' 
     | 'admin' 
     | 'b2b_dashboard';
 

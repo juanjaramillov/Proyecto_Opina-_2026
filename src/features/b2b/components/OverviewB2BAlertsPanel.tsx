@@ -1,0 +1,52 @@
+import { Bell } from "lucide-react";
+import { SystemAlert } from "../hooks/useOverviewB2BState";
+
+interface OverviewB2BAlertsPanelProps {
+  alerts: SystemAlert[];
+}
+
+export function OverviewB2BAlertsPanel({ alerts }: OverviewB2BAlertsPanelProps) {
+  return (
+    <div className="space-y-6">
+      <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
+        <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <Bell className="w-5 h-5 text-indigo-500" />
+          Alertas de Mercado
+          {alerts.length > 0 && (
+            <span className="bg-indigo-100 text-indigo-600 text-[10px] px-2 py-0.5 rounded-full">
+              {alerts.length}
+            </span>
+          )}
+        </h3>
+
+        <div className="space-y-4">
+          {alerts.length > 0 ? (
+            alerts.map((alert) => (
+              <div key={alert.id} className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors cursor-pointer">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`w-2 h-2 rounded-full ${
+                    alert.severity === 'CRITICAL' ? 'bg-rose-500 animate-pulse' :
+                    alert.severity === 'WARNING' ? 'bg-amber-500' : 'bg-blue-500'
+                  }`} />
+                  <p className="text-xs font-bold text-slate-900">{alert.category}</p>
+                </div>
+                <p className="text-[11px] text-slate-600 font-medium">
+                  {alert.entityName}
+                </p>
+                <div className="mt-2 text-[10px] text-slate-400 flex items-center justify-between">
+                  <span>Origen: {(alert.metadata?.baseMetric as string) || 'Sistema'}</span>
+                  <span>Hace {Math.floor((Date.now() - new Date(alert.createdAt).getTime()) / 60000)} min</span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-6">
+              <Bell className="w-8 h-8 text-slate-200 mx-auto mb-2" />
+              <p className="text-[11px] font-bold text-slate-400">Mercado estable, sin alertas relevantes.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

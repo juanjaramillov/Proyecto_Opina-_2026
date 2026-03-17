@@ -91,7 +91,7 @@ async function processCatalog() {
     if (!line) continue;
     
     // Quick split by simple comma (assuming no quoted commas in these specific fields for now based on data)
-    let parts = line.split(',');
+    const parts = line.split(',');
     if (parts.length < 14) continue;
     
     // Fields: category,subcategory,entity_name,entity_slug,entity_type,domain,normalized_name,canonical_code,...
@@ -135,7 +135,7 @@ async function processCatalog() {
     let mappingUpdates = 0;
     
     for (let i = 1; i < mappingLines.length; i++) {
-      let line = mappingLines[i];
+      const line = mappingLines[i];
       if (!line.trim()) continue;
       
       // We look for the exact old canonical code and replace it

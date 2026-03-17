@@ -327,7 +327,7 @@ on conflict (slug) do update set
 
 insert into public.battles (title, slug, description, category_id, status)
 select
-  'Clínicas privadas — Torneo', 'tournament-salud-clinicas-privadas-scl',
+  'Clínicas privadas — Torneo', 'torneo-salud-clinicas-privadas-scl',
   'Modo progresivo: el ganador sigue avanzando.',
   c.id, 'active'
 from public.categories c
@@ -352,7 +352,7 @@ on conflict (slug) do update set
 
 insert into public.battles (title, slug, description, category_id, status)
 select
-  'Farmacias — Torneo', 'tournament-salud-farmacias-scl',
+  'Farmacias — Torneo', 'torneo-salud-farmacias-scl',
   'Modo progresivo: el ganador sigue avanzando.',
   c.id, 'active'
 from public.categories c
@@ -393,7 +393,7 @@ select
   row_number() over (order by e.slug) as sort_order
 from public.battles b
 join public.entities e on e.category = 'salud-clinicas-privadas-scl'
-where b.slug = 'tournament-salud-clinicas-privadas-scl'
+where b.slug = 'torneo-salud-clinicas-privadas-scl'
 on conflict (battle_id, label) do update set
   brand_id = excluded.brand_id,
   image_url = excluded.image_url,
@@ -425,7 +425,7 @@ select
   row_number() over (order by e.slug) as sort_order
 from public.battles b
 join public.entities e on e.category = 'salud-farmacias-scl'
-where b.slug = 'tournament-salud-farmacias-scl'
+where b.slug = 'torneo-salud-farmacias-scl'
 on conflict (battle_id, label) do update set
   brand_id = excluded.brand_id,
   image_url = excluded.image_url,
@@ -676,7 +676,7 @@ begin
       insert into public.battles (title, slug, description, category_id, status)
       values (
           cat.name || ' — Torneo', 
-          'tournament-' || cat.slug,
+          'torneo-' || cat.slug,
           'Escoge tu favorito absoluto enfrentándolos uno a uno.',
           cat.id, 
           'active'
@@ -720,7 +720,7 @@ select
 from public.battles b
 join public.categories c on c.id = b.category_id
 join public.entities e on e.category = c.slug
-where b.slug like 'tournament-%'
+where b.slug like 'torneo-%'
   and c.slug not in ('salud-clinicas-privadas-scl', 'salud-farmacias-scl')
 on conflict (battle_id, label) do update set
   brand_id = excluded.brand_id,
@@ -4880,27 +4880,27 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- 4. Creación de Batallas Progresivas (Torneos)
 INSERT INTO public.battles (title, slug, description, category_id, status)
-SELECT '¿Cuál es el mejor servicio de streaming?', 'tournament-streaming', 'Encuentra tu plataforma favorita.', id, 'active' 
+SELECT '¿Cuál es el mejor servicio de streaming?', 'torneo-streaming', 'Encuentra tu plataforma favorita.', id, 'active' 
 FROM public.categories WHERE slug = 'streaming'
 ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO public.battles (title, slug, description, category_id, status)
-SELECT '¿Cuál es tu bebida favorita?', 'tournament-bebidas', 'Duelo refrescante de marcas.', id, 'active' 
+SELECT '¿Cuál es tu bebida favorita?', 'torneo-bebidas', 'Duelo refrescante de marcas.', id, 'active' 
 FROM public.categories WHERE slug = 'bebidas'
 ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO public.battles (title, slug, description, category_id, status)
-SELECT '¿Cuál es el mejor destino para vacaciones?', 'tournament-vacaciones', 'El viaje de tus sueños empieza aquí.', id, 'active' 
+SELECT '¿Cuál es el mejor destino para vacaciones?', 'torneo-vacaciones', 'El viaje de tus sueños empieza aquí.', id, 'active' 
 FROM public.categories WHERE slug = 'vacaciones'
 ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO public.battles (title, slug, description, category_id, status)
-SELECT '¿Cuál es la mejor marca de smartphone?', 'tournament-smartphones', 'Poder, cámara y diseño en tus manos.', id, 'active' 
+SELECT '¿Cuál es la mejor marca de smartphone?', 'torneo-smartphones', 'Poder, cámara y diseño en tus manos.', id, 'active' 
 FROM public.categories WHERE slug = 'smartphones'
 ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO public.battles (title, slug, description, category_id, status)
-SELECT '¿Cuál es la mejor clínica?', 'tournament-salud', 'Calidad y confianza en atención médica.', id, 'active' 
+SELECT '¿Cuál es la mejor clínica?', 'torneo-salud', 'Calidad y confianza en atención médica.', id, 'active' 
 FROM public.categories WHERE slug = 'salud'
 ON CONFLICT (slug) DO NOTHING;
 
@@ -4909,7 +4909,7 @@ DO $$
 DECLARE
   v_bat RECORD;
 BEGIN
-  FOR v_bat IN SELECT id, slug FROM public.battles WHERE slug LIKE 'tournament-%' LOOP
+  FOR v_bat IN SELECT id, slug FROM public.battles WHERE slug LIKE 'torneo-%' LOOP
     INSERT INTO public.battle_options (battle_id, label, brand_id, sort_order)
     SELECT v_bat.id, e.name, e.id, row_number() OVER ()
     FROM public.entities e

@@ -4,6 +4,7 @@ import { TopicQuestion, QuestionType } from "../../signals/types/actualidad";
 
 interface EditorPreguntasProps {
     questions: TopicQuestion[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleQuestionChange: (orderIdx: number, field: string, value: any) => void;
     handleQuestionOptionAdd: (orderIdx: number) => void;
     handleQuestionOptionChange: (orderIdx: number, optIdx: number, value: string) => void;

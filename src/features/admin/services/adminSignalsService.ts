@@ -51,7 +51,7 @@ export const adminSignalsService = {
                 return { success: false, error: error.message };
             }
             return { success: true };
-        } catch (err) {
+        } catch {
             return { success: false, error: 'Error inesperado al actualizar estado' };
         }
     }

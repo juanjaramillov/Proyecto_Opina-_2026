@@ -150,6 +150,7 @@ export const SEG_REGIONS: SegmentOption[] = [
     { value: "XV", label: "Arica y Parinacota" },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function normalizeAllDemographics(input: any): DemographicData {
     return {
         birthYear: input.birth_year || input.birthYear,

@@ -89,7 +89,7 @@ export default function B2BLayout() {
                     </div>
 
                     <NavLink
-                        to="/experience"
+                        to="/signals"
                         className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-all duration-200"
                     >
                         <ChevronLeft className="w-4 h-4 opacity-70" />

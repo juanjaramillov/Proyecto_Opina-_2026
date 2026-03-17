@@ -1,7 +1,9 @@
 import { Skeleton } from '../../components/ui/Skeleton';
 
 interface PreviewListProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     items?: Record<string, any>[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     renderItem?: (item: any, index: number) => React.ReactNode;
 }
 

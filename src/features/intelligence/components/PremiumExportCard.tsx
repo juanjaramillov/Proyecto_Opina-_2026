@@ -129,6 +129,7 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
                             Estructura Competitiva (Wilson Inferior/Superior)
                         </h4>
                         <div className="space-y-2">
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             {b2bAnalytics.analytics_payload?.map((opt: Record<string, any>, idx: number) => (
                                 <div key={idx} className="flex items-center justify-between text-sm py-2 border-b border-slate-50 last:border-0">
                                     <span className="font-bold text-slate-700">Opción {idx + 1} <span className="font-normal text-[10px] text-slate-400">({String(opt.option_id).substring(0,8)})</span></span>

@@ -13,6 +13,7 @@ export type AdminUserRow = {
 export const adminUsersService = {
     searchUsers: async (searchTerm: string = ''): Promise<AdminUserRow[]> => {
         try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { data, error } = await (supabase.rpc as any)('admin_search_users', { p_search_term: searchTerm });
             if (error) throw error;
             return data as AdminUserRow[];

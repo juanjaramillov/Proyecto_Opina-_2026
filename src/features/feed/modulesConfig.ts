@@ -29,7 +29,7 @@ export const MODULES: OpinaModule[] = [
         key: "torneo",
         slug: "torneo",
         title: "Torneo",
-        description: "Modo torneo. Una opción sigue ganando hasta coronar al ganador invicto.",
+        description: "Modo torneo. Una opción avanza hasta definir la preferencia invicta.",
         status: "active",
         icon: "rocket_launch",
         tone: "secondary",
@@ -93,14 +93,14 @@ export const MODULES: OpinaModule[] = [
         previewBullets: [
             "Ranqueo de isapres, aseguradoras, telecomunicaciones y más.",
             "Comparador directo de beneficios y calidad percibida.",
-            "Vota para influir cómo operan estas redes de servicio."
+            "Participa para generar inteligencia sobre estas redes de servicio."
         ]
     },
     {
         key: "actualidad",
         slug: "actualidad",
         title: "Actualidad",
-        description: "Vota sobre temas del momento con dualidad opuesta rápida.",
+        description: "Participa sobre debates del momento con dualidad opuesta rápida.",
         status: "active",
         icon: "newspaper",
         tone: "slate",
@@ -143,7 +143,7 @@ export const MODULES: OpinaModule[] = [
         previewSubtitle: "Métrica estándar para conocer marcas ultra recomendadas.",
         previewBullets: [
             "Responde en escala rápida del 1 al 10 si recomendarías la marca.",
-            "Descubre si tu marca favorita realmente es amada u odiada.",
+            "Descubre si la opción preferida realmente es amada u odiada.",
             "Ve listados Top de Lovemarks en tu industria preferida."
         ]
     }

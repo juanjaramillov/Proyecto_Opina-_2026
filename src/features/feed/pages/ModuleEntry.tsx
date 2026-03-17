@@ -9,24 +9,24 @@ export default function ModuleEntry() {
 
     if (!activeModule) {
         // Fallback robusto al hub si alguien tipea una URL loca
-        return <Navigate to="/experience" replace />;
+        return <Navigate to="/signals" replace />;
     }
 
     if (activeModule.status === "active") {
-        // Redirige al experience principal pasándole un state para abrir el sub-modo si fuera necesario
-        // En tu arquitectura actual todos los activos viven dentro de /experience con una variable de estado
+        // Redirige al hub de signals principal pasándole un state para abrir el sub-modo si fuera necesario
+        // En tu arquitectura actual todos los activos viven dentro de /signals con una variable de estado
         // Aquí simplificaremos: enviamos al usuario al HUB para que clique el activo, o le pasamos el intent.
 
         switch (activeModule.key) {
             case "versus":
-                return <Navigate to="/experience" state={{ nextBatch: 0 }} replace />;
+                return <Navigate to="/signals" state={{ nextBatch: 0 }} replace />;
             case "torneo":
-                // Podrías pasarle state={{ mode: 'torneo' }} si Experience lo soporta
-                return <Navigate to="/experience" replace />;
+                // Podrías pasarle state={{ mode: 'torneo' }} si el Hub lo soporta
+                return <Navigate to="/signals" replace />;
             case "profundidad":
-                return <Navigate to="/experience" replace />;
+                return <Navigate to="/signals" replace />;
             default:
-                return <Navigate to="/experience" replace />;
+                return <Navigate to="/signals" replace />;
         }
     }
 

@@ -250,7 +250,7 @@ const AdminAntifraud: React.FC = () => {
                                                                             <span className={`font-medium ${summaries[flag.device_hash].distinct_users_24h! > 2 ? 'text-blue-600' : 'text-slate-700'}`}>{summaries[flag.device_hash].distinct_users_24h}</span>
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1">
-                                                                            <span className="text-slate-500">Batallas Votadas (24h):</span>
+                                                                            <span className="text-slate-500">Batallas Participadas (24h):</span>
                                                                             <span className="font-medium">{summaries[flag.device_hash].distinct_battles_24h}</span>
                                                                         </div>
                                                                     </div>

@@ -109,7 +109,7 @@ export default function AboutUs() {
                             </div>
                             <h3 className="text-lg font-bold tracking-tight text-white mb-3 text-center md:text-left relative z-10">Fuerza de Señal</h3>
                             <p className="text-slate-400 text-sm leading-relaxed text-center md:text-left relative z-10">
-                                Un voto no validado es casi ruido. <strong className="text-white">Mientras más completo tu perfil</strong> y más constante tu participación sana, más impacto directo tiene tu opinión en las empresas y decisores.
+                                Una señal no validada es casi ruido. <strong className="text-white">Mientras más completo tu perfil</strong> y más constante tu participación sana, más impacto directo tiene tu opinión en las empresas y decisores.
                             </p>
                         </motion.div>
                     </div>
@@ -120,10 +120,10 @@ export default function AboutUs() {
             <section className="py-24 px-6 relative z-10 w-full max-w-[1400px] mx-auto">
                 <div className="max-w-4xl mx-auto text-center mb-20">
                     <span className="text-primary-500 font-bold uppercase tracking-widest text-xs mb-4 block">El Problema Estructural</span>
-                    <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight mb-6">Ni encuestas eternas, ni likes vacíos.</h2>
+                    <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight mb-6">Ni estudios eternos, ni likes vacíos.</h2>
                     <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-3xl mx-auto">
                         Una queja anónima no vale lo mismo que la preferencia de un consumidor habitual.
-                        Los likes son superficiales y las encuestas tradicionales envejecen antes de publicarse.
+                        Los likes son superficiales y los estudios tradicionales envejecen antes de publicarse.
                         <strong className="text-slate-700 font-bold"> La calidad del dato depende inherentemente de la calidad y el contexto de quien lo emite.</strong>
                     </p>
                 </div>
@@ -228,7 +228,7 @@ export default function AboutUs() {
                             <p className="text-slate-500 font-medium">Tus señales construyen el ranking en tiempo real de lo que está pasando. Suma valor, elige tu nicho y avanza.</p>
                         </div>
                         <button
-                            onClick={() => navigate('/experience')}
+                            onClick={() => navigate('/signals')}
                             className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-900 font-black text-sm uppercase tracking-widest py-4 px-6 rounded-xl transition-colors inline-flex justify-between items-center w-full"
                         >
                             Ir a Participar

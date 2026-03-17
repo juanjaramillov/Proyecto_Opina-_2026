@@ -14,7 +14,7 @@ Esta zona del proyecto constituye el **Core Estable**. Ha sido formalmente audit
 | **Motor de Señales y Extracción** | Todo el sistema subyacente para emitir señales (Votos Versus, Ranking Torneo), manejando consistencia de IDs en DB. |
 | **Resiliencia P2P (Outbox)** | La cola local síncrona/asíncrona garantizando que los votos jamás se pierdan en desconexiones temporales. |
 | **Read Models Canónicos** | La estructura `src/read-models/`. Contratos fuente de Verdad absoluta: cálculo paramétrico de _Confidence_ y _Sufficiency_. |
-| **Panel de Resultados B2C** | La topología de `Results.tsx` adaptándose dócilmente a los estados de suficiencia y el pipeline de insights multivariados. Actualmente opera conectado a `userMasterResultsReadModel` real, eliminando por completo la capa de *Demo Mode* y el uso de datos ficticios. Se proveen *empty states* elegantes para datos faltantes. |
+| **Panel de Resultados B2C** | La topología de `Results.tsx` adaptándose dócilmente a los estados de suficiencia y el pipeline de insights multivariados. Actualmente opera conectado a un **Snapshot Ficticio Curado**, aislando la experiencia visual de lecturas reales parciales. |
 | **Overview Ejecutivo B2B** | El dashboard primario de administradores cliente `OverviewB2B.tsx`, alimentado por `PlatformOverviewSnapshot` estrictamente. |
 | **Tooling y Operaciones Base** | Los scripts en `ops/` que garantizan auditorías puras y descargas de Zip higienizadas. |
 
@@ -41,7 +41,7 @@ El proyecto actual se divide en un frontend dinámico basado en React/Vite que c
 | **Torneo** | Operativo | User / Admin | Eliminatorias progresivas para categorías específicas. |
 | **Actualidad** | Operativo | User / Admin | Módulo editorial para tópicos de tendencia (ActualidadEditorial). |
 | **Perfil / Onboarding** | Operativo | User / Admin | Captura progresiva de demografía y stats de loyalty. |
-| **B2B Dashboard** | Experimental | B2B / Admin | Inteligencia de datos y benchmarks (parcial). |
+| **B2B Dashboard** | Operativo (Comercial) | B2B / Admin | Inteligencia de datos predecible y benchmarks ejecutivos para clientes con dataset fijado para handoff. |
 | **Admin Hub** | Operativo | Admin | Gestión de usuarios, invitaciones y salud del sistema. |
 | **Loyalty / Wallet** | Operativo | User / Admin | Sistema de puntos y niveles basados en señales emitidas. |
 
@@ -51,7 +51,24 @@ El proyecto actual se divide en un frontend dinámico basado en React/Vite que c
 
 El acceso al sistema está gobernado por una política centralizada que evita la dispersión de lógica en las páginas.
 
-### Componentes Clave
+### Transparencia y Métricas
+Opina+ basa su valor fundamental en la veracidad. **Estrictamente prohibido:**
+*   Renderizar KPIs simulados usando `Math.random` o equivalentes aleatorios/estáticos para representar interacción (visitas, votos, CTR).
+*   Si un dato no existe, debe utilizarse el componente `MetricAvailabilityCard` (o estados equivalentes en UI) para reflejar "telemetría pendiente", "insuficiente masa crítica" u otros mensajes honestos, alineados con el diseño premium pero sin falsear inteligencia.
+
+### Capa de Telemetría Mínima (Analytics)
+Se ha incorporado una capa estricta (`trackEvent.ts`) para recabar eventos críticos del journey y medir tasas de éxito sin sacrificar performance ni delegar en librerías pesadas temporalmente. La filosofía actual recolecta el footprint de valor del cliente en variables fuertemente tipadas en TypeScript, protegiendo contra corrupciones de datos en el largo plazo e invocando fallbacks a la consola del desarrollador.
+
+## Diccionario Oficial de Módulos Opina+
+
+*   **versus**: Decisiones rápidas cara a cara.
+*   **torneo**: Comparación múltiple, el ganador avanza.
+*   **actualidad**: Temas contingentes.
+*   **profundidad**: Insight Pack (10 preguntas).
+
+**(Nota: No debe existir `tournament` ni en el código ni en la base de datos de producción como módulo oficial)**
+
+### Base de Componentes (Foundation)
 - **`Gate.tsx`**: Componente de protección que envuelve rutas en `App.tsx`. Decide si permitir el paso, redirigir o mostrar un mensaje basado en la política resuelta.
 - **`accessGate.ts`**: Servicio que maneja el acceso físico local (tokens de bypass, códigos de piloto).
 - **`policyResolver.ts`**: Motor de reglas que traduce Roles de Supabase y estados de carga en decisiones de acceso (Allowed / Redirect).
@@ -70,7 +87,10 @@ El proyecto ha pasado por 5 bloques de estabilización técnica y de tooling de 
 - **Bloque 2**: Autorización server-side real en funciones privilegiadas (Edge Functions y Gate).
 - **Bloque 3**: Consolidación total de **Read Models canónicos**. Separación radical de B2C y B2B, inyección de _Confidence Level_ y QA mínimo automatizado 100% transpirado (Vitest/Typecheck).
 - **Bloque 4**: Limpieza operativa del repo, higiene pre-Zip, gitignores reales y exclusión de utilidades muertas.
-- **Bloque 5 (Actual)**: Congelamiento estofado del core estable y levantamiento formal explícito del **Registro de Deuda**.
+- **Bloque 5**: Congelamiento del core estable y levantamiento formal explícito del **Registro de Deuda**.
+- **Bloque 6**: Higiene Operativa del Repo y Export Limpio. Formalización de la política de `export:clean` para compartir código fuente libre de secretos, caches y dependencias.
+- **Bloque 7**: Cierre de B2B como Producto Vendible. Establecimiento de caso curado ficticio ("Vitalidad" vs "Letargo") inyectado directamente a Overview, Deep Dive (como panel comparativo) y Reports (como Executive Briefing final).
+- **Sprint de Validación**: Instrumentación Mínima (Analytics B2C + B2B). Sembrado de nodos transparentes en Rutas de Señales, Resultados y B2B para auditar el engagement.
 
 ---
 
@@ -112,14 +132,15 @@ npm run typecheck
 npm run build
 ```
 
-### Política de "Zip Limpio" (Mantenimiento del Repositorio)
-Para asegurar la portabilidad y limpieza del proyecto, el empaquetado **nunca se hace de forma manual**.
-Se cuenta con scripts de sanidad operativa:
-1. Validar higiene: `npm run ops:repo-hygiene` (evita exportar rastros de pruebas locales, `.env` no compartibles, `node_modules`, etc).
-2. Exportar limpio: `npm run ops:zip-clean` (genera un ZIP con estrictas exclusiones estructurales).
-La exclusión de `archive/` es el comportamiento por defecto para mantener los reportes livianos.
+### Política de Exportación Limpia (Empaquetado Seguro del Repositorio)
+Para compartir, respaldar o auditar el repositorio **NUNCA DEBE COMPRIMIRSE MANUALMENTE**. 
+Existe un protocolo estricto documentado en `docs/operations/CLEAN_EXPORT_POLICY.md` y un script que excluye automáticamente la basura descrita en dicha política.
 
----
+Para generar un archivo ZIP distribuible transparente y reproducible:
+```bash
+npm run export:clean
+```
+El archivo se almacenará en el directorio `/exports`.
 
 ## 7. Protocolos de Validación (QA)
 

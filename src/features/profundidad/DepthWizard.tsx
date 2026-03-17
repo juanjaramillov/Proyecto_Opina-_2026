@@ -80,7 +80,7 @@ const DepthWizard: React.FC<DepthWizardProps> = ({
                 <button
                     onClick={onCancel}
                     className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors z-50 shadow-sm border border-slate-200/60"
-                    aria-label="Cerrar encuesta"
+                    aria-label="Cerrar panel"
                 >
                     <span className="material-symbols-outlined font-bold text-xl">close</span>
                 </button>

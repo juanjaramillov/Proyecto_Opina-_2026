@@ -4,6 +4,7 @@ import { Filter, ChevronDown, BadgeAlert, TrendingUp, TrendingDown, Power, Searc
 import { adminBrandsService, AdminBrand } from "../services/adminBrandsService";
 import { logger } from '../../../lib/logger';
 import { getAssetPathForOption } from '../../signals/config/brandAssets';
+import BrandLogo from '../../../components/ui/BrandLogo';
 
 export default function AdminBrands() {
   const [brands, setBrands] = useState<AdminBrand[]>([]);
@@ -224,11 +225,13 @@ export default function AdminBrands() {
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-4">
-                          <div className={`w-10 h-10 rounded-xl bg-white border shadow-sm flex items-center justify-center overflow-hidden shrink-0 ${!brand.is_active ? 'opacity-50 grayscale' : 'border-slate-200'}`}>
+                          <div className={`w-10 h-10 rounded-xl shrink-0 overflow-hidden ${!brand.is_active ? 'opacity-50 grayscale' : 'border-slate-200 shadow-sm border'}`}>
                             {brand.logo_path ? (
-                              <img src={getAssetPathForOption(brand.name, brand.logo_path) || undefined} alt={brand.name} className="w-full h-full object-contain p-1.5" loading="lazy" />
+                              <BrandLogo src={getAssetPathForOption(brand.name, brand.logo_path) || ""} alt={brand.name} variant="catalog" className="!w-full !h-full !min-h-0 !min-w-0" />
                             ) : (
-                              <span className="text-slate-300 font-bold text-xs">{brand.name.substring(0,2).toUpperCase()}</span>
+                              <div className="w-full h-full bg-white flex items-center justify-center">
+                                <span className="text-slate-300 font-bold text-xs">{brand.name.substring(0,2).toUpperCase()}</span>
+                              </div>
                             )}
                           </div>
                           <div className="flex flex-col">

@@ -2,7 +2,7 @@ import React from 'react';
 import { getTierForSignals } from '../../features/profile/loyalty/loyaltyModel';
 import { motion } from 'framer-motion';
 
-export type ActionType = 'profile' | 'versus' | 'results' | 'tournament' | 'actualidad';
+export type ActionType = 'profile' | 'versus' | 'results' | 'torneo' | 'actualidad';
 
 interface NextActionRecommendationProps {
     signalsEarned?: number;

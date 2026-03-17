@@ -28,4 +28,5 @@ Resultados e Inteligencia pueden compartir base agregada, pero no deben exponer 
 
 ## Arquitectura Ficticia de Resultados (V13)
 
-Actualmente, la página de Resultados consume una única fuente de verdad ficticia (`results-fictional-provider`). Esto unifica la experiencia visual, previene la mezcla con datos reales incompletos y ofrece un **Demo Mode exclusivo para admin** que permite transicionar entre perfiles (Explorador, Consistente, Divergente, Intenso). Los usuarios base ven un escenario fijo consolidado. La ingesta de datos reales queda postergada y la UI opera como un contenedor estructural puro (sin lógica de lectura cruzada).
+Actualmente, la página de **Resultados B2C** consume directamente una fuente de verdad **determinista y curada** (`getCuratedMasterHubSnapshot`) en lugar de construir con base en la lectura fragmentada o incipiente real (`userMasterResultsReadModel`). 
+Esto permite ofrecer sistemáticamente una experiencia premium "completa", mostrar insights ficticios balanceados al perfil del usuario, e independizar el aspecto estructural B2C visual sin afectar a la lectura B2B ni inventar fallbacks intermedios ambiguos. Módulo, demografía y filtros son 100% deterministas en torno a este baseline plausible.

@@ -46,11 +46,10 @@ Para auditorías o respaldos, el empaquetado **nunca debe ser manual**. Utiliza 
    ```
 2. **Generar Zip:**
    ```bash
-   npm run ops:zip-clean
+   npm run export:clean
    ```
 
-- **INCLUIDOS EN ZIP**: `src/`, `public/`, `supabase/`, `docs/`, `scripts/`, configs de raíz y `.env.example`.
-- **EXCLUIDOS EXPLÍCITAMENTE**: `node_modules/`, `dist/`, `.git/`, `.vercel/`, `.env.*` locales, logs e informes temporales. La carpeta `archive/` queda fuera por defecto.
+- **EXCLUIDOS EXPLÍCITAMENTE**: Consulta `docs/operations/CLEAN_EXPORT_POLICY.md` para ver la lista estricta de exclusiones. El empaquetado generado aparecerá en la carpeta `/exports`.
 
 ---
 

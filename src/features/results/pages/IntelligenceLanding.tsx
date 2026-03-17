@@ -40,7 +40,7 @@ export default function IntelligenceLanding() {
                     </h1>
 
                     <p className="text-lg md:text-xl text-text-secondary font-medium max-w-2xl mx-auto leading-relaxed mb-10">
-                        Descubre cómo las señales individuales de miles de usuarios se transforman en certezas absolutas de mercado, identificando tendencias antes de que sean evidentes para tu industria.
+                        Descubre cómo las señales individuales de miles de usuarios se transforman en certezas analíticas, identificando tendencias antes de que sean evidentes para tu industria.
                     </p>
 
                     <div className="flex gap-4 items-center flex-col sm:flex-row">

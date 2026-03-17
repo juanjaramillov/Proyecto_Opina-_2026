@@ -36,9 +36,16 @@ export default function RegisterPage() {
 
         (async () => {
             const { data: s } = await supabase.auth.getSession();
-            if (s?.session) nav("/complete-profile", { replace: true });
+            if (s?.session) {
+                // Si el usuario no es anónimo, ya está registrado.
+                if (!s.session.user.is_anonymous) {
+                    nav(nextPath, { replace: true });
+                } else {
+                    nav("/complete-profile", { replace: true });
+                }
+            }
         })();
-    }, [nav, loc]);
+    }, [nav, loc, nextPath]);
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -71,6 +78,7 @@ export default function RegisterPage() {
             await authService.registerWithEmail(e1, password, n1);
             // Después de registrarse, se completa perfil (claim de invitación + nickname)
             nav("/complete-profile", { replace: true });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (e: any) {
             logger.error(e);
             setErr(e?.message ?? "Algo falló. Intenta de nuevo.");

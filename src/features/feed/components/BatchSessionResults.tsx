@@ -89,7 +89,7 @@ export default function BatchSessionResults({
                                 if (action === 'profile') {
                                     navigate('/complete-profile');
                                 } else if (action === 'versus') {
-                                    navigate("/experience");
+                                    navigate("/signals");
                                 } else if (action === 'results') {
                                     navigate("/results");
                                 }

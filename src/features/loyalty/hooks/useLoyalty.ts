@@ -14,6 +14,7 @@ export function useLoyalty() {
   
   const [stats, setStats] = useState<UserLoyaltyStats | null>(null);
   const [wallet, setWallet] = useState<UserWallet | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [missions, setMissions] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

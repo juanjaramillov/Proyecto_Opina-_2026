@@ -120,7 +120,7 @@ export default function BattlePage() {
                     description={error || "No pudimos cargar esta evaluación. Refresca o vuelve más tarde."}
                     icon="wifi_off"
                     primaryAction={{ label: "Reintentar", onClick: () => window.location.reload() }}
-                    secondaryAction={{ label: "Volver a Participa", onClick: () => navigate("/experience") }}
+                    secondaryAction={{ label: "Volver a Participa", onClick: () => navigate("/signals") }}
                 />
             </div>
         );
@@ -164,7 +164,7 @@ export default function BattlePage() {
                 }
                 actions={
                     <button
-                        onClick={() => navigate("/experience")}
+                        onClick={() => navigate("/signals")}
                         className="h-10 px-4 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 font-bold text-sm transition-all shadow-sm active:scale-95 shrink-0 flex items-center gap-2"
                     >
                         <span className="material-symbols-outlined text-[16px]">arrow_back</span>

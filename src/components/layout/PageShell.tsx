@@ -57,7 +57,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // ✅ Feedback WhatsApp: se oculta SOLO en pantallas activas de votación si se desea, 
+  // ✅ Feedback WhatsApp: se oculta SOLO en pantallas activas de participación/señales si se desea, 
   // Mostramos el FAB en todas las rutas (incluyendo admin) para feedback continuo
   const isVotingRoute = location.pathname.includes("/torneo") || location.pathname.includes("/versus");
   const showFeedbackFab = !isVotingRoute;

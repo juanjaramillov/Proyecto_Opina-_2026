@@ -20,7 +20,7 @@ export function MissionsPanel() {
   const getMissionIcon = (type: string) => {
     switch (type) {
       case 'versus': return <Zap className="w-5 h-5 text-yellow-400" />;
-      case 'tournament': return <Target className="w-5 h-5 text-red-400" />;
+      case 'torneo': return <Target className="w-5 h-5 text-red-400" />;
       case 'actualidad': return <TrendingUp className="w-5 h-5 text-blue-400" />;
       case 'active_days': return <CalendarDays className="w-5 h-5 text-green-400" />;
       default: return <Target className="w-5 h-5 text-slate-400" />;

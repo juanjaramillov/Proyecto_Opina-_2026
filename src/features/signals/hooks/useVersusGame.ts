@@ -186,7 +186,7 @@ export function useVersusGame({
                 }
             });
 
-            // Note: saveSignalEvent was removed here because Experience.tsx handles it.
+            // Note: saveSignalEvent was removed here because SignalsHub.tsx handles it.
 
             setResult(r);
 

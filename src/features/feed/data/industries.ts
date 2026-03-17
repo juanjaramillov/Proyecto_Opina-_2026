@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PARENT_INDUSTRIES: Record<string, any> = {
     "automotriz": {
         "id": "cat-automotriz",

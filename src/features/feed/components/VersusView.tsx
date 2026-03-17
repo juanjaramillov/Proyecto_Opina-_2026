@@ -199,6 +199,9 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
                     subtitle={`${filteredVersusBattles.length} evaluaciones encontradas`}
                     hideMixOption={false}
                 />
+                <p className="text-center text-[10px] text-slate-400 mt-8 font-medium px-4 animate-in fade-in duration-700">
+                    Opina+ refleja las preferencias declaradas de sus usuarios activos y no constituye una muestra estadística representativa de la población general.
+                </p>
             </div>
 
             <RequestLoginModal

@@ -54,6 +54,7 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
         // @ts-expect-error - falta el tipado correspondiente en previewType
         const type = activeModule.previewType;
         // @ts-expect-error - falta el tipado correspondiente en previewData
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data = activeModule.previewData as any;
 
         switch (type) {

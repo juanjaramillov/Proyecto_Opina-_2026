@@ -1,6 +1,7 @@
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 import { Topic, TopicQuestion, TopicStatus, AiTopicPayload, validateAiTopicPayload } from '../../signals/types/actualidad';
+import { generateTopicSlug, extractDomainFromUrl, validateTopicForPublication } from '../utils/actualidadHelpers';
 
 export const adminActualidadService = {
   /**
@@ -96,16 +97,10 @@ export const adminActualidadService = {
   async createTopicFromDetectedAiPayload(payload: AiTopicPayload): Promise<string | null> {
     try {
       // 1. Generar slug único básico
-      const baseSlug = payload.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, '-');
-      const slug = `${baseSlug}-${Math.floor(Math.random() * 1000)}`;
+      const slug = generateTopicSlug(payload.title);
 
       // 2. Extraer dominio simple para source_domain
-      let domain = '';
-      try {
-        if (payload.source_url) {
-          domain = new URL(payload.source_url).hostname.replace('www.', '');
-        }
-      } catch { /* ignore */ }
+      const domain = extractDomainFromUrl(payload.source_url);
 
       // 3. Crear Topic
       const metadataSnapshot = { raw_ai_payload: payload, source_url: payload.source_url };
@@ -218,7 +213,7 @@ export const adminActualidadService = {
    */
   async createTopicWithQuestions(topic: Partial<Topic>, questions: TopicQuestion[]): Promise<string | null> {
     try {
-      const slug = topic.title?.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, '-') + '-' + Math.floor(Math.random() * 1000);
+      const slug = topic.title ? generateTopicSlug(topic.title) : `tema-${Math.floor(Math.random() * 1000)}`;
       
       const { data: topicData, error: topicError } = await supabase
         .from('current_topics')
@@ -353,6 +348,7 @@ export const adminActualidadService = {
       if (questionsToUpsert.length > 0) {
         const { error: upsertError } = await supabase
           .from('topic_questions')
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .upsert(questionsToUpsert as any[], { onConflict: 'id' });
         if (upsertError) throw upsertError;
       }
@@ -375,20 +371,9 @@ export const adminActualidadService = {
         const topic = await this.getAdminTopicById(id);
         if (!topic) return { success: false, error: 'Tema no existe' };
         
-        // Simular validación editorial estricta
-        if (!topic.title || topic.title.trim() === '') return { success: false, error: 'El tema requiere un título válido.' };
-        if (!topic.summary || topic.summary.trim() === '') return { success: false, error: 'Falta un resumen neutral para su publicación.' };
-        if (!topic.category) return { success: false, error: 'Falta configurar una categoría válida.' };
-        
-        // Validación de preguntas asociadas
-        if (!topic.questions || topic.questions.length !== 3) {
-            return { success: false, error: 'La arquitectura requiere STRICTAMENTE 3 preguntas para ser operado, no ' + (topic.questions?.length || 0) };
-        }
-        for (const [idx, q] of topic.questions.entries()) {
-            if (!q.text || q.text.trim() === '') return { success: false, error: `La pregunta ${idx + 1} no tiene texto.` };
-            if (['single_choice', 'single_choice_polar'].includes(q.type) && (!q.options || q.options.length < 2)) {
-                return { success: false, error: `La pregunta ${idx + 1} (${q.type}) requiere al menos 2 alternativas establecidas.` };
-            }
+        const validation = validateTopicForPublication(topic);
+        if (!validation.success) {
+            return validation;
         }
       }
 

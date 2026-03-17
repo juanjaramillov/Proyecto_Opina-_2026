@@ -25,7 +25,7 @@ export default function NotFound() {
                             Volver al inicio
                         </Link>
 
-                        <Link to="/experience" className="btn-secondary">
+                        <Link to="/signals" className="btn-secondary">
                             Ir al Hub
                         </Link>
 

@@ -93,7 +93,7 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
 
   const handleContinue = () => {
     const nextBatchIndex = Math.floor(completedSignals / SIGNALS_PER_BATCH);
-    navigate('/experience', { state: { nextBatch: nextBatchIndex } });
+    navigate('/signals', { state: { nextBatch: nextBatchIndex } });
   };
 
   const scrollToMissions = () => {
@@ -226,7 +226,7 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
                     const el = document.getElementById("profile-form");
                     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
                   } else if (action === 'versus') {
-                    navigate('/experience');
+                    navigate('/signals');
                   } else if (action === 'results') {
                     navigate('/results');
                   }
@@ -248,7 +248,7 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
                   <div>
                     <div className="flex items-center gap-2">
                       <h1 className="text-2xl font-black text-ink tracking-tight leading-none">
-                        {profile?.displayName ? `Hola, ${profile.displayName.split(' ')[0]}` : 'Perfil de Observador'}
+                        {profile?.role === 'admin' ? 'Hola, Administrador' : profile?.displayName ? `Hola, ${profile.displayName.split(' ')[0]}` : 'Perfil de Observador'}
                       </h1>
                       {profile?.hasCI && (
                         <span className="material-symbols-outlined text-secondary text-lg" title="Corroborado">verified</span>

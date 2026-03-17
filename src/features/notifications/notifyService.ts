@@ -41,7 +41,7 @@ export function formatKnownError(err: unknown): string | null {
         return 'Demasiados intentos. Espera 10 minutos y prueba de nuevo.';
     }
     if (upperMsg.includes('COOLDOWN_ACTIVE')) {
-        return 'Espera un momento antes de volver a votar en este versus.';
+        return 'Espera un momento antes de volver a participar en este versus.';
     }
     if (upperMsg.includes('DEVICE_BANNED')) {
         return 'Tu acceso ha sido restringido por comportamiento sospechoso.';

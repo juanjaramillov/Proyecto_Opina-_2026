@@ -96,13 +96,12 @@ export default function OptionCard({
                                 style={{ background: `radial-gradient(circle, ${theme?.primary || '#10b981'}20 0%, transparent 60%)` }}
                             />
 
-                            <div className="flex items-center justify-center w-full h-[120px] md:h-[260px] p-2 md:p-4 relative">
+                            <div className="flex items-center justify-center w-full h-fit py-4 relative">
                                 <EntityLogo
                                     name={option.label}
                                     slug={resolveEntitySlug(option)}
-                                    size="lg"
-                                    rounded={false}
-                                    className={`!w-[100px] !h-[100px] md:!w-[190px] md:!h-[190px] relative z-10 mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''} bg-transparent !border-none`}
+                                    variant={layout === 'opinion' ? 'depth' : 'versus'}
+                                    className={`relative z-10 mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''}`}
                                 />
                             </div>
                         </div>

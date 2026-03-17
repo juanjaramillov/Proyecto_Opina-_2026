@@ -87,14 +87,15 @@ export default function App() {
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin-login" element={<Login />} />
 
-            {/* 3. PROTECTED ROUTES - EXPERIENCE (Users/Admin) */}
-            <Route path="/signals" element={<Gate module="experience"><SignalsHub /></Gate>} />
+            {/* 3. PROTECTED ROUTES - SIGNALS (Users/Admin) */}
+            <Route path="/signals" element={<Gate module="signals"><SignalsHub /></Gate>} />
+            {/* Legacy route compatibility */}
             <Route path="/experience" element={<Navigate to="/signals" replace />} />
-            <Route path="/m/:slug" element={<Gate module="experience"><ModuleEntry /></Gate>} />
-            <Route path="/battle/:battleSlug" element={<Gate module="experience"><BattlePage /></Gate>} />
-            <Route path="/results" element={<Gate module="experience"><Results /></Gate>} />
-            <Route path="/profile" element={<Gate module="experience"><Profile /></Gate>} />
-            <Route path="/complete-profile" element={<Gate module="experience"><ProfileWizard /></Gate>} />
+            <Route path="/m/:slug" element={<Gate module="signals"><ModuleEntry /></Gate>} />
+            <Route path="/battle/:battleSlug" element={<Gate module="signals"><BattlePage /></Gate>} />
+            <Route path="/results" element={<Gate module="signals"><Results /></Gate>} />
+            <Route path="/profile" element={<Gate module="signals"><Profile /></Gate>} />
+            <Route path="/complete-profile" element={<Gate module="signals"><ProfileWizard /></Gate>} />
             
             {/* 4. PROTECTED ROUTES - B2B INTELLIGENCE (B2B/Admin) */}
             <Route path="/b2b" element={<Gate module="b2b_dashboard"><B2BLayout /></Gate>}>

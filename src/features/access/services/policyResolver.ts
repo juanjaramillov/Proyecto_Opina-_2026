@@ -11,7 +11,7 @@ export function resolveAccessPolicy(route: AppRouteModule, state: AccessState): 
         case 'public':
             return { allowed: true };
 
-        case 'experience':
+        case 'signals':
             if (!state.isAuthenticated) {
                 return {
                     allowed: false,
@@ -30,7 +30,7 @@ export function resolveAccessPolicy(route: AppRouteModule, state: AccessState): 
                 }
             }
             
-            // Access gate logic for Experience: 
+            // Access gate logic for Signals (former Experience): 
             // Users need a valid token (invite/pass) UNLESS they are admin, or already bound their invite (hasAccessGateToken is a generic flag we'll map)
             // But wait, the current logic says if gate is disabled it passes. We will handle gate config logic in the provider, 
             // so if `state.hasAccessGateToken` is true, it means they are cleared to pass the gate.

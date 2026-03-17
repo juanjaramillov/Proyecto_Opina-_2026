@@ -21,6 +21,7 @@ export interface B2BBattleAnalytics {
     total_effective_weight: number;
     n_eff: number;
     options_count: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     analytics_payload: Record<string, any>[];
     global_entropy_normalized: number;
     global_fragmentation_label: string;

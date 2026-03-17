@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BrandLogo } from '../../../components/ui/BrandLogo';
+import BrandLogo from '../../../components/ui/BrandLogo';
 
 import { BattleCategory } from '../types';
 
@@ -88,7 +88,7 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
                     {selectedOption ? (
                         <div className="inline-flex items-center gap-2 bg-primary-50 border border-primary-100 px-3 py-1.5 rounded-full animate-in zoom-in duration-200">
                             {selectedOption.image_url ? (
-                                <img src={selectedOption.image_url} alt="" className="w-4 h-4 object-contain" />
+                                <BrandLogo src={selectedOption.image_url} alt="" variant="catalog" className="!w-4 !h-4 !min-h-0 !min-w-0 !rounded-full !bg-transparent" />
                             ) : (
                                 <div className="w-4 h-4 rounded-full bg-primary-200 flex flex-shrink-0" />
                             )}
@@ -128,12 +128,16 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
                             >
                                 {/* Thumbnail */}
                                 <div className={`w-16 h-16 rounded-xl flex-shrink-0 overflow-hidden flex items-center justify-center transition-transform ${isSelected ? 'scale-110 shadow-sm bg-white' : 'bg-slate-50 group-hover:scale-105'}`}>
-                                    <BrandLogo
-                                        name={opt.label}
-                                        imageUrl={opt.image_url || opt.imageUrl}
-                                        brandDomain={opt.brand_domain || undefined}
-                                        className="w-full h-full object-contain p-2 mix-blend-multiply"
-                                    />
+                                    {opt.image_url || opt.imageUrl ? (
+                                        <BrandLogo
+                                            src={opt.image_url || opt.imageUrl || ""}
+                                            alt={opt.label}
+                                            variant="depth"
+                                            className="!min-h-0 !h-full !w-full mix-blend-multiply"
+                                        />
+                                    ) : (
+                                        <span className="text-xl font-bold text-slate-400">{opt.label.substring(0,2).toUpperCase()}</span>
+                                    )}
                                 </div>
 
                                 {/* Details */}

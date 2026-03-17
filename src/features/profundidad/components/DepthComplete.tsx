@@ -59,6 +59,7 @@ const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, su
                     <NextActionRecommendation
                         signalsEarned={summary?.length || 0}
                         totalSignals={signals}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         profileCompleteness={(profile as any)?.profileCompleteness || 0}
                         onAction={(action: ActionType) => {
                             onGoToHub();

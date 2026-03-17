@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useActiveBattles } from "../../../hooks/useActiveBattles";
 import { useSignalStore } from "../../../store/signalStore";
 import { useAuth } from "../../auth";
+import { trackEvent } from "../../../services/analytics/trackEvent";
 
 import PageHeader from "../../../components/ui/PageHeader";
 import { PageState } from "../../../components/ui/StateBlocks";
@@ -24,7 +25,7 @@ const BATCH_SIZE = 12;
 
 export default function SignalsHub() {
     const { mode, setMode, requestedBatch, resetToMenu } = useExperienceMode();
-    const { hubStats, hubTopNow } = useExperienceStats();
+    const { hubTopNow } = useExperienceStats();
     
     const { battles, loading, error } = useActiveBattles();
     const { profile } = useAuth();
@@ -40,6 +41,10 @@ export default function SignalsHub() {
 
     const fmt = (n: number) => new Intl.NumberFormat("es-CL").format(Number.isFinite(n) ? n : 0);
     const signalsLimit = profile?.role === 'admin' ? '∞' : profile?.signalsDailyLimit === -1 ? '∞' : (profile?.signalsDailyLimit ?? "?").toString();
+
+    useEffect(() => {
+        trackEvent('user_entered_signals');
+    }, []);
 
     useEffect(() => {
         if (profile && !profile.isProfileComplete && profile.role !== 'admin') {
@@ -62,7 +67,7 @@ export default function SignalsHub() {
                 ? "Modo torneo: una opción sobrevive y sigue peleando."
                 : "Profundidad: 5 preguntas rápidas para afinar el motor.";
 
-    if (loading && battles.length === 0) {
+    if (loading && battles.length === 0 && mode !== 'menu') {
         return (
             <div className="container-ws section-y space-y-6 pb-24">
                 <PageHeader
@@ -118,12 +123,22 @@ export default function SignalsHub() {
             
             {mode === "menu" && (
                 <HubMenuSimplified
-                    onEnterVersus={() => setMode('versus')}
-                    onEnterTorneo={() => setMode("torneo")}
-                    onEnterProfundidad={() => setMode("profundidad")}
-                    onEnterActualidad={() => setMode("actualidad")}
-                    onViewResults={() => navigate("/results")}
-                    stats={hubStats}
+                    onEnterVersus={() => {
+                        setMode('versus');
+                        trackEvent('user_started_module', { module: 'versus' });
+                    }}
+                    onEnterTorneo={() => {
+                        setMode("torneo");
+                        trackEvent('user_started_module', { module: 'torneo' });
+                    }}
+                    onEnterProfundidad={() => {
+                        setMode("profundidad");
+                        trackEvent('user_started_module', { module: 'profundidad' });
+                    }}
+                    onViewResults={() => {
+                        trackEvent('user_clicked_next_action', { target_action: 'view_results' });
+                        navigate("/results");
+                    }}
                     topNow={hubTopNow}
                     previewVersus={battles.length > 0 ? (battles[0] as Battle) : null}
                     signalsToday={signalsToday}

@@ -30,7 +30,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                     title="Elige tu Torneo"
                     subtitle={selectedTheme !== 'mix'
                         ? "Puedes cambiar de categoría en cualquier momento."
-                        : "Entra a profundidad con las encuestas de cada marca."
+                        : "Entra a profundidad con el análisis de cada marca."
                     }
                     hideMixOption={true}
                 />
@@ -74,7 +74,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                         <span className="material-symbols-outlined text-3xl text-slate-300">layers</span>
                     </div>
                     <h3 className="text-xl font-black text-slate-900">Selecciona un canal para profundizar</h3>
-                    <p className="text-slate-500 font-medium mt-2">Descubre las encuestas detalladas de cada marca en tu categoría deseada.</p>
+                    <p className="text-slate-500 font-medium mt-2">Descubre el análisis detallado de cada marca en tu categoría deseada.</p>
                 </div>
             )}
 
@@ -90,6 +90,10 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                     onCancel={() => setSelectedOption(null)}
                 />
             )}
+
+            <p className="text-center text-[10px] text-slate-400 mt-8 font-medium px-4 max-w-2xl mx-auto">
+                Opina+ refleja las preferencias declaradas de sus usuarios activos y no constituye una muestra estadística representativa de la población general.
+            </p>
         </div>
     );
 }

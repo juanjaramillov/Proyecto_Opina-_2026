@@ -165,6 +165,7 @@ export const signalService = {
             let res = await sb.rpc('insert_signal_event', {
                 ...args,
                 p_client_event_id: id
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any);
 
             // Si falla por p_device_hash, reintento sin ese campo (fallback)
@@ -346,21 +347,21 @@ export const signalService = {
 
     getHubTopNow24h: async (): Promise<{
         top_versus: { slug: string; title: string; signals_24h: number } | null;
-        top_tournament: { slug: string; title: string; signals_24h: number } | null;
+        top_torneo: { slug: string; title: string; signals_24h: number } | null;
     }> => {
-        if (!hasSupabaseEnv()) return { top_versus: null, top_tournament: null };
+        if (!hasSupabaseEnv()) return { top_versus: null, top_torneo: null };
 
         const { data, error } = await sb.rpc('get_hub_top_now_24h');
 
         if (error) {
             logger.error('[Hub Top Now] Error:', error);
-            return { top_versus: null, top_tournament: null };
+            return { top_versus: null, top_torneo: null };
         }
 
         return (data as unknown as {
             top_versus: { slug: string; title: string; signals_24h: number } | null;
-            top_tournament: { slug: string; title: string; signals_24h: number } | null;
-        }) ?? { top_versus: null, top_tournament: null };
+            top_torneo: { slug: string; title: string; signals_24h: number } | null;
+        }) ?? { top_versus: null, top_torneo: null };
     },
 
     getActiveBattles: async (): Promise<ActiveBattle[]> => {

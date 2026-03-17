@@ -1,13 +1,14 @@
 import { useMemo, useState, useEffect } from "react";
-
-type EntityLogoSize = "sm" | "md" | "lg";
+import BrandLogo from "../ui/BrandLogo";type EntityLogoSize = "sm" | "md" | "lg";
 
 type EntityLogoProps = {
   name: string;
   slug?: string | null;
   size?: EntityLogoSize;
   className?: string;
+  imgClassName?: string;
   rounded?: boolean;
+  variant?: "versus" | "depth" | "ranking" | "results" | "catalog";
 };
 
 const sizeMap: Record<EntityLogoSize, string> = {
@@ -16,11 +17,7 @@ const sizeMap: Record<EntityLogoSize, string> = {
   lg: "h-24 w-24",
 };
 
-const imagePaddingMap: Record<EntityLogoSize, string> = {
-  sm: "p-[10%]",
-  md: "p-[12%]",
-  lg: "p-[12%]",
-};
+// Removed imagePaddingMap
 
 function getInitial(name: string): string {
   const trimmed = (name || "").trim();
@@ -37,7 +34,9 @@ export default function EntityLogo({
   slug,
   size = "md",
   className,
+  imgClassName,
   rounded = true,
+  variant,
 }: EntityLogoProps) {
   const [currentSrcIndex, setCurrentSrcIndex] = useState(0);
   const [hasError, setHasError] = useState(false);
@@ -78,15 +77,20 @@ export default function EntityLogo({
     );
   }
 
+  // Use mapped variant if not provided
+  let defaultVariant: "versus" | "depth" | "ranking" | "results" | "catalog" = "catalog";
+  if (size === "lg") defaultVariant = "versus";
+  else if (size === "md") defaultVariant = "depth";
+  else if (size === "sm") defaultVariant = "ranking";
+
   return (
-    <div className={shellClass} aria-label={name} title={name}>
-      <img
-        src={logoSrcs[currentSrcIndex]}
-        alt={name}
-        className={cn("h-full w-full object-contain", imagePaddingMap[size])}
-        loading="lazy"
-        onError={() => setCurrentSrcIndex(prev => prev + 1)}
-      />
-    </div>
+    <BrandLogo
+      src={logoSrcs[currentSrcIndex]}
+      alt={name}
+      variant={variant || defaultVariant}
+      className={className}
+      imgClassName={imgClassName}
+      onError={() => setCurrentSrcIndex((prev) => prev + 1)}
+    />
   );
 }
