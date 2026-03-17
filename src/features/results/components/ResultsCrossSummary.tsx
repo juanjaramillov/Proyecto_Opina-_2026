@@ -8,17 +8,19 @@ interface ResultsCrossSummaryProps {
 
 export function ResultsCrossSummary({ snapshot, loading }: ResultsCrossSummaryProps) {
   return (
-    <div className="mb-16 bg-surface2/20 rounded-[2rem] p-8 border border-stroke/50 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 relative">
+    <div className="mb-16 bg-surface2/20 rounded-[2rem] p-6 lg:p-10 border border-stroke/50 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 relative">
       {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
       <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Tu Resumen Transversal</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <MySignalsSummary 
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
-          loading={loading} 
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+        <div className="xl:col-span-2">
+          <MySignalsSummary 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
+            loading={loading} 
+          />
+        </div>
         {/* Status Card Rehecha Visualmente (Opina+ Brand Look) */}
-        <div className={`card p-6 border shadow-sm flex flex-col justify-start relative overflow-hidden group border-stroke bg-surface2/30`}>
+        <div className={`card p-6 lg:p-8 border shadow-sm flex flex-col justify-start relative overflow-hidden group border-stroke bg-surface2/30`}>
           <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 group-hover:scale-110 transform origin-top-right">
             <span className="material-symbols-outlined text-[100px] text-primary">diamond</span>
           </div>

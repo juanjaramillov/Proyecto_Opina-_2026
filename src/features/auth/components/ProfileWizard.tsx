@@ -32,8 +32,8 @@ const HOUSEHOLD_SIZE_OPTIONS = ["1 persona", "2 personas", "3 personas", "4 pers
 const CHILDREN_COUNT_OPTIONS = ["No tengo hijos", "1 hijo", "2 hijos", "3 o más hijos"];
 const CAR_COUNT_OPTIONS = ["Sin auto", "1 auto", "2 autos", "3 o más autos"];
 
-const INPUT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 outline-none transition-all font-medium text-slate-700";
-const SELECT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl outline-none focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 transition-all font-bold text-slate-700";
+const INPUT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl text-base focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 outline-none transition-all font-medium text-slate-700";
+const SELECT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl text-base outline-none focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 transition-all font-bold text-slate-700";
 
 // Nickname validation moved to Register.tsx
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { signalService } from "../../signals/services/signalService";
 
-export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "actualidad";
+export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "actualidad" | "lugares";
 
 export function useExperienceMode() {
     const location = useLocation();
@@ -33,7 +33,7 @@ export function useExperienceMode() {
 export function useExperienceStats() {
     const [hubTopNow, setHubTopNow] = useState<{
         top_versus: { slug: string; title: string; signals_24h: number } | null;
-        top_torneo: { slug: string; title: string; signals_24h: number } | null;
+        top_tournament: { slug: string; title: string; signals_24h: number } | null;
     } | null>(null);
 
     const [hubStats, setHubStats] = useState<{
@@ -48,7 +48,14 @@ export function useExperienceStats() {
         let mounted = true;
         (async () => {
             const [top, stats] = await Promise.all([
-                signalService.getHubTopNow24h(),
+                signalService.getHubTopNow24h().then(data => {
+                    if (!data) return null;
+                    const rawData = data as any;
+                    return {
+                        top_versus: rawData.top_versus || null,
+                        top_tournament: rawData.top_torneo || rawData.top_tournament || null,
+                    };
+                }),
                 signalService.getHubLiveStats24h(),
             ]);
             if (mounted) {

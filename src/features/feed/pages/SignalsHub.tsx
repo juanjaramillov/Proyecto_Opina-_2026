@@ -14,6 +14,7 @@ import { ActualidadHubManager } from "../components/ActualidadHubManager";
 import VersusView from "../components/VersusView";
 import TorneoView from "../components/TorneoView";
 import ProfundidadView from "../components/ProfundidadView";
+import LugaresView from "../components/LugaresView";
 import BatchSessionResults, { BatchSessionResultRecord } from "../components/BatchSessionResults";
 import { ModuleErrorBoundary } from "../../../components/ui/ModuleErrorBoundary";
 
@@ -25,7 +26,7 @@ const BATCH_SIZE = 12;
 
 export default function SignalsHub() {
     const { mode, setMode, requestedBatch, resetToMenu } = useExperienceMode();
-    const { hubTopNow } = useExperienceStats();
+    const { hubTopNow, hubStats } = useExperienceStats();
     
     const { battles, loading, error } = useActiveBattles();
     const { profile } = useAuth();
@@ -65,7 +66,9 @@ export default function SignalsHub() {
             ? `Bloque ${batchIndex + 1}: calibrando preferencias.`
             : mode === "torneo"
                 ? "Modo torneo: una opción sobrevive y sigue peleando."
-                : "Profundidad: 5 preguntas rápidas para afinar el motor.";
+                : mode === "lugares"
+                    ? "Lugares: Descubre y evalúa ubicaciones físicas."
+                    : "Profundidad: 5 preguntas rápidas para afinar el motor.";
 
     if (loading && battles.length === 0 && mode !== 'menu') {
         return (
@@ -135,18 +138,23 @@ export default function SignalsHub() {
                         setMode("profundidad");
                         trackEvent('user_started_module', { module: 'profundidad' });
                     }}
+                    onEnterLugares={() => {
+                        setMode("lugares");
+                        trackEvent('user_started_module', { module: 'lugares' });
+                    }}
                     onViewResults={() => {
                         trackEvent('user_clicked_next_action', { target_action: 'view_results' });
                         navigate("/results");
                     }}
                     topNow={hubTopNow}
-                    previewVersus={battles.length > 0 ? (battles[0] as Battle) : null}
+                    stats={hubStats}
+                    previewVersus={battles.length > 0 ? (battles[0] as unknown as Battle) : null}
                     signalsToday={signalsToday}
                     signalsLimit={signalsLimit === '∞' ? '∞' : Number(signalsLimit)}
                 />
             )}
 
-            {mode !== "menu" && mode !== "actualidad" && (
+            {mode !== "menu" && mode !== "actualidad" && mode !== "lugares" && (
                 <div className="w-full flex justify-start animate-in fade-in duration-300">
                     <button
                         onClick={resetToMenu}
@@ -186,6 +194,23 @@ export default function SignalsHub() {
                         <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
                             <ActualidadHubManager onClose={resetToMenu} />
                         </div>
+                    </div>
+                </ModuleErrorBoundary>
+            )}
+
+            {mode === "lugares" && (
+                <ModuleErrorBoundary moduleName="Lugares">
+                    <div className="space-y-8 animate-in fade-in duration-500 relative">
+                        <div className="w-full flex justify-start mb-2 px-4 md:px-0">
+                            <button
+                                onClick={resetToMenu}
+                                className="h-10 px-4 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 font-bold text-sm transition-all shadow-sm active:scale-95 shrink-0 flex items-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+                                Volver a Señales
+                            </button>
+                        </div>
+                        <LugaresView onClose={resetToMenu} battles={battles as unknown as Battle[]} />
                     </div>
                 </ModuleErrorBoundary>
             )}

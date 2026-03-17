@@ -201,9 +201,9 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
           </nav>
         </div>
 
-        {/* Mobile Navigation Dropdown */}
+        {/* Mobile Navigation Dropdown/Drawer */}
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-xl sm:hidden flex flex-col z-40 py-2 animate-in slide-in-from-top-2 duration-200">
+          <div className="fixed inset-0 top-[72px] bg-white z-40 sm:hidden flex flex-col overflow-y-auto animate-in slide-in-from-top-2 duration-200 pb-20">
             {MENU_ITEMS.map((item) => {
               const isResultsLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
               const isB2BLocked = item.id === 'intelligence' && role !== 'admin' && role !== 'b2b';
@@ -215,14 +215,14 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   to={item.route}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
-                    `px-4 py-3 text-sm font-bold transition-colors flex items-center justify-between border-b border-slate-100 last:border-0 ${isActive ? "text-primary-600 bg-primary-50/50" : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"}`
+                    `px-6 py-4 text-base font-bold transition-colors flex items-center justify-between border-b border-slate-100 last:border-0 ${isActive ? "text-primary-600 bg-primary-50/50" : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"}`
                   }
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     {item.label}
-                    {isLocked && <span className="material-symbols-outlined text-[14px] opacity-50">lock</span>}
+                    {isLocked && <span className="material-symbols-outlined text-[16px] opacity-50">lock</span>}
                   </div>
-                  <span className="material-symbols-outlined text-sm opacity-50">chevron_right</span>
+                  <span className="material-symbols-outlined text-base opacity-50">chevron_right</span>
                 </NavLink>
               )
             })}
@@ -231,19 +231,19 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <NavLink
                 to="/profile"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 mt-2 mb-2 px-4 py-3 text-sm font-bold text-slate-900 transition-colors flex items-center justify-between rounded-xl bg-white border border-slate-200 shadow-sm active:scale-[0.98]"
+                className="mx-4 mt-6 mb-2 px-4 py-4 text-base font-bold text-slate-900 transition-colors flex items-center justify-between rounded-xl bg-white border border-slate-200 shadow-sm active:scale-[0.98]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-500 to-emerald-500 text-white flex items-center justify-center text-[12px] uppercase shadow-inner">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-emerald-500 text-white flex items-center justify-center text-[14px] uppercase shadow-inner">
                     {isAdmin ? 'A' : (profile?.nickname || profile?.displayName || 'U').charAt(0)}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-black text-slate-900">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                    <span className="text-base font-black text-slate-900">{isAdmin ? 'Administrador' : (profile?.nickname || profile?.displayName || 'Mi Perfil')}</span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
                         <div className="h-full bg-gradient-brand rounded-full transition-all duration-500" style={{ width: `${progressPercent}%` }}></div>
                       </div>
-                      <span className="text-[9px] text-slate-400 font-black tracking-widest uppercase">{toNext} left</span>
+                      <span className="text-[10px] text-slate-400 font-black tracking-widest uppercase">{toNext} left</span>
                     </div>
                   </div>
                 </div>
@@ -255,58 +255,58 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <NavLink
                 to="/login"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="mx-4 my-2 px-4 py-3 flex items-center justify-center gap-2 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-primary-700 transition-colors"
+                className="mx-4 my-6 px-4 py-4 flex items-center justify-center gap-2 bg-primary-600 text-white rounded-xl text-base font-bold shadow-md hover:bg-primary-700 transition-colors"
               >
-                <span className="material-symbols-outlined text-[18px]">login</span>
+                <span className="material-symbols-outlined text-[20px]">login</span>
                 Entrar
               </NavLink>
             )}
 
             {isAuthenticated && isAdmin && (
-              <div className="mx-4 mb-4 mt-2 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+              <div className="mx-4 mb-8 mt-4 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                 <button
                   onClick={() => setIsMobileAdminOpen(!isMobileAdminOpen)}
-                  className="w-full px-4 py-3 flex items-center justify-between text-slate-700 hover:bg-white transition-colors"
+                  className="w-full px-4 py-4 flex items-center justify-between text-slate-700 hover:bg-white transition-colors"
                 >
-                  <span className="text-xs font-black uppercase tracking-widest flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[18px] text-primary-500">admin_panel_settings</span>
+                  <span className="text-sm font-black uppercase tracking-widest flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[20px] text-primary-500">admin_panel_settings</span>
                     Panel Admin
                   </span>
-                  <span className={`material-symbols-outlined text-[18px] transition-transform duration-300 ${isMobileAdminOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                  <span className={`material-symbols-outlined text-[20px] transition-transform duration-300 ${isMobileAdminOpen ? 'rotate-180' : ''}`}>expand_more</span>
                 </button>
 
-                <div className={`transition-all duration-300 ease-in-out ${isMobileAdminOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                <div className={`transition-all duration-300 ease-in-out ${isMobileAdminOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
                   <div className="flex flex-col gap-1 p-2 bg-white/50 border-t border-slate-100">
-                    <NavLink to="/admin/system" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">data_usage</span>
+                    <NavLink to="/admin/system" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">data_usage</span>
                       System Overview
                     </NavLink>
-                    <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">vpn_key</span>
+                    <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">vpn_key</span>
                       Invitaciones
                     </NavLink>
-                    <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
+                    <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">monitor_heart</span>
                       Health Checks
                     </NavLink>
-                    <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">local_police</span>
+                    <NavLink to="/admin/antifraude" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">local_police</span>
                       Antifraude
                     </NavLink>
-                    <NavLink to="/admin/signals" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">database</span>
+                    <NavLink to="/admin/signals" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">database</span>
                       Catálogo Maestro
                     </NavLink>
-                    <NavLink to="/admin/actualidad" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">newspaper</span>
+                    <NavLink to="/admin/actualidad" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">newspaper</span>
                       Mesa Editorial
                     </NavLink>
-                    <NavLink to="/admin/brands" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">stars</span>
+                    <NavLink to="/admin/brands" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">stars</span>
                       Gestión ELO Marcas
                     </NavLink>
-                    <NavLink to="/admin/users" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
-                      <span className="material-symbols-outlined text-[16px]">group</span>
+                    <NavLink to="/admin/users" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">group</span>
                       Usuarios CRM
                     </NavLink>
                   </div>

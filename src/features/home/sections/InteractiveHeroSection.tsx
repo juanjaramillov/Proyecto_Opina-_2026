@@ -187,9 +187,9 @@ export default function InteractiveHeroSection() {
         </div>
         
         {/* Subtle scroll hint */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce opacity-60 pointer-events-none mt-10">
-           <span className="text-slate-400 text-[10px] font-black tracking-widest uppercase mb-2">Descubre tu impacto</span>
-           <div className="w-0.5 h-6 rounded-full bg-gradient-to-b from-slate-300 to-transparent" />
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce opacity-90 pointer-events-none mt-10">
+           <span className="text-primary-600 text-xs font-black tracking-widest uppercase mb-2">Descubre tu impacto</span>
+           <div className="w-0.5 h-6 rounded-full bg-gradient-to-b from-primary-300 to-transparent" />
         </div>
 
       </div>
