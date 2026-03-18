@@ -1,5 +1,6 @@
 import { MasterHubSnapshot } from '../../../../read-models/b2c/hub-types';
 import { ComparisonCard } from '../ComparisonCard';
+import { TensionRing } from '../TensionRing';
 import { LockKeyhole, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -69,8 +70,25 @@ export function VersusHubSection({ snapshot, loading }: VersusHubSectionProps) {
                  </div>
                </div>
             ) : (
-               <div className="space-y-5">
-                 {/* Próximamente integración data real */}
+               <div className="space-y-4 flex flex-col items-center justify-center py-2 relative">
+                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-primary/5 rounded-full blur-2xl z-0 pointer-events-none" />
+                 
+                 <div className="relative z-10 scale-110 origin-center mb-2">
+                     <TensionRing 
+                         valueA={72} 
+                         valueB={28} 
+                         labelA="Tech" 
+                         labelB="Lifestyle" 
+                         size={200} 
+                     />
+                 </div>
+                 
+                 <div className="bg-surface2/50 rounded-xl p-3 border border-stroke text-center relative z-10 w-full mt-2">
+                     <p className="text-xs font-bold text-ink mb-1">Polarización Detectada</p>
+                     <p className="text-[11px] font-medium text-text-secondary leading-tight">
+                        Fuerte preferencia por tecnología sobre estilo de vida. Tu perfil es altamente técnico.
+                     </p>
+                 </div>
                </div>
             )}
             

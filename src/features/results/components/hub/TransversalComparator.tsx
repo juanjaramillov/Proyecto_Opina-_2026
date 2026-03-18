@@ -3,6 +3,7 @@ import { Network, Users, UserRound, ArrowRightLeft, LockKeyhole, FilterX } from 
 import { useNavigate } from 'react-router-dom';
 import { MasterHubSnapshot, VersusModuleResult } from '../../../../read-models/b2c/hub-types';
 import { UserComparisonInsight } from '../../../../read-models/types';
+import { MomentumBar } from '../MomentumBar';
 
 interface ComparisonLens {
   id: 'total' | 'similar' | 'filtered';
@@ -278,25 +279,15 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
 
                <div className="space-y-6">
                  {coincidences.slice(0, 3).map((item: UserComparisonInsight, idx: number) => (
-                    <div key={`coin-${idx}`} className="flex flex-col gap-2">
-                        <div className="flex justify-between items-end">
-                            <span className="text-sm font-bold text-ink truncate mr-4 leading-tight">{item.entityName}</span>
-                            <span className="text-sm font-black text-ink">{item.preferenceShare.toFixed(0)}%</span>
-                        </div>
-                        <div className="flex items-center gap-3 w-full">
-                            <div className="text-[10px] font-bold text-text-muted w-12 text-right">Tú</div>
-                            <div className="flex-1 h-2.5 bg-surface2 rounded-full overflow-hidden flex relative shadow-inner">
-                                {/* The user is part of the majority, so the color matches the majority block */}
-                                <div className="h-full bg-ink transition-all duration-1000 ease-out" style={{ width: `${item.preferenceShare}%` }} />
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3 w-full">
-                            <div className="text-[10px] font-bold text-text-muted w-12 text-right">Resto</div>
-                            <div className="flex-1 h-2 bg-surface2 rounded-full overflow-hidden flex relative shadow-inner">
-                                <div className="h-full bg-slate-200 transition-all duration-1000 ease-out" style={{ width: `${100 - item.preferenceShare}%` }} />
-                            </div>
-                        </div>
-                    </div>
+                     <div key={`coin-${idx}`} className="flex flex-col mb-4">
+                        <MomentumBar 
+                            entityAName={item.entityName}
+                            entityBName="Resto"
+                            scoreA={item.preferenceShare}
+                            scoreB={100 - item.preferenceShare}
+                            trendA="up"
+                        />
+                     </div>
                  ))}
                </div>
             </div>
@@ -314,26 +305,15 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
 
                <div className="space-y-6">
                  {discrepancies.slice(0, 3).map((item: UserComparisonInsight, idx: number) => (
-                    <div key={`disc-${idx}`} className="flex flex-col gap-2">
-                        <div className="flex justify-between items-end">
-                            <span className="text-sm font-bold text-ink truncate mr-4 leading-tight">{item.entityName}</span>
-                            <span className="text-sm font-black text-primary">{item.preferenceShare.toFixed(0)}%</span>
-                        </div>
-                        <div className="flex items-center gap-3 w-full">
-                            <div className="text-[10px] font-bold text-text-muted w-12 text-right">Tú</div>
-                            <div className="flex-1 h-2.5 bg-surface2 rounded-full overflow-hidden flex relative shadow-inner">
-                                {/* User preference in blue */}
-                                <div className="h-full bg-primary transition-all duration-1000 ease-out" style={{ width: `${item.preferenceShare}%` }} />
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3 w-full">
-                            <div className="text-[10px] font-bold text-text-muted w-12 text-right">Resto</div>
-                            <div className="flex-1 h-2 bg-surface2 rounded-full overflow-hidden flex relative shadow-inner">
-                                {/* Resto is the majority here, so it's a large gray bar */}
-                                <div className="h-full bg-slate-200 transition-all duration-1000 ease-out opacity-60" style={{ width: `${100 - item.preferenceShare}%` }} />
-                            </div>
-                        </div>
-                    </div>
+                     <div key={`disc-${idx}`} className="flex flex-col mb-4">
+                         <MomentumBar 
+                            entityAName={item.entityName}
+                            entityBName="Minoría"
+                            scoreA={item.preferenceShare}
+                            scoreB={100 - item.preferenceShare}
+                            trendA="down"
+                         />
+                     </div>
                  ))}
                </div>
             </div>

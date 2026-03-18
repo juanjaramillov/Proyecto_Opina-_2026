@@ -29,6 +29,11 @@ export type SignalState = {
     };
 
     signalEvents: SignalEvent[];
+    
+    // Core Loop & Session Economy
+    sessionSignals: number;
+    sessionLimit: number;
+    cooldownUntil: number | null;
 };
 
 type SignalActions = {
@@ -36,6 +41,10 @@ type SignalActions = {
     completeOnboarding: () => void;
     markMissionCelebrated: () => void;
     setSignalState: (state: Partial<SignalState>) => void;
+
+    // Session Actions
+    consumeSessionSignal: () => void;
+    checkCooldown: () => void;
 };
 
 
@@ -55,6 +64,9 @@ const INITIAL_STATE: SignalState = {
         celebrated: false,
     },
     signalEvents: [],
+    sessionSignals: 0,
+    sessionLimit: 15, // Por defecto 15 señales por sesión
+    cooldownUntil: null,
 };
 
 export const useSignalStore = create<SignalState & SignalActions>()(
@@ -78,6 +90,37 @@ export const useSignalStore = create<SignalState & SignalActions>()(
                         dailyMission: { ...dailyMission, celebrated: true }
                     });
                 }
+            },
+
+            checkCooldown: () => {
+                const state = get();
+                if (state.cooldownUntil && Date.now() > state.cooldownUntil) {
+                    // Cooldown finished, restart session
+                    set({ sessionSignals: 0, cooldownUntil: null });
+                }
+            },
+
+            consumeSessionSignal: () => {
+                const state = get();
+                get().checkCooldown(); // always check first
+
+                const currentState = get();
+                if (currentState.cooldownUntil && Date.now() < currentState.cooldownUntil) {
+                    return; // Still in cooldown, cannot consume
+                }
+
+                const newSessionSignals = currentState.sessionSignals + 1;
+                let newCooldownUntil = currentState.cooldownUntil;
+
+                // Si se alcanza o supera el límite de la sesión, activar cooldown de 3 horas
+                if (newSessionSignals >= currentState.sessionLimit) {
+                    newCooldownUntil = Date.now() + 3 * 60 * 60 * 1000; // 3 hours in ms
+                }
+
+                set({
+                    sessionSignals: newSessionSignals,
+                    cooldownUntil: newCooldownUntil
+                });
             },
 
             addSignal: (input) => {

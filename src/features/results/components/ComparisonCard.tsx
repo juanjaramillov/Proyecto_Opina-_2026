@@ -1,5 +1,6 @@
 import { UserResultsSnapshot } from '../../../read-models/types';
-import { Network, Users, UserRound, ArrowRightLeft } from 'lucide-react';
+import { ArrowRightLeft, Network } from 'lucide-react';
+import { MomentumBar } from './MomentumBar';
 
 interface ComparisonCardProps {
   snapshot: UserResultsSnapshot;
@@ -73,32 +74,14 @@ export function ComparisonCard({ snapshot, loading }: ComparisonCardProps) {
           
           return (
             <div key={idx} className="group relative w-full">
-              <div className="flex justify-between items-start mb-2 gap-2">
-                <span className="text-xs font-bold text-ink truncate flex-shrink min-w-0" title={comp.entityName}>{comp.entityName}</span>
-                <span className={`flex-shrink-0 flex items-center gap-1 text-[9px] uppercase tracking-widest font-black px-2 py-0.5 rounded border shadow-sm ${
-                  isContrarian 
-                    ? 'bg-accent/10 border-accent/20 text-accent' 
-                    : 'bg-primary/10 border-primary/20 text-primary'
-                }`}>
-                  {isContrarian ? <UserRound className="w-2.5 h-2.5" /> : <Users className="w-2.5 h-2.5" />}
-                  {isContrarian ? 'Disidente' : 'Consenso'}
-                </span>
-              </div>
-              
-              <div className="w-full bg-surface2 h-2 rounded-full overflow-hidden flex shadow-inner">
-                {/* Mi postura (izquierda) vs Resto (derecha) */}
-                <div 
-                  className={`h-full transition-all duration-1000 ease-out border-r border-white/20 ${isContrarian ? 'bg-accent' : 'bg-primary'}`} 
-                  style={{ width: `${share}%` }}
+              <div className="mb-4">
+                <MomentumBar 
+                    entityAName={comp.entityName}
+                    entityBName="Resto"
+                    scoreA={share}
+                    scoreB={100 - share}
+                    trendA={isContrarian ? 'down' : 'up'}
                 />
-                <div 
-                  className="h-full bg-slate-300 transition-all duration-1000 ease-out" 
-                  style={{ width: `${100 - share}%` }}
-                />
-              </div>
-              <div className="flex justify-between text-[10px] font-bold text-text-muted mt-1 px-1">
-                <span>Yo ({share.toFixed(0)}%)</span>
-                <span>Resto ({(100 - share).toFixed(0)}%)</span>
               </div>
             </div>
           );

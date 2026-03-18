@@ -99,11 +99,7 @@ export default function HubMenuSimplified({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
                 {/* Hero Section Gamificado */}
             <section className="relative w-full rounded-3xl overflow-hidden bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-8 md:p-12">
-                {/* Fondos dinámicos / glow */}
-                <div className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none rounded-3xl">
-                    <div className="absolute -top-[50%] -right-[20%] w-[100%] h-[150%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-50/60 via-transparent to-transparent blur-3xl" />
-                    <div className="absolute -bottom-[50%] -left-[20%] w-[100%] h-[150%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-50/60 via-transparent to-transparent blur-3xl" />
-                </div>
+                {/* Fondos dinámicos removidos por limpieza de UI */}
 
                 <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-12 items-center h-full">
                     {/* Contenido Principal */}
@@ -658,40 +654,6 @@ export default function HubMenuSimplified({
                 </div>
             </div>
 
-            {/* EXPANSION HORIZONTAL - FUTUROS MÓDULOS */}
-            <section className="mt-12 w-full pb-12">
-                <div className="flex items-center justify-between mb-4 px-1">
-                    <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400 text-xl">map</span>
-                        <h2 className="text-xl font-bold text-ink tracking-tight">Nuevos Territorios</h2>
-                    </div>
-                </div>
-
-                <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 group cursor-not-allowed relative overflow-hidden">
-                    <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
-                    
-                    <div className="flex items-center gap-6 relative z-10 w-full">
-                        <div className="hidden sm:flex w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-200 items-center justify-center text-slate-400 shrink-0">
-                            <span className="material-symbols-outlined text-3xl">explore</span>
-                        </div>
-                        <div>
-                            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-2">
-                                <h3 className="text-lg font-black text-ink">Explorar más categorías</h3>
-                                <div className="badge bg-white border border-slate-200 text-[10px] font-bold uppercase tracking-widest text-slate-400 shadow-sm">Próximamente</div>
-                            </div>
-                            <p className="text-sm font-medium text-slate-500 max-w-lg mb-4">
-                                Estamos calibrando el radar para nuevas dimensiones de señalización pronto estarán disponibles.
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">sports_soccer</span> Deportes</div>
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">shopping_bag</span> Productos</div>
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">restaurant</span> Comida</div>
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">support_agent</span> Servicios</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             </div>
         </div>
     );
