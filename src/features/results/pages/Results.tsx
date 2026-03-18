@@ -41,7 +41,6 @@ export default function ResultsPage() {
            <TransversalComparator 
               snapshot={snapshot} 
               loading={loading}
-              onClearFilter={() => setFilters({})}
            />
       </div>
 

@@ -1,145 +1,86 @@
 import { MasterHubSnapshot } from '../../../read-models/b2c/hub-types';
-import { ArrowRightLeft, Trophy, Layers, Radio, MapPin } from 'lucide-react';
 
 interface ResultsEcosystemProps {
   snapshot: MasterHubSnapshot;
 }
 
 export function ResultsEcosystem({ snapshot }: ResultsEcosystemProps) {
-  // Hardcoded structure for the ecosystem visualization
-  const modules = [
-    {
-      id: 'versus',
-      name: 'Versus',
-      icon: <ArrowRightLeft className="w-5 h-5 text-indigo-500" />,
-      description: 'Cruces directos de opinión',
-      metric: `${snapshot.overview?.totalSignals || 12} resueltos`,
-      active: true,
-      bgIcon: 'compare_arrows'
-    },
-    {
-      id: 'torneo',
-      name: 'Batallas',
-      icon: <Trophy className="w-5 h-5 text-amber-500" />,
-      description: 'Eliminatorias de marca',
-      metric: '3 torneos activos',
-      active: true,
-      bgIcon: 'emoji_events'
-    },
-    {
-      id: 'profundidad',
-      name: 'Profundidad',
-      icon: <Layers className="w-5 h-5 text-emerald-500" />,
-      description: 'Análisis multicapa',
-      metric: 'Desbloquea al contestar +',
-      active: false,
-      bgIcon: 'layers'
-    },
-    {
-      id: 'actualidad',
-      name: 'Actualidad',
-      icon: <Radio className="w-5 h-5 text-rose-500" />,
-      description: 'Temas en tiempo real',
-      metric: 'Frecuencia semanal',
-      active: false,
-      bgIcon: 'podcasts'
-    },
-    {
-      id: 'lugares',
-      name: 'Lugares',
-      icon: <MapPin className="w-5 h-5 text-blue-500" />,
-      description: 'Reviews geolocalizados',
-      metric: 'Beta',
-      active: false,
-      bgIcon: 'pin_drop'
-    }
-  ];
-
   return (
-    <div className="w-full mt-12 lg:mt-24 mb-16 relative">
-       {/* Header Minimalista */}
-       <div className="flex flex-col md:w-1/3 mb-12">
-          <div className="flex items-center gap-3 mb-2">
-              <Layers className="w-5 h-5 text-ink" />
-              <h2 className="text-sm font-black uppercase tracking-[0.2em] text-ink">Ecosistema Vivo</h2>
-          </div>
-          <p className="text-3xl font-black text-ink leading-tight tracking-tight">Data microscópica de cada módulo.</p>
+    <div className="w-full mt-0 bg-white py-24 md:py-32 relative overflow-hidden">
+       {/* Section Header */}
+       <div className="px-6 md:px-12 mb-16 md:mb-24">
+          <div className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-6">- Ecosistema de Señales</div>
+          <h2 className="text-5xl md:text-7xl lg:text-[100px] font-black tracking-tighter leading-[0.85] text-ink max-w-[90vw]">
+             Dashboard<br/>Multidimensional.
+          </h2>
        </div>
 
-       {/* Grid Modular Bento asimétrico */}
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 auto-rows-min">
-          {modules.map((mod, index) => {
-             const isHeroBento = index === 0; // Versus
-             const isSecondaryBento = index === 1; // Torneo
-             
-             // Estilos puros Data-Viz
-             const baseStyle = "relative overflow-hidden p-6 md:p-8 flex flex-col transition-all duration-700 h-full border";
-             const activeStyle = isHeroBento 
-                 ? 'bg-slate-950 border-transparent text-white' 
-                 : isSecondaryBento
-                    ? 'bg-slate-100 border-transparent text-ink'
-                    : 'bg-white border-stroke text-ink hover:bg-slate-50 cursor-pointer';
+       {/* Bento Grid */}
+       <div className="w-full px-4 md:px-8">
+           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[300px] md:auto-rows-[400px]">
+              
+              {/* Versus Panel (Active, Giant) */}
+              <div className="md:col-span-2 lg:col-span-2 row-span-2 bg-slate-950 flex flex-col relative overflow-hidden group cursor-crosshair rounded-[2rem] md:rounded-[3rem]">
+                 <div className="p-8 md:p-12 relative z-20 flex justify-between items-start">
+                    <div className="flex flex-col">
+                       <h3 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">Versus</h3>
+                       <p className="text-[10px] uppercase font-bold tracking-[0.4em] text-slate-500 mt-2">Choques Directos</p>
+                    </div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400 py-2 px-4 shadow-[0_0_20px_rgba(16,185,129,0.2)] border border-emerald-500/30 rounded-full">
+                       Activo
+                    </div>
+                 </div>
 
-             return (
-                <div 
-                   key={mod.id} 
-                   className={`${baseStyle} ${mod.active ? activeStyle : 'bg-surface2/30 border-dashed border-stroke/50 text-text-muted opacity-80'} ${isHeroBento ? 'md:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[360px]' : 'min-h-[260px]'}`}
-                >
-                   {/* Capa de Información Típica */}
-                   <div className="flex items-start justify-between relative z-20 mb-auto">
-                        <div className="flex flex-col">
-                            <h3 className={`${isHeroBento ? 'text-4xl md:text-5xl mb-2' : 'text-xl md:text-2xl mb-1'} font-black tracking-tighter uppercase`}>{mod.name}</h3>
-                            <p className={`${isHeroBento ? 'text-slate-400' : 'text-text-secondary'} text-xs font-bold uppercase tracking-[0.1em]`}>{mod.description}</p>
+                 {/* Visualization Data Overlay */}
+                 <div className="absolute inset-0 z-10 flex flex-col justify-end pt-[20%] opacity-80 group-hover:opacity-100 transition-opacity">
+                      <div className="flex w-full h-[70%] items-end gap-1 md:gap-2 px-8 pb-12">
+                          {[40, 80, 20, 100, 60, 45, 90, 30, 70, 50, 85, 25, 90, 35, 65, 80, 50].map((val, i) => (
+                             <div key={i} className={`flex-1 ${i%2===0 ? 'bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.3)]' : 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]'} rounded-t-sm transition-all duration-700 group-hover:brightness-125`} style={{ height: `${val}%`}}></div>
+                          ))}
+                      </div>
+                 </div>
+              </div>
+
+              {/* Torneos Panel (Active, Slim) */}
+              <div className="md:col-span-1 lg:col-span-2 row-span-1 bg-slate-100 flex flex-col relative overflow-hidden group cursor-crosshair rounded-[2rem] md:rounded-[3rem]">
+                 <div className="p-8 md:p-12 relative z-20 flex justify-between items-start">
+                    <div className="flex flex-col">
+                       <h3 className="text-3xl md:text-5xl font-black text-ink uppercase tracking-tighter">Batallas</h3>
+                       <p className="text-[10px] uppercase font-bold tracking-[0.4em] text-slate-500 mt-2">Eliminatorias</p>
+                    </div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 py-2 px-4 border border-indigo-500/30 rounded-full">
+                       {snapshot.overview?.totalSignals || 3} Torneos
+                    </div>
+                 </div>
+                 {/* Visualization */}
+                 <div className="absolute inset-0 z-10 flex flex-col justify-end opacity-40 group-hover:opacity-80 transition-opacity px-8 pb-8">
+                     <div className="w-full flex flex-col items-center">
+                        <div className="w-[10%] h-12 border-t-[3px] border-l-[3px] border-r-[3px] border-ink rounded-t-lg"></div>
+                        <div className="w-[60%] flex justify-between h-12">
+                            <div className="w-1/2 border-t-[3px] border-l-[3px] border-ink rounded-tl-lg"></div>
+                            <div className="w-1/2 border-t-[3px] border-r-[3px] border-ink rounded-tr-lg"></div>
                         </div>
-                        <span className={`text-[10px] font-black uppercase tracking-[0.2em] px-2.5 py-1 ${mod.active ? (isHeroBento ? 'text-emerald-400' : 'text-ink') : 'text-text-muted'}`}>
-                           {mod.metric}
-                        </span>
-                   </div>
+                     </div>
+                 </div>
+              </div>
 
-                   {/* VISUALIZACIONES ESTILIZADAS NATIVAS (NO ICONOS) */}
-                   <div className="mt-12 relative z-10 w-full flex-grow flex items-end">
-                       {/* 1. VERSUS: Mapa de Tensión (Heatmap Layout) */}
-                       {mod.id === 'versus' && (
-                           <div className="w-full h-full flex flex-col justify-end gap-3 pb-4">
-                               <div className="w-full flex justify-between items-end gap-1 overflow-hidden opacity-30">
-                                   <div className="flex-1 bg-red-500 h-[2px]"></div>
-                                   <div className="flex-1 bg-blue-500 h-[60px]"></div>
-                                   <div className="flex-1 bg-emerald-500 h-[120px]"></div>
-                                   <div className="flex-1 bg-amber-500 h-[40px]"></div>
-                                   <div className="flex-1 bg-cyan-500 h-[90px]"></div>
-                                   <div className="flex-1 bg-purple-500 h-[150px]"></div>
-                                   <div className="flex-1 bg-rose-500 h-[30px]"></div>
-                               </div>
-                               <div className="w-full border-t border-slate-800 pt-3 flex justify-between text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em]">
-                                   <span>Tensión Alta</span>
-                                   <span>Baja</span>
-                               </div>
-                           </div>
-                       )}
+              {/* Profundidad (Inactive) */}
+              <div className="md:col-span-1 lg:col-span-1 row-span-1 border border-ink/10 flex flex-col relative overflow-hidden p-8 opacity-60 rounded-[2rem] md:rounded-[3rem]">
+                 <h3 className="text-2xl md:text-3xl font-black text-ink uppercase tracking-tighter">Prof.</h3>
+                 <p className="text-[10px] uppercase font-bold tracking-[0.4em] text-slate-400 mt-2">Bloqueado</p>
+                 <div className="absolute -right-8 -bottom-8 w-40 h-40 border-[2px] border-ink border-dashed rounded-full opacity-20 hover:scale-110 transition-transform duration-700"></div>
+                 <div className="absolute -right-4 -bottom-4 w-28 h-28 border-[1px] border-ink border-dashed rounded-full opacity-20"></div>
+              </div>
 
-                       {/* 2. TORNEO: Estructura Piramidal (Bracket) */}
-                       {mod.id === 'torneo' && (
-                           <div className="w-full flex items-end justify-center gap-1 opacity-70">
-                               <div className="w-full max-w-[120px] pb-4">
-                                   <div className="border-t border-l border-r border-ink/20 h-8 rounded-t-sm mb-1"></div>
-                                   <div className="flex gap-1 justify-between">
-                                       <div className="w-1/2 h-6 border-t border-l border-ink/20 rounded-tl-sm"></div>
-                                       <div className="w-1/2 h-6 border-t border-r border-ink/20 rounded-tr-sm"></div>
-                                   </div>
-                               </div>
-                           </div>
-                       )}
-
-                       {/* OTROS: Cerrados o en construcción */}
-                       {(!mod.active && mod.id !== 'versus' && mod.id !== 'torneo') && (
-                           <div className="w-full opacity-10 flex justify-center pb-4">
-                               <div className={`scale-[5]`}>{mod.icon}</div>
-                           </div>
-                       )}
-                   </div>
-                </div>
-             );
-          })}
+              {/* Actualidad (Inactive) */}
+              <div className="md:col-span-1 lg:col-span-1 row-span-1 border border-ink/10 flex flex-col relative overflow-hidden p-8 opacity-60 rounded-[2rem] md:rounded-[3rem]">
+                 <h3 className="text-2xl md:text-3xl font-black text-ink uppercase tracking-tighter">Act.</h3>
+                 <p className="text-[10px] uppercase font-bold tracking-[0.4em] text-slate-400 mt-2">Waitlist</p>
+                 <div className="absolute inset-x-0 bottom-12 h-[2px] bg-ink/20 hover:bg-ink/40 transition-colors"></div>
+                 <div className="absolute inset-x-0 bottom-20 h-[1px] bg-ink/20"></div>
+                 <div className="absolute inset-x-0 bottom-28 h-[1px] bg-ink/10"></div>
+              </div>
+           </div>
        </div>
     </div>
   );
