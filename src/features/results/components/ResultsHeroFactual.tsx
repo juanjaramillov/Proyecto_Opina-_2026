@@ -5,40 +5,33 @@ interface ResultsHeroFactualProps {
 }
 
 export function ResultsHeroFactual({ snapshot }: ResultsHeroFactualProps) {
-  const factualNumber = 82;
-  const factualText = "Alta sintonía con la red. Tu perfil refleja un fuerte consenso con la mayoría activa.";
+  const totalSignals = snapshot.overview?.totalSignals || 14500;
 
   return (
-    <div className="w-full relative min-h-[60vh] md:min-h-[70vh] flex flex-col justify-center overflow-hidden bg-white">
-      {/* Container that breaks normal bounds */}
-      <div className="w-full flex flex-col md:flex-row items-center h-full relative z-10 pt-20 pb-16">
+    <div className="w-full relative py-16 md:py-24 px-6 md:px-12 bg-slate-50 border-b border-slate-200">
+      <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row md:items-end justify-between gap-12">
         
-        {/* Massive Number Bleeding Off Left */}
-        <div className="w-full md:w-[60%] flex items-center justify-start relative">
-            <h1 
-               className="text-[55vw] md:text-[350px] lg:text-[450px] font-black tracking-tighter leading-[0.75] text-ink -ml-[8vw] select-none"
-               style={{ letterSpacing: '-0.08em' }}
-            >
-              {factualNumber}<span className="text-[25vw] md:text-[150px] lg:text-[200px] text-primary -ml-[2vw]">%</span>
-            </h1>
+        <div className="flex flex-col max-w-4xl">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-slate-500">Inteligencia Colectiva</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl lg:text-[80px] font-black text-ink tracking-tight leading-[0.95] text-balance">
+            El pulso en tiempo real de la comunidad Opina+.
+          </h1>
         </div>
-
-        {/* Floating Context Text */}
-        <div className="w-full md:w-[40%] px-6 md:px-12 md:-ml-12 mt-12 md:mt-0 relative z-20">
-            <p className="text-4xl md:text-5xl lg:text-[64px] font-black leading-[0.9] tracking-tight text-ink text-balance">
-              {factualText}
-            </p>
-            <div className="mt-12 flex gap-6">
-               <div className="flex flex-col">
-                 <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400">Volumen</span>
-                 <span className="text-sm font-black text-ink">{snapshot.overview?.totalSignals || 14500} Señales</span>
-               </div>
-               <div className="flex flex-col">
-                 <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400">Contexto</span>
-                 <span className="text-sm font-black text-ink">Comunidad Global</span>
-               </div>
+        
+        <div className="flex items-center gap-8 md:gap-16 pb-2">
+            <div className="flex flex-col">
+                 <span className="text-4xl md:text-5xl lg:text-6xl font-black text-primary tracking-tighter leading-none">{totalSignals.toLocaleString()}</span>
+                 <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold text-slate-400 mt-2 md:mt-4">Señales Emitidas</span>
+            </div>
+            <div className="flex flex-col">
+                 <span className="text-4xl md:text-5xl lg:text-6xl font-black text-ink tracking-tighter leading-none">Latam</span>
+                 <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold text-slate-400 mt-2 md:mt-4">Epicentro Activo</span>
             </div>
         </div>
+
       </div>
     </div>
   );

@@ -31,30 +31,14 @@ export default function ResultsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent relative w-full mb-0 overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 relative w-full mb-0 overflow-x-hidden">
       
       {/* BLOQUE 1: HERO FACTUAL EXPANSIVO (FULL-BLEED) */}
       <ResultsHeroFactual snapshot={snapshot} />
 
-      {/* BLOQUE 2: COMPARADOR "TÚ VS LA COMUNIDAD" (REY FULL-BLEED) */}
-      <div className="w-full mb-20 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
-           <TransversalComparator 
-              snapshot={snapshot} 
-              loading={loading}
-           />
-      </div>
-
-      <div className="max-w-[1200px] mx-auto px-4 relative text-ink">
-        {/* BLOQUE 3: PULSO DEL MOMENTO */}
-        <ResultsPulse />
-
-        {/* BLOQUE 4: ECOSISTEMA (MODULOS) */}
-        <div className="mb-24 relative animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
-           <ResultsEcosystem snapshot={snapshot} />
-        </div>
-
-        {/* BLOQUE 5: FILTROS */}
-        <div className="mb-16 sticky top-[68px] z-40">
+      {/* BLOQUE 5: FILTROS ENCABEZANDO LOS RESULTADOS */}
+      <div className="w-full bg-slate-50 border-b border-slate-200 sticky top-0 md:top-[68px] z-40 shadow-sm">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-4">
                <FilterBar 
                  filters={filters} 
                  onChange={setFilters} 
@@ -62,14 +46,28 @@ export default function ResultsPage() {
                  cohortSize={snapshot.cohortState.cohortSize}
                  privacyBlocked={snapshot.cohortState.privacyState === 'insufficient_cohort'}
                />
-        </div>
+          </div>
       </div>
+
+      {/* BLOQUE 2: COMPARADOR "TÚ VS LA COMUNIDAD" (REY FULL-BLEED) */}
+      <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+           <TransversalComparator 
+              snapshot={snapshot} 
+              loading={loading}
+           />
+      </div>
+
+      {/* BLOQUE 3: PULSO DEL MOMENTO */}
+      <ResultsPulse />
+
+      {/* BLOQUE 4: ECOSISTEMA (MODULOS) */}
+      <ResultsEcosystem snapshot={snapshot} />
 
       {/* BLOQUE 6: PROGRESIÓN Y CIERRE FULL-BLEED */}
       <ResultsProgression snapshot={snapshot} />
 
-      <div className="max-w-[1200px] mx-auto px-4 pb-12">
-        <p className="text-center text-[10px] text-slate-400 font-medium">
+      <div className="w-full bg-slate-50 py-8">
+        <p className="max-w-[1400px] mx-auto px-6 md:px-12 text-center md:text-left text-[10px] text-slate-400 font-medium tracking-wide">
             Opina+ refleja las preferencias declaradas de sus usuarios activos y no constituye una muestra estadística representativa de la población general.
         </p>
       </div>
