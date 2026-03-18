@@ -68,38 +68,47 @@ export function ResultsEcosystem({ snapshot }: ResultsEcosystemProps) {
           </div>
        </div>
 
-       {/* Grid Modular */}
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-          {modules.map(mod => (
-            <div 
-               key={mod.id} 
-               className={`relative overflow-hidden group rounded-3xl border p-6 flex flex-col transition-all duration-300 ${mod.active ? 'bg-white border-stroke hover:shadow-lg hover:border-primary/30 cursor-pointer' : 'bg-surface2/50 border-transparent opacity-80 cursor-not-allowed'}`}
-            >
-               {/* Background Icon Watermark */}
-               <div className="absolute -bottom-4 -right-4 w-32 h-32 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 transition-all pointer-events-none flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[100px]">{mod.bgIcon}</span>
-               </div>
+       {/* Grid Modular Bento */}
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-min">
+          {modules.map((mod, index) => {
+             const isHeroBento = index === 0;
+             const activeStyle = isHeroBento 
+                 ? 'bg-slate-900 border-slate-800 text-white shadow-2xl hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]' 
+                 : 'bg-white border-stroke text-ink hover:shadow-xl hover:-translate-y-1';
+             
+             return (
+                <div 
+                   key={mod.id} 
+                   className={`relative overflow-hidden group rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 flex flex-col transition-all duration-500 ${mod.active ? `${activeStyle} cursor-pointer` : 'bg-surface2/50 border-transparent text-text-muted opacity-70 cursor-not-allowed'} ${isHeroBento ? 'md:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[300px] lg:min-h-[400px]' : 'min-h-[220px]'}`}
+                >
+                   {/* Background Icon Watermark Masivo */}
+                   <div className={`absolute -bottom-8 -right-8 w-48 h-48 opacity-[0.02] group-hover:opacity-[0.05] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-700 pointer-events-none flex items-center justify-center ${isHeroBento ? 'w-80 h-80 -bottom-16 -right-16 opacity-[0.05] group-hover:opacity-[0.1]' : ''}`}>
+                      <span className="material-symbols-outlined text-[150px] md:text-[200px]">{mod.bgIcon}</span>
+                   </div>
 
-               <div className="flex items-center justify-between mb-4 relative z-10">
-                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center border shadow-sm ${mod.active ? 'bg-surface border-stroke' : 'bg-surface2 border-transparent'}`}>
-                     {mod.icon}
-                  </div>
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg ${mod.active ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-surface border border-stroke text-text-muted'}`}>
-                     {mod.metric}
-                  </span>
-               </div>
+                   <div className="flex flex-col h-full relative z-10">
+                      <div className="flex items-center justify-between mb-auto">
+                         <div className={`w-12 h-12 md:w-16 md:h-16 rounded-[1rem] md:rounded-[1.25rem] flex items-center justify-center ${mod.active ? (isHeroBento ? 'bg-slate-800 border border-slate-700/50' : 'bg-surface border border-stroke shadow-sm') : 'bg-surface2 border-transparent'}`}>
+                            <div className={`${isHeroBento ? 'scale-150' : 'scale-125'}`}>{mod.icon}</div>
+                         </div>
+                         <span className={`text-[10px] md:text-xs font-black uppercase tracking-[0.2em] px-3 py-1.5 md:px-4 md:py-2 rounded-xl backdrop-blur-md ${mod.active ? (isHeroBento ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-surface text-ink border border-stroke shadow-sm') : 'bg-surface text-text-muted border border-stroke'}`}>
+                            {mod.metric}
+                         </span>
+                      </div>
 
-               <div className="flex-1 relative z-10 mt-2">
-                  <h3 className={`text-lg font-black tracking-tight mb-1 ${mod.active ? 'text-ink' : 'text-text-muted'}`}>{mod.name}</h3>
-                  <p className="text-sm font-medium text-text-secondary">{mod.description}</p>
-               </div>
+                      <div className={`mt-8 ${isHeroBento ? 'mt-auto' : ''}`}>
+                         <h3 className={`${isHeroBento ? 'text-3xl md:text-4xl lg:text-5xl mb-3' : 'text-xl md:text-2xl mb-2'} font-black tracking-tight`}>{mod.name}</h3>
+                         <p className={`${isHeroBento ? 'text-base md:text-lg text-slate-400' : 'text-sm font-medium'} max-w-[90%]`}>{mod.description}</p>
+                      </div>
+                   </div>
 
-               {/* Hover Line */}
-               {mod.active && (
-                   <div className="absolute bottom-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-500"></div>
-               )}
-            </div>
-          ))}
+                   {/* Hover Glow Line */}
+                   {mod.active && (
+                       <div className={`absolute bottom-0 left-0 h-1 md:h-1.5 w-0 group-hover:w-full transition-all duration-700 ease-in-out ${isHeroBento ? 'bg-gradient-to-r from-emerald-500 to-blue-500' : 'bg-primary'}`}></div>
+                   )}
+                </div>
+             );
+          })}
        </div>
     </div>
   );

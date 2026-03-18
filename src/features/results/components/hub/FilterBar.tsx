@@ -36,7 +36,7 @@ export function FilterBar({ filters, onChange, isFiltered, cohortSize, privacyBl
       <div className="flex flex-wrap items-center gap-2">
         {/* Filtro Género */}
         <select 
-          className="bg-surface border border-stroke rounded-lg px-3 py-1.5 text-xs font-bold text-ink focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+          className="bg-surface2/80 hover:bg-surface border-none rounded-xl px-4 py-2 text-[13px] font-bold text-ink focus:ring-2 focus:ring-primary/20 outline-none transition-colors cursor-pointer appearance-none"
           value={filters.gender || ''}
           onChange={e => updateFilter('gender', e.target.value || null)}
         >
@@ -48,7 +48,7 @@ export function FilterBar({ filters, onChange, isFiltered, cohortSize, privacyBl
 
         {/* Filtro Edad */}
         <select 
-          className="bg-surface border border-stroke rounded-lg px-3 py-1.5 text-xs font-bold text-ink focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+          className="bg-surface2/80 hover:bg-surface border-none rounded-xl px-4 py-2 text-[13px] font-bold text-ink focus:ring-2 focus:ring-primary/20 outline-none transition-colors cursor-pointer appearance-none"
           value={filters.ageRange || ''}
           onChange={e => updateFilter('ageRange', e.target.value || null)}
         >
@@ -61,7 +61,7 @@ export function FilterBar({ filters, onChange, isFiltered, cohortSize, privacyBl
 
         {/* Filtro Tiempo */}
         <select 
-          className="bg-surface border border-stroke rounded-lg px-3 py-1.5 text-xs font-bold text-ink focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+          className="bg-surface2/80 hover:bg-surface border-none rounded-xl px-4 py-2 text-[13px] font-bold text-ink focus:ring-2 focus:ring-primary/20 outline-none transition-colors cursor-pointer appearance-none"
           value={filters.period || 'all'}
           onChange={e => updateFilter('period', e.target.value)}
         >

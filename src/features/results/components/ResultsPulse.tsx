@@ -35,13 +35,13 @@ export function ResultsPulse() {
   return (
     <div className="w-full flex-col mt-4 lg:mt-8 mb-16 relative">
        {/* Sección Header */}
-       <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-stroke shadow-sm">
-             <Activity className="w-4 h-4 text-ink" />
+       <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+          <div className="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center shadow-lg">
+             <Activity className="w-6 h-6 text-white" />
           </div>
           <div>
-              <h2 className="text-xl font-black text-ink tracking-tight flex items-center gap-2">Pulso del Momento</h2>
-              <p className="text-sm font-medium text-text-secondary mt-0.5">Qué está moviendo a la comunidad ahora mismo.</p>
+              <h2 className="text-2xl md:text-3xl font-black text-ink tracking-tight flex items-center gap-2">Pulso del Momento</h2>
+              <p className="text-base font-medium text-text-secondary mt-1">Qué está moviendo a la comunidad ahora mismo.</p>
           </div>
        </div>
 
@@ -52,27 +52,31 @@ export function ResultsPulse() {
               {insights.map(item => (
                  <div 
                      key={item.id} 
-                     className="min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-start bg-white border border-stroke rounded-[1.5rem] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
+                     className="min-w-[300px] sm:min-w-[360px] lg:min-w-0 min-h-[280px] md:min-h-[320px] snap-start bg-white border border-stroke rounded-[2rem] md:rounded-[2.5rem] p-8 flex flex-col justify-between shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group"
                  >
-                     {/* Fondo suave para el badge */}
-                     <div className="absolute top-0 right-0 w-32 h-32 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.03),transparent_70%)] rounded-bl-full pointer-events-none" />
+                     {/* Fondo inmersivo temático */}
+                     <div className={`absolute inset-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 pointer-events-none ${item.type === 'hot' ? 'bg-[radial-gradient(circle_at_top_right,theme(colors.rose.500),transparent_70%)]' : item.type === 'growing' ? 'bg-[radial-gradient(circle_at_top_right,theme(colors.emerald.500),transparent_70%)]' : 'bg-[radial-gradient(circle_at_top_right,theme(colors.amber.500),transparent_70%)]'}`} />
                      
-                     <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                           {item.icon}
-                           <span className="text-[10px] font-black uppercase tracking-widest text-text-muted">{item.title}</span>
+                     <div className="flex items-start justify-between mb-8 relative z-10">
+                        <div className="flex items-center gap-3">
+                           <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.type === 'hot' ? 'bg-rose-50 text-rose-500' : item.type === 'growing' ? 'bg-emerald-50 text-emerald-500' : 'bg-amber-50 text-amber-500'}`}>
+                               {item.icon}
+                           </div>
+                           <span className="text-xs font-black uppercase tracking-[0.2em] text-text-muted">{item.title}</span>
                         </div>
-                        <span className="bg-surface border border-stroke text-ink font-bold text-sm px-2.5 py-1 rounded-lg shadow-sm">
+                        <span className="bg-surface border border-stroke text-ink font-black text-lg md:text-xl px-4 py-1.5 rounded-xl shadow-sm">
                            {item.metric}
                         </span>
                      </div>
                      
-                     <h3 className="text-xl font-black text-ink leading-[1.15] mb-2 pr-4">{item.entityName}</h3>
-                     <p className="text-sm font-medium text-text-secondary">{item.subtitle}</p>
+                     <div className="relative z-10 mt-auto">
+                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-ink leading-[1.1] mb-3 md:mb-4 pr-4 tracking-tight">{item.entityName}</h3>
+                        <p className="text-sm md:text-base font-medium text-text-secondary max-w-[90%]">{item.subtitle}</p>
 
-                     {/* Progress bar visual for impact */}
-                     <div className="w-full h-1.5 bg-surface rounded-full mt-6 overflow-hidden">
-                        <div className={`h-full rounded-full ${item.type === 'hot' ? 'bg-rose-500' : item.type === 'growing' ? 'bg-emerald-500' : 'bg-amber-500'} opacity-80 group-hover:opacity-100 transition-opacity`} style={{ width: item.type === 'hot' ? '50%' : item.type === 'growing' ? '89%' : '30%' }}></div>
+                        {/* Progress bar visual for impact masivo */}
+                        <div className="w-full h-2 md:h-2.5 bg-surface rounded-full mt-8 overflow-hidden">
+                           <div className={`h-full rounded-full ${item.type === 'hot' ? 'bg-rose-500' : item.type === 'growing' ? 'bg-emerald-500' : 'bg-amber-500'} opacity-80 group-hover:opacity-100 transition-all duration-700 ease-out`} style={{ width: item.type === 'hot' ? '50%' : item.type === 'growing' ? '89%' : '30%' }}></div>
+                        </div>
                      </div>
                  </div>
               ))}

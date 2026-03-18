@@ -38,8 +38,8 @@ export default function ResultsPage() {
         {/* BLOQUE 1: HERO FACTUAL COMPACTO */}
         <ResultsHeroFactual snapshot={snapshot} />
 
-        {/* BLOQUE 2: COMPARADOR "TÚ VS LA COMUNIDAD" (REY) */}
-        <div className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+        {/* BLOQUE 2: COMPARADOR "TÚ VS LA COMUNIDAD" (REY MASIVO) */}
+        <div className="-mx-4 sm:mx-0 mb-20 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
              <TransversalComparator 
                 snapshot={snapshot} 
                 loading={loading}
