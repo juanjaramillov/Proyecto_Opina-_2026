@@ -81,9 +81,9 @@ export default function OptionCard({
                     <FallbackAvatar
                         src={option.image_url || option.imageUrl || undefined}
                         name={option.label}
-                        className={`relative z-10 max-w-full max-h-full object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'p-8 md:p-12' : 'absolute inset-0 w-full h-full object-cover'}`}
+                        className={`relative z-10 w-24 h-24 md:w-40 md:h-40 object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100' : 'absolute inset-0 w-full h-full object-cover'}`}
                         containerClassName="absolute inset-0 flex items-center justify-center p-6"
-                        fallbackClassName="w-24 h-24 text-3xl"
+                        fallbackClassName="w-24 h-24 md:w-40 md:h-40 text-5xl md:text-6xl font-black bg-gradient-to-br from-slate-100 to-slate-200 text-slate-400 shadow-inner border-4 border-white rounded-[2.5rem] flex items-center justify-center"
                     />
                 )}
 
@@ -100,8 +100,10 @@ export default function OptionCard({
                                 <EntityLogo
                                     name={option.label}
                                     slug={resolveEntitySlug(option)}
+                                    size="lg"
                                     variant={layout === 'opinion' ? 'depth' : 'versus'}
-                                    className={`relative z-10 mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''}`}
+                                    className={`relative z-10 w-24 h-24 md:w-40 md:h-40 object-contain mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''}`}
+                                    fallbackClassName="w-24 h-24 md:w-32 md:h-32 text-4xl md:text-5xl font-black bg-gradient-to-br from-slate-100 to-slate-200 text-slate-400 shadow-inner border-[6px] border-white rounded-[2rem] flex items-center justify-center"
                                 />
                             </div>
                         </div>
@@ -191,7 +193,7 @@ export default function OptionCard({
 
             {/* 4) Nombre (label) más premium */}
             <div className="relative z-10 px-4 md:px-6 pb-4 md:pb-6 pt-3 md:pt-5 bg-white border-t border-slate-50 w-full flex-grow flex flex-col justify-end items-center text-center">
-                <div className={`font-black tracking-tight text-[1rem] leading-tight md:text-2xl text-center w-full transition-colors duration-300 ${showResult ? "text-slate-300" : "text-ink"}`}>
+                <div className={`font-black tracking-tight text-[1rem] leading-tight md:text-2xl text-center w-full transition-colors duration-300 line-clamp-2 overflow-hidden text-ellipsis min-h-[3rem] md:min-h-[4rem] flex items-center justify-center ${showResult ? "text-slate-300" : "text-ink"}`}>
                     {option.label}
                 </div>
 

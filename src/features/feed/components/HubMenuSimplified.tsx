@@ -105,50 +105,16 @@ export default function HubMenuSimplified({
                     <div className="absolute -bottom-[50%] -left-[20%] w-[100%] h-[150%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-50/60 via-transparent to-transparent blur-3xl" />
                 </div>
 
-                {/* Módulo de Progreso Acumulado (Sustituye abstracción visual) */}
-                <div className="hidden md:flex flex-col items-center justify-center shrink-0 w-[320px] relative z-10 transition-transform hover:scale-[1.02] duration-500">
-                    <div className="bg-white/80 backdrop-blur-xl border border-white/80 rounded-3xl p-6 shadow-xl shadow-brand-blue/5 w-full relative overflow-hidden group">
-                       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-150 duration-700 pointer-events-none"></div>
-                       
-                       <div className="flex items-center justify-between mb-5 relative z-10">
-                           <div>
-                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tu Progreso</p>
-                              <h3 className="text-2xl font-black text-ink flex items-baseline gap-1">
-                                  Lvl {userProgress.level} <span className="text-sm font-bold text-slate-500 tracking-tight ml-1">— {userProgress.levelName}</span>
-                              </h3>
-                           </div>
-                           <div className="w-12 h-12 bg-gradient-brand rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary/20 transform group-hover:scale-105 group-hover:-rotate-3 transition-all">
-                               {userProgress.level}
-                           </div>
-                       </div>
-                       
-                       <div className="space-y-2 mb-1 relative z-10">
-                           <div className="flex justify-between text-xs font-bold text-slate-600">
-                               <span>{new Intl.NumberFormat("es-CL").format(userProgress.currentSignals)} señales</span>
-                               <span className="text-slate-400 font-medium">Meta: {new Intl.NumberFormat("es-CL").format(userProgress.nextLevelSignals)}</span>
-                           </div>
-                           <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
-                               <div className="h-full bg-gradient-brand transition-all duration-1000 ease-out relative" style={{width: `${Math.min(100, (userProgress.currentSignals / userProgress.nextLevelSignals) * 100)}%`}}>
-                                    <div className="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]"></div>
-                               </div>
-                           </div>
-                           <p className="text-[10px] font-bold text-primary text-right uppercase tracking-wider mt-2">
-                               Faltan {new Intl.NumberFormat("es-CL").format(userProgress.nextLevelSignals - userProgress.currentSignals)} para ascender
-                           </p>
-                       </div>
-                    </div>
-                </div>
-
-                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 h-full">
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-12 items-center h-full">
                     {/* Contenido Principal */}
-                    <div className="flex-1 space-y-6">
+                    <div className="space-y-6 pr-0 lg:pr-8">
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-bold uppercase tracking-widest shadow-sm">
                             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                             Señales en vivo
                         </div>
                         
                         <div>
-                            <h1 className="text-4xl md:text-5xl font-black font-display tracking-tight text-ink mb-2">
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black font-display tracking-tight text-ink mb-2">
                                 Tus señales<br />
                                 construyen <span className="text-gradient-brand pb-1">esto.</span>
                             </h1>
@@ -186,74 +152,94 @@ export default function HubMenuSimplified({
                         </div>
                     </div>
 
-                    {/* Composición Visual Central Hero (Centro de Decisión) */}
-                    <div className="hidden md:flex flex-col items-center justify-center shrink-0 w-[280px] h-[280px] lg:w-[320px] lg:h-[320px] relative pointer-events-none mt-4 lg:mt-0">
-                        {/* Fondo de brillo suave */}
-                        <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent opacity-70"></div>
-                        <div className="absolute inset-4 bg-white/30 backdrop-blur-sm rounded-full border border-white/60 shadow-[0_0_60px_rgba(99,102,241,0.15)] flex items-center justify-center">
-                            <div className="absolute inset-8 rounded-full border border-primary/5 border-dashed animate-[spin_30s_linear_infinite]"></div>
+                    {/* Composición Visual Central Hero (El Núcleo Opina+ - Gran Red) */}
+                    <div className="hidden md:flex flex-col items-center justify-center relative pointer-events-none w-full h-[300px] lg:h-[380px] perspective-1000 -mr-12 lg:-mr-24 scale-[1.15] lg:scale-[1.3] transform-origin-right">
+                        {/* Red de satélites / conexiones Espaciales */}
+                        <div className="absolute inset-0 flex items-center justify-center transform-style-3d">
+                            {/* Superficie base (Malla de energía) */}
+                            <div className="absolute w-[150%] h-[150%] bg-[linear-gradient(to_right,#3b82f6_1px,transparent_1px),linear-gradient(to_bottom,#10b981_1px,transparent_1px)] bg-[size:40px_40px] opacity-10 transform rotate-x-60 -rotate-z-45 animate-[pulse_4s_ease-in-out_infinite]"></div>
+
+                            {/* Anillos orbitales entrelazados */}
+                            <div className="absolute w-[80%] h-[80%] max-w-[400px] max-h-[400px] border-[2px] border-primary/20 rounded-full animate-[spin_15s_linear_infinite]" style={{ transform: 'rotateX(60deg) rotateY(15deg)' }}></div>
+                            <div className="absolute w-[95%] h-[95%] max-w-[450px] max-h-[450px] border-[1.5px] border-emerald-500/30 rounded-full animate-[spin_20s_linear_infinite_reverse]" style={{ transform: 'rotateX(50deg) rotateY(-20deg)' }}></div>
+                            <div className="absolute w-[70%] h-[70%] max-w-[350px] max-h-[350px] border-[2px] border-purple-500/20 rounded-full animate-[spin_10s_linear_infinite]" style={{ transform: 'rotateX(70deg) rotateZ(30deg)' }}></div>
+                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent transform rotate-45 rotate-x-60 animate-[shimmer_3s_infinite] blur-md mix-blend-overlay"></div>
+                            
+                            {/* Partículas viajeras MASIVAS */}
+                            <div className="absolute w-full h-full">
+                                <span className="absolute top-[20%] left-[20%] w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_15px_#3b82f6] blur-[1px] animate-[ping_3s_infinite]"></span>
+                                <span className="absolute top-[80%] left-[70%] w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#10b981] animate-pulse"></span>
+                                <span className="absolute top-[30%] right-[30%] w-4 h-4 bg-purple-500 rounded-full shadow-[0_0_20px_#8b5cf6] blur-[2px] animate-[bounce_4s_infinite]"></span>
+                                <span className="absolute bottom-[20%] right-[40%] w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_10px_#facc15] animate-[ping_2s_infinite]"></span>
+                                
+                                {/* Más puntos simulando señales masivas */}
+                                <span className="absolute top-[40%] left-[10%] w-2 h-2 bg-blue-300 rounded-full shadow-[0_0_10px_#93c5fd] animate-[ping_2.5s_infinite]"></span>
+                                <span className="absolute bottom-[40%] left-[30%] w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_12px_#34d399] animate-[bounce_3s_infinite]"></span>
+                                <span className="absolute top-[60%] right-[15%] w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_10px_#a78bfa] animate-[ping_3.5s_infinite]"></span>
+                                <span className="absolute top-[10%] right-[50%] w-3 h-3 bg-yellow-300 rounded-full shadow-[0_0_12px_#fde047] blur-[1px] animate-[pulse_2s_infinite]"></span>
+                                <span className="absolute bottom-[10%] right-[20%] w-2 h-2 bg-pink-400 rounded-full shadow-[0_0_10px_#f472b6] animate-[ping_1.5s_infinite]"></span>
+                            </div>
+                        </div>
+
+                        {/* Núcleo de Vida (Pulsante e inmersivo) */}
+                        <div className="relative z-20 w-40 h-40 flex items-center justify-center transition-transform duration-700 animate-[bounce_6s_ease-in-out_infinite]">
+                            {/* Resplandores Profundos */}
+                            <div className="absolute inset-[-50%] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.3),transparent_70%)] rounded-full blur-3xl animate-[pulse_3s_linear_infinite]"></div>
+                            <div className="absolute inset-[-30%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.3),transparent_60%)] rounded-full blur-2xl animate-[ping_5s_linear_infinite]"></div>
+                            <div className="absolute inset-0 bg-white/40 rounded-full blur-xl animate-pulse"></div>
+
+                            {/* Esfera Central Glassmorphism Hiper-Premium */}
+                            <div className="relative w-32 h-32 bg-white/20 backdrop-blur-2xl border border-white/80 shadow-[0_30px_60px_rgba(0,0,0,0.15),inset_0_2px_10px_rgba(255,255,255,1)] rounded-[2.5rem] flex items-center justify-center overflow-hidden rotate-45 transform-style-3d group-hover:rotate-[40deg] transition-all duration-700">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 via-transparent to-emerald-400/30 animate-[spin_10s_linear_infinite]"></div>
+                                {/* Pulso interno 3D con LOGO OPINA+ */}
+                                <div className="w-20 h-20 bg-gradient-brand rounded-full shadow-[inset_0_-8px_15px_rgba(0,0,0,0.3),0_10px_30px_rgba(59,130,246,0.5)] flex items-center justify-center text-white relative z-10 -rotate-45 transform-style-3d perspective-1000">
+                                    <div className="absolute inset-0 rounded-full bg-white opacity-20 animate-ping"></div>
+                                    <div className="absolute top-1 left-2 w-6 h-6 bg-white/60 rounded-full blur-[4px] mix-blend-overlay"></div>
+                                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 drop-shadow-md animate-[pulse_2s_ease-in-out_infinite] transform translate-z-10">
+                                      <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                                      <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                                      <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Etiquetas de datos flotantes en 3D (Secciones de Opina+) */}
+                        {/* Versus */}
+                        <div className="absolute top-[15%] left-[15%] bg-white/90 backdrop-blur-xl border border-slate-100 text-ink px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase shadow-lg transform rotate-[-5deg] flex items-center gap-1.5 animate-[bounce_4.5s_ease-in-out_infinite] z-40">
+                            <span className="material-symbols-outlined text-[14px] text-blue-500">compare_arrows</span>
+                            Versus
                         </div>
                         
-                        {/* Red Neural / Flujo de Señales SVG */}
-                        <svg className="absolute inset-0 w-full h-full overflow-visible z-10" viewBox="0 0 200 200">
-                            {/* Camino de Entrada */}
-                            <path d="M -40 100 L 75 100" fill="none" stroke="#e2e8f0" strokeWidth="2" />
-                            <path d="M -40 100 L 75 100" fill="none" stroke="#4f46e5" strokeWidth="3" strokeDasharray="10 20" className="animate-[dash_2s_linear_infinite_reverse]" opacity="0.6" />
-                            
-                            {/* Partículas entrando */}
-                            <circle cx="0" cy="100" r="3" fill="#4f46e5" className="animate-[heroMoveRight_2s_ease-in-out_infinite]" />
-                            <circle cx="0" cy="100" r="2" fill="#818cf8" className="animate-[heroMoveRight_2s_ease-in-out_infinite]" style={{ animationDelay: '0.5s' }} />
-
-                            {/* Camino A (Arriba) */}
-                            <path d="M 125 100 C 160 100, 160 30, 240 30" fill="none" stroke="#e0e7ff" strokeWidth="2" />
-                            <path d="M 125 100 C 160 100, 160 30, 240 30" fill="none" stroke="url(#hero-blue-grad)" strokeWidth="3" strokeDasharray="8 16" className="animate-[dash_3s_linear_infinite_reverse]" opacity="0.7" />
-                            <circle cx="240" cy="30" r="10" fill="white" stroke="#3b82f6" strokeWidth="2" className="shadow-md animate-[pulse_2s_infinite]" />
-                            <circle cx="240" cy="30" r="4" fill="#3b82f6" className="animate-[ping_3s_infinite]" />
-
-                            {/* Camino B (Abajo) */}
-                            <path d="M 125 100 C 160 100, 160 170, 240 170" fill="none" stroke="#d1fae5" strokeWidth="2" />
-                            <path d="M 125 100 C 160 100, 160 170, 240 170" fill="none" stroke="url(#hero-emerald-grad)" strokeWidth="3" strokeDasharray="8 16" className="animate-[dash_3s_linear_infinite_reverse]" opacity="0.7" style={{ animationDelay: '1s' }} />
-                            <circle cx="240" cy="170" r="10" fill="white" stroke="#10b981" strokeWidth="2" className="shadow-md animate-[pulse_2s_infinite]" style={{ animationDelay: '1s' }} />
-                            <circle cx="240" cy="170" r="4" fill="#10b981" className="animate-[ping_3s_infinite]" style={{ animationDelay: '1s' }} />
-
-                            <defs>
-                                <linearGradient id="hero-blue-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#818cf8" stopOpacity="0.1"/>
-                                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="1"/>
-                                </linearGradient>
-                                <linearGradient id="hero-emerald-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#34d399" stopOpacity="0.1"/>
-                                    <stop offset="100%" stopColor="#10b981" stopOpacity="1"/>
-                                </linearGradient>
-                                <radialGradient id="gradient-radial" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stopColor="var(--tw-gradient-from)" />
-                                    <stop offset="50%" stopColor="var(--tw-gradient-via)" />
-                                    <stop offset="100%" stopColor="var(--tw-gradient-to)" />
-                                </radialGradient>
-                            </defs>
-                        </svg>
-
-                        {/* Núcleo Central de Procesamiento */}
-                        <div className="relative z-20 w-28 h-28 bg-white rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-primary/20 border border-primary/10">
-                            <div className="absolute inset-0 bg-primary/5 rounded-[2.5rem] animate-[ping_3s_ease-out_infinite] opacity-50" />
-                            <div className="absolute inset-2 bg-gradient-to-br from-primary/10 to-transparent rounded-[2rem]" />
-                            <span className="material-symbols-outlined text-6xl text-primary drop-shadow-md">filter_center_focus</span>
-                            {/* Micro-chip interno dando vueltas */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-primary/30 animate-[spin_10s_linear_infinite]"></div>
-                            <div className="absolute w-2 h-2 bg-primary rounded-full animate-pulse top-4 right-4 shadow-sm"></div>
+                        {/* Torneos */}
+                        <div className="absolute top-[25%] right-[10%] lg:right-[5%] bg-ink/90 backdrop-blur-xl border border-ink-700 text-white px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase shadow-lg transform rotate-6 flex items-center gap-1.5 animate-[bounce_5.5s_ease-in-out_infinite] z-40">
+                            <span className="material-symbols-outlined text-[14px] text-purple-400">emoji_events</span>
+                            Torneos
                         </div>
 
-                        <style>{`
-                            @keyframes dash {
-                                to { stroke-dashoffset: -100; }
-                            }
-                            @keyframes heroMoveRight {
-                                0% { transform: translateX(-40px) scale(0); opacity: 0; }
-                                20% { transform: translateX(20px) scale(1.5); opacity: 1; }
-                                80% { transform: translateX(80px) scale(1.5); opacity: 1; }
-                                100% { transform: translateX(100px) scale(0); opacity: 0; }
-                            }
-                        `}</style>
+                        {/* Actualidad */}
+                        <div className="absolute top-[50%] left-[5%] lg:left-[2%] bg-pink-50/90 backdrop-blur-xl border border-pink-200 text-pink-800 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase shadow-lg transform rotate-[2deg] flex items-center gap-1.5 animate-[bounce_5s_ease-in-out_infinite] z-40">
+                            <span className="material-symbols-outlined text-[14px] text-pink-600">newspaper</span>
+                            Actualidad
+                        </div>
+
+                        {/* Productos */}
+                        <div className="absolute top-[60%] right-[5%] lg:right-[2%] bg-amber-50/90 backdrop-blur-xl border border-amber-200 text-amber-800 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase shadow-lg transform rotate-[-4deg] flex items-center gap-1.5 animate-[bounce_4.8s_ease-in-out_infinite] z-40">
+                            <span className="material-symbols-outlined text-[14px] text-amber-600">category</span>
+                            Productos
+                        </div>
+
+                        {/* Profundidad */}
+                        <div className="absolute bottom-[25%] left-[20%] bg-blue-50/90 backdrop-blur-xl border border-blue-200 text-blue-800 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase shadow-lg transform rotate-[4deg] flex items-center gap-1.5 animate-[bounce_4s_ease-in-out_infinite] z-40">
+                            <span className="material-symbols-outlined text-[14px] text-blue-600">psychology</span>
+                            Profundidad
+                        </div>
+
+                        {/* Lugares */}
+                        <div className="absolute bottom-[15%] right-[15%] lg:right-[10%] bg-emerald-50/90 backdrop-blur-xl border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase shadow-lg transform rotate-[-3deg] flex items-center gap-1.5 animate-[bounce_6s_ease-in-out_infinite] z-40">
+                            <span className="material-symbols-outlined text-[14px] text-emerald-600">place</span>
+                            Lugares
+                        </div>
                     </div>
                 </div>
             </section>
@@ -356,7 +342,7 @@ export default function HubMenuSimplified({
                                     <div className="absolute inset-0 opacity-0 bg-[radial-gradient(#3b82f6_1.5px,transparent_1.5px)] [background-size:24px_24px] group-hover/left:opacity-10 transition-opacity duration-700"></div>
                                     
                                     {/* Opción A Texto */}
-                                    <h4 className="relative z-10 text-3xl md:text-4xl font-black text-slate-800 text-center transform transition-all duration-500 group-hover/left:-translate-y-4 group-hover/left:scale-110 group-hover/left:text-blue-900 group-hover/left:drop-shadow-md">
+                                    <h4 className="relative z-10 text-3xl md:text-4xl font-black text-slate-800 text-center transform transition-all duration-500 group-hover/left:-translate-y-4 group-hover/left:scale-110 group-hover/left:text-blue-900 group-hover/left:drop-shadow-md line-clamp-2 overflow-hidden text-ellipsis">
                                         {previewVersus?.options?.[0]?.label || "Mac OS"}
                                     </h4>
                                     
@@ -382,7 +368,7 @@ export default function HubMenuSimplified({
                                     <div className="absolute inset-0 opacity-0 bg-[radial-gradient(#10b981_1.5px,transparent_1.5px)] [background-size:24px_24px] group-hover/right:opacity-10 transition-opacity duration-700"></div>
                                     
                                     {/* Opción B Texto */}
-                                    <h4 className="relative z-10 text-3xl md:text-4xl font-black text-slate-800 text-center transform transition-all duration-500 group-hover/right:-translate-y-4 group-hover/right:scale-110 group-hover/right:text-emerald-900 group-hover/right:drop-shadow-md">
+                                    <h4 className="relative z-10 text-3xl md:text-4xl font-black text-slate-800 text-center transform transition-all duration-500 group-hover/right:-translate-y-4 group-hover/right:scale-110 group-hover/right:text-emerald-900 group-hover/right:drop-shadow-md line-clamp-2 overflow-hidden text-ellipsis">
                                         {previewVersus?.options?.[1]?.label || "Windows 11"}
                                     </h4>
 
@@ -535,7 +521,8 @@ export default function HubMenuSimplified({
                             </div>
                             <div className="relative z-10 mt-4">
                                 <h3 className="font-bold text-ink text-base group-hover:text-emerald-700 transition-colors">Actualidad</h3>
-                                <div className="text-[10px] font-bold text-emerald-600 uppercase mt-1 tracking-wider flex items-center gap-1">
+                                <p className="text-slate-500 text-xs font-medium leading-snug mt-1">Sigue el pulso en tiempo real.</p>
+                                <div className="text-[10px] font-bold text-emerald-600 uppercase mt-2 tracking-wider flex items-center gap-1">
                                     <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                                     Nuevo hoy
                                 </div>
@@ -574,7 +561,8 @@ export default function HubMenuSimplified({
                             </div>
                             <div className="relative z-10 mt-4">
                                 <h3 className="font-bold text-ink text-base group-hover:text-indigo-700 transition-colors">Lugares</h3>
-                                <div className="text-[10px] font-bold text-indigo-500 uppercase mt-1 tracking-wider">Geolocalizado</div>
+                                <p className="text-slate-500 text-xs font-medium leading-snug mt-1">Impacto geolocalizado en tu entorno.</p>
+                                <div className="text-[10px] font-bold text-indigo-500 uppercase mt-2 tracking-wider">Geolocalizado</div>
                             </div>
                         </div>
                     </div>
@@ -671,59 +659,36 @@ export default function HubMenuSimplified({
             </div>
 
             {/* EXPANSION HORIZONTAL - FUTUROS MÓDULOS */}
-            <section className="mt-12 w-full">
-                <div className="flex items-center justify-between mb-6 px-1">
+            <section className="mt-12 w-full pb-12">
+                <div className="flex items-center justify-between mb-4 px-1">
                     <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400 text-xl">construction</span>
-                        <h2 className="text-xl font-bold text-ink tracking-tight">Expansión del Sistema</h2>
+                        <span className="material-symbols-outlined text-slate-400 text-xl">map</span>
+                        <h2 className="text-xl font-bold text-ink tracking-tight">Nuevos Territorios</h2>
                     </div>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest hidden sm:inline-block">Próximamente</span>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    {/* Deportes */}
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 transition-opacity cursor-not-allowed group">
-                        <div className="w-12 h-12 rounded-xl bg-slate-200/50 text-slate-400 flex items-center justify-center mb-3 group-hover:bg-emerald-50 group-hover:text-emerald-500 transition-colors">
-                            <span className="material-symbols-outlined text-2xl">sports_soccer</span>
+                <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 group cursor-not-allowed relative overflow-hidden">
+                    <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
+                    
+                    <div className="flex items-center gap-6 relative z-10 w-full">
+                        <div className="hidden sm:flex w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-200 items-center justify-center text-slate-400 shrink-0">
+                            <span className="material-symbols-outlined text-3xl">explore</span>
                         </div>
-                        <h4 className="font-bold text-ink text-sm">Deportes</h4>
-                        <div className="text-[9px] font-bold text-slate-400 uppercase mt-1">En construcción</div>
-                    </div>
-
-                    {/* Productos */}
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 transition-opacity cursor-not-allowed group">
-                        <div className="w-12 h-12 rounded-xl bg-slate-200/50 text-slate-400 flex items-center justify-center mb-3 group-hover:bg-orange-50 group-hover:text-orange-500 transition-colors">
-                            <span className="material-symbols-outlined text-2xl">shopping_bag</span>
+                        <div>
+                            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-2">
+                                <h3 className="text-lg font-black text-ink">Explorar más categorías</h3>
+                                <div className="badge bg-white border border-slate-200 text-[10px] font-bold uppercase tracking-widest text-slate-400 shadow-sm">Próximamente</div>
+                            </div>
+                            <p className="text-sm font-medium text-slate-500 max-w-lg mb-4">
+                                Estamos calibrando el radar para nuevas dimensiones de señalización pronto estarán disponibles.
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">sports_soccer</span> Deportes</div>
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">shopping_bag</span> Productos</div>
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">restaurant</span> Comida</div>
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/50 text-slate-500 text-xs font-bold"><span className="material-symbols-outlined text-[14px]">support_agent</span> Servicios</div>
+                            </div>
                         </div>
-                        <h4 className="font-bold text-ink text-sm">Productos</h4>
-                        <div className="text-[9px] font-bold text-slate-400 uppercase mt-1">En construcción</div>
-                    </div>
-
-                    {/* Comida */}
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 transition-opacity cursor-not-allowed group">
-                        <div className="w-12 h-12 rounded-xl bg-slate-200/50 text-slate-400 flex items-center justify-center mb-3 group-hover:bg-red-50 group-hover:text-red-500 transition-colors">
-                            <span className="material-symbols-outlined text-2xl">restaurant</span>
-                        </div>
-                        <h4 className="font-bold text-ink text-sm">Comida</h4>
-                        <div className="text-[9px] font-bold text-slate-400 uppercase mt-1">En construcción</div>
-                    </div>
-
-                    {/* Servicios */}
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 transition-opacity cursor-not-allowed group">
-                        <div className="w-12 h-12 rounded-xl bg-slate-200/50 text-slate-400 flex items-center justify-center mb-3 group-hover:bg-purple-50 group-hover:text-purple-500 transition-colors">
-                            <span className="material-symbols-outlined text-2xl">support_agent</span>
-                        </div>
-                        <h4 className="font-bold text-ink text-sm">Servicios</h4>
-                        <div className="text-[9px] font-bold text-slate-400 uppercase mt-1">En construcción</div>
-                    </div>
-
-                    {/* Tu Pulso */}
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 hidden lg:flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 transition-opacity cursor-not-allowed group">
-                        <div className="w-12 h-12 rounded-xl bg-slate-200/50 text-slate-400 flex items-center justify-center mb-3 group-hover:bg-rose-50 group-hover:text-rose-500 transition-colors">
-                            <span className="material-symbols-outlined text-2xl">monitor_heart</span>
-                        </div>
-                        <h4 className="font-bold text-ink text-sm">Tu Pulso</h4>
-                        <div className="text-[9px] font-bold text-slate-400 uppercase mt-1">Próximamente</div>
                     </div>
                 </div>
             </section>
