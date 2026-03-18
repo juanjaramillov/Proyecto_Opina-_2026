@@ -241,16 +241,16 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                                 exit={{ x: -20, opacity: 0, scale: 0.9 }}
                                 transition={{ type: "spring", stiffness: 350, damping: 28 }}
                                 key={`left-${leftOption?.id}`}
-                                className="relative w-full"
+                                className="relative w-full flex"
                             >
                                 {round > 1 && currentChampId === leftOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-brand text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-brand text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
                                         <span className="material-symbols-outlined text-[12px] align-middle mr-1">social_leaderboard</span>
                                         Preferencia actual
                                     </div>
                                 )}
                                 {round > 1 && currentChampId !== leftOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white whitespace-nowrap">
                                         Nueva opción
                                     </div>
                                 )}
@@ -277,16 +277,16 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                                 exit={{ x: 30, opacity: 0, scale: 0.9 }}
                                 transition={{ type: "spring", stiffness: 350, damping: 28 }}
                                 key={`right-${rightOption?.id}`}
-                                className="relative w-full"
+                                className="relative w-full flex"
                             >
                                 {round > 1 && currentChampId === rightOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-brand text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-brand text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
                                         <span className="material-symbols-outlined text-[12px] align-middle mr-1">social_leaderboard</span>
                                         Preferencia actual
                                     </div>
                                 )}
                                 {round > 1 && currentChampId !== rightOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white whitespace-nowrap">
                                         Nueva opción
                                     </div>
                                 )}
