@@ -49,7 +49,7 @@ export default function CommunityPulseSection() {
          {/* Floating Static Cards */}
          
          {/* Node 1: Top Left */}
-         <div className="absolute top-10 left-[10%] md:left-[20%] group hover:z-50">
+         <div className="absolute top-0 md:top-10 left-[2%] md:left-[20%] scale-75 sm:scale-90 md:scale-100 origin-top-left group hover:z-50">
             {/* Connection Line Pseudo */}
             <div className="hidden md:block absolute top-1/2 left-full w-32 h-px bg-gradient-to-r from-indigo-200 to-transparent -rotate-12 transform origin-left" />
             
@@ -65,7 +65,7 @@ export default function CommunityPulseSection() {
          </div>
 
          {/* Node 2: Bottom Right */}
-         <div className="absolute bottom-10 right-[10%] md:right-[20%] group hover:z-50">
+         <div className="absolute bottom-0 md:bottom-10 right-[2%] md:right-[20%] scale-75 sm:scale-90 md:scale-100 origin-bottom-right group hover:z-50">
              {/* Connection Line Pseudo */}
             <div className="hidden md:block absolute bottom-1/2 right-full w-32 h-px bg-gradient-to-l from-emerald-200 to-transparent -rotate-12 transform origin-right" />
 

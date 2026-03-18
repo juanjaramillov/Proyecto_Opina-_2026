@@ -1,17 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import { Activity, AlertCircle, Info, Target } from "lucide-react";
 import { MasterHubSnapshot } from "../../../read-models/b2c/hub-types";
 
 interface ResultsHeroProps {
   snapshot: MasterHubSnapshot;
-  loading: boolean;
 }
 
-export function ResultsHero({ snapshot, loading }: ResultsHeroProps) {
-  const nav = useNavigate();
-
+export function ResultsHero({ snapshot }: ResultsHeroProps) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 pb-16 border-b border-stroke/50 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 pb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Columna Izquierda: Copys y micro insights (7/12) */}
       <div className="lg:col-span-7 flex flex-col justify-center">
         {/* Badges de apoyo */}
@@ -63,60 +59,40 @@ export function ResultsHero({ snapshot, loading }: ResultsHeroProps) {
         )}
       </div>
 
-      {/* Columna Derecha: Visual Principal (5/12) */}
-      <div className="lg:col-span-5 flex items-center justify-end relative mt-8 lg:mt-0">
-        <div className="w-full max-w-md bg-surface border border-stroke rounded-[32px] p-8 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-700 pointer-events-none">
-            <Activity className="w-48 h-48 text-primary -mr-12 -mt-12" />
-          </div>
-
-          <h3 className="text-sm font-black uppercase tracking-widest text-ink mb-8">Huella de Señal</h3>
-          
-          <div className="space-y-6 relative z-10">
-            {[
-              { label: 'Decisiones Rápidas (Versus)', type: 'versus', color: 'bg-primary' },
-              { label: 'Comparación Múltiple (Torneos)', type: 'torneo', color: 'bg-indigo-500' },
-              { label: 'Temas Coyunturales (Actualidad)', type: 'actualidad', color: 'bg-rose-500' }
-            ].map(mod => {
-              const totalSignals = snapshot.overview.totalSignals || 1; // avoid /0
-              const count = snapshot.overview.topModules.find(m => m.moduleType === mod.type)?.count || 0;
-              const pct = (count / totalSignals) * 100;
-
-              return (
-                <div key={mod.type} className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center text-xs font-bold">
-                    <span className="text-text-secondary">{mod.label}</span>
-                    <span className="text-ink">{pct.toFixed(0)}%</span>
-                  </div>
-                  <div className="h-2 w-full bg-surface2 rounded-full overflow-hidden">
-                    <div className={`h-full ${mod.color} rounded-full transition-all duration-1000 ease-out`} style={{ width: `${pct}%` }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          
-          <div className="mt-8 pt-6 border-t border-stroke flex items-center justify-between">
-            <div className="flex flex-col">
-              <span className="text-[10px] uppercase font-bold text-text-muted tracking-wider">Volumen Total</span>
-              <div className="text-2xl font-black text-ink">{snapshot.overview.totalSignals} <span className="text-sm text-text-secondary font-medium">señales</span></div>
+      {/* Columna Derecha: Ilustración Inmersiva (El Núcleo) */}
+      <div className="lg:col-span-5 flex items-center justify-center relative min-h-[350px] lg:min-h-full mt-8 lg:mt-0">
+        {/* Fondo radiante */}
+        <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] ${snapshot.sufficiency === 'sufficient_data' ? 'from-primary/20' : 'from-amber-500/20'} to-transparent blur-3xl rounded-full opacity-60 animate-pulse`} />
+        
+        {/* Estructura del Núcleo (3D CSS) */}
+        <div className="relative w-72 h-72 flex items-center justify-center perspective-1000 group">
+            {/* Órbitas rotatorias */}
+            <div className="absolute inset-0 rounded-full border border-primary/20 border-l-primary/60 border-r-primary/60 animate-[spin_12s_linear_infinite] group-hover:border-primary/80 transition-colors duration-700" style={{ transform: 'rotateX(60deg) rotateY(20deg)' }} />
+            <div className="absolute inset-6 rounded-full border border-indigo-400/20 border-t-indigo-400/60 border-b-indigo-400/60 animate-[spin_8s_linear_infinite_reverse]" style={{ transform: 'rotateX(40deg) rotateY(-20deg)' }} />
+            <div className="absolute inset-12 rounded-full border border-emerald-400/20 border-l-emerald-400/60 animate-[spin_6s_linear_infinite]" style={{ transform: 'rotateX(70deg)' }} />
+            
+            {/* Centro Brillante */}
+            <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${snapshot.sufficiency === 'sufficient_data' ? 'from-primary to-indigo-600 shadow-[0_0_50px_rgba(37,99,235,0.5)]' : 'from-amber-400 to-orange-500 shadow-[0_0_50px_rgba(245,158,11,0.5)]'} relative z-10 flex items-center justify-center transform transition-all group-hover:scale-110 duration-700 ease-elastic`}>
+                <Activity className="w-10 h-10 text-white animate-pulse" />
+                {/* Partículas atractoras */}
+                <div className="absolute w-2.5 h-2.5 bg-white rounded-full top-0 -translate-y-10 animate-[ping_2s_infinite]" />
+                <div className="absolute w-1.5 h-1.5 bg-white/80 rounded-full bottom-0 translate-y-12 translate-x-12 animate-[ping_3s_infinite_1s]" />
+                <div className="absolute w-3 h-3 bg-white/60 rounded-full left-0 -translate-x-12 translate-y-6 animate-[ping_2.5s_infinite_0.5s]" />
+                <div className="absolute w-2 h-2 bg-indigo-200/80 rounded-full right-0 translate-x-10 -translate-y-8 animate-[bounce_2s_infinite]" />
             </div>
-            <div className="flex items-center gap-3">
-              {snapshot.user.profileCompleteness < 100 && (
-                <button 
-                  onClick={() => nav('/complete-profile')}
-                  className="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-primary-muted transition-colors flex items-center gap-1"
-                  disabled={loading}
-                >
-                  Completar Perfil
-                </button>
-              )}
-              <div className="w-10 h-10 rounded-full border border-stroke flex items-center justify-center bg-surface2 relative">
-                <div className="absolute inset-0 rounded-full border-[3px] border-primary border-t-transparent animate-spin-slow" style={{ animationDuration: '3s', opacity: 0.3 }} />
-                <Target className="w-4 h-4 text-primary" />
-              </div>
+            
+            {/* Anillos de eco */}
+            <div className={`absolute inset-0 rounded-full border border-${snapshot.sufficiency === 'sufficient_data' ? 'primary' : 'amber-500'}/30 animate-[ping_3s_infinite] scale-150`} />
+        </div>
+
+        {/* Float Stats (Glassmorphism) */}
+        <div className="absolute bottom-0 right-0 lg:-right-4 bg-white/70 backdrop-blur-xl border border-stroke/50 shadow-2xl p-5 rounded-3xl animate-in slide-in-from-bottom-8 duration-1000 delay-300">
+            <p className="text-[10px] uppercase tracking-widest font-black text-text-muted mb-1 flex items-center gap-1.5">
+               <Target className="w-3 h-3 text-primary" /> Volumen Total
+            </p>
+            <div className="text-4xl font-black text-ink flex items-baseline gap-1 tracking-tighter">
+                {snapshot.overview.totalSignals} <span className="text-sm font-medium text-text-secondary tracking-normal">señales</span>
             </div>
-          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { UserResultsSnapshot, SignalActivity } from '../../../read-models/types';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
-import { TrendingUp, Hourglass } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 
 interface RealTimelineChartProps {
   snapshot: UserResultsSnapshot;
@@ -17,26 +17,34 @@ export function RealTimelineChart({ snapshot, loading }: RealTimelineChartProps)
     );
   }
 
-  const recentActivity = snapshot.signals?.recent || [];
+  let recentActivity = snapshot.signals?.recent || [];
 
-  if (recentActivity.length === 0) {
-    return (
-      <div className="card p-6 border border-stroke bg-white shadow-sm h-[350px] flex flex-col relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity duration-700">
-          <Hourglass className="w-32 h-32 text-ink" />
-        </div>
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-full bg-surface2 flex items-center justify-center border border-stroke">
-            <TrendingUp className="w-4 h-4 text-text-secondary" />
-          </div>
-          <h3 className="text-xs font-black uppercase tracking-widest text-text-secondary">Fluidez de Señales</h3>
-        </div>
-        <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-stroke rounded-xl bg-surface/50 z-10 mx-2 mb-2 p-6 text-center">
-          <p className="text-sm font-bold text-ink mb-1">El lienzo está en blanco</p>
-          <p className="text-xs text-text-muted font-medium max-w-[250px]">El gráfico de ondas de actividad comenzará a latir en cuanto interactúes con el ecosistema.</p>
-        </div>
-      </div>
-    );
+  // INYECCIÓN DE DATOS DE DEMOSTRACIÓN
+  // Si no hay actividad, generamos una ruta de enganche ficticia espectacular para que el usuario pueda ver el "lienzo".
+  const isDemoMode = recentActivity.length === 0;
+  
+  if (isDemoMode) {
+    const mockActivity: SignalActivity[] = [];
+    const now = new Date();
+    // Generar un patrón de actividad de los últimos 14 días
+    for (let i = 14; i >= 0; i--) {
+      const date = new Date(now);
+      date.setDate(date.getDate() - i);
+      // Generar una onda sinusoide con algo de ruido para que parezca actividad real
+      const baseActivity = Math.sin(i * 0.5) * 5 + 5; 
+      const noise = Math.random() * 4;
+      const totalSignalsDay = Math.floor(Math.max(0, baseActivity + noise));
+      
+      for (let j = 0; j < totalSignalsDay; j++) {
+         mockActivity.push({
+             id: `mock-${i}-${j}`,
+             moduleType: 'versus',
+             entityId: 'demo',
+             createdAt: date.toISOString()
+         });
+      }
+    }
+    recentActivity = mockActivity;
   }
 
   // Agrupar actividad reciente por fecha corta (MMM DD)

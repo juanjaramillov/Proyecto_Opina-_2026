@@ -199,21 +199,21 @@ export default function OptionCard({
 
                 {/* LIVE STATS KPIs vs DEFAULT Hint */}
                 {option.stats ? (
-                    <div className={`flex items-center gap-4 mt-2 transition-all duration-500 ${!showResult ? 'opacity-80 group-hover:opacity-100' : 'opacity-40 grayscale blur-[1px]'}`}>
-                        <div className="flex items-center gap-2">
-                            <span className="relative flex h-2.5 w-2.5">
+                    <div className={`flex flex-wrap items-center justify-center gap-2 md:gap-4 mt-2 transition-all duration-500 ${!showResult ? 'opacity-80 group-hover:opacity-100' : 'opacity-40 grayscale blur-[1px]'}`}>
+                        <div className="flex items-center gap-1.5 md:gap-2">
+                            <span className="relative flex h-2 w-2 md:h-2.5 md:w-2.5">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
                             </span>
-                            <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">
+                            <span className="text-[9px] md:text-[11px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">
                                 {option.stats.onlineCount} en línea
                             </span>
                         </div>
 
-                        <div className="w-[2px] h-3 rounded-full bg-slate-200" />
+                        <div className="hidden sm:block w-[2px] h-3 rounded-full bg-slate-200" />
 
                         <div className="flex items-center gap-1">
-                            <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">
+                            <span className="text-[9px] md:text-[11px] font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">
                                 {option.stats.totalAnswers.toLocaleString()} señales
                             </span>
                         </div>

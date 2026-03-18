@@ -201,38 +201,42 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
   }
 
   return (
-    <div className="card border border-stroke bg-white shadow-sm flex flex-col rounded-3xl overflow-hidden relative">
-      <div className="absolute top-0 right-0 p-8 opacity-[0.02] pointer-events-none">
-        <Network className="w-64 h-64 text-primary -mt-20 -mr-20" />
+    <div className="card border border-slate-800 bg-slate-900 shadow-2xl flex flex-col rounded-[2.5rem] overflow-hidden relative isolation-auto text-white">
+      {/* Background inmersivo animado */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.15),transparent_50%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.05),transparent_50%)] pointer-events-none" />
+      <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+        <Network className="w-96 h-96 text-primary -mt-32 -mr-32 animate-[spin_60s_linear_infinite]" />
       </div>
 
       {/* 1. Selector de Lentes en el Header del Componente */}
-      <div className="px-5 pt-5 pb-5 border-b border-stroke bg-surface2/30 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-               <div className="w-10 h-10 rounded-full bg-ink flex items-center justify-center border border-stroke shadow-sm flex-shrink-0">
-                 <ArrowRightLeft className="w-5 h-5 text-white" />
+      <div className="px-6 pt-6 pb-6 border-b border-slate-800 bg-slate-900/50 backdrop-blur-md relative z-10">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-5">
+            <div className="flex items-center gap-4">
+               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center border border-primary/50 shadow-[0_0_20px_rgba(37,99,235,0.3)] flex-shrink-0 relative overflow-hidden group">
+                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                 <ArrowRightLeft className="w-6 h-6 text-white relative z-10" />
                </div>
                <div>
-                 <h2 className="text-lg font-black tracking-tight text-ink flex items-center gap-2">
-                     Brújula de Similitud <span className="px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20 text-[9px] uppercase tracking-widest font-bold">Beta</span>
+                 <h2 className="text-xl font-black tracking-tight text-white flex items-center gap-2">
+                     Brújula de Similitud <span className="px-2.5 py-1 rounded bg-primary/20 text-primary border border-primary/30 text-[9px] uppercase tracking-widest font-black shadow-inner">Beta</span>
                  </h2>
-                 <p className="text-xs text-text-secondary mt-0.5 font-medium">Contraste analítico transversal.</p>
+                 <p className="text-sm text-slate-400 mt-1 font-medium">Contraste analítico transversal de tu huella digital.</p>
                </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-1.5 bg-surface p-1 rounded-2xl border border-stroke shadow-inner">
+            <div className="flex flex-wrap items-center gap-2 bg-slate-950/50 p-1.5 rounded-2xl border border-slate-800 shadow-inner">
               {lenses.map(lens => (
                 <button
                   key={lens.id}
                   onClick={() => lens.isAvailable && setActiveLensId(lens.id)}
                   disabled={!lens.isAvailable}
-                  className={`px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase flex items-center gap-1.5 transition-all ${
+                  className={`px-4 py-2 rounded-xl text-[11px] font-black tracking-widest uppercase flex items-center gap-2 transition-all duration-300 ${
                     activeLensId === lens.id 
-                      ? 'bg-white text-ink shadow-sm border border-stroke/50' 
+                      ? 'bg-gradient-to-r from-slate-800 to-slate-700 text-white shadow-lg border border-slate-600' 
                       : lens.isAvailable 
-                          ? 'bg-transparent text-text-muted hover:text-ink'
-                          : 'bg-transparent text-slate-300 cursor-not-allowed'
+                          ? 'bg-transparent text-slate-500 hover:text-white hover:bg-slate-800/50'
+                          : 'bg-transparent text-slate-700 cursor-not-allowed'
                   }`}
                   title={!lens.isAvailable ? lens.unavailableReason : undefined}
                 >
@@ -245,41 +249,40 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
       </div>
 
       {/* 2. Cuerpo del Comparador */}
-      <div className="p-6 md:p-8 relative z-10 flex flex-col gap-8 md:gap-10">
+      <div className="p-8 md:p-10 relative z-10 flex flex-col gap-10 md:gap-14">
          
-         {/* Frase Editorial */}
-         <div className="flex items-start gap-4">
-            <div className="mt-1 flex-shrink-0">
-                <span className="flex w-2 h-2 rounded-full bg-primary ring-4 ring-primary/10"></span>
-            </div>
-            <div>
-               <h3 className="text-xl md:text-2xl font-black text-ink tracking-tight mb-2 text-balance leading-snug">
-                   "{editorialQuote}"
+         {/* Frase Editorial Héroe (Radar Style) */}
+         <div className="relative mb-4 pb-8 border-b border-slate-800">
+            <span className="absolute -top-8 -left-6 text-[100px] text-primary/10 font-serif leading-none select-none pointer-events-none drop-shadow-md">"</span>
+            <div className="relative z-10 pl-2">
+               <h3 className="text-3xl md:text-5xl lg:text-[56px] font-black text-white tracking-tighter mb-6 text-balance leading-[1.05] drop-shadow-sm">
+                   {editorialQuote}
                </h3>
                {activeLensId === 'similar' && (
-                  <p className="text-xs font-medium text-text-secondary w-full md:max-w-xl">
-                    Este grupo combina <span className="font-bold text-ink">edad, actividad y un patrón de señal</span> parecidos a los tuyos.
+                  <p className="text-sm font-medium text-slate-300 bg-slate-800/80 backdrop-blur-md inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-slate-700 shadow-lg">
+                    <span className="w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/20 animate-pulse"></span>
+                    Muestra calibrada por <span className="font-bold text-white">edad, actividad y patrón de señal.</span>
                   </p>
                )}
             </div>
          </div>
 
-         {/* Contenedor de Barras Divergentes */}
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 w-full">
+         {/* Contenedor de Barras Divergentes (Holographic Theme) */}
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 w-full">
             
             {/* Columna: Zonas de Consenso */}
             {hasCoincidences && (
             <div className="flex flex-col gap-6 w-full">
-               <div className="flex items-center gap-2 border-b border-stroke pb-3">
-                  <div className="w-6 h-6 rounded-full bg-surface2 flex items-center justify-center border border-stroke">
-                      <Users className="w-3.5 h-3.5 text-ink" />
+               <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+                  <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+                      <Users className="w-4 h-4 text-indigo-400" />
                   </div>
-                  <h4 className="text-sm font-black text-ink uppercase tracking-widest">Alineado al Consenso</h4>
+                  <h4 className="text-sm font-black text-slate-200 uppercase tracking-widest">Alineado al Consenso</h4>
                </div>
 
                <div className="space-y-6">
                  {coincidences.slice(0, 3).map((item: UserComparisonInsight, idx: number) => (
-                     <div key={`coin-${idx}`} className="flex flex-col mb-4">
+                     <div key={`coin-${idx}`} className="flex flex-col mb-4 transform hover:translate-x-1 transition-transform">
                         <MomentumBar 
                             entityAName={item.entityName}
                             entityBName="Resto"
@@ -296,16 +299,16 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
             {/* Columna: Zonas de Tensión/Disidencia */}
             {hasDiscrepancies && (
             <div className="flex flex-col gap-6 w-full">
-               <div className="flex items-center gap-2 border-b border-stroke pb-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-                      <UserRound className="w-3.5 h-3.5 text-primary" />
+               <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+                  <div className="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center border border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+                      <UserRound className="w-4 h-4 text-rose-400" />
                   </div>
-                  <h4 className="text-sm font-black text-ink uppercase tracking-widest">Marcada Disidencia</h4>
+                  <h4 className="text-sm font-black text-slate-200 uppercase tracking-widest">Marcada Disidencia</h4>
                </div>
 
                <div className="space-y-6">
                  {discrepancies.slice(0, 3).map((item: UserComparisonInsight, idx: number) => (
-                     <div key={`disc-${idx}`} className="flex flex-col mb-4">
+                     <div key={`disc-${idx}`} className="flex flex-col mb-4 transform hover:translate-x-1 transition-transform">
                          <MomentumBar 
                             entityAName={item.entityName}
                             entityBName="Minoría"
@@ -321,9 +324,9 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
             
             {/* Si no hay disidencias, dar algo de aire */}
             {!hasDiscrepancies && hasCoincidences && (
-                 <div className="flex flex-col justify-center items-center text-center p-8 border border-dashed border-stroke rounded-2xl bg-surface2/30">
-                    <UserRound className="w-8 h-8 text-slate-300 mb-3" />
-                    <p className="text-sm font-medium text-text-secondary">Tu perfil actual no presenta disidencias marcadas frente al lente activo. Eres un reflejo exacto del consenso.</p>
+                 <div className="flex flex-col justify-center items-center text-center p-10 border border-dashed border-slate-700 rounded-3xl bg-slate-800/30">
+                    <UserRound className="w-10 h-10 text-slate-600 mb-4 animate-pulse" />
+                    <p className="text-base font-medium text-slate-400 max-w-sm">Tu perfil actual no presenta disidencias marcadas frente al lente activo. Eres un reflejo exacto del consenso en la red.</p>
                  </div>
             )}
 
@@ -331,34 +334,33 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
 
          {/* 3. Hallazgos Rápidos (Takeaways) */}
          {(hasCoincidences || hasDiscrepancies) && (
-            <div className="mt-2 md:mt-4 pt-6 md:pt-8 border-t border-stroke grid grid-cols-1 sm:grid-cols-3 gap-6">
-               <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-text-muted flex items-center gap-1.5">
-                     <Users className="w-3 h-3" /> Mayor Coincidencia
+            <div className="mt-4 p-6 rounded-2xl bg-slate-950/50 border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-6 shadow-inner">
+               <div className="flex flex-col gap-2">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                     <Users className="w-3.5 h-3.5" /> Mayor Coincidencia
                   </span>
-                  <span className="text-sm font-bold text-ink leading-tight">
+                  <span className="text-sm font-bold text-slate-200 leading-tight">
                      {coincidences[0]?.entityName || 'Alineación general estable.'}
                   </span>
                </div>
-               <div className="flex flex-col gap-1.5 border-l-0 sm:border-l border-stroke sm:pl-6 border-dashed">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-text-muted flex items-center gap-1.5">
-                     <UserRound className="w-3 h-3" /> Mayor Diferencia
+               <div className="flex flex-col gap-2 border-l-0 sm:border-l border-slate-800 sm:pl-6">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                     <UserRound className="w-3.5 h-3.5" /> Mayor Diferencia
                   </span>
-                  <span className="text-sm font-bold text-ink leading-tight">
+                  <span className="text-sm font-bold text-slate-200 leading-tight">
                      {discrepancies[0]?.entityName || 'Poca disidencia detectada.'}
                   </span>
                </div>
-               <div className="flex flex-col gap-1.5 border-l-0 sm:border-l border-stroke sm:pl-6 border-dashed">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-text-muted flex items-center gap-1.5">
-                     <Network className="w-3 h-3" /> Estado de Alineación
+               <div className="flex flex-col gap-2 border-l-0 sm:border-l border-slate-800 sm:pl-6">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                     <Network className="w-3.5 h-3.5" /> Foco de Escaneo
                   </span>
-                  <span className="text-sm font-bold text-ink leading-tight">
-                     {activeLensId === 'similar' ? 'Calculado contra pares demográficos.' : 'Basado en todo el espectro.'}
+                  <span className="text-sm font-bold text-slate-200 leading-tight">
+                     {activeLensId === 'similar' ? 'Cohortes demográficos.' : 'Análisis transversal.'}
                   </span>
                </div>
             </div>
          )}
-
       </div>
     </div>
   );

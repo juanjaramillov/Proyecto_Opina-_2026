@@ -19,7 +19,7 @@ export default function InteractiveHeroSection() {
             Señales en vivo
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black font-display tracking-tight text-ink mb-6 leading-[1.1]">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-display tracking-tight text-ink mb-6 leading-[1.1]">
             Tus señales<br />
             construyen <br />
             <span className="text-blue-600">esto</span><span className="text-emerald-500">.</span>
@@ -54,7 +54,7 @@ export default function InteractiveHeroSection() {
         {/* RIGHT COMPONENT: 3D Illustration EXACTLY as the First Iteration */}
         <div className="flex-1 w-full flex items-center justify-center relative min-h-[350px] sm:min-h-[400px] lg:min-h-[600px] pointer-events-none perspective-1000 mt-8 lg:mt-0">
             
-            <div className="flex-col items-center justify-center relative pointer-events-none w-full h-[300px] lg:h-[480px] perspective-1000 -mr-0 lg:-mr-12 scale-[1.1] lg:scale-[1.3] transform-origin-center lg:transform-origin-right">
+            <div className="flex-col items-center justify-center relative pointer-events-none w-full h-[300px] lg:h-[480px] perspective-1000 -mr-0 lg:-mr-12 scale-90 sm:scale-[1.1] lg:scale-[1.3] transform-origin-center lg:transform-origin-right">
                 {/* Red de satélites / conexiones Espaciales */}
                 <div className="absolute inset-0 flex items-center justify-center transform-style-3d">
                     {/* Superficie base (Malla de energía) rediseñada MUCHO más sutil y profunda (3D) */}
@@ -114,7 +114,7 @@ export default function InteractiveHeroSection() {
 
                 {/* Etiquetas de datos flotantes en 3D (Secciones de Opina+) */}
                 {/* Versus */}
-                <div className="absolute top-[15%] left-[15%] bg-white/90 backdrop-blur-xl border border-slate-100 text-ink px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-[-5deg] flex items-center gap-1.5 animate-[bounce_4.5s_ease-in-out_infinite] z-40">
+                <div className="absolute top-[15%] left-[5%] md:left-[15%] bg-white/90 backdrop-blur-xl border border-slate-100 text-ink px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-[-5deg] flex items-center gap-1.5 animate-[bounce_4.5s_ease-in-out_infinite] z-40">
                     <span className="material-symbols-outlined text-[14px] text-blue-500">compare_arrows</span>
                     Versus
                 </div>

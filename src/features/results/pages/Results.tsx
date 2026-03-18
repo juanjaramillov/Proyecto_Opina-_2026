@@ -9,8 +9,7 @@ import { NextActionRecommendation } from "../../../components/ui/NextActionRecom
 import { useResultsExperience } from "../hooks/useResultsExperience";
 import { ResultsHero } from "../components/ResultsHero";
 import { ResultsCrossSummary } from "../components/ResultsCrossSummary";
-import { ResultsTabNavigation } from "../components/ResultsTabNavigation";
-import { ResultsModulePanels } from "../components/ResultsModulePanels";
+import { GeneralTrends } from "../components/hub/GeneralTrends";
 
 export default function ResultsPage() {
   const nav = useNavigate();
@@ -23,9 +22,7 @@ export default function ResultsPage() {
     loading,
     snapshot,
     filters,
-    setFilters,
-    activeTab,
-    setActiveTab
+    setFilters
   } = useResultsExperience();
 
   if (!snapshot) {
@@ -38,42 +35,56 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-transparent relative z-10 w-full mb-12">
-      <div className="max-w-6xl mx-auto px-4 py-4 relative text-ink">
+      <div className="max-w-6xl mx-auto px-4 py-6 relative text-ink">
         
-        <ResultsHero snapshot={snapshot} loading={loading} />
+        <ResultsHero snapshot={snapshot} />
         
-        <ResultsCrossSummary snapshot={snapshot} loading={loading} />
-
-        <div className="mb-4 sticky top-[68px] z-40">
-           <FilterBar 
-             filters={filters} 
-             onChange={setFilters} 
-             isFiltered={snapshot.cohortState.isFiltered}
-             cohortSize={snapshot.cohortState.cohortSize}
-             privacyBlocked={snapshot.cohortState.privacyState === 'insufficient_cohort'}
-           />
+        {/* NIVEL 1: VISTA GENERAL */}
+        <div className="mb-24">
+            <GeneralTrends />
         </div>
 
-        <div className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200 relative">
-          <TransversalComparator 
-            snapshot={snapshot} 
-            loading={loading}
-            onClearFilter={() => setFilters({})}
-          />
-        </div>
+        {/* NIVEL 2: VISTA PERSONAL Y COMPARATIVA */}
+        <div className="mb-24 relative">
+            <div className="flex items-center gap-3 mb-8 px-2">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 shadow-sm">
+                    <span className="material-symbols-outlined text-[20px] text-primary">person_search</span>
+                </div>
+                <div>
+                    <h2 className="text-2xl lg:text-3xl font-black text-ink tracking-tight">Tu Impacto <span className="text-gradient-brand">vs El Resto</span></h2>
+                    <p className="text-text-secondary text-sm font-medium">Descubre si navegas con el consenso o si eres un disidente.</p>
+                </div>
+            </div>
 
-        <ResultsTabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-        
-        <ResultsModulePanels activeTab={activeTab} snapshot={snapshot} loading={loading} />
+            <ResultsCrossSummary snapshot={snapshot} loading={loading} />
 
-        <div className="mb-16 bg-surface2/30 rounded-[2rem] p-8 border border-stroke/50 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 relative">
-          {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
-          <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Ruta de Enganche Activo</h2>
-          <RealTimelineChart 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
-            loading={loading} 
-          />
+            <div className="mb-4 sticky top-[68px] z-40">
+               <FilterBar 
+                 filters={filters} 
+                 onChange={setFilters} 
+                 isFiltered={snapshot.cohortState.isFiltered}
+                 cohortSize={snapshot.cohortState.cohortSize}
+                 privacyBlocked={snapshot.cohortState.privacyState === 'insufficient_cohort'}
+               />
+            </div>
+
+            <div className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200 relative">
+              <TransversalComparator 
+                snapshot={snapshot} 
+                loading={loading}
+                onClearFilter={() => setFilters({})}
+              />
+            </div>
+
+            <div className="mb-16 bg-surface2/30 rounded-[2rem] p-8 border border-stroke/50 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 relative">
+              {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
+              <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Tu Ruta de Enganche Activo</h2>
+              <RealTimelineChart 
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
+                loading={loading} 
+              />
+            </div>
         </div>
 
         {!loading && (

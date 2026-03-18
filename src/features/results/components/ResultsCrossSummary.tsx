@@ -8,10 +8,9 @@ interface ResultsCrossSummaryProps {
 
 export function ResultsCrossSummary({ snapshot, loading }: ResultsCrossSummaryProps) {
   return (
-    <div className="mb-16 bg-surface2/20 rounded-[2rem] p-6 lg:p-10 border border-stroke/50 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 relative">
+    <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 relative">
       {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
-      <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Tu Resumen Transversal</h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="xl:col-span-2">
           <MySignalsSummary 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
