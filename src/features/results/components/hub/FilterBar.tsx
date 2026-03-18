@@ -19,72 +19,73 @@ export function FilterBar({ filters, onChange, isFiltered, cohortSize, privacyBl
   };
 
   return (
-    <div className="bg-white border border-stroke rounded-2xl p-4 shadow-sm relative z-20 flex flex-col md:flex-row gap-4 items-center justify-between">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-slate-900/90 backdrop-blur-2xl border border-white/10 p-2 md:p-3 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] rounded-full flex items-center justify-between gap-3 md:gap-6 transition-all duration-500 w-auto min-w-[320px] hover:bg-slate-900 max-w-[95vw] md:max-w-2xl">
       
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-surface2 flex items-center justify-center border border-stroke">
-          <Filter className="w-5 h-5 text-text-secondary" />
+      {/* Indicador de Filtro y Contexto */}
+      <div className="flex items-center gap-2 md:gap-3 pl-2 md:pl-3 shrink-0">
+        <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-colors ${isFiltered ? 'bg-indigo-500/20 text-indigo-400' : 'bg-white/5 text-white/50'}`}>
+          <Filter className="w-4 h-4 md:w-5 md:h-5" />
         </div>
-        <div>
-           <h3 className="text-sm font-black text-ink uppercase tracking-widest leading-none">Mi Cohorte</h3>
-           <p className="text-[10px] text-text-muted font-bold tracking-widest mt-1 uppercase">
-             {isFiltered ? `Comparando VS grupo (~${cohortSize || 0})` : 'Comparando VS toda la comunidad'}
-           </p>
+        <div className="hidden sm:block">
+           <h3 className="text-[10px] md:text-sm font-black text-white uppercase tracking-widest leading-none">Cohorte</h3>
+           {isFiltered && (
+               <p className="text-[8px] md:text-[10px] text-indigo-300 font-bold tracking-widest mt-0.5 uppercase">
+                 Vs ~{cohortSize || 0}
+               </p>
+           )}
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
+      {/* Selectores */}
+      <div className="flex flex-nowrap items-center gap-1.5 md:gap-2 overflow-x-auto hide-scrollbar shrink">
         {/* Filtro Género */}
         <select 
-          className="bg-surface2/80 hover:bg-surface border-none rounded-xl px-4 py-2 text-[13px] font-bold text-ink focus:ring-2 focus:ring-primary/20 outline-none transition-colors cursor-pointer appearance-none"
+          className="bg-white/5 hover:bg-white/10 border border-white/5 rounded-full px-3 py-1.5 md:px-4 md:py-2 text-[11px] md:text-[13px] font-bold text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition-colors cursor-pointer appearance-none text-center whitespace-nowrap min-w-max"
           value={filters.gender || ''}
           onChange={e => updateFilter('gender', e.target.value || null)}
         >
-          <option value="">Cualquier Género</option>
-          <option value="male">Hombres</option>
-          <option value="female">Mujeres</option>
-          <option value="other">Otro</option>
+          <option value="" className="text-ink">Género</option>
+          <option value="male" className="text-ink">Hombres</option>
+          <option value="female" className="text-ink">Mujeres</option>
+          <option value="other" className="text-ink">Otro</option>
         </select>
 
         {/* Filtro Edad */}
         <select 
-          className="bg-surface2/80 hover:bg-surface border-none rounded-xl px-4 py-2 text-[13px] font-bold text-ink focus:ring-2 focus:ring-primary/20 outline-none transition-colors cursor-pointer appearance-none"
+          className="bg-white/5 hover:bg-white/10 border border-white/5 rounded-full px-3 py-1.5 md:px-4 md:py-2 text-[11px] md:text-[13px] font-bold text-white focus:ring-2 focus:ring-indigo-500/50 outline-none transition-colors cursor-pointer appearance-none text-center whitespace-nowrap min-w-max"
           value={filters.ageRange || ''}
           onChange={e => updateFilter('ageRange', e.target.value || null)}
         >
-          <option value="">Cualquier Edad</option>
-          <option value="18-24">18-24 años</option>
-          <option value="25-34">25-34 años</option>
-          <option value="35-44">35-44 años</option>
-          <option value="45+">45+ años</option>
+          <option value="" className="text-ink">Edad</option>
+          <option value="18-24" className="text-ink">18-24</option>
+          <option value="25-34" className="text-ink">25-34</option>
+          <option value="35-44" className="text-ink">35-44</option>
+          <option value="45+" className="text-ink">45+</option>
         </select>
 
-        {/* Filtro Tiempo */}
-        <select 
-          className="bg-surface2/80 hover:bg-surface border-none rounded-xl px-4 py-2 text-[13px] font-bold text-ink focus:ring-2 focus:ring-primary/20 outline-none transition-colors cursor-pointer appearance-none"
-          value={filters.period || 'all'}
-          onChange={e => updateFilter('period', e.target.value)}
-        >
-          <option value="all">Histórico</option>
-          <option value="30d">Últimos 30 días</option>
-          <option value="7d">Últimos 7 días</option>
-        </select>
+        {/* Desactivado Filtro Histórico para ahorro de espacio, se enfoca en demografía p/cohorte */}
+      </div>
 
-        {isFiltered && (
+      {/* Acciones */}
+      <div className="flex shrink-0 pr-1 md:pr-2">
+        {isFiltered ? (
           <button 
              onClick={clearFilters}
-             className="ml-2 w-8 h-8 flex items-center justify-center rounded-full bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
+             className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors"
              title="Limpiar filtros"
           >
-             <X className="w-4 h-4" />
+             <X className="w-4 h-4 md:w-5 md:h-5" />
           </button>
+        ) : (
+          <div className="w-8 md:w-10 h-1 flex items-center justify-center"></div>
         )}
       </div>
 
+      {/* Advertencia Privacidad */}
       {privacyBlocked && (
-         <div className="absolute -bottom-10 left-0 right-0 max-w-xl mx-auto flex items-center justify-center gap-2 py-1.5 px-4 bg-amber-500/10 border border-amber-500/20 text-amber-700 rounded-lg shadow-sm">
-             <span className="material-symbols-outlined text-[16px]">info</span>
-             <p className="text-[11px] font-bold">Filtro demasiado estrecho. Amplíalo para garantizar un cohorte seguro y desbloquear los datos.</p>
+         <div className="absolute bottom-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-max max-w-[90vw] flex items-center justify-center gap-2 py-2 px-4 bg-amber-500 border border-amber-400 text-amber-950 rounded-full shadow-lg">
+             <span className="material-symbols-outlined text-[14px]">warning</span>
+             <p className="text-[10px] md:text-[11px] font-black uppercase tracking-wider">Filtro demasiado estrecho. Amplíalo.</p>
          </div>
       )}
     </div>

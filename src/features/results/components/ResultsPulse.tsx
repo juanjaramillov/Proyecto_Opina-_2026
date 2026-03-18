@@ -31,56 +31,70 @@ export function ResultsPulse() {
       subtitle: "Caída de participación generalizada."
     }
   ];
-
   return (
-    <div className="w-full flex-col mt-4 lg:mt-8 mb-16 relative">
-       {/* Sección Header */}
-       <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
-          <div className="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center shadow-lg">
-             <Activity className="w-6 h-6 text-white" />
+    <div className="w-full mt-8 lg:mt-16 mb-24 relative">
+       {/* Sección Header Minimalista */}
+       <div className="flex flex-col md:w-1/3 mb-12 lg:mb-20 px-4 md:px-0">
+          <div className="flex items-center gap-3 mb-2">
+              <Activity className="w-5 h-5 text-ink" />
+              <h2 className="text-sm font-black uppercase tracking-[0.2em] text-ink">Pulso del Momento</h2>
           </div>
-          <div>
-              <h2 className="text-2xl md:text-3xl font-black text-ink tracking-tight flex items-center gap-2">Pulso del Momento</h2>
-              <p className="text-base font-medium text-text-secondary mt-1">Qué está moviendo a la comunidad ahora mismo.</p>
-          </div>
+          <p className="text-3xl font-black text-ink leading-tight tracking-tight">Qué está dictando la agenda de la red.</p>
        </div>
 
-       {/* Carrusel / Grid de Tarjetas de Tendencia */}
-       {/* En mobile, scroll horizontal (snap), en desktop grid */}
-       <div className="w-full relative">
-           <div className="flex overflow-x-auto lg:grid lg:grid-cols-3 gap-4 md:gap-6 pb-6 lg:pb-0 snap-x snap-mandatory hide-scrollbar">
-              {insights.map(item => (
+       {/* Lista Brutalista Edge-to-Edge */}
+       <div className="w-full flex justify-center bg-white border-t-2 border-ink">
+          <div className="w-full max-w-[1200px] flex flex-col">
+              {insights.map((item) => {
+                 const bgHoverColor = item.type === 'hot' 
+                    ? 'bg-rose-50' 
+                    : item.type === 'growing' 
+                        ? 'bg-emerald-50' 
+                        : 'bg-amber-50';
+                 
+                 const textColorClass = item.type === 'hot' 
+                    ? 'group-hover:text-rose-600' 
+                    : item.type === 'growing' 
+                        ? 'group-hover:text-emerald-600' 
+                        : 'group-hover:text-amber-600';
+
+                 return (
                  <div 
                      key={item.id} 
-                     className="min-w-[300px] sm:min-w-[360px] lg:min-w-0 min-h-[280px] md:min-h-[320px] snap-start bg-white border border-stroke rounded-[2rem] md:rounded-[2.5rem] p-8 flex flex-col justify-between shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group"
+                     className="group flex flex-col md:flex-row md:items-center justify-between py-12 md:py-16 px-4 md:px-8 border-b border-stroke relative overflow-hidden transition-colors duration-500 hover:bg-surface2/50 cursor-default"
                  >
-                     {/* Fondo inmersivo temático */}
-                     <div className={`absolute inset-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 pointer-events-none ${item.type === 'hot' ? 'bg-[radial-gradient(circle_at_top_right,theme(colors.rose.500),transparent_70%)]' : item.type === 'growing' ? 'bg-[radial-gradient(circle_at_top_right,theme(colors.emerald.500),transparent_70%)]' : 'bg-[radial-gradient(circle_at_top_right,theme(colors.amber.500),transparent_70%)]'}`} />
+                     {/* Fondo Reactivo */}
+                     <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none -z-10 ${bgHoverColor}`}></div>
                      
-                     <div className="flex items-start justify-between mb-8 relative z-10">
-                        <div className="flex items-center gap-3">
-                           <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.type === 'hot' ? 'bg-rose-50 text-rose-500' : item.type === 'growing' ? 'bg-emerald-50 text-emerald-500' : 'bg-amber-50 text-amber-500'}`}>
+                     {/* Metadata Lateral */}
+                     <div className="flex flex-col md:w-1/4 mb-6 md:mb-0 relative z-10">
+                        <div className="flex items-center gap-3 mb-4">
+                           <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${item.type === 'hot' ? 'border-rose-200 text-rose-500 bg-white' : item.type === 'growing' ? 'border-emerald-200 text-emerald-500 bg-white' : 'border-amber-200 text-amber-500 bg-white'}`}>
                                {item.icon}
                            </div>
-                           <span className="text-xs font-black uppercase tracking-[0.2em] text-text-muted">{item.title}</span>
+                           <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-text-secondary">{item.title}</span>
                         </div>
-                        <span className="bg-surface border border-stroke text-ink font-black text-lg md:text-xl px-4 py-1.5 rounded-xl shadow-sm">
-                           {item.metric}
-                        </span>
+                        <p className="text-xs md:text-sm font-semibold text-text-muted max-w-[200px]">{item.subtitle}</p>
                      </div>
                      
-                     <div className="relative z-10 mt-auto">
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-ink leading-[1.1] mb-3 md:mb-4 pr-4 tracking-tight">{item.entityName}</h3>
-                        <p className="text-sm md:text-base font-medium text-text-secondary max-w-[90%]">{item.subtitle}</p>
+                     {/* Titular Masivo Brutalista */}
+                     <div className="md:w-1/2 relative z-10 flex">
+                        <h3 className={`text-5xl md:text-6xl lg:text-[80px] font-black text-ink leading-[0.9] tracking-tighter uppercase transition-colors duration-500 ${textColorClass}`}>
+                           {item.entityName}
+                        </h3>
+                     </div>
 
-                        {/* Progress bar visual for impact masivo */}
-                        <div className="w-full h-2 md:h-2.5 bg-surface rounded-full mt-8 overflow-hidden">
-                           <div className={`h-full rounded-full ${item.type === 'hot' ? 'bg-rose-500' : item.type === 'growing' ? 'bg-emerald-500' : 'bg-amber-500'} opacity-80 group-hover:opacity-100 transition-all duration-700 ease-out`} style={{ width: item.type === 'hot' ? '50%' : item.type === 'growing' ? '89%' : '30%' }}></div>
+                     {/* Métrica / Impacto Lateral Derecho */}
+                     <div className="flex flex-col md:w-1/4 items-start md:items-end mt-8 md:mt-0 relative z-10">
+                        <span className="text-sm font-black uppercase tracking-[0.2em] text-text-secondary mb-2 hidden md:block">Impacto</span>
+                        <div className="flex items-baseline gap-1">
+                           <span className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-ink">{item.metric}</span>
                         </div>
                      </div>
                  </div>
-              ))}
-           </div>
+                 );
+              })}
+          </div>
        </div>
     </div>
   );

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { trackEvent } from "../../../services/analytics/trackEvent";
 import { FilterBar } from "../components/hub/FilterBar";
 import { TransversalComparator } from "../components/hub/TransversalComparator";
-import { RealTimelineChart } from "../components/RealTimelineChart";
 
 import { useResultsExperience } from "../hooks/useResultsExperience";
 import { ResultsHeroFactual } from "../components/ResultsHeroFactual";
@@ -32,21 +31,21 @@ export default function ResultsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent relative w-full mb-12">
-      <div className="max-w-[1200px] mx-auto px-4 py-6 relative text-ink">
-        
-        {/* BLOQUE 1: HERO FACTUAL COMPACTO */}
-        <ResultsHeroFactual snapshot={snapshot} />
+    <div className="min-h-screen bg-transparent relative w-full mb-0 overflow-x-hidden">
+      
+      {/* BLOQUE 1: HERO FACTUAL EXPANSIVO (FULL-BLEED) */}
+      <ResultsHeroFactual snapshot={snapshot} />
 
-        {/* BLOQUE 2: COMPARADOR "TÚ VS LA COMUNIDAD" (REY MASIVO) */}
-        <div className="-mx-4 sm:mx-0 mb-20 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
-             <TransversalComparator 
-                snapshot={snapshot} 
-                loading={loading}
-                onClearFilter={() => setFilters({})}
-             />
-        </div>
+      {/* BLOQUE 2: COMPARADOR "TÚ VS LA COMUNIDAD" (REY FULL-BLEED) */}
+      <div className="w-full mb-20 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+           <TransversalComparator 
+              snapshot={snapshot} 
+              loading={loading}
+              onClearFilter={() => setFilters({})}
+           />
+      </div>
 
+      <div className="max-w-[1200px] mx-auto px-4 relative text-ink">
         {/* BLOQUE 3: PULSO DEL MOMENTO */}
         <ResultsPulse />
 
@@ -55,8 +54,7 @@ export default function ResultsPage() {
            <ResultsEcosystem snapshot={snapshot} />
         </div>
 
-        {/* BLOQUE 5: FILTROS (ESCONDIDO O REPOSICIONADO TEMPORALMENTE) */}
-        {/* Según la nueva arquitectura, los filtros sirven para segmentar la vista. */}
+        {/* BLOQUE 5: FILTROS */}
         <div className="mb-16 sticky top-[68px] z-40">
                <FilterBar 
                  filters={filters} 
@@ -66,22 +64,13 @@ export default function ResultsPage() {
                  privacyBlocked={snapshot.cohortState.privacyState === 'insufficient_cohort'}
                />
         </div>
+      </div>
 
-        {/* BLOQUE 6: PROGRESIÓN Y CIERRE */}
-        <div className="mb-8 bg-surface2/30 rounded-[2rem] p-8 border border-stroke/50 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 relative">
-              {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
-              <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Tu Ruta de Enganche Activo</h2>
-              <RealTimelineChart 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
-                loading={loading} 
-              />
-        </div>
+      {/* BLOQUE 6: PROGRESIÓN Y CIERRE FULL-BLEED */}
+      <ResultsProgression snapshot={snapshot} />
 
-        {/* BLOQUE 6B: CTA FINAL CON PROGRESIÓN */}
-        <ResultsProgression snapshot={snapshot} />
-
-        <p className="text-center text-[10px] text-slate-400 mt-4 mb-8 font-medium px-4">
+      <div className="max-w-[1200px] mx-auto px-4 pb-12">
+        <p className="text-center text-[10px] text-slate-400 font-medium">
             Opina+ refleja las preferencias declaradas de sus usuarios activos y no constituye una muestra estadística representativa de la población general.
         </p>
       </div>

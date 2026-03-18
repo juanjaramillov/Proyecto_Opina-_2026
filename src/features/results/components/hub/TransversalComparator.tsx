@@ -1,4 +1,4 @@
-import { Activity, Clock, Globe2, Target, Users, UserRound } from 'lucide-react';
+import { Activity, Globe2, Target, Users, UserRound } from 'lucide-react';
 import { MasterHubSnapshot, VersusModuleResult } from '../../../../read-models/b2c/hub-types';
 import { UserComparisonInsight } from '../../../../read-models/types';
 import { MomentumBar } from '../MomentumBar';
@@ -77,112 +77,128 @@ export function TransversalComparator({ snapshot, loading, onClearFilter }: Tran
       : `Eres partícipe de la minoría disidente en un ${100 - alignmentScore}% de los casos.`;
 
   return (
-    <div className="w-full bg-slate-900 border-none sm:border sm:border-slate-800 sm:rounded-[3rem] md:rounded-[4rem] p-8 pt-12 pb-10 md:p-16 lg:p-24 shadow-2xl text-white relative overflow-hidden flex flex-col">
-      {/* Fondo inmersivo sobrio premium */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-black pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_60%)] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.05),transparent_60%)] pointer-events-none" />
-
-      {/* Encabezado Factual */}
-      <div className="mb-4 text-center relative z-10">
-        <h2 className="text-[11px] md:text-sm font-black uppercase tracking-[0.25em] text-slate-400 mb-6 flex items-center justify-center gap-3">
-           <Activity className="w-5 h-5 text-primary" />
-           Tú vs La Comunidad
-        </h2>
+    <div className="w-full bg-slate-950 py-16 md:py-24 relative overflow-hidden flex flex-col min-h-[85vh] lg:min-h-[100vh]">
+      {/* Fondos y Luces Radiales Masivas */}
+      <div className="absolute inset-0 pointer-events-none">
+          {/* Luz principal según score */}
+          <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-[150vw] md:w-[1000px] h-[75vw] md:h-[500px] opacity-20 blur-[100px] rounded-t-full transition-colors duration-1000 ${alignmentScore >= 50 ? 'bg-emerald-500' : 'bg-amber-500'}`}></div>
+          {/* Malla oscura sutil de fondo */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]"></div>
       </div>
 
-      {/* Score Comparativo Central MASIVO (< 2 segundos de lectura) */}
-      <div className="flex-1 flex flex-col items-center justify-center py-10 md:py-16 relative z-10 w-full">
-         <div className="relative w-64 h-64 md:w-[360px] md:h-[360px] flex items-center justify-center mb-8 md:mb-12">
-            <svg className="absolute inset-0 w-full h-full -rotate-90 drop-shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-               {/* Background Circle */}
-               <circle cx="50%" cy="50%" r="46%" fill="transparent" stroke="currentColor" strokeWidth="6" className="text-slate-800" />
-               {/* Foreground Circle */}
-               <circle 
-                  cx="50%" cy="50%" r="46%" 
-                  fill="transparent" 
-                  stroke="currentColor" 
-                  strokeWidth="8" 
-                  className={alignmentScore >= 50 ? "text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]" : "text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]"} 
-                  strokeDasharray="289" 
-                  strokeDashoffset={289 - (289 * alignmentScore) / 100} 
-                  strokeLinecap="round" 
+      {/* Encabezado Factual Superior */}
+      <div className="w-full max-w-[1200px] mx-auto px-6 relative z-20 text-center mb-12 lg:mb-0">
+        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-slate-900 border border-slate-800 text-xs md:text-sm font-black uppercase tracking-[0.2em] text-slate-400 shadow-2xl mb-8">
+           <Activity className="w-4 h-4 text-white" />
+           Tú vs La Comunidad
+        </div>
+        
+        {/* Frase Factual arriba del gráfico */}
+        <h3 className="text-4xl md:text-6xl lg:text-7xl font-black text-white text-balance max-w-4xl mx-auto leading-[1.05] tracking-tighter mb-4 drop-shadow-2xl">
+            {factualInsight}
+        </h3>
+      </div>
+
+      {/* MEDIDOR RADIAL GIGANTE (Semicírculo desde abajo) */}
+      <div className="flex-1 w-full flex flex-col justify-end items-center relative z-10 mt-12 md:mt-24 pointer-events-none">
+         <div className="relative w-[120vw] h-[60vw] md:w-[800px] md:h-[400px] flex items-end justify-center overflow-hidden">
+            <svg 
+               className={`absolute bottom-0 w-full h-[200%] md:h-[800px] origin-bottom transition-all duration-1000 ease-out ${alignmentScore >= 50 ? 'drop-shadow-[0_0_40px_rgba(16,185,129,0.3)] text-emerald-500' : 'drop-shadow-[0_0_40px_rgba(251,191,36,0.3)] text-amber-500'}`}
+               viewBox="0 0 100 100"
+            >
+               {/* Background Arc */}
+               <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="2" strokeOpacity="0.1" strokeLinecap="round" />
+               <path d="M 12 50 A 38 38 0 0 1 88 50" fill="none" stroke="currentColor" strokeWidth="4" strokeOpacity="0.2" strokeLinecap="round" />
+               
+               {/* Foreground Score Arc */}
+               <path 
+                 d="M 12 50 A 38 38 0 0 1 88 50" 
+                 fill="none" 
+                 stroke="currentColor" 
+                 strokeWidth="6"
+                 strokeLinecap="round"
+                 strokeDasharray="119.38" // half circumference of r=38
+                 strokeDashoffset={119.38 - (119.38 * alignmentScore) / 100}
+                 className="transition-all duration-1500 ease-[cubic-bezier(0.2,1,0.2,1)]"
                />
             </svg>
-            <div className="flex flex-col items-center text-center">
-               <span className="text-7xl md:text-[100px] font-black tracking-tighter leading-none [text-shadow:0_0_40px_rgba(255,255,255,0.2)]">{alignmentScore}%</span>
-               <span className="text-[12px] md:text-sm font-bold uppercase tracking-[0.2em] text-slate-400 mt-4">Nivel de Alineación</span>
+            
+            {/* Texto de Porcentaje Masivo (Centrado en la base del arco) */}
+            <div className="absolute bottom-4 md:bottom-12 flex flex-col items-center">
+               <span className="text-[80px] md:text-[140px] font-black tracking-tighter leading-none text-white [text-shadow:0_0_80px_rgba(255,255,255,0.4)]">
+                 {alignmentScore}%
+               </span>
+               <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-slate-400 mt-2 md:mt-4">
+                 Alineación Global
+               </span>
             </div>
          </div>
-         <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-balance text-center max-w-3xl leading-[1.1] tracking-tight">
-            {factualInsight}
-         </h3>
       </div>
 
-      {/* Barras Comparativas de Soporte */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4 mb-10 relative z-10 w-full">
-         
-         {/* Zona de Consenso */}
-         {hasCoincidences && (
-         <div className="bg-slate-800/20 border border-slate-700/50 rounded-[2rem] p-8 md:p-10 flex flex-col gap-6 backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-2">
-               <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-emerald-500/20">
-                  <Users className="w-5 h-5" />
-               </div>
-               <span className="text-sm uppercase tracking-[0.15em] font-black text-slate-300">Alineado al Consenso</span>
-            </div>
-            {coincidences.slice(0, 2).map((item, idx) => (
-                <div key={`coin-${idx}`} className="flex flex-col mb-2 scale-105 origin-left">
-                   <MomentumBar 
-                       entityAName={item.entityName}
-                       entityBName="Resto"
-                       scoreA={item.preferenceShare}
-                       scoreB={100 - item.preferenceShare}
-                       trendA="up"
-                   />
+      {/* Zona Inferior: Modulos de Consenso y Disidencia */}
+      <div className="w-full max-w-[1200px] mx-auto px-6 relative z-20 -mt-8 md:-mt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
+             
+             {/* Consenso */}
+             {hasCoincidences && (
+             <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 md:p-10 flex flex-col gap-5 relative overflow-hidden group hover:border-slate-700 transition-colors">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-16 -mt-16 group-hover:bg-emerald-500/20 transition-colors"></div>
+                <div className="flex items-center gap-3 relative z-10">
+                   <Users className="w-5 h-5 text-emerald-400" />
+                   <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-black text-slate-300">Consenso Principal</span>
                 </div>
-            ))}
-         </div>
-         )}
-         
-         {/* Zona de Disidencia */}
-         {hasDiscrepancies && (
-         <div className="bg-slate-800/20 border border-slate-700/50 rounded-[2rem] p-8 md:p-10 flex flex-col gap-6 backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-2">
-               <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 border border-amber-500/20">
-                  <UserRound className="w-5 h-5" />
-               </div>
-               <span className="text-sm uppercase tracking-[0.15em] font-black text-slate-300">Marcada Disidencia</span>
-            </div>
-            {discrepancies.slice(0, 2).map((item, idx) => (
-                <div key={`disc-${idx}`} className="flex flex-col mb-2 scale-105 origin-left">
-                    <MomentumBar 
-                       entityAName={item.entityName}
-                       entityBName="Resto"
-                       scoreA={item.preferenceShare}
-                       scoreB={100 - item.preferenceShare}
-                       trendA="down"
-                    />
+                <div className="space-y-3 relative z-10">
+                   {coincidences.slice(0, 2).map((item, idx) => (
+                       <MomentumBar 
+                           key={`coin-${idx}`}
+                           entityAName={item.entityName}
+                           entityBName="Resto"
+                           scoreA={item.preferenceShare}
+                           scoreB={100 - item.preferenceShare}
+                           trendA="up"
+                       />
+                   ))}
                 </div>
-            ))}
-         </div>
-         )}
-      </div>
+             </div>
+             )}
 
-      {/* Métricas de Confianza (Repetidas según Regla) */}
-      <div className="pt-8 border-t border-slate-800/50 flex flex-wrap items-center justify-center gap-4 relative z-10 w-full max-w-4xl mx-auto">
-         <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/60 rounded-xl text-xs font-bold text-slate-300 uppercase tracking-widest backdrop-blur-sm">
-             <Target className="w-4 h-4 text-primary" />
-             <span>Muestra: {snapshot.overview?.totalSignals || 14500}</span>
-         </div>
-         <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/60 rounded-xl text-xs font-bold text-slate-300 uppercase tracking-widest backdrop-blur-sm">
-             <Clock className="w-4 h-4 text-emerald-500" />
-             <span>Últimos 7 días</span>
-         </div>
-         <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/60 rounded-xl text-xs font-bold text-slate-300 uppercase tracking-widest backdrop-blur-sm">
-             <Globe2 className="w-4 h-4 text-blue-400" />
-             <span>{isFiltered ? 'Filtro Activo' : 'Comunidad Global'}</span>
-         </div>
+             {/* Disidencia */}
+             {hasDiscrepancies && (
+             <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 md:p-10 flex flex-col gap-5 relative overflow-hidden group hover:border-slate-700 transition-colors mt-4 lg:mt-0">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl -mr-16 -mt-16 group-hover:bg-amber-500/20 transition-colors"></div>
+                <div className="flex items-center gap-3 relative z-10">
+                   <UserRound className="w-5 h-5 text-amber-400" />
+                   <span className="text-xs md:text-sm uppercase tracking-[0.2em] font-black text-slate-300">Zona de Disidencia</span>
+                </div>
+                <div className="space-y-3 relative z-10">
+                   {discrepancies.slice(0, 2).map((item, idx) => (
+                       <MomentumBar 
+                           key={`disc-${idx}`}
+                           entityAName={item.entityName}
+                           entityBName="Resto"
+                           scoreA={item.preferenceShare}
+                           scoreB={100 - item.preferenceShare}
+                           trendA="down"
+                       />
+                   ))}
+                </div>
+             </div>
+             )}
+          </div>
+
+          {/* Filtros Contextuales Activos */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-12 opacity-60 hover:opacity-100 transition-opacity">
+             <div className="flex items-center gap-2 px-3 py-1.5 border border-slate-800 rounded-lg text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                 <Target className="w-3.5 h-3.5" />
+                 <span>{snapshot.overview?.totalSignals || 14500} Señales</span>
+             </div>
+             {isFiltered && (
+                 <div className="flex items-center gap-2 px-3 py-1.5 border border-indigo-900/50 bg-indigo-900/20 rounded-lg text-[10px] font-bold text-indigo-300 uppercase tracking-widest">
+                     <Globe2 className="w-3.5 h-3.5" />
+                     <span>Filtro Cohorte Activo</span>
+                 </div>
+             )}
+          </div>
       </div>
     </div>
   );
