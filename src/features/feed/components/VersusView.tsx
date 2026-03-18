@@ -16,9 +16,10 @@ interface VersusViewProps {
     battles: Battle[];
     batchIndex: number;
     onBatchComplete: (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number; }>) => void;
+    onBack: () => void;
 }
 
-export default function VersusView({ battles, batchIndex, onBatchComplete }: VersusViewProps) {
+export default function VersusView({ battles, batchIndex, onBatchComplete, onBack }: VersusViewProps) {
     const { profile } = useAuth();
     const { signalsToday } = useSignalStore();
     const { showToast } = useToast();
@@ -164,9 +165,13 @@ export default function VersusView({ battles, batchIndex, onBatchComplete }: Ver
                 {/* STICKY HEADER: Session Progress */}
                 <div className={`sticky top-0 z-50 w-full px-4 md:max-w-6xl md:mx-auto py-3 backdrop-blur-xl border-b shadow-sm flex items-center justify-between transition-colors duration-1000 ${isGoldenHour ? 'bg-gradient-to-r from-amber-500/90 to-orange-500/90 border-amber-400' : 'bg-white/80 border-slate-200/50'}`}>
                     <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isGoldenHour ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary'}`}>
-                            <span className="material-symbols-outlined text-sm font-bold">tune</span>
-                        </div>
+                        <button 
+                            onClick={onBack}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform active:scale-90 ${isGoldenHour ? 'bg-white/20 text-white hover:bg-white/30' : 'bg-primary/10 text-primary hover:bg-primary/20'}`}
+                            title="Volver al menú"
+                        >
+                            <span className="material-symbols-outlined text-sm font-bold">arrow_back</span>
+                        </button>
                         <div>
                             <h3 className={`text-xs font-black uppercase tracking-widest flex items-center gap-1 ${isGoldenHour ? 'text-white' : 'text-ink'}`}>
                                 Modo Filtrado

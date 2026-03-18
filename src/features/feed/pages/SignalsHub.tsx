@@ -380,6 +380,60 @@ export default function SignalsHub() {
         );
     }
 
+    // Ruta a "Versus Especializado"
+    if (mode === "versus") {
+        return (
+            <div className="w-full relative min-h-[100vh]">
+                <ModuleErrorBoundary moduleName="Versus (Especializado)">
+                    <VersusView battles={(battles as unknown as Battle[])} batchIndex={batchIndex} onBatchComplete={handleBatchComplete} onBack={resetToMenu} />
+                </ModuleErrorBoundary>
+
+                <BatchSessionResults 
+                    showBatchResults={showBatchResults}
+                    batchSessionHistory={batchSessionHistory}
+                    batchIndex={batchIndex}
+                    onClose={() => setShowBatchResults(false)}
+                />
+            </div>
+        );
+    }
+
+    // Ruta a "Torneo Progresivo"
+    if (mode === "torneo") {
+        return (
+            <div className="w-full relative min-h-[100vh]">
+                <ModuleErrorBoundary moduleName="Torneo">
+                    <TorneoView battles={(battles as unknown as Battle[])} onBack={resetToMenu} />
+                </ModuleErrorBoundary>
+
+                <BatchSessionResults 
+                    showBatchResults={showBatchResults}
+                    batchSessionHistory={batchSessionHistory}
+                    batchIndex={batchIndex}
+                    onClose={() => setShowBatchResults(false)}
+                />
+            </div>
+        );
+    }
+
+    // Ruta a "Profundidad"
+    if (mode === "profundidad") {
+        return (
+            <div className="w-full relative min-h-[100vh]">
+                <ModuleErrorBoundary moduleName="Profundidad">
+                    <ProfundidadView battles={(battles as unknown as Battle[])} onClose={resetToMenu} />
+                </ModuleErrorBoundary>
+                
+                <BatchSessionResults 
+                    showBatchResults={showBatchResults}
+                    batchSessionHistory={batchSessionHistory}
+                    batchIndex={batchIndex}
+                    onClose={() => setShowBatchResults(false)}
+                />
+            </div>
+        );
+    }
+
     // Rutas Secundarias Dinámicas (Entradas por Triggers / URL Deep Links)
     return (
         <div className="container-ws pb-24 pt-4 md:pt-8 space-y-6">
@@ -394,24 +448,6 @@ export default function SignalsHub() {
                         Volver al Hub
                     </button>
                 </div>
-            )}
-
-            {mode === "versus" && (
-                <ModuleErrorBoundary moduleName="Versus (Especializado)">
-                     <VersusView battles={(battles as unknown as Battle[])} batchIndex={batchIndex} onBatchComplete={handleBatchComplete} />
-                </ModuleErrorBoundary>
-            )}
-
-            {mode === "torneo" && (
-                <ModuleErrorBoundary moduleName="Torneo">
-                    <TorneoView battles={(battles as unknown as Battle[])} />
-                </ModuleErrorBoundary>
-            )}
-
-            {mode === "profundidad" && (
-                <ModuleErrorBoundary moduleName="Profundidad">
-                    <ProfundidadView battles={(battles as unknown as Battle[])} onClose={resetToMenu} />
-                </ModuleErrorBoundary>
             )}
 
             {mode === "actualidad" && (
