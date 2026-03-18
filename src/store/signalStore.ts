@@ -101,7 +101,6 @@ export const useSignalStore = create<SignalState & SignalActions>()(
             },
 
             consumeSessionSignal: () => {
-                const state = get();
                 get().checkCooldown(); // always check first
 
                 const currentState = get();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface TensionRingProps {
     valueA: number; // Porcentaje de 0 a 100

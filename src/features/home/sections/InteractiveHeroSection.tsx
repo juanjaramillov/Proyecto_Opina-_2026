@@ -59,11 +59,11 @@ export default function InteractiveHeroSection() {
                 <div className="absolute inset-0 flex items-center justify-center transform-style-3d">
                     {/* Superficie base (Malla de energía) rediseñada MUCHO más sutil y profunda (3D) */}
                     <div 
-                        className="absolute w-[150%] h-[150%] bg-[linear-gradient(to_right,#3b82f6_1px,transparent_1px),linear-gradient(to_bottom,#10b981_1px,transparent_1px)] bg-[size:50px_50px] opacity-10 animate-[pulse_6s_ease-in-out_infinite]"
+                        className="absolute w-[150%] h-[150%] bg-[linear-gradient(to_right,#3b82f6_1.5px,transparent_1.5px),linear-gradient(to_bottom,#10b981_1.5px,transparent_1.5px)] bg-[size:50px_50px] opacity-[0.15] animate-[pulse_6s_ease-in-out_infinite]"
                         style={{ 
                             transform: 'rotateX(75deg) rotateZ(-45deg) translateZ(-50px)',
-                            maskImage: 'radial-gradient(circle at center, black 0%, transparent 50%)', 
-                            WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 50%)' 
+                            maskImage: 'radial-gradient(circle at center, black 5%, transparent 60%)', 
+                            WebkitMaskImage: 'radial-gradient(circle at center, black 5%, transparent 60%)' 
                         }}
                     ></div>
 
