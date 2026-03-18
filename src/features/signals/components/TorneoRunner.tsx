@@ -230,19 +230,9 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                 </div>
 
                 <div className={`relative w-full mx-auto transition-opacity duration-300 ${isVoting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
-                    {/* VS Badge - Unificado Corporativo Opina+ */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none">
-                        <motion.div
-                            key={round}
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            className="h-20 w-20 md:h-24 md:w-24 bg-gradient-brand rounded-full border-[6px] md:border-8 border-white shadow-[0_25px_65px_rgba(37,99,235,0.35)] flex items-center justify-center"
-                        >
-                            <span className="relative text-2xl md:text-3xl font-black tracking-tighter text-white italic drop-shadow-md">VS</span>
-                        </motion.div>
-                    </div>
+                    {/* VS badge central eliminado por lineamientos de copy corporativo, igual que en Versus */}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-stretch">
+                    <div className="grid grid-cols-2 gap-3 md:gap-8 lg:gap-10 relative z-20 items-stretch">
                         {/* Left Option */}
                         <AnimatePresence mode="popLayout">
                             <motion.div
