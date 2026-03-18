@@ -1,18 +1,16 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { trackEvent } from "../../../services/analytics/trackEvent";
 import { FilterBar } from "../components/hub/FilterBar";
 import { TransversalComparator } from "../components/hub/TransversalComparator";
 import { RealTimelineChart } from "../components/RealTimelineChart";
-import { NextActionRecommendation } from "../../../components/ui/NextActionRecommendation";
 
 import { useResultsExperience } from "../hooks/useResultsExperience";
-import { ResultsHero } from "../components/ResultsHero";
-import { ResultsCrossSummary } from "../components/ResultsCrossSummary";
-import { GeneralTrends } from "../components/hub/GeneralTrends";
+import { ResultsHeroFactual } from "../components/ResultsHeroFactual";
+import { ResultsPulse } from "../components/ResultsPulse";
+import { ResultsEcosystem } from "../components/ResultsEcosystem";
+import { ResultsProgression } from "../components/ResultsProgression";
 
 export default function ResultsPage() {
-  const nav = useNavigate();
 
   useEffect(() => {
     trackEvent('user_opened_results');
@@ -34,31 +32,32 @@ export default function ResultsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent relative z-10 w-full mb-12">
-      <div className="max-w-6xl mx-auto px-4 py-6 relative text-ink">
+    <div className="min-h-screen bg-transparent relative w-full mb-12">
+      <div className="max-w-[1200px] mx-auto px-4 py-6 relative text-ink">
         
-        <ResultsHero snapshot={snapshot} />
-        
-        {/* NIVEL 1: VISTA GENERAL */}
-        <div className="mb-24">
-            <GeneralTrends />
+        {/* BLOQUE 1: HERO FACTUAL COMPACTO */}
+        <ResultsHeroFactual snapshot={snapshot} />
+
+        {/* BLOQUE 2: COMPARADOR "TÚ VS LA COMUNIDAD" (REY) */}
+        <div className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+             <TransversalComparator 
+                snapshot={snapshot} 
+                loading={loading}
+                onClearFilter={() => setFilters({})}
+             />
         </div>
 
-        {/* NIVEL 2: VISTA PERSONAL Y COMPARATIVA */}
-        <div className="mb-24 relative">
-            <div className="flex items-center gap-3 mb-8 px-2">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 shadow-sm">
-                    <span className="material-symbols-outlined text-[20px] text-primary">person_search</span>
-                </div>
-                <div>
-                    <h2 className="text-2xl lg:text-3xl font-black text-ink tracking-tight">Tu Impacto <span className="text-gradient-brand">vs El Resto</span></h2>
-                    <p className="text-text-secondary text-sm font-medium">Descubre si navegas con el consenso o si eres un disidente.</p>
-                </div>
-            </div>
+        {/* BLOQUE 3: PULSO DEL MOMENTO */}
+        <ResultsPulse />
 
-            <ResultsCrossSummary snapshot={snapshot} loading={loading} />
+        {/* BLOQUE 4: ECOSISTEMA (MODULOS) */}
+        <div className="mb-24 relative animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
+           <ResultsEcosystem snapshot={snapshot} />
+        </div>
 
-            <div className="mb-4 sticky top-[68px] z-40">
+        {/* BLOQUE 5: FILTROS (ESCONDIDO O REPOSICIONADO TEMPORALMENTE) */}
+        {/* Según la nueva arquitectura, los filtros sirven para segmentar la vista. */}
+        <div className="mb-16 sticky top-[68px] z-40">
                <FilterBar 
                  filters={filters} 
                  onChange={setFilters} 
@@ -66,17 +65,10 @@ export default function ResultsPage() {
                  cohortSize={snapshot.cohortState.cohortSize}
                  privacyBlocked={snapshot.cohortState.privacyState === 'insufficient_cohort'}
                />
-            </div>
+        </div>
 
-            <div className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200 relative">
-              <TransversalComparator 
-                snapshot={snapshot} 
-                loading={loading}
-                onClearFilter={() => setFilters({})}
-              />
-            </div>
-
-            <div className="mb-16 bg-surface2/30 rounded-[2rem] p-8 border border-stroke/50 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 relative">
+        {/* BLOQUE 6: PROGRESIÓN Y CIERRE */}
+        <div className="mb-8 bg-surface2/30 rounded-[2rem] p-8 border border-stroke/50 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 relative">
               {loading && <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 rounded-3xl"></div>}
               <h2 className="text-xl font-black text-ink mb-6 px-2 tracking-tight">Tu Ruta de Enganche Activo</h2>
               <RealTimelineChart 
@@ -84,46 +76,10 @@ export default function ResultsPage() {
                 snapshot={{ signals: snapshot.overview, sufficiency: snapshot.sufficiency } as any} 
                 loading={loading} 
               />
-            </div>
         </div>
 
-        {!loading && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-500">
-             <NextActionRecommendation 
-               totalSignals={snapshot.overview?.totalSignals || 0}
-               profileCompleteness={snapshot.user?.profileCompleteness || 0}
-               onAction={(action) => {
-                 trackEvent('user_clicked_next_action', { target_action: action });
-                 if (action === 'profile') nav('/complete-profile');
-                 else if (action === 'versus') nav('/signals', { state: { mode: 'versus' } });
-                 else if (action === 'torneo') nav('/signals', { state: { mode: 'torneo' } });
-                 else if (action === 'actualidad') nav('/signals', { state: { mode: 'actualidad' } });
-               }}
-             />
-          </div>
-        )}
-
-        {/* CTA FINAL DE CONSTRUCCIÓN */}
-        <div className="mt-24 mb-12">
-            <div className="card p-10 lg:p-14 bg-gradient-to-br from-surface to-surface2/50 border border-stroke rounded-[32px] text-center max-w-4xl mx-auto shadow-sm relative overflow-hidden group hover:border-primary/20 transition-all duration-500">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
-               <div className="relative z-10 flex flex-col items-center">
-                   <div className="w-16 h-16 rounded-full bg-white border border-stroke flex items-center justify-center shadow-sm mb-6 group-hover:scale-110 transition-transform">
-                       <span className="material-symbols-outlined text-3xl text-primary">bolt</span>
-                   </div>
-                   <h2 className="text-3xl lg:text-4xl font-black text-ink tracking-tight mb-4">La red necesita tu postura</h2>
-                   <p className="text-base text-text-secondary font-medium max-w-lg mb-8 leading-relaxed text-balance">
-                       El valor de tus resultados crece con cada señal. Participa en Versus rápidos, defiende a tus marcas en Torneos o toma postura en Actualidad.
-                   </p>
-                   <button 
-                       onClick={() => nav('/signals')}
-                       className="btn-primary text-base px-10 py-4 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all transform hover:-translate-y-0.5"
-                   >
-                       Aportar Nuevas Señales
-                   </button>
-               </div>
-            </div>
-        </div>
+        {/* BLOQUE 6B: CTA FINAL CON PROGRESIÓN */}
+        <ResultsProgression snapshot={snapshot} />
 
         <p className="text-center text-[10px] text-slate-400 mt-4 mb-8 font-medium px-4">
             Opina+ refleja las preferencias declaradas de sus usuarios activos y no constituye una muestra estadística representativa de la población general.
