@@ -3,7 +3,6 @@ import {
   AlertTriangle,
   CheckCircle2,
   Sparkles,
-  SplitSquareHorizontal,
 } from "lucide-react";
 
 interface ResultsHeroFactualProps {
