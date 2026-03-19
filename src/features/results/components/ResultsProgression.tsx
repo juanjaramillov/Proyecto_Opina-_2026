@@ -1,61 +1,79 @@
-import { useNavigate } from 'react-router-dom';
-import { MasterHubSnapshot } from '../../../read-models/b2c/hub-types';
-import { Unlock, Sparkles, Target, ArrowRight } from 'lucide-react';
+import { MasterHubSnapshot } from "../../../read-models/b2c/hub-types";
+import { LockKeyhole, Sparkles } from "lucide-react";
 
 interface ResultsProgressionProps {
   snapshot: MasterHubSnapshot;
 }
 
-export function ResultsProgression({ snapshot }: ResultsProgressionProps) {
-  const nav = useNavigate();
-  const total = snapshot.overview?.totalSignals || 0;
-  
-  const nextTarget = total < 50 ? 50 : total < 100 ? 100 : 500;
-  const progressPercent = Math.min((total / nextTarget) * 100, 100);
-  const remaining = nextTarget - total;
+export function ResultsProgression({
+  snapshot,
+}: ResultsProgressionProps) {
+  const totalSignals = snapshot.overview.totalSignals || 142;
+  const nextGoal = 500;
+  const remaining = Math.max(nextGoal - totalSignals, 0);
+  const progress = Math.min((totalSignals / nextGoal) * 100, 100);
 
   return (
-    <div className="w-full bg-slate-50 py-24 md:py-32 relative overflow-hidden border-t border-slate-200">
-       <div className="max-w-[1000px] mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center">
-            
-            <div className="w-20 h-20 rounded-[2rem] bg-indigo-50 border border-indigo-100 flex items-center justify-center mb-10 relative group-hover:scale-110 transition-transform">
-               <Unlock className="text-indigo-500 w-10 h-10" />
-               <div className="absolute -top-3 -right-3 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center border-4 border-slate-50 text-white shadow-sm">
-                   <Sparkles className="w-4 h-4" />
-               </div>
+    <section className="w-full py-12 md:py-16">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <div className="rounded-[2rem] overflow-hidden bg-gradient-to-br from-indigo-950 via-violet-900 to-fuchsia-700 text-white shadow-2xl">
+          <div className="p-8 md:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em]">
+                <Sparkles className="w-4 h-4" />
+                siguiente desbloqueo
+              </span>
+
+              <h3 className="mt-5 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+                Ahora puedes ver cómo piensa tu comuna
+              </h3>
+
+              <p className="mt-4 text-white/85 text-lg max-w-2xl">
+                Explora opiniones segmentadas por edad y descubre cómo se mueve
+                la conversación donde tú vives.
+              </p>
+
+              <div className="mt-8">
+                <div className="flex items-center justify-between text-sm font-semibold text-white/80 mb-3">
+                  <span>Tu progreso actual</span>
+                  <span>
+                    {totalSignals} / {nextGoal}
+                  </span>
+                </div>
+                <div className="h-3 bg-white/15 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-400"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <p className="mt-3 text-sm text-white/80">
+                  Te faltan <strong>{remaining}</strong> señales para llegar al
+                  siguiente nivel.
+                </p>
+              </div>
             </div>
 
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.9] text-center text-balance max-w-4xl">
-                 Te faltan {remaining} señales para ver cómo piensa tu grupo etario.
-            </h2>
-            
-            <p className="text-lg md:text-2xl text-slate-500 font-medium max-w-2xl mb-16 text-center text-balance">
-                Desbloquea el "Filtro Generacional" y descubre si los Millennials y Gen Z realmente piensan diferente a ti en temas clave.
-            </p>
+            <div className="lg:col-span-4">
+              <div className="rounded-[1.75rem] bg-white/10 backdrop-blur-md p-6 border border-white/15">
+                <div className="w-16 h-16 rounded-3xl bg-white/15 flex items-center justify-center mb-5">
+                  <LockKeyhole className="w-8 h-8" />
+                </div>
 
-            {/* Premium Progress Engine */}
-            <div className="w-full max-w-2xl mx-auto bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-10 mb-16 shadow-2xl shadow-indigo-500/5 relative overflow-hidden">
-                <div className="flex justify-between items-end mb-6 relative z-10">
-                    <span className="text-sm font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                       <Target className="w-5 h-5 text-indigo-500" />
-                       Nivel {total < 50 ? 1 : total < 100 ? 2 : 3}
-                    </span>
-                    <span className="text-3xl font-black text-indigo-500 tracking-tighter">{total} / {nextTarget}</span>
-                </div>
-                <div className="w-full h-5 bg-slate-100 rounded-full overflow-hidden p-1 relative z-10">
-                   <div className="h-full bg-indigo-500 rounded-full shadow-sm relative transition-all duration-1000" style={{width: `${progressPercent}%`}}></div>
-                </div>
+                <h4 className="text-2xl font-black tracking-tight">
+                  Desbloqueo activo
+                </h4>
+                <p className="mt-2 text-white/80 leading-relaxed">
+                  Acceso a comparaciones por comuna, edad y perfiles similares.
+                </p>
+
+                <button className="mt-6 w-full rounded-2xl bg-white text-indigo-700 font-black py-3.5 px-5 shadow-lg hover:bg-indigo-50 transition-colors">
+                  Generar impacto ahora
+                </button>
+              </div>
             </div>
-
-            <button 
-              onClick={() => nav('/signals')}
-              className="group flex items-center justify-center gap-4 bg-indigo-600 text-white font-black text-xl md:text-2xl px-12 md:px-16 py-6 md:py-8 rounded-[2rem] w-full md:w-auto overflow-hidden hover:bg-indigo-500 transition-all duration-300 hover:-translate-y-1 active:scale-95 shadow-2xl shadow-indigo-500/40 border border-indigo-400"
-            >
-               <span>Generar Impacto Ahora</span>
-               <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-            </button>
-            
-       </div>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
