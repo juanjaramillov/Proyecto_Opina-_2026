@@ -36,11 +36,11 @@ export default function ResultsPage() {
 
   const renderModuleSection = () => {
     switch(activeModule) {
-      case "VERSUS": return <VersusInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
-      case "TOURNAMENT": return <TorneoInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
-      case "PROFUNDIDAD": return <ProfundidadInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
-      case "ACTUALIDAD": return <ActualidadInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
-      case "LUGARES": return <LugaresInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
+      case "VERSUS": return <VersusInsightBlock generation={activeGeneration} snapshot={snapshot} />;
+      case "TOURNAMENT": return <TorneoInsightBlock generation={activeGeneration} snapshot={snapshot} />;
+      case "PROFUNDIDAD": return <ProfundidadInsightBlock generation={activeGeneration} snapshot={snapshot} />;
+      case "ACTUALIDAD": return <ActualidadInsightBlock generation={activeGeneration} snapshot={snapshot} />;
+      case "LUGARES": return <LugaresInsightBlock generation={activeGeneration} snapshot={snapshot} />;
       default: return null;
     }
   };

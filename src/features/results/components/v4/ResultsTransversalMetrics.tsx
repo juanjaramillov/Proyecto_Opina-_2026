@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Activity, Users, Zap, Compass, CheckCircle2, AlertTriangle, ArrowUpRight, Target } from "lucide-react";
+import { Activity, Users, Zap, Compass, CheckCircle2, AlertTriangle, ArrowUpRight } from "lucide-react";
 import { MasterHubSnapshot } from "../../../../read-models/b2c/hub-types";
 import { ResultsPeriod, ResultsGeneration } from "../../hooks/useResultsExperience";
 
@@ -9,7 +9,7 @@ interface ResultsTransversalMetricsProps {
   activeGeneration: ResultsGeneration;
 }
 
-export function ResultsTransversalMetrics({ snapshot, activePeriod, activeGeneration }: ResultsTransversalMetricsProps) {
+export function ResultsTransversalMetrics({ snapshot, activePeriod, activeGeneration: _activeGeneration }: ResultsTransversalMetricsProps) {
   const signalVolume = snapshot.overview.totalSignals;
   
   return (

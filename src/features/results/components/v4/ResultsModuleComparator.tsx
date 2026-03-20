@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle2, AlertTriangle, Info, TrendingUp, Users } from "lucide-react";
+import { Swords, Trophy, Layers, MapPin, Zap } from "lucide-react";
 import { ResultsModule, ResultsGeneration } from "../../hooks/useResultsExperience";
 
 interface ResultsModuleComparatorProps {
@@ -7,7 +7,7 @@ interface ResultsModuleComparatorProps {
   activeGeneration: ResultsGeneration;
 }
 
-export function ResultsModuleComparator({ activeModule, activeGeneration }: ResultsModuleComparatorProps) {
+export function ResultsModuleComparator({ activeModule, activeGeneration: _activeGeneration }: ResultsModuleComparatorProps) {
   // Solo se muestra en la vista "ALL" Transversal
   if (activeModule !== "ALL") return null;
 

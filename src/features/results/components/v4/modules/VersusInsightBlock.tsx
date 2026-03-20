@@ -1,6 +1,28 @@
-import { AlertTriangle, CheckCircle2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
+import { MasterHubSnapshot } from "../../../../../read-models/b2c/hub-types";
+import { ResultsGeneration } from "../../../hooks/useResultsExperience";
 
-export function VersusInsightBlock() {
+interface VersusInsightBlockProps {
+  generation: ResultsGeneration;
+  snapshot: MasterHubSnapshot;
+}
+
+export function VersusInsightBlock({ generation, snapshot }: VersusInsightBlockProps) {
+  if (snapshot.cohortState.privacyState === 'insufficient_cohort') {
+    return (
+      <div className="w-full flex flex-col items-center justify-center p-8 md:p-12 bg-slate-50 border border-slate-100 rounded-[2rem] text-center my-8">
+        <ShieldAlert className="w-12 h-12 text-slate-300 mb-4" />
+        <h4 className="text-xl font-bold text-slate-700 mb-2">Muestra Insuficiente</h4>
+        <p className="text-slate-500 mb-6 max-w-md mx-auto text-sm">
+          No hay suficientes señales ({snapshot.cohortState.cohortSize} activas) en la generación seleccionada ({generation}) para garantizar estadísticamente la privacidad en este nivel de granularidad.
+        </p>
+        <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="px-6 py-2.5 bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl shadow-sm hover:bg-slate-50 transition-colors">
+          Explorar otras variables
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       <div className="mb-12">
