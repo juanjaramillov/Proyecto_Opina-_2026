@@ -65,7 +65,13 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
     };
   };
 
-  const insight = getMainInsight();
+  const baseInsight = getMainInsight();
+  const insight = {
+    ...baseInsight,
+    description: activeGeneration !== "ALL" 
+      ? `${baseInsight.description} (Este patrón es especialmente determinante entre los usuarios de la ${activeGeneration.replace('_', ' ').toLowerCase()}).`
+      : baseInsight.description
+  };
 
   // Diccionarios para etiquetas contextuales
   const moduleLabels: Record<string, string> = {
@@ -118,11 +124,11 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                   <div className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 mb-6 shadow-sm ${insight.colorBox}`}>
                     {insight.icon}
                     <span className="text-xs md:text-sm font-bold uppercase tracking-widest">
-                      {insight.kicker}
+                      {insight.kicker} {activeGeneration !== "ALL" && <span className="opacity-70 ml-1">({generationLabels[activeGeneration]})</span>}
                     </span>
                   </div>
                   
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight text-ink leading-[1.05] mb-6">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-black tracking-tighter text-ink leading-[1.05] mb-6">
                     {insight.title}
                   </h1>
                   
@@ -141,17 +147,14 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                     </div>
                     
                     {/* Explicit Context Block */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 bg-slate-50 rounded-2xl p-3 border border-slate-200/60 flex-1 w-full sm:w-auto mt-4 sm:mt-0">
-                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center flex-1 sm:flex-none">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 bg-slate-50 rounded-2xl p-3 border border-slate-200/60 w-full md:w-auto mt-4 sm:mt-0">
+                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center min-w-[100px] flex-1 md:flex-none">
                          {moduleLabels[activeModule] || activeModule}
                        </span>
-                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center flex-1 sm:flex-none">
+                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center min-w-[100px] flex-1 md:flex-none">
                          {periodLabels[activePeriod] || activePeriod}
                        </span>
-                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center flex-1 sm:flex-none">
-                         {generationLabels[activeGeneration] || activeGeneration}
-                       </span>
-                       <span className="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg shadow-sm border border-indigo-100 text-xs font-bold block text-center flex-1 sm:flex-none">
+                       <span className="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg shadow-sm border border-indigo-100 text-xs font-bold block text-center min-w-[100px] flex-1 md:flex-none">
                          {(snapshot.cohortState.cohortSize || snapshot.overview.totalSignals).toLocaleString()} Señales
                        </span>
                     </div>
@@ -162,7 +165,7 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
             </div>
 
             {/* Right: Secondary Signals */}
-            <div className="w-full lg:w-[340px] xl:w-[380px] shrink-0 flex flex-col justify-end gap-3 relative z-10">
+            <div className="hidden lg:flex w-[340px] xl:w-[380px] shrink-0 flex-col justify-end gap-3 relative z-10">
               <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-2 border-l-2 border-slate-300">
                 Señales Derivadas ({generationLabels[activeGeneration] || activeGeneration})
               </h3>

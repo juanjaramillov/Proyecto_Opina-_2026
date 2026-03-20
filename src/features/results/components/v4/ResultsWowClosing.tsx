@@ -6,7 +6,7 @@ export function ResultsWowClosing() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full bg-ink text-white py-32 relative overflow-hidden">
+    <div className="w-full bg-ink text-white py-16 md:py-32 relative overflow-hidden">
       {/* Dynamic Background Constellation Effect */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
@@ -43,18 +43,18 @@ export function ResultsWowClosing() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-2 mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-2 mb-6 md:mb-8">
             <Sparkles className="w-5 h-5 text-indigo-400" />
             <span className="text-xs font-bold uppercase tracking-widest text-indigo-300">
               El Ecosistema Sigue Vivo
             </span>
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-[1.1] text-white">
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-6 md:mb-8 leading-[1.1] text-white">
             Cada señal reescribe<br />el mapa de inteligencia.
           </h2>
           
-          <p className="text-xl md:text-2xl text-slate-400 font-medium mb-16 max-w-2xl mx-auto">
+          <p className="text-lg md:text-2xl text-slate-400 font-medium mb-10 md:mb-16 max-w-2xl mx-auto px-4 md:px-0">
             Únete al pulso activo. Aporta tu perspectiva y observa cómo tu influencia mueve el consenso en tiempo real.
           </p>
 

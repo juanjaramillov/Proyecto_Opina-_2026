@@ -29,7 +29,7 @@ export function ResultsTransversalMetrics({ snapshot, activePeriod, activeGenera
         {/* Consenso Global */}
         <motion.div 
           whileHover={{ y: -4 }}
-          className="bg-white rounded-[2rem] p-6 lg:p-8 border border-slate-100 shadow-sm flex flex-col justify-between group"
+          className="bg-slate-50/50 rounded-2xl p-6 border border-slate-100/80 flex flex-col justify-between group"
         >
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 px-3 py-1 mb-6">
@@ -49,7 +49,7 @@ export function ResultsTransversalMetrics({ snapshot, activePeriod, activeGenera
         {/* Polarización Máxima */}
         <motion.div 
           whileHover={{ y: -4 }}
-          className="bg-white rounded-[2rem] p-6 lg:p-8 border border-slate-100 shadow-sm flex flex-col justify-between group"
+          className="bg-slate-50/50 rounded-2xl p-6 border border-slate-100/80 flex flex-col justify-between group"
         >
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 text-rose-700 px-3 py-1 mb-6">
@@ -70,7 +70,7 @@ export function ResultsTransversalMetrics({ snapshot, activePeriod, activeGenera
         {/* Módulo más activo */}
         <motion.div 
           whileHover={{ y: -4 }}
-          className="bg-ink text-white rounded-[2rem] p-6 lg:p-8 shadow-md flex flex-col justify-between relative overflow-hidden group"
+          className="bg-ink text-white rounded-[2rem] p-6 shadow-md flex flex-col justify-between relative overflow-hidden group"
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 rounded-bl-full blur-2xl group-hover:bg-indigo-500/40 transition-colors" />
           <div className="relative z-10 w-full">
@@ -91,7 +91,7 @@ export function ResultsTransversalMetrics({ snapshot, activePeriod, activeGenera
         {/* Participación */}
         <motion.div 
           whileHover={{ y: -4 }}
-          className="bg-white rounded-[2rem] p-6 lg:p-8 border border-slate-100 shadow-sm flex flex-col justify-between group"
+          className="bg-slate-50/50 rounded-2xl p-6 border border-slate-100/80 flex flex-col justify-between group"
         >
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 text-slate-600 px-3 py-1 mb-6">

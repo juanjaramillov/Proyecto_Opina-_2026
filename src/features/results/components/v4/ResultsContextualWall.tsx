@@ -101,15 +101,15 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
         </button>
       </div>
 
-      {/* Premium Layout: 1 Protagonist + 2 Secondary */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Premium Layout: 1 Protagonist + 2 Secondary (Carousel on Mobile) */}
+      <div className="flex lg:grid lg:grid-cols-12 gap-4 lg:gap-6 pb-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-4 px-4 lg:mx-0 lg:px-0 lg:overflow-visible">
         
         {/* Protagonist Card */}
         {safeInsights[0] && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`col-span-1 lg:col-span-8 border rounded-[2rem] p-8 md:p-12 relative group hover:shadow-xl transition-all cursor-pointer ${safeInsights[0].color} overflow-hidden`}
+            className={`w-[85vw] lg:w-auto shrink-0 snap-center col-span-1 lg:col-span-8 border rounded-[2rem] p-8 md:p-12 relative group hover:shadow-xl transition-all cursor-pointer ${safeInsights[0].color} overflow-hidden`}
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-3xl rounded-full -mr-20 -mt-20 pointer-events-none" />
             <div className="absolute bottom-8 right-8 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500">
@@ -154,14 +154,14 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
         )}
 
         {/* 2 Secondary Cards */}
-        <div className="col-span-1 lg:col-span-4 flex flex-col gap-6">
+        <div className="flex lg:flex-col gap-4 lg:gap-6 col-span-1 lg:col-span-4 shrink-0">
           {safeInsights.slice(1, 3).map((insight, index) => (
             <motion.div
               key={insight.id}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
-              className={`flex-1 border rounded-[2rem] p-6 lg:p-8 relative group hover:shadow-lg transition-all cursor-pointer ${insight.color} flex flex-col justify-between`}
+              className={`w-[85vw] lg:w-auto shrink-0 snap-center flex-1 border rounded-[2rem] p-6 lg:p-8 relative group hover:shadow-lg transition-all cursor-pointer ${insight.color} flex flex-col justify-between`}
             >
               <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-30 transition-opacity">
                 {insight.type === "tension" ? <Zap className="w-8 h-8" /> : 

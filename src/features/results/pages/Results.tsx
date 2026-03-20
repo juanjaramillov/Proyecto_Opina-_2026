@@ -72,13 +72,13 @@ export default function ResultsPage() {
       </div>
 
       {/* 3. Main Content Flow */}
-      <main className="w-full flex flex-col relative z-10 pt-4 md:pt-6">
+      <main className="w-full flex flex-col relative z-10 pt-2 md:pt-4">
         
         {/* Massive Headline and Realtime Facts */}
         <ResultsHeroDynamic snapshot={snapshot} activeModule={activeModule} activePeriod={activePeriod} activeView={activeView} activeGeneration={activeGeneration} />
         
         {/* Ecosystem General Pulse */}
-        <div className="mt-8 md:mt-12 container-ws">
+        <div className="mt-6 md:mt-10 container-ws">
           <ResultsTransversalMetrics snapshot={snapshot} activePeriod={activePeriod} activeGeneration={activeGeneration} />
         </div>
 
@@ -86,7 +86,7 @@ export default function ResultsPage() {
         <ResultsModuleComparator activeModule={activeModule} activeGeneration={activeGeneration} />
         
         {/* Module Specific Logic */}
-        <div className="container-ws py-12 md:py-16">
+        <div className="container-ws py-8 md:py-16">
           {renderModuleSection()}
         </div>
         
