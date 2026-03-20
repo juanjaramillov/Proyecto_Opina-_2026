@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { TrendingUp, Activity, Zap } from 'lucide-react';
 
 export function ResultsCommunityV2() {
   const containerVars = {
@@ -8,69 +9,90 @@ export function ResultsCommunityV2() {
 
   const itemVars = {
     hidden: { opacity: 0, y: 15 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
   };
 
   return (
-    <section className="w-full bg-white py-16 md:py-24 border-b border-slate-100">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-        <div className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Lo que dice la comunidad</h2>
-          <p className="mt-2 text-slate-500 font-medium">El latido actual de Opina+ en tres frentes.</p>
+    <section className="w-full bg-white text-ink border-b border-ink/10 relative overflow-hidden">
+      
+      {/* Decorative Top Border */}
+      <div className="absolute top-0 inset-x-0 h-1 bg-ink" />
+
+      <div className="container-ws py-20 md:py-32">
+        
+        {/* Editorial Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24 border-b-2 border-ink pb-8">
+          <div>
+            <div className="inline-flex items-center gap-2 text-ink text-[12px] font-black uppercase tracking-[0.2em] mb-4">
+              <Activity className="w-4 h-4" />
+              El Pulso de la Comunidad
+            </div>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.85]">
+              Lo que dice<br/>la comunidad.
+            </h2>
+          </div>
+          <p className="text-xl text-slate-500 font-medium max-w-sm leading-snug">
+            Un destilado en tiempo real de las corrientes de opinión más fuertes y las fricciones emergentes.
+          </p>
         </div>
 
+        {/* 3-Column Newspaper Layout */}
         <motion.div 
           variants={containerVars} 
           initial="hidden" 
           whileInView="show" 
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 lg:divide-x lg:divide-ink/10"
         >
-          {/* Insight 1: Consenso */}
-          <motion.div variants={itemVars} className="bg-slate-50 rounded-[2rem] p-8 flex flex-col items-start border border-slate-100 group">
-            <motion.div 
-              whileHover={{ rotate: 90, scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 10 }}
-              className="w-12 h-12 rounded-full mb-6 flex items-center justify-center relative bg-emerald-100/50"
-            >
-              {/* Abstracción circular/convergente */}
-              <div className="w-4 h-4 rounded-full border-2 border-emerald-500 absolute" />
-              <div className="w-8 h-8 rounded-full border border-emerald-400/50 absolute" />
-            </motion.div>
-            <h3 className="text-sm font-bold text-slate-900 mb-2 uppercase tracking-wide">Fuerte Consenso</h3>
-            <p className="text-slate-600 font-medium">El 87% de los usuarios prioriza el ahorro energético sobre el diseño estético de los dispositivos.</p>
+          {/* Column 1: Consenso */}
+          <motion.div variants={itemVars} className="flex flex-col relative group">
+            <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center mb-6">
+              <TrendingUp className="w-4 h-4 text-emerald-600" />
+            </div>
+            <h3 className="text-2xl font-black tracking-tight mb-4 group-hover:text-emerald-600 transition-colors">
+              Fuerte Consenso en Hábitos
+            </h3>
+            <p className="text-lg text-slate-600 font-medium leading-relaxed mb-6">
+              Una abrumadora mayoría del <span className="text-ink font-bold bg-emerald-100 px-1">87%</span> de los usuarios prioriza el ahorro energético sobre el diseño estético de los dispositivos.
+            </p>
+            <div className="mt-auto pt-6 border-t border-ink/10 text-sm font-bold uppercase tracking-widest text-slate-400">
+              Tendencia Principal
+            </div>
           </motion.div>
 
-          {/* Insight 2: Polarización */}
-          <motion.div variants={itemVars} className="bg-slate-50 rounded-[2rem] p-8 flex flex-col items-start border border-slate-100 group">
-            <motion.div 
-              whileHover={{ scale: 1.1, gap: "12px" }}
-              transition={{ type: "spring", stiffness: 300, damping: 10 }}
-              className="w-12 h-12 rounded-full mb-6 flex flex-row items-center justify-center gap-[4px] relative bg-rose-100/50"
-            >
-              {/* Abstracción polarizada (dos mitades que se separan sutilmente en hover) */}
-              <div className="w-3 h-5 bg-rose-500 rounded-l-full" />
-              <div className="w-3 h-5 bg-rose-500 rounded-r-full" />
-            </motion.div>
-            <h3 className="text-sm font-bold text-slate-900 mb-2 uppercase tracking-wide">Polarización Máxima</h3>
-            <p className="text-slate-600 font-medium">Mitad a favor, mitad en contra sobre la regulación gubernamental de la Inteligencia Artificial.</p>
+          {/* Column 2: Polarización */}
+          <motion.div variants={itemVars} className="flex flex-col relative lg:pl-16 group">
+            <div className="w-8 h-8 flex items-center justify-center mb-6">
+              <div className="w-4 h-4 bg-rose-500 rounded-l-full" />
+              <div className="w-4 h-4 bg-ink rounded-r-full ml-1" />
+            </div>
+            <h3 className="text-2xl font-black tracking-tight mb-4 group-hover:text-rose-600 transition-colors">
+              Polarización Máxima
+            </h3>
+            <p className="text-lg text-slate-600 font-medium leading-relaxed mb-6">
+              La comunidad está <span className="font-bold text-ink italic">fracturada exactamente por la mitad</span> respecto a la regulación gubernamental de la Inteligencia Artificial. No hay terreno medio.
+            </p>
+            <div className="mt-auto pt-6 border-t border-ink/10 text-sm font-bold uppercase tracking-widest text-slate-400">
+              Fricción Crítica
+            </div>
           </motion.div>
 
-          {/* Insight 3: Demográfico */}
-          <motion.div variants={itemVars} className="bg-slate-50 rounded-[2rem] p-8 flex flex-col items-start border border-slate-100 group">
-            <motion.div 
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 10 }}
-              className="w-12 h-12 rounded-full mb-6 flex items-end pb-2 justify-center gap-1 relative bg-indigo-100/50 overflow-hidden"
-            >
-              {/* Abstracción de barras orgánicas */}
-              <motion.div className="w-1.5 h-3 bg-indigo-500 rounded-full" animate={{ height: [12, 16, 12] }} transition={{ repeat: Infinity, duration: 2 }} />
-              <motion.div className="w-1.5 h-5 bg-indigo-500 rounded-full" animate={{ height: [20, 24, 20] }} transition={{ repeat: Infinity, duration: 2, delay: 0.3 }} />
-              <motion.div className="w-1.5 h-2 bg-indigo-500 rounded-full" animate={{ height: [8, 12, 8] }} transition={{ repeat: Infinity, duration: 2, delay: 0.6 }} />
-            </motion.div>
-            <h3 className="text-sm font-bold text-slate-900 mb-2 uppercase tracking-wide">Corte Demográfico</h3>
-            <p className="text-slate-600 font-medium">Los Gen-Z son 3x más propensos a abandonar una app si la animación de carga supera 1 segundo.</p>
+          {/* Column 3: Demográfico */}
+          <motion.div variants={itemVars} className="flex flex-col relative lg:pl-16 group">
+            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mb-6">
+              <Zap className="w-4 h-4 text-blue-600" />
+            </div>
+            <h3 className="text-2xl font-black tracking-tight mb-4 group-hover:text-blue-600 transition-colors">
+              Corte Demográfico
+            </h3>
+            <p className="text-lg text-slate-600 font-medium leading-relaxed mb-6">
+              Atención: Los usuarios <span className="text-ink font-bold underline decoration-blue-500 decoration-2 underline-offset-4">Gen-Z son 3x más propensos</span> a abandonar la aplicación si cualquier animación de carga supera 1 segundo de duración.
+            </p>
+            <div className="mt-auto pt-6 border-t border-ink/10 text-sm font-bold uppercase tracking-widest text-slate-400">
+              Alerta de Comportamiento
+            </div>
           </motion.div>
+
         </motion.div>
 
       </div>

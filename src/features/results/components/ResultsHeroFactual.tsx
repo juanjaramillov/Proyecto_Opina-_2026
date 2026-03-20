@@ -1,178 +1,158 @@
-import { MasterHubSnapshot } from "../../../read-models/b2c/hub-types";
+import { motion } from "framer-motion";
 import {
   AlertTriangle,
   CheckCircle2,
-  Sparkles,
+  Activity,
+  ArrowRight
 } from "lucide-react";
+import { ResultsModule, ResultsPeriod } from "./hub/FilterBar";
 
 interface ResultsHeroFactualProps {
-  snapshot: MasterHubSnapshot;
+  activeModule: ResultsModule;
+  activePeriod: ResultsPeriod;
 }
 
-export function ResultsHeroFactual(_props: ResultsHeroFactualProps) {
+export function ResultsHeroFactual({ activeModule }: ResultsHeroFactualProps) {
+  const getModuleLabel = (m: ResultsModule) => {
+    switch(m) {
+      case "ALL": return "El Pulso Global";
+      case "VERSUS": return "Señales Versus";
+      case "TOURNAMENT": return "Señales Torneo";
+      case "PROFUNDIDAD": return "Foco Profundidad";
+      case "ACTUALIDAD": return "Pulso Actualidad";
+      case "LUGARES": return "Mapa de Lugares";
+    }
+  };
+
   return (
-    <section className="w-full bg-slate-50 pt-24 pb-10 md:pt-32 md:pb-14 border-b border-slate-200">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse" />
-          <span className="text-[11px] md:text-xs font-black uppercase tracking-[0.24em] text-slate-500">
-            Estado de la comunidad
-          </span>
+    <section className="w-full pt-12 pb-16 relative">
+      <div className="container-ws relative z-10">
+        
+        {/* Editorial Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+          <div className="max-w-4xl relative">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="absolute -top-12 -left-12 w-32 h-32 bg-[#10B981]/20 rounded-full blur-2xl pointer-events-none"
+            />
+            <div className="inline-flex items-center gap-2 rounded-full bg-ink text-white px-4 py-1.5 mb-8">
+              <Activity className="w-4 h-4 text-[#10B981]" />
+              <span className="text-xs font-bold uppercase tracking-widest">
+                {getModuleLabel(activeModule)}
+              </span>
+            </div>
+            
+            <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter text-ink leading-[0.85] uppercase mix-blend-multiply">
+              División <br />
+              <span className="text-outline-ink text-transparent">Frente a</span> <br />
+              <span className="font-serif italic font-medium text-[#2563EB] tracking-normal capitalize">la Inteligencia</span> <br />
+              Artificial
+            </h1>
+          </div>
+          
+          <div className="max-w-sm md:text-right">
+            <p className="text-xl md:text-3xl text-slate-800 font-medium leading-tight mb-6">
+              Empate técnico en un debate donde la tecnología choca con el control.
+            </p>
+            <button className="flex items-center gap-2 group md:ml-auto">
+              <span className="text-sm font-bold uppercase tracking-widest text-ink group-hover:text-[#2563EB] transition-colors">Explorar el Origen</span>
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-[#2563EB] group-hover:text-white transition-all">
+                <ArrowRight className="w-5 h-5" />
+              </div>
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-7 bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-8 md:p-10 lg:p-12">
-              <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 text-indigo-700 px-3 py-1.5 mb-5">
-                <Sparkles className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-[0.18em]">
-                  insight principal
-                </span>
-              </div>
-
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-[0.95]">
-                La comunidad está dividida frente a la IA
-              </h1>
-
-              <p className="mt-5 text-lg md:text-xl text-slate-600 leading-snug max-w-3xl">
-                Empate técnico entre entusiasmo tecnológico y preocupación por
-                regulación, privacidad y control.
-              </p>
-
-              <div className="mt-8 rounded-[1.75rem] overflow-hidden bg-[radial-gradient(circle_at_15%_60%,rgba(99,102,241,0.22),transparent_30%),radial-gradient(circle_at_70%_35%,rgba(16,185,129,0.18),transparent_28%),radial-gradient(circle_at_85%_75%,rgba(244,63,94,0.16),transparent_26%),linear-gradient(180deg,#eef2ff_0%,#ffffff_100%)] h-[240px] md:h-[280px] relative">
-                <div className="absolute inset-x-0 bottom-10 h-px bg-slate-200" />
-                <div className="absolute inset-x-0 bottom-10 flex justify-between px-6 text-[11px] md:text-xs font-semibold text-slate-400">
-                  <span>Lun</span>
-                  <span>Mar</span>
-                  <span>Mié</span>
-                  <span>Jue</span>
-                </div>
-
-                <svg
-                  viewBox="0 0 520 260"
-                  className="absolute inset-0 w-full h-full"
-                  fill="none"
-                >
-                  <defs>
-                    <linearGradient id="heroLineA" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#60a5fa" />
-                      <stop offset="50%" stopColor="#818cf8" />
-                      <stop offset="100%" stopColor="#22d3ee" />
-                    </linearGradient>
-                    <linearGradient id="heroLineB" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#a78bfa" />
-                      <stop offset="50%" stopColor="#f472b6" />
-                      <stop offset="100%" stopColor="#f59e0b" />
-                    </linearGradient>
-                  </defs>
-
-                  <path
-                    d="M10 180 C60 150, 95 120, 150 138 C215 160, 230 84, 285 110 C340 136, 360 210, 430 120 C455 88, 475 108, 510 86"
-                    stroke="url(#heroLineA)"
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M10 155 C55 130, 95 170, 150 160 C205 150, 235 135, 285 175 C335 215, 380 138, 430 154 C470 167, 490 145, 510 152"
-                    stroke="url(#heroLineB)"
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                  />
-
-                  <circle cx="430" cy="120" r="6" fill="#22d3ee" />
-                  <circle cx="430" cy="154" r="6" fill="#f472b6" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-7 md:p-8">
-              <div className="flex items-center justify-between mb-5">
-                <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-700 px-3 py-1.5">
+        {/* Dynamic Data Blocks */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10">
+          
+          {/* Consensus Block - Bold Green */}
+          <motion.div 
+            whileHover={{ y: -8 }}
+            className="group relative overflow-hidden bg-white rounded-3xl p-8 lg:p-12 border border-slate-200 hover:border-[#10B981]/50 shadow-sm hover:shadow-xl transition-all duration-500"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#10B981]/5 rounded-bl-[100px] transition-transform duration-700 group-hover:scale-150" />
+            
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 px-3 py-1.5 mb-6">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em]">
-                    consenso
+                  <span className="text-[11px] font-bold uppercase tracking-widest">
+                    Punto de Acuerdos
                   </span>
                 </div>
-                <span className="text-sm font-bold text-slate-400">01</span>
-              </div>
-
-              <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-950 leading-tight">
-                78% apoya regulación tecnológica
-              </h2>
-
-              <p className="mt-3 text-sm md:text-base text-slate-500 leading-snug">
-                Alto nivel de acuerdo frente a reglas más claras para IA y uso
-                de datos.
-              </p>
-
-              <div className="mt-7 flex items-center gap-5">
-                <div className="relative w-24 h-24 shrink-0">
-                  <div className="absolute inset-0 rounded-full bg-[conic-gradient(#22c55e_0deg,_#34d399_280deg,_#e2e8f0_280deg,_#e2e8f0_360deg)]" />
-                  <div className="absolute inset-[10px] rounded-full bg-white flex items-center justify-center">
-                    <span className="text-2xl font-black text-emerald-600">
-                      78%
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex-1">
-                  <div className="text-4xl font-black tracking-tight text-slate-950">
-                    78%
-                  </div>
-                  <div className="text-sm font-semibold text-slate-500">
-                    Acuerdo en la comunidad
-                  </div>
-                  <div className="mt-4 h-3 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <div className="h-full w-[78%] rounded-full bg-gradient-to-r from-emerald-500 to-green-400" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-[2rem] border border-rose-200 shadow-sm p-7 md:p-8">
-              <div className="flex items-center justify-between mb-5">
-                <div className="inline-flex items-center gap-2 rounded-full bg-rose-50 text-rose-700 px-3 py-1.5">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em]">
-                    tensión principal
-                  </span>
-                </div>
-                <span className="text-sm font-bold text-slate-400">02</span>
-              </div>
-
-              <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-950 leading-tight">
-                Privacidad vs Personalización
-              </h2>
-
-              <p className="mt-3 text-sm md:text-base text-slate-500 leading-snug">
-                La agenda más dividida del mes: conveniencia digital versus control de datos.
-              </p>
-
-              <div className="mt-6 rounded-2xl bg-rose-50 border border-rose-100 p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-bold text-rose-700">
-                    Polarización actual
-                  </span>
-                  <span className="text-3xl font-black tracking-tight text-rose-600">
-                    49/51
-                  </span>
-                </div>
-
-                <div className="flex h-3 w-full bg-white rounded-full overflow-hidden shadow-inner gap-1">
-                  <div className="h-full w-[49%] rounded-r-full bg-gradient-to-r from-indigo-500 to-sky-400" />
-                  <div className="h-full w-[51%] rounded-l-full bg-gradient-to-r from-rose-500 to-orange-400" />
-                </div>
-
-                <p className="mt-3 text-sm text-slate-600">
-                  Comunidad prácticamente partida a la mitad sin un claro consenso.
+                <h2 className="text-3xl md:text-5xl font-black tracking-tight text-ink leading-none">
+                  78% apoya<br />regulación
+                </h2>
+                <p className="mt-4 text-slate-500 text-lg max-w-sm">
+                  Acuerdo transversal frente a la necesidad de reglas claras para IA y uso de datos masivos.
                 </p>
               </div>
+
+              <div className="mt-12 flex items-end gap-6">
+                <div className="text-[6rem] leading-none font-black text-[#10B981] tracking-tighter">78<span className="text-5xl">%</span></div>
+                <div className="pb-4 flex-1">
+                  <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: "78%" }}
+                      transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+                      className="h-full bg-gradient-to-r from-emerald-500 to-[#10B981]" 
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Tension Block - Bold Red/Blue Gradient */}
+          <motion.div 
+            whileHover={{ y: -8 }}
+            className="group relative overflow-hidden bg-ink rounded-3xl p-8 lg:p-12  shadow-lg hover:shadow-2xl transition-all duration-500 text-white"
+          >
+            <div className="absolute -top-32 -right-32 w-[150%] h-[150%] bg-[#2563EB]/20 mix-blend-overlay rotate-12 group-hover:rotate-45 transition-transform duration-1000 origin-center" />
+            <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-ink via-transparent to-transparent z-0" />
+
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400 px-3 py-1.5 mb-6">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span className="text-[11px] font-bold uppercase tracking-widest">
+                    Máxima Tensión
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-none">
+                  Privacidad vs<br />
+                  <span className="text-[#3B82F6]">Personalización</span>
+                </h2>
+                <p className="mt-4 text-slate-400 text-lg max-w-sm">
+                  La agenda más dividida del mes: conveniencia digital versus control total de datos.
+                </p>
+              </div>
+
+              <div className="mt-12 grid grid-cols-2 gap-4">
+                <div>
+                  <div className="text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">Privacidad</div>
+                  <div className="text-5xl font-black text-rose-500 tracking-tighter">49%</div>
+                  <div className="h-2 w-full mt-3 bg-white/10 rounded-full overflow-hidden">
+                    <motion.div initial={{width:0}} animate={{width:"49%"}} transition={{duration:1, delay:0.5}} className="h-full bg-rose-500" />
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">Conveniencia</div>
+                  <div className="text-5xl font-black text-[#3B82F6] tracking-tighter">51%</div>
+                  <div className="h-2 w-full mt-3 bg-white/10 rounded-full overflow-hidden">
+                    <motion.div initial={{width:0}} animate={{width:"51%"}} transition={{duration:1, delay:0.6}} className="h-full bg-[#3B82F6]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
   );
 }
+

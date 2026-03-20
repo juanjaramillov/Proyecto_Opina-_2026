@@ -5,14 +5,20 @@ import { useAuth } from "../../auth";
 import { logger } from '../../../lib/logger';
 import { trackPage } from "../../telemetry/track";
 
-export type HubTab = 'versus' | 'torneo' | 'actualidad' | 'profundidad';
+export type ResultsModule = "ALL" | "VERSUS" | "TOURNAMENT" | "PROFUNDIDAD" | "ACTUALIDAD" | "LUGARES";
+export type ResultsPeriod = "7D" | "30D" | "90D";
+export type ResultsView = "GENERAL" | "CONSENSO" | "POLARIZACION" | "TENDENCIA";
 
 export function useResultsExperience() {
   const { profile } = useAuth();
   const [loading, setLoading] = useState(true);
   const [snapshot, setSnapshot] = useState<MasterHubSnapshot | null>(null);
   const [filters, setFilters] = useState<HubFilters>({});
-  const [activeTab, setActiveTab] = useState<HubTab>('versus');
+  
+  // New Exploration State
+  const [activeModule, setActiveModule] = useState<ResultsModule>("ALL");
+  const [activePeriod, setActivePeriod] = useState<ResultsPeriod>("30D");
+  const [activeView, setActiveView] = useState<ResultsView>("GENERAL");
 
   const loadData = useCallback(async () => {
     if (!profile?.id) return;
@@ -38,7 +44,9 @@ export function useResultsExperience() {
     snapshot,
     filters,
     setFilters,
-    activeTab,
-    setActiveTab
+    // State Exports
+    activeModule, setActiveModule,
+    activePeriod, setActivePeriod,
+    activeView, setActiveView
   };
 }
