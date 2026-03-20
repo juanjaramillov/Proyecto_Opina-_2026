@@ -62,7 +62,7 @@ export function ResultsWowClosing() {
           ))}
 
           {/* Active moving signals along paths */}
-          {activePaths.map((path, i) => (
+          {activePaths.map((path) => (
             <motion.line
               key={`active-${path.id}`}
               x1={`${path.source.x}%`} y1={`${path.source.y}%`}

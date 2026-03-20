@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, ShieldAlert, Crown, ArrowUp, ArrowDown, Hash, Crosshair } from "lucide-react";
+import { Trophy, ShieldAlert, Crown, ArrowUp, ArrowDown, Crosshair } from "lucide-react";
 import { MasterHubSnapshot } from "../../../../../read-models/b2c/hub-types";
 import { ResultsGeneration } from "../../../hooks/useResultsExperience";
 

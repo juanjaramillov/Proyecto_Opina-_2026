@@ -1,9 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Swords, Trophy, Layers, MapPin, Zap, Crown } from "lucide-react";
-import { ResultsModule } from "../../hooks/useResultsExperience";
+import { ResultsModule, ResultsGeneration } from "../../hooks/useResultsExperience";
 
 interface ResultsModuleComparatorProps {
   activeModule: ResultsModule;
+  activeGeneration?: ResultsGeneration;
 }
 
 export function ResultsModuleComparator({ activeModule }: ResultsModuleComparatorProps) {
