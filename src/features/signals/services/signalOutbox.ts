@@ -18,7 +18,7 @@ const FLUSH_INTERVAL_MS = 15_000;
 
 let flushing = false;
 let started = false;
-let intervalId: number | null = null;
+
 
 function now() {
     return Date.now();
@@ -83,9 +83,6 @@ export function removeOutboxJob(id: string): void {
     emitSignalEvent();
 }
 
-export function getOutboxCount(): number {
-    return loadQueue().length;
-}
 
 export function getQueuedVotesForSession(sessionId: string): string[] {
     const q = loadQueue();
@@ -228,57 +225,8 @@ export function startSignalOutbox() {
         if (document.visibilityState === 'visible') safeFlush();
     });
 
-    intervalId = window.setInterval(() => {
+    window.setInterval(() => {
         if (typeof navigator === 'undefined' || navigator.onLine) safeFlush();
     }, FLUSH_INTERVAL_MS);
 }
 
-export function stopSignalOutbox() {
-    if (!started) return;
-    started = false;
-    if (intervalId) window.clearInterval(intervalId);
-    intervalId = null;
-}
-
-export type PendingMySignalRow = {
-    created_at: string
-    battle_id: string | null
-    battle_title: string | null
-    option_id: string | null
-    option_label: string | null
-    entity_id: string | null
-    entity_name: string | null
-    image_url: string | null
-    category_slug: string | null
-    pending: true
-}
-
-export function getQueuedRecentVersusSignals(limit: number = 12): PendingMySignalRow[] {
-    const q = loadQueue();
-
-    // Solo jobs de versus/progressive (insert_signal_event)
-    const rows: PendingMySignalRow[] = [];
-
-    for (const job of q) {
-        if (job.rpc !== 'insert_signal_event') continue;
-
-        const args = (job.args || {}) as Record<string, unknown>;
-        const createdAtIso = new Date(job.createdAt).toISOString();
-
-        rows.push({
-            created_at: createdAtIso,
-            battle_id: (args.p_battle_id as string) || null,
-            battle_title: null, // no lo tenemos offline sin lookup extra
-            option_id: (args.p_option_id as string) || null,
-            option_label: null,
-            entity_id: null,
-            entity_name: null,
-            image_url: null,
-            category_slug: null,
-            pending: true,
-        });
-    }
-
-    rows.sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
-    return rows.slice(0, Math.min(limit, 50));
-}

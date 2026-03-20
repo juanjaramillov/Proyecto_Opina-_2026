@@ -68,3 +68,4 @@ count_lint.py
 Opina+ V13.textClipping
 *.bak
 *.tmp
+.env*.local

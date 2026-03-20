@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { authService } from '../services/authService';
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 import { notifyService, formatKnownError } from '../../notifications/notifyService';
-import { SEG_AGE_BUCKETS, SEG_REGIONS } from "../../../lib/demographicsNormalize";
+
 import { track } from "../../telemetry/track";
+import StepIdentity from './onboarding/StepIdentity';
+import StepDemographics from './onboarding/StepDemographics';
+import StepSuccess from './onboarding/StepSuccess';
 
 interface OnboardingFlowProps {
     onClose: () => void;
@@ -159,268 +162,45 @@ export default function OnboardingFlow({ onClose, onSuccess, isMandatory = false
         <div role="dialog" aria-modal="true" aria-labelledby="onboarding-title" className="relative w-full max-w-md bg-white rounded-[32px] shadow-2xl overflow-hidden min-h-[500px] flex flex-col">
             <AnimatePresence mode="wait" custom={step === 'identity' ? -1 : 1}>
                 {step === 'identity' && (
-                    <motion.div
-                        key="identity"
-                        custom={1}
+                    <StepIdentity
+                        mode={mode}
+                        setMode={setMode}
+                        nickname={nickname}
+                        setNickname={setNickname}
+                        inviteCode={inviteCode}
+                        setInviteCode={setInviteCode}
+                        email={email}
+                        setEmail={setEmail}
+                        password={password}
+                        setPassword={setPassword}
+                        errorMsg={errorMsg}
+                        setErrorMsg={setErrorMsg}
+                        loading={loading}
+                        onOAuth={handleOAuth}
+                        onEmailAuth={handleEmailAuth}
                         variants={variants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        className="p-8 flex-1 flex flex-col"
-                    >
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary-600">
-                                <span className="material-symbols-rounded text-3xl">badge</span>
-                            </div>
-                            <h2 id="onboarding-title" className="text-2xl font-black text-slate-900 tracking-tight">Elige tu Alias</h2>
-                            <p className="text-sm text-slate-500 font-medium mt-2">
-                                Tu identidad real siempre será privada. Elige tu alias público.
-                            </p>
-                        </div>
-
-                        <div className="space-y-3">
-                            <button
-                                onClick={() => handleOAuth('google')}
-                                disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 py-3.5 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-                            >
-                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-5 h-5" alt="G" />
-                                Continuar con Google
-                            </button>
-                            <button
-                                onClick={() => handleOAuth('apple')}
-                                disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 bg-black py-3.5 rounded-2xl font-bold text-white hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-                            >
-                                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.21-.93 3.69-.74 2.4.29 4.1.84 4.87 2.21-.19.04-2.82 1.54-2.79 5.86.06 4.38 3.86 5.84 4.07 5.92-.02.04-.6 1.99-1.39 3.03-.78 1.04-1.61 2.08-3.53 1.95zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.17 2.25-2.05 4.19-3.74 4.25z" /></svg>
-                                Continuar con Apple
-                            </button>
-                        </div>
-
-                        <div className="my-6 flex items-center gap-4">
-                            <div className="h-px flex-1 bg-slate-100" />
-                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">O usa tu email e ID</span>
-                            <div className="h-px flex-1 bg-slate-100" />
-                        </div>
-
-                        <div className="mb-4 flex gap-2">
-                            <button
-                                onClick={() => { setMode('register'); setErrorMsg(''); }}
-                                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${mode === 'register' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
-                            >
-                                Crear cuenta
-                            </button>
-                            <button
-                                onClick={() => { setMode('login'); setErrorMsg(''); }}
-                                className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${mode === 'login' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
-                            >
-                                Ingresar
-                            </button>
-                        </div>
-
-                        <div className="space-y-3">
-                            {mode === 'register' && (
-                                <>
-                                    <div>
-                                        <label htmlFor="nickname" className="sr-only">Alias</label>
-                                        <input
-                                            id="nickname"
-                                            type="text"
-                                            placeholder="Alias"
-                                            value={nickname}
-                                            onChange={(e) => setNickname(e.target.value)}
-                                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                                        />
-                                        <p className="mt-1 ml-2 text-[10px] text-slate-400 font-medium">Tu identidad real siempre será privada.</p>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="inviteCode" className="sr-only">Código de invitación</label>
-                                        <input
-                                            id="inviteCode"
-                                            type="text"
-                                            placeholder="Código de invitación"
-                                            value={inviteCode}
-                                            onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
-                                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                                        />
-                                    </div>
-                                </>
-                            )}
-                            <div>
-                                <label htmlFor="email" className="sr-only">Correo electrónico (tu@email.com)</label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    placeholder="tu@email.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="password" className="sr-only">Crea una contraseña segura</label>
-                                <input
-                                    id="password"
-                                    type="password"
-                                    placeholder="Crea una contraseña segura"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full px-4 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                                />
-                            </div>
-
-                            {errorMsg && (
-                                <div role="alert" aria-live="polite">
-                                    <p className="text-xs text-red-500 font-bold mb-2 text-center">{errorMsg}</p>
-                                </div>
-                            )}
-
-                            <button
-                                onClick={handleEmailAuth}
-                                disabled={!email || !password || (mode === 'register' && (!nickname || !inviteCode)) || loading}
-                                className="w-full bg-primary-600 py-3.5 rounded-2xl font-black text-white shadow-lg shadow-primary-200 transition-all active:scale-[0.98] disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-                            >
-                                {loading ? 'Cargando...' : (mode === 'register' ? 'Registrarme' : 'Entrar')}
-                            </button>
-                        </div>
-                    </motion.div>
+                    />
                 )}
+
 
                 {step === 'demographics' && (
-                    <motion.div
-                        key="demographics"
-                        custom={1}
+                    <StepDemographics
+                        gender={gender}
+                        setGender={setGender}
+                        ageRange={ageRange}
+                        setAgeRange={setAgeRange}
+                        region={region}
+                        setRegion={setRegion}
+                        errorMsg={errorMsg}
+                        loading={loading}
+                        onSave={handleDemographics}
                         variants={variants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        className="p-8 flex-1 flex flex-col"
-                    >
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-600">
-                                <span className="material-symbols-rounded text-3xl">diversity_3</span>
-                            </div>
-                            <h2 id="onboarding-title" className="text-2xl font-black text-slate-900 tracking-tight">Tu Perfil</h2>
-                            <p className="text-sm text-slate-500 font-medium mt-2">
-                                Esto nos permite ponderar tu opinión según representatividad.
-                            </p>
-                        </div>
-
-                        {errorMsg && (
-                            <div role="alert" aria-live="polite">
-                                <p className="text-xs text-red-500 font-bold mb-4 text-center">{errorMsg}</p>
-                            </div>
-                        )}
-
-                        <div className="space-y-5">
-                            <div>
-                                <div id="gender-label" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Género</div>
-                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Requerido para el análisis colaborativo.</p>
-                                <div className="grid grid-cols-3 gap-2">
-                                    {[
-                                        { id: "male", label: "Hombre" },
-                                        { id: "female", label: "Mujer" },
-                                        { id: "other", label: "Otro" },
-                                    ].map(g => (
-                                        <button
-                                            key={g.id}
-                                            aria-labelledby="gender-label"
-                                            onClick={() => setGender(g.id)}
-                                            className={`py-2.5 rounded-xl text-xs font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${gender === g.id ? 'bg-primary-600 border-primary-600 text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-primary-200'
-                                                }`}
-                                        >
-                                            {g.label}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="ageRange" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">Edad</label>
-                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Para descubrir las tendencias por generación.</p>
-                                <select
-                                    id="ageRange"
-                                    value={ageRange}
-                                    onChange={(e) => setAgeRange(e.target.value)}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-                                >
-                                    <option value="">Selecciona…</option>
-                                    {SEG_AGE_BUCKETS.filter(a => a.value !== "all").map(a => (
-                                        <option key={a.value} value={a.value}>{a.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <label htmlFor="region" className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 block">¿Dónde estás?</label>
-                                <p className="text-[11px] text-slate-400 mb-2 font-medium">Para detectar tendencias en tu región.</p>
-                                <select
-                                    id="region"
-                                    value={region}
-                                    onChange={(e) => setRegion(e.target.value)}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-                                >
-                                    <option value="">Selecciona…</option>
-                                    {SEG_REGIONS.filter(r => r.value !== "all").map(r => (
-                                        <option key={r.value} value={r.value}>{r.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <button
-                                onClick={handleDemographics}
-                                disabled={!gender || !ageRange || !region || loading}
-                                className="w-full bg-slate-900 py-4 rounded-2xl font-black text-white shadow-xl transition-all active:scale-[0.98] disabled:opacity-30 mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-                            >
-                                {loading ? 'Un segundo…' : 'Listo'}
-                            </button>
-                        </div>
-                    </motion.div>
+                    />
                 )}
 
+
                 {step === 'success' && (
-                    <motion.div
-                        key="success"
-                        custom={1}
-                        variants={variants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        className="p-8 flex-1 flex flex-col items-center justify-center text-center"
-                    >
-                        <div className="w-20 h-20 bg-emerald-50 rounded-3xl flex items-center justify-center mb-6 text-emerald-500">
-                            <motion.span
-                                initial={{ scale: 0.5, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ type: 'spring', damping: 12 }}
-                                className="material-symbols-rounded text-5xl"
-                            >
-                                check_circle
-                            </motion.span>
-                        </div>
-                        <h2 id="onboarding-title" className="text-3xl font-black text-slate-900 tracking-tighter">Listo. Ya puedes dejar tus señales.</h2>
-                        <p className="text-slate-500 font-medium mt-3 leading-relaxed">
-                            Tu cuenta ha sido configurada y está lista para impactar las tendencias. (Desbloqueaste <span className="text-primary-600 font-bold text-sm">15 señales</span>).
-                        </p>
-
-                        <div className="grid grid-cols-2 gap-3 w-full mt-10">
-                            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <div className="text-primary-600 font-black text-xl mb-1">15</div>
-                                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Señales/Día</div>
-                            </div>
-                            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <div className="text-primary-600 font-black text-xl mb-1">ON</div>
-                                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Insights</div>
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={onSuccess}
-                            className="w-full bg-primary-600 py-4 rounded-2xl font-black text-white shadow-lg shadow-primary-200 transition-all active:scale-[0.98] mt-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
-                        >
-                            Ir a Señales →
-                        </button>
-                    </motion.div>
+                    <StepSuccess onSuccess={onSuccess} variants={variants} />
                 )}
             </AnimatePresence>
 

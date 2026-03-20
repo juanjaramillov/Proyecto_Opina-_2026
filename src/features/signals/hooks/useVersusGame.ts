@@ -50,8 +50,10 @@ export function useVersusGame({
     }>>([]);
     const [lastWinner, setLastWinner] = useState<BattleOption | null>(null);
     const [momentum, setMomentum] = useState<BattleMomentum | null>(null);
+    const [isExitingBattle, setIsExitingBattle] = useState(false);
 
     const timeoutRef = useRef<number | null>(null);
+    const exitTimeoutRef = useRef<number | null>(null);
 
     const effectiveBattle = useMemo(() => {
         if (mode === 'torneo' && progressiveData && progressiveData.candidates) {
@@ -96,6 +98,10 @@ export function useVersusGame({
             window.clearTimeout(timeoutRef.current);
             timeoutRef.current = null;
         }
+        if (exitTimeoutRef.current) {
+            window.clearTimeout(exitTimeoutRef.current);
+            exitTimeoutRef.current = null;
+        }
     };
 
     const [isTransitioning, setIsTransitioning] = useState(false);
@@ -109,6 +115,7 @@ export function useVersusGame({
         setSelectedId(null);
         setMomentum(null);
         setIsTransitioning(false);
+        setIsExitingBattle(false);
 
         // Queue behavior
         if (mode !== 'torneo') {
@@ -208,7 +215,16 @@ export function useVersusGame({
 
                 // Simply wait for autoNextMs then go to the next battle
                 // DONT BLOCK THE TIMER!
-                const delayMs = autoNextMs ?? 3500;
+                const delayMs = autoNextMs ?? 1550;
+                
+                // Orchestrate the exit sequence: hide insight card 250ms before the battle swaps
+                const exitLeadTime = 250;
+                const timeToExit = Math.max(0, delayMs - exitLeadTime);
+                
+                exitTimeoutRef.current = window.setTimeout(() => {
+                    setIsExitingBattle(true);
+                }, timeToExit);
+
                 timeoutRef.current = window.setTimeout(() => {
                     goNext();
                 }, delayMs);
@@ -256,6 +272,7 @@ export function useVersusGame({
         sessionHistory,
         momentum,
         isTransitioning,
+        isExitingBattle,
 
         // Dummies for VersusGame.tsx compatibility
         locked: false,

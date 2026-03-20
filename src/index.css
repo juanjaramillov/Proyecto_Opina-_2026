@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
-
-@layer base {
+@tailwind utilities;@layer base {
 
   :root {
     /* ✅ BRAND COLOR OPINA+ (Corporate Blue) */
@@ -116,6 +116,23 @@
 
   .pulse-soft {
     animation: pulse-soft 2.5s ease-in-out infinite;
+  }
+
+  /* ✅ V3 RESULTS ANIMATIONS & CLASSES */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .signal-pulse {
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+  .bg-pulse-gradient {
+    background: radial-gradient(circle at 50% 50%, rgba(36, 56, 156, 0.05) 0%, rgba(0, 108, 73, 0.02) 100%);
   }
 
   .grad-text {

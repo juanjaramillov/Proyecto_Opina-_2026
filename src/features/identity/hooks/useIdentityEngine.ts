@@ -3,17 +3,19 @@ import { useSignalStore } from '../../../store/signalStore';
 
 export type Archetype = "Espectador" | "Explorador" | "Analista" | "Visionario" | "Oráculo" | "Leyenda";
 
+export interface PowerStats {
+    accuracy: number; // Porcentaje de predicciones acertadas respecto a la mayoría
+    streakDays: number; // Racha de días seguidos usando la app
+    tribalWeight: number; // Peso algorítmico del voto
+}
+
 export interface IdentityProfile {
     level: number;
     archetype: Archetype;
     currentTotalSignals: number;
     nextLevelSignals: number;
     progressPercentage: number;
-    powerStats: {
-        accuracy: number; // Porcentaje de predicciones acertadas respecto a la mayoría
-        streakDays: number; // Racha de días seguidos usando la app
-        tribalWeight: number; // Peso algorítmico del voto
-    };
+    powerStats: PowerStats;
     visuals: {
         icon: string;
         colorClass: string;

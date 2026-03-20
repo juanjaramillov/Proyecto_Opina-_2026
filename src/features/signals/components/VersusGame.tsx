@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useVersusGame } from '../hooks/useVersusGame';
 
 import OptionCard from './OptionCard';
+import VersusLoadingState from './versus/VersusLoadingState';
+import VersusFeedbackOverlay from './versus/VersusFeedbackOverlay';
+import VersusHeader from './versus/VersusHeader';
+import VersusInsightCard from './versus/VersusInsightCard';
 import { Battle, BattleOption, TorneoTournament, VoteResult } from '../types';
 import SessionSummary from './SessionSummary';
 import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
@@ -56,7 +60,8 @@ export default function VersusGame(props: GameProps) {
         setShowAuthModal,
         showProfileModal,
         setShowProfileModal,
-        isTransitioning
+        isTransitioning,
+        isExitingBattle
     } = useVersusGame(props);
 
     const isCurrentlySubmitting = props.isSubmitting || isTransitioning;
@@ -122,22 +127,7 @@ export default function VersusGame(props: GameProps) {
     }
 
     if (!effectiveBattle) {
-        return (
-            <div className="w-full flex flex-col items-center justify-center py-12 px-4 text-center bg-white border border-slate-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] rounded-[2rem] min-h-[400px]">
-                <div className="w-20 h-20 rounded-[1.5rem] bg-slate-50 border border-slate-100 shadow-sm flex items-center justify-center mb-6 text-slate-400">
-                    <span className="material-symbols-outlined text-text-muted text-5xl mb-4">hourglass_empty</span>
-                </div>
-                <h2 className="text-2xl font-black text-ink tracking-tight mb-2">No hay combates disponibles</h2>
-                <p className="text-text-secondary font-medium text-sm mb-6 max-w-xs mx-auto">
-                    Estamos preparando nuevas opciones. Vuelve en un rato.
-                </p>
-                <div className="mt-8">
-                    <button onClick={() => navigate('/experience')} className="px-6 py-3 bg-gradient-brand text-white rounded-xl font-black shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.23)] transition-all active:scale-95 uppercase tracking-wider text-sm">
-                        Volver a Participa
-                    </button>
-                </div>
-            </div>
-        );
+        return <VersusLoadingState />;
     }
 
     const options = effectiveBattle.options || [];
@@ -174,122 +164,7 @@ export default function VersusGame(props: GameProps) {
             <div className="px-4 pt-4 pb-6 text-center">
                 {/* Title and subtitle only at the top */}
 
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={effectiveBattle.title}
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5, transition: { duration: 0.15 } }}
-                    >
-                        <div className="text-center">
-                            {(() => {
-                                const formatTitle = (str: string) => {
-                                    // Preserva minúsculas/mayúsculas originales, solo asegura que la primera letra sea mayúscula (ignorando puntuación inicial)
-                                    const match = str.match(/^([¿¡\s]*)(.*)/);
-                                    if (!match) return str;
-                                    const p1 = match[1];
-                                    const body = match[2];
-                                    if (body.length > 0) {
-                                        return p1 + body.charAt(0).toUpperCase() + body.slice(1);
-                                    }
-                                    return str;
-                                };
-                                const titleStr = formatTitle(effectiveBattle.title.replace(/[-_]/g, ' '));
-                                const words = titleStr.split(' ');
-
-                                // Heurística avanzada para encontrar la frase principal a destacar (hasta 3 palabras):
-                                // Buscamos la subsecuencia (ventana) con mayor puntaje (suma de caracteres de palabras clave).
-                                // Penalizamos ventanas que empiecen o terminen con 'stopwords'.
-                                const stopWords = new Set([
-                                    'del', 'de', 'la', 'el', 'los', 'las', 'y', 'o', 'en', 'a', 'un', 'una', 
-                                    'por', 'con', 'para', 'sin', 'sobre', 'entre', 'pero', 'si', 'no', 'mas', 'más', 
-                                    'ya', 'que', 'cual', 'cuál', 'cuales', 'quien', 'quienes', 'como', 'cuando', 
-                                    'donde', 'dónde', 'porque', 'te', 'me', 'se', 'le', 'les', 'nos', 'es', 'son', 
-                                    'al', 'lo', 'tu', 'tus', 'su', 'sus', 'mi', 'mis', 'nuestro', 'nuestra', 
-                                    'nuestros', 'nuestras', 'menos', 'aqui', 'aquí', 'alli', 'allí', 'este', 'esta',
-                                    'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella', 'aquellos', 
-                                    'aquellas', 'todo', 'toda', 'todos', 'todas', 'nada', 'algo', 'mucho', 'mucha',
-                                    'muchos', 'muchas', 'poco', 'poca', 'pocos', 'pocas', 'muy', 'tan', 'hasta',
-                                    'desde', 'hacia', 'ni'
-                                ]);
-
-                                let bestStartIndex = words.length - 1;
-                                let bestLength = 1;
-                                let maxScore = -1;
-
-                                for (let size = 1; size <= Math.min(3, words.length); size++) {
-                                    for (let i = 0; i <= words.length - size; i++) {
-                                        const windowWords = words.slice(i, i + size);
-                                        let score = 0;
-                                        let isValid = true;
-                                        
-                                        windowWords.forEach((word, idx) => {
-                                            const cleanWord = word.replace(/^[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+|[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$/g, '').toLowerCase();
-                                            const isStop = stopWords.has(cleanWord) || cleanWord.length === 0;
-                                            
-                                            // No puede empezar ni terminar con stopword
-                                            if ((idx === 0 || idx === size - 1) && isStop) {
-                                                isValid = false;
-                                            }
-                                            if (!isStop) {
-                                                score += cleanWord.length;
-                                            }
-                                        });
-
-                                        if (isValid && score > maxScore) {
-                                            maxScore = score;
-                                            bestStartIndex = i;
-                                            bestLength = size;
-                                        }
-                                    }
-                                }
-
-                                if (maxScore === -1) {
-                                    bestStartIndex = words.length > 0 ? words.length - 1 : 0;
-                                    bestLength = 1;
-                                }
-
-                                const highlightWord = words.slice(bestStartIndex, bestStartIndex + bestLength).join(' ');
-                                const beforeHighlight = words.slice(0, bestStartIndex).join(' ');
-                                const afterHighlight = words.slice(bestStartIndex + bestLength).join(' ');
-
-                                return (
-                                    <>
-                                        <div className="flex items-center justify-between w-full mb-6">
-                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-sm">
-                                                <span className="inline-block w-2 h-2 rounded-full bg-gradient-brand shadow-[0_0_8px_rgba(59,130,246,0.4)]" />
-                                                Comparación Corta
-                                            </div>
-
-                                            <button
-                                                onClick={resetGame}
-                                                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-slate-500 hover:text-rose-600 transition-all group shadow-sm"
-                                                title="Salir y ver mis resultados de esta sesión"
-                                            >
-                                                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">Terminar Sesión</span>
-                                                <span className="material-symbols-outlined text-sm font-bold transition-transform group-hover:rotate-90">close</span>
-                                            </button>
-                                        </div>
-
-                                        <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 leading-[1.05] drop-shadow-sm">
-                                            {beforeHighlight && <>{beforeHighlight} </>}
-                                            <span className="text-gradient-brand drop-shadow-none">{highlightWord}</span>
-                                            {afterHighlight && <> {afterHighlight}</>}
-                                        </h1>
-                                    </>
-                                );
-                            })()}
-
-                            <p className="mt-3 text-base md:text-lg font-bold text-slate-600">
-                                Dos opciones. Una decisión rápida.
-                            </p>
-
-                            <div className="mt-2 text-sm font-medium text-slate-500">
-                                Toca una carta para señalar tu preferencia.
-                            </div>
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
+                <VersusHeader title={effectiveBattle.title} onResetGame={resetGame} />
 
                 {effectiveBattle.layout === 'opinion' && effectiveBattle.mainImageUrl && (
                     <motion.div
@@ -317,10 +192,10 @@ export default function VersusGame(props: GameProps) {
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={effectiveBattle.id + (champion?.id || '')}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20, transition: { duration: 0.15 } }}
-                            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5, transition: { duration: 0.15, ease: "easeIn" } }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
                             className="relative"
                         >
                             {/* Instruction + Progress immediately above cards */}
@@ -392,7 +267,7 @@ export default function VersusGame(props: GameProps) {
                                         )}
                                     </div>
 
-                                    {selectedOption && (
+                                    {selectedOption && !isTransitioning && (
                                         <motion.div
                                             initial={{ opacity: 0, y: 15 }}
                                             animate={{ opacity: 1, y: 0 }}
@@ -422,70 +297,9 @@ export default function VersusGame(props: GameProps) {
                             )}
 
                             {/* Comentario de Insight simulado por IA después de votar - PREMIUM V2 */}
-                            <AnimatePresence>
-                                {!!selectedOption && (
-                                    <motion.div
-                                        id="insight-card"
-                                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        transition={{ duration: 0.3, ease: "easeOut" }}
-                                        className="max-w-2xl mx-auto mt-10 p-[1px] rounded-[2rem] bg-gradient-to-r from-primary-100 via-slate-200 to-emerald-100 group shadow-md"
-                                    >
-                                        <div className="bg-white rounded-[calc(2rem-1px)] p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 overflow-hidden">
-                                            <div className="flex-shrink-0 w-14 h-14 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-500">
-                                                <span className="material-symbols-outlined text-primary-500 text-3xl">psychology</span>
-                                            </div>
+                            <VersusInsightCard selectedOption={isExitingBattle ? null : selectedOption} momentum={momentum} />
 
-                                            <div className="text-center md:text-left flex-1">
-                                                <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-500">Señal Detectada</span>
-                                                    <div className="h-1 w-1 rounded-full bg-slate-300" />
-                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Opina+ Intelligence</span>
-                                                </div>
-                                                <h4 className="text-xl md:text-2xl font-black text-slate-900 mb-2 drop-shadow-sm">Insight de la comunidad</h4>
-                                                <div className="text-sm md:text-base text-slate-600 leading-relaxed font-medium">
-                                                    El <span className="text-primary-600 font-black text-lg">
-                                                        {momentum && selectedOption
-                                                            ? momentum.options.find(o => o.id === selectedOption.id)?.percentage || 0
-                                                            : 0}%
-                                                    </span> de la comunidad Opina+ piensa igual que tú y ha elegido a <b>{selectedOption?.label}</b> en evaluaciones recientes.
-                                                    <span className="text-xs text-slate-400 mt-2 block">Señal conectada con la inteligencia colectiva.</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-                            <AnimatePresence>
-                                {clickPosition && (
-                                    <motion.div
-                                        initial={{
-                                            opacity: 1,
-                                            top: clickPosition.y - 40,
-                                            left: clickPosition.x - 40,
-                                            scale: 0.5
-                                        }}
-                                        animate={{
-                                            opacity: [1, 1, 0],
-                                            top: clickPosition.y - 120,
-                                            scale: [1, 1.2, 1]
-                                        }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 1.2, ease: "easeOut" }}
-                                        className="fixed z-[999] pointer-events-none drop-shadow-2xl"
-                                    >
-                                        <div
-                                            className="text-white font-black text-3xl px-4 py-2 rounded-full border-4 border-white shadow-xl transform -rotate-6 whitespace-nowrap overflow-hidden"
-                                            style={{ backgroundColor: props.theme?.primary || '#10b981' }}
-                                        >
-                                            Registrada
-                                        </div>
-                                        <div className="absolute inset-0 bg-white opacity-20 blur-md rounded-full animate-pulse" />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            <VersusFeedbackOverlay clickPosition={clickPosition} theme={props.theme} />
 
                             {/* Tooltip profile hints incorporated directly into progress bar top UI */}
                         </motion.div>

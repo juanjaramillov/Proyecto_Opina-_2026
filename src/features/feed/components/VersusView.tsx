@@ -206,7 +206,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                                 enableAutoAdvance={true}
                                 hideProgress={true}
                                 isQueueFinite={true}
-                                autoNextMs={400} // Igual al anti-spam del HubActiveState
+                                autoNextMs={1550} // Optimizado para lectura del insight
                                 onQueueComplete={onBatchComplete}
                                 isSubmitting={false}
                                 theme={{
