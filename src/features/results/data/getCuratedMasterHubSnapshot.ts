@@ -27,6 +27,7 @@ export function getCuratedMasterHubSnapshot(userId: string, filters?: HubFilters
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ('socioeconomicLevel' in filters && (filters as any).socioeconomicLevel) activeFiltersCount++;
     if (filters.period && filters.period !== 'all') activeFiltersCount++;
+    if (filters.generation && filters.generation !== 'ALL') activeFiltersCount++;
 
     // Reducción sistemática de cohorte
     if (activeFiltersCount === 1) cohortSize = 3200;

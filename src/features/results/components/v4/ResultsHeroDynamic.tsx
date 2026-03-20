@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Activity, Flame, ShieldAlert, Zap, Target } from "lucide-react";
-import { ResultsModule, ResultsPeriod, ResultsView } from "../../hooks/useResultsExperience";
+import { ResultsModule, ResultsPeriod, ResultsView, ResultsGeneration } from "../../hooks/useResultsExperience";
 import { MasterHubSnapshot } from "../../../../read-models/b2c/hub-types";
 
 interface ResultsHeroDynamicProps {
@@ -8,9 +8,10 @@ interface ResultsHeroDynamicProps {
   activeModule: ResultsModule;
   activePeriod: ResultsPeriod;
   activeView: ResultsView;
+  activeGeneration: ResultsGeneration;
 }
 
-export function ResultsHeroDynamic({ snapshot: _snapshot, activeModule, activePeriod: _activePeriod, activeView }: ResultsHeroDynamicProps) {
+export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activeView, activeGeneration }: ResultsHeroDynamicProps) {
   
   // Lógica para determinar el insight principal (mock contextualizado por las reglas)
   const getMainInsight = () => {
@@ -66,93 +67,134 @@ export function ResultsHeroDynamic({ snapshot: _snapshot, activeModule, activePe
 
   const insight = getMainInsight();
 
+  // Diccionarios para etiquetas contextuales
+  const moduleLabels: Record<string, string> = {
+    "ALL": "Todas las métricas",
+    "VERSUS": "Enfrentamientos",
+    "TOURNAMENT": "Torneos",
+    "PROFUNDIDAD": "Estudios",
+    "ACTUALIDAD": "Agenda Cíclica",
+    "LUGARES": "Mapeo Geo"
+  };
+
+  const periodLabels: Record<string, string> = {
+    "7D": "Últimos 7 días",
+    "30D": "Últimos 30 días",
+    "90D": "Últimos 90 días"
+  };
+
+  const generationLabels: Record<string, string> = {
+    "ALL": "Todas las gen.",
+    "BOOMERS": "Boomers",
+    "GEN_X": "Gen X",
+    "MILLENNIALS": "Millennials",
+    "GEN_Z": "Gen Z"
+  };
+
   return (
-    <section className="w-full pt-8 pb-12 relative overflow-hidden">
+    <section className="w-full pt-4 pb-8 md:pt-8 md:pb-12 relative overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-50/50 mix-blend-multiply filter blur-[100px]" />
       </div>
 
-      <div className="container-ws relative z-10">
+      <div className="container-ws relative z-10 w-full">
         
         {/* Main Hero Container */}
-        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] p-6 md:p-12 overflow-hidden relative">
+        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] p-5 md:p-10 lg:p-14 overflow-hidden relative">
           
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 pb-4">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             
             {/* Left: Dominant Insight */}
-            <div className="flex-1">
+            <div className="flex-1 flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={`${activeModule}-${activeView}`}
+                  key={`${activeModule}-${activeView}-${activeGeneration}`}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
                 >
-                  <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 mb-6 ${insight.colorBox}`}>
+                  <div className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 mb-6 shadow-sm ${insight.colorBox}`}>
                     {insight.icon}
-                    <span className="text-[11px] font-bold uppercase tracking-widest">
+                    <span className="text-xs md:text-sm font-bold uppercase tracking-widest">
                       {insight.kicker}
                     </span>
                   </div>
                   
-                  <h1 className="text-4xl md:text-6xl font-black tracking-tight text-ink leading-[1.05] mb-6">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight text-ink leading-[1.05] mb-6">
                     {insight.title}
                   </h1>
                   
-                  <p className="text-lg md:text-xl text-slate-500 font-medium max-w-xl mb-12">
+                  <p className="text-base sm:text-lg md:text-xl text-slate-500 font-medium max-w-2xl mb-10 leading-relaxed md:leading-relaxed">
                     {insight.description}
                   </p>
 
-                  <div className="flex items-end gap-6">
-                    <div>
-                      <div className={`text-5xl md:text-7xl font-black tracking-tighter leading-none ${insight.valueColor}`}>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 sm:gap-8 border-t border-slate-100 pt-8 mt-4">
+                    <div className="flex-shrink-0">
+                      <div className={`text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-none ${insight.valueColor}`}>
                         {insight.value}
                       </div>
-                      <div className="text-sm font-bold text-slate-400 mt-2 uppercase tracking-widest">
+                      <div className="text-xs sm:text-sm font-bold text-slate-400 mt-2 uppercase tracking-widest">
                         {insight.valueLabel}
                       </div>
                     </div>
+                    
+                    {/* Explicit Context Block */}
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 bg-slate-50 rounded-2xl p-3 border border-slate-200/60 flex-1 w-full sm:w-auto mt-4 sm:mt-0">
+                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center flex-1 sm:flex-none">
+                         {moduleLabels[activeModule] || activeModule}
+                       </span>
+                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center flex-1 sm:flex-none">
+                         {periodLabels[activePeriod] || activePeriod}
+                       </span>
+                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center flex-1 sm:flex-none">
+                         {generationLabels[activeGeneration] || activeGeneration}
+                       </span>
+                       <span className="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg shadow-sm border border-indigo-100 text-xs font-bold block text-center flex-1 sm:flex-none">
+                         {(snapshot.cohortState.cohortSize || snapshot.overview.totalSignals).toLocaleString()} Señales
+                       </span>
+                    </div>
+
                   </div>
                 </motion.div>
               </AnimatePresence>
             </div>
 
             {/* Right: Secondary Signals */}
-            <div className="w-full lg:w-[400px] shrink-0 flex flex-col justify-end gap-4 relative z-10">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 pl-2 border-l-2 border-slate-200">
-                Señales Secundarias Activadas
+            <div className="w-full lg:w-[340px] xl:w-[380px] shrink-0 flex flex-col justify-end gap-3 relative z-10">
+              <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-2 border-l-2 border-slate-300">
+                Señales Derivadas ({generationLabels[activeGeneration] || activeGeneration})
               </h3>
               
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={`sec-${activeModule}-${activeView}`}
+                  key={`sec-${activeModule}-${activeView}-${activeGeneration}`}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.5, staggerChildren: 0.1 }}
-                  className="space-y-3"
+                  className="flex flex-col gap-3"
                 >
                   {/* Secondary Signal Card 1 */}
-                  <motion.div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex gap-4 items-start hover:bg-slate-100 transition-colors group cursor-pointer">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm text-slate-400 group-hover:text-indigo-600 transition-colors">
-                      <Flame className="w-5 h-5" />
+                  <motion.div className="bg-slate-50/80 border border-slate-200/60 rounded-2xl p-4 flex gap-4 items-start hover:bg-slate-50 hover:shadow-sm hover:border-indigo-100 transition-all group flex-1">
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100 text-slate-400 group-hover:text-indigo-600 transition-colors">
+                      <Flame className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-slate-800 leading-tight mb-1">Crecimiento en Cripto local</h4>
-                      <p className="text-xs text-slate-500">Un 12% de las señales de Mercado rotaron hacia adopción cripto.</p>
+                      <h4 className="text-sm font-bold text-slate-800 leading-tight mb-1.5">Rotación hacia cripto regional</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">Una gran porción de la actividad reciente giró hacia adopción cripto sobre banca tradicional.</p>
                     </div>
                   </motion.div>
 
                   {/* Secondary Signal Card 2 */}
-                  <motion.div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex gap-4 items-start hover:bg-slate-100 transition-colors group cursor-pointer">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm text-slate-400 group-hover:emerald-600 transition-colors">
-                      <Target className="w-5 h-5" />
+                  <motion.div className="bg-slate-50/80 border border-slate-200/60 rounded-2xl p-4 flex gap-4 items-start hover:bg-slate-50 hover:shadow-sm hover:border-emerald-100 transition-all group flex-1">
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100 text-slate-400 group-hover:text-emerald-600 transition-colors">
+                      <Target className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-slate-800 leading-tight mb-1">Estabilidad Urbana</h4>
-                      <p className="text-xs text-slate-500">Consenso robusto en "Lugares" sobre regeneración de parques.</p>
+                      <h4 className="text-sm font-bold text-slate-800 leading-tight mb-1.5">Tracción en Diseño Urbano</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">Crecimiento sostenido en el debate sobre peatonalización de centros urbanos.</p>
                     </div>
                   </motion.div>
                 </motion.div>

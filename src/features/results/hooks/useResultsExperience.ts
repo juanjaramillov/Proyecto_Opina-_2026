@@ -8,6 +8,7 @@ import { trackPage } from "../../telemetry/track";
 export type ResultsModule = "ALL" | "VERSUS" | "TOURNAMENT" | "PROFUNDIDAD" | "ACTUALIDAD" | "LUGARES";
 export type ResultsPeriod = "7D" | "30D" | "90D";
 export type ResultsView = "GENERAL" | "CONSENSO" | "POLARIZACION" | "TENDENCIA";
+export type ResultsGeneration = "ALL" | "BOOMERS" | "GEN_X" | "MILLENNIALS" | "GEN_Z";
 
 export function useResultsExperience() {
   const { profile } = useAuth();
@@ -19,6 +20,7 @@ export function useResultsExperience() {
   const [activeModule, setActiveModule] = useState<ResultsModule>("ALL");
   const [activePeriod, setActivePeriod] = useState<ResultsPeriod>("30D");
   const [activeView, setActiveView] = useState<ResultsView>("GENERAL");
+  const [activeGeneration, setActiveGeneration] = useState<ResultsGeneration>("ALL");
 
   const loadData = useCallback(async () => {
     if (!profile?.id) return;
@@ -47,6 +49,7 @@ export function useResultsExperience() {
     // State Exports
     activeModule, setActiveModule,
     activePeriod, setActivePeriod,
-    activeView, setActiveView
+    activeView, setActiveView,
+    activeGeneration, setActiveGeneration
   };
 }

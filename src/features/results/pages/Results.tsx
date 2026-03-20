@@ -22,7 +22,8 @@ export default function ResultsPage() {
     snapshot, 
     activeModule, setActiveModule, 
     activePeriod, setActivePeriod,
-    activeView, setActiveView
+    activeView, setActiveView,
+    activeGeneration, setActiveGeneration
   } = useResultsExperience();
 
   if (!snapshot) {
@@ -35,11 +36,11 @@ export default function ResultsPage() {
 
   const renderModuleSection = () => {
     switch(activeModule) {
-      case "VERSUS": return <VersusInsightBlock />;
-      case "TOURNAMENT": return <TorneoInsightBlock />;
-      case "PROFUNDIDAD": return <ProfundidadInsightBlock />;
-      case "ACTUALIDAD": return <ActualidadInsightBlock />;
-      case "LUGARES": return <LugaresInsightBlock />;
+      case "VERSUS": return <VersusInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
+      case "TOURNAMENT": return <TorneoInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
+      case "PROFUNDIDAD": return <ProfundidadInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
+      case "ACTUALIDAD": return <ActualidadInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
+      case "LUGARES": return <LugaresInsightBlock generation={activeGeneration} snapshot={curatedSnapshot} />;
       default: return null;
     }
   };
@@ -55,7 +56,7 @@ export default function ResultsPage() {
       </div>
 
       {/* 2. Sticky Top Filter Bar (Elevated z-index) */}
-      <div className="sticky top-0 z-50 w-full px-4 py-4 pointer-events-none flex justify-center mt-6 md:mt-12 transition-all duration-500">
+      <div className="sticky top-0 z-50 w-full px-4 py-3 pointer-events-none flex justify-center mt-4 md:mt-8 transition-all duration-500">
          <div className="pointer-events-auto w-full flex justify-center drop-shadow-sm">
            <FilterBar 
              activeModule={activeModule}
@@ -64,31 +65,33 @@ export default function ResultsPage() {
              onPeriodChange={setActivePeriod}
              activeView={activeView}
              onViewChange={setActiveView}
+             activeGeneration={activeGeneration}
+             onGenerationChange={setActiveGeneration}
            />
          </div>
       </div>
 
       {/* 3. Main Content Flow */}
-      <main className="w-full flex flex-col relative z-10 pt-8">
+      <main className="w-full flex flex-col relative z-10 pt-4 md:pt-6">
         
         {/* Massive Headline and Realtime Facts */}
-        <ResultsHeroDynamic snapshot={snapshot} activeModule={activeModule} activePeriod={activePeriod} activeView={activeView} />
+        <ResultsHeroDynamic snapshot={snapshot} activeModule={activeModule} activePeriod={activePeriod} activeView={activeView} activeGeneration={activeGeneration} />
         
         {/* Ecosystem General Pulse */}
-        <div className="mt-16 container-ws">
-          <ResultsTransversalMetrics snapshot={snapshot} activePeriod={activePeriod} />
+        <div className="mt-8 md:mt-12 container-ws">
+          <ResultsTransversalMetrics snapshot={snapshot} activePeriod={activePeriod} activeGeneration={activeGeneration} />
         </div>
 
         {/* Composition / Module Comparator */}
-        <ResultsModuleComparator activeModule={activeModule} />
+        <ResultsModuleComparator activeModule={activeModule} activeGeneration={activeGeneration} />
         
         {/* Module Specific Logic */}
-        <div className="container-ws py-24">
+        <div className="container-ws py-12 md:py-16">
           {renderModuleSection()}
         </div>
         
         {/* Contextual Insights Wall - Reactiva a todos los controles */}
-        <ResultsContextualWall activeModule={activeModule} />
+        <ResultsContextualWall activeModule={activeModule} activeGeneration={activeGeneration} />
 
         {/* Heroica final wow */}
         <ResultsWowClosing />

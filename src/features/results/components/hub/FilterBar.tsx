@@ -1,4 +1,4 @@
-import { ResultsModule, ResultsPeriod, ResultsView } from "../../hooks/useResultsExperience";
+import { ResultsModule, ResultsPeriod, ResultsView, ResultsGeneration } from "../../hooks/useResultsExperience";
 
 interface FilterBarProps {
   activeModule: ResultsModule;
@@ -7,12 +7,15 @@ interface FilterBarProps {
   onPeriodChange: (period: ResultsPeriod) => void;
   activeView: ResultsView;
   onViewChange: (view: ResultsView) => void;
+  activeGeneration: ResultsGeneration;
+  onGenerationChange: (gen: ResultsGeneration) => void;
 }
 
 export function FilterBar({ 
   activeModule, onModuleChange, 
   activePeriod, onPeriodChange,
-  activeView, onViewChange 
+  activeView, onViewChange,
+  activeGeneration, onGenerationChange
 }: FilterBarProps) {
   const modules = [
     { id: "ALL", label: "Todas" },
@@ -36,8 +39,18 @@ export function FilterBar({
     { id: "TENDENCIA", label: "Tendencia" }
   ] as const;
 
+  const generations = [
+    { id: "ALL", label: "Todas las generaciones" },
+    { id: "BOOMERS", label: "Boomers" },
+    { id: "GEN_X", label: "Gen X" },
+    { id: "MILLENNIALS", label: "Millennials" },
+    { id: "GEN_Z", label: "Gen Z" }
+  ] as const;
+
   return (
-    <div className="bg-white/90 backdrop-blur-md border border-slate-200/60 p-1.5 md:p-2 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.08)] rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-3 transition-all w-[95vw] md:w-auto md:max-w-[1000px] mx-auto overflow-x-auto hide-scrollbar">
+    <div className="flex flex-col items-center gap-2 w-full">
+      {/* Primera Fila: Principal */}
+      <div className="bg-white/90 backdrop-blur-md border border-slate-200/60 p-1.5 md:p-2 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.08)] rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-3 transition-all w-[95vw] md:w-auto md:max-w-[1000px] mx-auto overflow-x-auto hide-scrollbar">
       
       {/* Selector de Módulo */}
       <div className="flex items-center gap-1 overflow-x-auto hide-scrollbar w-full md:w-auto px-2">
@@ -92,6 +105,24 @@ export function FilterBar({
         ))}
       </div>
       
+      </div>
+
+      {/* Segunda Fila: Generaciones (Secundaria) */}
+      <div className="bg-white/80 backdrop-blur-sm border border-slate-200/50 p-1 md:p-1.5 shadow-[0_4px_15px_-5px_rgba(0,0,0,0.05)] rounded-full flex items-center justify-center gap-1 transition-all w-[90vw] md:w-auto mx-auto overflow-x-auto hide-scrollbar">
+        {generations.map(gen => (
+          <button
+            key={gen.id}
+            onClick={() => onGenerationChange(gen.id as ResultsGeneration)}
+            className={`whitespace-nowrap px-3 py-1 rounded-full text-[11px] font-medium transition-colors ${
+              activeGeneration === gen.id 
+                ? 'bg-slate-100 text-slate-800 border border-slate-300 shadow-sm' 
+                : 'bg-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50 border border-transparent'
+            }`}
+          >
+            {gen.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

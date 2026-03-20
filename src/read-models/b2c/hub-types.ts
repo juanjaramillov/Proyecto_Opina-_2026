@@ -75,6 +75,7 @@ export interface HubFilters {
   period?: '7d' | '30d' | 'all';
   gender?: 'male' | 'female' | 'other' | null;
   ageRange?: string | null; // e.g., '18-24'
+  generation?: 'ALL' | 'BOOMERS' | 'GEN_X' | 'MILLENNIALS' | 'GEN_Z';
   region?: string | null;
 }
 
