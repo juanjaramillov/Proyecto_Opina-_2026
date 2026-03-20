@@ -79,24 +79,42 @@ export function ResultsModuleComparator({ activeModule, activeGeneration: _activ
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div className="max-w-xl">
           <h3 className="text-2xl font-black text-ink tracking-tight mb-2">Composición del Tráfico</h3>
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-500 text-sm mb-3">
             Distribución de la atención y energía participativa actual.
           </p>
+          <div className="flex flex-wrap items-center gap-4 text-[10px] md:text-xs text-slate-400 font-medium bg-slate-50 py-1.5 px-3 rounded-full border border-slate-100 w-fit">
+            <span className="flex items-center gap-1"><span className="w-3 h-1 bg-slate-300 rounded-full"></span> Largo = Share de tráfico</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-indigo-400"></span> Color = Módulo activo</span>
+            <span className="flex items-center gap-1 uppercase tracking-wider font-bold text-slate-500">Fricción = Intensidad de debate</span>
+          </div>
         </div>
       </div>
 
       <div className="w-full bg-slate-50/50 rounded-3xl border border-slate-100 p-6 md:p-8">
         {/* Progress Bar View */}
-        <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden flex mb-8">
-          {modulesData.map(mod => (
+        <div className="h-6 w-full bg-slate-100 rounded-full overflow-hidden flex mb-8 border border-slate-200/50 shadow-inner group">
+          {modulesData.map((mod, index) => (
             <motion.div 
               key={`bar-${mod.id}`}
               initial={{ width: 0 }}
               animate={{ width: `${mod.volume}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className={`h-full ${mod.color}`}
+              transition={{ duration: 1.2, ease: "easeOut", delay: index * 0.1 }}
+              className={`h-full relative overflow-hidden border-r border-white/20 last:border-0 hover:brightness-110 transition-all ${mod.color}`}
               title={`${mod.label}: ${mod.volume}%`}
-            />
+            >
+              {/* Subtle animated shine traversing the bars */}
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: "300%" }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity, 
+                  ease: "linear",
+                  delay: index * 0.2
+                }}
+                className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
+              />
+            </motion.div>
           ))}
         </div>
 

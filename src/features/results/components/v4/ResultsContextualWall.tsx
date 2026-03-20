@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { MessageCircle, ArrowRight, Zap, Target } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MessageCircle, ArrowRight, ArrowLeft, Zap, Target } from "lucide-react";
+import { useState, useEffect } from "react";
 import { ResultsModule, ResultsGeneration } from "../../hooks/useResultsExperience";
 
 interface ResultsContextualWallProps {
@@ -59,13 +60,30 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
     }
   ];
 
-  // Filter insights based on active module. If ALL, show a mix.
+  // Filter insights based on active module. If ALL, show all.
   const displayInsights = activeModule === "ALL" 
     ? allInsights 
-    : allInsights.filter(i => i.module === activeModule || i.module === "VERSUS" /* Just to show something if mock is lacking */).slice(0, 4);
+    : allInsights.filter(i => i.module === activeModule || i.module === "VERSUS" /* Fallback */);
 
-  // Fallback if filtering leaves us empty
-  const safeInsights = displayInsights.length > 0 ? displayInsights : allInsights.slice(0, 3);
+  // Fallback if filtering leaves us with too few cards
+  const safeInsights = displayInsights.length >= 3 ? displayInsights : allInsights;
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Auto rotation
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % safeInsights.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [safeInsights.length]);
+
+  const handleNext = () => setActiveIndex((current) => (current + 1) % safeInsights.length);
+  const handlePrev = () => setActiveIndex((current) => (current - 1 + safeInsights.length) % safeInsights.length);
+
+  const protagonist = safeInsights[activeIndex];
+  const secondary1 = safeInsights[(activeIndex + 1) % safeInsights.length];
+  const secondary2 = safeInsights[(activeIndex + 2) % safeInsights.length];
 
   const generationLabels: Record<string, string> = {
     "ALL": "Todas las gen.",
@@ -101,71 +119,99 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
         </button>
       </div>
 
-      {/* Premium Layout: 1 Protagonist + 2 Secondary (Carousel on Mobile) */}
-      <div className="flex lg:grid lg:grid-cols-12 gap-4 lg:gap-6 pb-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-4 px-4 lg:mx-0 lg:px-0 lg:overflow-visible">
-        
-        {/* Protagonist Card */}
-        {safeInsights[0] && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`w-[85vw] lg:w-auto shrink-0 snap-center col-span-1 lg:col-span-8 border rounded-[2rem] p-6 md:p-10 relative group hover:shadow-xl transition-all cursor-pointer ${safeInsights[0].color} overflow-hidden`}
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/30 blur-3xl rounded-full -mr-20 -mt-20 pointer-events-none" />
-            
-            {/* Big quote mark decoration */}
-            <div className="absolute top-4 left-6 text-[120px] font-serif font-black opacity-10 leading-none pointer-events-none select-none">"</div>
-            <div className="absolute bottom-8 right-8 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500">
-              {safeInsights[0].type === "tension" ? <Zap className="w-24 h-24" /> : 
-               safeInsights[0].type === "consensus" ? <Target className="w-24 h-24" /> : 
-               <MessageCircle className="w-24 h-24" />}
-            </div>
+        <div className="hidden justify-end gap-2 mb-4 md:flex">
+          <button onClick={handlePrev} className="p-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
+            <ArrowLeft className="w-4 h-4 text-slate-600" />
+          </button>
+          <button onClick={handleNext} className="p-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
+            <ArrowRight className="w-4 h-4 text-slate-600" />
+          </button>
+        </div>
 
-            <div className="flex flex-wrap items-center gap-2 mb-6 relative z-10">
-               <span className="px-3 py-1 bg-white/60 backdrop-blur-sm rounded-lg border border-white/40 text-[11px] font-bold uppercase tracking-widest">
-                 {moduleLabels[safeInsights[0].module] || safeInsights[0].module}
-               </span>
-               <span className="px-3 py-1 bg-white/60 backdrop-blur-sm rounded-lg border border-white/40 text-[11px] font-bold uppercase tracking-widest">
-                 {generationLabels[activeGeneration] || activeGeneration}
-               </span>
-            </div>
+        {/* Premium Layout: 1 Protagonist + 2 Secondary (Carousel on Mobile) */}
+        <div className="flex lg:grid lg:grid-cols-12 gap-4 lg:gap-6 pb-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-4 px-4 lg:mx-0 lg:px-0 lg:overflow-visible">
+          
+          {/* Protagonist Card */}
+          {protagonist && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={protagonist.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.5 }}
+                className={`w-[85vw] lg:w-auto shrink-0 snap-center col-span-1 lg:col-span-8 border rounded-[2rem] p-6 md:p-10 relative group hover:shadow-xl transition-all cursor-pointer ${protagonist.color} overflow-hidden`}
+              >
+                {/* Organic animated gradient shapes for premium feel */}
+                <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+                  <motion.div 
+                    animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }} 
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute -top-32 -right-32 w-96 h-96 bg-white rounded-full blur-3xl mix-blend-overlay"
+                  />
+                  <motion.div 
+                    animate={{ scale: [1, 1.5, 1], x: [0, -50, 0] }} 
+                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                    className="absolute -bottom-32 -left-32 w-[30rem] h-[30rem] bg-white/50 rounded-full blur-3xl mix-blend-overlay"
+                  />
+                </div>
+                
+                {/* Big quote mark decoration */}
+                <div className="absolute top-4 left-6 text-[120px] font-serif font-black opacity-[0.05] leading-none pointer-events-none select-none z-0">"</div>
+                <div className="absolute bottom-8 right-8 opacity-[0.07] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700 z-0">
+                  {protagonist.type === "tension" ? <Zap className="w-32 h-32" /> : 
+                  protagonist.type === "consensus" ? <Target className="w-32 h-32" /> : 
+                  <MessageCircle className="w-32 h-32" />}
+                </div>
 
-            <h4 className="text-2xl md:text-3xl lg:text-4xl font-black leading-[1.1] mb-8 mt-6 relative z-10 tracking-tight max-w-2xl">
-              {safeInsights[0].text}
-            </h4>
-            
-            <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/50 backdrop-blur-md border border-white/60 flex items-center justify-center shrink-0 shadow-sm">
-                  <span className="text-sm font-black opacity-70">
-                    {safeInsights[0].author.charAt(0)}
+                <div className="flex flex-wrap items-center gap-2 mb-6 relative z-10">
+                  <span className="px-3 py-1 bg-white/70 backdrop-blur-md shadow-sm rounded-lg border border-white/50 text-[11px] font-bold uppercase tracking-widest text-slate-700">
+                    {moduleLabels[protagonist.module] || protagonist.module}
+                  </span>
+                  <span className="px-3 py-1 bg-white/70 backdrop-blur-md shadow-sm rounded-lg border border-white/50 text-[11px] font-bold uppercase tracking-widest text-slate-700">
+                    {generationLabels[activeGeneration] || activeGeneration}
                   </span>
                 </div>
-                <div>
-                  <div className="text-[10px] font-black uppercase tracking-widest opacity-50 mb-0.5">Nodo de Origen</div>
-                  <div className="text-sm font-bold opacity-80">
-                    {safeInsights[0].author}
+
+                <h4 className="text-2xl md:text-3xl lg:text-4xl font-black leading-[1.1] mb-8 mt-6 relative z-10 tracking-tight max-w-2xl text-slate-900">
+                  {protagonist.text}
+                </h4>
+                
+                <div className="flex items-center justify-between relative z-10 mt-auto pt-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md border border-white flex items-center justify-center shrink-0 shadow-sm text-slate-800">
+                      <span className="text-sm font-black">
+                        {protagonist.author.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-0.5">Nodo de Origen</div>
+                      <div className="text-sm font-bold text-slate-800">
+                        {protagonist.author}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="w-12 h-12 rounded-full border-2 border-slate-800/20 group-hover:bg-slate-800 group-hover:border-slate-800 transition-all flex items-center justify-center">
+                    <ArrowRight className="w-5 h-5 text-slate-800 group-hover:text-white transition-all -translate-x-1 group-hover:translate-x-0" />
                   </div>
                 </div>
-              </div>
+              </motion.div>
+            </AnimatePresence>
+          )}
 
-              <div className="w-12 h-12 rounded-full border-2 border-current opacity-20 group-hover:opacity-100 group-hover:bg-current transition-all flex items-center justify-center">
-                <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:text-white transition-all -translate-x-2 group-hover:translate-x-0" />
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* 2 Secondary Cards */}
-        <div className="flex lg:flex-col gap-4 lg:gap-6 col-span-1 lg:col-span-4 shrink-0">
-          {safeInsights.slice(1, 3).map((insight, index) => (
-            <motion.div
-              key={insight.id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 + (index * 0.1) }}
-              className={`w-[85vw] lg:w-auto shrink-0 snap-center flex-1 border rounded-[2rem] p-6 lg:p-8 relative group hover:shadow-lg transition-all cursor-pointer ${insight.color} flex flex-col justify-between`}
-            >
+          {/* 2 Secondary Cards */}
+          <div className="flex lg:flex-col gap-4 lg:gap-6 col-span-1 lg:col-span-4 shrink-0">
+            <AnimatePresence mode="popLayout">
+              {[secondary1, secondary2].map((insight, index) => (
+                <motion.div
+                  key={`${insight.id}-${index}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className={`w-[85vw] lg:w-auto shrink-0 snap-center flex-1 border rounded-[2rem] p-6 lg:p-8 relative group hover:shadow-lg transition-all cursor-pointer ${insight.color} flex flex-col justify-between`}
+                >
               <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-30 transition-opacity">
                 {insight.type === "tension" ? <Zap className="w-8 h-8" /> : 
                  insight.type === "consensus" ? <Target className="w-8 h-8" /> : 
@@ -193,15 +239,23 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
               </div>
             </motion.div>
           ))}
+          </AnimatePresence>
         </div>
       </div>
 
-      {/* Mobile Carousel Indicators (Visual cue only) */}
-      <div className="flex md:hidden justify-center gap-2 mt-4 mb-2">
-        <div className="w-2 h-2 rounded-full bg-slate-800" />
-        <div className="w-2 h-2 rounded-full bg-slate-300" />
-        <div className="w-2 h-2 rounded-full bg-slate-300" />
-      </div>
+        {/* Mobile Carousel Indicators (Interactive) */}
+        <div className="flex md:hidden justify-center gap-2 mt-4 mb-2">
+          {safeInsights.map((_, i) => (
+            <button 
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              className={`w-2 h-2 rounded-full transition-all ${i === activeIndex ? 'bg-indigo-600 scale-125' : 'bg-slate-300'}`} 
+              aria-label={`Go to insight ${i + 1}`}
+            />
+          ))}
+        </div>
+
+
 
       <button className="md:hidden mt-4 w-full py-4 bg-slate-50 text-slate-800 font-bold rounded-2xl border border-slate-200 flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors">
         Explorar radar completo <ArrowRight className="w-4 h-4" />

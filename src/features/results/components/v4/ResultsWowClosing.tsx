@@ -12,28 +12,80 @@ export function ResultsWowClosing() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
         <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[80px] mix-blend-screen pointer-events-none" />
         
-        {/* Simple mock particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-white rounded-full opacity-20"
-            style={{
-              width: Math.random() * 4 + 1 + "px",
-              height: Math.random() * 4 + 1 + "px",
-              top: Math.random() * 100 + "%",
-              left: Math.random() * 100 + "%",
-            }}
-            animate={{
-              y: [0, Math.random() * -30 - 10],
-              opacity: [0.1, 0.4, 0.1]
-            }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
+        {/* SVG Node Network reflecting Signal Flow */}
+        <svg className="absolute inset-0 w-full h-full opacity-30" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#818CF8" stopOpacity="0" />
+              <stop offset="50%" stopColor="#818CF8" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#34D399" stopOpacity="0" />
+            </linearGradient>
+            <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#818CF8" stopOpacity="1" />
+              <stop offset="100%" stopColor="#818CF8" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          
+          {/* Constellation Grid */}
+          <g className="stroke-[#818CF8]/20" strokeWidth="1" fill="none">
+            <motion.path 
+              d="M0,200 Q400,300 800,100 T1600,400" 
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1, d: ["M0,200 Q400,300 800,100 T1600,400", "M0,300 Q500,100 900,200 T1600,200", "M0,200 Q400,300 800,100 T1600,400"] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.path 
+              d="M0,600 Q200,500 600,700 T1600,600" 
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1, d: ["M0,600 Q200,500 600,700 T1600,600", "M0,500 Q400,600 700,500 T1600,700", "M0,600 Q200,500 600,700 T1600,600"] }}
+              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            />
+            {/* Connecting lines between signals */}
+            <motion.line x1="20%" y1="30%" x2="40%" y2="60%" stroke="url(#lineGrad)" strokeWidth="2" 
+              animate={{ opacity: [0, 1, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            />
+            <motion.line x1="60%" y1="70%" x2="80%" y2="20%" stroke="url(#lineGrad)" strokeWidth="2" 
+              animate={{ opacity: [0, 1, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
+            <motion.line x1="40%" y1="60%" x2="80%" y2="20%" stroke="url(#lineGrad)" strokeWidth="2" 
+              animate={{ opacity: [0, 1, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+            />
+          </g>
+
+          {/* Active Nodes / Signals */}
+          <g>
+            {[ 
+              { x: "20%", y: "30%", s: 1 }, { x: "40%", y: "60%", s: 1.5 }, 
+              { x: "60%", y: "70%", s: 1.2 }, { x: "80%", y: "20%", s: 2 },
+              { x: "10%", y: "80%", s: 0.8 }, { x: "90%", y: "60%", s: 1.3 }
+            ].map((node, i) => (
+              <motion.circle
+                key={`node-${i}`}
+                cx={node.x}
+                cy={node.y}
+                r={4 * node.s}
+                fill="#fff"
+                animate={{ r: [3 * node.s, 6 * node.s, 3 * node.s], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2 + i * 0.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            ))}
+            
+            {/* Glowing active points */}
+            {[ 
+              { x: "40%", y: "60%" }, { x: "80%", y: "20%" }
+            ].map((node, i) => (
+              <motion.circle
+                key={`glow-${i}`}
+                cx={node.x}
+                cy={node.y}
+                r="30"
+                fill="url(#nodeGlow)"
+                animate={{ scale: [1, 2, 1], opacity: [0.3, 0.8, 0.3] }}
+                transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: i }}
+              />
+            ))}
+          </g>
+        </svg>
       </div>
 
       <div className="container-ws relative z-10 text-center max-w-4xl mx-auto">
