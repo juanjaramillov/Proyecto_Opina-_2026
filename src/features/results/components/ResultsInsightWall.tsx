@@ -61,11 +61,11 @@ export function ResultsInsightWall() {
                 <div className={`h-2 bg-gradient-to-r ${item.accent}`} />
                 <div className="p-6 md:p-7">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-slate-600">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 border border-slate-200 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.16em] text-slate-700 shadow-sm">
                       {item.badge}
                     </span>
-                    <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${item.accent} text-white flex items-center justify-center shadow-md`}>
-                      <Icon className="w-5 h-5" />
+                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.accent} text-white flex items-center justify-center shadow-lg ring-4 ring-slate-50`}>
+                      <Icon className="w-6 h-6" />
                     </div>
                   </div>
 

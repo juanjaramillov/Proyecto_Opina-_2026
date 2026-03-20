@@ -67,7 +67,7 @@ export function ResultsTrendsV2() {
 
           {/* Lado derecho: Frase e insights */}
           <div className="flex-1 w-full text-left">
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-8">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-8">
               El interés por temas sostenibles está acelerando.
             </h2>
 

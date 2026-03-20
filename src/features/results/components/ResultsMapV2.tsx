@@ -29,13 +29,13 @@ export function ResultsMapV2() {
         <div className="w-full md:w-1/3 mb-12 md:mb-0">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 text-white px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] mb-6">
             <span className="material-symbols-outlined text-[14px]">explore</span>
-            Tu mapa de coincidencia
+            Mapa del Ecosistema
           </div>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-            Donde orbitan tus ideas.
+            Donde orbita la comunidad hoy.
           </h2>
           <p className="text-slate-400 text-lg mb-8">
-            Las categorías más cercanas al ecosistema representan tu alineación con la mayoría. Las más alejadas son tus territorios únicos.
+            Las categorías centrales concentran el consenso general. Las más alejadas representan fricción y debate activo en tiempo real.
           </p>
 
           <div className="space-y-4">

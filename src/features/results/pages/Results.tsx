@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { trackEvent } from "../../../services/analytics/trackEvent";
 import { useResultsExperience } from "../hooks/useResultsExperience";
-import { ResultsHeroB2C } from "../components/v3/ResultsHeroB2C";
-import { ResultsProfileVsCommunityB2C } from "../components/v3/ResultsProfileVsCommunityB2C";
-import { ResultsConsensusMapB2C } from "../components/v3/ResultsConsensusMapB2C";
-import { ResultsTrendsB2C } from "../components/v3/ResultsTrendsB2C";
+import { ResultsHeroFactual } from "../components/ResultsHeroFactual";
+import { ResultsConsensusVsPolarization } from "../components/ResultsConsensusVsPolarization";
+import { ResultsInsightWall } from "../components/ResultsInsightWall";
+import { ResultsTrendsV2 } from "../components/ResultsTrendsV2";
+import { ResultsWinningV2 } from "../components/ResultsWinningV2";
+import { ResultsMapV2 } from "../components/ResultsMapV2";
 
 export default function ResultsPage() {
   useEffect(() => {
@@ -24,11 +26,13 @@ export default function ResultsPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-blue-100 relative w-full overflow-x-hidden pb-12">
       <main className="container-ws pt-8">
-        <ResultsHeroB2C />
-        <ResultsProfileVsCommunityB2C />
-        <ResultsConsensusMapB2C />
-        <ResultsTrendsB2C />
+        <ResultsHeroFactual snapshot={snapshot} />
+        <ResultsConsensusVsPolarization />
+        <ResultsInsightWall />
+        <ResultsTrendsV2 />
+        <ResultsWinningV2 />
       </main>
+      <ResultsMapV2 />
 
       <div className="w-full py-8 mt-12 border-t border-slate-200">
         <p className="container-ws text-center md:text-left text-[10px] text-slate-400 font-medium tracking-wide">

@@ -136,38 +136,37 @@ export function ResultsHeroFactual(_props: ResultsHeroFactualProps) {
                 <div className="inline-flex items-center gap-2 rounded-full bg-rose-50 text-rose-700 px-3 py-1.5">
                   <AlertTriangle className="w-4 h-4" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.18em]">
-                    tu posición
+                    tensión principal
                   </span>
                 </div>
                 <span className="text-sm font-bold text-slate-400">02</span>
               </div>
 
               <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-950 leading-tight">
-                Estás fuera del consenso en tecnología
+                Privacidad vs Personalización
               </h2>
 
               <p className="mt-3 text-sm md:text-base text-slate-500 leading-snug">
-                Tus últimas señales te dejan fuera de la corriente dominante.
+                La agenda más dividida del mes: conveniencia digital versus control de datos.
               </p>
 
               <div className="mt-6 rounded-2xl bg-rose-50 border border-rose-100 p-4">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-bold text-rose-700">
-                    Diferencia vs comunidad
+                    Polarización actual
                   </span>
                   <span className="text-3xl font-black tracking-tight text-rose-600">
-                    9%
+                    49/51
                   </span>
                 </div>
 
-                <div className="h-3 w-full bg-white rounded-full overflow-hidden shadow-inner">
-                  <div className="h-full w-[9%] rounded-full bg-gradient-to-r from-rose-500 to-orange-400" />
+                <div className="flex h-3 w-full bg-white rounded-full overflow-hidden shadow-inner gap-1">
+                  <div className="h-full w-[49%] rounded-r-full bg-gradient-to-r from-indigo-500 to-sky-400" />
+                  <div className="h-full w-[51%] rounded-l-full bg-gradient-to-r from-rose-500 to-orange-400" />
                 </div>
 
                 <p className="mt-3 text-sm text-slate-600">
-                  Tu postura difiere del{" "}
-                  <strong className="text-slate-900">91%</strong> de la
-                  comunidad.
+                  Comunidad prácticamente partida a la mitad sin un claro consenso.
                 </p>
               </div>
             </div>

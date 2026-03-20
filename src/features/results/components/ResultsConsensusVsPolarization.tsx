@@ -44,7 +44,7 @@ export function ResultsConsensusVsPolarization() {
                         {item.detail}
                       </div>
                     </div>
-                    <div className="text-3xl font-black tracking-tight text-emerald-600">
+                    <div className="text-4xl font-black tracking-tight text-emerald-600">
                       {item.value}%
                     </div>
                   </div>
@@ -86,7 +86,7 @@ export function ResultsConsensusVsPolarization() {
                         {item.detail}
                       </div>
                     </div>
-                    <div className="text-sm font-black text-slate-600">
+                    <div className="text-xl font-black tracking-tight text-slate-700">
                       {item.left}/{item.right}
                     </div>
                   </div>

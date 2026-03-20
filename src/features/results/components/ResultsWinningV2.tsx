@@ -23,11 +23,11 @@ export function ResultsWinningV2() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {ranking.map((item, idx) => (
-            <div key={idx} className="bg-slate-50 rounded-3xl p-6 border border-slate-100 hover:shadow-md transition-shadow flex flex-col">
+            <div key={idx} className="bg-slate-50 rounded-3xl p-7 md:p-8 border border-slate-100 hover:shadow-md transition-shadow flex flex-col">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 block">
                 {item.category}
               </span>
-              <h3 className="text-lg font-black text-slate-900 leading-tight mb-6 flex-grow">
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-6 flex-grow">
                 {item.leader}
               </h3>
               
