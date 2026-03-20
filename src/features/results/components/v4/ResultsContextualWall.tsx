@@ -210,8 +210,8 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
           </AnimatePresence>
         )}
 
-        {/* 2 Secondary Cards */}
-        <div className="flex lg:flex-col gap-6 col-span-1 lg:col-span-4 shrink-0">
+        {/* 2 Secondary Cards - CONCISE DATA DOWNGRADE */}
+        <div className="flex lg:flex-col gap-4 col-span-1 lg:col-span-4 shrink-0 justify-center">
           <AnimatePresence mode="popLayout">
             {[secondary1, secondary2].map((insight, index) => (
               <motion.div
@@ -220,40 +220,29 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.5, delay: index * 0.15 }}
-                className={`w-[85vw] lg:w-auto shrink-0 snap-center flex-1 border rounded-3xl p-8 relative group hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between ${insight.color}`}
+                className="w-[75vw] lg:w-auto shrink-0 snap-center bg-white border border-slate-200 rounded-2xl p-6 relative group hover:border-slate-300 transition-all cursor-pointer flex flex-col gap-4"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-bl-full rounded-tr-3xl" />
-                
-                <div className={`absolute top-6 right-6 opacity-20 group-hover:opacity-40 transition-opacity group-hover:scale-110 duration-500 scale-95 ${insight.accent}`}>
-                  {insight.type === "tension" ? <Zap className="w-10 h-10" /> : 
-                   insight.type === "consensus" ? <Target className="w-10 h-10" /> : 
-                   <MessageCircle className="w-10 h-10" />}
+                <div className="flex items-center justify-between">
+                  <span className={`px-2 py-1 bg-slate-50 border border-slate-100 rounded text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 text-slate-600`}>
+                    {insight.type === "tension" ? <Zap className="w-3 h-3 text-rose-500" /> : 
+                     insight.type === "consensus" ? <Target className="w-3 h-3 text-emerald-500" /> : 
+                     <Activity className="w-3 h-3 text-indigo-500" />}
+                    {insight.context}
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
                 </div>
-
-                <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex items-center gap-2 mb-6">
-                    <span className="px-2 py-1 bg-white/60 backdrop-blur-sm border border-slate-900/10 rounded uppercase tracking-widest font-bold text-[9px] text-inherit">
-                      {moduleLabels[insight.module] || insight.module}
-                    </span>
-                    <span className={`px-2 py-1 bg-white/60 backdrop-blur-sm border border-slate-900/10 rounded uppercase tracking-widest font-bold text-[9px] flex items-center gap-1 ${insight.accent}`}>
-                       {insight.context}
-                    </span>
-                  </div>
-                  
-                  <p className="text-xl md:text-2xl font-serif font-medium leading-[1.3] relative z-10 tracking-tight mb-8">
-                    "{insight.text}"
-                  </p>
-                  
-                  <div className="flex items-center gap-3 relative z-10 mt-auto pt-6 border-t border-inherit/10">
-                    <div className="w-8 h-8 rounded-full bg-white/50 backdrop-blur-md border border-inherit/20 flex items-center justify-center shrink-0">
-                      <span className="text-sm font-black italic font-serif">
-                        {insight.author.charAt(0)}
-                      </span>
-                    </div>
-                    <div className="text-xs font-bold truncate">
-                      {insight.author}
-                    </div>
-                  </div>
+                
+                <p className="text-sm font-medium text-slate-700 leading-snug">
+                  {insight.text}
+                </p>
+                
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                   <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                     Módulo {moduleLabels[insight.module] || insight.module}
+                   </div>
+                   <div className="text-[10px] font-bold text-slate-500 truncate max-w-[120px]">
+                     {insight.author}
+                   </div>
                 </div>
               </motion.div>
             ))}

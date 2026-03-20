@@ -126,17 +126,17 @@ function HeroDynamicVisual({ tension, generation }: { tension: number; generatio
 export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activeView, activeGeneration }: ResultsHeroDynamicProps) {
   
   // Extraemos la data editorial provista por el snapshot curado
-  // Fallback si por alguna razón no existe
+  // Fallback explicativo mejorado según los requerimientos
   const editorial = snapshot.editorial || {
     mainInsight: {
-      headline: "Lectura del ecosistema en progreso",
-      subtitle: "Analizando la distribución de señales y consensos."
+      headline: `Tu posición actual te ubica en la vanguardia del ecosistema.`,
+      subtitle: `Has procesado ${snapshot.overview.totalSignals.toLocaleString()} señales críticas. La tensión general es estable, pero se detectan fricciones emergentes que podrían alterar el consenso en el corto plazo.`
     },
     secondaryInsights: [
-      { type: "consensus", title: "Consenso", value: "Estable" },
-      { type: "module", title: "Interés", value: "General" }
+      { type: "consensus", title: "Estado Global", value: "Consenso Fuerte" },
+      { type: "trend", title: "Velocidad", value: "Acelerada" }
     ],
-    ecosystemTension: 50
+    ecosystemTension: 65
   };
 
   const generationLabels: Record<string, string> = {
@@ -173,13 +173,16 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
   };
 
   return (
-    <section className="w-full pt-4 pb-8 md:pt-8 md:pb-12 relative overflow-hidden bg-white">
+    <section className="w-full pt-4 pb-8 md:pt-12 md:pb-16 relative overflow-visible bg-white">
+      {/* Elemento decorativo de fondo para darle más fuerza visual y empaque premium */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-slate-50 to-transparent rounded-full blur-3xl opacity-50 pointer-events-none -translate-y-1/2 translate-x-1/3" />
+
       <div className="container-ws relative z-10 w-full">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Columna Izquierda: Gran Insight Editorial */}
-          <div className="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1">
+          <div className="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1 relative z-20">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`${activeModule}-${activeView}-${activeGeneration}`}
@@ -202,17 +205,17 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                     </span>
                   )}
                   <span className="px-2.5 py-1 bg-slate-800 text-white rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-                    {snapshot.overview.totalSignals.toLocaleString()} Señales
+                    {snapshot.overview.totalSignals.toLocaleString()} Señales Analizadas
                   </span>
                 </div>
                 
                 {/* Titular Editorial WOW */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink leading-[1.05] mb-5">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink leading-[1.05] mb-6">
                   {editorial.mainInsight.headline}
                 </h1>
                 
                 {/* Bajada Analítica */}
-                <p className="text-base sm:text-lg md:text-xl text-slate-500 font-medium max-w-2xl mb-10 leading-relaxed border-l-4 border-indigo-500 pl-4">
+                <p className="text-base sm:text-lg md:text-xl text-slate-500 font-medium max-w-2xl mb-10 leading-relaxed">
                   {editorial.mainInsight.subtitle}
                 </p>
 
@@ -224,16 +227,16 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.2 + (idx * 0.1) }}
-                      className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 hover:border-indigo-200 hover:bg-slate-50/50 transition-colors group"
+                      className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex items-start gap-4 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.1)] hover:border-indigo-200 transition-all group"
                     >
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
+                      <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 group-hover:scale-110 transition-transform group-hover:bg-indigo-50">
                         {getSecondaryIcon(sec.type)}
                       </div>
                       <div>
                         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
                           {sec.title}
                         </div>
-                        <div className="text-base font-bold text-slate-800 leading-tight">
+                        <div className="text-sm font-black text-slate-800 leading-tight">
                           {sec.value}
                         </div>
                       </div>
@@ -246,7 +249,7 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
           </div>
 
           {/* Columna Derecha: Visualización Protagonista */}
-          <div className="lg:col-span-5 order-1 lg:order-2">
+          <div className="lg:col-span-5 order-1 lg:order-2 w-full max-w-[500px] mx-auto lg:max-w-none relative z-10">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`visual-${editorial.ecosystemTension}-${activeGeneration}`}

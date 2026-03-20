@@ -2,11 +2,15 @@ import { useEffect } from "react";
 import { trackEvent } from "../../../services/analytics/trackEvent";
 import { useResultsExperience } from "../hooks/useResultsExperience";
 import { ResultsHeroDynamic } from "../components/v4/ResultsHeroDynamic";
-import { ResultsTransversalMetrics } from "../components/v4/ResultsTransversalMetrics";
 import { ResultsContextualWall } from "../components/v4/ResultsContextualWall";
 import { ResultsWowClosing } from "../components/v4/ResultsWowClosing";
 import { FilterBar } from "../components/hub/FilterBar";
-import { ResultsModuleComparator } from "../components/v4/ResultsModuleComparator";
+
+// Nuevos componentes V4.6
+import { ResultsExecutivePulse } from "../components/v4/ResultsExecutivePulse";
+import { ResultsFeaturedXRay } from "../components/v4/ResultsFeaturedXRay";
+
+// Insight Blocks Complementarios
 import { VersusInsightBlock } from "../components/v4/modules/VersusInsightBlock";
 import { TorneoInsightBlock } from "../components/v4/modules/TorneoInsightBlock";
 import { ProfundidadInsightBlock } from "../components/v4/modules/ProfundidadInsightBlock";
@@ -29,7 +33,7 @@ export default function ResultsPage() {
   if (!snapshot) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        <div className="w-10 h-10 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin" />
       </div>
     );
   }
@@ -55,7 +59,7 @@ export default function ResultsPage() {
         <div className="absolute top-[30%] left-[30%] w-[40vh] h-[40vh] rounded-full bg-indigo-500/5 mix-blend-multiply filter blur-[80px] animate-blob animation-delay-3000"></div>
       </div>
 
-      {/* 2. Sticky Top Filter Bar (Elevated z-index) */}
+      {/* 2. Sticky Top Filter Bar */}
       <div className="sticky top-0 z-50 w-full px-4 py-3 pointer-events-none flex justify-center mt-4 md:mt-8 transition-all duration-500">
          <div className="pointer-events-auto w-full flex justify-center drop-shadow-sm">
            <FilterBar 
@@ -77,20 +81,18 @@ export default function ResultsPage() {
         {/* Massive Headline and Realtime Facts */}
         <ResultsHeroDynamic snapshot={snapshot} activeModule={activeModule} activePeriod={activePeriod} activeView={activeView} activeGeneration={activeGeneration} />
         
-        {/* Ecosystem General Pulse */}
-        <div className="mt-6 md:mt-10 container-ws">
-          <ResultsTransversalMetrics snapshot={snapshot} activePeriod={activePeriod} activeGeneration={activeGeneration} />
-        </div>
+        {/* Nuevo bloque fusionado: Pulso Ejecutivo del Ecosistema */}
+        <ResultsExecutivePulse snapshot={snapshot} activePeriod={activePeriod} activeGeneration={activeGeneration} />
 
-        {/* Composition / Module Comparator */}
-        <ResultsModuleComparator activeModule={activeModule} activeGeneration={activeGeneration} />
+        {/* Nueva sección: Radiografía destacada */}
+        <ResultsFeaturedXRay activeModule={activeModule} activeGeneration={activeGeneration} snapshot={snapshot} />
         
-        {/* Module Specific Logic */}
-        <div className="container-ws py-8 md:py-16">
+        {/* Module Specific Logic (Ahora más corto y complementario) */}
+        <div className="container-ws py-8 md:py-12 border-t border-slate-100">
           {renderModuleSection()}
         </div>
         
-        {/* Contextual Insights Wall - Reactiva a todos los controles */}
+        {/* Contextual Insights Wall */}
         <ResultsContextualWall activeModule={activeModule} activeGeneration={activeGeneration} />
 
         {/* Heroica final wow */}
