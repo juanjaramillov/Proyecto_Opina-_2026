@@ -6,7 +6,7 @@ export function ResultsWowClosing() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full bg-ink text-white py-16 md:py-32 relative overflow-hidden">
+    <div className="w-full bg-ink text-white py-16 md:py-32 relative overflow-hidden rounded-t-[2.5rem] md:rounded-t-[4rem] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] mt-4 md:mt-8">
       {/* Dynamic Background Constellation Effect */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />

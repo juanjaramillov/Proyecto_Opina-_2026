@@ -50,17 +50,17 @@ export function FilterBar({
   return (
     <div className="flex flex-col items-center gap-1 w-full relative z-50">
       {/* Primera Fila: Principal */}
-      <div className="bg-white/90 backdrop-blur-md border border-slate-200/60 p-1.5 md:p-2 shadow-sm rounded-[2rem] flex flex-row items-center gap-2 transition-all w-[95vw] md:w-auto md:max-w-[1000px] mx-auto overflow-x-auto hide-scrollbar snap-x">
+      <div className="bg-white/95 backdrop-blur-xl border border-slate-200/80 p-2 md:p-3 shadow-md rounded-[2.5rem] flex flex-row items-center gap-2 hover:gap-3 transition-all w-max md:max-w-max mx-auto overflow-x-auto hide-scrollbar snap-x max-w-[95vw]">
       
       {/* Selector de Módulo */}
-      <div className="flex items-center gap-1 shrink-0 px-1">
+      <div className="flex items-center gap-1.5 shrink-0 px-1">
         {modules.map(mod => (
           <button
             key={mod.id}
             onClick={() => onModuleChange(mod.id)}
             className={`whitespace-nowrap px-4 py-2 rounded-full text-[13px] font-bold transition-all snap-start ${
               activeModule === mod.id 
-                ? 'bg-indigo-600 text-white shadow-md' 
+                ? 'bg-indigo-600 text-white shadow-md scale-105' 
                 : 'bg-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
@@ -107,16 +107,19 @@ export function FilterBar({
       
       </div>
 
-      {/* Segunda Fila: Generaciones (Secundaria) - Más ligera */}
-      <div className="flex items-center justify-start md:justify-center gap-1 transition-all w-[95vw] md:w-auto mx-auto overflow-x-auto hide-scrollbar snap-x px-2 pt-1 pb-2">
+      {/* Segunda Fila: Generaciones (Secundaria) - Más ligera y subordinada */}
+      <div className="flex items-center justify-start md:justify-center gap-2 w-full max-w-[95vw] md:max-w-[800px] mx-auto overflow-x-auto hide-scrollbar snap-x px-2 pt-3 pb-2 mt-1 relative">
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 md:hidden bg-gradient-to-r from-slate-50 to-transparent h-full z-10 pointer-events-none" />
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 md:hidden bg-gradient-to-l from-slate-50 to-transparent h-full z-10 pointer-events-none" />
+        
         {generations.map(gen => (
           <button
             key={gen.id}
             onClick={() => onGenerationChange(gen.id as ResultsGeneration)}
-            className={`whitespace-nowrap px-3 py-1 rounded-full text-[11px] font-bold transition-colors snap-start shrink-0 ${
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-[11px] font-bold transition-all snap-start shrink-0 ${
               activeGeneration === gen.id 
-                ? 'bg-slate-800 text-white shadow-sm' 
-                : 'bg-white/60 md:bg-transparent backdrop-blur-sm text-slate-500 hover:text-slate-800 hover:bg-slate-100 border border-slate-200/50 md:border-transparent'
+                ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200 shadow-sm' 
+                : 'bg-transparent text-slate-400 hover:text-slate-700 hover:bg-slate-100/50'
             }`}
           >
             {gen.label}

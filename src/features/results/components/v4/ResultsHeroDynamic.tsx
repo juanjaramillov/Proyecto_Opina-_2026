@@ -98,7 +98,7 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
   };
 
   return (
-    <section className="w-full pt-4 pb-8 md:pt-8 md:pb-12 relative overflow-hidden">
+    <section className="w-full pt-2 pb-6 md:pt-6 md:pb-10 relative overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-50/50 mix-blend-multiply filter blur-[100px]" />
@@ -107,7 +107,7 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
       <div className="container-ws relative z-10 w-full">
         
         {/* Main Hero Container */}
-        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] p-5 md:p-10 lg:p-14 overflow-hidden relative">
+        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] p-4 md:p-8 lg:p-12 overflow-hidden relative">
           
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
             
@@ -121,24 +121,24 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
                 >
-                  <div className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 mb-6 shadow-sm ${insight.colorBox}`}>
+                  <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 mb-4 shadow-sm ${insight.colorBox}`}>
                     {insight.icon}
-                    <span className="text-xs md:text-sm font-bold uppercase tracking-widest">
-                      {insight.kicker} {activeGeneration !== "ALL" && <span className="opacity-70 ml-1">({generationLabels[activeGeneration]})</span>}
+                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">
+                      {insight.kicker} {activeGeneration !== "ALL" && <span className="opacity-70 ml-1 truncate max-w-[120px] inline-block align-bottom">({generationLabels[activeGeneration]})</span>}
                     </span>
                   </div>
                   
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-black tracking-tighter text-ink leading-[1.05] mb-6">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tighter text-ink leading-[1.05] mb-4">
                     {insight.title}
                   </h1>
                   
-                  <p className="text-base sm:text-lg md:text-xl text-slate-500 font-medium max-w-2xl mb-10 leading-relaxed md:leading-relaxed">
+                  <p className="text-sm sm:text-base md:text-lg text-slate-500 font-medium max-w-2xl mb-6 md:mb-8 leading-relaxed">
                     {insight.description}
                   </p>
 
-                  <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 sm:gap-8 border-t border-slate-100 pt-8 mt-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-6 border-t border-slate-100 pt-6 mt-2">
                     <div className="flex-shrink-0">
-                      <div className={`text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-none ${insight.valueColor}`}>
+                      <div className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-none ${insight.valueColor}`}>
                         {insight.value}
                       </div>
                       <div className="text-xs sm:text-sm font-bold text-slate-400 mt-2 uppercase tracking-widest">
@@ -147,14 +147,14 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                     </div>
                     
                     {/* Explicit Context Block */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 bg-slate-50 rounded-2xl p-3 border border-slate-200/60 w-full md:w-auto mt-4 sm:mt-0">
-                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center min-w-[100px] flex-1 md:flex-none">
+                    <div className="flex flex-wrap items-center gap-2 bg-slate-50 rounded-2xl p-2.5 border border-slate-200/60 w-full md:w-auto mt-3 sm:mt-0">
+                       <span className="px-2.5 py-1 bg-white rounded-md shadow-sm border border-slate-200 text-[11px] font-bold text-slate-600 block text-center flex-1 md:flex-none">
                          {moduleLabels[activeModule] || activeModule}
                        </span>
-                       <span className="px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200 text-xs font-bold text-slate-600 block text-center min-w-[100px] flex-1 md:flex-none">
+                       <span className="px-2.5 py-1 bg-white rounded-md shadow-sm border border-slate-200 text-[11px] font-bold text-slate-600 block text-center flex-1 md:flex-none">
                          {periodLabels[activePeriod] || activePeriod}
                        </span>
-                       <span className="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg shadow-sm border border-indigo-100 text-xs font-bold block text-center min-w-[100px] flex-1 md:flex-none">
+                       <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md shadow-sm border border-indigo-100 text-[11px] font-bold block text-center flex-1 md:flex-none">
                          {(snapshot.cohortState.cohortSize || snapshot.overview.totalSignals).toLocaleString()} Señales
                        </span>
                     </div>

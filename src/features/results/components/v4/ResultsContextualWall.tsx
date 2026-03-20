@@ -109,9 +109,12 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`w-[85vw] lg:w-auto shrink-0 snap-center col-span-1 lg:col-span-8 border rounded-[2rem] p-8 md:p-12 relative group hover:shadow-xl transition-all cursor-pointer ${safeInsights[0].color} overflow-hidden`}
+            className={`w-[85vw] lg:w-auto shrink-0 snap-center col-span-1 lg:col-span-8 border rounded-[2rem] p-6 md:p-10 relative group hover:shadow-xl transition-all cursor-pointer ${safeInsights[0].color} overflow-hidden`}
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-3xl rounded-full -mr-20 -mt-20 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/30 blur-3xl rounded-full -mr-20 -mt-20 pointer-events-none" />
+            
+            {/* Big quote mark decoration */}
+            <div className="absolute top-4 left-6 text-[120px] font-serif font-black opacity-10 leading-none pointer-events-none select-none">"</div>
             <div className="absolute bottom-8 right-8 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500">
               {safeInsights[0].type === "tension" ? <Zap className="w-24 h-24" /> : 
                safeInsights[0].type === "consensus" ? <Target className="w-24 h-24" /> : 
@@ -127,8 +130,8 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
                </span>
             </div>
 
-            <h4 className="text-3xl md:text-4xl lg:text-5xl font-black leading-[1.1] mb-8 relative z-10 tracking-tight max-w-3xl">
-              "{safeInsights[0].text}"
+            <h4 className="text-2xl md:text-3xl lg:text-4xl font-black leading-[1.1] mb-8 mt-6 relative z-10 tracking-tight max-w-2xl">
+              {safeInsights[0].text}
             </h4>
             
             <div className="flex items-center justify-between relative z-10">
@@ -193,7 +196,14 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
         </div>
       </div>
 
-      <button className="md:hidden mt-8 w-full py-4 bg-slate-50 text-slate-800 font-bold rounded-2xl border border-slate-200 flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors">
+      {/* Mobile Carousel Indicators (Visual cue only) */}
+      <div className="flex md:hidden justify-center gap-2 mt-4 mb-2">
+        <div className="w-2 h-2 rounded-full bg-slate-800" />
+        <div className="w-2 h-2 rounded-full bg-slate-300" />
+        <div className="w-2 h-2 rounded-full bg-slate-300" />
+      </div>
+
+      <button className="md:hidden mt-4 w-full py-4 bg-slate-50 text-slate-800 font-bold rounded-2xl border border-slate-200 flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors">
         Explorar radar completo <ArrowRight className="w-4 h-4" />
       </button>
     </div>
