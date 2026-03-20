@@ -96,6 +96,20 @@ export interface MasterHubSnapshot extends BaseSnapshot {
     topModules: { moduleType: string; count: number }[];
   };
 
+  // Motor Editorial V4.5
+  editorial?: {
+    mainInsight: {
+      headline: string;
+      subtitle: string;
+    };
+    secondaryInsights: {
+      type: 'consensus' | 'trend' | 'module';
+      title: string;
+      value: string;
+    }[];
+    ecosystemTension: number; // 0 a 100
+  };
+
   // Módulos Individuales
   modules: {
     versus: VersusModuleResult;

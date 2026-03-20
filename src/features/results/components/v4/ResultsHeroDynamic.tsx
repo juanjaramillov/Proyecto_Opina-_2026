@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Activity, Flame, ShieldAlert, Zap, Target } from "lucide-react";
+import { Target, LayoutGrid, Zap, TrendingUp } from "lucide-react";
 import { ResultsModule, ResultsPeriod, ResultsView, ResultsGeneration } from "../../hooks/useResultsExperience";
 import { MasterHubSnapshot } from "../../../../read-models/b2c/hub-types";
 
@@ -11,82 +11,132 @@ interface ResultsHeroDynamicProps {
   activeGeneration: ResultsGeneration;
 }
 
+// ----------------------------------------------------------------------------
+// Visualización Dinámica Híbrida (Pulso + Tensión)
+// ----------------------------------------------------------------------------
+function HeroDynamicVisual({ tension, generation }: { tension: number; generation: string }) {
+  // Ajustamos el color dominante y la agitación según la tensión y filtro
+  const isHighTension = tension > 70;
+  const isFiltered = generation !== "ALL";
+  
+  const dominantColor = isHighTension ? "#f43f5e" : (isFiltered ? "#10b981" : "#6366f1"); // rose, emerald, indigo
+  const secondaryColor = isHighTension ? "#fda4af" : (isFiltered ? "#6ee7b7" : "#a5b4fc");
+
+  return (
+    <div className="relative w-full aspect-square max-w-[400px] mx-auto flex items-center justify-center">
+      {/* Background Glows */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.1, 1],
+          opacity: [0.3, 0.5, 0.3]
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 rounded-full blur-[60px]"
+        style={{ backgroundColor: dominantColor, opacity: 0.15 }}
+      />
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.4, 0.2]
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute inset-10 rounded-full blur-[40px]"
+        style={{ backgroundColor: secondaryColor, opacity: 0.2 }}
+      />
+
+      {/* SVG Container */}
+      <svg viewBox="0 0 200 200" className="w-[80%] h-[80%] relative z-10 overflow-visible">
+        {/* Anillo exterior - Radar/Pulso */}
+        <motion.circle
+          cx="100" cy="100" r="80"
+          fill="none"
+          stroke={secondaryColor}
+          strokeWidth="1"
+          strokeDasharray="4 4"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        />
+        
+        {/* Nodos Orbitales (Tensión representa cuántos se desvían de la órbita) */}
+        {[...Array(6)].map((_, i) => {
+          const angle = (i * 60 * Math.PI) / 180;
+          const baseRadius = 60;
+          // Si hay alta tensión, los nodos oscilan más caóticamente
+          const radiusVariability = isHighTension ? 25 : 5;
+          return (
+            <motion.circle
+              key={i}
+              cx="100"
+              cy="100"
+              r="4"
+              fill={dominantColor}
+              animate={{
+                x: [
+                  Math.cos(angle) * baseRadius,
+                  Math.cos(angle) * (baseRadius + (i % 2 === 0 ? radiusVariability : -radiusVariability)),
+                  Math.cos(angle) * baseRadius
+                ],
+                y: [
+                  Math.sin(angle) * baseRadius,
+                  Math.sin(angle) * (baseRadius + (i % 2 !== 0 ? radiusVariability : -radiusVariability)),
+                  Math.sin(angle) * baseRadius
+                ],
+                opacity: [0.5, 1, 0.5]
+              }}
+              transition={{
+                duration: 2 + i * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.2
+              }}
+            />
+          );
+        })}
+
+        {/* Core waveform (Centro) */}
+        <motion.path
+          d={isHighTension 
+            ? "M 70 100 Q 85 60 100 100 T 130 100" // Ondas más pronunciadas (fractura)
+            : "M 70 100 Q 85 85 100 100 T 130 100" // Ondas suaves (consenso)
+          }
+          fill="none"
+          stroke={dominantColor}
+          strokeWidth="3"
+          strokeLinecap="round"
+          animate={{
+            d: isHighTension 
+              ? ["M 70 100 Q 85 60 100 100 T 130 100", "M 70 100 Q 85 140 100 100 T 130 100", "M 70 100 Q 85 60 100 100 T 130 100"]
+              : ["M 70 100 Q 85 85 100 100 T 130 100", "M 70 100 Q 85 115 100 100 T 130 100", "M 70 100 Q 85 85 100 100 T 130 100"]
+          }}
+          transition={{ duration: isHighTension ? 1.5 : 3, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.circle cx="100" cy="100" r="15" fill={dominantColor} opacity="0.1" 
+          animate={{ scale: [1, 1.5, 1] }} 
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+        <circle cx="100" cy="100" r="8" fill={dominantColor} />
+      </svg>
+    </div>
+  );
+}
+
+// ----------------------------------------------------------------------------
+// Componente Principal
+// ----------------------------------------------------------------------------
 export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activeView, activeGeneration }: ResultsHeroDynamicProps) {
   
-  // Lógica para determinar el insight principal (mock contextualizado por las reglas)
-  const getMainInsight = () => {
-    if (activeView === "CONSENSO") {
-      return {
-        kicker: "Punto de Acuerdos",
-        title: "El 78% apoya la regulación preventiva",
-        description: "Acuerdo transversal frente a la necesidad de reglas claras para el uso de datos masivos en IA.",
-        icon: <Target className="w-5 h-5 text-emerald-500" />,
-        colorBox: "bg-emerald-50 border-emerald-200 text-emerald-700",
-        value: "78%",
-        valueLabel: "Consenso Fuerte",
-        valueColor: "text-emerald-500"
-      };
-    }
-    if (activeView === "POLARIZACION") {
-      return {
-        kicker: "Máxima Tensión",
-        title: "Privacidad vs Personalización Extrema",
-        description: "La agenda más dividida: el debate entre conveniencia inmediata y control total de los datos personales.",
-        icon: <ShieldAlert className="w-5 h-5 text-rose-500" />,
-        colorBox: "bg-rose-50 border-rose-200 text-rose-700",
-        value: "49/51",
-        valueLabel: "Fractura Técnica",
-        valueColor: "text-rose-500"
-      };
-    }
-    if (activeView === "TENDENCIA") {
-      return {
-        kicker: "Momentum",
-        title: "El modelo híbrido desplaza al remoto",
-        description: "En los últimos días, la preferencia por oficinas de tres días creció abruptamente.",
-        icon: <Activity className="w-5 h-5 text-indigo-500" />,
-        colorBox: "bg-indigo-50 border-indigo-200 text-indigo-700",
-        value: "+34%",
-        valueLabel: "Cambio Acelerado",
-        valueColor: "text-indigo-500"
-      };
-    }
-    
-    // Default (General)
-    return {
-      kicker: "El Pulso Global",
-      title: "Desestabilización en el ecosistema laboral",
-      description: "Las reformas económicas y la irrupción de IA marcan la agenda más activa de las señales actuales.",
-      icon: <Zap className="w-5 h-5 text-amber-500" />,
-      colorBox: "bg-amber-50 border-amber-200 text-amber-700",
-      value: "15k+",
-      valueLabel: "Señales Detectadas",
-      valueColor: "text-amber-500"
-    };
-  };
-
-  const baseInsight = getMainInsight();
-  const insight = {
-    ...baseInsight,
-    description: activeGeneration !== "ALL" 
-      ? `${baseInsight.description} (Este patrón es especialmente determinante entre los usuarios de la ${activeGeneration.replace('_', ' ').toLowerCase()}).`
-      : baseInsight.description
-  };
-
-  // Diccionarios para etiquetas contextuales
-  const moduleLabels: Record<string, string> = {
-    "ALL": "Todas las métricas",
-    "VERSUS": "Enfrentamientos",
-    "TOURNAMENT": "Torneos",
-    "PROFUNDIDAD": "Estudios",
-    "ACTUALIDAD": "Agenda Cíclica",
-    "LUGARES": "Mapeo Geo"
-  };
-
-  const periodLabels: Record<string, string> = {
-    "7D": "Últimos 7 días",
-    "30D": "Últimos 30 días",
-    "90D": "Últimos 90 días"
+  // Extraemos la data editorial provista por el snapshot curado
+  // Fallback si por alguna razón no existe
+  const editorial = snapshot.editorial || {
+    mainInsight: {
+      headline: "Lectura del ecosistema en progreso",
+      subtitle: "Analizando la distribución de señales y consensos."
+    },
+    secondaryInsights: [
+      { type: "consensus", title: "Consenso", value: "Estable" },
+      { type: "module", title: "Interés", value: "General" }
+    ],
+    ecosystemTension: 50
   };
 
   const generationLabels: Record<string, string> = {
@@ -97,113 +147,123 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
     "GEN_Z": "Gen Z"
   };
 
-  return (
-    <section className="w-full pt-2 pb-6 md:pt-6 md:pb-10 relative overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-50/50 mix-blend-multiply filter blur-[100px]" />
-      </div>
+  const moduleLabels: Record<string, string> = {
+    "ALL": "Vista General",
+    "VERSUS": "Enfrentamientos",
+    "TOURNAMENT": "Torneos",
+    "PROFUNDIDAD": "Estudios",
+    "ACTUALIDAD": "Agenda",
+    "LUGARES": "Mapeo Geo"
+  };
 
+  const periodLabels: Record<string, string> = {
+    "7D": "Últimos 7 días",
+    "30D": "Últimos 30 días",
+    "90D": "Últimos 90 días"
+  };
+
+  // Íconos dinámicos para hallazgos secundarios
+  const getSecondaryIcon = (type: string) => {
+    switch (type) {
+      case 'consensus': return <Target className="w-5 h-5 text-indigo-500" />;
+      case 'trend': return <TrendingUp className="w-5 h-5 text-emerald-500" />;
+      case 'module': return <LayoutGrid className="w-5 h-5 text-amber-500" />;
+      default: return <Zap className="w-5 h-5 text-slate-500" />;
+    }
+  };
+
+  return (
+    <section className="w-full pt-4 pb-8 md:pt-8 md:pb-12 relative overflow-hidden bg-white">
       <div className="container-ws relative z-10 w-full">
         
-        {/* Main Hero Container */}
-        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] p-4 md:p-8 lg:p-12 overflow-hidden relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-            
-            {/* Left: Dominant Insight */}
-            <div className="flex-1 flex flex-col justify-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`${activeModule}-${activeView}-${activeGeneration}`}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 mb-4 shadow-sm ${insight.colorBox}`}>
-                    {insight.icon}
-                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">
-                      {insight.kicker} {activeGeneration !== "ALL" && <span className="opacity-70 ml-1 truncate max-w-[120px] inline-block align-bottom">({generationLabels[activeGeneration]})</span>}
+          {/* Columna Izquierda: Gran Insight Editorial */}
+          <div className="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${activeModule}-${activeView}-${activeGeneration}`}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                {/* Context Labels */}
+                <div className="flex flex-wrap items-center gap-2 mb-6">
+                  <span className="px-2.5 py-1 bg-slate-100 rounded-md border border-slate-200 text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
+                    {moduleLabels[activeModule] || activeModule}
+                  </span>
+                  <span className="px-2.5 py-1 bg-slate-100 rounded-md border border-slate-200 text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
+                    {periodLabels[activePeriod] || activePeriod}
+                  </span>
+                  {activeGeneration !== "ALL" && (
+                    <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-200 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                      Filtro: {generationLabels[activeGeneration]}
                     </span>
-                  </div>
-                  
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tighter text-ink leading-[1.05] mb-4">
-                    {insight.title}
-                  </h1>
-                  
-                  <p className="text-sm sm:text-base md:text-lg text-slate-500 font-medium max-w-2xl mb-6 md:mb-8 leading-relaxed">
-                    {insight.description}
-                  </p>
+                  )}
+                  <span className="px-2.5 py-1 bg-slate-800 text-white rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                    {snapshot.overview.totalSignals.toLocaleString()} Señales
+                  </span>
+                </div>
+                
+                {/* Titular Editorial WOW */}
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink leading-[1.05] mb-5">
+                  {editorial.mainInsight.headline}
+                </h1>
+                
+                {/* Bajada Analítica */}
+                <p className="text-base sm:text-lg md:text-xl text-slate-500 font-medium max-w-2xl mb-10 leading-relaxed border-l-4 border-indigo-500 pl-4">
+                  {editorial.mainInsight.subtitle}
+                </p>
 
-                  <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3 sm:gap-6 border-t border-slate-100 pt-6 mt-2">
-                    <div className="flex-shrink-0">
-                      <div className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-none ${insight.valueColor}`}>
-                        {insight.value}
+                {/* 2 Hallazgos Secundarios */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {editorial.secondaryInsights.slice(0, 2).map((sec, idx) => (
+                    <motion.div 
+                      key={idx}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2 + (idx * 0.1) }}
+                      className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 hover:border-indigo-200 hover:bg-slate-50/50 transition-colors group"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
+                        {getSecondaryIcon(sec.type)}
                       </div>
-                      <div className="text-xs sm:text-sm font-bold text-slate-400 mt-2 uppercase tracking-widest">
-                        {insight.valueLabel}
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                          {sec.title}
+                        </div>
+                        <div className="text-base font-bold text-slate-800 leading-tight">
+                          {sec.value}
+                        </div>
                       </div>
-                    </div>
-                    
-                    {/* Explicit Context Block */}
-                    <div className="flex flex-wrap items-center gap-2 bg-slate-50 rounded-2xl p-2.5 border border-slate-200/60 w-full md:w-auto mt-3 sm:mt-0">
-                       <span className="px-2.5 py-1 bg-white rounded-md shadow-sm border border-slate-200 text-[11px] font-bold text-slate-600 block text-center flex-1 md:flex-none">
-                         {moduleLabels[activeModule] || activeModule}
-                       </span>
-                       <span className="px-2.5 py-1 bg-white rounded-md shadow-sm border border-slate-200 text-[11px] font-bold text-slate-600 block text-center flex-1 md:flex-none">
-                         {periodLabels[activePeriod] || activePeriod}
-                       </span>
-                       <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md shadow-sm border border-indigo-100 text-[11px] font-bold block text-center flex-1 md:flex-none">
-                         {(snapshot.cohortState.cohortSize || snapshot.overview.totalSignals).toLocaleString()} Señales
-                       </span>
-                    </div>
+                    </motion.div>
+                  ))}
+                </div>
 
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Right: Secondary Signals */}
-            <div className="hidden lg:flex w-[340px] xl:w-[380px] shrink-0 flex-col justify-end gap-3 relative z-10">
-              <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-2 border-l-2 border-slate-300">
-                Señales Derivadas ({generationLabels[activeGeneration] || activeGeneration})
-              </h3>
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`sec-${activeModule}-${activeView}-${activeGeneration}`}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.5, staggerChildren: 0.1 }}
-                  className="flex flex-col gap-3"
-                >
-                  {/* Secondary Signal Card 1 */}
-                  <motion.div className="bg-slate-50/80 border border-slate-200/60 rounded-2xl p-4 flex gap-4 items-start hover:bg-slate-50 hover:shadow-sm hover:border-indigo-100 transition-all group flex-1">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100 text-slate-400 group-hover:text-indigo-600 transition-colors">
-                      <Flame className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-800 leading-tight mb-1.5">Rotación hacia cripto regional</h4>
-                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">Una gran porción de la actividad reciente giró hacia adopción cripto sobre banca tradicional.</p>
-                    </div>
-                  </motion.div>
-
-                  {/* Secondary Signal Card 2 */}
-                  <motion.div className="bg-slate-50/80 border border-slate-200/60 rounded-2xl p-4 flex gap-4 items-start hover:bg-slate-50 hover:shadow-sm hover:border-emerald-100 transition-all group flex-1">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100 text-slate-400 group-hover:text-emerald-600 transition-colors">
-                      <Target className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-800 leading-tight mb-1.5">Tracción en Diseño Urbano</h4>
-                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">Crecimiento sostenido en el debate sobre peatonalización de centros urbanos.</p>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
+
+          {/* Columna Derecha: Visualización Protagonista */}
+          <div className="lg:col-span-5 order-1 lg:order-2">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`visual-${editorial.ecosystemTension}-${activeGeneration}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="w-full flex justify-center"
+              >
+                <HeroDynamicVisual 
+                  tension={editorial.ecosystemTension} 
+                  generation={activeGeneration} 
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
         </div>
       </div>
     </section>

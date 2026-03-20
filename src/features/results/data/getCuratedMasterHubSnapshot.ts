@@ -65,6 +65,34 @@ export function getCuratedMasterHubSnapshot(userId: string, filters?: HubFilters
     { id: '5', moduleType: 'versus', entityName: 'Apple vs Samsung', createdAt: new Date(Date.now() - 259200000).toISOString() } // Hace 3D
   ];
 
+  // 3.5. Motor Editorial V4.5 (Dinámico según generación/filtros)
+  const isGenFilterActive = filters?.generation && filters.generation !== 'ALL';
+  const genName = isGenFilterActive ? filters.generation : 'el ecosistema global';
+  
+  const editorial = {
+    mainInsight: {
+      headline: isGenFilterActive 
+        ? `Tensión crítica en ${genName} frente a nuevas regulaciones.`
+        : "Polarización tecnológica marca el pulso de la semana.",
+      subtitle: isGenFilterActive
+        ? `Hemos detectado una alineación inusual de posturas en esta generación, divergiendo un 45% del consenso general en temas regulatorios.`
+        : "La fricción entre posturas sobre IA y sostenibilidad alcanza un pico histórico de 82% en el nodo de actualidad, re-escribiendo el mapa de preferencias."
+    },
+    secondaryInsights: [
+      {
+        type: 'consensus' as const,
+        title: 'Estado del Consenso',
+        value: isGenFilterActive ? 'Alta Fricción' : 'Fracturado'
+      },
+      {
+        type: 'module' as const,
+        title: 'Nodo Dominante',
+        value: 'Enfrentamientos'
+      }
+    ],
+    ecosystemTension: isGenFilterActive ? 85 : 68
+  };
+
   // 4. Módulo: Versus
   const versusModule = {
     moduleKey: 'versus' as const,
@@ -198,6 +226,7 @@ export function getCuratedMasterHubSnapshot(userId: string, filters?: HubFilters
       recentActivity,
       topModules
     },
+    editorial,
     modules: {
       versus: versusModule,
       torneo: torneoModule,

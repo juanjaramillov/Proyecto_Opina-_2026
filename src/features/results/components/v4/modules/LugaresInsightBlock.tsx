@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, Navigation, ShieldAlert, Compass } from "lucide-react";
+import { Navigation, ShieldAlert, Compass, Target, Map } from "lucide-react";
 import { MasterHubSnapshot } from "../../../../../read-models/b2c/hub-types";
 import { ResultsGeneration } from "../../../hooks/useResultsExperience";
 
@@ -24,89 +24,116 @@ export function LugaresInsightBlock({ generation, snapshot }: LugaresInsightBloc
     );
   }
 
+  const epicentro = { name: "Distrito Tecnológico Norte", score: 94, sentiment: "Aceleración", desc: "Concentra el 60% de la actividad favorable reciente, actuando como el principal motor de consenso de la temática." };
+  
   const locations = [
-    { name: "Zona Norte", score: 88, sentiment: "Muy Positivo", color: "bg-emerald-500", textColor: "text-emerald-700", bgColor: "bg-emerald-50" },
-    { name: "Centro Histórico", score: 45, sentiment: "Crítico", color: "bg-rose-500", textColor: "text-rose-700", bgColor: "bg-rose-50" },
-    { name: "Distrito Financiero", score: 72, sentiment: "Positivo", color: "bg-indigo-500", textColor: "text-indigo-700", bgColor: "bg-indigo-50" },
-    { name: "Zona Sur", score: 60, sentiment: "Neutral", color: "bg-amber-500", textColor: "text-amber-700", bgColor: "bg-amber-50" },
+    { name: "Anillo Financiero Centro", score: 65, sentiment: "Tensión", color: "bg-rose-500", dot: "border-rose-500 text-rose-600" },
+    { name: "Polos Universitarios Sur", score: 82, sentiment: "Orgánico", color: "bg-emerald-500", dot: "border-emerald-500 text-emerald-600" },
+    { name: "Corredor Industrial Oeste", score: 48, sentiment: "Resistencia", color: "bg-amber-500", dot: "border-amber-500 text-amber-600" },
   ];
 
   return (
     <div className="w-full">
-      <div className="mb-12">
-        <h3 className="text-3xl font-black text-ink tracking-tight mb-2">Mapeo de la Experiencia</h3>
-        <p className="text-slate-500 text-lg max-w-2xl">
-          Recepción y sentimiento geolocalizado basado en las señales vinculadas a territorios.
+      <div className="mb-10 md:mb-14">
+        <div className="inline-flex items-center gap-2 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 px-3 py-1.5 mb-4">
+          <Map className="w-4 h-4" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">Análisis Geográfico</span>
+        </div>
+        <h3 className="text-3xl md:text-5xl font-black text-ink tracking-tight mb-4">
+          Cartografía del Sentimiento
+        </h3>
+        <p className="text-slate-500 text-base md:text-lg max-w-2xl leading-relaxed">
+          Las ideas no flotan en el vacío. Tienen raíces territoriales. Este es el mapa de dónde nacen, se resisten o se adoptan las nuevas posturas.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
         
-        {/* Placeholder Map Visual */}
-        <div className="bg-slate-50 rounded-[2rem] border border-slate-100 p-8 flex flex-col items-center justify-center min-h-[400px] relative overflow-hidden group">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-indigo-100/50 via-transparent to-transparent opacity-50" />
+        {/* El Epicentro - Huge Card */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-7 bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group hover:shadow-xl hover:border-cyan-200 transition-all"
+        >
+          {/* Stylized Abstract Map Background */}
+          <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none transition-opacity group-hover:opacity-20 flex items-center justify-end px-12">
+             <div className="w-64 h-64 border-[40px] border-cyan-500 rounded-full blur-xl" />
+          </div>
           
-          <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-            className="w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center mb-6 relative z-10 text-indigo-500 border border-indigo-100"
-          >
-            <MapPin className="w-10 h-10" />
-            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-emerald-500 text-white rounded-full border-2 border-white flex items-center justify-center">
-              <span className="text-[10px] font-black">98</span>
-            </div>
-          </motion.div>
-          
-          <h4 className="text-xl font-black text-ink relative z-10 mb-2">Cartografía en Tiempo Real</h4>
-          <p className="text-sm text-slate-500 font-medium text-center max-w-sm relative z-10">
-            La experiencia interactiva del mapa estará disponible en la vista detallada. Arriba un resumen de los clusters principales.
-          </p>
-        </div>
+          <div className="relative z-10 flex flex-col h-full">
+             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 text-cyan-700 px-3 py-1 mb-8 self-start">
+               <Target className="w-4 h-4" />
+               <span className="text-[10px] font-bold uppercase tracking-widest">El Epicentro Activo</span>
+             </div>
 
-        {/* Data Ranking */}
-        <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm">
-          <div className="flex items-center gap-2 mb-8 pb-4 border-b border-slate-100">
-            <Compass className="w-5 h-5 text-cyan-500" />
-            <h4 className="text-xl font-black text-ink">Ranking Territorial</h4>
+             <h4 className="text-4xl md:text-5xl font-black text-ink mb-4 leading-tight">
+               {epicentro.name}
+             </h4>
+             <p className="text-slate-500 text-base md:text-lg font-medium mb-12 max-w-sm leading-relaxed">
+               {epicentro.desc}
+             </p>
+
+             <div className="mt-auto">
+               <div className="flex items-center gap-6">
+                 <div>
+                   <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Densidad</span>
+                   <span className="text-5xl font-black text-cyan-600 leading-none">{epicentro.score}<span className="text-2xl text-cyan-300">%</span></span>
+                 </div>
+                 <div className="w-px h-12 bg-slate-200" />
+                 <div>
+                   <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Estado</span>
+                   <span className="text-xl font-bold text-slate-800">{epicentro.sentiment}</span>
+                 </div>
+               </div>
+             </div>
+          </div>
+        </motion.div>
+
+        {/* Territorios Satélite */}
+        <div className="lg:col-span-5 bg-slate-900 rounded-3xl p-8 md:p-10 text-white relative flex flex-col">
+          <div className="flex items-center gap-3 mb-10 border-b border-slate-800 pb-5">
+            <Compass className="w-5 h-5 text-slate-400" />
+            <h4 className="text-xl font-black">Territorios Satélite</h4>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-8 flex-1">
             {locations.map((loc, index) => (
               <motion.div 
                 key={loc.name}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100"
+                transition={{ delay: 0.3 + index * 0.1 }}
+                className="group flex flex-col"
               >
-                <div className={`w-12 h-12 rounded-2xl shrink-0 flex items-center justify-center ${loc.bgColor} ${loc.textColor}`}>
-                  <Navigation className="w-5 h-5" />
+                <div className="flex justify-between items-end mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-3 h-3 rounded-full border-2 ${loc.dot} bg-slate-900`} />
+                    <span className="text-sm font-bold text-slate-200">{loc.name}</span>
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500">{loc.sentiment}</span>
                 </div>
                 
-                <div className="flex-1">
-                  <h5 className="text-sm font-bold text-ink mb-1">{loc.name}</h5>
-                  <div className="flex items-center gap-2">
-                    <div className="h-2 bg-slate-100 rounded-full flex-1 overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${loc.score}%` }}
-                        transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                        className={`h-full ${loc.color}`}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-right shrink-0">
-                  <div className="text-lg font-black text-ink tracking-tight">{loc.score}</div>
-                  <div className={`text-[10px] font-bold uppercase tracking-widest ${loc.textColor}`}>
-                    {loc.sentiment}
-                  </div>
+                <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden flex items-center">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${loc.score}%` }}
+                    transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
+                    className={`h-full ${loc.color} rounded-full`}
+                  />
+                  <span className="text-xs font-bold text-slate-400 ml-2 absolute right-8 opacity-0 group-hover:opacity-100 transition-opacity">{loc.score}%</span>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          <div className="mt-8 pt-6 border-t border-slate-800">
+             <button className="w-full py-3 bg-white/5 text-white/70 text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-white/10 transition-colors border border-white/10 group flex items-center justify-center gap-2">
+               Explorar Mapa Completo <Navigation className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+             </button>
+          </div>
         </div>
+
       </div>
     </div>
   );

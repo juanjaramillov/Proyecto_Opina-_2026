@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Layers, ShieldAlert, CheckCircle2 } from "lucide-react";
+import { Layers, ShieldAlert, CheckCircle2, Flame } from "lucide-react";
 import { MasterHubSnapshot } from "../../../../../read-models/b2c/hub-types";
 import { ResultsGeneration } from "../../../hooks/useResultsExperience";
 
@@ -24,62 +24,106 @@ export function ProfundidadInsightBlock({ generation, snapshot }: ProfundidadIns
     );
   }
 
+  const topAttribute = { name: "Innovación Tecnológica", score: 92, color: "bg-indigo-500", desc: "El atributo cardinal. El ecosistema penaliza fuertemente las soluciones conservadoras." };
+  
   const attributes = [
-    { name: "Sostenibilidad", score: 85, color: "bg-emerald-500" },
-    { name: "Innovación", score: 92, color: "bg-indigo-500" },
-    { name: "Accesibilidad", score: 45, color: "bg-rose-500" },
-    { name: "Rentabilidad", score: 78, color: "bg-amber-500" },
-    { name: "Impacto Social", score: 88, color: "bg-cyan-500" },
+    { name: "Sostenibilidad a largo plazo", score: 85, color: "bg-emerald-500" },
+    { name: "Rentabilidad Financiera", score: 78, color: "bg-amber-500" },
+    { name: "Impacto y Bienestar Social", score: 65, color: "bg-cyan-500" },
+    { name: "Accesibilidad Base", score: 45, color: "bg-rose-500", isWeak: true },
   ];
 
   return (
     <div className="w-full">
-      <div className="mb-12">
-        <h3 className="text-3xl font-black text-ink tracking-tight mb-2">Análisis de Atributos</h3>
-        <p className="text-slate-500 text-lg max-w-2xl">
-          Descomposición multicapa de cómo la comunidad percibe y valora las características específicas.
+      <div className="mb-10 md:mb-14">
+        <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 px-3 py-1.5 mb-4">
+          <Layers className="w-4 h-4" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">Análisis Profundidad</span>
+        </div>
+        <h3 className="text-3xl md:text-5xl font-black text-ink tracking-tight mb-4">
+          La Anatomía del Valor
+        </h3>
+        <p className="text-slate-500 text-base md:text-lg max-w-2xl leading-relaxed">
+          Disección multicapa de atributos. Identifica exactamente qué dimensiones sostienen la propuesta de valor y cuáles actúan como cuellos de botella.
         </p>
       </div>
 
-      <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm flex flex-col md:flex-row gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
         
-        {/* Radar/Bar Chart representation */}
-        <div className="flex-1 space-y-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Layers className="w-5 h-5 text-emerald-500" />
-            <h4 className="text-xl font-black text-ink">Radar de Percepción</h4>
+        {/* Pilar Dominante */}
+        <div className="lg:col-span-5 flex flex-col gap-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex-1 bg-indigo-950 rounded-3xl p-8 relative overflow-hidden text-white"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500 opacity-20 blur-3xl rounded-full" />
+            
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-700 bg-indigo-900/50 text-indigo-300 px-3 py-1 mb-8 self-start">
+                 <CheckCircle2 className="w-4 h-4" />
+                 <span className="text-[10px] font-bold uppercase tracking-widest">Pilar Core</span>
+              </div>
+              
+              <h4 className="text-3xl font-black mb-3 leading-tight">{topAttribute.name}</h4>
+              <p className="text-indigo-200 text-sm font-medium mb-10">{topAttribute.desc}</p>
+              
+              <div className="mt-auto">
+                <div className="flex justify-between items-end mb-2">
+                  <span className="text-5xl font-black text-indigo-400 leading-none">{topAttribute.score}<span className="text-2xl">%</span></span>
+                </div>
+                <div className="h-2 w-full bg-indigo-900 rounded-full overflow-hidden">
+                  <motion.div initial={{ width: 0 }} animate={{ width: `${topAttribute.score}%` }} transition={{ duration: 1.5, delay: 0.2 }} className="h-full bg-indigo-400" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Desglose de Atributos */}
+        <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-100 p-8 shadow-sm flex flex-col">
+          <div className="flex items-center gap-2 mb-8 pb-4 border-b border-slate-100">
+             <Layers className="w-5 h-5 text-slate-400" />
+             <h4 className="text-xl font-black text-ink">Matriz de Atributos</h4>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6 flex-1 flex flex-col justify-center">
             {attributes.map((attr, index) => (
-              <div key={attr.name}>
+              <motion.div 
+                key={attr.name}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 + index * 0.1 }}
+                className="group"
+              >
                 <div className="flex justify-between items-end mb-2">
-                  <span className="text-sm font-bold text-slate-800">{attr.name}</span>
-                  <span className="text-xs font-bold text-slate-400">{attr.score}%</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-slate-800">{attr.name}</span>
+                    {attr.isWeak && <span className="bg-rose-50 text-rose-600 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">Debilidad Detectada</span>}
+                  </div>
+                  <span className="text-sm font-black text-slate-600">{attr.score}%</span>
                 </div>
-                <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${attr.score}%` }}
-                    transition={{ duration: 1, delay: index * 0.1 }}
-                    className={`h-full ${attr.color} rounded-full`} 
+                    transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
+                    className={`h-full ${attr.color} rounded-full relative`}
                   />
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
-
-        {/* Highlight Callout */}
-        <div className="md:w-72 shrink-0 bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 px-3 py-1 mb-6 self-start">
-            <CheckCircle2 className="w-4 h-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Fortaleza Clave</span>
+          
+          <div className="mt-8 pt-5 border-t border-slate-100 flex items-start gap-3">
+             <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
+               <Flame className="w-4 h-4 text-slate-400" />
+             </div>
+             <p className="text-xs text-slate-500 leading-relaxed font-medium">
+               El ecosistema muestra una brecha significativa entre innovación y accesibilidad de mercado, un patrón clásico en ciclos de adopción temprana ("early adopters gap").
+             </p>
           </div>
-          <h5 className="text-3xl font-black text-ink leading-tight mb-4">La Innovación lidera la percepción</h5>
-          <p className="text-sm text-slate-500 font-medium">
-            Es el atributo con mayor consenso positivo, superando ampliamente a la accesibilidad, que permanece como el principal desafío.
-          </p>
         </div>
 
       </div>
