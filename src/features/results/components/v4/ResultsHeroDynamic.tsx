@@ -1,6 +1,5 @@
-import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Activity, Flame, ShieldAlert, Zap, ArrowRight, Target } from "lucide-react";
+import { Activity, Flame, ShieldAlert, Zap, Target } from "lucide-react";
 import { ResultsModule, ResultsPeriod, ResultsView } from "../../hooks/useResultsExperience";
 import { MasterHubSnapshot } from "../../../../read-models/b2c/hub-types";
 
@@ -11,7 +10,7 @@ interface ResultsHeroDynamicProps {
   activeView: ResultsView;
 }
 
-export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activeView }: ResultsHeroDynamicProps) {
+export function ResultsHeroDynamic({ snapshot: _snapshot, activeModule, activePeriod: _activePeriod, activeView }: ResultsHeroDynamicProps) {
   
   // Lógica para determinar el insight principal (mock contextualizado por las reglas)
   const getMainInsight = () => {

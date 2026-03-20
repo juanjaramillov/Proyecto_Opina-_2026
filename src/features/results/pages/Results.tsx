@@ -2,21 +2,16 @@ import { useEffect } from "react";
 import { trackEvent } from "../../../services/analytics/trackEvent";
 import { useResultsExperience } from "../hooks/useResultsExperience";
 import { ResultsHeroDynamic } from "../components/v4/ResultsHeroDynamic";
-import { ResultsConsensusVsPolarization } from "../components/ResultsConsensusVsPolarization";
-import { ResultsInsightWall } from "../components/ResultsInsightWall";
-import { ResultsTrendsV2 } from "../components/ResultsTrendsV2";
-import { ResultsWinningV2 } from "../components/ResultsWinningV2";
-import { ResultsMapV2 } from "../components/ResultsMapV2";
-import { ResultsCommunityV2 } from "../components/ResultsCommunityV2";
-import { ResultsEcosystem } from "../components/ResultsEcosystem";
-import { ResultsProgression } from "../components/ResultsProgression";
+import { ResultsTransversalMetrics } from "../components/v4/ResultsTransversalMetrics";
+import { ResultsContextualWall } from "../components/v4/ResultsContextualWall";
+import { ResultsWowClosing } from "../components/v4/ResultsWowClosing";
 import { FilterBar } from "../components/hub/FilterBar";
-import { TransversalComparator } from "../components/hub/TransversalComparator";
-import { VersusHubSection } from "../components/hub/VersusHubSection";
-import { TournamentHubSection } from "../components/hub/TournamentHubSection";
-import { ProfundidadHubSection } from "../components/hub/ProfundidadHubSection";
-import { ActualidadHubSection } from "../components/hub/ActualidadHubSection";
-import { LugaresHubSection } from "../components/hub/LugaresHubSection";
+import { ResultsModuleComparator } from "../components/v4/ResultsModuleComparator";
+import { VersusInsightBlock } from "../components/v4/modules/VersusInsightBlock";
+import { TorneoInsightBlock } from "../components/v4/modules/TorneoInsightBlock";
+import { ProfundidadInsightBlock } from "../components/v4/modules/ProfundidadInsightBlock";
+import { ActualidadInsightBlock } from "../components/v4/modules/ActualidadInsightBlock";
+import { LugaresInsightBlock } from "../components/v4/modules/LugaresInsightBlock";
 
 export default function ResultsPage() {
   useEffect(() => {
@@ -39,20 +34,15 @@ export default function ResultsPage() {
   }
 
   const renderModuleSection = () => {
-    switch (activeModule) {
-      case "VERSUS": return <VersusHubSection />;
-      case "TOURNAMENT": return <TournamentHubSection />;
-      case "PROFUNDIDAD": return <ProfundidadHubSection />;
-      case "ACTUALIDAD": return <ActualidadHubSection />;
-      case "LUGARES": return <LugaresHubSection />;
-      default: return (
-        <>
-          <ResultsTrendsV2 activeModule={activeModule} activePeriod={activePeriod} />
-          <ResultsWinningV2 />
-        </>
-      );
+    switch(activeModule) {
+      case "VERSUS": return <VersusInsightBlock />;
+      case "TOURNAMENT": return <TorneoInsightBlock />;
+      case "PROFUNDIDAD": return <ProfundidadInsightBlock />;
+      case "ACTUALIDAD": return <ActualidadInsightBlock />;
+      case "LUGARES": return <LugaresInsightBlock />;
+      default: return null;
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white text-ink relative w-full overflow-x-hidden font-sans selection:bg-brand-opina-blue/20">
@@ -84,34 +74,24 @@ export default function ResultsPage() {
         {/* Massive Headline and Realtime Facts */}
         <ResultsHeroDynamic snapshot={snapshot} activeModule={activeModule} activePeriod={activePeriod} activeView={activeView} />
         
-        {/* Friction & Consensus List */}
-        <div className="mt-16 md:mt-32">
-          <ResultsConsensusVsPolarization activeModule={activeModule} activePeriod={activePeriod} />
+        {/* Ecosystem General Pulse */}
+        <div className="mt-16 container-ws">
+          <ResultsTransversalMetrics snapshot={snapshot} activePeriod={activePeriod} />
         </div>
 
-        {/* The Pulse (Newsfeed columns) */}
-        <ResultsCommunityV2 />
-
-        {/* Breaking News Dark Bento */}
-        <ResultsInsightWall activeModule={activeModule} activePeriod={activePeriod} />
-        
-        <ResultsEcosystem snapshot={snapshot} />
-
-        {/* Comparator (Tu vs Comunidad) */}
-        <TransversalComparator activeModule={activeModule} activePeriod={activePeriod} />
+        {/* Composition / Module Comparator */}
+        <ResultsModuleComparator activeModule={activeModule} />
         
         {/* Module Specific Logic */}
         <div className="container-ws py-24">
           {renderModuleSection()}
         </div>
         
-        {/* Cartography Map (Only on ALL) */}
-        {activeModule === "ALL" && (
-          <ResultsMapV2 />
-        )}
+        {/* Contextual Insights Wall - Reactiva a todos los controles */}
+        <ResultsContextualWall activeModule={activeModule} />
 
-        {/* Reward Progression */}
-        <ResultsProgression snapshot={snapshot} />
+        {/* Heroica final wow */}
+        <ResultsWowClosing />
 
       </main>
 

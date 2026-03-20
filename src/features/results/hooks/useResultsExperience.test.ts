@@ -77,20 +77,20 @@ describe('useResultsExperience', () => {
         expect(result.current.snapshot?.cohortState?.privacyState).toBe('insufficient_cohort');
     });
 
-    it('manages activeTab and filters state', async () => {
+    it('manages activeModule and filters state', async () => {
         (getCuratedMasterHubSnapshot as import('vitest').Mock).mockReturnValue({});
 
         const { result } = renderHook(() => useResultsExperience());
 
         // Defaults
-        expect(result.current.activeTab).toBe('versus');
+        expect(result.current.activeModule).toBe('ALL');
         expect(result.current.filters).toEqual({});
 
         // Set Tab
         act(() => {
-            result.current.setActiveTab('torneo');
+            result.current.setActiveModule('TOURNAMENT');
         });
-        expect(result.current.activeTab).toBe('torneo');
+        expect(result.current.activeModule).toBe('TOURNAMENT');
 
         // Set Filters
         act(() => {
