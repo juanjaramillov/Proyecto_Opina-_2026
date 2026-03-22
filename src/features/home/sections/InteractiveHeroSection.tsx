@@ -16,24 +16,24 @@ export default function InteractiveHeroSection() {
             {/* Minimalist Header */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] sm:text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            Señales en vivo
+            Tu opinión no es un voto. Es una señal.
             </div>
 
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-display tracking-tight text-ink mb-6 leading-[1.1]">
-            Tus señales<br />
-            construyen <br />
-            <span className="text-blue-600">esto</span><span className="text-emerald-500">.</span>
+            Convierte tu<br />
+            opinión en una<br />
+            <span className="text-blue-600">señal</span><span className="text-emerald-500">.</span>
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl text-slate-500 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
-            Cada decisión suma valor real. Descubre las tendencias y compárate con la comunidad en tiempo real.
+            Participa, compara, desbloquea recompensas y descubre tendencias en tiempo real.
             </p>
 
             <Link 
             to="/signals"
             className="inline-flex items-center gap-2 bg-ink hover:bg-slate-800 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-transform hover:scale-105 hover:shadow-xl hover:shadow-ink/20 mb-10 sm:mb-12"
             >
-            Seguir participando
+            Empezar a opinar
             <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
 

@@ -2,7 +2,7 @@
 import InteractiveHeroSection from "../sections/InteractiveHeroSection";
 import LiveTrendsSection from "../sections/LiveTrendsSection";
 import ChallengesMenuSection from "../sections/ChallengesMenuSection";
-import CommunityPulseSection from "../sections/CommunityPulseSection";
+{/* Import removido para auditoría UX */}
 import GamifiedCTASection from "../sections/GamifiedCTASection";
 import WhatIsOpinaSection from "../sections/WhatIsOpinaSection";
 
@@ -16,7 +16,7 @@ export default function Home() {
       <LiveTrendsSection />
       <ChallengesMenuSection />
       <RewardsValuePropsSection />
-      <CommunityPulseSection />
+      {/* <CommunityPulseSection /> - Oculto temporalmente (Auditoría UX) para evitar redundancia con LiveTrends */}
       <GamifiedCTASection /> 
     </main>
   );

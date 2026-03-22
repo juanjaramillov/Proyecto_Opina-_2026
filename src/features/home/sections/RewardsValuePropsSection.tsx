@@ -4,22 +4,22 @@ export default function RewardsValuePropsSection() {
   const rewards = [
     {
       icon: <Coins className="w-12 h-12 text-amber-400 group-hover:scale-110 transition-transform duration-500" />,
-      title: "Señales",
-      description: "Gana valoración por cada interacción. Tus señales tienen peso y recompensa real en nuestro ecosistema.",
+      title: "Acumula señales",
+      description: "Cada aporte fortalece tu perfil interactivo y suma valor real a la red de inteligencia colectiva.",
       glowColor: "bg-amber-500/20",
       borderColor: "group-hover:border-amber-500/50"
     },
     {
       icon: <Eye className="w-12 h-12 text-emerald-400 group-hover:scale-110 transition-transform duration-500" />,
-      title: "Radiografías Únicas",
-      description: "Desbloquea datos e insights sociológicos que la mayoría no ve al cruzar la barrera de participación.",
+      title: "Accede a radiografías",
+      description: "Cruza la barrera de participación para ver macro-tendencias e insights avanzados ocultos para el resto.",
       glowColor: "bg-emerald-500/20",
       borderColor: "group-hover:border-emerald-500/50"
     },
     {
       icon: <ShieldCheck className="w-12 h-12 text-primary group-hover:scale-110 transition-transform duration-500" />,
-      title: "Sube tu Rango",
-      description: "Pasa de 'Observador' a 'Visionario'. Mientras más colaboras, mayor influencia tiene tu voz en la red.",
+      title: "Escala tu influencia",
+      description: "Mientras más aportas, más subes de nivel y te conviertes en un referente dentro del mapa relacional.",
       glowColor: "bg-primary/20",
       borderColor: "group-hover:border-primary/50"
     }
@@ -27,7 +27,9 @@ export default function RewardsValuePropsSection() {
 
   return (
     <section className="relative w-full py-24 px-4 sm:px-6 lg:px-8 bg-slate-900 overflow-hidden">
-      
+      {/* Gradient Blending Transition From Previous White Section */}
+      <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-white to-transparent pointer-events-none z-0" />
+
       {/* Premium Dark Background Effects */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10" />
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
@@ -40,11 +42,11 @@ export default function RewardsValuePropsSection() {
             <span>Valor B2C</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight leading-tight">
-            Tu opinión es oro. <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">Literalmente.</span>
+            Tus señales <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">tienen valor.</span>
           </h2>
           <p className="text-xl text-slate-400 font-medium">
-            En Opina+ no solo dejas tu huella, construyes tu reputación y desbloqueas beneficios exclusivos por ayudar a mapear la realidad.
+            En Opina+ no solo dejas tu huella. Construyes tu reputación y desbloqueas datos e insights por ayudar a mapear la inteligencia colectiva.
           </p>
         </div>
 

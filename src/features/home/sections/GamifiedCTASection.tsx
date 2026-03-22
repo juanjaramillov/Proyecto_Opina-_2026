@@ -1,4 +1,4 @@
-import { BarChart3, TrendingUp, Sparkles, ArrowRight } from "lucide-react";
+import { BarChart3, TrendingUp, Sparkles, ArrowRight, Users, Globe, Flame } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function GamifiedCTASection() {
@@ -20,15 +20,91 @@ export default function GamifiedCTASection() {
                <div className="absolute top-0 inset-x-0 h-6 flex justify-center">
                   <div className="w-24 h-full bg-slate-800 rounded-b-xl" />
                </div>
-               {/* Screen Content */}
-               <div className="flex-1 bg-slate-50 p-6 pt-12 flex flex-col gap-4">
-                  {/* Dummy bars */}
-                  <div className="w-full h-12 bg-indigo-100 rounded-xl animate-pulse" />
-                  <div className="w-3/4 h-12 bg-cyan-100 rounded-xl animate-pulse" style={{ animationDelay: '150ms' }} />
-                  <div className="w-5/6 h-12 bg-emerald-100 rounded-xl animate-pulse" style={{ animationDelay: '300ms' }} />
+               {/* Screen Content - Opina+ App Branded Mockup */}
+               <div className="flex-1 bg-slate-50 p-3 pt-10 flex flex-col gap-2.5 relative overflow-hidden">
+                  
+                  {/* Decorative corporate blur inside screen */}
+                  <div className="absolute -top-16 -right-16 w-40 h-40 bg-gradient-to-tr from-primary/20 to-emerald-400/20 blur-2xl rounded-full" />
+
+                  {/* Header Brandeado */}
+                  <div className="flex items-center justify-between mb-1 relative z-10">
+                    <div className="flex items-center gap-1.5">
+                      {/* Logo Opina+ Miniatura */}
+                      <div className="h-5 w-5 rounded-[0.4rem] bg-gradient-brand flex items-center justify-center shadow-[0_2px_8px_rgba(37,99,235,0.25)] shrink-0">
+                        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full p-0.5">
+                          <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                          <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                          <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                      <span className="text-[10px] font-black tracking-tight text-slate-900 leading-none">Opina<span className="text-primary">+</span></span>
+                    </div>
+                    
+                    {/* Usuario & XP */}
+                    <div className="flex items-center gap-2">
+                       <div className="flex flex-col text-right">
+                         <span className="text-[6px] font-bold text-slate-500 uppercase tracking-widest">Nivel 4</span>
+                         <span className="text-[7px] font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">1,200 XP</span>
+                       </div>
+                       <div className="w-6 h-6 rounded-full bg-slate-200 border border-white shadow-sm overflow-hidden flex items-center justify-center">
+                          <Users className="w-3.5 h-3.5 text-slate-400" />
+                       </div>
+                    </div>
+                  </div>
+
+                  {/* Tarjeta Versús Brandeada */}
+                  <div className="bg-white rounded-[1rem] p-3 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-slate-100 flex flex-col gap-2 relative z-10 group/mockup">
+                     <div className="flex items-center gap-1.5 mb-1">
+                        <span className="px-1.5 py-0.5 bg-gradient-to-r from-primary to-cyan-500 text-white font-black tracking-widest uppercase text-[5px] rounded border border-white/20 shadow-sm flex items-center gap-1">
+                           <Flame className="w-2 h-2" /> Señal Activa
+                        </span>
+                     </div>
+                     <h4 className="text-[10px] font-bold text-slate-800 leading-snug">
+                       ¿El futuro es el modelo de trabajo 100% remoto o híbrido?
+                     </h4>
+                     
+                     {/* Botones Estilo Opina+ */}
+                     <div className="flex gap-2 mt-2">
+                        <div className="flex-1 bg-white border border-slate-200 rounded-lg p-2.5 flex flex-col items-center justify-center gap-1 shadow-sm">
+                           <span className="text-xs">🏠</span>
+                           <span className="text-[6px] font-bold text-slate-500 uppercase">100% Remoto</span>
+                        </div>
+                        <div className="flex-1 bg-slate-800 border-2 border-primary rounded-lg p-2.5 flex flex-col items-center justify-center gap-1 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+                           <span className="text-xs">🏢</span>
+                           <span className="text-[6px] font-bold text-white uppercase">Híbrido</span>
+                        </div>
+                     </div>
+                  </div>
+
+                  {/* Results Mini-Card Corporate */}
+                  <div className="bg-white rounded-[1rem] p-3 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-slate-100 flex flex-col gap-2 relative z-10">
+                     <div className="flex justify-between items-center mb-0.5">
+                        <span className="text-[8px] font-bold text-slate-600 uppercase tracking-wider">Consenso Global</span>
+                        <span className="text-[9px] font-black text-primary">82%</span>
+                     </div>
+                     <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                        <div className="w-[82%] h-full bg-gradient-to-r from-primary via-cyan-500 to-emerald-400 rounded-full" />
+                     </div>
+                  </div>
+
+                  {/* Bottom Nav Brandeada */}
+                  <div className="absolute bottom-5 left-4 right-4 h-11 bg-white/90 backdrop-blur-md rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white flex items-center justify-around px-2 z-20">
+                     <div className="flex flex-col items-center gap-1 text-primary">
+                        <BarChart3 className="w-4 h-4" />
+                        <span className="text-[5px] font-black uppercase tracking-wider">Señales</span>
+                     </div>
+                     <div className="flex flex-col items-center gap-1 text-slate-400 hover:text-cyan-500 transition-colors">
+                        <Sparkles className="w-4 h-4" />
+                        <span className="text-[5px] font-bold uppercase tracking-wider">Resultados</span>
+                     </div>
+                     <div className="flex flex-col items-center gap-1 text-slate-400 hover:text-emerald-500 transition-colors">
+                        <Globe className="w-4 h-4" />
+                        <span className="text-[5px] font-bold uppercase tracking-wider">Comunidad</span>
+                     </div>
+                  </div>
                </div>
-               {/* Bottom bar */}
-               <div className="h-2 w-1/3 bg-slate-300 rounded-full mx-auto mb-2" />
+               {/* Physical Phone Bottom bar indicator */}
+               <div className="h-1.5 w-1/3 bg-slate-300 rounded-full mx-auto my-2 shrink-0 z-30" />
              </div>
 
              {/* Floating elements popping out */}
