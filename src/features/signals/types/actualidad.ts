@@ -6,6 +6,7 @@ export type TopicStatus = 'detected' | 'draft' | 'review' | 'approved' | 'publis
 
 export type TopicCategory = 
   | 'País' 
+  | 'Internacional'
   | 'Economía' 
   | 'Ciudad / Vida diaria' 
   | 'Marcas y Consumo' 
@@ -120,7 +121,7 @@ export const validateAiTopicPayload = (payload: unknown): string[] => {
 
   // category válida
   const validCategories: TopicCategory[] = [
-    'País', 'Economía', 'Ciudad / Vida diaria', 'Marcas y Consumo', 'Deportes y Cultura', 'Tendencias y Sociedad'
+    'País', 'Internacional', 'Economía', 'Ciudad / Vida diaria', 'Marcas y Consumo', 'Deportes y Cultura', 'Tendencias y Sociedad'
   ];
   if (!validCategories.includes(p.category as TopicCategory)) {
     errors.push(`category inválida: ${p.category}`);

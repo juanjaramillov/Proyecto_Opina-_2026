@@ -34,6 +34,7 @@ export function EditorClasificacion({
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
                     >
                         <option value="País">País</option>
+                        <option value="Internacional">Internacional</option>
                         <option value="Economía">Economía</option>
                         <option value="Ciudad / Vida diaria">Ciudad / Vida diaria</option>
                         <option value="Marcas y Consumo">Marcas y Consumo</option>

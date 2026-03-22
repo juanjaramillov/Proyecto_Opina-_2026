@@ -37,7 +37,41 @@ export function useActualidadEditor(id: string | undefined) {
                     actors: data.actors,
                 });
 
-                const sortedQ = [...(data.questions || [])].sort((a, b) => a.order - b.order);
+                // Helper para asegurar que las opciones sean SIEMPRE un arreglo de strings
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const sanitizeOptions = (opts: any) => {
+                    if (!Array.isArray(opts)) return [];
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    return opts.map((opt: any) => {
+                        if (typeof opt === 'string') return opt;
+                        if (opt && typeof opt === 'object') {
+                            return opt.text || opt.label || opt.value || opt.title || Object.values(opt).find(v => typeof v === 'string') || "Opción";
+                        }
+                        return String(opt);
+                    }).filter(Boolean);
+                };
+
+                let sortedQ = [...(data.questions || [])].sort((a, b) => a.order - b.order);
+
+                if (sortedQ.length === 0) {
+                    const aiPayload = data.metadata?.raw_ai_payload as Record<string, unknown> | undefined;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const aiQuestions = aiPayload?.questions as any[];
+                    if (aiQuestions && Array.isArray(aiQuestions)) {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        sortedQ = aiQuestions.map((q: any) => ({
+                            id: crypto.randomUUID(),
+                            order: q.order || 1,
+                            text: q.text || "",
+                            type: q.type || 'single_choice',
+                            options: sanitizeOptions(q.options)
+                        })).sort((a, b) => a.order - b.order);
+                    }
+                }
+
+                // Asegurar que TODAS las preguntas en el State, vengan de DB o de IA, tengan options sanitizadas
+                sortedQ = sortedQ.map(q => ({ ...q, options: sanitizeOptions(q.options) }));
+
                 while (sortedQ.length < 3) {
                     const defaultTypes: QuestionType[] = ['scale_0_10', 'single_choice', 'single_choice_polar'];
                     sortedQ.push({
@@ -137,8 +171,13 @@ export function useActualidadEditor(id: string | undefined) {
         setSaving(true);
         try {
             const updates = { ...formData };
-            await adminActualidadService.updateTopicEditorialData(id, updates, true);
-            await adminActualidadService.updateTopicQuestions(id, questions);
+            const editorialSuccess = await adminActualidadService.updateTopicEditorialData(id, updates, true);
+            const questionsSuccess = await adminActualidadService.updateTopicQuestions(id, questions);
+
+            if (!editorialSuccess || !questionsSuccess) {
+                if (!silent) alert("Hubo un error al guardar los datos en la base de datos.");
+                return false;
+            }
 
             setTopic(prev => prev ? { ...prev, ...formData, admin_edited: true } as Topic : null);
 
@@ -157,9 +196,14 @@ export function useActualidadEditor(id: string | undefined) {
         if (!id || !topic) return;
 
         if (newStatus === 'published' || newStatus === 'approved') {
+            const err = validateForm();
+            if (err) {
+                alert(`No se puede ${newStatus === 'approved' ? 'aprobar' : 'publicar'}. Corrige lo siguiente:\n\n- ${err}`);
+                return;
+            }
             const saved = await handleSave(true);
             if (!saved) {
-                alert("Corrige los errores del formulario antes de transicionar estado.");
+                alert("Error técnico al guardar los cambios antes de transicionar. Revisa la consola.");
                 return;
             }
         }

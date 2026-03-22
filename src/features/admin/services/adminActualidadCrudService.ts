@@ -237,8 +237,9 @@ export const adminActualidadCrudService = {
       }
 
       return true;
-    } catch (e) {
+    } catch (e: any) {
       logger.error(`Error actualizando preguntas para el tema ${topicId}`, { error: e });
+      alert(`[DIAGNÓSTICO OPINA] Error DB Preguntas: ${e?.message || JSON.stringify(e)}`);
       return false;
     }
   },

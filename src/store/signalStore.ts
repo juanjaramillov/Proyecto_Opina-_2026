@@ -120,6 +120,18 @@ export const useSignalStore = create<SignalState & SignalActions>()(
                     sessionSignals: newSessionSignals,
                     cooldownUntil: newCooldownUntil
                 });
+
+                // --- BACKEND SYNC SCAFFOLDING ---
+                // TODO(Backend): Reemplazar esta llamada con una petición real a Supabase RPC
+                // ej. supabase.rpc('consume_session_signal', { increment: 1 })
+                // para mantener la verdadera fuente de la verdad en la base de datos y evitar 
+                // exploits limpiando el localStorage.
+                try {
+                    // simulate async sync (fire and forget)
+                    // console.log("[Zustand Sync] Session updated in server.", { newSessionSignals, newCooldownUntil });
+                } catch (e) {
+                    console.error("Failed to sync session with backend", e);
+                }
             },
 
             addSignal: (input) => {

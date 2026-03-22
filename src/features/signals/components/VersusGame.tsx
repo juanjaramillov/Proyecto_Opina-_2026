@@ -11,10 +11,8 @@ import VersusHeader from './versus/VersusHeader';
 import VersusInsightCard from './versus/VersusInsightCard';
 import { Battle, BattleOption, TorneoTournament, VoteResult } from '../types';
 import SessionSummary from './SessionSummary';
-import { ProfileRequiredModal } from '../../../components/ProfileRequiredModal';
-import { GuestConversionModal } from '../../auth/components/GuestConversionModal';
 import { FallbackAvatar } from '../../../components/ui/FallbackAvatar';
-import InsightPack from './InsightPack';
+import { VersusGameModals } from './versus/VersusGameModals';
 
 // --- CONSTANTS & HELPERS ---
 
@@ -307,83 +305,19 @@ export default function VersusGame(props: GameProps) {
                 )
             }
 
-            <AnimatePresence>
-                {showAuthModal && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setShowAuthModal(false)}
-                            className="absolute inset-0 bg-slate-900/80 backdrop-blur-md"
-                        />
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="relative bg-white rounded-[2rem] p-8 md:p-10 max-w-md w-full shadow-2xl border border-slate-100 text-center overflow-hidden"
-                        >
-                            {/* Fondo decorativo en AuthModal */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary-100/50 rounded-full blur-[40px] pointer-events-none"></div>
-
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary-500 shadow-sm">
-                                    <span className="material-symbols-outlined text-3xl">verified_user</span>
-                                </div>
-                                <h2 className="text-2xl font-black text-slate-900 mb-4 drop-shadow-sm">Señal Protegida</h2>
-                                <p className="text-slate-600 font-medium mb-8 leading-relaxed">
-                                    Para que tu señal tenga <span className="text-slate-900 font-black">impacto algorítmico</span> y se sume a la inteligencia colectiva, necesitas validar tu identidad.
-                                </p>
-                                <div className="space-y-3">
-                                    <button
-                                        onClick={() => navigate('/profile')}
-                                        className="w-full py-4 bg-gradient-brand text-white rounded-xl font-black text-sm uppercase tracking-widest shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.23)] hover:-translate-y-0.5 transition-all active:scale-95"
-                                    >
-                                        INICIAR SESIÓN
-                                    </button>
-                                    <button
-                                        onClick={() => setShowAuthModal(false)}
-                                        className="w-full py-3 bg-transparent text-slate-500 rounded-xl font-bold text-xs uppercase tracking-widest hover:text-slate-900 hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200"
-                                    >
-                                        Continuar como observador
-                                    </button>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
-
-            <AnimatePresence>
-                {showProfileModal && (
-                    <ProfileRequiredModal
-                        onClose={() => setShowProfileModal(false)}
-                        onCompleteProfile={() => navigate('/complete-profile')}
-                    />
-                )}
-                {showGuestConversionModal && (
-                    <GuestConversionModal
-                        isOpen={showGuestConversionModal}
-                        onClose={() => setShowGuestConversionModal(false)}
-                        onRegister={() => {
-                            setShowGuestConversionModal(false);
-                            navigate('/dashboard'); // Temporarily navigating to dashboard or specialized signup page
-                        }}
-                    />
-                )}
-                {showInsightPack && selectedOption && (
-                    <InsightPack
-                        optionId={selectedOption.id}
-                        optionLabel={selectedOption.label}
-                        categorySlug={typeof effectiveBattle.category === 'object' && effectiveBattle.category !== null ? (effectiveBattle.category as { slug: string }).slug : String(effectiveBattle.category || '')}
-                        onComplete={() => {
-                            setShowInsightPack(false);
-                            next();
-                        }}
-                        onCancel={() => setShowInsightPack(false)}
-                    />
-                )}
-            </AnimatePresence>
+            <VersusGameModals
+                showAuthModal={showAuthModal}
+                setShowAuthModal={setShowAuthModal}
+                showProfileModal={showProfileModal}
+                setShowProfileModal={setShowProfileModal}
+                showGuestConversionModal={showGuestConversionModal}
+                setShowGuestConversionModal={setShowGuestConversionModal}
+                showInsightPack={showInsightPack}
+                setShowInsightPack={setShowInsightPack}
+                selectedOption={selectedOption}
+                effectiveBattle={effectiveBattle}
+                next={next}
+            />
         </div >
     );
 }

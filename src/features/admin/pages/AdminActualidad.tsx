@@ -19,12 +19,19 @@ export default function AdminActualidad() {
     uniqueSources,
     filteredAndSortedTopics,
     updateStatus,
-    openEditor
+    openEditor,
+    triggerExtraction,
+    extracting
   } = useAdminActualidad();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative bg-slate-50 min-h-screen">
-      <AdminActualidadHeader totalTopics={topics.length} loading={loading} />
+      <AdminActualidadHeader 
+        totalTopics={topics.length} 
+        loading={loading} 
+        onExtract={triggerExtraction}
+        isExtracting={extracting}
+      />
 
       <div className="flex flex-col gap-6 mb-6">
         <AdminActualidadTabs 

@@ -1,4 +1,4 @@
-import { TrendingUp, Activity, Globe, Sparkles, UserCheck, ArrowUpRight, Flame } from "lucide-react";
+import { TrendingUp, Activity, Globe, Sparkles, Users, Flame, Swords, PieChart } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 export default function LiveTrendsSection() {
@@ -32,14 +32,19 @@ export default function LiveTrendsSection() {
     return () => observer.disconnect();
   }, []);
 
-  const formattedCount = count.toLocaleString('es-ES').split('');
+  const formattedCount = Math.floor(count).toString().split('');
 
   // Mock data for the new Ranking
-  const topTrends = [
-    { rank: 1, name: "Inteligencia Artificial", speed: "+12 lugares", isHot: true },
-    { rank: 2, name: "Economía de Creadores", speed: "+5 lugares", isHot: false },
-    { rank: 3, name: "Movilidad Urbana", speed: "Estable", isHot: false },
-    { rank: 4, name: "Bienestar Mental", speed: "Nueva entrada", isHot: true },
+  const topConsensus = [
+    { rank: 1, name: "Inteligencia Artificial", detail: "94% de acuerdo", isHot: true },
+    { rank: 2, name: "Sostenibilidad", detail: "88% de acuerdo", isHot: false },
+    { rank: 3, name: "Salud Mental", detail: "85% de acuerdo", isHot: true },
+  ];
+
+  const topPolarized = [
+    { rank: 1, name: "Economía de Creadores", detail: "51% vs 49%", isHot: true },
+    { rank: 2, name: "Trabajo 100% Remoto", detail: "53% vs 47%", isHot: false },
+    { rank: 3, name: "Criptomonedas", detail: "55% vs 45%", isHot: false },
   ];
 
   return (
@@ -55,23 +60,23 @@ export default function LiveTrendsSection() {
             <TrendingUp className="w-8 h-8 text-primary" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-ink mb-2">
-            ¡Boom! Tu <span className="text-gradient-brand">señal</span> tiene impacto.
+            ¡Boom! El pulso de la <span className="text-gradient-brand">comunidad</span>.
           </h2>
-          <p className="text-lg text-slate-500">
-            Así se mueve el ecosistema tras tu participación.
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+            Descubre las principales conclusiones, tendencias y preferencias generadas por los votos de todos los usuarios.
           </p>
         </div>
 
         {/* Bento Box Grid - 3 Columns Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           
-          {/* Card 1: Afinidad de Usuario (Span 1) - Glassmorphism applied */}
+          {/* Card 1: Consenso Comunitario (Span 1) - Glassmorphism applied */}
           <div className="md:col-span-1 bg-white/70 backdrop-blur-2xl rounded-3xl p-6 md:p-8 border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all flex flex-col justify-between overflow-hidden relative group">
             <div className="absolute -right-4 -top-4 w-32 h-32 bg-indigo-100/50 rounded-full blur-2xl group-hover:bg-indigo-200/60 transition-colors" />
             
             <div className="relative z-10 flex items-center gap-2 text-primary font-bold mb-4">
-              <UserCheck className="w-5 h-5" />
-              <h3>AFINIDAD DE TRIBU</h3>
+              <Users className="w-5 h-5" />
+              <h3>CONSENSO DESTACADO</h3>
             </div>
             
             <div className="relative z-10 flex-1 flex flex-col justify-center">
@@ -80,13 +85,13 @@ export default function LiveTrendsSection() {
                 <span className="text-3xl font-black font-display text-primary">%</span>
               </div>
               <p className="text-slate-600 text-sm font-medium leading-relaxed">
-                Tus respuestas coinciden con la mayoría de tu generación.
+                De la comunidad cree que el modelo de trabajo híbrido es superior al 100% presencial.
               </p>
             </div>
             
             <div className="relative z-10 mt-6 flex items-center gap-2 text-xs font-bold text-primary bg-primary/10 backdrop-blur-sm px-3 py-2 rounded-xl border border-primary/20 w-fit">
               <Sparkles className="w-4 h-4 animate-pulse" />
-              Patrón dominante detectado
+              Preferencia dominante
             </div>
           </div>
 
@@ -94,128 +99,171 @@ export default function LiveTrendsSection() {
           <div className="md:col-span-2 bg-white/70 backdrop-blur-2xl rounded-3xl p-6 md:p-8 border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all flex flex-col justify-between">
             <div className="flex items-center gap-2 text-emerald-600 font-bold mb-6">
               <TrendingUp className="w-5 h-5" />
-              <h3>RADAR DE TEMAS TOP</h3>
+              <h3>RADAR DE TENDENCIAS TOP</h3>
             </div>
             
-            <div className="space-y-3">
-              {topTrends.map((trend, idx) => (
-                <div key={trend.rank} className="group relative flex items-center justify-between p-3 md:p-4 rounded-2xl border border-slate-100 bg-white hover:border-emerald-200 hover:bg-emerald-50/50 transition-all">
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold font-display group-hover:bg-emerald-100 group-hover:text-emerald-600 transition-colors">
-                      {trend.rank}
-                    </span>
-                    <span className="font-bold text-slate-800 md:text-lg">
-                      {trend.name}
-                    </span>
-                    {trend.isHot && (
-                      <span className="hidden sm:inline-flex items-center gap-1 text-[10px] uppercase tracking-widest font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-100">
-                        <Flame className="w-3 h-3" /> Hot
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-1.5 text-sm font-semibold text-emerald-500">
-                    {idx < 2 && <ArrowUpRight className="w-4 h-4" />}
-                    {trend.speed}
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Consenso */}
+              <div>
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  Mayor Consenso
+                </h4>
+                <div className="space-y-2.5">
+                  {topConsensus.map((trend) => (
+                    <div key={`cons-${trend.rank}`} className="group relative flex items-center justify-between p-2.5 md:p-3 rounded-2xl border border-slate-100 bg-white hover:border-emerald-200 hover:bg-emerald-50/50 transition-all">
+                      <div className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 font-bold font-display text-sm group-hover:bg-emerald-100 group-hover:text-emerald-600 transition-colors">
+                          {trend.rank}
+                        </span>
+                        <span className="font-bold text-slate-800 text-sm">
+                          {trend.name}
+                        </span>
+                        {trend.isHot && (
+                          <span className="hidden xl:inline-flex items-center gap-1 text-[9px] uppercase tracking-widest font-black text-rose-500 bg-rose-50 px-1.5 py-0.5 rounded-md border border-rose-100">
+                            <Flame className="w-3 h-3" />
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">
+                        <PieChart className="w-3 h-3" />
+                        {trend.detail}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* Polarizados */}
+              <div>
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                  Más Polarizados
+                </h4>
+                <div className="space-y-2.5">
+                  {topPolarized.map((trend) => (
+                    <div key={`pol-${trend.rank}`} className="group relative flex items-center justify-between p-2.5 md:p-3 rounded-2xl border border-slate-100 bg-white hover:border-rose-200 hover:bg-rose-50/50 transition-all">
+                      <div className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-slate-500 font-bold font-display text-sm group-hover:bg-rose-100 group-hover:text-rose-600 transition-colors">
+                          {trend.rank}
+                        </span>
+                        <span className="font-bold text-slate-800 text-sm">
+                          {trend.name}
+                        </span>
+                        {trend.isHot && (
+                          <span className="hidden xl:inline-flex items-center gap-1 text-[9px] uppercase tracking-widest font-black text-rose-500 bg-rose-50 px-1.5 py-0.5 rounded-md border border-rose-100">
+                            <Flame className="w-3 h-3" />
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1 text-[11px] font-semibold text-rose-600 bg-rose-50 px-2 py-1 rounded-lg">
+                        <Swords className="w-3 h-3" />
+                        {trend.detail}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Fila 2 */}
 
-          {/* Card 3: Mapa Relacional Interactivo (Span 2) */}
-          <div className="md:col-span-2 bg-white/70 backdrop-blur-2xl rounded-3xl p-6 md:p-8 border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all min-h-[250px] relative overflow-hidden flex flex-col">
-             
-             {/* Decorative faint connecting lines */}
-             <svg className="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="none">
-               <path d="M50,100 C150,50 250,150 400,100 C550,50 650,200 800,100" fill="none" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4 6" />
-               <path d="M100,200 C200,100 350,250 500,150" fill="none" stroke="url(#lineGradient)" strokeWidth="1.5" strokeDasharray="3 5" />
-               <defs>
-                 <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                   <stop offset="0%" stopColor="#818cf8" />
-                   <stop offset="100%" stopColor="#34d399" />
-                 </linearGradient>
-               </defs>
-             </svg>
-
+          {/* Card 3: Participación por Categorías (Span 2) */}
+          <div className="md:col-span-2 bg-white/70 backdrop-blur-2xl rounded-3xl p-6 md:p-8 border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all flex flex-col justify-between h-full">
              <div className="relative z-10 flex items-center justify-between mb-2">
                <div className="flex items-center gap-2 text-indigo-500 font-bold">
                  <Activity className="w-5 h-5" />
-                 <h3>MAPA RELACIONAL</h3>
+                 <h3>SEÑALES POR CATEGORÍA</h3>
                </div>
-               <span className="text-xs font-bold uppercase tracking-widest text-slate-400">En expansión</span>
+               <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Volumen Hoy</span>
              </div>
              
-             <p className="relative z-10 text-sm text-slate-500 font-medium mb-6">Analizamos las conexiones ocultas entre categorías macro tras el último corte de la comunidad.</p>
+             <p className="text-sm text-slate-500 font-medium mb-8">
+               ¿En qué temas la comunidad está aportando mayor inteligencia colectiva?
+             </p>
 
-             {/* Grafo simulado con elementos flotantes */}
-             <div className="relative flex-1 w-full h-full">
-                <div className="absolute top-[20%] left-[20%] text-center transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-primary hover:bg-primary/90 text-white w-20 h-20 md:w-24 md:h-24 rounded-full flex flex-col items-center justify-center font-bold shadow-lg shadow-primary/30 animate-[bounce_4s_ease-in-out_infinite] cursor-help relative z-30 transition-transform hover:scale-110">
-                    <span className="text-xs font-medium opacity-80 mb-0.5">Consumo</span>
-                    <span className="text-xl font-display">38%</span>
+             <div className="space-y-5 flex-1 flex flex-col justify-center">
+                {[
+                  { name: 'Consumo & Marcas', percent: 38, color: 'bg-primary' },
+                  { name: 'Trabajo & Economía', percent: 27, color: 'bg-emerald-500' },
+                  { name: 'Tecnología e IA', percent: 19, color: 'bg-indigo-400' },
+                  { name: 'Entretenimiento & Cultura', percent: 16, color: 'bg-amber-400' },
+                ].map(cat => (
+                  <div key={cat.name} className="flex flex-col gap-2 group cursor-default">
+                    <div className="flex justify-between items-end text-xs font-bold text-slate-700">
+                      <span className="group-hover:text-primary transition-colors">{cat.name}</span>
+                      <span className="text-slate-400">{cat.percent}%</span>
+                    </div>
+                    <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full ${cat.color} rounded-full transition-all duration-1000 ease-out`} 
+                        style={{ width: `${cat.percent}%` }} 
+                      />
+                    </div>
                   </div>
-                </div>
-
-                <div className="absolute top-[15%] right-[25%] text-center transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-600 w-16 h-16 md:w-20 md:h-20 rounded-full flex flex-col items-center justify-center font-bold shadow-sm animate-[bounce_5s_ease-in-out_infinite_reverse] cursor-help relative z-20 transition-transform hover:scale-110 hover:bg-emerald-100 hover:z-40 delay-200">
-                    <span className="text-[10px] font-medium opacity-80 uppercase tracking-wider mb-0.5">Lifestyle</span>
-                    <span className="text-lg font-display">27%</span>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-[20%] left-[45%] text-center transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-indigo-50 border border-indigo-200 text-indigo-600 w-14 h-14 md:w-16 md:h-16 rounded-full flex flex-col items-center justify-center font-bold shadow-sm animate-[bounce_3s_ease-in-out_infinite] cursor-help relative z-20 transition-transform hover:scale-110 hover:bg-indigo-100 hover:z-40 delay-500">
-                    <span className="text-[9px] font-medium opacity-80 uppercase tracking-widest">Tech</span>
-                    <span className="text-base font-display">19%</span>
-                  </div>
-                </div>
-
-                <div className="absolute top-[60%] right-[10%] text-center transform -translate-x-1/2 -translate-y-1/2 hidden md:block">
-                  <div className="bg-slate-50 border border-slate-200 text-slate-500 w-12 h-12 rounded-full flex flex-col items-center justify-center font-bold shadow-sm animate-[bounce_6s_ease-in-out_infinite_reverse] cursor-help relative z-10 transition-transform hover:scale-110 hover:bg-slate-100 hover:text-slate-700 delay-300">
-                    <span className="text-sm font-display">16%</span>
-                  </div>
-                </div>
+                ))}
              </div>
           </div>
 
-          {/* Card 4: Poder Colectivo (Reducido a Span 1 al estilo vertical widget) */}
-          <div ref={odometerRef} className="md:col-span-1 bg-gradient-brand rounded-3xl p-6 md:p-8 border border-transparent shadow-xl relative overflow-hidden flex flex-col items-center justify-center text-center group">
+          {/* Card 4: Poder Colectivo (Smaller Widget) */}
+          <div ref={odometerRef} className="md:col-span-1 bg-gradient-brand rounded-3xl p-6 border border-transparent shadow-[0_8px_30px_rgba(59,130,246,0.15)] hover:shadow-[0_12px_40px_rgba(59,130,246,0.25)] transition-shadow relative overflow-hidden flex flex-col justify-between h-full">
              {/* Decorative background shapes */}
-             <div className="absolute inset-0 opacity-20">
+             <div className="absolute inset-0 opacity-20 pointer-events-none">
                <div className="absolute -left-10 top-1/2 w-40 h-40 bg-white rounded-full blur-3xl" />
-               <div className="absolute -right-10 bottom-0 w-40 h-40 bg-emerald-400 rounded-full blur-3xl" />
+               <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-emerald-400 rounded-full blur-3xl" />
              </div>
 
-             <div className="relative z-10 flex flex-col justify-between h-full w-full">
-                <div className="flex items-center justify-center gap-2 text-white/90 font-bold mb-6 uppercase tracking-widest text-xs">
+             <div className="relative z-10 w-full mb-6">
+                <div className="flex items-center gap-2 text-white/90 font-bold uppercase tracking-widest text-[10px]">
                   <Globe className="w-4 h-4" />
                   <span>Red Activa</span>
                 </div>
-                
-                {/* Odómetro visual verticalizado */}
-                <div className="flex flex-col items-center gap-1 relative z-10 flex-1 justify-center">
-                   <div className="flex items-center justify-center gap-0.5 sm:gap-1">
-                      {formattedCount.slice(0, 3).map((char, i) => (
-                        <div key={`left-${char}-${i}`} className={`bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 w-8 h-12 sm:w-10 sm:h-14 flex items-center justify-center text-2xl sm:text-3xl font-black font-display text-white shadow-inner ${char === '.' ? 'bg-transparent border-none w-auto self-end pb-1 sm:pb-2 text-xl' : ''}`}>
-                          <span className="drop-shadow-md">{char}</span>
-                        </div>
-                      ))}
+             </div>
+             
+             <div className="relative z-10 flex-1 flex flex-col justify-center w-full mb-8">
+                <div className="text-white/80 text-[10px] font-bold uppercase tracking-widest mb-3 text-center">Señales registradas HOY</div>
+                {/* Odómetro visual pequeño */}
+                <div className="flex items-center gap-0.5 sm:gap-1 w-full justify-center">
+                   {formattedCount.map((char, i) => (
+                     <div key={`clock-${char}-${i}`} className={`bg-white/10 backdrop-blur-md rounded-md sm:rounded-lg border border-white/20 px-1.5 sm:px-2 py-1 flex items-center justify-center text-xl sm:text-2xl font-black font-display text-white shadow-inner ${char === '.' ? 'bg-transparent border-none w-auto self-end text-lg px-0 pb-0.5' : ''}`}>
+                       <span>{char}</span>
+                     </div>
+                   ))}
+                </div>
+             </div>
+
+             <div className="relative z-10 border-t border-white/10 pt-5 mt-auto">
+                <div className="grid grid-cols-2 gap-y-5 gap-x-4">
+                   <div>
+                      <div className="text-indigo-200 text-[10px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <Users className="w-3 h-3 text-indigo-300" />
+                        Usuarios Totales
+                      </div>
+                      <div className="text-white font-bold text-lg font-display">142.5K</div>
                    </div>
-                   <div className="flex items-center justify-center gap-0.5 sm:gap-1">
-                      {formattedCount.slice(3).map((char, i) => (
-                        <div key={`right-${char}-${i}`} className={`bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 w-8 h-12 sm:w-10 sm:h-14 flex items-center justify-center text-2xl sm:text-3xl font-black font-display text-white shadow-inner ${char === '.' ? 'bg-transparent border-none w-auto self-end pb-1 sm:pb-2 text-xl' : ''}`}>
-                          <span className="drop-shadow-md">{char}</span>
-                        </div>
-                      ))}
+                   <div>
+                      <div className="text-indigo-200 text-[10px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        Activos (24h)
+                      </div>
+                      <div className="text-white font-bold text-lg font-display">18.2K</div>
+                   </div>
+                   <div>
+                      <div className="text-indigo-200 text-[10px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <Globe className="w-3 h-3 text-indigo-300" />
+                        Señales (Mes)
+                      </div>
+                      <div className="text-white font-bold text-lg font-display">1.2M</div>
+                   </div>
+                   <div>
+                      <div className="text-indigo-200 text-[10px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <TrendingUp className="w-3 h-3 text-indigo-300" />
+                        Señales (7d)
+                      </div>
+                      <div className="text-white font-bold text-lg font-display">345K</div>
                    </div>
                 </div>
-
-                <p className="relative z-10 font-bold text-sm tracking-wide text-indigo-100 mt-6 leading-tight">
-                  <span className="text-white block">Señales registradas</span>
-                  en la plataforma HOY.
-                </p>
              </div>
           </div>
 

@@ -26,6 +26,16 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
         'bg-slate-300'
       }`} />
 
+      {Boolean(topic.metadata?.image_url) && (
+        <div className="hidden md:block w-48 shrink-0 bg-slate-100 border-r border-slate-100 relative overflow-hidden">
+          <img 
+            src={topic.metadata?.image_url as string} 
+            alt={topic.title}
+            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+          />
+        </div>
+      )}
+
       <div className="p-6 flex-1 flex flex-col justify-between">
         <div>
           <div className="flex items-center gap-2 mb-3 flex-wrap">

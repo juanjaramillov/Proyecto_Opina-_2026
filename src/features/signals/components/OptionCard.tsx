@@ -100,6 +100,7 @@ export default function OptionCard({
                                 <EntityLogo
                                     name={option.label}
                                     slug={resolveEntitySlug(option)}
+                                    domain={option.brand_domain}
                                     size="lg"
                                     variant={layout === 'opinion' ? 'depth' : 'versus'}
                                     className={`relative z-10 w-24 h-24 md:w-40 md:h-40 object-contain mix-blend-multiply drop-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''}`}

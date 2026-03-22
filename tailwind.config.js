@@ -11,9 +11,9 @@ export default {
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
                 display: ['Outfit', 'sans-serif'],
-                headline: ['"Plus Jakarta Sans"', 'sans-serif'],
-                body: ['"Plus Jakarta Sans"', 'sans-serif'],
-                label: ['"Plus Jakarta Sans"', 'sans-serif'],
+                headline: ['Outfit', 'sans-serif'],
+                body: ['Inter', 'sans-serif'],
+                label: ['Inter', 'sans-serif'],
             },
             colors: {
                 "surface-container-high": "#e6e8ea",

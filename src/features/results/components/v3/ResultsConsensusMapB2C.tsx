@@ -1,3 +1,60 @@
+const BUBBLE_DATA = [
+  {
+    id: "sostenibilidad",
+    label: "Sostenibilidad",
+    value: "92%",
+    status: "CONSENSO TOTAL",
+    icon: "eco",
+    color: "emerald",
+    top: "10%",
+    left: "20%",
+    size: 180,
+    tension: false,
+  },
+  {
+    id: "consumo",
+    label: "Consumo",
+    value: "78%",
+    status: "ALTO FLUJO",
+    icon: "shopping_bag",
+    color: "blue",
+    bottom: "20%",
+    right: "15%",
+    size: 150,
+    tension: false,
+  },
+  {
+    id: "politica",
+    label: "Política",
+    value: "50/50",
+    status: "MÁXIMA POLARIDAD",
+    icon: "policy",
+    color: "orange",
+    top: "35%",
+    right: "30%",
+    size: 120,
+    tension: true,
+  },
+  {
+    id: "educacion",
+    label: "Educación",
+    value: "65%",
+    status: "ESTABLE",
+    color: "slate",
+    bottom: "10%",
+    left: "30%",
+    size: 100,
+    tension: false,
+  },
+];
+
+type BubbleColorVariant = {
+  border: string;
+  bgFade: string;
+  textIcon: string;
+  textVal: string;
+};
+
 export function ResultsConsensusMapB2C() {
   return (
     <section className="mb-16 md:mb-24">
@@ -12,50 +69,54 @@ export function ResultsConsensusMapB2C() {
           <div className="w-[60%] h-[60%] border border-slate-200 rounded-full absolute"></div>
           <div className="w-[40%] h-[40%] border border-slate-200 rounded-full absolute"></div>
         </div>
+        
         {/* Bubble Map Layout */}
         <div className="relative z-10 w-full h-full flex items-center justify-center">
-          {/* Sostenibilidad */}
-          <div className="absolute top-[10%] left-[20%] w-[180px] h-[180px] rounded-full bg-white border border-emerald-200 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-105 hover:z-20 transition-all duration-300 cursor-pointer group/bubble">
-             <div className="absolute inset-0 bg-emerald-50 rounded-full opacity-50"></div>
-             <div className="relative flex flex-col items-center">
-               <span className="material-symbols-outlined text-emerald-600 text-4xl mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
-               <span className="text-slate-900 font-bold text-xl">Sostenibilidad</span>
-               <span className="text-xl font-black text-emerald-600">92%</span>
-               <span className="text-[10px] text-slate-500 font-bold tracking-widest mt-1">CONSENSO TOTAL</span>
-             </div>
-          </div>
+          {BUBBLE_DATA.map((bubble) => {
+            const hasIcon = !!bubble.icon;
+            
+            const colorMap: Record<string, BubbleColorVariant> = {
+              emerald: { border: 'border-emerald-200', bgFade: 'bg-emerald-50', textIcon: 'text-emerald-600', textVal: 'text-emerald-600' },
+              blue: { border: 'border-primary/20', bgFade: 'bg-primary/5', textIcon: 'text-primary', textVal: 'text-primary' },
+              orange: { border: 'border-orange-200', bgFade: 'bg-orange-50', textIcon: 'text-orange-500', textVal: 'text-orange-500' },
+              slate: { border: 'border-slate-200', bgFade: 'bg-slate-50', textIcon: 'text-slate-500', textVal: 'text-slate-500' },
+            };
+            
+            const variant = colorMap[bubble.color] || colorMap.slate;
 
-          {/* Consumo Local */}
-          <div className="absolute bottom-[20%] right-[15%] w-[150px] h-[150px] rounded-full bg-white border border-blue-200 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-105 hover:z-20 transition-all duration-300 cursor-pointer group/bubble">
-             <div className="absolute inset-0 bg-blue-50 rounded-full opacity-50"></div>
-             <div className="relative flex flex-col items-center">
-               <span className="material-symbols-outlined text-primary text-3xl mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_bag</span>
-               <span className="text-slate-900 font-bold text-lg">Consumo</span>
-               <span className="text-lg font-bold text-primary">78%</span>
-               <span className="text-[10px] text-slate-500 font-bold mt-1">ALTO FLUJO</span>
-             </div>
-          </div>
-          
-          {/* Política */}
-          <div className="absolute top-[35%] right-[30%] w-[120px] h-[120px] rounded-full bg-white border border-orange-200 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-105 hover:z-20 transition-all duration-300 cursor-pointer group/bubble">
-             <div className="absolute inset-0 bg-orange-50 rounded-full opacity-50"></div>
-             <div className="relative flex flex-col items-center">
-               <span className="material-symbols-outlined text-orange-500 text-2xl mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>policy</span>
-               <span className="text-slate-900 font-bold">Política</span>
-               <span className="text-sm font-bold text-orange-500">50/50</span>
-               <span className="text-[10px] text-slate-500 font-bold mt-1 text-center leading-tight">MÁXIMA POLARIDAD</span>
-             </div>
-          </div>
-
-          {/* Educación */}
-          <div className="absolute bottom-[10%] left-[30%] w-[100px] h-[100px] rounded-full bg-white border border-slate-200 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-105 hover:z-20 transition-all duration-300 cursor-pointer group/bubble">
-             <div className="absolute inset-0 bg-slate-50 rounded-full opacity-50"></div>
-             <div className="relative flex flex-col items-center">
-               <span className="text-slate-900 font-bold text-sm">Educación</span>
-               <span className="text-xs font-bold text-slate-500">65%</span>
-               <span className="text-[8px] text-slate-400 font-bold mt-0.5">ESTABLE</span>
-             </div>
-          </div>
+            return (
+              <div 
+                key={bubble.id}
+                className={`absolute rounded-full bg-white border ${variant.border} flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-105 hover:z-20 transition-all duration-300 cursor-pointer group/bubble`}
+                style={{
+                  top: bubble.top,
+                  bottom: bubble.bottom,
+                  left: bubble.left,
+                  right: bubble.right,
+                  width: `${bubble.size}px`,
+                  height: `${bubble.size}px`,
+                }}
+              >
+                <div className={`absolute inset-0 rounded-full opacity-50 ${variant.bgFade}`}></div>
+                <div className="relative flex flex-col items-center p-2 text-center">
+                  {hasIcon && (
+                    <span className={`material-symbols-outlined ${variant.textIcon} mb-1`} style={{ fontVariationSettings: "'FILL' 1", fontSize: bubble.size > 120 ? '2rem' : '1.5rem' }}>
+                      {bubble.icon}
+                    </span>
+                  )}
+                  <span className={`text-slate-900 font-bold ${bubble.size > 140 ? 'text-xl' : bubble.size > 110 ? 'text-lg' : 'text-sm'}`}>
+                    {bubble.label}
+                  </span>
+                  <span className={`font-black ${variant.textVal} ${bubble.size > 140 ? 'text-xl' : bubble.size > 110 ? 'text-lg' : 'text-xs'}`}>
+                    {bubble.value}
+                  </span>
+                  <span className={`text-[10px] text-slate-500 font-bold tracking-widest mt-1 leading-tight`}>
+                    {bubble.status}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
 
           <div className="absolute bottom-6 right-6 flex items-center gap-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2">

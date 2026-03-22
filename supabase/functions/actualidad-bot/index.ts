@@ -39,22 +39,80 @@ serve(async (req) => {
 
         const openai = new OpenAI({ apiKey: openAiKey });
 
-        console.log("Iniciando extracción de RSS (Google News Chile)...");
-        const rssUrl = "https://news.google.com/rss/search?q=chile+actualidad+nacional&hl=es-419&gl=CL&ceid=CL:es-419";
-        const rssResponse = await fetch(rssUrl);
-        const rssXml = await rssResponse.text();
+        console.log("Iniciando extracción de RSS (Google News)...");
+        
+        // Medios Nacionales (Chile) e Internacionales
+        const clDomains = [
+            "emol.com", "biobiochile.cl", "latercera.com", "meganoticias.cl",
+            "24horas.cl", "cooperativa.cl", "ciperchile.cl", "df.cl"
+        ];
+        
+        const intDomains = [
+            "reuters.com", "apnews.com", "afp.com", "bbc.com",
+            "nytimes.com", "ft.com", "bloomberg.com", "economist.com"
+        ];
 
         const parser = new XMLParser();
-        const rssData = parser.parse(rssXml);
 
-        const items = rssData?.rss?.channel?.item || [];
-        const topNews = Array.isArray(items) ? items.slice(0, 25) : [items].slice(0, 25);
+        // Función auxiliar para obtener las top N noticias de un dominio específico
+        const fetchDomainNews = async (domain: string, isIntl: boolean, limit: number = 5) => {
+            const query = `site:${domain}`;
+            const gl = isIntl ? "US" : "CL";
+            const hl = isIntl ? "en-US" : "es-419";
+            const ceid = isIntl ? "US:en" : "CL:es-419";
+            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=${hl}&gl=${gl}&ceid=${ceid}`;
+            
+            try {
+                const res = await fetch(rssUrl);
+                const xml = await res.text();
+                const parsed = parser.parse(xml);
+                let items = parsed.rss?.channel?.item;
+                if (!items) return [];
+                if (!Array.isArray(items)) items = [items];
+                return items.slice(0, limit);
+            } catch (err) {
+                console.error(`Error fetch RSS para ${domain}`, err);
+                return [];
+            }
+        };
 
-        if (topNews.length === 0) {
-            return new Response(JSON.stringify({ error: "No se encontraron noticias." }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+        console.log("Obteniendo noticias Nacionales e Internacionales balanceadas...");
+        
+        // Hacemos un fetch por cada dominio en paralelo para asegurar distribución equitativa
+        const clPromises = clDomains.map(d => fetchDomainNews(d, false, 5));
+        const intlPromises = intDomains.map(d => fetchDomainNews(d, true, 5));
+
+        const [clResults, intlResults] = await Promise.all([
+            Promise.all(clPromises),
+            Promise.all(intlPromises)
+        ]);
+
+        const topNewsCl = clResults.flat();
+        const topNewsInt = intlResults.flat();
+        const topNews = [...topNewsCl, ...topNewsInt];
+
+        // Deduplicar URLs exactas o títulos idénticos por seguridad antes de pasar a la IA
+        const seenUrls = new Set();
+        const uniqueNews = [];
+        for (const item of topNews) {
+            if (!seenUrls.has(item.link)) {
+                seenUrls.add(item.link);
+                uniqueNews.push(item);
+            }
         }
 
-        const newsText = topNews.map((n: Record<string, string>, i: number) => `Noticia ${i + 1}:\nTítulo: ${n.title}\nResumen: ${n.description}\nEnlace: ${n.link}`).join("\n\n");
+        if (uniqueNews.length === 0) {
+            return new Response(JSON.stringify({ error: "No se encontraron noticias únicas." }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+        }
+
+        const newsText = uniqueNews.map((n: any, i: number) => {
+            const fuente = n.source || n.title.split(' - ').pop() || "Desconocida";
+            const imgMatch = n.description ? n.description.match(/<img[^>]+src="([^">]+)"/) : null;
+            const imageUrl = imgMatch ? imgMatch[1] : "";
+            
+            // Pasamos la URL imagen a OpenAI para que la devuelva si usa esta noticia
+            return `Noticia ${i + 1}:\nMedio/Fuente: ${fuente}\nTítulo: ${n.title}\nResumen: ${n.description}\nEnlace: ${n.link}\nImagen: ${imageUrl}`;
+        }).join("\n\n");
 
         console.log("Consultando a OpenAI...");
 
@@ -73,23 +131,20 @@ Debes priorizar hechos que:
 - puedan resumirse de forma breve y neutral,
 - y permitan construir preguntas útiles para Opina+.
 
-No debes seleccionar temas solo por importancia periodística.
-Debes seleccionar temas por su capacidad de generar señal.
+CRÍTICO - AGRUPACIÓN DE EVENTOS:
+Recibirás hasta 80 noticias. Es altamente probable que haya múltiples noticias cubriendo EL MISMO EVENTO desde distintos medios. 
+Obligatoriamente debes AGRUPAR todas las noticias que hablen del mismo evento o tema central y consolidarlas en UN ÚNICO TEMA final. 
+Bajo ninguna circunstancia puedes generar dos o más temas distintos que traten sobre el mismo evento subyacente.
 
-Selecciona solo temas opinables.
-Un tema opinable es aquel donde una persona razonable puede tener una postura clara, una reacción o una preferencia.
-Evita hechos meramente informativos que no generan posición.
+Analiza las noticias o clusters de noticias recibidos como entrada y genera EXACTAMENTE 10 temas editoriales para Opina+.
 
-Analiza las noticias o clusters de noticias recibidos como entrada y genera exactamente 10 temas editoriales para Opina+.
+Cada tema final debe:
+- Ser un clúster de noticias si había múltiples coberturas.
+- Ser radicalmente distinto de los otros 9 temas generados.
+- Evitar cualquier duplicidad temática o redundancia.
+- Extraer el 'source_url' y 'image_url' de la noticia más representativa de ese clúster.
 
-Cada tema debe:
-- ser distinto de los otros,
-- evitar duplicidad temática,
-- tener foco en Chile,
-- ser entendible sin contexto técnico excesivo,
-- y estar listo para revisión en la mesa editorial admin.
-
-Los 10 temas generados deben ser lo más diversos posible en categoría y tipo de conflicto.
+Los 10 temas generados deben ser lo más diversos posible en categoría (Economía, Política, Internacional, etc.) y tipo de conflicto.
 No repetir el mismo subtema dentro del mismo lote salvo que sea un evento excepcional de altísimo impacto nacional.
 
 El tono debe ser claro, directo, neutral y entendible.
@@ -110,7 +165,7 @@ Debe seguir este contrato exacto:
       "title": "string (máximo 5 palabras, claro, verbo implícito)",
       "summary": "string (máximo 250 caracteres, neutral sin adjetivos)",
       "impact_phrase": "string (máximo 100 caracteres, invita a opinar/debate)",
-      "category": "País | Economía | Ciudad / Vida diaria | Marcas y Consumo | Deportes y Cultura | Tendencias y Sociedad",
+      "category": "País | Internacional | Economía | Ciudad / Vida diaria | Marcas y Consumo | Deportes y Cultura | Tendencias y Sociedad",
       "tags": ["string", "string"], // 2 a 5 tags concretos
       "actors": ["string", "string"], // 1 a 4 actores
       "intensity": 1, // 1 (ligera) a 3 (polarizante)
@@ -119,10 +174,11 @@ Debe seguir este contrato exacto:
       "event_stage": "announcement | discussion | implementation | crisis | result",
       "topic_duration": "flash | short | medium | long",
       "opinion_maturity": "low | medium | high",
-      "source_url": "string (extraer de la entrada original)",
-      "source_title": "string",
-      "source_domain": "string",
+      "source_url": "string (el enlace proporcionado)",
+      "source_title": "string (nombre del medio original, ej: La Tercera)",
+      "source_domain": "string (dominio inferido del medio, ej: latercera.com. NO USAR news.google.com)",
       "source_published_at": "string",
+      "image_url": "string (la URL de la imagen proporcionada en el bloque de la noticia)",
       "questions": [
         {
           "order": 1,
@@ -184,14 +240,16 @@ Debe seguir este contrato exacto:
             // 1. Insert Topic
             const slug = (t.title || t.titulo || 'tema').toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, '-') + '-' + Math.floor(Math.random() * 1000);
             
-            // Extraer dominio simple para source_domain
-            let domain = '';
-            try {
-                if (t.source_url) {
-                    domain = new URL(t.source_url).hostname.replace('www.', '');
+            // Usar el dominio inferido por la IA o extraer de la URL como fallback
+            let domain = t.source_domain || t.source_title || '';
+            if (!domain || domain.includes('google.com')) {
+                try {
+                    if (t.source_url) {
+                        domain = new URL(t.source_url).hostname.replace('www.', '');
+                    }
+                } catch {
+                    // Ignore missing or invalid URL
                 }
-            } catch {
-                // Ignore missing or invalid URL
             }
 
             const topicInsert: TopicInsert = {
@@ -213,6 +271,7 @@ Debe seguir este contrato exacto:
                 created_by_ai: true,
                 metadata: { 
                   source_url: t.source_url || '',
+                  image_url: t.image_url || '',
                   raw_ai_payload: t // Inyección del contrato IA completo por trazabilidad
                 }
             };

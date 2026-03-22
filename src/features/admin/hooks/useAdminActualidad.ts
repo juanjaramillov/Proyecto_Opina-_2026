@@ -3,12 +3,14 @@ import { adminActualidadService } from "../services/adminActualidadService";
 import { Topic, TopicStatus, TopicCategory } from "../../signals/types/actualidad";
 import { useNavigate } from "react-router-dom";
 import { logger } from "../../../lib/logger";
+import { supabase } from "../../../supabase/client";
 
 export type SortOption = 'recent' | 'confidence' | 'intensity';
 
 export function useAdminActualidad() {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [loading, setLoading] = useState(true);
+  const [extracting, setExtracting] = useState(false);
   const [activeTab, setActiveTab] = useState<TopicStatus>('detected');
   
   // Filters
@@ -49,6 +51,32 @@ export function useAdminActualidad() {
 
   const openEditor = (t: Topic) => {
     navigate(`/admin/actualidad/${t.id}`);
+  };
+
+  const triggerExtraction = async () => {
+    try {
+      setExtracting(true);
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/actualidad-bot`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${session?.access_token}`
+        }
+      });
+      
+      if (!res.ok) {
+         throw new Error("HTTP " + res.status);
+      }
+      
+      setActiveTab('detected');
+      await fetchTopics();
+    } catch(e) {
+      logger.error("Error triggering bot", { domain: 'admin_actions', origin: 'AdminActualidad' }, e);
+      alert("Ocurrió un error al extraer noticias.");
+    } finally {
+      setExtracting(false);
+    }
   };
 
   // Derived Filters
@@ -97,6 +125,8 @@ export function useAdminActualidad() {
     uniqueSources,
     filteredAndSortedTopics,
     updateStatus,
-    openEditor
+    openEditor,
+    triggerExtraction,
+    extracting
   };
 }

@@ -52,9 +52,9 @@ export const NextActionRecommendation: React.FC<NextActionRecommendationProps> =
     }
 
     return (
-        <div className="bg-ink rounded-[2rem] p-10 md:p-14 flex flex-col md:flex-row items-center justify-between text-left w-full relative overflow-hidden group shadow-xl">
+        <div className="bg-slate-900 rounded-[2rem] p-10 md:p-14 flex flex-col md:flex-row items-center justify-between text-left w-full relative overflow-hidden group shadow-xl">
             {/* Elementos Decorativos de Fondo */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-1000 -mr-20 -mt-20 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600 rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-1000 -mr-20 -mt-20 pointer-events-none" />
             
             <div className="relative z-10 w-full max-w-xl mb-8 md:mb-0">
                 {signalsEarned !== undefined && signalsEarned > 0 && (

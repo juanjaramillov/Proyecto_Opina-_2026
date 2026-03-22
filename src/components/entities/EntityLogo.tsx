@@ -4,6 +4,7 @@ import BrandLogo from "../ui/BrandLogo";type EntityLogoSize = "sm" | "md" | "lg"
 type EntityLogoProps = {
   name: string;
   slug?: string | null;
+  domain?: string | null;
   size?: EntityLogoSize;
   className?: string;
   imgClassName?: string;
@@ -33,6 +34,7 @@ function cn(...classes: Array<string | undefined | false | null>) {
 export default function EntityLogo({
   name,
   slug,
+  domain,
   size = "md",
   className,
   imgClassName,
@@ -44,23 +46,29 @@ export default function EntityLogo({
   const [hasError, setHasError] = useState(false);
 
   const logoSrcs = useMemo(() => {
-    if (!slug) return [];
-    return [
-      `/logos/entities/${slug}.svg`,
-      `/logos/entities/${slug}.png`,
-      `/logos/entities/${slug}.jpg`,
-      `/logos/entities/${slug}.jpeg`,
-      `/logos/entities/${slug}.webp`
-    ];
-  }, [slug]);
+    const srcs: string[] = [];
+    if (slug) {
+      srcs.push(`/logos/entities/${slug}.svg`);
+      srcs.push(`/logos/entities/${slug}.png`);
+      srcs.push(`/logos/entities/${slug}.jpg`);
+      srcs.push(`/logos/entities/${slug}.jpeg`);
+      srcs.push(`/logos/entities/${slug}.webp`);
+    }
+    // Si tenemos el dominio, llamamos a Brandfetch para obtener el logo automáticamente
+    if (domain) {
+      srcs.push(`https://asset.brandfetch.io/${domain}/logo`);
+      srcs.push(`https://asset.brandfetch.io/${domain}/icon`);
+    }
+    return srcs;
+  }, [slug, domain]);
 
   const initial = useMemo(() => getInitial(name), [name]);
 
   useEffect(() => {
-    // Reset state if slug changes
+    // Reset state if slug or domain changes
     setCurrentSrcIndex(0);
     setHasError(false);
-  }, [slug]);
+  }, [slug, domain]);
 
   const shellClass = cn(
     "relative flex shrink-0 items-center justify-center overflow-hidden border border-black/5 bg-white",

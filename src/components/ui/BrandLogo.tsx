@@ -1,9 +1,10 @@
+import { useState } from "react";
 import clsx from "clsx";
 
 type BrandLogoVariant = "versus" | "depth" | "ranking" | "results" | "catalog";
 
 type BrandLogoProps = {
-  src: string;
+  src?: string | null;
   alt: string;
   variant?: BrandLogoVariant;
   className?: string;
@@ -48,7 +49,34 @@ export default function BrandLogo({
   imgClassName,
   onError,
 }: BrandLogoProps) {
+  const [hasError, setHasError] = useState(false);
   const styles = variantStyles[variant];
+
+  const shouldShowFallback = !src || src.trim() === "" || hasError;
+  const initial = alt ? alt.trim().charAt(0).toUpperCase() : "?";
+
+  if (shouldShowFallback) {
+    return (
+      <div
+        className={clsx(
+          "flex items-center justify-center overflow-hidden bg-white border border-slate-200",
+          styles.container,
+          className
+        )}
+      >
+        <span
+          className={clsx(
+            "font-bold text-slate-300 leading-none select-none",
+            variant === "versus" ? "text-6xl" :
+            variant === "results" ? "text-4xl" :
+            variant === "depth" ? "text-3xl" : "text-xl"
+          )}
+        >
+          {initial}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -59,10 +87,13 @@ export default function BrandLogo({
       )}
     >
       <img
-        src={src}
+        src={src as string}
         alt={alt}
         draggable={false}
-        onError={onError}
+        onError={() => {
+          setHasError(true);
+          if (onError) onError();
+        }}
         className={clsx(
           "object-contain select-none transition-transform duration-200",
           styles.inner,

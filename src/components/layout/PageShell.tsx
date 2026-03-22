@@ -126,6 +126,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
             {isAuthenticated ? (
               <NavLink
                 to="/profile"
+                aria-label="Acceder a mi perfil de usuario"
                 className="flex items-center gap-1.5 ml-2 lg:ml-4 px-2 py-1.5 lg:px-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 transition-all font-bold text-slate-700 text-sm active:scale-95 group shrink-0 shadow-sm"
               >
                 <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary-500 to-emerald-500 text-white flex items-center justify-center text-[10px] uppercase shadow-inner">
@@ -157,6 +158,8 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
               <div className="relative ml-1 lg:ml-2 flex items-center h-full" ref={adminMenuRef}>
                 <button
                   onClick={() => setIsAdminMenuOpen(!isAdminMenuOpen)}
+                  aria-label="Abrir panel de administración"
+                  aria-expanded={isAdminMenuOpen}
                   className="px-3 py-1.5 rounded-full text-xs font-black transition-all bg-white text-ink hover:bg-surface2 flex items-center gap-1 active:scale-95 shadow-sm border border-stroke"
                 >
                   <span className="material-symbols-outlined text-[14px]">admin_panel_settings</span>

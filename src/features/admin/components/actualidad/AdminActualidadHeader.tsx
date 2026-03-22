@@ -1,11 +1,13 @@
-import { Newspaper } from "lucide-react";
+import { Newspaper, Zap, Loader2 } from "lucide-react";
 
 interface AdminActualidadHeaderProps {
   totalTopics: number;
   loading: boolean;
+  onExtract: () => void;
+  isExtracting: boolean;
 }
 
-export function AdminActualidadHeader({ totalTopics, loading }: AdminActualidadHeaderProps) {
+export function AdminActualidadHeader({ totalTopics, loading, onExtract, isExtracting }: AdminActualidadHeaderProps) {
   return (
     <div className="bg-white rounded-3xl p-8 mb-8 shadow-sm border border-slate-200/60 relative overflow-hidden">
       <div className="absolute top-0 right-0 p-8 opacity-5 saturate-0 pointer-events-none">
@@ -23,11 +25,26 @@ export function AdminActualidadHeader({ totalTopics, loading }: AdminActualidadH
           Asegura el estándar editorial antes de llegar a la audiencia.
         </p>
         
-        <div className="flex gap-6 mt-6">
+        <div className="flex items-center gap-6 mt-8">
            <div className="flex flex-col">
              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total en Bandeja</span>
              <span className="text-2xl font-black text-slate-800">{loading ? '-' : totalTopics}</span>
            </div>
+           
+           <div className="h-10 w-px bg-slate-200" />
+           
+           <button
+             onClick={onExtract}
+             disabled={isExtracting}
+             className="flex items-center gap-2 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+           >
+             {isExtracting ? (
+               <Loader2 className="w-4 h-4 animate-spin text-slate-300" />
+             ) : (
+               <Zap className="w-4 h-4 text-emerald-400" />
+             )}
+             {isExtracting ? 'Generando (Toma ~20seg)...' : 'Extraer Nuevas Noticias (IA)'}
+           </button>
         </div>
       </div>
     </div>
