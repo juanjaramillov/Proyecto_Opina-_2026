@@ -91,11 +91,24 @@ export default function HubCooldownState() {
 
                 <button 
                     onClick={() => navigate('/results')}
-                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-ink text-white rounded-2xl font-black shadow-[0_10px_30px_rgba(15,23,42,0.2)] hover:bg-slate-800 hover:-translate-y-1 transition-all overflow-hidden"
+                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-ink text-white rounded-2xl font-black shadow-[0_10px_30px_rgba(15,23,42,0.2)] hover:bg-slate-800 hover:-translate-y-1 transition-all overflow-hidden mb-3"
                 >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
                     <span className="relative z-10 text-sm tracking-wider uppercase">Ver mi impacto</span>
                     <span className="material-symbols-outlined relative z-10 text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </button>
+
+                <button 
+                    onClick={() => {
+                        const tracks = document.getElementById('hub-tracks');
+                        if (tracks) {
+                            tracks.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors rounded-xl hover:bg-slate-100"
+                >
+                    <span className="material-symbols-outlined text-lg">grid_view</span>
+                    Explorar más módulos
                 </button>
             </div>
             

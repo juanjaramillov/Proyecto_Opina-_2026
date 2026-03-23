@@ -5,7 +5,7 @@ interface VersusFeedbackOverlayProps {
     theme?: { primary: string; accent: string; bgGradient: string; icon: string };
 }
 
-export function VersusFeedbackOverlay({ clickPosition, theme }: VersusFeedbackOverlayProps) {
+export function VersusFeedbackOverlay({ clickPosition }: VersusFeedbackOverlayProps) {
     return (
         <AnimatePresence>
             {clickPosition && (
@@ -26,12 +26,13 @@ export function VersusFeedbackOverlay({ clickPosition, theme }: VersusFeedbackOv
                     className="fixed z-[999] pointer-events-none drop-shadow-2xl"
                 >
                     <div
-                        className="text-white font-black text-3xl px-4 py-2 rounded-full border-4 border-white shadow-xl transform -rotate-6 whitespace-nowrap overflow-hidden"
-                        style={{ backgroundColor: theme?.primary || '#10b981' }}
+                        className="text-white font-black text-2xl md:text-3xl px-6 py-2.5 rounded-full border-[3px] border-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform -rotate-[8deg] whitespace-nowrap overflow-hidden bg-gradient-to-r from-primary to-emerald-500 flex items-center gap-2 backdrop-blur-md relative"
                     >
-                        Registrada
+                        <div className="absolute inset-0 bg-white/20 w-1/2 -skew-x-12 translate-x-full animate-[shimmer_1s_infinite]" />
+                        <span className="material-symbols-outlined text-[28px] md:text-[32px] font-black drop-shadow-md">electric_bolt</span>
+                        <span className="drop-shadow-md">¡Opinión Registrada!</span>
                     </div>
-                    <div className="absolute inset-0 bg-white opacity-20 blur-md rounded-full animate-pulse" />
+                    <div className="absolute inset-0 bg-white opacity-40 blur-xl rounded-full animate-pulse" />
                 </motion.div>
             )}
         </AnimatePresence>

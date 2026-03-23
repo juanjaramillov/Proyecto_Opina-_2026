@@ -215,7 +215,7 @@ export function useVersusGame({
 
                 // Simply wait for autoNextMs then go to the next battle
                 // DONT BLOCK THE TIMER!
-                const delayMs = autoNextMs ?? 1550;
+                const delayMs = autoNextMs ?? 6500;
                 
                 // Orchestrate the exit sequence: hide insight card 250ms before the battle swaps
                 const exitLeadTime = 250;

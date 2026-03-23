@@ -83,7 +83,7 @@ export function VersusHeader({ title, onResetGame }: VersusHeaderProps) {
                 <div className="text-center">
                     <div className="flex items-center justify-between w-full mb-6">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-sm">
-                            <span className="inline-block w-2 h-2 rounded-full bg-gradient-brand shadow-[0_0_8px_rgba(59,130,246,0.4)]" />
+                            <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-primary to-emerald-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]" />
                             Comparación Corta
                         </div>
 
@@ -97,11 +97,11 @@ export function VersusHeader({ title, onResetGame }: VersusHeaderProps) {
                         </button>
                     </div>
 
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 leading-[1.05] drop-shadow-sm">
+                    <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 leading-[1.2] drop-shadow-sm px-4">
                         {beforeHighlight && <>{beforeHighlight} </>}
-                        <span className="text-gradient-brand drop-shadow-none">{highlightWord}</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500 pb-1">{highlightWord}</span>
                         {afterHighlight && <> {afterHighlight}</>}
-                    </h1>
+                    </h2>
 
                     <p className="mt-3 text-base md:text-lg font-bold text-slate-600">
                         Dos opciones. Una decisión rápida.

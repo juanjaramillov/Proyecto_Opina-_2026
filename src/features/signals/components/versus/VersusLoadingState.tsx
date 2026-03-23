@@ -13,7 +13,7 @@ export function VersusLoadingState() {
                 Estamos preparando nuevas opciones. Vuelve en un rato.
             </p>
             <div className="mt-8">
-                <button onClick={() => navigate('/experience')} className="px-6 py-3 bg-gradient-brand text-white rounded-xl font-black shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.23)] transition-all active:scale-95 uppercase tracking-wider text-sm">
+                <button onClick={() => navigate('/experience')} className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-black shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.3)] transition-all active:scale-95 uppercase tracking-wider text-sm">
                     Volver a Participa
                 </button>
             </div>

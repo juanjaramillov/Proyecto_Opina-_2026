@@ -206,7 +206,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                                 enableAutoAdvance={true}
                                 hideProgress={true}
                                 isQueueFinite={true}
-                                autoNextMs={1550} // Optimizado para lectura del insight
+                                autoNextMs={3800} // Optimizado para lectura del insight
                                 onQueueComplete={onBatchComplete}
                                 isSubmitting={false}
                                 theme={{
