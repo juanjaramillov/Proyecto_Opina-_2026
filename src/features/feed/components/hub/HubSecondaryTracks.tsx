@@ -5,168 +5,183 @@ interface HubSecondaryTracksProps {
 export function HubSecondaryTracks({ setMode }: HubSecondaryTracksProps) {
     return (
         <div className="w-full relative bg-slate-50/50 pb-20">
-            {/* CTA Versus Específico removido como caja top y movido abajo */}
-
-            {/* Track Secundarios: Exploración de Módulos (Bento Grid) */}
-            <div className="w-full max-w-6xl mx-auto px-4 md:px-6 pb-12 pt-12 md:pt-16">
-                <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="w-full max-w-6xl mx-auto px-4 md:px-6 pb-12 pt-8 md:pt-12">
+                
+                {/* Header Corto y Funcional */}
+                <div className="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-2">
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-black text-ink tracking-tight mb-2">Más formas de <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">opinar</span></h2>
-                        <p className="text-sm md:text-base text-slate-500 font-medium max-w-2xl">Explora temas específicos y modos avanzados diseñados para tu perspectiva.</p>
+                        <h2 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite]"></span>
+                            Radar de Experiencias
+                        </h2>
+                        <p className="text-sm md:text-base text-slate-600 font-medium mt-1">Explora otras dinámicas activas en la comunidad.</p>
                     </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                {/* ACTIVE MODULES - Asymmetrical Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-12">
                     
-                    {/* 0. VERSUS TEMÁTICO (Wide Card) */}
-                    <button 
-                        onClick={() => setMode('versus')}
-                        className="group relative flex flex-col px-6 py-6 md:px-8 md:py-8 rounded-[2rem] bg-gradient-to-br from-white to-blue-50/80 border border-blue-200/60 hover:border-primary/40 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.15)] transition-all duration-500 text-left overflow-hidden min-h-[220px] md:col-span-2"
-                    >
-                        {/* Glow and Grid Overlay */}
-                        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
-                        <div className="absolute top-0 right-0 w-[500px] h-full bg-gradient-to-l from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                        
-                        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 w-full h-full">
-                            <div className="flex-1 md:pr-4">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <div className="w-10 h-10 rounded-xl bg-white border border-blue-100 flex items-center justify-center shadow-sm text-blue-600 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-300">
-                                        <span className="material-symbols-outlined text-xl">category</span>
-                                    </div>
-                                    <span className="px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 border border-blue-200/50 text-[10px] font-bold uppercase tracking-wider">A Medida</span>
-                                </div>
-                                <h3 className="text-xl md:text-2xl font-black text-slate-800 group-hover:text-primary transition-colors">Tus Temas Favoritos</h3>
-                                <p className="text-[14px] md:text-base text-slate-600 leading-relaxed font-medium mt-2 max-w-md">Descubre combates cara a cara en las categorías y marcas que más te apasionan jugar.</p>
-                            </div>
-                            
-                            {/* Decorative element on the right */}
-                            <div className="relative shrink-0 flex items-center justify-end w-full md:w-auto h-24 md:h-auto mt-4 md:mt-0">
-                                <div className="absolute inset-0 md:relative z-10 w-full overflow-hidden flex flex-col justify-center gap-2 pointer-events-none">
-                                    <div className="flex items-center gap-2 justify-end -translate-x-4 md:-translate-x-0 group-hover:translate-x-[-10px] transition-transform duration-300">
-                                        <span className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-600 font-bold text-[10px] md:text-xs shadow-sm transform -rotate-3 text-right">👨‍💻 Tecnología</span>
-                                        <span className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-600 font-bold text-[10px] md:text-xs shadow-sm transform rotate-2">🍔 Fast Food</span>
-                                    </div>
-                                    <div className="flex items-center justify-end gap-2 group-hover:translate-x-[10px] transition-transform duration-300">
-                                        <span className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-600 font-bold text-[10px] md:text-xs shadow-sm transform rotate-1">🎬 Entretenimiento</span>
-                                        <span className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-600 font-bold text-[10px] md:text-xs shadow-sm transform -rotate-2 hidden sm:flex">🛍️ Retail</span>
-                                    </div>
-                                    {/* Arrow CTA */}
-                                    <div className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md border border-slate-200 flex-col items-center justify-center text-blue-600 transition-all opacity-0 group-hover:opacity-100 group-hover:translate-x-4">
-                                        <span className="material-symbols-outlined text-lg">arrow_forward</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                    
-                    {/* 1. TORNEOS */}
+                    {/* 1. TORNEOS (Featured / Col Span 2) */}
                     <button 
                         onClick={() => setMode('torneo')}
-                        className="group relative flex flex-col p-6 rounded-[2rem] bg-white border border-slate-200 hover:border-primary/50 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.15)] transition-all duration-300 text-left overflow-hidden min-h-[220px]"
+                        className="group relative flex flex-col md:col-span-2 p-5 md:p-6 rounded-[24px] md:rounded-[32px] bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.15)] transition-all duration-300 text-left overflow-hidden min-h-[160px] md:min-h-[220px]"
                     >
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-[100px] -z-0 transition-transform duration-500 group-hover:scale-110" />
-                        
-                        <div className="relative z-10 mb-auto">
-                            <div className="w-12 h-12 rounded-xl bg-blue-50 text-primary flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 border border-blue-100">
-                                <span className="material-symbols-outlined text-2xl">emoji_events</span>
+                        {/* Deco: Stadium Light / Bracket Glow */}
+                        <div className="absolute right-0 top-0 w-1/2 h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at top right, rgba(99,102,241,0.06) 0%, transparent 60%)' }} />
+                        <div className="absolute -right-10 -top-10 w-48 h-48 bg-indigo-500/5 rounded-full blur-[30px] pointer-events-none group-hover:bg-indigo-500/10 transition-colors" />
+
+                        <div className="relative z-10 flex flex-col h-full justify-between gap-4">
+                            <div className="flex justify-between items-start">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-[14px] bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                                    <span className="material-symbols-outlined text-xl md:text-2xl">emoji_events</span>
+                                </div>
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-[10px] md:text-[11px] font-bold uppercase tracking-wider border border-indigo-100">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                                    1 llave cerrando hoy
+                                </span>
                             </div>
-                            <h3 className="font-bold text-slate-800 text-xl group-hover:text-primary transition-colors">Torneos</h3>
-                            <p className="text-[15px] text-slate-600 mt-2 leading-relaxed">Llaves eliminatorias intensas. Selecciona a los mejores y elige a un solo campeón.</p>
-                        </div>
-                        
-                        <div className="relative z-10 flex items-center gap-2 mt-6 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">
-                            Entrar al estadio <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                            
+                            <div className="flex-1 flex flex-col justify-end">
+                                <h3 className="font-black text-slate-800 text-xl md:text-3xl group-hover:text-indigo-600 transition-colors tracking-tight">Torneos</h3>
+                                <p className="text-sm md:text-base text-slate-600 mt-1.5 md:mt-2 leading-relaxed max-w-sm w-full line-clamp-2 md:line-clamp-none">
+                                    Llaves eliminatorias intensas. Elige a tus favoritos y corona al campeón de la comunidad.
+                                </p>
+                                <div className="flex items-center gap-1.5 mt-4 text-[13px] md:text-sm font-bold text-slate-400 group-hover:text-indigo-600 transition-all">
+                                    Ver torneo <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                                </div>
+                            </div>
                         </div>
                     </button>
 
-                    {/* 2. PROFUNDIDAD */}
-                    <button 
-                        onClick={() => setMode('profundidad')}
-                        className="group relative flex flex-col p-6 rounded-[2rem] bg-white border border-slate-200 hover:border-sky-400 hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.15)] transition-all duration-300 text-left overflow-hidden min-h-[220px]"
-                    >
-                        <div className="absolute inset-0 opacity-[0.02] mix-blend-multiply pointer-events-none" style={{ backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-sky-400/5 rounded-full blur-2xl -z-0 transition-transform duration-700 group-hover:scale-150" />
-                        
-                        <div className="relative z-10 mb-auto">
-                            <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white border border-sky-100 shadow-sm">
-                                <span className="material-symbols-outlined text-2xl">psychology</span>
-                            </div>
-                            <h3 className="font-bold text-slate-800 text-xl group-hover:text-sky-600 transition-colors">Profundidad</h3>
-                            <p className="text-[15px] text-slate-600 mt-2 leading-relaxed">Encuestas multivariables. Evalúa con rigor y descubre capas ocultas de insights.</p>
-                        </div>
-                    </button>
-
-                    {/* 3. ACTUALIDAD */}
+                    {/* 2. ACTUALIDAD */}
                     <button 
                         onClick={() => setMode('actualidad')}
-                        className="group relative flex flex-col p-6 rounded-[2rem] bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.15)] transition-all duration-300 text-left overflow-hidden min-h-[220px]"
+                        className="group relative flex flex-col p-5 md:p-6 rounded-[24px] md:rounded-[32px] bg-white border border-slate-200 hover:border-emerald-400 hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.15)] transition-all duration-300 text-left overflow-hidden min-h-[160px] md:min-h-[220px]"
                     >
-                        <div className="absolute top-4 right-4 flex items-center gap-1.5 z-10">
-                            <span className="relative flex h-2.5 w-2.5">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
-                            </span>
-                            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">En Vivo</span>
-                        </div>
+                        {/* Deco: News Pulse Ticker */}
+                        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         
-                        <div className="relative z-10 mb-auto mt-2">
-                            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-12 border border-emerald-100">
-                                <span className="material-symbols-outlined text-2xl">bolt</span>
+                        <div className="relative z-10 flex flex-col h-full justify-between gap-4">
+                            <div className="flex justify-between items-start">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-[14px] bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 shadow-sm transition-all duration-300 group-hover:bg-emerald-500 group-hover:text-white group-hover:-rotate-6">
+                                    <span className="material-symbols-outlined text-xl md:text-2xl">campaign</span>
+                                </div>
+                                <span className="text-[10px] md:text-[11px] font-bold text-emerald-700 uppercase tracking-wider animate-pulse">En vivo</span>
                             </div>
-                            <h3 className="font-bold text-slate-800 text-xl group-hover:text-emerald-600 transition-colors">Actualidad</h3>
-                            <p className="text-[15px] text-slate-600 mt-2 leading-relaxed">Reacciona a noticias de última hora y marca tendencia minuto a minuto.</p>
+                            
+                            <div className="flex-1 flex flex-col justify-end">
+                                <h3 className="font-black text-slate-800 text-xl md:text-2xl group-hover:text-emerald-600 transition-colors tracking-tight">Actualidad</h3>
+                                <p className="text-sm md:text-base text-slate-600 mt-1.5 md:mt-2 leading-relaxed w-full line-clamp-2 md:line-clamp-none">
+                                    Reacciona a noticias de última hora y traza el pulso.
+                                </p>
+                                <div className="mt-4 text-xs md:text-sm text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1.5 group-hover:text-emerald-600 transition-colors">
+                                    <span className="material-symbols-outlined text-[16px]">local_fire_department</span> Ver actualidad
+                                </div>
+                            </div>
                         </div>
                     </button>
 
-                    {/* 4. LUGARES */}
+                    {/* 3. LUGARES */}
                     <button 
                         onClick={() => setMode('lugares')}
-                        className="group relative flex flex-col p-6 rounded-[2rem] bg-white border border-slate-200 hover:border-blue-300 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.12)] transition-all duration-300 text-left overflow-hidden min-h-[220px]"
+                        className="group relative flex flex-col p-5 md:p-6 rounded-[24px] md:rounded-[32px] bg-white border border-slate-200 hover:border-orange-400 hover:shadow-[0_20px_40px_-15px_rgba(249,115,22,0.15)] transition-all duration-300 text-left overflow-hidden min-h-[160px] md:min-h-[200px]"
                     >
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, #2563eb 1.5px, transparent 1.5px)', backgroundSize: '16px 16px' }} />
-                        
-                        <div className="relative z-10 mb-auto mt-2">
-                            <div className="w-12 h-12 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center mb-4 transition-all duration-300 group-hover:-translate-y-2 border border-slate-200 shadow-sm relative group-hover:border-blue-200 group-hover:bg-blue-50 group-hover:text-blue-600">
-                                <span className="material-symbols-outlined text-2xl relative z-10">place</span>
-                                <div className="absolute -bottom-2 w-6 h-1.5 bg-blue-200 rounded-full blur-[2px] opacity-0 group-hover:opacity-100" />
+                        {/* Deco: Physical Map Location */}
+                        <div className="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+                            <div className="w-full h-full rounded-full border-[2px] border-orange-500 scale-150" />
+                            <div className="absolute inset-0 m-auto w-1/2 h-1/2 rounded-full border-[2px] border-orange-500" />
+                        </div>
+
+                        <div className="relative z-10 flex flex-col h-full justify-between gap-4">
+                            <div className="flex justify-between items-start">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-[14px] bg-orange-50 text-orange-600 flex items-center justify-center border border-orange-100 shadow-sm transition-transform duration-300 group-hover:-translate-y-1.5">
+                                    <span className="material-symbols-outlined text-xl md:text-2xl relative z-10">place</span>
+                                </div>
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-slate-200/60 bg-slate-50 text-slate-700 text-[10px] md:text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                                    <span className="material-symbols-outlined text-[14px] text-orange-500">near_me</span> 2.4k m
+                                </span>
                             </div>
-                            <h3 className="font-bold text-slate-800 text-xl group-hover:text-blue-600 transition-colors">Lugares</h3>
-                            <p className="text-[15px] text-slate-600 mt-2 leading-relaxed">Experiencia on-site. Evalúa sucursales, tiendas y tu entorno de inmediato.</p>
+                            
+                            <div className="flex-1 flex flex-col justify-end mt-4">
+                                <h3 className="font-black text-slate-800 text-xl md:text-2xl group-hover:text-orange-600 transition-colors tracking-tight">Lugares</h3>
+                                <p className="text-sm md:text-base text-slate-600 mt-1 md:mt-2 leading-relaxed w-full line-clamp-2 md:line-clamp-none">
+                                    Evalúa sucursales y espacios físicos a tu alrededor.
+                                </p>
+                                <div className="mt-4 text-xs md:text-sm text-slate-400 font-bold flex items-center gap-1.5 group-hover:text-orange-600 transition-colors uppercase tracking-wider">
+                                    <span className="material-symbols-outlined text-[16px]">explore</span> Ver lugares
+                                </div>
+                            </div>
                         </div>
                     </button>
 
-                    {/* 5. PRÓXIMAMENTE: PREDICCIONES */}
-                    <div className="group relative flex flex-col p-6 rounded-[2rem] bg-slate-50 border border-slate-200/50 grayscale hover:grayscale-0 transition-all duration-500 text-left overflow-hidden min-h-[220px]">
-                        <div className="absolute top-4 right-4 px-2 py-1 bg-slate-200 text-slate-500 rounded-md text-[9px] font-bold uppercase tracking-wider">
-                            Próximamente
-                        </div>
-                        
-                        <div className="relative z-10 mb-auto mt-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                            <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4 border border-slate-300">
-                                <span className="material-symbols-outlined text-2xl">query_stats</span>
-                            </div>
-                            <h3 className="font-bold text-slate-500 text-xl">Predicciones</h3>
-                            <p className="text-sm text-slate-400 mt-2 leading-relaxed">Apuesta tus señales en eventos futuros y compite por los pozos de recompensas.</p>
-                        </div>
-                    </div>
+                    {/* 4. PROFUNDIDAD (Col Span 2 or Standard) */}
+                    <button 
+                        onClick={() => setMode('profundidad')}
+                        className="group relative flex flex-col md:col-span-2 p-5 md:p-6 rounded-[24px] md:rounded-[32px] bg-slate-800 border border-slate-700 hover:border-sky-400 hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.3)] transition-all duration-300 text-left overflow-hidden min-h-[160px] md:min-h-[200px]"
+                    >
+                        {/* Deco: Radar / Deep Analysis */}
+                        <div className="absolute inset-0 opacity-[0.05] group-hover:opacity-10 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+                        <div className="absolute right-0 top-0 h-full w-2/3 bg-gradient-to-l from-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                    {/* 6. PRÓXIMAMENTE: DESAFÍOS */}
-                    <div className="group relative flex flex-col p-6 rounded-[2rem] bg-slate-50 border border-slate-200/50 grayscale hover:grayscale-0 transition-all duration-500 text-left overflow-hidden min-h-[220px]">
-                        <div className="absolute top-4 right-4 px-2 py-1 bg-slate-200 text-slate-500 rounded-md text-[9px] font-bold uppercase tracking-wider">
-                            Próximamente
-                        </div>
-                        
-                        <div className="relative z-10 mb-auto mt-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                            <div className="w-12 h-12 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center mb-4 border border-slate-300">
-                                <span className="material-symbols-outlined text-2xl">verified</span>
+                        <div className="relative z-10 flex flex-col h-full justify-between gap-4">
+                            <div className="flex justify-between items-start">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-[14px] bg-slate-700 text-sky-400 flex items-center justify-center border border-slate-600 shadow-sm transition-transform duration-300 group-hover:scale-110">
+                                    <span className="material-symbols-outlined text-xl md:text-2xl">psychology</span>
+                                </div>
                             </div>
-                            <h3 className="font-bold text-slate-500 text-xl">Desafíos</h3>
-                            <p className="text-sm text-slate-400 mt-2 leading-relaxed">Retos patrocinados por marcas. Completa misiones y estira tus beneficios reales.</p>
+                            
+                            <div className="flex-1 flex flex-col justify-end">
+                                <h3 className="font-black text-white text-xl md:text-3xl group-hover:text-sky-400 transition-colors tracking-tight">Profundidad</h3>
+                                <p className="text-sm md:text-base text-slate-300 mt-1 md:mt-2 leading-relaxed max-w-sm line-clamp-2 md:line-clamp-none">
+                                    Encuestas multivariables seriadas. Evalúa con calma y descubre capas más profundas de entendimiento.
+                                </p>
+                                <div className="flex items-center gap-1.5 mt-4 text-[11px] md:text-xs font-bold text-slate-400 group-hover:text-sky-400 transition-colors uppercase tracking-wider">
+                                    <span className="material-symbols-outlined text-[16px]">layers</span> Ver análisis
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </button>
 
                 </div>
+
+                {/* LABORATORY / UPCOMING MODULES */}
+                <div className="mt-8 pt-8 border-t border-slate-200/60 w-full flex flex-col">
+                    <div className="flex items-center gap-2 mb-4 md:mb-6 px-1">
+                        <span className="material-symbols-outlined text-slate-500 text-[16px]">science</span>
+                        <h3 className="text-xs md:text-sm font-bold text-slate-500 tracking-wider uppercase">En el laboratorio</h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                        {/* PREDICCIONES */}
+                        <div className="relative flex flex-col p-4 md:p-5 rounded-[20px] bg-white border border-slate-200/60 shadow-sm text-left min-h-[110px]">
+                            <div className="flex items-center gap-2 mb-2 md:mb-3">
+                                <span className="material-symbols-outlined text-[20px] text-slate-400">query_stats</span>
+                            </div>
+                            <h4 className="font-bold text-slate-700 text-sm md:text-base">Predicciones</h4>
+                            <p className="text-[11px] md:text-xs text-slate-500 mt-1 leading-snug hidden md:block">
+                                Apuesta señales en eventos.
+                            </p>
+                            <div className="absolute top-4 right-4 text-[9px] md:text-[10px] font-bold text-slate-500 bg-slate-50 px-2 py-1 rounded border border-slate-200 uppercase tracking-wider">
+                                Soon
+                            </div>
+                        </div>
+
+                        {/* DESAFÍOS */}
+                        <div className="relative flex flex-col p-4 md:p-5 rounded-[20px] bg-white border border-slate-200/60 shadow-sm text-left min-h-[110px]">
+                            <div className="flex items-center gap-2 mb-2 md:mb-3">
+                                <span className="material-symbols-outlined text-[20px] text-slate-400">verified</span>
+                            </div>
+                            <h4 className="font-bold text-slate-700 text-sm md:text-base">Desafíos</h4>
+                            <p className="text-[11px] md:text-xs text-slate-500 mt-1 leading-snug hidden md:block">
+                                Misiones de marcas y logros.
+                            </p>
+                            <div className="absolute top-4 right-4 text-[9px] md:text-[10px] font-bold text-slate-500 bg-slate-50 px-2 py-1 rounded border border-slate-200 uppercase tracking-wider">
+                                Soon
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

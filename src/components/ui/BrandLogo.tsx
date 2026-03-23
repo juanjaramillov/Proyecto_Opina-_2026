@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import clsx from "clsx";
 
 type BrandLogoVariant = "versus" | "depth" | "ranking" | "results" | "catalog";
@@ -21,23 +21,23 @@ const variantStyles: Record<
 > = {
   versus: {
     container: "w-full h-full min-h-[140px] rounded-2xl",
-    inner: "max-w-[72%] max-h-[72%]",
+    inner: "max-w-[90%] max-h-[75%]", // Protagonist size: allows wide logos to be very wide, square logos to be very tall
   },
   depth: {
     container: "w-full h-full min-h-[88px] rounded-xl",
-    inner: "max-w-[62%] max-h-[62%]",
+    inner: "max-w-[85%] max-h-[75%]",
   },
   ranking: {
     container: "w-full h-full min-h-[56px] rounded-lg",
-    inner: "max-w-[58%] max-h-[58%]",
+    inner: "max-w-[80%] max-h-[75%]",
   },
   results: {
     container: "w-full h-full min-h-[96px] rounded-xl",
-    inner: "max-w-[64%] max-h-[64%]",
+    inner: "max-w-[85%] max-h-[75%]",
   },
   catalog: {
     container: "w-full h-full min-h-[72px] rounded-xl",
-    inner: "max-w-[60%] max-h-[60%]",
+    inner: "max-w-[85%] max-h-[75%]",
   },
 };
 
@@ -50,6 +50,11 @@ export default function BrandLogo({
   onError,
 }: BrandLogoProps) {
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setHasError(false);
+  }, [src]);
+
   const styles = variantStyles[variant];
 
   const shouldShowFallback = !src || src.trim() === "" || hasError;
@@ -81,7 +86,7 @@ export default function BrandLogo({
   return (
     <div
       className={clsx(
-        "flex items-center justify-center bg-white overflow-hidden",
+        "flex items-center justify-center overflow-hidden",
         styles.container,
         className
       )}

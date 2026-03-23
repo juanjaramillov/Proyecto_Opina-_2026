@@ -47,7 +47,7 @@ export function CrownedChampionView({
                         slug={resolveEntitySlug(champion)}
                         size="lg"
                         rounded={false}
-                        className="w-full h-full border-none object-contain mix-blend-multiply bg-transparent"
+                        className="w-full h-full border-none object-contain bg-transparent"
                     />
                 </motion.div>
 
@@ -129,7 +129,7 @@ export function CrownedChampionView({
                                                 slug={resolveEntitySlug(opp)}
                                                 size="sm"
                                                 rounded={false}
-                                                className="w-full h-full border-none object-contain mix-blend-multiply opacity-60 grayscale bg-transparent"
+                                                className="w-full h-full border-none object-contain opacity-60 grayscale bg-transparent"
                                             />
                                         </div>
                                         <span className="text-[10px] font-bold text-slate-600 w-20 text-center truncate">{opp.label}</span>

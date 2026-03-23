@@ -133,7 +133,7 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
                                             src={opt.image_url || opt.imageUrl || ""}
                                             alt={opt.label}
                                             variant="depth"
-                                            className="!min-h-0 !h-full !w-full mix-blend-multiply"
+                                            className="!min-h-0 !h-full !w-full"
                                         />
                                     ) : (
                                         <span className="text-xl font-bold text-slate-400">{opt.label.substring(0,2).toUpperCase()}</span>

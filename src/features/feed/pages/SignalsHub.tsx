@@ -65,8 +65,8 @@ export default function SignalsHub() {
             <div className="container-ws section-y space-y-6 pb-24">
                 <PageHeader
                     eyebrow={<span className="badge badge-primary">Hub</span>}
-                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Iniciando <span className="text-primary">motor</span></h1>}
-                    subtitle={<p className="text-sm text-muted font-medium">Buscando señales...</p>}
+                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Buscando <span className="text-primary">señales</span></h1>}
+                    subtitle={<p className="text-sm text-muted font-medium">Cargando el ecosistema...</p>}
                     meta={
                         <div className="flex flex-wrap gap-2">
                             <div className="badge badge-outline">Señales hoy: {fmt(signalsToday)}</div>
@@ -104,8 +104,8 @@ export default function SignalsHub() {
                 <div className="container-ws section-y">
                     <PageState
                         type="empty"
-                        title="Radar Vacío"
-                        description="Estamos recopilando nuevas señales para tu radar."
+                        title="Sin señales activas"
+                        description="La comunidad está procesando. Vuelve más tarde."
                         icon="radar"
                         primaryAction={{ label: "Volver al inicio", onClick: () => navigate("/") }}
                     />
@@ -196,7 +196,7 @@ export default function SignalsHub() {
         <div className="container-ws pb-24 pt-4 md:pt-8 space-y-6">
             
             {mode !== "actualidad" && mode !== "lugares" && (
-                <div className="sticky top-4 z-[100] w-full flex justify-start animate-in fade-in duration-300">
+                <div className="sticky top-4 z-[100] w-full flex justify-start animate-in fade-in zoom-in-95 duration-500">
                     <button
                         onClick={resetToMenu}
                         className="h-10 px-4 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 font-bold text-sm transition-all shadow-md active:scale-95 shrink-0 flex items-center gap-2"
@@ -209,7 +209,7 @@ export default function SignalsHub() {
 
             {mode === "actualidad" && (
                 <ModuleErrorBoundary moduleName="Actualidad">
-                    <div className="space-y-8 animate-in fade-in duration-500">
+                    <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
                         <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
                             <ActualidadHubManager onClose={resetToMenu} />
                         </div>
@@ -219,7 +219,7 @@ export default function SignalsHub() {
 
             {mode === "lugares" && (
                 <ModuleErrorBoundary moduleName="Lugares">
-                    <div className="space-y-8 animate-in fade-in duration-500 relative">
+                    <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500 relative">
                         <div className="sticky top-4 z-[100] w-full flex justify-start mb-2 px-4 md:px-0">
                             <button
                                 onClick={resetToMenu}

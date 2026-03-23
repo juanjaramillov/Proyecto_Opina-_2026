@@ -15,6 +15,7 @@ interface VersusGameModalsProps {
     showInsightPack: boolean;
     setShowInsightPack: (v: boolean) => void;
     selectedOption: BattleOption | null;
+    evaluatingOption?: BattleOption | null;
     effectiveBattle: Battle;
     next: () => void;
 }
@@ -29,10 +30,13 @@ export function VersusGameModals({
     showInsightPack,
     setShowInsightPack,
     selectedOption,
+    evaluatingOption,
     effectiveBattle,
     next
 }: VersusGameModalsProps) {
     const navigate = useNavigate();
+
+    const targetOption = evaluatingOption || selectedOption;
 
     return (
         <>
@@ -99,10 +103,10 @@ export function VersusGameModals({
                         }}
                     />
                 )}
-                {showInsightPack && selectedOption && (
+                {showInsightPack && targetOption && (
                     <InsightPack
-                        optionId={selectedOption.id}
-                        optionLabel={selectedOption.label}
+                        optionId={targetOption.id}
+                        optionLabel={targetOption.label}
                         categorySlug={typeof effectiveBattle.category === 'object' && effectiveBattle.category !== null ? (effectiveBattle.category as { slug: string }).slug : String(effectiveBattle.category || '')}
                         onComplete={() => {
                             setShowInsightPack(false);

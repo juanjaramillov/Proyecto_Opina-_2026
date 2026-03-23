@@ -10,94 +10,55 @@ export default function HubCooldownState() {
     const { 
         level, 
         archetype, 
-        progressPercentage,
         visuals
     } = useIdentityEngine();
 
     return (
-        <div className="w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-12 px-4 relative overflow-hidden animate-in fade-in duration-500">
+        <div className="w-full max-w-3xl mx-auto my-6 md:my-10 p-8 md:p-12 relative flex flex-col items-center justify-center bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] overflow-hidden animate-in fade-in zoom-in-95 duration-500">
             {/* Soft Ambient Glows */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-[100px]" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-400/10 rounded-full blur-[100px]" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-[150%] pointer-events-none -justify-center">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-emerald-400/10 rounded-full blur-[80px]" />
+                <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-blue-400/5 rounded-full blur-[60px]" />
             </div>
 
             <div className="relative z-10 w-full max-w-lg flex flex-col items-center text-center">
                 
-                {/* Radial Progress / Identity Badge */}
-                <div className="relative w-48 h-48 mb-8 group">
-                    {/* Pulsing ring background */}
-                    <div className="absolute inset-0 rounded-full border border-slate-200/50 shadow-sm transition-transform duration-700 group-hover:scale-105" />
-                    
-                    {/* SVG Progress Circle */}
-                    <svg className="w-full h-full -rotate-90 transform drop-shadow-md" viewBox="0 0 100 100">
-                        {/* Track */}
-                        <circle cx="50" cy="50" r="46" fill="transparent" stroke="#f1f5f9" strokeWidth="4" />
-                        {/* Progress */}
-                        <circle 
-                            cx="50" 
-                            cy="50" 
-                            r="46" 
-                            fill="transparent" 
-                            stroke="url(#progress-gradient)" 
-                            strokeWidth="4" 
-                            strokeLinecap="round"
-                            strokeDasharray={`${progressPercentage * 2.89} 289`}
-                            className="transition-all duration-1000 ease-out"
-                        />
-                        <defs>
-                            <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#3b82f6" />
-                                <stop offset="100%" stopColor="#10b981" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-
-                    {/* Central Identity Inner Core */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-                        <div className={`w-12 h-12 rounded-2xl ${visuals.bgClass} flex items-center justify-center mb-1 ${visuals.colorClass} shadow-sm border border-white animate-in zoom-in duration-700`}>
-                            <span className="material-symbols-outlined text-2xl drop-shadow-sm">{visuals.icon}</span>
-                        </div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Nivel {level}</span>
+                {/* Light Dynamic Illustration (Pulse Radar) */}
+                <div className="relative w-20 h-20 md:w-24 md:h-24 mb-6 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-emerald-100 rounded-full animate-ping opacity-30 duration-1000" />
+                    <div className="absolute inset-1.5 bg-emerald-50 rounded-full animate-pulse" />
+                    <div className="relative w-12 h-12 md:w-14 md:h-14 bg-white rounded-full border border-emerald-100 shadow-sm flex items-center justify-center z-10 text-emerald-500">
+                        <span className="material-symbols-outlined text-[24px] md:text-[28px]">radar</span>
                     </div>
                 </div>
 
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black uppercase tracking-widest shadow-sm mb-6">
-                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                    Misión cumplida ({sessionSignals}/{sessionLimit})
+                {/* Badges de Identidad y Misión Compactos */}
+                <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+                    <div className={`inline-flex items-center gap-1.5 px-3 py-1 bg-slate-50 text-slate-600 border border-slate-200 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm`}>
+                        <span className="material-symbols-outlined text-[14px]">{visuals.icon}</span>
+                        Nivel {level} • {archetype}
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                        {sessionSignals}/{sessionLimit} procesadas
+                    </div>
                 </div>
 
-                <h2 className="text-3xl md:text-4xl font-black text-ink tracking-tight mb-3">
-                    Batería en recarga
+                {/* Main Message */}
+                <h2 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight mb-2">
+                    Tu señal ya entró al radar
                 </h2>
-                <p className="text-slate-500 font-medium mb-10 max-w-sm">
-                    Has dejado un impacto profundo hoy, <span className="text-primary font-bold">{archetype}</span>. Tus señales están siendo procesadas por la comunidad.
+                <p className="text-sm md:text-base text-slate-600 font-medium mb-8 max-w-sm">
+                    La comunidad está procesando esta ronda. Misión cumplida. Sigue explorando.
                 </p>
 
-                {/* The Premium Countdown Timer */}
-                <div className="bg-white/80 backdrop-blur-xl border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-3xl p-6 w-full max-w-sm mb-10 transform transition-transform hover:scale-[1.02]">
-                    <div className="flex flex-col items-center justify-center">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-1.5">
-                            <span className="material-symbols-outlined text-sm">schedule</span> Próxima Ventana
-                        </span>
-                        <div className="text-4xl md:text-5xl font-display font-black text-ink tracking-tighter tabular-nums drop-shadow-sm">
-                            {formattedTimeLeft || "00:00:00"}
-                        </div>
-                        <div className="mt-4 text-xs font-bold text-slate-500 flex items-center gap-1 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100">
-                            <span className="material-symbols-outlined text-[14px] text-amber-500">notifications_active</span> Notificarme al abrir
-                        </div>
-                    </div>
+                {/* Secondary Compact Timer */}
+                <div className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-white border border-slate-200 rounded-2xl shadow-sm mb-8 text-slate-700 font-bold text-sm">
+                    <span className="material-symbols-outlined text-[18px] text-slate-500">schedule</span>
+                    Siguiente ventana: <span className="text-emerald-600 font-black tabular-nums tracking-tight text-lg">{formattedTimeLeft || "00:00:00"}</span>
                 </div>
 
-                <button 
-                    onClick={() => navigate('/results')}
-                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-ink text-white rounded-2xl font-black shadow-[0_10px_30px_rgba(15,23,42,0.2)] hover:bg-slate-800 hover:-translate-y-1 transition-all overflow-hidden mb-3"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                    <span className="relative z-10 text-sm tracking-wider uppercase">Ver mi impacto</span>
-                    <span className="material-symbols-outlined relative z-10 text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </button>
-
+                {/* Primary CTA: Explorar Grid */}
                 <button 
                     onClick={() => {
                         const tracks = document.getElementById('hub-tracks');
@@ -105,18 +66,22 @@ export default function HubCooldownState() {
                             tracks.scrollIntoView({ behavior: 'smooth' });
                         }
                     }}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors rounded-xl hover:bg-slate-100"
+                    className="group relative inline-flex items-center justify-center gap-3 w-full md:w-auto px-8 py-3.5 bg-ink text-white rounded-xl font-bold hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_8px_20px_rgba(15,23,42,0.15)] mb-3"
                 >
-                    <span className="material-symbols-outlined text-lg">grid_view</span>
-                    Explorar más módulos
+                    <span className="material-symbols-outlined text-[18px]">grid_view</span>
+                    Explorar dinámicas
+                    <span className="material-symbols-outlined text-[18px] group-hover:translate-y-1 transition-transform ml-[-4px]">arrow_downward</span>
+                </button>
+
+                {/* Secondary CTA: Impacto */}
+                <button 
+                    onClick={() => navigate('/results')}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-xs md:text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors rounded-xl group"
+                >
+                    <span className="material-symbols-outlined text-[18px] group-hover:scale-110 transition-transform">bar_chart</span>
+                    Ver resultados
                 </button>
             </div>
-            
-            <style>{`
-                @keyframes shimmer {
-                    100% { transform: translateX(100%); }
-                }
-            `}</style>
         </div>
     );
 }
