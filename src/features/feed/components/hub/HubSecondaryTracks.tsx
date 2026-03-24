@@ -505,7 +505,7 @@ function TrackCardView({
     return (
         <button
             type="button"
-            onClick={card.available && card.mode ? () => setMode(card.mode) : undefined}
+            onClick={card.available && card.mode ? () => setMode(card.mode as ExperienceMode) : undefined}
             aria-disabled={!card.available}
             className={[
                 "group relative isolate flex h-[620px] w-[332px] shrink-0 snap-center flex-col overflow-hidden rounded-[34px] border bg-white text-left transition-all duration-500 ease-out md:h-[640px] md:w-[360px] md:snap-start",
