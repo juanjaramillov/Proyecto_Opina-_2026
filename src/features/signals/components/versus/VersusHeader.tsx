@@ -79,21 +79,17 @@ export function VersusHeader({ title }: VersusHeaderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5, transition: { duration: 0.15 } }}
             >
-                <div className="text-center md:text-left pt-2 pb-6 px-4 md:px-0">
-                    {/* Badge Sutil Premium */}
-                    <div className="flex items-center justify-center md:justify-start w-full mb-6">
-                        <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-                            Señal Activa
-                        </div>
-                    </div>
-
+                <div className="text-center pt-0 pb-1 md:pb-2 px-4 md:px-0">
                     {/* Título Principal (Native Hero Headline) */}
-                    <h2 className="text-3xl sm:text-4xl md:text-[2.75rem] font-black tracking-tight text-slate-800 leading-[1.1] md:leading-[1.1] drop-shadow-sm max-w-2xl mx-auto md:mx-0">
+                    <h2 className="text-xl sm:text-2xl md:text-[28px] font-black tracking-tight text-slate-800 leading-tight drop-shadow-sm max-w-3xl mx-auto">
                         {beforeHighlight && <>{beforeHighlight} </>}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">{highlightWord}</span>
                         {afterHighlight && <> {afterHighlight}</>}
                     </h2>
+                    
+                    <p className="mt-1 md:mt-2 text-[11px] md:text-xs font-bold text-slate-400 uppercase tracking-widest text-center">
+                        Solo elige una opción
+                    </p>
                 </div>
             </motion.div>
         </AnimatePresence>

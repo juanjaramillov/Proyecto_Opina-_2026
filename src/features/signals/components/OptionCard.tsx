@@ -57,7 +57,7 @@ export default function OptionCard({
             )}
 
             {/* 3) Logo/imagen y Header wrapper */}
-            <div className={`relative h-[160px] md:h-[280px] w-full flex items-center justify-center bg-gradient-to-b from-slate-50/80 to-slate-100/50 transition-colors duration-500 overflow-hidden ${type === 'text' ? (option.bgColor || 'bg-brand-gradient') : ''}`}>
+            <div className={`relative h-[120px] md:h-[180px] w-full flex items-center justify-center bg-gradient-to-b from-slate-50/80 to-slate-100/50 transition-colors duration-500 overflow-hidden ${type === 'text' ? (option.bgColor || 'bg-brand-gradient') : ''}`}>
 
                 {/* 5) Estado seleccionado (check discreto) */}
                 <div className={`absolute top-4 right-4 z-20 transition-all duration-300 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
@@ -81,9 +81,9 @@ export default function OptionCard({
                     <FallbackAvatar
                         src={option.image_url || option.imageUrl || undefined}
                         name={option.label}
-                        className={`relative z-10 w-32 h-32 md:w-52 md:h-52 object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'bg-white rounded-[2rem] p-4 md:p-6 shadow-sm border border-slate-100' : 'absolute inset-0 w-full h-full object-cover'}`}
-                        containerClassName="absolute inset-0 flex items-center justify-center p-4 md:p-6"
-                        fallbackClassName="w-32 h-32 md:w-52 md:h-52 text-5xl md:text-6xl font-black bg-gradient-to-br from-blue-100 via-indigo-50 to-cyan-50 text-blue-500 shadow-inner border-4 border-white rounded-[2.5rem] flex items-center justify-center"
+                        className={`relative z-10 w-24 h-24 md:w-36 md:h-36 object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'bg-white rounded-[2rem] p-4 md:p-6 shadow-sm border border-slate-100' : 'absolute inset-0 w-full h-full object-cover'}`}
+                        containerClassName="absolute inset-0 flex items-center justify-center p-3 md:p-4"
+                        fallbackClassName="w-24 h-24 md:w-36 md:h-36 text-4xl md:text-5xl font-black bg-gradient-to-br from-blue-100 via-indigo-50 to-cyan-50 text-blue-500 shadow-inner border-4 border-white rounded-[2rem] flex items-center justify-center"
                     />
                 )}
 
@@ -104,7 +104,7 @@ export default function OptionCard({
                                     size="lg"
                                     variant={layout === 'opinion' ? 'depth' : 'versus'}
                                     className={`relative z-10 w-full h-full object-contain transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''}`}
-                                    fallbackClassName="w-32 h-32 md:w-44 md:h-44 text-5xl md:text-6xl font-black bg-gradient-to-br from-indigo-100 via-blue-50 to-emerald-50 text-indigo-500 shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)] border-[4px] md:border-[6px] border-white rounded-[2rem] flex items-center justify-center"
+                                    fallbackClassName="w-24 h-24 md:w-32 md:h-32 text-4xl md:text-5xl font-black bg-gradient-to-br from-indigo-100 via-blue-50 to-emerald-50 text-indigo-500 shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)] border-[3px] md:border-[4px] border-white rounded-[2rem] flex items-center justify-center"
                                 />
                             </div>
                         </div>
@@ -126,8 +126,8 @@ export default function OptionCard({
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none blur-3xl scale-150"
                             style={{ background: `radial-gradient(circle, ${theme?.primary || '#10b981'}15 0%, transparent 70%)` }}
                         />
-                        <div className={`w-28 h-28 md:w-44 md:h-44 rounded-full flex items-center justify-center mb-2 md:mb-4 shadow-2xl border-4 border-white transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.15] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] group-hover:-translate-y-3 ${showResult ? 'opacity-30 blur-sm bg-slate-100' : 'bg-white'}`}>
-                            <span className="material-symbols-outlined text-[4rem] md:text-[6rem] transition-colors duration-500" style={{ color: showResult ? '#cbd5e1' : (theme?.primary || '#10b981') }}>
+                        <div className={`w-20 h-20 md:w-28 md:h-28 rounded-full flex items-center justify-center mb-2 md:mb-3 shadow-2xl border-[3px] border-white transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.15] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] group-hover:-translate-y-3 ${showResult ? 'opacity-30 blur-sm bg-slate-100' : 'bg-white'}`}>
+                            <span className="material-symbols-outlined text-[3.5rem] md:text-[4.5rem] transition-colors duration-500" style={{ color: showResult ? '#cbd5e1' : (theme?.primary || '#10b981') }}>
                                 {option.icon || 'star'}
                             </span>
                         </div>
@@ -193,8 +193,8 @@ export default function OptionCard({
             </div>
 
             {/* 4) Nombre (label) más premium */}
-            <div className="relative z-10 px-4 md:px-6 pb-4 md:pb-6 pt-3 md:pt-5 bg-white border-t border-slate-50 w-full flex-grow flex flex-col justify-end items-center text-center">
-                <div className={`font-black tracking-tight text-[1rem] leading-tight md:text-2xl text-center w-full transition-colors duration-300 line-clamp-2 overflow-hidden text-ellipsis min-h-[3rem] md:min-h-[4rem] flex items-center justify-center ${showResult ? "text-slate-300" : "text-ink"}`}>
+            <div className="relative z-10 px-3 md:px-5 pb-3 md:pb-5 pt-2 md:pt-4 bg-white border-t border-slate-50 w-full flex-grow flex flex-col justify-end items-center text-center">
+                <div className={`font-black tracking-tight text-[15px] leading-tight md:text-xl text-center w-full transition-colors duration-300 line-clamp-2 overflow-hidden text-ellipsis min-h-[2.5rem] md:min-h-[3.5rem] flex items-center justify-center ${showResult ? "text-slate-300" : "text-ink"}`}>
                     {option.label}
                 </div>
 

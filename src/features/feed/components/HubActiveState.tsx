@@ -117,28 +117,9 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                 <div className="flex-1 flex flex-col items-center justify-start p-0">
                     
                     {/* CUADRANTE VERSUS */}
-                    <div className="w-full max-w-4xl flex flex-col relative shrink-0 px-2 sm:px-4 md:px-0">
-                        
-                        {/* Header del Cuadrante */}
-                        <div className="flex flex-row items-center justify-between mb-3 md:mb-4 px-2 md:px-6">
-                            <div className="flex items-center gap-2.5">
-                                <div className="w-7 h-7 md:w-8 md:h-8 rounded-[10px] bg-gradient-to-br from-primary to-emerald-500 text-white flex items-center justify-center shadow-md shadow-primary/20">
-                                    <span className="material-symbols-outlined text-sm md:text-base">bolt</span>
-                                </div>
-                                <h2 className="text-base md:text-xl font-black text-slate-800 tracking-tight">Versus rápido</h2>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite]"></span>
-                                <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-slate-500">En Vivo</span>
-                            </div>
-                        </div>
-
-                        {/* Contenedor Físico del Juego */}
-                        <div className="bg-white rounded-[32px] md:rounded-[40px] shadow-sm shadow-slate-200/50 border border-slate-200/60 w-full min-h-[400px] md:min-h-[450px] flex flex-col relative overflow-hidden">
-                            {/* Brillo Superior Sutil */}
-                            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent" />
-                            
-                            
+                    <div className="w-full max-w-xl md:max-w-2xl flex flex-col relative shrink-0 px-2 sm:px-4 md:px-0">
+                        {/* Contenedor Físico del Juego sin cabecera extra */}
+                        <div className="w-full min-h-[300px] md:min-h-[350px] flex flex-col relative">
                             {/* VERSUS GAME COMPONENT */}
                             <div className="flex-1 w-full relative pt-2">
                                 <VersusGame
