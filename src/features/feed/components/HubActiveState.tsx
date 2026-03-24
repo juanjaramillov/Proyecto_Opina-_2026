@@ -1,10 +1,9 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 
 import { Battle, BattleOption } from '../../signals/types';
 import VersusGame from '../../signals/components/VersusGame';
 import { useHubSession } from '../hooks/useHubSession';
 import { signalService } from '../../signals/services/signalService';
-import { platformService, RecentActivity } from '../../signals/services/platformService';
 import { useToast } from '../../../components/ui/useToast';
 import { logger } from '../../../lib/logger';
 
@@ -14,13 +13,6 @@ interface HubActiveStateProps {
 }
 
 export default function HubActiveState({ battles, onBatchComplete }: HubActiveStateProps) {
-    const [recentActivity, setRecentActivity] = useState<RecentActivity | null>(null);
-
-    useEffect(() => {
-        platformService.getRecentActivity().then(res => {
-            if (res) setRecentActivity(res);
-        });
-    }, []);
     const { 
         consumeSessionSignal
     } = useHubSession();
@@ -74,16 +66,6 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
         return {};
     };
 
-    // Animated Title Component
-    const [titleStep, setTitleStep] = useState(0);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setTitleStep((prev) => (prev + 1) % 4);
-        }, 1000); // Change step every 1 second
-        return () => clearInterval(timer);
-    }, []);
-
     if (battlesForQueue.length === 0) {
         return (
             <div className="w-full flex items-center justify-center p-12 min-h-[400px]">
@@ -95,19 +77,8 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
         );
     }
 
-    const isGoldenHour = new Date().getHours() >= 19 && new Date().getHours() <= 22; // Hardcodeado ampliado para demos
-
     return (
-        <div className={`w-full min-h-[80vh] md:min-h-[85vh] flex flex-col relative animate-in fade-in zoom-in-95 duration-500 overflow-hidden md:overflow-visible`}>
-            
-            {/* Fondo Inmersivo (Grid Tecnológico o Dark/Light Radar) */}
-            <div className={`absolute inset-0 z-0 transition-colors duration-1000 ${isGoldenHour ? 'bg-amber-50/40' : 'bg-slate-50 md:bg-transparent'}`}>
-                {/* Patrón de Grid sutil estilo Blueprint */}
-                <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-                {/* Glow Radial central para destacar el VersusGame */}
-                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[800px] h-[80vh] max-h-[800px] rounded-full blur-[100px] pointer-events-none transition-colors duration-1000 ${isGoldenHour ? 'bg-amber-500/10' : 'bg-primary/5'}`} />
-            </div>
-
+        <div className="w-full flex flex-col relative animate-in fade-in zoom-in-95 duration-500">
             {/* Contenido principal sobre el fondo */}
             <div className="relative z-10 flex-1 flex flex-col w-full h-full">
 
@@ -143,32 +114,8 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                 */}
 
                 {/* MAIN VERSUS CONTAINER */}
-                <div className="flex-1 flex flex-col items-center justify-start p-0 md:p-4 mt-3 md:mt-4 mb-4">
+                <div className="flex-1 flex flex-col items-center justify-start p-0">
                     
-                    {/* Minimal Header & Context */}
-                    <div className="w-full flex flex-col items-center justify-center text-center px-4 mb-4 md:mb-5 animate-in slide-in-from-bottom-2 duration-700">
-                        <div className="flex items-center justify-center gap-1.5 mb-2 flex-wrap">
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/5 text-primary text-[10px] md:text-[11px] font-bold uppercase tracking-wider border border-primary/10">
-                                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                Radar Activo
-                            </span>
-                            
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-800 text-[10px] md:text-[11px] font-bold uppercase tracking-wider border border-emerald-500/20">
-                                <span className="material-symbols-outlined text-[14px]">group</span>
-                                {recentActivity ? Math.max(124, recentActivity.unique_users_last_3h * 2) : 124} en radar
-                            </span>
-                        </div>
-                        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-800 leading-tight md:leading-tight mb-3">
-                            Pon a prueba tu <br className="hidden md:block" />
-                            <span className={`inline-block transition-all duration-500 bg-gradient-to-r from-blue-600 to-emerald-500 text-transparent bg-clip-text bg-[length:300%_100%] bg-[position:0%_0%] ${titleStep >= 1 ? 'opacity-100 transform-none' : 'opacity-0 translate-y-2'}`}>instinto,</span>{' '}
-                            <span className={`inline-block transition-all duration-500 bg-gradient-to-r from-blue-600 to-emerald-500 text-transparent bg-clip-text bg-[length:300%_100%] bg-[position:45%_0%] ${titleStep >= 2 ? 'opacity-100 transform-none' : 'opacity-0 translate-y-2'}`}>perspectiva</span>{' '}
-                            <span className={`inline-block transition-all duration-500 bg-gradient-to-r from-blue-600 to-emerald-500 text-transparent bg-clip-text bg-[length:300%_100%] bg-[position:100%_0%] ${titleStep >= 3 ? 'opacity-100 transform-none' : 'opacity-0 translate-y-2'}`}>y criterio.</span>
-                        </h1>
-                        <p className="text-slate-600 text-sm md:text-base max-w-lg mx-auto font-medium">
-                            Señala tu preferencia rápida entre dos opciones. Desliza hacia abajo para descubrir diferentes formas de opinar.
-                        </p>
-                    </div>
-
                     {/* CUADRANTE VERSUS */}
                     <div className="w-full max-w-4xl flex flex-col relative shrink-0 px-2 sm:px-4 md:px-0">
                         
