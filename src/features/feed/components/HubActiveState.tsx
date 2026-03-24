@@ -130,7 +130,7 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                                     enableAutoAdvance={true}
                                     hideProgress={true}
                                     isQueueFinite={true}
-                                    autoNextMs={4000} // Tiempo estandarizado a 4s para permitir interacción con Insights
+                                    autoNextMs={2000} // Speed up advance from 4s to 2s to improve load perception
                                     onQueueComplete={onBatchComplete}
                                     isSubmitting={false}
                                     showExploreCTA={true}

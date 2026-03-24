@@ -141,16 +141,29 @@ export default function OptionCard({
 
                 {/* PERCENTAGE CORNER CIRCLE */}
                 <AnimatePresence>
-                    {showResult && (percent !== null || momentum) && (showPercentage ?? true) && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.5, y: -10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
-                            className="absolute top-4 left-4 z-40 bg-white text-slate-800 font-black text-sm md:text-base h-11 w-11 md:h-14 md:w-14 rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.12)] border-[3px] border-slate-50"
-                        >
-                            {momentum ? Math.round(momentum.percentage) : Math.round(percent as number)}%
-                        </motion.div>
-                    )}
+                    {showResult && (percent !== null || momentum) && (showPercentage ?? true) && (() => {
+                        const percentValue = momentum ? Math.round(momentum.percentage) : Math.round(percent as number);
+                        const isWinner = percentValue > 50;
+                        const isLoser = percentValue < 50;
+
+                        let circleColors = "bg-white text-slate-800 border-slate-100 shadow-[0_4px_10px_rgba(0,0,0,0.1)]";
+                        if (isWinner) {
+                            circleColors = "bg-emerald-500 text-white border-emerald-400 shadow-[0_5px_15px_rgba(16,185,129,0.3)]";
+                        } else if (isLoser) {
+                            circleColors = "bg-slate-100/95 text-slate-400 border-slate-200 shadow-sm opacity-90";
+                        }
+
+                        return (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.5, y: -10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
+                                className={`absolute top-4 left-4 z-40 font-black text-sm md:text-base h-11 w-11 md:h-14 md:w-14 rounded-full flex items-center justify-center border-[3px] transition-colors duration-500 ${circleColors}`}
+                            >
+                                {percentValue}%
+                            </motion.div>
+                        );
+                    })()}
                 </AnimatePresence>
 
             </div>
