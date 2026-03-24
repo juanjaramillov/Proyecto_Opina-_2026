@@ -118,73 +118,52 @@ export default function SignalsHub() {
             <div className="w-full pb-24 md:pb-0 relative min-h-screen bg-white">
                 
                 {/* 1. HERO EDITORIAL LUMINOSO (Solo visible en Menu) */}
-                <section className="w-full pt-10 pb-12 md:pt-16 md:pb-16 bg-white border-b border-slate-100/50">
-                    <div className="container-ws grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <section className="w-full pt-8 pb-6 md:pt-16 md:pb-12 bg-white border-b border-slate-100/50">
+                    <div className="container-ws grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                         {/* Columna Izquierda: Texto y Métricas simples */}
-                        <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-5">
-                            <span className="text-[11px] font-bold text-blue-600 tracking-widest uppercase">Señales Colectivas</span>
+                        <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-4">
+                            <span className="text-[11px] font-bold text-blue-600 tracking-widest uppercase">Señales</span>
                             
                             <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-slate-900 tracking-tight leading-[1.05]">
-                                El pulso real de <span className="text-blue-700">Opina+</span>
+                                Pon a prueba tu instinto,<br className="hidden md:block"/> <span className="bg-gradient-to-r from-blue-700 to-emerald-600 bg-clip-text text-transparent">perspectiva y criterio.</span>
                             </h1>
                             
-                            <p className="text-lg text-slate-500 max-w-lg font-medium leading-relaxed">
+                            <p className="text-base md:text-lg text-slate-500 max-w-lg font-medium leading-relaxed">
                                 Evalúa tendencias y compara perfiles. Tu criterio es la brújula de nuestra comunidad.
                             </p>
 
-                            <div className="flex items-center gap-8 pt-4">
-                                <div className="flex flex-col items-start">
+                            <div className="flex items-center justify-center lg:justify-start gap-8 pt-3">
+                                <div className="flex flex-col items-center lg:items-start">
                                     <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-0.5">Participación Hoy</span>
-                                    <span className="text-lg font-bold text-slate-800 tracking-tight">{fmt(signalsToday)} <span className="text-slate-400 text-sm font-medium">señales</span></span>
+                                    <span className="text-lg font-bold text-slate-800 tracking-tight">{fmt(signalsToday)} <span className="text-xs text-slate-400 font-bold uppercase tracking-wider ml-0.5">señales</span></span>
                                 </div>
-                                <div className="w-px h-8 bg-slate-200"></div>
-                                <div className="flex flex-col items-start">
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-0.5">Estado</span>
+                                <div className="w-px h-8 bg-slate-200/80"></div>
+                                <div className="flex flex-col items-center lg:items-start">
+                                    <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-0.5">Estado Motor</span>
                                     <span className="text-sm font-bold text-emerald-600 flex items-center gap-1.5 mt-1">
-                                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Activo
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite]"></span> Activo
                                     </span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Columna Derecha: Contenedor Abstracto Premium */}
-                        <div className="hidden lg:flex justify-end">
-                            <div className="w-[420px] h-[280px] rounded-3xl border border-slate-100 bg-slate-50 relative overflow-hidden flex items-center justify-center shadow-sm">
-                                {/* Malla suave corporativa contenida */}
-                                <div className="absolute inset-0 opacity-40 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxwYXRoIGQ9Ik0wIDBMMjAgMCAyMCAyMCAwIDIwWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDIwMCwgMjEwLCAyMjAsIDAuMykiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] bg-repeat" />
-                                <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-bl from-blue-500/20 to-transparent rounded-full blur-3xl mix-blend-multiply" />
-                                <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-gradient-to-tr from-emerald-400/20 to-transparent rounded-full blur-3xl mix-blend-multiply" />
-                                
-                                {/* Pieza central elegante */}
-                                <div className="relative w-32 h-32 rounded-full border border-white bg-white/50 backdrop-blur-sm shadow-sm flex items-center justify-center">
-                                    <div className="w-24 h-24 rounded-full border border-slate-200 bg-gradient-to-tr from-slate-50 to-white flex items-center justify-center shadow-inner">
-                                        <div className="w-12 h-12 rounded-full bg-blue-50/50 border border-blue-100 flex items-center justify-center">
-                                            <span className="w-3 h-3 rounded-full bg-blue-600 shadow-[0_0_12px_rgba(37,99,235,0.4)]" />
-                                        </div>
-                                    </div>
-                                </div>
+                        {/* Columna Derecha: BLOQUE FUNCIONAL VIVO */}
+                        <div className="w-full flex justify-center lg:justify-end mt-2 lg:mt-0">
+                            <div className="w-full max-w-[500px]">
+                                <ModuleErrorBoundary moduleName={hubState === 'ACTIVE' ? "HubActiveState" : "HubCooldownState"}>
+                                    {hubState === 'ACTIVE' ? (
+                                        <HubActiveState battles={(battles as unknown as Battle[])} onBatchComplete={handleBatchComplete} />
+                                    ) : (
+                                        <HubCooldownState />
+                                    )}
+                                </ModuleErrorBoundary>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* 2. BLOQUE FUNCIONAL PRINCIPAL */}
-                <section className="container-ws py-12 md:py-16">
-                    <ModuleErrorBoundary moduleName={hubState === 'ACTIVE' ? "HubActiveState" : "HubCooldownState"}>
-                        {hubState === 'ACTIVE' ? (
-                            <HubActiveState battles={(battles as unknown as Battle[])} onBatchComplete={handleBatchComplete} />
-                        ) : (
-                            <HubCooldownState />
-                        )}
-                    </ModuleErrorBoundary>
-                </section>
-
-                {/* 3. RADAR DE EXPERIENCIAS */}
-                <section className="container-ws pb-20" id="hub-tracks">
-                    <div className="mb-10 text-center md:text-left border-t border-slate-100 pt-16">
-                        <h2 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">Expandir el radar</h2>
-                        <p className="text-slate-500 mt-2 font-medium text-lg">Navega hacia nuevos módulos de evaluación continua.</p>
-                    </div>
+                {/* 2. RADAR DE EXPERIENCIAS */}
+                <section className="container-ws pb-16 md:pb-20 pt-4 md:pt-6" id="hub-tracks">
                     <HubSecondaryTracks setMode={setMode} />
                 </section>
 
