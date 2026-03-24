@@ -1,0 +1,1560 @@
+{
+  "lastUpdated": "2026-03-23T23:58:52.474Z",
+  "summary": {
+    "totalAttempted": 439,
+    "migratedStrongCount": 387,
+    "excludedWeak": 35,
+    "excludedNeedsReview": 13,
+    "excludedMissing": 4
+  },
+  "details": {
+    "bruno-fritsch": {
+      "localPath": "/logos/entities/bruno-fritsch.jpg",
+      "qualityTier": "strong"
+    },
+    "gildemeister": {
+      "localPath": "/logos/entities/gildemeister.png",
+      "qualityTier": "strong"
+    },
+    "portillo": {
+      "localPath": "/logos/entities/portillo.jpg",
+      "qualityTier": "strong"
+    },
+    "salazar-israel": {
+      "localPath": "/logos/entities/salazar-israel.jpg",
+      "qualityTier": "strong"
+    },
+    "byd": {
+      "localPath": "/logos/entities/byd.jpg",
+      "qualityTier": "strong"
+    },
+    "chery": {
+      "localPath": "/logos/entities/chery.png",
+      "qualityTier": "strong"
+    },
+    "geely": {
+      "localPath": "/logos/entities/geely.png",
+      "qualityTier": "strong"
+    },
+    "great-wall": {
+      "localPath": "/logos/entities/great-wall.jpg",
+      "qualityTier": "strong"
+    },
+    "haval": {
+      "localPath": "/logos/entities/haval.jpg",
+      "qualityTier": "strong"
+    },
+    "jac": {
+      "localPath": "/logos/entities/jac.png",
+      "qualityTier": "strong"
+    },
+    "mg": {
+      "localPath": "/logos/entities/mg.svg",
+      "qualityTier": "strong"
+    },
+    "bmw": {
+      "localPath": "/logos/entities/bmw.svg",
+      "qualityTier": "strong"
+    },
+    "chevrolet": {
+      "localPath": "/logos/entities/chevrolet.svg",
+      "qualityTier": "strong"
+    },
+    "hyundai": {
+      "localPath": "/logos/entities/hyundai.svg",
+      "qualityTier": "strong"
+    },
+    "kia": {
+      "localPath": "/logos/entities/kia.svg",
+      "qualityTier": "strong"
+    },
+    "mazda": {
+      "localPath": "/logos/entities/mazda.svg",
+      "qualityTier": "strong"
+    },
+    "mercedes-benz": {
+      "localPath": "/logos/entities/mercedes-benz.png",
+      "qualityTier": "strong"
+    },
+    "nissan": {
+      "localPath": "/logos/entities/nissan.svg",
+      "qualityTier": "strong"
+    },
+    "peugeot": {
+      "localPath": "/logos/entities/peugeot.svg",
+      "qualityTier": "strong"
+    },
+    "suzuki": {
+      "localPath": "/logos/entities/suzuki.svg",
+      "qualityTier": "strong"
+    },
+    "toyota": {
+      "localPath": "/logos/entities/toyota.svg",
+      "qualityTier": "strong"
+    },
+    "aquarius": {
+      "localPath": "/logos/entities/aquarius.jpg",
+      "qualityTier": "strong"
+    },
+    "benedictino": {
+      "localPath": "/logos/entities/benedictino.jpg",
+      "qualityTier": "strong"
+    },
+    "cachantun": {
+      "localPath": "/logos/entities/cachantun.png",
+      "qualityTier": "strong"
+    },
+    "evian": {
+      "localPath": "/logos/entities/evian.png",
+      "qualityTier": "strong"
+    },
+    "perrier": {
+      "localPath": "/logos/entities/perrier.png",
+      "qualityTier": "strong"
+    },
+    "vital": {
+      "localPath": "/logos/entities/vital.jpg",
+      "qualityTier": "strong"
+    },
+    "becker": {
+      "localPath": "/logos/entities/becker.jpg",
+      "qualityTier": "strong"
+    },
+    "corona": {
+      "localPath": "/logos/entities/corona.png",
+      "qualityTier": "strong"
+    },
+    "cristal": {
+      "localPath": "/logos/entities/cristal.png",
+      "qualityTier": "strong"
+    },
+    "heineken": {
+      "localPath": "/logos/entities/heineken.png",
+      "qualityTier": "strong"
+    },
+    "burn": {
+      "localPath": "/logos/entities/burn.png",
+      "qualityTier": "strong"
+    },
+    "celsius": {
+      "localPath": "/logos/entities/celsius.svg",
+      "qualityTier": "strong"
+    },
+    "monster": {
+      "localPath": "/logos/entities/monster.svg",
+      "qualityTier": "strong"
+    },
+    "canada-dry": {
+      "localPath": "/logos/entities/canada-dry.png",
+      "qualityTier": "strong"
+    },
+    "coca-cola": {
+      "localPath": "/logos/entities/coca-cola.jpg",
+      "qualityTier": "strong"
+    },
+    "fanta": {
+      "localPath": "/logos/entities/fanta.jpg",
+      "qualityTier": "strong"
+    },
+    "pepsi": {
+      "localPath": "/logos/entities/pepsi.png",
+      "qualityTier": "strong"
+    },
+    "schweppes": {
+      "localPath": "/logos/entities/schweppes.png",
+      "qualityTier": "strong"
+    },
+    "sprite": {
+      "localPath": "/logos/entities/sprite.png",
+      "qualityTier": "strong"
+    },
+    "descorcha": {
+      "localPath": "/logos/entities/descorcha.jpg",
+      "qualityTier": "strong"
+    },
+    "el-mundo-del-vino": {
+      "localPath": "/logos/entities/el-mundo-del-vino.jpg",
+      "qualityTier": "strong"
+    },
+    "la-cav": {
+      "localPath": "/logos/entities/la-cav.png",
+      "qualityTier": "strong"
+    },
+    "la-vinoteca": {
+      "localPath": "/logos/entities/la-vinoteca.jpg",
+      "qualityTier": "strong"
+    },
+    "concha-y-toro": {
+      "localPath": "/logos/entities/concha-y-toro.png",
+      "qualityTier": "strong"
+    },
+    "san-pedro": {
+      "localPath": "/logos/entities/san-pedro.png",
+      "qualityTier": "strong"
+    },
+    "santa-rita": {
+      "localPath": "/logos/entities/santa-rita.jpg",
+      "qualityTier": "strong"
+    },
+    "undurraga": {
+      "localPath": "/logos/entities/undurraga.png",
+      "qualityTier": "strong"
+    },
+    "bebesit": {
+      "localPath": "/logos/entities/bebesit.png",
+      "qualityTier": "strong"
+    },
+    "chicco": {
+      "localPath": "/logos/entities/chicco.png",
+      "qualityTier": "strong"
+    },
+    "graco": {
+      "localPath": "/logos/entities/graco.jpg",
+      "qualityTier": "strong"
+    },
+    "infanti": {
+      "localPath": "/logos/entities/infanti.jpg",
+      "qualityTier": "strong"
+    },
+    "joie": {
+      "localPath": "/logos/entities/joie.jpg",
+      "qualityTier": "strong"
+    },
+    "maxi-cosi": {
+      "localPath": "/logos/entities/maxi-cosi.jpg",
+      "qualityTier": "strong"
+    },
+    "enfamil": {
+      "localPath": "/logos/entities/enfamil.png",
+      "qualityTier": "strong"
+    },
+    "pediasure": {
+      "localPath": "/logos/entities/pediasure.png",
+      "qualityTier": "strong"
+    },
+    "babysec": {
+      "localPath": "/logos/entities/babysec.png",
+      "qualityTier": "strong"
+    },
+    "huggies": {
+      "localPath": "/logos/entities/huggies.jpg",
+      "qualityTier": "strong"
+    },
+    "pampers": {
+      "localPath": "/logos/entities/pampers.jpg",
+      "qualityTier": "strong"
+    },
+    "waterwipes": {
+      "localPath": "/logos/entities/waterwipes.png",
+      "qualityTier": "strong"
+    },
+    "l-oreal-paris": {
+      "localPath": "/logos/entities/l-oreal-paris.png",
+      "qualityTier": "strong"
+    },
+    "mac": {
+      "localPath": "/logos/entities/mac.jpg",
+      "qualityTier": "strong"
+    },
+    "maybelline": {
+      "localPath": "/logos/entities/maybelline.jpg",
+      "qualityTier": "strong"
+    },
+    "nyx": {
+      "localPath": "/logos/entities/nyx.png",
+      "qualityTier": "strong"
+    },
+    "natura": {
+      "localPath": "/logos/entities/natura.jpg",
+      "qualityTier": "strong"
+    },
+    "petrizzio": {
+      "localPath": "/logos/entities/petrizzio.jpg",
+      "qualityTier": "strong"
+    },
+    "axe": {
+      "localPath": "/logos/entities/axe.jpg",
+      "qualityTier": "strong"
+    },
+    "dove": {
+      "localPath": "/logos/entities/dove.jpg",
+      "qualityTier": "strong"
+    },
+    "lady-speed-stick": {
+      "localPath": "/logos/entities/lady-speed-stick.jpg",
+      "qualityTier": "strong"
+    },
+    "nivea": {
+      "localPath": "/logos/entities/nivea.jpg",
+      "qualityTier": "strong"
+    },
+    "old-spice": {
+      "localPath": "/logos/entities/old-spice.jpg",
+      "qualityTier": "strong"
+    },
+    "rexona": {
+      "localPath": "/logos/entities/rexona.png",
+      "qualityTier": "strong"
+    },
+    "aquafresh": {
+      "localPath": "/logos/entities/aquafresh.png",
+      "qualityTier": "strong"
+    },
+    "closeup": {
+      "localPath": "/logos/entities/closeup.jpg",
+      "qualityTier": "strong"
+    },
+    "colgate": {
+      "localPath": "/logos/entities/colgate.png",
+      "qualityTier": "strong"
+    },
+    "oral-b": {
+      "localPath": "/logos/entities/oral-b.png",
+      "qualityTier": "strong"
+    },
+    "pepsodent": {
+      "localPath": "/logos/entities/pepsodent.svg",
+      "qualityTier": "strong"
+    },
+    "calvin-klein": {
+      "localPath": "/logos/entities/calvin-klein.jpg",
+      "qualityTier": "strong"
+    },
+    "carolina-herrera": {
+      "localPath": "/logos/entities/carolina-herrera.jpg",
+      "qualityTier": "strong"
+    },
+    "chanel": {
+      "localPath": "/logos/entities/chanel.jpg",
+      "qualityTier": "strong"
+    },
+    "dior": {
+      "localPath": "/logos/entities/dior.svg",
+      "qualityTier": "strong"
+    },
+    "hugo-boss": {
+      "localPath": "/logos/entities/hugo-boss.jpg",
+      "qualityTier": "strong"
+    },
+    "rabanne": {
+      "localPath": "/logos/entities/rabanne.jpg",
+      "qualityTier": "strong"
+    },
+    "hawaiian-tropic": {
+      "localPath": "/logos/entities/hawaiian-tropic.png",
+      "qualityTier": "strong"
+    },
+    "isdin": {
+      "localPath": "/logos/entities/isdin.png",
+      "qualityTier": "strong"
+    },
+    "la-roche-posay": {
+      "localPath": "/logos/entities/la-roche-posay.png",
+      "qualityTier": "strong"
+    },
+    "raytan": {
+      "localPath": "/logos/entities/raytan.png",
+      "qualityTier": "strong"
+    },
+    "vichy": {
+      "localPath": "/logos/entities/vichy.jpg",
+      "qualityTier": "strong"
+    },
+    "elvive": {
+      "localPath": "/logos/entities/elvive.jpg",
+      "qualityTier": "strong"
+    },
+    "head-shoulders": {
+      "localPath": "/logos/entities/head-shoulders.png",
+      "qualityTier": "strong"
+    },
+    "pantene": {
+      "localPath": "/logos/entities/pantene.jpg",
+      "qualityTier": "strong"
+    },
+    "sedal": {
+      "localPath": "/logos/entities/sedal.jpg",
+      "qualityTier": "strong"
+    },
+    "tio-nacho": {
+      "localPath": "/logos/entities/tio-nacho.jpg",
+      "qualityTier": "strong"
+    },
+    "bioderma": {
+      "localPath": "/logos/entities/bioderma.jpg",
+      "qualityTier": "strong"
+    },
+    "cerave": {
+      "localPath": "/logos/entities/cerave.jpg",
+      "qualityTier": "strong"
+    },
+    "cetaphil": {
+      "localPath": "/logos/entities/cetaphil.png",
+      "qualityTier": "strong"
+    },
+    "eucerin": {
+      "localPath": "/logos/entities/eucerin.png",
+      "qualityTier": "strong"
+    },
+    "cafe-haiti": {
+      "localPath": "/logos/entities/cafe-haiti.png",
+      "qualityTier": "strong"
+    },
+    "castano": {
+      "localPath": "/logos/entities/castano.png",
+      "qualityTier": "strong"
+    },
+    "dunkin": {
+      "localPath": "/logos/entities/dunkin.png",
+      "qualityTier": "strong"
+    },
+    "juan-valdez": {
+      "localPath": "/logos/entities/juan-valdez.jpg",
+      "qualityTier": "strong"
+    },
+    "starbucks": {
+      "localPath": "/logos/entities/starbucks.svg",
+      "qualityTier": "strong"
+    },
+    "tavelli": {
+      "localPath": "/logos/entities/tavelli.png",
+      "qualityTier": "strong"
+    },
+    "didi-food": {
+      "localPath": "/logos/entities/didi-food.jpg",
+      "qualityTier": "strong"
+    },
+    "justo": {
+      "localPath": "/logos/entities/justo.jpg",
+      "qualityTier": "strong"
+    },
+    "orders": {
+      "localPath": "/logos/entities/orders.jpg",
+      "qualityTier": "strong"
+    },
+    "pedidosya": {
+      "localPath": "/logos/entities/pedidosya.png",
+      "qualityTier": "strong"
+    },
+    "rappi": {
+      "localPath": "/logos/entities/rappi.png",
+      "qualityTier": "strong"
+    },
+    "uber-eats": {
+      "localPath": "/logos/entities/uber-eats.jpg",
+      "qualityTier": "strong"
+    },
+    "burger-king": {
+      "localPath": "/logos/entities/burger-king.svg",
+      "qualityTier": "strong"
+    },
+    "doggis": {
+      "localPath": "/logos/entities/doggis.jpg",
+      "qualityTier": "strong"
+    },
+    "juan-maestro": {
+      "localPath": "/logos/entities/juan-maestro.png",
+      "qualityTier": "strong"
+    },
+    "kfc": {
+      "localPath": "/logos/entities/kfc.svg",
+      "qualityTier": "strong"
+    },
+    "mcdonald-s": {
+      "localPath": "/logos/entities/mcdonald-s.jpg",
+      "qualityTier": "strong"
+    },
+    "pedro-juan-diego": {
+      "localPath": "/logos/entities/pedro-juan-diego.png",
+      "qualityTier": "strong"
+    },
+    "subway": {
+      "localPath": "/logos/entities/subway.png",
+      "qualityTier": "strong"
+    },
+    "domino-s": {
+      "localPath": "/logos/entities/domino-s.png",
+      "qualityTier": "strong"
+    },
+    "little-caesars": {
+      "localPath": "/logos/entities/little-caesars.jpg",
+      "qualityTier": "strong"
+    },
+    "papa-johns": {
+      "localPath": "/logos/entities/papa-johns.jpg",
+      "qualityTier": "strong"
+    },
+    "pizza-hut": {
+      "localPath": "/logos/entities/pizza-hut.png",
+      "qualityTier": "strong"
+    },
+    "telepizza": {
+      "localPath": "/logos/entities/telepizza.jpg",
+      "qualityTier": "strong"
+    },
+    "cobreloa": {
+      "localPath": "/logos/entities/cobreloa.png",
+      "qualityTier": "strong"
+    },
+    "colo-colo": {
+      "localPath": "/logos/entities/colo-colo.png",
+      "qualityTier": "strong"
+    },
+    "santiago-wanderers": {
+      "localPath": "/logos/entities/santiago-wanderers.png",
+      "qualityTier": "strong"
+    },
+    "universidad-catolica": {
+      "localPath": "/logos/entities/universidad-catolica.jpg",
+      "qualityTier": "strong"
+    },
+    "universidad-de-chile": {
+      "localPath": "/logos/entities/universidad-de-chile.jpg",
+      "qualityTier": "strong"
+    },
+    "union-espanola": {
+      "localPath": "/logos/entities/union-espanola.png",
+      "qualityTier": "strong"
+    },
+    "duoc-uc": {
+      "localPath": "/logos/entities/duoc-uc.jpg",
+      "qualityTier": "strong"
+    },
+    "enac": {
+      "localPath": "/logos/entities/enac.png",
+      "qualityTier": "strong"
+    },
+    "inacap": {
+      "localPath": "/logos/entities/inacap.jpg",
+      "qualityTier": "strong"
+    },
+    "ipchile": {
+      "localPath": "/logos/entities/ipchile.jpg",
+      "qualityTier": "strong"
+    },
+    "santo-tomas": {
+      "localPath": "/logos/entities/santo-tomas.png",
+      "qualityTier": "strong"
+    },
+    "cpech": {
+      "localPath": "/logos/entities/cpech.png",
+      "qualityTier": "strong"
+    },
+    "filadd": {
+      "localPath": "/logos/entities/filadd.png",
+      "qualityTier": "strong"
+    },
+    "m30m": {
+      "localPath": "/logos/entities/m30m.jpg",
+      "qualityTier": "strong"
+    },
+    "pedro-de-valdivia": {
+      "localPath": "/logos/entities/pedro-de-valdivia.png",
+      "qualityTier": "strong"
+    },
+    "preu-uc": {
+      "localPath": "/logos/entities/preu-uc.png",
+      "qualityTier": "strong"
+    },
+    "puntaje-nacional": {
+      "localPath": "/logos/entities/puntaje-nacional.jpg",
+      "qualityTier": "strong"
+    },
+    "pontificia-universidad-catolica": {
+      "localPath": "/logos/entities/pontificia-universidad-catolica.png",
+      "qualityTier": "strong"
+    },
+    "uai": {
+      "localPath": "/logos/entities/uai.jpg",
+      "qualityTier": "strong"
+    },
+    "udp": {
+      "localPath": "/logos/entities/udp.jpg",
+      "qualityTier": "strong"
+    },
+    "cine-hoyts": {
+      "localPath": "/logos/entities/cine-hoyts.png",
+      "qualityTier": "strong"
+    },
+    "cinemark": {
+      "localPath": "/logos/entities/cinemark.png",
+      "qualityTier": "strong"
+    },
+    "cineplanet": {
+      "localPath": "/logos/entities/cineplanet.jpg",
+      "qualityTier": "strong"
+    },
+    "cinestar": {
+      "localPath": "/logos/entities/cinestar.jpg",
+      "qualityTier": "strong"
+    },
+    "cinepolis": {
+      "localPath": "/logos/entities/cinepolis.jpg",
+      "qualityTier": "strong"
+    },
+    "muvix": {
+      "localPath": "/logos/entities/muvix.png",
+      "qualityTier": "strong"
+    },
+    "discord": {
+      "localPath": "/logos/entities/discord.svg",
+      "qualityTier": "strong"
+    },
+    "pinterest": {
+      "localPath": "/logos/entities/pinterest.svg",
+      "qualityTier": "strong"
+    },
+    "quora": {
+      "localPath": "/logos/entities/quora.svg",
+      "qualityTier": "strong"
+    },
+    "reddit": {
+      "localPath": "/logos/entities/reddit.svg",
+      "qualityTier": "strong"
+    },
+    "steam-community": {
+      "localPath": "/logos/entities/steam-community.png",
+      "qualityTier": "strong"
+    },
+    "tumblr": {
+      "localPath": "/logos/entities/tumblr.svg",
+      "qualityTier": "strong"
+    },
+    "cnn-chile": {
+      "localPath": "/logos/entities/cnn-chile.png",
+      "qualityTier": "strong"
+    },
+    "el-mostrador": {
+      "localPath": "/logos/entities/el-mostrador.jpg",
+      "qualityTier": "strong"
+    },
+    "emol": {
+      "localPath": "/logos/entities/emol.png",
+      "qualityTier": "strong"
+    },
+    "adn-radio": {
+      "localPath": "/logos/entities/adn-radio.jpg",
+      "qualityTier": "strong"
+    },
+    "carolina": {
+      "localPath": "/logos/entities/carolina.jpg",
+      "qualityTier": "strong"
+    },
+    "pudahuel": {
+      "localPath": "/logos/entities/pudahuel.png",
+      "qualityTier": "strong"
+    },
+    "facebook": {
+      "localPath": "/logos/entities/facebook.svg",
+      "qualityTier": "strong"
+    },
+    "instagram": {
+      "localPath": "/logos/entities/instagram.svg",
+      "qualityTier": "strong"
+    },
+    "snapchat": {
+      "localPath": "/logos/entities/snapchat.svg",
+      "qualityTier": "strong"
+    },
+    "tiktok": {
+      "localPath": "/logos/entities/tiktok.svg",
+      "qualityTier": "strong"
+    },
+    "x": {
+      "localPath": "/logos/entities/x.svg",
+      "qualityTier": "strong"
+    },
+    "amazon-music": {
+      "localPath": "/logos/entities/amazon-music.png",
+      "qualityTier": "strong"
+    },
+    "apple-music": {
+      "localPath": "/logos/entities/apple-music.png",
+      "qualityTier": "strong"
+    },
+    "deezer": {
+      "localPath": "/logos/entities/deezer.svg",
+      "qualityTier": "strong"
+    },
+    "spotify": {
+      "localPath": "/logos/entities/spotify.svg",
+      "qualityTier": "strong"
+    },
+    "tidal": {
+      "localPath": "/logos/entities/tidal.svg",
+      "qualityTier": "strong"
+    },
+    "youtube-music": {
+      "localPath": "/logos/entities/youtube-music.png",
+      "qualityTier": "strong"
+    },
+    "apple-tv": {
+      "localPath": "/logos/entities/apple-tv.png",
+      "qualityTier": "strong"
+    },
+    "disney": {
+      "localPath": "/logos/entities/disney.png",
+      "qualityTier": "strong"
+    },
+    "mubi": {
+      "localPath": "/logos/entities/mubi.svg",
+      "qualityTier": "strong"
+    },
+    "max": {
+      "localPath": "/logos/entities/max.svg",
+      "qualityTier": "strong"
+    },
+    "netflix": {
+      "localPath": "/logos/entities/netflix.svg",
+      "qualityTier": "strong"
+    },
+    "paramount": {
+      "localPath": "/logos/entities/paramount.png",
+      "qualityTier": "strong"
+    },
+    "prime-video": {
+      "localPath": "/logos/entities/prime-video.png",
+      "qualityTier": "strong"
+    },
+    "universal": {
+      "localPath": "/logos/entities/universal.png",
+      "qualityTier": "strong"
+    },
+    "canal-13": {
+      "localPath": "/logos/entities/canal-13.png",
+      "qualityTier": "strong"
+    },
+    "chilevision": {
+      "localPath": "/logos/entities/chilevision.png",
+      "qualityTier": "strong"
+    },
+    "la-red": {
+      "localPath": "/logos/entities/la-red.png",
+      "qualityTier": "strong"
+    },
+    "mega": {
+      "localPath": "/logos/entities/mega.svg",
+      "qualityTier": "strong"
+    },
+    "bci": {
+      "localPath": "/logos/entities/bci.png",
+      "qualityTier": "strong"
+    },
+    "banco-bice": {
+      "localPath": "/logos/entities/banco-bice.jpg",
+      "qualityTier": "strong"
+    },
+    "banco-falabella": {
+      "localPath": "/logos/entities/banco-falabella.png",
+      "qualityTier": "strong"
+    },
+    "banco-de-chile": {
+      "localPath": "/logos/entities/banco-de-chile.png",
+      "qualityTier": "strong"
+    },
+    "bancoestado": {
+      "localPath": "/logos/entities/bancoestado.png",
+      "qualityTier": "strong"
+    },
+    "consorcio": {
+      "localPath": "/logos/entities/consorcio.png",
+      "qualityTier": "strong"
+    },
+    "itau": {
+      "localPath": "/logos/entities/itau.webp",
+      "qualityTier": "strong"
+    },
+    "santander": {
+      "localPath": "/logos/entities/santander.png",
+      "qualityTier": "strong"
+    },
+    "scotiabank": {
+      "localPath": "/logos/entities/scotiabank.jpg",
+      "qualityTier": "strong"
+    },
+    "chek": {
+      "localPath": "/logos/entities/chek.jpg",
+      "qualityTier": "strong"
+    },
+    "fintual": {
+      "localPath": "/logos/entities/fintual.jpg",
+      "qualityTier": "strong"
+    },
+    "global66": {
+      "localPath": "/logos/entities/global66.jpg",
+      "qualityTier": "strong"
+    },
+    "mercado-pago": {
+      "localPath": "/logos/entities/mercado-pago.svg",
+      "qualityTier": "strong"
+    },
+    "prex": {
+      "localPath": "/logos/entities/prex.jpg",
+      "qualityTier": "strong"
+    },
+    "tenpo": {
+      "localPath": "/logos/entities/tenpo.png",
+      "qualityTier": "strong"
+    },
+    "bice-inversiones": {
+      "localPath": "/logos/entities/bice-inversiones.jpg",
+      "qualityTier": "strong"
+    },
+    "btg-pactual": {
+      "localPath": "/logos/entities/btg-pactual.jpg",
+      "qualityTier": "strong"
+    },
+    "banchile-inversiones": {
+      "localPath": "/logos/entities/banchile-inversiones.jpg",
+      "qualityTier": "strong"
+    },
+    "mbi": {
+      "localPath": "/logos/entities/mbi.svg",
+      "qualityTier": "strong"
+    },
+    "santander-corredora": {
+      "localPath": "/logos/entities/santander-corredora.jpg",
+      "qualityTier": "strong"
+    },
+    "american-express": {
+      "localPath": "/logos/entities/american-express.svg",
+      "qualityTier": "strong"
+    },
+    "cmr-falabella": {
+      "localPath": "/logos/entities/cmr-falabella.jpg",
+      "qualityTier": "strong"
+    },
+    "getnet": {
+      "localPath": "/logos/entities/getnet.png",
+      "qualityTier": "strong"
+    },
+    "mastercard": {
+      "localPath": "/logos/entities/mastercard.svg",
+      "qualityTier": "strong"
+    },
+    "redcompra": {
+      "localPath": "/logos/entities/redcompra.jpg",
+      "qualityTier": "strong"
+    },
+    "visa": {
+      "localPath": "/logos/entities/visa.svg",
+      "qualityTier": "strong"
+    },
+    "webpay": {
+      "localPath": "/logos/entities/webpay.png",
+      "qualityTier": "strong"
+    },
+    "dyson": {
+      "localPath": "/logos/entities/dyson.jpg",
+      "qualityTier": "strong"
+    },
+    "electrolux": {
+      "localPath": "/logos/entities/electrolux.png",
+      "qualityTier": "strong"
+    },
+    "philips": {
+      "localPath": "/logos/entities/philips.png",
+      "qualityTier": "strong"
+    },
+    "thomas": {
+      "localPath": "/logos/entities/thomas.png",
+      "qualityTier": "strong"
+    },
+    "ursus-trotter": {
+      "localPath": "/logos/entities/ursus-trotter.png",
+      "qualityTier": "strong"
+    },
+    "xiaomi": {
+      "localPath": "/logos/entities/xiaomi.svg",
+      "qualityTier": "strong"
+    },
+    "cic": {
+      "localPath": "/logos/entities/cic.jpg",
+      "qualityTier": "strong"
+    },
+    "drimkip": {
+      "localPath": "/logos/entities/drimkip.png",
+      "qualityTier": "strong"
+    },
+    "emma": {
+      "localPath": "/logos/entities/emma.png",
+      "qualityTier": "strong"
+    },
+    "flex": {
+      "localPath": "/logos/entities/flex.jpg",
+      "qualityTier": "strong"
+    },
+    "mantahue": {
+      "localPath": "/logos/entities/mantahue.jpg",
+      "qualityTier": "strong"
+    },
+    "rosen": {
+      "localPath": "/logos/entities/rosen.jpg",
+      "qualityTier": "strong"
+    },
+    "bosch": {
+      "localPath": "/logos/entities/bosch.svg",
+      "qualityTier": "strong"
+    },
+    "fensa": {
+      "localPath": "/logos/entities/fensa.png",
+      "qualityTier": "strong"
+    },
+    "lg": {
+      "localPath": "/logos/entities/lg.svg",
+      "qualityTier": "strong"
+    },
+    "midea": {
+      "localPath": "/logos/entities/midea.jpg",
+      "qualityTier": "strong"
+    },
+    "samsung": {
+      "localPath": "/logos/entities/samsung.svg",
+      "qualityTier": "strong"
+    },
+    "whirlpool": {
+      "localPath": "/logos/entities/whirlpool.png",
+      "qualityTier": "strong"
+    },
+    "acana": {
+      "localPath": "/logos/entities/acana.jpg",
+      "qualityTier": "strong"
+    },
+    "bravery": {
+      "localPath": "/logos/entities/bravery.jpg",
+      "qualityTier": "strong"
+    },
+    "cat-chow": {
+      "localPath": "/logos/entities/cat-chow.jpg",
+      "qualityTier": "strong"
+    },
+    "whiskas": {
+      "localPath": "/logos/entities/whiskas.png",
+      "qualityTier": "strong"
+    },
+    "pedigree": {
+      "localPath": "/logos/entities/pedigree.png",
+      "qualityTier": "strong"
+    },
+    "clinica-veterinaria-alemana": {
+      "localPath": "/logos/entities/clinica-veterinaria-alemana.jpg",
+      "qualityTier": "strong"
+    },
+    "hospital-clinico-veterinario-u-de-chile": {
+      "localPath": "/logos/entities/hospital-clinico-veterinario-u-de-chile.jpg",
+      "qualityTier": "strong"
+    },
+    "petsalud": {
+      "localPath": "/logos/entities/petsalud.png",
+      "qualityTier": "strong"
+    },
+    "vet24": {
+      "localPath": "/logos/entities/vet24.png",
+      "qualityTier": "strong"
+    },
+    "vetpoint": {
+      "localPath": "/logos/entities/vetpoint.png",
+      "qualityTier": "strong"
+    },
+    "vets": {
+      "localPath": "/logos/entities/vets.png",
+      "qualityTier": "strong"
+    },
+    "club-de-perros-y-gatos": {
+      "localPath": "/logos/entities/club-de-perros-y-gatos.jpg",
+      "qualityTier": "strong"
+    },
+    "maspet": {
+      "localPath": "/logos/entities/maspet.jpg",
+      "qualityTier": "strong"
+    },
+    "pet-bj": {
+      "localPath": "/logos/entities/pet-bj.png",
+      "qualityTier": "strong"
+    },
+    "pet-happy": {
+      "localPath": "/logos/entities/pet-happy.jpg",
+      "qualityTier": "strong"
+    },
+    "petslandia": {
+      "localPath": "/logos/entities/petslandia.jpg",
+      "qualityTier": "strong"
+    },
+    "amphora": {
+      "localPath": "/logos/entities/amphora.jpg",
+      "qualityTier": "strong"
+    },
+    "pandora": {
+      "localPath": "/logos/entities/pandora.svg",
+      "qualityTier": "strong"
+    },
+    "secret": {
+      "localPath": "/logos/entities/secret.png",
+      "qualityTier": "strong"
+    },
+    "swarovski": {
+      "localPath": "/logos/entities/swarovski.jpg",
+      "qualityTier": "strong"
+    },
+    "tous": {
+      "localPath": "/logos/entities/tous.jpg",
+      "qualityTier": "strong"
+    },
+    "aldo": {
+      "localPath": "/logos/entities/aldo.jpg",
+      "qualityTier": "strong"
+    },
+    "bata": {
+      "localPath": "/logos/entities/bata.svg",
+      "qualityTier": "strong"
+    },
+    "guante": {
+      "localPath": "/logos/entities/guante.png",
+      "qualityTier": "strong"
+    },
+    "hush-puppies": {
+      "localPath": "/logos/entities/hush-puppies.jpg",
+      "qualityTier": "strong"
+    },
+    "nike": {
+      "localPath": "/logos/entities/nike.svg",
+      "qualityTier": "strong"
+    },
+    "skechers": {
+      "localPath": "/logos/entities/skechers.jpg",
+      "qualityTier": "strong"
+    },
+    "adidas": {
+      "localPath": "/logos/entities/adidas.svg",
+      "qualityTier": "strong"
+    },
+    "decathlon": {
+      "localPath": "/logos/entities/decathlon.jpg",
+      "qualityTier": "strong"
+    },
+    "new-balance": {
+      "localPath": "/logos/entities/new-balance.jpg",
+      "qualityTier": "strong"
+    },
+    "puma": {
+      "localPath": "/logos/entities/puma.svg",
+      "qualityTier": "strong"
+    },
+    "reebok": {
+      "localPath": "/logos/entities/reebok.svg",
+      "qualityTier": "strong"
+    },
+    "sparta": {
+      "localPath": "/logos/entities/sparta.png",
+      "qualityTier": "strong"
+    },
+    "bershka": {
+      "localPath": "/logos/entities/bershka.jpg",
+      "qualityTier": "strong"
+    },
+    "mango": {
+      "localPath": "/logos/entities/mango.jpg",
+      "qualityTier": "strong"
+    },
+    "pull-bear": {
+      "localPath": "/logos/entities/pull-bear.jpg",
+      "qualityTier": "strong"
+    },
+    "stradivarius": {
+      "localPath": "/logos/entities/stradivarius.jpg",
+      "qualityTier": "strong"
+    },
+    "zara": {
+      "localPath": "/logos/entities/zara.svg",
+      "qualityTier": "strong"
+    },
+    "columbia": {
+      "localPath": "/logos/entities/columbia.jpg",
+      "qualityTier": "strong"
+    },
+    "lippi": {
+      "localPath": "/logos/entities/lippi.jpg",
+      "qualityTier": "strong"
+    },
+    "marmot": {
+      "localPath": "/logos/entities/marmot.jpg",
+      "qualityTier": "strong"
+    },
+    "patagonia": {
+      "localPath": "/logos/entities/patagonia.jpg",
+      "qualityTier": "strong"
+    },
+    "the-north-face": {
+      "localPath": "/logos/entities/the-north-face.png",
+      "qualityTier": "strong"
+    },
+    "family-shop": {
+      "localPath": "/logos/entities/family-shop.png",
+      "qualityTier": "strong"
+    },
+    "sybilla": {
+      "localPath": "/logos/entities/sybilla.png",
+      "qualityTier": "strong"
+    },
+    "tricot": {
+      "localPath": "/logos/entities/tricot.png",
+      "qualityTier": "strong"
+    },
+    "aliexpress": {
+      "localPath": "/logos/entities/aliexpress.svg",
+      "qualityTier": "strong"
+    },
+    "amazon": {
+      "localPath": "/logos/entities/amazon.jpg",
+      "qualityTier": "strong"
+    },
+    "falabella": {
+      "localPath": "/logos/entities/falabella.png",
+      "qualityTier": "strong"
+    },
+    "linio": {
+      "localPath": "/logos/entities/linio.png",
+      "qualityTier": "strong"
+    },
+    "mercado-libre": {
+      "localPath": "/logos/entities/mercado-libre.svg",
+      "qualityTier": "strong"
+    },
+    "paris": {
+      "localPath": "/logos/entities/paris.jpg",
+      "qualityTier": "strong"
+    },
+    "ripley": {
+      "localPath": "/logos/entities/ripley.png",
+      "qualityTier": "strong"
+    },
+    "chilemat": {
+      "localPath": "/logos/entities/chilemat.png",
+      "qualityTier": "strong"
+    },
+    "construmart": {
+      "localPath": "/logos/entities/construmart.png",
+      "qualityTier": "strong"
+    },
+    "easy": {
+      "localPath": "/logos/entities/easy.svg",
+      "qualityTier": "strong"
+    },
+    "imperial": {
+      "localPath": "/logos/entities/imperial.jpg",
+      "qualityTier": "strong"
+    },
+    "mts": {
+      "localPath": "/logos/entities/mts.png",
+      "qualityTier": "strong"
+    },
+    "sodimac": {
+      "localPath": "/logos/entities/sodimac.png",
+      "qualityTier": "strong"
+    },
+    "abc": {
+      "localPath": "/logos/entities/abc.png",
+      "qualityTier": "strong"
+    },
+    "hites": {
+      "localPath": "/logos/entities/hites.jpg",
+      "qualityTier": "strong"
+    },
+    "la-polar": {
+      "localPath": "/logos/entities/la-polar.jpg",
+      "qualityTier": "strong"
+    },
+    "alvi": {
+      "localPath": "/logos/entities/alvi.png",
+      "qualityTier": "strong"
+    },
+    "jumbo": {
+      "localPath": "/logos/entities/jumbo.png",
+      "qualityTier": "strong"
+    },
+    "santa-isabel": {
+      "localPath": "/logos/entities/santa-isabel.png",
+      "qualityTier": "strong"
+    },
+    "tottus": {
+      "localPath": "/logos/entities/tottus.png",
+      "qualityTier": "strong"
+    },
+    "unimarc": {
+      "localPath": "/logos/entities/unimarc.jpg",
+      "qualityTier": "strong"
+    },
+    "pc-factory": {
+      "localPath": "/logos/entities/pc-factory.jpg",
+      "qualityTier": "strong"
+    },
+    "reifstore": {
+      "localPath": "/logos/entities/reifstore.png",
+      "qualityTier": "strong"
+    },
+    "sp-digital": {
+      "localPath": "/logos/entities/sp-digital.jpg",
+      "qualityTier": "strong"
+    },
+    "weplay": {
+      "localPath": "/logos/entities/weplay.jpg",
+      "qualityTier": "strong"
+    },
+    "bupa": {
+      "localPath": "/logos/entities/bupa.webp",
+      "qualityTier": "strong"
+    },
+    "integramedica": {
+      "localPath": "/logos/entities/integramedica.jpg",
+      "qualityTier": "strong"
+    },
+    "megasalud": {
+      "localPath": "/logos/entities/megasalud.jpg",
+      "qualityTier": "strong"
+    },
+    "redsalud": {
+      "localPath": "/logos/entities/redsalud.png",
+      "qualityTier": "strong"
+    },
+    "uc-christus": {
+      "localPath": "/logos/entities/uc-christus.png",
+      "qualityTier": "strong"
+    },
+    "vidaintegra": {
+      "localPath": "/logos/entities/vidaintegra.jpg",
+      "qualityTier": "strong"
+    },
+    "clinica-alemana": {
+      "localPath": "/logos/entities/clinica-alemana.png",
+      "qualityTier": "strong"
+    },
+    "clinica-indisa": {
+      "localPath": "/logos/entities/clinica-indisa.jpg",
+      "qualityTier": "strong"
+    },
+    "clinica-meds": {
+      "localPath": "/logos/entities/clinica-meds.png",
+      "qualityTier": "strong"
+    },
+    "clinica-santa-maria": {
+      "localPath": "/logos/entities/clinica-santa-maria.jpg",
+      "qualityTier": "strong"
+    },
+    "cruz-verde": {
+      "localPath": "/logos/entities/cruz-verde.jpg",
+      "qualityTier": "strong"
+    },
+    "dr-simi": {
+      "localPath": "/logos/entities/dr-simi.png",
+      "qualityTier": "strong"
+    },
+    "farmacias-ahumada": {
+      "localPath": "/logos/entities/farmacias-ahumada.jpg",
+      "qualityTier": "strong"
+    },
+    "fraccion": {
+      "localPath": "/logos/entities/fraccion.jpg",
+      "qualityTier": "strong"
+    },
+    "knop": {
+      "localPath": "/logos/entities/knop.png",
+      "qualityTier": "strong"
+    },
+    "salcobrand": {
+      "localPath": "/logos/entities/salcobrand.jpg",
+      "qualityTier": "strong"
+    },
+    "banmedica": {
+      "localPath": "/logos/entities/banmedica.jpg",
+      "qualityTier": "strong"
+    },
+    "colmena": {
+      "localPath": "/logos/entities/colmena.png",
+      "qualityTier": "strong"
+    },
+    "consalud": {
+      "localPath": "/logos/entities/consalud.png",
+      "qualityTier": "strong"
+    },
+    "nueva-masvida": {
+      "localPath": "/logos/entities/nueva-masvida.png",
+      "qualityTier": "strong"
+    },
+    "vida-tres": {
+      "localPath": "/logos/entities/vida-tres.png",
+      "qualityTier": "strong"
+    },
+    "bci-seguros": {
+      "localPath": "/logos/entities/bci-seguros.png",
+      "qualityTier": "strong"
+    },
+    "hdi-seguros": {
+      "localPath": "/logos/entities/hdi-seguros.png",
+      "qualityTier": "strong"
+    },
+    "mapfre": {
+      "localPath": "/logos/entities/mapfre.png",
+      "qualityTier": "strong"
+    },
+    "metlife": {
+      "localPath": "/logos/entities/metlife.jpg",
+      "qualityTier": "strong"
+    },
+    "apple": {
+      "localPath": "/logos/entities/apple.svg",
+      "qualityTier": "strong"
+    },
+    "bose": {
+      "localPath": "/logos/entities/bose.svg",
+      "qualityTier": "strong"
+    },
+    "jbl": {
+      "localPath": "/logos/entities/jbl.svg",
+      "qualityTier": "strong"
+    },
+    "sony": {
+      "localPath": "/logos/entities/sony.svg",
+      "qualityTier": "strong"
+    },
+    "asus": {
+      "localPath": "/logos/entities/asus.svg",
+      "qualityTier": "strong"
+    },
+    "lenovo": {
+      "localPath": "/logos/entities/lenovo.svg",
+      "qualityTier": "strong"
+    },
+    "nintendo": {
+      "localPath": "/logos/entities/nintendo.jpg",
+      "qualityTier": "strong"
+    },
+    "playstation": {
+      "localPath": "/logos/entities/playstation.svg",
+      "qualityTier": "strong"
+    },
+    "steam-deck": {
+      "localPath": "/logos/entities/steam-deck.jpg",
+      "qualityTier": "strong"
+    },
+    "xbox": {
+      "localPath": "/logos/entities/xbox.png",
+      "qualityTier": "strong"
+    },
+    "aoc": {
+      "localPath": "/logos/entities/aoc.svg",
+      "qualityTier": "strong"
+    },
+    "acer": {
+      "localPath": "/logos/entities/acer.svg",
+      "qualityTier": "strong"
+    },
+    "msi": {
+      "localPath": "/logos/entities/msi.svg",
+      "qualityTier": "strong"
+    },
+    "dell": {
+      "localPath": "/logos/entities/dell.svg",
+      "qualityTier": "strong"
+    },
+    "hp": {
+      "localPath": "/logos/entities/hp.svg",
+      "qualityTier": "strong"
+    },
+    "corsair": {
+      "localPath": "/logos/entities/corsair.svg",
+      "qualityTier": "strong"
+    },
+    "hyperx": {
+      "localPath": "/logos/entities/hyperx.svg",
+      "qualityTier": "strong"
+    },
+    "logitech-g": {
+      "localPath": "/logos/entities/logitech-g.jpg",
+      "qualityTier": "strong"
+    },
+    "razer": {
+      "localPath": "/logos/entities/razer.svg",
+      "qualityTier": "strong"
+    },
+    "redragon": {
+      "localPath": "/logos/entities/redragon.svg",
+      "qualityTier": "strong"
+    },
+    "steelseries": {
+      "localPath": "/logos/entities/steelseries.svg",
+      "qualityTier": "strong"
+    },
+    "honor": {
+      "localPath": "/logos/entities/honor.svg",
+      "qualityTier": "strong"
+    },
+    "huawei": {
+      "localPath": "/logos/entities/huawei.svg",
+      "qualityTier": "strong"
+    },
+    "motorola": {
+      "localPath": "/logos/entities/motorola.svg",
+      "qualityTier": "strong"
+    },
+    "oppo": {
+      "localPath": "/logos/entities/oppo.svg",
+      "qualityTier": "strong"
+    },
+    "realme": {
+      "localPath": "/logos/entities/realme.jpg",
+      "qualityTier": "strong"
+    },
+    "amazfit": {
+      "localPath": "/logos/entities/amazfit.png",
+      "qualityTier": "strong"
+    },
+    "garmin": {
+      "localPath": "/logos/entities/garmin.svg",
+      "qualityTier": "strong"
+    },
+    "hisense": {
+      "localPath": "/logos/entities/hisense.png",
+      "qualityTier": "strong"
+    },
+    "tcl": {
+      "localPath": "/logos/entities/tcl.png",
+      "qualityTier": "strong"
+    },
+    "claro": {
+      "localPath": "/logos/entities/claro.jpg",
+      "qualityTier": "strong"
+    },
+    "entel": {
+      "localPath": "/logos/entities/entel.png",
+      "qualityTier": "strong"
+    },
+    "gtd": {
+      "localPath": "/logos/entities/gtd.png",
+      "qualityTier": "strong"
+    },
+    "movistar": {
+      "localPath": "/logos/entities/movistar.svg",
+      "qualityTier": "strong"
+    },
+    "mundo": {
+      "localPath": "/logos/entities/mundo.png",
+      "qualityTier": "strong"
+    },
+    "telsur": {
+      "localPath": "/logos/entities/telsur.png",
+      "qualityTier": "strong"
+    },
+    "vtr": {
+      "localPath": "/logos/entities/vtr.jpg",
+      "qualityTier": "strong"
+    },
+    "dgo": {
+      "localPath": "/logos/entities/dgo.png",
+      "qualityTier": "strong"
+    },
+    "michv": {
+      "localPath": "/logos/entities/michv.jpg",
+      "qualityTier": "strong"
+    },
+    "tvn-play": {
+      "localPath": "/logos/entities/tvn-play.png",
+      "qualityTier": "strong"
+    },
+    "directv": {
+      "localPath": "/logos/entities/directv.jpg",
+      "qualityTier": "strong"
+    },
+    "tuves": {
+      "localPath": "/logos/entities/tuves.jpg",
+      "qualityTier": "strong"
+    },
+    "wom": {
+      "localPath": "/logos/entities/wom.jpg",
+      "qualityTier": "strong"
+    },
+    "air-france": {
+      "localPath": "/logos/entities/air-france.svg",
+      "qualityTier": "strong"
+    },
+    "american-airlines": {
+      "localPath": "/logos/entities/american-airlines.svg",
+      "qualityTier": "strong"
+    },
+    "avianca": {
+      "localPath": "/logos/entities/avianca.svg",
+      "qualityTier": "strong"
+    },
+    "copa-airlines": {
+      "localPath": "/logos/entities/copa-airlines.png",
+      "qualityTier": "strong"
+    },
+    "delta-air-lines": {
+      "localPath": "/logos/entities/delta-air-lines.jpg",
+      "qualityTier": "strong"
+    },
+    "iberia": {
+      "localPath": "/logos/entities/iberia.svg",
+      "qualityTier": "strong"
+    },
+    "jetsmart": {
+      "localPath": "/logos/entities/jetsmart.png",
+      "qualityTier": "strong"
+    },
+    "klm": {
+      "localPath": "/logos/entities/klm.svg",
+      "qualityTier": "strong"
+    },
+    "latam": {
+      "localPath": "/logos/entities/latam.jpg",
+      "qualityTier": "strong"
+    },
+    "sky-airline": {
+      "localPath": "/logos/entities/sky-airline.png",
+      "qualityTier": "strong"
+    },
+    "united-airlines": {
+      "localPath": "/logos/entities/united-airlines.png",
+      "qualityTier": "strong"
+    },
+    "cabify": {
+      "localPath": "/logos/entities/cabify.png",
+      "qualityTier": "strong"
+    },
+    "didi": {
+      "localPath": "/logos/entities/didi.png",
+      "qualityTier": "strong"
+    },
+    "transvip": {
+      "localPath": "/logos/entities/transvip.png",
+      "qualityTier": "strong"
+    },
+    "uber": {
+      "localPath": "/logos/entities/uber.svg",
+      "qualityTier": "strong"
+    },
+    "indrive": {
+      "localPath": "/logos/entities/indrive.jpg",
+      "qualityTier": "strong"
+    },
+    "messenger": {
+      "localPath": "/logos/entities/messenger.svg",
+      "qualityTier": "strong"
+    },
+    "signal": {
+      "localPath": "/logos/entities/signal.svg",
+      "qualityTier": "strong"
+    },
+    "telegram": {
+      "localPath": "/logos/entities/telegram.svg",
+      "qualityTier": "strong"
+    },
+    "wechat": {
+      "localPath": "/logos/entities/wechat.svg",
+      "qualityTier": "strong"
+    },
+    "whatsapp": {
+      "localPath": "/logos/entities/whatsapp.svg",
+      "qualityTier": "strong"
+    }
+  }
+}

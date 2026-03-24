@@ -20,6 +20,13 @@ export function useExperienceMode() {
     
     const [mode, setMode] = useState<ExperienceMode>(initialMode);
     
+    // Sync mode when navigating via state while component is already mounted
+    useEffect(() => {
+        if (requestedMode && requestedMode !== mode) {
+            setMode(requestedMode);
+        }
+    }, [requestedMode, mode]);
+
     const resetToMenu = () => setMode("menu");
 
     return {

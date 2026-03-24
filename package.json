@@ -17,7 +17,9 @@
     "ops:create-admin": "tsx scripts/ops/create_admin_user.ts",
     "ops:fetch-logos": "node scripts/ops/catalog/fetch-entity-logos.mjs",
     "export:clean": "bash scripts/ops/export-clean-zip.sh",
-    "ops:repo-hygiene": "node scripts/ops/verify_repo_hygiene.mjs"
+    "ops:repo-hygiene": "node scripts/ops/verify_repo_hygiene.mjs",
+    "logos:rebuild-next": "tsx scripts/assets/rebuild-logos.ts",
+    "logos:migrate-strong": "tsx scripts/assets/migrate-strong.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.91.0",
@@ -46,6 +48,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
+    "@types/image-size": "^0.7.0",
     "@types/node": "^25.3.3",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
@@ -56,6 +59,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^17.0.0",
+    "image-size": "^2.0.2",
     "jsdom": "^29.0.0",
     "madge": "^8.0.0",
     "postcss": "^8.4.33",

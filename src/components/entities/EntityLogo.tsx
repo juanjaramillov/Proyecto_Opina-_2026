@@ -48,13 +48,21 @@ export default function EntityLogo({
   const logoSrcs = useMemo(() => {
     const srcs: string[] = [];
     if (slug) {
+      // 1. Nueva carpeta productiva (Solo Strong)
       srcs.push(`/logos/entities/${slug}.svg`);
       srcs.push(`/logos/entities/${slug}.png`);
       srcs.push(`/logos/entities/${slug}.jpg`);
       srcs.push(`/logos/entities/${slug}.jpeg`);
       srcs.push(`/logos/entities/${slug}.webp`);
+
+      // 2. Fallback al catálogo legacy (backup)
+      srcs.push(`/logos/entities_legacy/${slug}.svg`);
+      srcs.push(`/logos/entities_legacy/${slug}.png`);
+      srcs.push(`/logos/entities_legacy/${slug}.jpg`);
+      srcs.push(`/logos/entities_legacy/${slug}.jpeg`);
+      srcs.push(`/logos/entities_legacy/${slug}.webp`);
     }
-    // Si tenemos el dominio, llamamos a Brandfetch para obtener el logo automáticamente
+    // 3. Fallback remoto actual (Brandfetch)
     if (domain) {
       srcs.push(`https://asset.brandfetch.io/${domain}/logo`);
       srcs.push(`https://asset.brandfetch.io/${domain}/icon`);

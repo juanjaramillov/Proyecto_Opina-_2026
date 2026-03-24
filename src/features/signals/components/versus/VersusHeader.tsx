@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface VersusHeaderProps {
     title: string;
     onResetGame: () => void;
+    onExploreCategories?: () => void;
 }
 
-export function VersusHeader({ title, onResetGame }: VersusHeaderProps) {
+export function VersusHeader({ title, onResetGame, onExploreCategories }: VersusHeaderProps) {
     const formatTitle = (str: string) => {
         const match = str.match(/^([¿¡\s]*)(.*)/);
         if (!match) return str;
@@ -88,12 +89,12 @@ export function VersusHeader({ title, onResetGame }: VersusHeaderProps) {
                         </div>
 
                         <button
-                            onClick={onResetGame}
-                            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-slate-500 hover:text-rose-600 transition-all group shadow-sm"
-                            title="Salir y ver mis resultados de esta sesión"
+                            onClick={() => onExploreCategories ? onExploreCategories() : onResetGame()}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-50 hover:bg-primary-100 border border-primary-100 hover:border-primary-200 text-primary-600 hover:text-primary-700 transition-all group shadow-sm"
+                            title="Explorar otras categorías o ver mis resultados"
                         >
-                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">Terminar Sesión</span>
-                            <span className="material-symbols-outlined text-sm font-bold transition-transform group-hover:rotate-90">close</span>
+                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">Explorar Categorías</span>
+                            <span className="material-symbols-outlined text-sm font-bold transition-transform group-hover:scale-110">explore</span>
                         </button>
                     </div>
 

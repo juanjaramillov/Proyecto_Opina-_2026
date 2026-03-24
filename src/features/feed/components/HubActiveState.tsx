@@ -22,11 +22,7 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
         });
     }, []);
     const { 
-        sessionSignals, 
-        sessionLimit, 
-        sessionProgressPercentage, 
-        consumeSessionSignal,
-        isUnlimited
+        consumeSessionSignal
     } = useHubSession();
     
     const { showToast } = useToast();
@@ -115,7 +111,8 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
             {/* Contenido principal sobre el fondo */}
             <div className="relative z-10 flex-1 flex flex-col w-full h-full">
 
-                {/* STICKY HEADER: Floating Session Pill */}
+                {/* STICKY HEADER: Floating Session Pill (Temporarily disabled as requested) */}
+                {/* 
                 <div className="sticky top-2 md:top-4 z-50 w-full px-2 md:px-4 flex justify-center pointer-events-none transition-all duration-1000">
                     <div className={`pointer-events-auto px-4 py-1.5 md:py-2 rounded-full backdrop-blur-xl transform-gpu border shadow-lg flex items-center gap-3 sm:gap-4 transition-colors duration-1000 ${isGoldenHour ? 'bg-amber-500/90 border-amber-400' : 'bg-white/95 border-slate-200/50'}`}>
                         <div className="flex items-center gap-2">
@@ -143,6 +140,7 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                         )}
                     </div>
                 </div>
+                */}
 
                 {/* MAIN VERSUS CONTAINER */}
                 <div className="flex-1 flex flex-col items-center justify-start p-0 md:p-4 mt-3 md:mt-4 mb-4">

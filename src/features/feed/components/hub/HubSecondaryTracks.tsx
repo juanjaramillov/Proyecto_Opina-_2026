@@ -114,10 +114,37 @@ export function HubSecondaryTracks({ setMode }: HubSecondaryTracksProps) {
                         </div>
                     </button>
 
-                    {/* 4. PROFUNDIDAD (Col Span 2 or Standard) */}
+                    {/* 4. VERSUS (INDUSTRIA) */}
+                    <button 
+                        onClick={() => setMode('versus')}
+                        className="group relative flex flex-col p-5 md:p-6 rounded-[24px] md:rounded-[32px] bg-white border border-slate-200 hover:border-violet-400 hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.15)] transition-all duration-300 text-left overflow-hidden min-h-[160px] md:min-h-[200px]"
+                    >
+                        {/* Deco: Simple abstract comparison lines */}
+                        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                        <div className="relative z-10 flex flex-col h-full justify-between gap-4">
+                            <div className="flex justify-between items-start">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-[14px] bg-violet-50 text-violet-600 flex items-center justify-center border border-violet-100 shadow-sm transition-transform duration-300 group-hover:scale-110">
+                                    <span className="material-symbols-outlined text-xl md:text-2xl relative z-10">category</span>
+                                </div>
+                            </div>
+                            
+                            <div className="flex-1 flex flex-col justify-end mt-4">
+                                <h3 className="font-black text-slate-800 text-xl md:text-2xl group-hover:text-violet-600 transition-colors tracking-tight">Industrias</h3>
+                                <p className="text-sm md:text-base text-slate-600 mt-1 md:mt-2 leading-relaxed w-full line-clamp-2 md:line-clamp-none">
+                                    Explora y filtra batallas de marcas por categoría.
+                                </p>
+                                <div className="mt-4 text-xs md:text-sm text-slate-400 font-bold flex items-center gap-1.5 group-hover:text-violet-600 transition-colors uppercase tracking-wider">
+                                    <span className="material-symbols-outlined text-[16px]">compare_arrows</span> Abrir radar
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+
+                    {/* 5. PROFUNDIDAD (Standard) */}
                     <button 
                         onClick={() => setMode('profundidad')}
-                        className="group relative flex flex-col md:col-span-2 p-5 md:p-6 rounded-[24px] md:rounded-[32px] bg-slate-800 border border-slate-700 hover:border-sky-400 hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.3)] transition-all duration-300 text-left overflow-hidden min-h-[160px] md:min-h-[200px]"
+                        className="group relative flex flex-col p-5 md:p-6 rounded-[24px] md:rounded-[32px] bg-slate-800 border border-slate-700 hover:border-sky-400 hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.3)] transition-all duration-300 text-left overflow-hidden min-h-[160px] md:min-h-[200px]"
                     >
                         {/* Deco: Radar / Deep Analysis */}
                         <div className="absolute inset-0 opacity-[0.05] group-hover:opacity-10 pointer-events-none transition-opacity duration-500" style={{ backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)', backgroundSize: '32px 32px' }} />

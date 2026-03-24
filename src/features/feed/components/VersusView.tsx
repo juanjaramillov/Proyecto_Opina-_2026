@@ -25,11 +25,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
     const { showToast } = useToast();
 
     const { 
-        sessionSignals, 
-        sessionLimit, 
-        sessionProgressPercentage, 
-        consumeSessionSignal,
-        isUnlimited
+        consumeSessionSignal
     } = useHubSession();
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -163,7 +159,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
             <div className={`w-[100vw] relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[80vh] md:min-h-[85vh] ${isGoldenHour ? 'bg-amber-50/30' : 'bg-slate-50 md:bg-transparent'} flex flex-col animate-in fade-in zoom-in-95 duration-500 order-1 border-y border-slate-100 md:border-none shadow-sm md:shadow-none`}>
                 
                 {/* STICKY HEADER: Session Progress */}
-                <div className={`sticky top-0 z-50 w-full px-4 md:max-w-6xl md:mx-auto py-3 backdrop-blur-xl border-b shadow-sm flex items-center justify-between transition-colors duration-1000 ${isGoldenHour ? 'bg-gradient-to-r from-amber-500/90 to-orange-500/90 border-amber-400' : 'bg-white/80 border-slate-200/50'}`}>
+                <div className={`sticky top-0 z-50 w-full px-4 md:max-w-6xl md:mx-auto py-3 backdrop-blur-xl border-b shadow-sm flex items-center transition-colors duration-1000 ${isGoldenHour ? 'bg-gradient-to-r from-amber-500/90 to-orange-500/90 border-amber-400' : 'bg-white/80 border-slate-200/50'}`}>
                     <div className="flex items-center gap-3">
                         <button 
                             onClick={onBack}
@@ -172,6 +168,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                         >
                             <span className="material-symbols-outlined text-sm font-bold">arrow_back</span>
                         </button>
+                        {/* Session Progress details temporarily disabled 
                         <div>
                             <h3 className={`text-xs font-black uppercase tracking-widest flex items-center gap-1 ${isGoldenHour ? 'text-white' : 'text-ink'}`}>
                                 Modo Filtrado
@@ -182,8 +179,10 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                                 {isGoldenHour && " • Golden Hour 🔥"}
                             </p>
                         </div>
+                        */}
                     </div>
 
+                    {/* 
                     {!isUnlimited && (
                         <div className={`w-32 h-2.5 rounded-full overflow-hidden border shadow-inner ${isGoldenHour ? 'bg-amber-900/30 border-amber-400/50' : 'bg-slate-100 border-slate-200'}`}>
                             <div 
@@ -192,6 +191,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                             />
                         </div>
                     )}
+                    */}
                 </div>
 
                 {/* MAIN VERSUS CONTAINER */}
@@ -240,7 +240,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                 </div>
             </div>
 
-            <div className="max-w-5xl xl:max-w-6xl mx-auto w-full space-y-4 order-2 px-4 md:px-0">
+            <div id="industry-selector-section" className="max-w-5xl xl:max-w-6xl mx-auto w-full space-y-4 order-2 px-4 md:px-0">
                 <IndustrySelector
                     industries={PARENT_INDUSTRIES}
                     selectedParentId={versusIndustry}

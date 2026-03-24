@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-03-23T23:44:26.245Z",
+  "totalProcessed": 441,
+  "summary": {
+    "approved": 439,
+    "missing": 2,
+    "rejected": 0,
+    "manual_review": 0
+  },
+  "issuesList": [
+    {
+      "slug": "tienda-concha-y-toro",
+      "status": "missing",
+      "reason": "No valid candidates found."
+    },
+    {
+      "slug": "tienda-santa-rita",
+      "status": "missing",
+      "reason": "No valid candidates found."
+    }
+  ]
+}
