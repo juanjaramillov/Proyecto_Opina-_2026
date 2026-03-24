@@ -211,8 +211,8 @@ export default function VersusGame(props: GameProps) {
                                                     disabled={locked || lockedByLimit || !!isCurrentlySubmitting}
                                                     isSelected={selected === a.id || !!result}
                                                     showResult={!!result || !!momentum}
-                                                    showPercentage={false}
-                                                    percent={null}
+                                                    showPercentage={true}
+                                                    percent={result ? result[a.id] : null}
                                                     momentum={momentum?.options.find(o => o.id === a.id)}
                                                     layout={effectiveBattle.layout}
                                                     theme={props.theme}
@@ -228,8 +228,8 @@ export default function VersusGame(props: GameProps) {
                                                     disabled={locked || lockedByLimit || !!isCurrentlySubmitting}
                                                     isSelected={selected === b.id || !!result}
                                                     showResult={!!result || !!momentum}
-                                                    showPercentage={false}
-                                                    percent={null}
+                                                    showPercentage={true}
+                                                    percent={result ? result[b.id] : null}
                                                     momentum={momentum?.options.find(o => o.id === b.id)}
                                                     layout={effectiveBattle.layout}
                                                     theme={props.theme}

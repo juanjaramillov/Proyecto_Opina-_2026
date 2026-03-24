@@ -139,53 +139,16 @@ export default function OptionCard({
                     <div className={`absolute inset-0 transition-opacity duration-500 group-hover:opacity-95 ${layout === 'topic' ? 'bg-gradient-to-t from-white/90 via-white/20 to-transparent' : 'bg-gradient-to-t from-white/90 via-white/40 to-transparent opacity-90'}`} />
                 )}
 
-                {/* RESULTS OVERLAY (Glassmorphism) */}
+                {/* PERCENTAGE CORNER CIRCLE */}
                 <AnimatePresence>
                     {showResult && (percent !== null || momentum) && (showPercentage ?? true) && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9, backdropFilter: 'blur(0px)' }}
-                            animate={{ opacity: 1, scale: 1, backdropFilter: 'blur(8px)' }}
-                            transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                            className="absolute inset-0 flex flex-col items-center justify-center z-30 bg-white/85 p-4 md:p-6"
+                            initial={{ opacity: 0, scale: 0.5, y: -10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
+                            className="absolute top-4 left-4 z-40 bg-white text-slate-800 font-black text-sm md:text-base h-11 w-11 md:h-14 md:w-14 rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.12)] border-[3px] border-slate-50"
                         >
-                            <span className="text-[3.5rem] md:text-[7rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-800 to-slate-500 drop-shadow-sm tracking-tighter leading-none mb-1 md:mb-2">
-                                {momentum ? momentum.percentage : percent}%
-                            </span>
-
-                            {momentum && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 15 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.2 }}
-                                    className={`px-5 py-2 rounded-full flex items-center gap-2 font-black text-sm max-w-full shadow-sm backdrop-blur-md border backdrop-saturate-150 ${momentum.variant_24h > 0
-                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                        : momentum.variant_24h < 0
-                                            ? 'bg-rose-50 text-rose-600 border-rose-100'
-                                            : 'bg-slate-50 text-slate-600 border-slate-100'
-                                        }`}
-                                >
-                                    <span className="material-symbols-outlined text-lg">
-                                        {momentum.variant_24h > 0 ? 'trending_up' : momentum.variant_24h < 0 ? 'trending_down' : 'trending_flat'}
-                                    </span>
-                                    <span>
-                                        {momentum.variant_24h > 0 ? '+' : ''}{momentum.variant_24h}% (24h)
-                                    </span>
-                                </motion.div>
-                            )}
-
-                            <motion.div
-                                initial={{ width: 0, opacity: 0 }}
-                                animate={{ width: "100%", opacity: 1 }}
-                                transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-                                className="absolute bottom-0 left-0 h-3 bg-slate-100"
-                            >
-                                <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${momentum ? momentum.percentage : percent}%` }}
-                                    transition={{ duration: 1, ease: [0.23, 1, 0.32, 1], delay: 0.3 }}
-                                    className={`h-full rounded-r-full shadow-sm ${momentum ? (momentum.variant_24h > 0 ? 'bg-gradient-to-r from-emerald-500 to-emerald-400' : 'bg-gradient-to-r from-primary-500 to-primary-400') : 'bg-gradient-to-r from-primary-500 to-primary-400'}`}
-                                />
-                            </motion.div>
+                            {momentum ? Math.round(momentum.percentage) : Math.round(percent as number)}%
                         </motion.div>
                     )}
                 </AnimatePresence>
