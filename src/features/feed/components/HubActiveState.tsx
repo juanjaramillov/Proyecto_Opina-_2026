@@ -200,9 +200,9 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                                     onVote={handleVote}
                                     mode="classic"
                                     enableAutoAdvance={true}
-                                    hideProgress={true} // Ocultamos el viejo progress bar porque tenemos el nuevo sticky
+                                    hideProgress={true}
                                     isQueueFinite={true}
-                                    autoNextMs={3500} // Tiempo ajustado a 3.5s para lectura rápida
+                                    autoNextMs={4000} // Tiempo estandarizado a 4s para permitir interacción con Insights
                                     onQueueComplete={onBatchComplete}
                                     isSubmitting={false}
                                     theme={{

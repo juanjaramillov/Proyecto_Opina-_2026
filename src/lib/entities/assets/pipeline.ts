@@ -46,6 +46,7 @@ export interface OverrideRecord {
   manualOverridePath?: string;
   manualOverrideDomain?: string;
   approvedForNextMigration?: boolean | string;
+  currentStatus?: string;
 }
 
 export class AssetPipeline {
@@ -72,7 +73,7 @@ export class AssetPipeline {
 
     // Check for overrides
     const override = this.overrides.get(entity.slug);
-    const isOverrideApproved = override?.approvedForNextMigration === true || override?.approvedForNextMigration === 'true';
+    const isOverrideApproved = override?.approvedForNextMigration === true || override?.approvedForNextMigration === 'true' || override?.currentStatus === 'approved';
     let isManualOverride = false;
     
     if (override && isOverrideApproved && override.manualOverrideDomain) {

@@ -50,7 +50,8 @@ async function main() {
         entitySlug: row.entitySlug,
         manualOverridePath: row.manualOverridePath,
         manualOverrideDomain: row.manualOverrideDomain,
-        approvedForNextMigration: row.approvedForNextMigration
+        approvedForNextMigration: row.approvedForNextMigration,
+        currentStatus: row.currentStatus
       });
     }
   }
@@ -117,9 +118,9 @@ async function main() {
     const entity = entities[i];
     process.stdout.write(`   [${i + 1}/${entities.length}] Buscando asset para: ${entity.slug}... `);
 
-    // Skip logic for already approved cases
+    // Skip logic for already approved cases, unless it has a manual override!
     const prev = previousMap.get(entity.slug);
-    if (prev && prev.status === 'approved' && prev.localPath) {
+    if (prev && prev.status === 'approved' && prev.localPath && !overridesMap.has(entity.slug)) {
       const fullPath = path.join(process.cwd(), 'public', prev.localPath);
       if (fs.existsSync(fullPath)) {
         manifest.push(prev);

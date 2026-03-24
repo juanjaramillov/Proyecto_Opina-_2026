@@ -1,0 +1,11 @@
+{
+  "metrics": {
+    "totalStrong": 419,
+    "totalFilesInProd": 0,
+    "totalManifestRecords": 438,
+    "highPriorityApproved": 1,
+    "remigratedSlugs": 18,
+    "pendingOverall": 22
+  },
+  "unreferencedFiles": []
+}

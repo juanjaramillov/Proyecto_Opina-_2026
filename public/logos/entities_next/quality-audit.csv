@@ -11,7 +11,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Great Wall","great-wall","approved","logodev","https://img.logo.dev/gwm-global.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/great-wall.jpg",,,29995
 "Haval","haval","approved","logodev","https://img.logo.dev/gwm.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/haval.jpg",,,16379
 "JAC","jac","approved","local","public/logos/entities/jac.png",85,"strong","Looks solid.","/logos/entities_next/jac.png",,,10331
-"Jetour","jetour","approved","html_metadata:link_icon","https://jetourglobal.com/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/jetour.png",,,9662
+"Jetour","jetour","approved","logodev","https://img.logo.dev/jetourchile.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/jetour.jpg",,,12734
 "MG","mg","approved","local","public/logos/entities/mg.svg",115,"strong","Looks solid.","/logos/entities_next/mg.svg",,,4859
 "BMW","bmw","approved","local","public/logos/entities/bmw.svg",115,"strong","Looks solid.","/logos/entities_next/bmw.svg",,,1613
 "Chevrolet","chevrolet","approved","local","public/logos/entities/chevrolet.svg",115,"strong","Looks solid.","/logos/entities_next/chevrolet.svg",,,511
@@ -53,7 +53,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "La Vinoteca","la-vinoteca","approved","logodev","https://img.logo.dev/lavinoteca.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/la-vinoteca.jpg",,,24485
 "Concha y Toro","concha-y-toro","approved","local","public/logos/entities/concha-y-toro.png",85,"strong","Looks solid.","/logos/entities_next/concha-y-toro.png",,,6409
 "Miguel Torres","miguel-torres","approved","html_metadata:og_image","https://www.migueltorres.cl/wp/wp-content/uploads/2017/01/filtro-edad.jpg",35,"strong","Looks solid.","/logos/entities_next/miguel-torres.jpg",,,62716
-"Montes","montes","approved","html_metadata:link_icon","https://monteswines.com/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/montes.png",,,19015
+"Montes","montes","approved","logodev","https://img.logo.dev/monteswines.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/montes.jpg",,,13210
 "San Pedro","san-pedro","approved","html_metadata:link_icon","https://sanpedro.cl/wp-content/uploads/2025/02/san_pedro_512x512-300x300.png",75,"strong","Looks solid.","/logos/entities_next/san-pedro.png",,,9518
 "Santa Rita","santa-rita","approved","logodev","https://img.logo.dev/santarita.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/santa-rita.jpg",,,18043
 "Undurraga","undurraga","approved","local","public/logos/entities/undurraga.png",85,"strong","Looks solid.","/logos/entities_next/undurraga.png",,,9521
@@ -70,7 +70,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "S-26","s-26","approved","logodev","https://img.logo.dev/stripe.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",35,"strong","Looks solid.","/logos/entities_next/s-26.jpg",,,8786
 "Similac","similac","approved","local","public/logos/entities/similac.jpeg",45,"strong","Looks solid.","/logos/entities_next/similac.jpeg",,,22937
 "BBTips","bbtips","approved","logodev","https://img.logo.dev/b2btips.se?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",35,"strong","Looks solid.","/logos/entities_next/bbtips.jpg",,,18959
-"Babysec","babysec","approved","html_metadata:link_icon","https://www.babysec.cl/assets/dist/frontend/images/favicon/android-icon-192x192.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/babysec.png",,,4686
+"Babysec","babysec","approved","local","public/logos/entities/babysec.png",85,"weak","Low file size (4.6 KB), likely poor quality.","/logos/entities_next/babysec.png",,,4686
 "Huggies","huggies","approved","logodev","https://img.logo.dev/huggies.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/huggies.jpg",,,22325
 "Pampers","pampers","approved","logodev","https://img.logo.dev/pampers.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/pampers.jpg",,,22744
 "WaterWipes","waterwipes","approved","local","public/logos/entities/waterwipes.png",85,"strong","Looks solid.","/logos/entities_next/waterwipes.png",,,38311
@@ -98,7 +98,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Dior","dior","approved","local","public/logos/entities/dior.svg",115,"strong","Looks solid.","/logos/entities_next/dior.svg",,,2061
 "Hugo Boss","hugo-boss","approved","logodev","https://img.logo.dev/hugoboss.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/hugo-boss.jpg",,,18320
 "Rabanne","rabanne","approved","logodev","https://img.logo.dev/rabanne.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/rabanne.jpg",,,12155
-"Eucerin Sun","eucerin-sun","approved","html_metadata:link_icon","https://images-1.eucerin.com/~/media/eucerin%20reference%20site/eucerin_favicon.ico",0,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/eucerin-sun.png",,,7406
+"Eucerin Sun","eucerin-sun","approved","logodev","https://img.logo.dev/eucerin.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/eucerin-sun.jpg",,,14246
 "Hawaiian Tropic","hawaiian-tropic","approved","local","public/logos/entities/hawaiian-tropic.png",85,"strong","Looks solid.","/logos/entities_next/hawaiian-tropic.png",,,16408
 "ISDIN","isdin","approved","local","public/logos/entities/isdin.png",85,"strong","Looks solid.","/logos/entities_next/isdin.png",,,22476
 "La Roche-Posay","la-roche-posay","approved","local","public/logos/entities/la-roche-posay.png",85,"strong","Looks solid.","/logos/entities_next/la-roche-posay.png",,,17703
@@ -127,14 +127,14 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Uber Eats","uber-eats","approved","logodev","https://img.logo.dev/ubereats.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/uber-eats.jpg",,,30772
 "Burger King","burger-king","approved","html_metadata:og_image","https://static.burgerkingencasa.es/bkhomewebsite/images/header/logoBK.svg",90,"strong","Looks solid.","/logos/entities_next/burger-king.svg",,,5913
 "Doggis","doggis","approved","logodev","https://img.logo.dev/doggis.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/doggis.jpg",,,19987
-"Juan Maestro","juan-maestro","approved","html_metadata:link_icon","https://tofuu.getjusto.com/orioneat-prod/88orTfZAbxKc7zucD-favicon%20JM.png",60,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/juan-maestro.png",,,20510
+"Juan Maestro","juan-maestro","approved","local","public/logos/entities/juan-maestro.png",85,"strong","Looks solid.","/logos/entities_next/juan-maestro.png",,,20510
 "KFC","kfc","approved","local","public/logos/entities/kfc.svg",115,"strong","Looks solid.","/logos/entities_next/kfc.svg",,,1711
 "McDonald's","mcdonald-s","approved","logodev","https://img.logo.dev/mcdonalds.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/mcdonald-s.jpg",,,20625
-"Pedro, Juan & Diego","pedro-juan-diego","approved","html_metadata:link_icon","https://www.dominios.cl/images/apple-touch-icon.png",60,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/pedro-juan-diego.png",,,15026
+"Pedro, Juan & Diego","pedro-juan-diego","approved","local","public/logos/entities/pedro-juan-diego.png",85,"strong","Looks solid.","/logos/entities_next/pedro-juan-diego.png",,,15026
 "Subway","subway","approved","local","public/logos/entities/subway.png",85,"strong","Looks solid.","/logos/entities_next/subway.png",,,25004
 "Tarragona","tarragona","approved","html_metadata:og_image","https://tofuu.getjusto.com/orioneat-prod/B5EfTARKMtKyZ6opp-Prueba.jpg",20,"strong","Looks solid.","/logos/entities_next/tarragona.jpg",,,101863
 "Domino's","domino-s","approved","html_metadata:og_image","https://assets.dominospizza.cl/assets/logos/5-37b06e192d632270ad08cec29f1e63264d805f934e72c5a3d4f9270a02bb77c2.png",60,"strong","Looks solid.","/logos/entities_next/domino-s.png",,,16486
-"Little Caesars","little-caesars","approved","logodev","https://img.logo.dev/littlecaesars.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (2.7 KB), likely poor quality.","/logos/entities_next/little-caesars.jpg",,,2797
+"Little Caesars","little-caesars","approved","logodev","https://img.logo.dev/littlecaesars.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/little-caesars.jpg",,,40846
 "Melt Pizzas","melt-pizzas","approved","local","public/logos/entities/melt-pizzas.jpeg",45,"strong","Looks solid.","/logos/entities_next/melt-pizzas.jpeg",,,213676
 "Papa Johns","papa-johns","approved","logodev","https://img.logo.dev/papajohns.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/papa-johns.jpg",,,21648
 "Pizza Hut","pizza-hut","approved","local","public/logos/entities/pizza-hut.png",85,"strong","Looks solid.","/logos/entities_next/pizza-hut.png",,,48828
@@ -152,7 +152,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "IPChile","ipchile","approved","logodev","https://img.logo.dev/ipchile.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/ipchile.jpg",,,30667
 "Santo Tomás","santo-tomas","approved","html_metadata:link_icon","https://www.ust.cl/web/wp-content/themes/universidad/images/app-icons/apple-icon.png",75,"strong","Looks solid.","/logos/entities_next/santo-tomas.png",,,17197
 "Cpech","cpech","approved","html_metadata:link_icon","https://www.cpech.cl/content/themes/meat-theme/dist/images/android-icon-192x192.png",75,"strong","Looks solid.","/logos/entities_next/cpech.png",,,8696
-"Filadd","filadd","approved","html_metadata:link_icon","https://cdn.prod.website-files.com/63727ff21746368de5893d07/65e71a64fa2d50464e50f762_Asset%202.png",60,"weak","Low file size (4.3 KB), likely poor quality.","/logos/entities_next/filadd.png",,,4427
+"Filadd","filadd","approved","local","public/logos/entities/filadd.png",85,"weak","Low file size (4.3 KB), likely poor quality.","/logos/entities_next/filadd.png",,,4427
 "M30M","m30m","approved","logodev","https://img.logo.dev/preuniversitariom30m.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/m30m.jpg",,,11857
 "Pedro de Valdivia","pedro-de-valdivia","approved","local","public/logos/entities/pedro-de-valdivia.png",85,"strong","Looks solid.","/logos/entities_next/pedro-de-valdivia.png",,,7435
 "Preu UC","preu-uc","approved","local","public/logos/entities/preu-uc.png",85,"strong","Looks solid.","/logos/entities_next/preu-uc.png",,,7435
@@ -161,13 +161,13 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "UAI","uai","approved","logodev","https://img.logo.dev/uai.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (4.6 KB), likely poor quality.","/logos/entities_next/uai.jpg",,,4698
 "UDP","udp","approved","logodev","https://img.logo.dev/udp.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/udp.jpg",,,17605
 "USACH","usach","approved","html_metadata:link_icon","https://usach.cl/sites/default/files/logo-usach.ico",15,"strong","Looks solid.","/logos/entities_next/usach.png",,,21966
-"Universidad de Concepción","universidad-de-concepcion","approved","html_metadata","https://udec.cl/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/universidad-de-concepcion.png",,,22486
+"Universidad de Concepción","universidad-de-concepcion","approved","logodev","https://img.logo.dev/udec.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/universidad-de-concepcion.jpg",,,15318
 "Cine Hoyts","cine-hoyts","approved","local","public/logos/entities/cine-hoyts.png",85,"strong","Looks solid.","/logos/entities_next/cine-hoyts.png",,,8362
 "Cinemark","cinemark","approved","local","public/logos/entities/cinemark.png",85,"strong","Looks solid.","/logos/entities_next/cinemark.png",,,6814
 "Cineplanet","cineplanet","approved","logodev","https://img.logo.dev/cineplanet.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/cineplanet.jpg",,,30741
 "Cinestar","cinestar","approved","logodev","https://img.logo.dev/cinestar.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/cinestar.jpg",,,14796
 "Cinépolis","cinepolis","approved","logodev","https://img.logo.dev/cinepolis.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/cinepolis.jpg",,,5453
-"Muvix","muvix","approved","html_metadata:link_icon","https://muvix.cl/IT-CDN/Themes/_default/Images/favicon/android-icon-192x192.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/muvix.png",,,3332
+"Muvix","muvix","approved","local","public/logos/entities/muvix.png",85,"weak","Low file size (3.3 KB), likely poor quality.","/logos/entities_next/muvix.png",,,3332
 "Discord","discord","approved","local","public/logos/entities/discord.svg",115,"strong","Looks solid.","/logos/entities_next/discord.svg",,,1389
 "Pinterest","pinterest","approved","local","public/logos/entities/pinterest.svg",115,"strong","Looks solid.","/logos/entities_next/pinterest.svg",,,924
 "Quora","quora","approved","local","public/logos/entities/quora.svg",115,"strong","Looks solid.","/logos/entities_next/quora.svg",,,382
@@ -181,7 +181,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Emol","emol","approved","html_metadata:og_image","https://static.emol.cl/emol50/img/EmolTwitter.png",60,"strong","Looks solid.","/logos/entities_next/emol.png",,,25256
 "La Tercera","la-tercera","approved","html_metadata:og_image","https://www.latercera.com/resizer/v2/LNTX4CAJLZGAFJCQTL2EWO7STA.jpg?auth=9d190a9c367914860440827b4cabd17409892544b709bb1efa29e47eb3112d08&height=630&width=1200&focal=600%2C315",35,"strong","Looks solid.","/logos/entities_next/la-tercera.jpg",,,8923
 "ADN Radio","adn-radio","approved","logodev","https://img.logo.dev/adnradio.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/adn-radio.jpg",,,17363
-"Carolina","carolina","approved","logodev","https://img.logo.dev/radiocarolina.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (5.0 KB), likely poor quality.","/logos/entities_next/carolina.jpg",,,5111
+"Carolina","carolina","approved","logodev","https://img.logo.dev/radiocarolina.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/carolina.jpg",,,27435
 "Pudahuel","pudahuel","approved","local","public/logos/entities/pudahuel.png",85,"strong","Looks solid.","/logos/entities_next/pudahuel.png",,,7524
 "Radio Agricultura","radio-agricultura","approved","local","public/logos/entities/radio-agricultura.jpg",45,"strong","Looks solid.","/logos/entities_next/radio-agricultura.jpg",,,6933
 "Radio Bío Bío","radio-bio-bio","approved","html_metadata:og_image","https://www.biobiochile.cl/assets/escritorio/bbcl-2020/img/bbcl-social-2.jpg",35,"strong","Looks solid.","/logos/entities_next/radio-bio-bio.jpg",,,131087
@@ -204,10 +204,10 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Netflix","netflix","approved","local","public/logos/entities/netflix.svg",115,"strong","Looks solid.","/logos/entities_next/netflix.svg",,,291
 "Paramount+","paramount","approved","html_metadata:og_image","https://www.paramountplus.com/assets/pplus/PPlus_Logo_1200x630_BLUE.png",75,"strong","Looks solid.","/logos/entities_next/paramount.png",,,25076
 "Prime Video","prime-video","approved","html_metadata:og_image","https://m.media-amazon.com/images/G/01/primevideo/seo/primevideo-seo-logo.png",60,"strong","Looks solid.","/logos/entities_next/prime-video.png",,,186874
-"Universal+","universal","approved","html_metadata","https://universalplus.com/apple-touch-icon.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/universal.png",,,9048
+"Universal+","universal","approved","local","public/logos/entities/universal.png",85,"strong","Looks solid.","/logos/entities_next/universal.png",,,9048
 "Canal 13","canal-13","approved","html_metadata:link_icon","https://s.13.cl/themes/custom/c13_v1/images/fav13.png",75,"strong","Looks solid.","/logos/entities_next/canal-13.png",,,5551
 "Chilevisión","chilevision","approved","html_metadata:og_image","https://www.chilevision.cl/_templates/globals/img/logo.png",60,"strong","Looks solid.","/logos/entities_next/chilevision.png",,,15484
-"La Red","la-red","approved","html_metadata:link_icon","https://www.lared.cl/wp-content/themes/lared2021/img/favicon/apple-touch-icon.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/la-red.png",,,6769
+"La Red","la-red","approved","local","public/logos/entities/la-red.png",85,"strong","Looks solid.","/logos/entities_next/la-red.png",,,6769
 "Mega","mega","approved","local","public/logos/entities/mega.svg",115,"strong","Looks solid.","/logos/entities_next/mega.svg",,,578
 "TV+","tv","approved","logodev","https://img.logo.dev/aajtak.in?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",35,"strong","Looks solid.","/logos/entities_next/tv.jpg",,,40765
 "TVN","tvn","approved","html_metadata:og_image","https://www.tvn.cl/tvn/imag/v1/logos/tvn_1600x900.jpg",35,"strong","Looks solid.","/logos/entities_next/tvn.jpg",,,60187
@@ -225,9 +225,9 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Fintual","fintual","approved","logodev","https://img.logo.dev/fintual.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/fintual.jpg",,,6806
 "Global66","global66","approved","logodev","https://img.logo.dev/global66.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/global66.jpg",,,11418
 "MACH","mach","approved","local","public/logos/entities/mach.jpeg",45,"strong","Looks solid.","/logos/entities_next/mach.jpeg",,,12868
-"Mercado Pago","mercado-pago","approved","html_metadata:link_icon","https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/7.2.2/mercadopago/favicon.svg",90,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/mercado-pago.svg",,,4565
+"Mercado Pago","mercado-pago","approved","local","public/logos/entities/mercado-pago.svg",115,"strong","Looks solid.","/logos/entities_next/mercado-pago.svg",,,4565
 "Prex","prex","approved","logodev","https://img.logo.dev/prexcard.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/prex.jpg",,,14717
-"Tapp","tapp","approved","html_metadata:link_icon","https://cla.cdn.modyo.com/uploads/30174f3a-dcff-4133-bdf3-8219a20febe7/C32x32/tapp-favicon-32.ico",0,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/tapp.png",,,4286
+"Tapp","tapp","approved","logodev","https://img.logo.dev/tapp.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/tapp.jpg",,,11605
 "Tenpo","tenpo","approved","local","public/logos/entities/tenpo.png",85,"strong","Looks solid.","/logos/entities_next/tenpo.png",,,6434
 "BICE Inversiones","bice-inversiones","approved","logodev","https://img.logo.dev/biceinversiones.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/bice-inversiones.jpg",,,11286
 "BTG Pactual","btg-pactual","approved","logodev","https://img.logo.dev/btgpactual.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/btg-pactual.jpg",,,23087
@@ -243,7 +243,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Redcompra","redcompra","approved","logodev","https://img.logo.dev/redcompra.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (5.0 KB), likely poor quality.","/logos/entities_next/redcompra.jpg",,,5111
 "Visa","visa","approved","local","public/logos/entities/visa.svg",115,"strong","Looks solid.","/logos/entities_next/visa.svg",,,808
 "Webpay","webpay","approved","local","public/logos/entities/webpay.png",85,"strong","Looks solid.","/logos/entities_next/webpay.png",,,23808
-"Dyson","dyson","approved","logodev","https://img.logo.dev/dyson.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (5.0 KB), likely poor quality.","/logos/entities_next/dyson.jpg",,,5106
+"Dyson","dyson","approved","logodev","https://img.logo.dev/dyson.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/dyson.jpg",,,8771
 "Electrolux","electrolux","approved","local","public/logos/entities/electrolux.png",85,"strong","Looks solid.","/logos/entities_next/electrolux.png",,,5917
 "Philips","philips","approved","local","public/logos/entities/philips.png",85,"strong","Looks solid.","/logos/entities_next/philips.png",,,6395
 "Thomas","thomas","approved","local","public/logos/entities/thomas.png",85,"strong","Looks solid.","/logos/entities_next/thomas.png",,,88839
@@ -265,7 +265,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Bravery","bravery","approved","logodev","https://img.logo.dev/bravery.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/bravery.jpg",,,5349
 "Cat Chow","cat-chow","approved","logodev","https://img.logo.dev/purina.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (4.0 KB), likely poor quality.","/logos/entities_next/cat-chow.jpg",,,4128
 "Pro Plan","pro-plan","approved","logodev","https://img.logo.dev/proplanvetdirect.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",35,"strong","Looks solid.","/logos/entities_next/pro-plan.jpg",,,18959
-"Royal Canin","royal-canin","approved","html_metadata:link_icon","https://www.royalcanin.com/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/royal-canin.png",,,15086
+"Royal Canin","royal-canin","approved","logodev","https://img.logo.dev/royalcanin.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/royal-canin.jpg",,,23181
 "Whiskas","whiskas","approved","local","public/logos/entities/whiskas.png",85,"strong","Looks solid.","/logos/entities_next/whiskas.png",,,22345
 "Dog Chow","dog-chow","approved","logodev","https://img.logo.dev/purina.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",35,"strong","Looks solid.","/logos/entities_next/dog-chow.jpg",,,11823
 "Pedigree","pedigree","approved","local","public/logos/entities/pedigree.png",85,"strong","Looks solid.","/logos/entities_next/pedigree.png",,,58543
@@ -280,10 +280,10 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Pet BJ","pet-bj","approved","local","public/logos/entities/pet-bj.png",85,"strong","Looks solid.","/logos/entities_next/pet-bj.png",,,11577
 "Pet Happy","pet-happy","approved","logodev","https://img.logo.dev/pethappy.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/pet-happy.jpg",,,13568
 "Petslandia","petslandia","approved","logodev","https://img.logo.dev/petslandia.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/petslandia.jpg",,,29492
-"SuperZoo","superzoo","approved","html_metadata","https://superzoo.cl/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/superzoo.png",,,104464
+"SuperZoo","superzoo","approved","logodev","https://img.logo.dev/superzoo.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/superzoo.jpg",,,17775
 "Amphora","amphora","approved","logodev","https://img.logo.dev/amphora.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/amphora.jpg",,,8946
 "Pandora","pandora","approved","local","public/logos/entities/pandora.svg",115,"strong","Looks solid.","/logos/entities_next/pandora.svg",,,253
-"Saxoline","saxoline","approved","html_metadata:link_icon","https://saxoline.cl/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/saxoline.png",,,15406
+"Saxoline","saxoline","approved","logodev","https://img.logo.dev/saxoline.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/saxoline.jpg",,,10491
 "Secret","secret","approved","local","public/logos/entities/secret.png",85,"strong","Looks solid.","/logos/entities_next/secret.png",,,15199
 "Swarovski","swarovski","approved","logodev","https://img.logo.dev/swarovski.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/swarovski.jpg",,,35065
 "Tous","tous","approved","logodev","https://img.logo.dev/tous.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/tous.jpg",,,10988
@@ -298,11 +298,11 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "New Balance","new-balance","approved","logodev","https://img.logo.dev/newbalance.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/new-balance.jpg",,,19116
 "Puma","puma","approved","local","public/logos/entities/puma.svg",115,"strong","Looks solid.","/logos/entities_next/puma.svg",,,1385
 "Reebok","reebok","approved","local","public/logos/entities/reebok.svg",115,"strong","Looks solid.","/logos/entities_next/reebok.svg",,,530
-"Sparta","sparta","approved","html_metadata:link_icon","https://sparta.cl/media/favicon/stores/1/logo_sparta_cuadrado_2_1_.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/sparta.png",,,63378
+"Sparta","sparta","approved","local","public/logos/entities/sparta.png",85,"strong","Looks solid.","/logos/entities_next/sparta.png",,,63378
 "Under Armour","under-armour","approved","html_metadata:og_image","https://www.underarmour.cl/cdn/shop/files/unnamed_dab5317a-7e44-4d5c-ae2f-945e8dad38c6.webp?v=1763465919",35,"strong","Looks solid.","/logos/entities_next/under-armour.jpg",,,22899
 "Bershka","bershka","approved","logodev","https://img.logo.dev/bershka.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/bershka.jpg",,,8526
-"Forever 21","forever-21","approved","html_metadata:link_icon","https://www.forever21.com/cdn/shop/files/favicon_-_f21.jpg?v=1745868953&width=96",35,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/forever-21.jpg",,,2570
-"H&M","h-m","approved","html_metadata","https://cl.hm.com/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/h-m.png",,,2924
+"Forever 21","forever-21","approved","logodev","https://img.logo.dev/forever21.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/forever-21.jpg",,,14045
+"H&M","h-m","approved","logodev","https://img.logo.dev/cl.hm.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/h-m.jpg",,,26347
 "Mango","mango","approved","logodev","https://img.logo.dev/shop.mango.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/mango.jpg",,,10085
 "Pull&Bear","pull-bear","approved","logodev","https://img.logo.dev/pullandbear.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/pull-bear.jpg",,,8320
 "Stradivarius","stradivarius","approved","logodev","https://img.logo.dev/stradivarius.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/stradivarius.jpg",,,9603
@@ -313,33 +313,33 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Marmot","marmot","approved","logodev","https://img.logo.dev/marmot.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/marmot.jpg",,,26838
 "Patagonia","patagonia","approved","logodev","https://img.logo.dev/patagonia.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/patagonia.jpg",,,24627
 "The North Face","the-north-face","approved","local","public/logos/entities/the-north-face.png",85,"strong","Looks solid.","/logos/entities_next/the-north-face.png",,,21292
-"Family Shop","family-shop","approved","html_metadata:link_icon","https://cdnx.jumpseller.com/familyshop/image/61821098/resize/180/180?1743079886",60,"weak","Low file size (2.5 KB), likely poor quality.","/logos/entities_next/family-shop.png",,,2587
+"Family Shop","family-shop","approved","local","public/logos/entities/family-shop.png",85,"weak","Low file size (2.5 KB), likely poor quality.","/logos/entities_next/family-shop.png",,,2587
 "Sybilla","sybilla","approved","html_metadata:link_icon","https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt1e527cb20edce8ff/falabella.com@16px.png",75,"weak","Low file size (0.3 KB), likely poor quality.","/logos/entities_next/sybilla.png",,,283
 "Tricot","tricot","approved","local","public/logos/entities/tricot.png",85,"strong","Looks solid.","/logos/entities_next/tricot.png",,,14645
 "AliExpress","aliexpress","approved","local","public/logos/entities/aliexpress.svg",115,"strong","Looks solid.","/logos/entities_next/aliexpress.svg",,,2393
 "Amazon","amazon","approved","logodev","https://img.logo.dev/amazon.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/amazon.jpg",,,10154
 "Falabella","falabella","approved","html_metadata:link_icon","https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt1e527cb20edce8ff/falabella.com@16px.png",75,"weak","Low file size (0.3 KB), likely poor quality.","/logos/entities_next/falabella.png",,,283
 "Linio","linio","approved","local","public/logos/entities/linio.png",85,"strong","Looks solid.","/logos/entities_next/linio.png",,,37727
-"Mercado Libre","mercado-libre","approved","html_metadata:link_icon","https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/5.21.22/mercadolibre/favicon.svg",90,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/mercado-libre.svg",,,5793
+"Mercado Libre","mercado-libre","approved","local","public/logos/entities/mercado-libre.svg",115,"strong","Looks solid.","/logos/entities_next/mercado-libre.svg",,,5793
 "Paris","paris","approved","logodev","https://img.logo.dev/paris.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/paris.jpg",,,35749
 "Ripley","ripley","approved","local","public/logos/entities/ripley.png",85,"strong","Looks solid.","/logos/entities_next/ripley.png",,,15299
-"Chilemat","chilemat","approved","html_metadata:link_icon","https://chilemat.cl/favicon.png?v=4",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/chilemat.png",,,23796
-"Construmart","construmart","approved","html_metadata:link_icon","https://www.construmart.cl/media/favicon/stores/1/FAVICON1.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/construmart.png",,,10883
+"Chilemat","chilemat","approved","local","public/logos/entities/chilemat.png",85,"strong","Looks solid.","/logos/entities_next/chilemat.png",,,23796
+"Construmart","construmart","approved","local","public/logos/entities/construmart.png",85,"strong","Looks solid.","/logos/entities_next/construmart.png",,,10883
 "Easy","easy","approved","html_metadata:og_image","https://easycl.vtexassets.com/assets/vtex.file-manager-graphql/images/97740859-8d6b-4562-ad02-d6fd37c14e32___bab6e437e21af76315174bd3b460d74a.svg",90,"strong","Looks solid.","/logos/entities_next/easy.svg",,,81642
 "Imperial","imperial","approved","logodev","https://img.logo.dev/imperial.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/imperial.jpg",,,12832
 "MTS","mts","approved","html_metadata:og_image","https://www.mts.cl/wp-content/uploads/2025/07/4.-FONDO-ROJO-CON-LETRAS-BLANCAS.png",75,"strong","Looks solid.","/logos/entities_next/mts.png",,,12450
-"Sodimac","sodimac","approved","html_metadata:link_icon","https://images.sodimac.com/v3/assets/blt6a203fe6c6a9b6dd/blta6bf10a4c1cac4da/Sodimac48.png",60,"weak","Low file size (1.0 KB), likely poor quality.","/logos/entities_next/sodimac.png",,,1029
+"Sodimac","sodimac","approved","logodev","https://img.logo.dev/sodimac.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/sodimac.jpg",,,10877
 "ABC","abc","approved","html_metadata:og_image","https://staging.abc.cl/on/demandware.static/-/Library-Sites-abc-shared-library/default/dw634d94be/images/logo-abccl.png",75,"strong","Looks solid.","/logos/entities_next/abc.png",,,17399
 "Hites","hites","approved","logodev","https://img.logo.dev/hites.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/hites.jpg",,,13917
 "La Polar","la-polar","approved","logodev","https://img.logo.dev/lapolar.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/la-polar.jpg",,,20754
 "Alvi","alvi","approved","local","public/logos/entities/alvi.png",85,"strong","Looks solid.","/logos/entities_next/alvi.png",,,26895
 "Jumbo","jumbo","approved","local","public/logos/entities/jumbo.png",85,"strong","Looks solid.","/logos/entities_next/jumbo.png",,,7101
 "Líder","lider","approved","local","public/logos/entities/lider.jpeg",45,"strong","Looks solid.","/logos/entities_next/lider.jpeg",,,9896
-"Santa Isabel","santa-isabel","approved","html_metadata:link_icon","https://assets.santaisabel.cl/favicon/apple-touch-icon-60x60.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/santa-isabel.png",,,2516
+"Santa Isabel","santa-isabel","approved","local","public/logos/entities/santa-isabel.png",85,"weak","Low file size (2.5 KB), likely poor quality.","/logos/entities_next/santa-isabel.png",,,2516
 "Tottus","tottus","approved","local","public/logos/entities/tottus.png",85,"strong","Looks solid.","/logos/entities_next/tottus.png",,,6816
 "Unimarc","unimarc","approved","logodev","https://img.logo.dev/unimarc.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/unimarc.jpg",,,12862
-"aCuenta","acuenta","approved","html_metadata","https://acuenta.cl/favicon.ico",15,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/acuenta.png",,,15406
-"MacOnline","maconline","approved","html_metadata:link_icon","https://d1aqw5mz0wngqe.cloudfront.net/assets/favicon-6249859042a670132b4fef4175e528f07954ece5da2fa5100ba2bc84b002c4eb.ico",0,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/maconline.png",,,4418
+"aCuenta","acuenta","approved","logodev","https://img.logo.dev/acuenta.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/acuenta.jpg",,,18399
+"MacOnline","maconline","approved","logodev","https://img.logo.dev/maconline.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/maconline.jpg",,,10227
 "PC Factory","pc-factory","approved","logodev","https://img.logo.dev/pcfactory.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/pc-factory.jpg",,,12957
 "Reifstore","reifstore","approved","local","public/logos/entities/reifstore.png",85,"strong","Looks solid.","/logos/entities_next/reifstore.png",,,10922
 "SP Digital","sp-digital","approved","logodev","https://img.logo.dev/spdigital.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/sp-digital.jpg",,,14090
@@ -362,7 +362,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Knop","knop","approved","local","public/logos/entities/knop.png",85,"strong","Looks solid.","/logos/entities_next/knop.png",,,10111
 "Salcobrand","salcobrand","approved","logodev","https://img.logo.dev/salcobrand.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/salcobrand.jpg",,,31088
 "Banmédica","banmedica","approved","logodev","https://img.logo.dev/banmedica.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/banmedica.jpg",,,17050
-"Colmena","colmena","approved","html_metadata:link_icon","https://www.colmena.cl/source/wp-content/themes/colmena/assets/favicon/android-icon-192x192.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/colmena.png",,,8832
+"Colmena","colmena","approved","local","public/logos/entities/colmena.png",85,"strong","Looks solid.","/logos/entities_next/colmena.png",,,8832
 "Consalud","consalud","approved","local","public/logos/entities/consalud.png",85,"strong","Looks solid.","/logos/entities_next/consalud.png",,,6779
 "Cruz Blanca","cruz-blanca","approved","html_metadata:og_image","https://www.cruzblanca.cl/cruzblanca/site/artic/20240605/imag/foto_0000000620240605094947/GettyImages-1134672184-1440.jpg",35,"strong","Looks solid.","/logos/entities_next/cruz-blanca.jpg",,,98756
 "Nueva Masvida","nueva-masvida","approved","local","public/logos/entities/nueva-masvida.png",85,"strong","Looks solid.","/logos/entities_next/nueva-masvida.png",,,10309
@@ -379,10 +379,10 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Sony","sony","approved","local","public/logos/entities/sony.svg",115,"strong","Looks solid.","/logos/entities_next/sony.svg",,,2760
 "ASUS","asus","approved","local","public/logos/entities/asus.svg",115,"strong","Looks solid.","/logos/entities_next/asus.svg",,,929
 "Lenovo","lenovo","approved","local","public/logos/entities/lenovo.svg",115,"strong","Looks solid.","/logos/entities_next/lenovo.svg",,,1224
-"Nintendo","nintendo","approved","logodev","https://img.logo.dev/nintendo.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (4.9 KB), likely poor quality.","/logos/entities_next/nintendo.jpg",,,5065
+"Nintendo","nintendo","approved","html_metadata:link_icon","https://assets.nintendo.com/image/upload/ncom/icons/fav-icons/apple-touch-icon.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/nintendo.png",,,6142
 "PlayStation","playstation","approved","local","public/logos/entities/playstation.svg",115,"strong","Looks solid.","/logos/entities_next/playstation.svg",,,796
 "Steam Deck","steam-deck","approved","logodev","https://img.logo.dev/steamdeck.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/steam-deck.jpg",,,10291
-"Xbox","xbox","approved","html_metadata:link_icon","https://www.xbox.com/favicon-180.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/xbox.png",,,3585
+"Xbox","xbox","approved","local","public/logos/entities/xbox.png",85,"weak","Low file size (3.5 KB), likely poor quality.","/logos/entities_next/xbox.png",,,3585
 "AOC","aoc","approved","html_metadata:link_icon","https://www.aocchile.cl/cdn/shop/files/AOC_SVG.svg?crop=center&height=32&v=1772737235&width=32",105,"strong","Looks solid.","/logos/entities_next/aoc.svg",,,1101
 "Acer","acer","approved","local","public/logos/entities/acer.svg",115,"strong","Looks solid.","/logos/entities_next/acer.svg",,,1831
 "MSI","msi","approved","local","public/logos/entities/msi.svg",115,"strong","Looks solid.","/logos/entities_next/msi.svg",,,8297
@@ -401,7 +401,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "Realme","realme","approved","logodev","https://img.logo.dev/realme.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/realme.jpg",,,12880
 "Amazfit","amazfit","approved","html_metadata:og_image","https://cdn.shopify.com/s/files/1/0692/7397/7136/files/discover.png?v=1726019507",60,"strong","Looks solid.","/logos/entities_next/amazfit.png",,,25108
 "Garmin","garmin","approved","local","public/logos/entities/garmin.svg",115,"strong","Looks solid.","/logos/entities_next/garmin.svg",,,3255
-"Hisense","hisense","approved","html_metadata:link_icon","https://hisense.cl/wp-content/uploads/2023/05/favicon.png",75,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/hisense.png",,,3381
+"Hisense","hisense","approved","local","public/logos/entities/hisense.png",85,"weak","Low file size (3.3 KB), likely poor quality.","/logos/entities_next/hisense.png",,,3381
 "TCL","tcl","approved","html_metadata:og_image","https://tclstore.cl/cdn/shop/files/Diseno_sin_titulo_1204x630.png?v=1680276043",75,"strong","Looks solid.","/logos/entities_next/tcl.png",,,8827
 "Claro","claro","approved","logodev","https://img.logo.dev/claro.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/claro.jpg",,,18129
 "Entel","entel","approved","local","public/logos/entities/entel.png",85,"strong","Looks solid.","/logos/entities_next/entel.png",,,7198
@@ -412,9 +412,9 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "VTR","vtr","approved","logodev","https://img.logo.dev/vtr.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/vtr.jpg",,,15325
 "DGO","dgo","approved","html_metadata:og_image","https://dtvgo-cms-prd.s3.amazonaws.com/DTVGO_DEVELOPMENT/dtvgologo.png",60,"strong","Looks solid.","/logos/entities_next/dgo.png",,,14905
 "MiCHV","michv","approved","logodev","https://img.logo.dev/michv.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/michv.jpg",,,5934
-"TVN Play","tvn-play","approved","html_metadata:link_icon","https://ott-assets.mdstrm.com/51c2f628b440bd797900051f/632c774f22c111217fa59905/assets/favicon.png",60,"needs_review","Source looks like a favicon/app icon.","/logos/entities_next/tvn-play.png",,,14403
+"TVN Play","tvn-play","approved","local","public/logos/entities/tvn-play.png",85,"strong","Looks solid.","/logos/entities_next/tvn-play.png",,,14403
 "Zapping","zapping","approved","html_metadata:og_image","https://cdn.prod.website-files.com/656f1dc7559d92d610980758/689cbf04ff6e2dbb888df32e_opengraph.webp",40,"strong","Looks solid.","/logos/entities_next/zapping.webp",,,11768
-"DIRECTV","directv","approved","logodev","https://img.logo.dev/directtv.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (5.0 KB), likely poor quality.","/logos/entities_next/directv.jpg",,,5106
+"DIRECTV","directv","approved","logodev","https://img.logo.dev/directvgo.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/directv.jpg",,,23558
 "TuVes","tuves","approved","logodev","https://img.logo.dev/tuves.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"weak","Low file size (2.9 KB), likely poor quality.","/logos/entities_next/tuves.jpg",,,2955
 "WOM","wom","approved","logodev","https://img.logo.dev/wom.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/wom.jpg",,,20846
 "Air France","air-france","approved","local","public/logos/entities/air-france.svg",115,"strong","Looks solid.","/logos/entities_next/air-france.svg",,,1683
@@ -428,7 +428,7 @@ entityName,entitySlug,status,sourceProvider,sourceUrl,score,qualityTier,auditRea
 "LATAM","latam","approved","logodev","https://img.logo.dev/latamairlines.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",65,"strong","Looks solid.","/logos/entities_next/latam.jpg",,,20386
 "Sky Airline","sky-airline","approved","local","public/logos/entities/sky-airline.png",85,"strong","Looks solid.","/logos/entities_next/sky-airline.png",,,19389
 "United Airlines","united-airlines","approved","html_metadata:og_image","https://www.underarmour.com/images/ua-logo-bg.png",60,"strong","Looks solid.","/logos/entities_next/united-airlines.png",,,33975
-"Cabify","cabify","approved","html_metadata:link_icon","https://cabify.website/static/head/apple-icon-180x180.png",60,"weak","Low file size (3.2 KB), likely poor quality.","/logos/entities_next/cabify.png",,,3249
+"Cabify","cabify","approved","local","public/logos/entities/cabify.png",85,"weak","Low file size (3.2 KB), likely poor quality.","/logos/entities_next/cabify.png",,,3249
 "DiDi","didi","approved","local","public/logos/entities/didi.png",85,"strong","Looks solid.","/logos/entities_next/didi.png",,,6654
 "Transvip","transvip","approved","local","public/logos/entities/transvip.png",85,"strong","Looks solid.","/logos/entities_next/transvip.png",,,11873
 "Uber","uber","approved","local","public/logos/entities/uber.svg",115,"strong","Looks solid.","/logos/entities_next/uber.svg",,,948
