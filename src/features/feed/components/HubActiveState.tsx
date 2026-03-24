@@ -133,6 +133,7 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                                     autoNextMs={4000} // Tiempo estandarizado a 4s para permitir interacción con Insights
                                     onQueueComplete={onBatchComplete}
                                     isSubmitting={false}
+                                    showExploreCTA={true}
                                     theme={{
                                         primary: "#2563EB",
                                         accent: "#10B981",

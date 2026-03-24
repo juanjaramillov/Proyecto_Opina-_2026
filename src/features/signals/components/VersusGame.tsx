@@ -35,6 +35,7 @@ type GameProps = {
         bgGradient: string;
         icon: string;
     };
+    showExploreCTA?: boolean;
 };
 
 export default function VersusGame(props: GameProps) {
@@ -247,12 +248,14 @@ export default function VersusGame(props: GameProps) {
                                                 Saltar señal
                                             </button>
                                             
-                                            <Link 
-                                                to="/m/versus"
-                                                className="text-[11px] md:text-xs font-bold text-primary/70 hover:text-primary uppercase tracking-widest transition-colors py-2 px-4 rounded-full hover:bg-primary/5"
-                                            >
-                                                Explorar por industria
-                                            </Link>
+                                            {props.showExploreCTA && (
+                                                <Link 
+                                                    to="/m/versus"
+                                                    className="text-[11px] md:text-xs font-bold text-primary/70 hover:text-primary uppercase tracking-widest transition-colors py-2 px-4 rounded-full hover:bg-primary/5"
+                                                >
+                                                    Elige tu tema
+                                                </Link>
+                                            )}
                                         </div>
                                     )}
 
