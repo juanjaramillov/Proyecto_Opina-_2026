@@ -1,442 +1,442 @@
 entity_slug,entity_name,domain,status,tier,source,notes,updated_at
-bruno-fritsch,Bruno Fritsch,brunofritsch.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-dercocenter,DercoCenter,dercocenter.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-gildemeister,Gildemeister,gildemeister.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-kaufmann,Kaufmann,kaufmann.cl,already_exists,unknown,local,jpeg,2026-03-13T20:12:36.045Z
-portillo,Portillo,portillo.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-salazar-israel,Salazar Israel,salazarisrael.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-byd,BYD,byd.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-chery,Chery,chery.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-geely,Geely,geely.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-great-wall,Great Wall,gwm-global.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-haval,Haval,gwm.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-jac,JAC,jac.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-jetour,Jetour,jetourglobal.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mg,MG,mgmotor.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-bmw,BMW,bmw.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-chevrolet,Chevrolet,chevrolet.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-hyundai,Hyundai,hyundai.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-kia,Kia,kia.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-mazda,Mazda,mazda.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-mercedes-benz,Mercedes-Benz,mercedes-benz.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-nissan,Nissan,nissan.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-peugeot,Peugeot,peugeot.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-suzuki,Suzuki,suzuki.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-toyota,Toyota,toyota.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-aquarius,Aquarius,coca-cola.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-benedictino,Benedictino,benedictino.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-cachantun,Cachantun,cachantun.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-evian,Evian,evian.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-perrier,Perrier,perrier.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-vital,Vital,vitalagua.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-becker,Becker,becker.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-corona,Corona,cervezacorona.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cristal,Cristal,,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-escudo,Escudo,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-heineken,Heineken,heineken.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-kunstmann,Kunstmann,cerveza-kunstmann.cl,already_exists,unknown,local,jpeg,2026-03-13T20:12:36.045Z
-burn,Burn,,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-celsius,Celsius,,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-monster,Monster,monsterenergy.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-prime-energy,Prime Energy,,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-red-bull,Red Bull,redbull.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-rockstar,Rockstar,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-canada-dry,Canada Dry,canadadrychile.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-coca-cola,Coca-Cola,andina.micoca-cola.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-fanta,Fanta,coca-cola.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pepsi,Pepsi,pepsi.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-schweppes,Schweppes,,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-sprite,Sprite,,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-descorcha,Descorcha,descorcha.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-el-mundo-del-vino,El Mundo del Vino,elmundodelvino.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-la-cav,La Cav,cav.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-la-vinoteca,La Vinoteca,lavinoteca.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-tienda-concha-y-toro,Tienda Concha y Toro,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-tienda-santa-rita,Tienda Santa Rita,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-concha-y-toro,Concha y Toro,conchaytoro.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-miguel-torres,Miguel Torres,migueltorres.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-montes,Montes,monteswines.com,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-san-pedro,San Pedro,sanpedro.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-santa-rita,Santa Rita,santarita.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-undurraga,Undurraga,undurraga.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-bebesit,Bebesit,bebesit.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-chicco,Chicco,chicco.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-graco,Graco,babygraco.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-infanti,Infanti,infanti.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-joie,Joie,joiebaby.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-maxi-cosi,Maxi-Cosi,maxicosi.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-enfamil,Enfamil,enfamil.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-nan,NAN,nestle.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-nidal,Nidal,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-pediasure,Pediasure,,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-s-26,S-26,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-similac,Similac,,already_exists,unknown,local,jpeg,2026-03-13T20:12:36.045Z
-bbtips,BBTips,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-babysec,Babysec,babysec.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-huggies,Huggies,huggies.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pampers,Pampers,pampers.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-waterwipes,WaterWipes,,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-l-oreal-paris,L'Oréal Paris,loreal-paris.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mac,MAC,maccosmetics.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-maybelline,Maybelline,maybelline.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-nyx,NYX,nyxcosmetics.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-natura,Natura,natura.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-petrizzio,Petrizzio,petrizzio.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-axe,Axe,axe.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-dove,Dove,dove.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-lady-speed-stick,Lady Speed Stick,ladyspeedstick.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-nivea,Nivea,nivea.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-old-spice,Old Spice,oldspice.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-rexona,Rexona,rexona.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-aquafresh,Aquafresh,aquafresh.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-closeup,Closeup,closeup.com,already_exists,unknown,local,jpeg,2026-03-13T20:12:36.045Z
-colgate,Colgate,colgate.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-oral-b,Oral-B,oralb.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pepsodent,Pepsodent,pepsodent.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-sensodyne,Sensodyne,sensodyne.cl,already_exists,unknown,local,jpeg,2026-03-13T20:12:36.045Z
-calvin-klein,Calvin Klein,calvinklein.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-carolina-herrera,Carolina Herrera,carolinaherrera.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-chanel,Chanel,chanel.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-dior,Dior,dior.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-hugo-boss,Hugo Boss,hugoboss.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-rabanne,Rabanne,rabanne.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-eucerin-sun,Eucerin Sun,eucerin.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-hawaiian-tropic,Hawaiian Tropic,hawaiiantropic.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-isdin,ISDIN,isdin.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-la-roche-posay,La Roche-Posay,laroche-posay.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-raytan,Raytan,raytan.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-vichy,Vichy,vichy.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-elvive,Elvive,loreal-paris.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-head-shoulders,Head & Shoulders,headandshoulders.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pantene,Pantene,pantenela.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-sedal,Sedal,sedal.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tio-nacho,Tío Nacho,tionacho.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-bioderma,Bioderma,bioderma.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cerave,CeraVe,cerave.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cetaphil,Cetaphil,cetaphil.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-eucerin,Eucerin,eucerin.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cafe-haiti,Café Haiti,cafehaiti.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-castano,Castaño,castano.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-dunkin,Dunkin,dunkin.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-juan-valdez,Juan Valdez,juanvaldezcafe.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-starbucks,Starbucks,starbucks.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-tavelli,Tavelli,tavelli.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-didi-food,DiDi Food,didiglobal.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-justo,Justo,justo.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-orders,Orders,orders.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-pedidosya,PedidosYa,pedidosya.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-rappi,Rappi,rappi.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-uber-eats,Uber Eats,ubereats.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-burger-king,Burger King,burgerking.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-doggis,Doggis,doggis.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-juan-maestro,Juan Maestro,juanmaestro.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-kfc,KFC,kfc.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-mcdonald-s,McDonald's,mcdonalds.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pedro-juan-diego,"Pedro, Juan & Diego",pyd.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-subway,Subway,subway.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tarragona,Tarragona,tarragona.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-domino-s,Domino's,dominos.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-little-caesars,Little Caesars,littlecaesars.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-melt-pizzas,Melt Pizzas,meltpizzas.com,already_exists,unknown,local,jpeg,2026-03-13T20:12:36.045Z
-papa-johns,Papa Johns,papajohns.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pizza-hut,Pizza Hut,pizzahut.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-telepizza,Telepizza,telepizza.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-cobreloa,Cobreloa,cobreloa.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-colo-colo,Colo-Colo,colocolo.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-santiago-wanderers,Santiago Wanderers,santiagowanderers.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-universidad-catolica,Universidad Católica,lacatolica.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-universidad-de-chile,Universidad de Chile,udechile.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-union-espanola,Unión Española,unionespanola.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-aiep,AIEP,aiep.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-duoc-uc,Duoc UC,duoc.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-enac,ENAC,enac.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-inacap,INACAP,inacap.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-ipchile,IPChile,ipchile.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-santo-tomas,Santo Tomás,ust.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-cpech,Cpech,cpech.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-filadd,Filadd,filadd.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-m30m,M30M,preuniversitariom30m.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-pedro-de-valdivia,Pedro de Valdivia,pdv.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-preu-uc,Preu UC,preupdv.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-puntaje-nacional,Puntaje Nacional,puntajenacional.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pontificia-universidad-catolica,Pontificia Universidad Católica,uc.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-uai,UAI,uai.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-udp,UDP,udp.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-usach,USACH,usach.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-universidad-de-concepcion,Universidad de Concepción,udec.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cine-hoyts,Cine Hoyts,cinehoyts.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cinemark,Cinemark,cinemark.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cineplanet,Cineplanet,cineplanet.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cinestar,Cinestar,cinestar.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cinepolis,Cinépolis,cinepolis.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-muvix,Muvix,muvix.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-discord,Discord,discord.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-pinterest,Pinterest,cl.pinterest.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-quora,Quora,quora.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-reddit,Reddit,reddit.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-steam-community,Steam Community,steamcommunity.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tumblr,Tumblr,tumblr.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-biobiochile,BioBioChile,biobiochile.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cnn-chile,CNN Chile,cnnchile.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cooperativa,Cooperativa,cooperativa.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-el-mostrador,El Mostrador,elmostrador.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-emol,Emol,emol.com,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-la-tercera,La Tercera,latercera.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-adn-radio,ADN Radio,adnradio.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-carolina,Carolina,radiocarolina.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pudahuel,Pudahuel,pudahuel.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-radio-agricultura,Radio Agricultura,radioagricultura.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-radio-bio-bio,Radio Bío Bío,biobiochile.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-facebook,Facebook,facebook.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-instagram,Instagram,instagram.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-linkedin,LinkedIn,linkedin.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-snapchat,Snapchat,snapchat.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-tiktok,TikTok,tiktok.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-x,X,x.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-amazon-music,Amazon Music,music.amazon.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-apple-music,Apple Music,music.apple.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-deezer,Deezer,deezer.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-spotify,Spotify,spotify.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-tidal,TIDAL,tidal.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-youtube-music,YouTube Music,music.youtube.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-apple-tv,Apple TV+,tv.apple.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-disney,Disney+,disneyplus.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mubi,MUBI,mubi.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-max,Max,max.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-netflix,Netflix,netflix.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-paramount,Paramount+,paramountplus.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-prime-video,Prime Video,primevideo.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-universal,Universal+,universalplus.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-canal-13,Canal 13,13.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-chilevision,Chilevisión,chv.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-la-red,La Red,lared.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mega,Mega,mega.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-tv,TV+,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-tvn,TVN,tvn.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-bci,BCI,bci.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-banco-bice,Banco BICE,bice.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-banco-falabella,Banco Falabella,bancofalabella.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-banco-de-chile,Banco de Chile,bancochile.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-bancoestado,BancoEstado,bancoestado.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-consorcio,Consorcio,consorcio.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-itau,Itaú,itau.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-santander,Santander,santander.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-scotiabank,Scotiabank,scotiabankchile.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-security,Security,security.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-chek,Chek,simple.ripley.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-fintual,Fintual,fintual.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-global66,Global66,global66.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mach,MACH,somosmach.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-mercado-pago,Mercado Pago,mercadopago.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-prex,Prex,prexcard.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tapp,Tapp,tapp.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tenpo,Tenpo,tenpo.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-bice-inversiones,BICE Inversiones,biceinversiones.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-btg-pactual,BTG Pactual,btgpactual.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-banchile-inversiones,Banchile Inversiones,banchileinversiones.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-larrainvial,LarrainVial,larrainvial.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-mbi,MBI,mbi.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-renta4,Renta4,renta4.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-santander-corredora,Santander Corredora,santander.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-american-express,American Express,americanexpress.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-cmr-falabella,CMR Falabella,cmrfalabella.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-getnet,Getnet,getnet.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-mastercard,Mastercard,mastercard.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-redcompra,Redcompra,redcompra.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-visa,Visa,visa.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-webpay,Webpay,webpay.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-dyson,Dyson,dyson.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-electrolux,Electrolux,electrolux.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-philips,Philips,philips.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-thomas,Thomas,thomas.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-ursus-trotter,Ursus Trotter,ursustrotter.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-xiaomi,Xiaomi,xiaomi.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-cic,CIC,cic.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-drimkip,Drimkip,drimkip.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-emma,Emma,emma-colchon.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-flex,Flex,flex.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mantahue,Mantahue,mantahue.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-rosen,Rosen,rosen.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-bosch,Bosch,bosch.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-fensa,Fensa,fensa.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-lg,LG,lg.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-midea,Midea,midea.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-samsung,Samsung,samsung.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-whirlpool,Whirlpool,whirlpool.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-acana,Acana,acana.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-bravery,Bravery,bravery.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cat-chow,Cat Chow,purina.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-pro-plan,Pro Plan,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-royal-canin,Royal Canin,royalcanin.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-whiskas,Whiskas,whiskas.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-dog-chow,Dog Chow,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-pedigree,Pedigree,pedigree.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-clinica-veterinaria-alemana,Clínica Veterinaria Alemana,cv-alemana.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-hospital-clinico-veterinario-u-de-chile,Hospital Clínico Veterinario U. de Chile,hcv.uchile.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-petsalud,PetSalud,petsalud.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-vet24,Vet24,vet24.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-vetpoint,VetPoint,vetpoint.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-vets,Vets,vets.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-club-de-perros-y-gatos,Club de Perros y Gatos,clubdeperrosygatos.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-maspet,Maspet,maspet.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-pet-bj,Pet BJ,petbj.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pet-happy,Pet Happy,pethappy.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-petslandia,Petslandia,petslandia.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-superzoo,SuperZoo,superzoo.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-amphora,Amphora,amphora.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-pandora,Pandora,pandoraoficial.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-saxoline,Saxoline,saxoline.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-secret,Secret,secret.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-swarovski,Swarovski,swarovski.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tous,Tous,tous.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-aldo,Aldo,aldoshoes.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-bata,Bata,bata.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-guante,Guante,guante.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-hush-puppies,Hush Puppies,hushpuppies.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-nike,Nike,nike.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-skechers,Skechers,skechers.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-adidas,adidas,adidas.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-decathlon,Decathlon,decathlon.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-new-balance,New Balance,newbalance.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-puma,Puma,puma.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-reebok,Reebok,reebok.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-sparta,Sparta,sparta.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-under-armour,Under Armour,underarmour.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-bershka,Bershka,bershka.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-forever-21,Forever 21,forever21.com,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-h-m,H&M,cl.hm.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mango,Mango,shop.mango.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pull-bear,Pull&Bear,pullandbear.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-stradivarius,Stradivarius,stradivarius.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-zara,Zara,zara.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-columbia,Columbia,columbiachile.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-doite,Doite,doite.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-lippi,Lippi,lippioutdoor.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-marmot,Marmot,marmot.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-patagonia,Patagonia,patagonia.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-the-north-face,The North Face,thenorthface.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-family-shop,Family Shop,familyshop.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-sybilla,Sybilla,falabella.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tricot,Tricot,tricot.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-aliexpress,AliExpress,aliexpress.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-amazon,Amazon,amazon.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-falabella,Falabella,falabella.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-linio,Linio,linio.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-mercado-libre,Mercado Libre,mercadolibre.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-paris,Paris,paris.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-ripley,Ripley,ripley.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-chilemat,Chilemat,chilemat.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-construmart,Construmart,construmart.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-easy,Easy,easy.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-imperial,Imperial,imperial.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-mts,MTS,mts.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-sodimac,Sodimac,sodimac.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-abc,ABC,abc.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-hites,Hites,hites.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-la-polar,La Polar,lapolar.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-alvi,Alvi,alvi.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-jumbo,Jumbo,jumbo.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-lider,Líder,lider.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-santa-isabel,Santa Isabel,santaisabel.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-tottus,Tottus,tottus.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-unimarc,Unimarc,unimarc.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-acuenta,aCuenta,acuenta.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-maconline,MacOnline,maconline.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-pc-factory,PC Factory,pcfactory.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-reifstore,Reifstore,reifstore.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-sp-digital,SP Digital,spdigital.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-weplay,WePlay,weplay.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-bupa,Bupa,bupa.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-integramedica,IntegraMédica,integramedica.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-megasalud,Megasalud,megasalud.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-redsalud,RedSalud,redsalud.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-uc-christus,UC Christus,ucchristus.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-vidaintegra,Vidaintegra,vidaintegra.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-clinica-alemana,Clínica Alemana,alemana.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-clinica-indisa,Clínica Indisa,indisa.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-clinica-las-condes,Clínica Las Condes,clc.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-clinica-meds,Clínica MEDS,meds.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-clinica-santa-maria,Clínica Santa María,clinicasantamaria.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cruz-verde,Cruz Verde,cruzverde.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-dr-simi,Dr. Simi,drsimi.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-farmacias-ahumada,Farmacias Ahumada,farmaciasahumada.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-fraccion,Fracción,farmaciafraccion.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-knop,Knop,knop.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-salcobrand,Salcobrand,salcobrand.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-banmedica,Banmédica,banmedica.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-colmena,Colmena,colmena.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-consalud,Consalud,consalud.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-cruz-blanca,Cruz Blanca,cruzblanca.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-nueva-masvida,Nueva Masvida,nuevamasvida.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-vida-tres,Vida Tres,vidatres.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-bci-seguros,BCI Seguros,bciseguros.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-hdi-seguros,HDI Seguros,hdi.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-mapfre,Mapfre,mapfre.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-metlife,MetLife,metlife.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-zurich,Zurich,zurich.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-apple,Apple,apple.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-bose,Bose,bose.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-jbl,JBL,jbl.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-skullcandy,Skullcandy,,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-sony,Sony,sony.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-asus,ASUS,rog.asus.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-lenovo,Lenovo,lenovo.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-nintendo,Nintendo,nintendo.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-playstation,PlayStation,ps.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-steam-deck,Steam Deck,steamdeck.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-xbox,Xbox,xbox.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-aoc,AOC,aocchile.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-acer,Acer,acer.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-msi,MSI,latam.msi.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-dell,Dell,dell.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-hp,HP,hp.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-corsair,Corsair,corsair.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-hyperx,HyperX,hyperx.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-logitech-g,Logitech G,logitechg.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-razer,Razer,razer.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-redragon,Redragon,redragon.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-steelseries,SteelSeries,steelseries.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-honor,Honor,honor.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-huawei,Huawei,huawei.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-motorola,Motorola,motorola.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-oppo,Oppo,oppo.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-realme,Realme,realme.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-amazfit,Amazfit,amazfit.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-garmin,Garmin,garmin.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-hisense,Hisense,hisense.cl,already_exists,unknown,local,jpg,2026-03-13T20:12:36.045Z
-tcl,TCL,tclstore.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-claro,Claro,claro.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-entel,Entel,entel.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-gtd,GTD,gtd.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-movistar,Movistar,movistar.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-mundo,Mundo,mundo.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-telsur,Telsur,gtd.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-vtr,VTR,vtr.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-dgo,DGO,directvgo.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-michv,MiCHV,michv.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-tvn-play,TVN Play,tvnplay.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-zapping,Zapping,zapping.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-directv,DIRECTV,directtv.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-tuves,TuVes,tuves.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-wom,WOM,wom.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-air-france,Air France,airfrance.cl,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-american-airlines,American Airlines,aa.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-avianca,Avianca,avianca.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-copa-airlines,Copa Airlines,copaair.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-delta-air-lines,Delta Air Lines,delta.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-iberia,Iberia,iberia.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-jetsmart,JetSMART,jetsmart.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-klm,KLM,klm.cl,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-latam,LATAM,latamairlines.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-sky-airline,Sky Airline,skyairlines.com,missing,orphan,,logo not found,2026-03-13T20:12:36.045Z
-united-airlines,United Airlines,ua.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-cabify,Cabify,cabify.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-didi,DiDi,didi.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-transvip,Transvip,transvip.cl,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-uber,Uber,uber.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-indrive,inDrive,indrive.com,already_exists,unknown,local,png,2026-03-13T20:12:36.045Z
-messenger,Messenger,messenger.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-signal,Signal,signal.org,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-telegram,Telegram,telegram.org,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-wechat,WeChat,wechat.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
-whatsapp,WhatsApp,whatsapp.com,already_exists,unknown,local,svg,2026-03-13T20:12:36.045Z
+bruno-fritsch,Bruno Fritsch,brunofritsch.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+dercocenter,DercoCenter,dercocenter.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+gildemeister,Gildemeister,gildemeister.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+kaufmann,Kaufmann,kaufmann.cl,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+portillo,Portillo,portillo.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+salazar-israel,Salazar Israel,salazarisrael.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+byd,BYD,byd.com/cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+chery,Chery,chery.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+geely,Geely,geely.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+great-wall,Great Wall,gwm.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+haval,Haval,gwm.cl/haval,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+jac,JAC,jacautoschile.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+jetour,Jetour,jetourchile.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+mg,MG,mgmotor.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+bmw,BMW,bmw.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+chevrolet,Chevrolet,chevrolet.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+hyundai,Hyundai,hyundai.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+kia,Kia,kia.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+mazda,Mazda,mazda.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+mercedes-benz,Mercedes-Benz,kaufmann.cl/automoviles/mercedes-benz,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+nissan,Nissan,nissan.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+peugeot,Peugeot,peugeot.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+suzuki,Suzuki,suzuki.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+toyota,Toyota,toyota.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+aquarius,Aquarius,andina.micoca-cola.cl/aguas/aquarius?srsltid=AfmBOorUNNoDVCWvVRE3n3aAoJevijTf87AGtt0dj13LPtkNWEncH5Lt,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+benedictino,Benedictino,andina.micoca-cola.cl/aguas/benedictino?srsltid=AfmBOoprT71L-DUZ1tj8iR1NPEzE7oXPgh6ZVje61GQI8gutqoYm24HB,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cachantun,Cachantun,cachantun.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+evian,Evian,evian.com/en_int,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+perrier,Perrier,perrier.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vital,Vital,andina.micoca-cola.cl/aguas/vital?srsltid=AfmBOoqk14CQNWKh_BsAN7MzjeEfyqy7z5IOzp3t1L-RGNiGQgOJsCHD,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+becker,Becker,becker.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+corona,Corona,ELIMINAR,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cristal,Cristal,cristal.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+escudo,Escudo,ccu.cl/marcas-productos/escudo,downloaded,official,brandfetch,png,2026-03-24T16:16:17.842Z
+heineken,Heineken,heineken.com/cl/es/agegateway/?returnUrl=%2fcl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+kunstmann,Kunstmann,cerveza-kunstmann.cl,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+burn,Burn,burn.com/en-us,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+celsius,Celsius,celsius.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+monster,Monster,monsterenergy.com/es-cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+prime-energy,Prime Energy,drinkprime.com/collections/energy?srsltid=AfmBOoorJP0uSaRjh5tktA8MBOzRmTdiOo4m9MeRi1KQbij8029SFFXK,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+red-bull,Red Bull,redbull.com/cl-es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+rockstar,Rockstar,rockstarenergy.es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+canada-dry,Canada Dry,canadadrychile.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+coca-cola,Coca-Cola,micoca-cola.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+fanta,Fanta,coca-cola.com/cl/es/brands/fanta/productos,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pepsi,Pepsi,pepsi.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+schweppes,Schweppes,schweppes.es,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+sprite,Sprite,andina.micoca-cola.cl/sprite?srsltid=AfmBOorGsM02z2Glt_W30ywcOJbtGcLYePWBjW9sldSNfjm184bTMunW,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+descorcha,Descorcha,descorcha.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+el-mundo-del-vino,El Mundo del Vino,elmundodelvino.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+la-cav,La Cav,cav.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+la-vinoteca,La Vinoteca,lavinoteca.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tienda-concha-y-toro,Tienda Concha y Toro,ELIMINAR,downloaded,official,brandfetch,png,2026-03-24T16:16:17.842Z
+tienda-santa-rita,Tienda Santa Rita,ELIMINAR,downloaded,official,brandfetch,png,2026-03-24T16:16:17.842Z
+concha-y-toro,Concha y Toro,conchaytoro.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+miguel-torres,Miguel Torres,migueltorres.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+montes,Montes,monteswines.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+san-pedro,San Pedro,sanpedro.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+santa-rita,Santa Rita,santarita.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+undurraga,Undurraga,undurraga.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+bebesit,Bebesit,bebesit.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+chicco,Chicco,chicco.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+graco,Graco,babygraco.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+infanti,Infanti,infanti.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+joie,Joie,joiebaby.com/latam,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+maxi-cosi,Maxi-Cosi,maxicosi.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+enfamil,Enfamil,enfamil.com/es,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+nan,NAN,nestle.cl/brands/allbrands/nan-optipro,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+nidal,Nidal,,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pediasure,Pediasure,,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+s-26,S-26,,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+similac,Similac,,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+bbtips,BBTips,,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+babysec,Babysec,babysec.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+huggies,Huggies,huggies.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pampers,Pampers,pampers.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+waterwipes,WaterWipes,waterwipes.com/latin/es,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+l-oreal-paris,L'Oréal Paris,loreal-paris.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+mac,MAC,maccosmetics.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+maybelline,Maybelline,maybelline.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+nyx,NYX,nyxcosmetics.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+natura,Natura,natura.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+petrizzio,Petrizzio,petrizzio.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+axe,Axe,axe.com/cl/home.html,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+dove,Dove,dove.com/cl/home.html,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+lady-speed-stick,Lady Speed Stick,ladyspeedstick.com/es-cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+nivea,Nivea,nivea.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+old-spice,Old Spice,oldspice.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+rexona,Rexona,rexona.com/cl/home.html,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+aquafresh,Aquafresh,aquafresh.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+closeup,Closeup,closeup.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+colgate,Colgate,colgate.com/es-cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+oral-b,Oral-B,oralb.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+pepsodent,Pepsodent,pepsodent.cl/productos.html,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+sensodyne,Sensodyne,sensodyne.cl,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+calvin-klein,Calvin Klein,calvinklein.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+carolina-herrera,Carolina Herrera,carolinaherrera.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+chanel,Chanel,chanel.com/cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+dior,Dior,shop.dior.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+hugo-boss,Hugo Boss,hugoboss.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+rabanne,Rabanne,rabanne.com/ww/es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+eucerin-sun,Eucerin Sun,eucerin.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+hawaiian-tropic,Hawaiian Tropic,hawaiiantropiclatam.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+isdin,ISDIN,isdin.com/cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+la-roche-posay,La Roche-Posay,laroche-posay.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+raytan,Raytan,ELIMINAR,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vichy,Vichy,vichy.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+elvive,Elvive,ELIMINAR,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+head-shoulders,Head & Shoulders,headandshoulders-la.com/es,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+pantene,Pantene,pantenela.com/es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+sedal,Sedal,sedal.cl/home.html,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tio-nacho,Tío Nacho,tionacho.lat,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+bioderma,Bioderma,bioderma.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cerave,CeraVe,cerave.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cetaphil,Cetaphil,cetaphil.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+eucerin,Eucerin,eucerin.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cafe-haiti,Café Haiti,cafehaiti.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+castano,Castaño,pedidos.castano.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+dunkin,Dunkin,dunkin.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+juan-valdez,Juan Valdez,juanvaldez.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+starbucks,Starbucks,starbucks.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+tavelli,Tavelli,tavelli.cl/pedir,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+didi-food,DiDi Food,didiglobal.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+justo,Justo,ELIMINAR,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+orders,Orders,ELIMINAR,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pedidosya,PedidosYa,pedidosya.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+rappi,Rappi,rappi.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+uber-eats,Uber Eats,ubereats.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+burger-king,Burger King,burgerking.cl/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+doggis,Doggis,delivery.doggis.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+juan-maestro,Juan Maestro,juanmaestro.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+kfc,KFC,kentucky.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+mcdonald-s,McDonald's,mcdonalds.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pedro-juan-diego,"Pedro, Juan & Diego",pyd.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+subway,Subway,subway.com/es-cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+tarragona,Tarragona,tarragona.cl/pedir,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+domino-s,Domino's,dominospizza.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+little-caesars,Little Caesars,cl.littlecaesars.com/es-cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+melt-pizzas,Melt Pizzas,meltpizzas.com,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+papa-johns,Papa Johns,papajohns.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pizza-hut,Pizza Hut,ELIMINAR,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+telepizza,Telepizza,ELIMINAR,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cobreloa,Cobreloa,cobreloa.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+colo-colo,Colo-Colo,colocolo.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+santiago-wanderers,Santiago Wanderers,santiagowanderers.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+universidad-catolica,Universidad Católica,cruzados.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+universidad-de-chile,Universidad de Chile,udechile.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+union-espanola,Unión Española,unionespanola.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+aiep,AIEP,aiep.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+duoc-uc,Duoc UC,duoc.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+enac,ENAC,enac.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+inacap,INACAP,portal.inacap.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+ipchile,IPChile,ipchile.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+santo-tomas,Santo Tomás,santotomas.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cpech,Cpech,cpech.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+filadd,Filadd,filadd.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+m30m,M30M,preuniversitariom30m.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pedro-de-valdivia,Pedro de Valdivia,preupdv.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+preu-uc,Preu UC,preuniversitario.uc.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+puntaje-nacional,Puntaje Nacional,puntajenacional.cl/alumnos/landing,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pontificia-universidad-catolica,Pontificia Universidad Católica,uc.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+uai,UAI,uai.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+udp,UDP,udp.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+usach,USACH,usach.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+universidad-de-concepcion,Universidad de Concepción,udec.cl/pexterno,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cine-hoyts,Cine Hoyts,ELIMINAR,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cinemark,Cinemark,cinemark.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cineplanet,Cineplanet,cineplanet.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cinestar,Cinestar,cinestar.cl/browsing,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cinepolis,Cinépolis,cinepolischile.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+muvix,Muvix,muvix.cl/Browsing,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+discord,Discord,discord.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+pinterest,Pinterest,cl.pinterest.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+quora,Quora,es.quora.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+reddit,Reddit,reddit.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+steam-community,Steam Community,steamcommunity.com/?l=spanish,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+tumblr,Tumblr,tumblr.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+biobiochile,BioBioChile,biobiochile.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cnn-chile,CNN Chile,cnnchile.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cooperativa,Cooperativa,cooperativa.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+el-mostrador,El Mostrador,elmostrador.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+emol,Emol,emol.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+la-tercera,La Tercera,latercera.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+adn-radio,ADN Radio,adnradio.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+carolina,Carolina,chcarolinaherrera.com/cl/es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pudahuel,Pudahuel,pudahuel.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+radio-agricultura,Radio Agricultura,radioagricultura.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+radio-bio-bio,Radio Bío Bío,biobiochile.cl/escritorio/bbcl-2020/secciones/radio.shtml,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+facebook,Facebook,facebook.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+instagram,Instagram,instagram.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+linkedin,LinkedIn,linkedin.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+snapchat,Snapchat,snapchat.com/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+tiktok,TikTok,tiktok.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+x,X,x.com/?lang=es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+amazon-music,Amazon Music,music.amazon.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+apple-music,Apple Music,music.apple.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+deezer,Deezer,deezer.com/mx,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+spotify,Spotify,open.spotify.com/intl-es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+tidal,TIDAL,tidal.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+youtube-music,YouTube Music,music.youtube.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+apple-tv,Apple TV+,tv.apple.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+disney,Disney+,disneyplus.com/es-cl?CID=DSS-Social-TikTok-1858582466883681-1858582466884833-1859489839348737&ttclid=E_C_P_CuYBfZ3KRx8MJ9fff0bvATX-0KgDB2DoT7ncSRXyxlb8gZmLpYLJoRjj7Omu0LKwzJb24IzE7qvZ0xCAmASup-QDhIcTrnRo-TV1mtAony1V6dbIIspjd4zSIpm4Ck7KEMoZyybfPMANppw2QJJ8i0TLhCKklI_LR4XYim65gWYYivbN0IN1OtceN6NY-x3mr0MlB4RVO_WRUquwEBDCTq9Jf7kOPnK8o5q8wqyWp9G43xgx-R_2mzCTnnzYEFfeO3XAykA5zqYYjeak9o2acSk8aYQMS-GkBPj8SGPFdaU62QXgFh1gABISBHYyLjA,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+mubi,MUBI,mubi.com/es/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+max,Max,hbomax.com/cl/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+netflix,Netflix,netflix.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+paramount,Paramount+,paramountplus.com/cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+prime-video,Prime Video,primevideo.com/offers/nonprimehomepage/ref=dv_web_force_root,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+universal,Universal+,universalplus.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+canal-13,Canal 13,13.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+chilevision,Chilevisión,chilevision.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+la-red,La Red,lared.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+mega,Mega,mega.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+tv,TV+,tvmas.tv,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tvn,TVN,tvnplay.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+bci,BCI,bci.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+banco-bice,Banco BICE,bice.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+banco-falabella,Banco Falabella,bancofalabella.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+banco-de-chile,Banco de Chile,bancochile.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+bancoestado,BancoEstado,bancoestado.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+consorcio,Consorcio,consorcio.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+itau,Itaú,itau.cl,already_exists,unknown,local,webp,2026-03-24T16:16:17.842Z
+santander,Santander,santander.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+scotiabank,Scotiabank,scotiabank.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+security,Security,bancosecurity.cl,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+chek,Chek,chek.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+fintual,Fintual,fintual.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+global66,Global66,global66.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+mach,MACH,somosmach.com,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+mercado-pago,Mercado Pago,mercadopago.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+prex,Prex,prexcard.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tapp,Tapp,tapp.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tenpo,Tenpo,tenpo.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+bice-inversiones,BICE Inversiones,biceinversiones.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+btg-pactual,BTG Pactual,btgpactual.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+banchile-inversiones,Banchile Inversiones,banchileinversiones.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+larrainvial,LarrainVial,larrainvial.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+mbi,MBI,mbi.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+renta4,Renta4,renta4.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+santander-corredora,Santander Corredora,santander.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+american-express,American Express,americanexpress.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+cmr-falabella,CMR Falabella,bancofalabella.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+getnet,Getnet,getnet.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+mastercard,Mastercard,mastercard.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+redcompra,Redcompra,transbank.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+visa,Visa,visa.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+webpay,Webpay,transbank.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+dyson,Dyson,dyson.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+electrolux,Electrolux,electrolux.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+philips,Philips,philips.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+thomas,Thomas,thomas.cl/thomas,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+ursus-trotter,Ursus Trotter,ursustrotter.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+xiaomi,Xiaomi,mi.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+cic,CIC,cic.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+drimkip,Drimkip,drimkip.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+emma,Emma,emma-colchon.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+flex,Flex,flex.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+mantahue,Mantahue,colchonesmantahue.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+rosen,Rosen,rosen.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+bosch,Bosch,bosch.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+fensa,Fensa,tiendafensa.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+lg,LG,lg.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+midea,Midea,mideastore.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+samsung,Samsung,samsung.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+whirlpool,Whirlpool,whirlpool.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+acana,Acana,emea.acana.com/es-ES/homepage,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+bravery,Bravery,bravery.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cat-chow,Cat Chow,purina.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pro-plan,Pro Plan,,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+royal-canin,Royal Canin,royalcanin.com/cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+whiskas,Whiskas,whiskas.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+dog-chow,Dog Chow,,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pedigree,Pedigree,pedigree.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+clinica-veterinaria-alemana,Clínica Veterinaria Alemana,hva.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+hospital-clinico-veterinario-u-de-chile,Hospital Clínico Veterinario U. de Chile,veterinaria.uchile.cl/servicios-veterinarios/servicios-clinicos/clinica-bilbao,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+petsalud,PetSalud,petsalud.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vet24,Vet24,vet24.cl/inicio,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vetpoint,VetPoint,vetpoint.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vets,Vets,vets.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+club-de-perros-y-gatos,Club de Perros y Gatos,clubdeperrosygatos.cl/?srsltid=AfmBOoo0fDvzdpzeWzrN0aEzQy32rkWyOuKZgRMbRaxLvpBuSJm7GBGg,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+maspet,Maspet,mas.pet/es/tienda,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pet-bj,Pet BJ,petbj.cl/?srsltid=AfmBOop0fTJ5S8fTw8MqjeaWyEJC-xqxKHP8o_z8ML0_xhrp_coculbO,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+pet-happy,Pet Happy,pethappy.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+petslandia,Petslandia,petslandia.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+superzoo,SuperZoo,superzoo.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+amphora,Amphora,amphora.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pandora,Pandora,cl.pandora.net/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+saxoline,Saxoline,saxoline.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+secret,Secret,carterasecret.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+swarovski,Swarovski,swarovski.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tous,Tous,tous.com/cl-es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+aldo,Aldo,aldo.cl/aldo-cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+bata,Bata,bata.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+guante,Guante,guante.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+hush-puppies,Hush Puppies,hushpuppies.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+nike,Nike,nike.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+skechers,Skechers,skechers.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+adidas,adidas,adidas.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+decathlon,Decathlon,decathlon.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+new-balance,New Balance,newbalance.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+puma,Puma,cl.puma.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+reebok,Reebok,reebok.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+sparta,Sparta,sparta.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+under-armour,Under Armour,underarmour.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+bershka,Bershka,bershka.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+forever-21,Forever 21,forever21.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+h-m,H&M,cl.hm.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+mango,Mango,shop.mango.com/cl/es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pull-bear,Pull&Bear,pullandbear.com/?select-store=true,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+stradivarius,Stradivarius,stradivarius.com/es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+zara,Zara,zara.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+columbia,Columbia,columbiachile.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+doite,Doite,doite.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+lippi,Lippi,lippioutdoor.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+marmot,Marmot,marmot.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+patagonia,Patagonia,cl.patagonia.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+the-north-face,The North Face,thenorthface.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+family-shop,Family Shop,familyshop.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+sybilla,Sybilla,ELIMINAR,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+tricot,Tricot,tricot.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+aliexpress,AliExpress,aliexpress.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+amazon,Amazon,music.amazon.es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+falabella,Falabella,falabella.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+linio,Linio,linio.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+mercado-libre,Mercado Libre,mercadolibre.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+paris,Paris,paris.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+ripley,Ripley,ripley.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+chilemat,Chilemat,chilemat.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+construmart,Construmart,construmart.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+easy,Easy,easy.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+imperial,Imperial,imperial.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+mts,MTS,mts.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+sodimac,Sodimac,sodimac.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+abc,ABC,abc.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+hites,Hites,hites.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+la-polar,La Polar,lapolar.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+alvi,Alvi,alvi.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+jumbo,Jumbo,jumbo.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+lider,Líder,lider.cl,already_exists,unknown,local,jpeg,2026-03-24T16:16:17.842Z
+santa-isabel,Santa Isabel,santaisabel.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+tottus,Tottus,tottus.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+unimarc,Unimarc,unimarc.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+acuenta,aCuenta,acuenta.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+maconline,MacOnline,maconline.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+pc-factory,PC Factory,pcfactory.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+reifstore,Reifstore,reifstore.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+sp-digital,SP Digital,spdigital.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+weplay,WePlay,weplay.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+bupa,Bupa,bupa.cl,already_exists,unknown,local,webp,2026-03-24T16:16:17.842Z
+integramedica,IntegraMédica,integramedica.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+megasalud,Megasalud,megasalud.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+redsalud,RedSalud,redsalud.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+uc-christus,UC Christus,ucchristus.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vidaintegra,Vidaintegra,vidaintegra.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+clinica-alemana,Clínica Alemana,clinicaalemana.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+clinica-indisa,Clínica Indisa,indisa.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+clinica-las-condes,Clínica Las Condes,clinicalascondes.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+clinica-meds,Clínica MEDS,meds.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+clinica-santa-maria,Clínica Santa María,clinicasantamaria.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+cruz-verde,Cruz Verde,cruzverde.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+dr-simi,Dr. Simi,doctorsimi.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+farmacias-ahumada,Farmacias Ahumada,farmaciasahumada.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+fraccion,Fracción,fraccion.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+knop,Knop,knop.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+salcobrand,Salcobrand,salcobrand.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+banmedica,Banmédica,banmedica.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+colmena,Colmena,colmena.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+consalud,Consalud,consalud.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cruz-blanca,Cruz Blanca,cruzblanca.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+nueva-masvida,Nueva Masvida,nuevamasvida.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vida-tres,Vida Tres,vidatres.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+bci-seguros,BCI Seguros,bciseguros.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+hdi-seguros,HDI Seguros,hdi.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+mapfre,Mapfre,mapfre.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+metlife,MetLife,metlife.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+zurich,Zurich,zurich.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+apple,Apple,music.apple.com/cl/new,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+bose,Bose,bose.cl/es_cl/index.html,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+jbl,JBL,jbl.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+skullcandy,Skullcandy,skullcandy.eu/es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+sony,Sony,sony.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+asus,ASUS,asus.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+lenovo,Lenovo,lenovo.com/cl/es/?Redirect=False,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+nintendo,Nintendo,nintendo.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+playstation,PlayStation,playstation.com/es-cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+steam-deck,Steam Deck,steamdeck.com/es,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+xbox,Xbox,xbox.com/es-ES,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+aoc,AOC,aocchile.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+acer,Acer,acerstore.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+msi,MSI,msi.com/index.php,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+dell,Dell,dell.com/es-cl/lp,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+hp,HP,hp.com/cl-es/home.html,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+corsair,Corsair,corsair.com/es/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+hyperx,HyperX,row.hyperx.com/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+logitech-g,Logitech G,logitechg.com/es-ar,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+razer,Razer,razer.com/latam-es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+redragon,Redragon,redragon.es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+steelseries,SteelSeries,steelseries.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+honor,Honor,honor.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+huawei,Huawei,consumer.huawei.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+motorola,Motorola,motorola.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+oppo,Oppo,oppo.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+realme,Realme,realme.com/cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+amazfit,Amazfit,us.amazfit.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+garmin,Garmin,garmin.com/es-CL,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+hisense,Hisense,hisense.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+tcl,TCL,tclstore.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+claro,Claro,clarovideo.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+entel,Entel,entel.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+gtd,GTD,gtd.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+movistar,Movistar,movistar.cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+mundo,Mundo,tumundo.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+telsur,Telsur,telsur.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+vtr,VTR,vtr.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+dgo,DGO,directvgo.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+michv,MiCHV,michv.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tvn-play,TVN Play,tvnplay.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+zapping,Zapping,zapping.com,already_exists,unknown,local,webp,2026-03-24T16:16:17.842Z
+directv,DIRECTV,directv.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+tuves,TuVes,tuves.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+wom,WOM,wom.cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+air-france,Air France,airfrance.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+american-airlines,American Airlines,aa.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+avianca,Avianca,avianca.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+copa-airlines,Copa Airlines,copaair.com/es-cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+delta-air-lines,Delta Air Lines,delta.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+iberia,Iberia,iberia.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+jetsmart,JetSMART,jetsmart.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+klm,KLM,klm.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+latam,LATAM,latam.com,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+sky-airline,Sky Airline,skyairlines.com,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+united-airlines,United Airlines,united.com/es/us,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+cabify,Cabify,cabify.com/cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+didi,DiDi,ELIMINAR,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+transvip,Transvip,transvip.cl,already_exists,unknown,local,png,2026-03-24T16:16:17.842Z
+uber,Uber,ubereats.com/cl,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+indrive,inDrive,indrive.com/es-cl,already_exists,unknown,local,jpg,2026-03-24T16:16:17.842Z
+messenger,Messenger,messenger.com,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+signal,Signal,signal.org/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+telegram,Telegram,web.telegram.org/a,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+wechat,WeChat,wechat.com/es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z
+whatsapp,WhatsApp,whatsapp.com/?lang=es,already_exists,unknown,local,svg,2026-03-24T16:16:17.842Z

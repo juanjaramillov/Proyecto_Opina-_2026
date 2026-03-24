@@ -20,7 +20,11 @@
     "ops:repo-hygiene": "node scripts/ops/verify_repo_hygiene.mjs",
     "logos:rebuild-next": "tsx scripts/assets/rebuild-logos.ts",
     "logos:migrate-strong": "tsx scripts/assets/migrate-strong.ts",
-    "logos:apply-high-priority": "tsx scripts/logos/apply-high-priority.ts"
+    "logos:prepare-high-priority": "npx tsx scripts/logos/prepare-high-priority.ts",
+    "logos:apply-high-priority": "npx tsx scripts/logos/apply-high-priority.ts",
+    "logos:prepare-medium-priority": "npx tsx scripts/logos/prepare-medium-priority.ts",
+    "logos:apply-medium-priority": "npx tsx scripts/logos/apply-medium-priority.ts",
+    "versus:build": "vite build --mode testing"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.91.0",

@@ -285,6 +285,18 @@ export default function VersusGame(props: GameProps) {
                                         )}
                                     </div>
 
+                                    {/* Opción Saltar */}
+                                    {(!isCurrentlySubmitting && !result) && (
+                                        <div className="mt-5 text-center relative z-20">
+                                            <button 
+                                                onClick={() => next()}
+                                                className="text-[11px] md:text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-widest transition-colors py-2 px-6 rounded-full hover:bg-slate-100"
+                                            >
+                                                Saltar señal
+                                            </button>
+                                        </div>
+                                    )}
+
                                     {/* PANEL INFERIOR ESTABILIZADO - ECG o RESULTADOS */}
                                     <motion.div
                                         initial={{ opacity: 0, y: 15 }}

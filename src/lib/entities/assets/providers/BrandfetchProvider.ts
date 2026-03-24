@@ -3,7 +3,6 @@ import { AssetCandidate, AssetProvider, AssetType, EntityCatalogItem, ProviderTi
 export class BrandfetchProvider implements AssetProvider {
   name = 'brandfetch';
   tier: ProviderTier = 'primary';
-  private apiKey: string | undefined;
 
   async getCandidates(entity: EntityCatalogItem, assetType: AssetType): Promise<AssetCandidate[]> {
     if (assetType !== 'brand_logo' || !entity.domain) {

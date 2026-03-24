@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import http from 'http';
-import { AssetCandidate, AssetEvaluation, AssetManifestRecord, AssetType, EntityCatalogItem } from './types';
+import { AssetFormat, AssetManifestRecord, AssetType, EntityCatalogItem } from './types';
 import { ProviderRegistry } from './providers/ProviderRegistry';
 import { evaluateCandidates, getBestCandidate } from './scoring';
 
@@ -81,7 +81,7 @@ export class AssetPipeline {
       isManualOverride = true;
     }
 
-    let candidates = await this.registry.getAllCandidates(entity, assetType);
+    const candidates = await this.registry.getAllCandidates(entity, assetType);
 
     // If there is an override path, prepend it as the best candidate
     if (override && isOverrideApproved && override.manualOverridePath) {
@@ -90,14 +90,14 @@ export class AssetPipeline {
          sourceProvider: 'manual_override_path',
          providerTier: 'primary',
          sourceUrl: override.manualOverridePath,
-         format: (['svg', 'png', 'jpg', 'jpeg', 'webp'].includes(ext) ? ext : 'unknown') as any,
+         format: (['svg', 'png', 'jpg', 'jpeg', 'webp'].includes(ext) ? ext : 'unknown') as AssetFormat,
          localPath: override.manualOverridePath,
          isRemote: false
        });
        isManualOverride = true;
     }
 
-    let evaluations = await evaluateCandidates(candidates);
+    const evaluations = await evaluateCandidates(candidates);
     let bestEvaluation = getBestCandidate(evaluations);
     let usedBrandFallback = false;
 
@@ -160,9 +160,9 @@ export class AssetPipeline {
         manifestRecord.contentType = bestEvaluation.contentType || null;
         manifestRecord.score = bestEvaluation.score;
         manifestRecord.reason = bestEvaluation.reason;
-      } catch (error: any) {
+      } catch (error) {
         manifestRecord.status = 'rejected';
-        manifestRecord.reason = `Error writing/downloading file to disk: ${error.message}`;
+        manifestRecord.reason = `Error writing/downloading file to disk: ${(error instanceof Error) ? error.message : String(error)}`;
       }
     }
 

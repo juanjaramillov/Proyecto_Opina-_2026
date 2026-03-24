@@ -110,7 +110,7 @@ async function main() {
     auditItems = JSON.parse(fs.readFileSync(AUDIT_FILE, 'utf-8'));
   }
 
-  let overrides = await loadCsv<OverrideItem>(OVERRIDES_FILE);
+  const overrides = await loadCsv<OverrideItem>(OVERRIDES_FILE);
   
   // If overrides file is from old format, the header might be wrong, so we handle mapping
   const overridesMap = new Map<string, OverrideItem>();

@@ -29,10 +29,17 @@ async function main() {
     entitiesMap.set(ent.name.toLowerCase().trim(), ent);
   });
 
-  // 1. Read input data
-  const wb = xlsx.readFile('Empresas_Finales.xlsx');
+  // 1. Read input data from the consolidated list
+  let wb;
+  try {
+    wb = xlsx.readFile('Listado_Marcas_Consolidado.xlsx');
+  } catch (e) {
+    console.error('No se pudo leer Listado_Marcas_Consolidado.xlsx. Asegúrate de que el archivo exista.');
+    return;
+  }
   const sheetName = wb.SheetNames[0];
   const data = xlsx.utils.sheet_to_json(wb.Sheets[sheetName]);
+
 
   // 2. Pre-process and deduplicate
   const allExcelBrands = data.map((d: any) => (d.Marca || '').trim()).filter(Boolean);
@@ -72,8 +79,9 @@ async function main() {
         Categoria: row.Categoria || '',
         Subcategoria: row.Subcategoria || '',
         Marca: rootBrand,
-        Dominio: row['Dominio Web'] || '',
+        Dominio: row.Dominio || row['Dominio Web'] || '',
         'Logo (SI o NO)': 'NO',
+        'Calidad de Logo': '',
         'Medio Captura Imagen': '',
         'Versus (Count)': 0,
         'Participa en Torneo': 'NO',
@@ -82,9 +90,10 @@ async function main() {
     } else {
       // If we already have it, but the new row has a domain and the stored one doesn't, update it
       const existing = uniqueBrands.get(key);
-      if (!existing.Dominio && row['Dominio Web']) {
-        existing.Dominio = row['Dominio Web'];
+      if (!existing.Dominio && (row.Dominio || row['Dominio Web'])) {
+        existing.Dominio = row.Dominio || row['Dominio Web'];
       }
+
     }
   });
 
@@ -122,22 +131,39 @@ async function main() {
 
     // Check entity table directly for logo if it's not in an active battle or didn't get caught
     const entityRecord = entitiesMap.get(brandNameLower);
-    let finalImageUrl = imageUrlFromBattle || (entityRecord && (entityRecord.image_url || entityRecord.logo_path));
+    const finalImageUrl = imageUrlFromBattle || (entityRecord && (entityRecord.image_url || entityRecord.logo_path));
     
     // Fallbacks for domains
     if (!brandInfo.Dominio && domainFromBattle) {
       brandInfo.Dominio = domainFromBattle;
     }
 
+    let quality = 4;
     if (finalImageUrl) {
         brandInfo['Logo (SI o NO)'] = 'SI';
-        if (finalImageUrl.includes('brandfetch')) {
-            brandInfo['Medio Captura Imagen'] = 'URL con Brandefetch';
+        if (finalImageUrl.includes('logo.dev')) {
+            brandInfo['Medio Captura Imagen'] = 'API Logo.dev';
+            quality = 1;
+        } else if (finalImageUrl.includes('brandfetch')) {
+            brandInfo['Medio Captura Imagen'] = 'API Brandfetch';
+            quality = 2;
+        } else if (finalImageUrl.includes('clearbit')) {
+            brandInfo['Medio Captura Imagen'] = 'API Clearbit';
+            quality = 2;
+        } else if (finalImageUrl.includes('google')) {
+            brandInfo['Medio Captura Imagen'] = 'Google Favicon';
+            quality = 3;
         } else {
-            brandInfo['Medio Captura Imagen'] = 'Archivo adjunto en Entities';
+            brandInfo['Medio Captura Imagen'] = 'Archivo Subido Localmente';
+            quality = 1; // Assumed good if uploaded manually
         }
+    } else {
+        brandInfo['Logo (SI o NO)'] = 'NO';
+        brandInfo['Medio Captura Imagen'] = 'Sin Imagen';
+        quality = 4;
     }
 
+    brandInfo['Calidad de Logo'] = quality;
     brandInfo['Versus (Count)'] = versusCount;
     brandInfo['Participa en Torneo'] = participaTorneo ? 'SI' : 'NO';
     brandInfo['Participa en Profundidad'] = participaProfundidad ? 'SI' : 'NO';
@@ -159,7 +185,8 @@ async function main() {
     { wch: 30 }, // Marca
     { wch: 25 }, // Dominio
     { wch: 15 }, // Logo (SI o NO)
-    { wch: 40 }, // Medio Captura Imagen
+    { wch: 25 }, // Calidad de Logo
+    { wch: 30 }, // Medio Captura Imagen
     { wch: 15 }, // Versus (Count)
     { wch: 20 }, // Torneo
     { wch: 25 }, // Profundidad

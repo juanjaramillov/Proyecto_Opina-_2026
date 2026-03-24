@@ -5,7 +5,7 @@ export class HtmlMetadataProvider implements AssetProvider {
   name = 'html_metadata';
   tier: ProviderTier = 'backup';
 
-  async getCandidates(entity: EntityCatalogItem, assetType: AssetType): Promise<AssetCandidate[]> {
+  async getCandidates(entity: EntityCatalogItem, _assetType: AssetType): Promise<AssetCandidate[]> {
     if (!entity.domain) {
       return [];
     }

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Opina+ — Backlog Manual Final de Logos</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #f8fafc; margin: 2rem; }
+    h1 { color: #fff; margin-bottom: 0.5rem; }
+    .subtitle { color: #94a3b8; margin-bottom: 2rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+    .card { background: #1e293b; border: 1px solid #334155; padding: 1rem; border-radius: 8px; display: flex; align-items: center; gap: 1rem; position: relative; }
+    .priority-indicator { position: absolute; top: 0; right: 0; padding: 0.25rem 0.5rem; font-size: 0.70rem; font-weight: bold; border-top-right-radius: 8px; border-bottom-left-radius: 8px; text-transform: uppercase; }
+    .prio-alta { background: #ef4444; color: #fff; }
+    .prio-media { background: #f59e0b; color: #fff; }
+    .prio-baja { background: #3b82f6; color: #fff; }
+    .logo-container { min-width: 80px; width: 80px; height: 80px; background: #fff; display: flex; align-items: center; justify-content: center; border-radius: 8px; overflow: hidden; }
+    .logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .info { flex: 1; min-width: 0; }
+    .name { font-weight: bold; font-size: 1.1rem; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .slug { font-size: 0.8rem; color: #94a3b8; font-family: monospace; }
+    .status { display: inline-flex; align-items: center; justify-content: center; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-top: 0.5rem; }
+    .status-weak { background: #f97316; color: #fff; }
+    .status-needs-review { background: #eab308; color: #000; }
+    .status-missing { background: #dc2626; color: #fff; }
+  </style>
+</head>
+<body>
+  <h1>Backlog Manual Final de Logos</h1>
+  <p class="subtitle">Existen <strong>48</strong> casos pendientes que no alcanzaron el estándar <code>strong</code> mediante automatización. Editables en <code>docs/catalog/logo-overrides-final-manual.csv</code>.</p>
+  <div class="grid">
+
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://jetourglobal.com/favicon.ico" alt="Jetour" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Jetour</div>
+        <div class="slug">jetour</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/escudoconsultoria.com.br?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Escudo" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Escudo</div>
+        <div class="slug">escudo</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://monteswines.com/favicon.ico" alt="Montes" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Montes</div>
+        <div class="slug">montes</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://www.babysec.cl/assets/dist/frontend/images/favicon/android-icon-192x192.png" alt="Babysec" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Babysec</div>
+        <div class="slug">babysec</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/maccosmetics.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="MAC" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">MAC</div>
+        <div class="slug">mac</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://images-1.eucerin.com/~/media/eucerin%20reference%20site/eucerin_favicon.ico" alt="Eucerin Sun" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Eucerin Sun</div>
+        <div class="slug">eucerin-sun</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/loreal-paris.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Elvive" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Elvive</div>
+        <div class="slug">elvive</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/justo.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Justo" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Justo</div>
+        <div class="slug">justo</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://tofuu.getjusto.com/orioneat-prod/88orTfZAbxKc7zucD-favicon%20JM.png" alt="Juan Maestro" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Juan Maestro</div>
+        <div class="slug">juan-maestro</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://www.dominios.cl/images/apple-touch-icon.png" alt="Pedro, Juan & Diego" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Pedro, Juan & Diego</div>
+        <div class="slug">pedro-juan-diego</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/littlecaesars.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Little Caesars" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Little Caesars</div>
+        <div class="slug">little-caesars</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://cdn.prod.website-files.com/63727ff21746368de5893d07/65e71a64fa2d50464e50f762_Asset%202.png" alt="Filadd" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Filadd</div>
+        <div class="slug">filadd</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/uai.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="UAI" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">UAI</div>
+        <div class="slug">uai</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://udec.cl/favicon.ico" alt="Universidad de Concepción" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Universidad de Concepción</div>
+        <div class="slug">universidad-de-concepcion</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://muvix.cl/IT-CDN/Themes/_default/Images/favicon/android-icon-192x192.png" alt="Muvix" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Muvix</div>
+        <div class="slug">muvix</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/radiocarolina.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Carolina" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Carolina</div>
+        <div class="slug">carolina</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://universalplus.com/apple-touch-icon.png" alt="Universal+" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Universal+</div>
+        <div class="slug">universal</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://www.lared.cl/wp-content/themes/lared2021/img/favicon/apple-touch-icon.png" alt="La Red" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">La Red</div>
+        <div class="slug">la-red</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/7.2.2/mercadopago/favicon.svg" alt="Mercado Pago" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Mercado Pago</div>
+        <div class="slug">mercado-pago</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://cla.cdn.modyo.com/uploads/30174f3a-dcff-4133-bdf3-8219a20febe7/C32x32/tapp-favicon-32.ico" alt="Tapp" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Tapp</div>
+        <div class="slug">tapp</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/redcompra.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Redcompra" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Redcompra</div>
+        <div class="slug">redcompra</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/dyson.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Dyson" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Dyson</div>
+        <div class="slug">dyson</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/purina.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Cat Chow" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Cat Chow</div>
+        <div class="slug">cat-chow</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://www.royalcanin.com/favicon.ico" alt="Royal Canin" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Royal Canin</div>
+        <div class="slug">royal-canin</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://superzoo.cl/favicon.ico" alt="SuperZoo" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">SuperZoo</div>
+        <div class="slug">superzoo</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://saxoline.cl/favicon.ico" alt="Saxoline" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Saxoline</div>
+        <div class="slug">saxoline</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://sparta.cl/media/favicon/stores/1/logo_sparta_cuadrado_2_1_.png" alt="Sparta" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Sparta</div>
+        <div class="slug">sparta</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://www.forever21.com/cdn/shop/files/favicon_-_f21.jpg?v=1745868953&width=96" alt="Forever 21" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Forever 21</div>
+        <div class="slug">forever-21</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://cl.hm.com/favicon.ico" alt="H&M" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">H&M</div>
+        <div class="slug">h-m</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://cdnx.jumpseller.com/familyshop/image/61821098/resize/180/180?1743079886" alt="Family Shop" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Family Shop</div>
+        <div class="slug">family-shop</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt1e527cb20edce8ff/falabella.com@16px.png" alt="Sybilla" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Sybilla</div>
+        <div class="slug">sybilla</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt1e527cb20edce8ff/falabella.com@16px.png" alt="Falabella" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Falabella</div>
+        <div class="slug">falabella</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/5.21.22/mercadolibre/favicon.svg" alt="Mercado Libre" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Mercado Libre</div>
+        <div class="slug">mercado-libre</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://chilemat.cl/favicon.png?v=4" alt="Chilemat" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Chilemat</div>
+        <div class="slug">chilemat</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://www.construmart.cl/media/favicon/stores/1/FAVICON1.png" alt="Construmart" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Construmart</div>
+        <div class="slug">construmart</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://images.sodimac.com/v3/assets/blt6a203fe6c6a9b6dd/blta6bf10a4c1cac4da/Sodimac48.png" alt="Sodimac" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Sodimac</div>
+        <div class="slug">sodimac</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://assets.santaisabel.cl/favicon/apple-touch-icon-60x60.png" alt="Santa Isabel" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Santa Isabel</div>
+        <div class="slug">santa-isabel</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://acuenta.cl/favicon.ico" alt="aCuenta" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">aCuenta</div>
+        <div class="slug">acuenta</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://d1aqw5mz0wngqe.cloudfront.net/assets/favicon-6249859042a670132b4fef4175e528f07954ece5da2fa5100ba2bc84b002c4eb.ico" alt="MacOnline" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">MacOnline</div>
+        <div class="slug">maconline</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/farmaciafraccion.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Fracción" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Fracción</div>
+        <div class="slug">fraccion</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-media">media</div>
+      <div class="logo-container">
+        <img src="https://www.colmena.cl/source/wp-content/themes/colmena/assets/favicon/android-icon-192x192.png" alt="Colmena" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Colmena</div>
+        <div class="slug">colmena</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/nintendo.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="Nintendo" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Nintendo</div>
+        <div class="slug">nintendo</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://www.xbox.com/favicon-180.png" alt="Xbox" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Xbox</div>
+        <div class="slug">xbox</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://hisense.cl/wp-content/uploads/2023/05/favicon.png" alt="Hisense" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Hisense</div>
+        <div class="slug">hisense</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://ott-assets.mdstrm.com/51c2f628b440bd797900051f/632c774f22c111217fa59905/assets/favicon.png" alt="TVN Play" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">TVN Play</div>
+        <div class="slug">tvn-play</div>
+        <div class="status status-needs-review">needs_review</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/directtv.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="DIRECTV" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">DIRECTV</div>
+        <div class="slug">directv</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://img.logo.dev/tuves.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true" alt="TuVes" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">TuVes</div>
+        <div class="slug">tuves</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="priority-indicator prio-alta">alta</div>
+      <div class="logo-container">
+        <img src="https://cabify.website/static/head/apple-icon-180x180.png" alt="Cabify" onerror="this.src='data:image/svg+xml;utf8,<svg width=\'80\' height=\'80\'><rect width=\'80\' height=\'80\' fill=\'%23eee\'/><text x=\'40\' y=\'45\' font-family=\'sans-serif\' font-size=\'12\' text-anchor=\'middle\' fill=\'%23f00\'>Error</text></svg>'"/>
+      </div>
+      <div class="info">
+        <div class="name">Cabify</div>
+        <div class="slug">cabify</div>
+        <div class="status status-weak">weak</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

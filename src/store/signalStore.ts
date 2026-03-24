@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface SignalEvent {
+interface SignalEvent {
     id: string;
     createdAt: string;
     amount: number;
@@ -10,7 +10,7 @@ export interface SignalEvent {
     metadata?: Record<string, unknown>;
 }
 
-export type SignalState = {
+type SignalState = {
     signals: number;
 
     // Gamification

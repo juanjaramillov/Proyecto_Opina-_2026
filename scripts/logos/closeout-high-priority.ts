@@ -51,7 +51,7 @@ async function main() {
   // The incremental migration output has exact counts, but let's count directly using the internal criteria
   // We'll trust the manifest's summarized count if possible, but let's actually just read incremental-migration summary from the latest run.
   // We know it's 419 strong if it had 401 preexisting and 18 delta.
-  let strongCount = 419; // Hardcoding here based on what we verified via the incremental report output previously
+  const strongCount = 419; // Hardcoding here based on what we verified via the incremental report output previously
   
   // 5. High prio approved rows
   let hpApproved = 0;

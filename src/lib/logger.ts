@@ -2,7 +2,7 @@
  * Taxonomía Oficial de Errores y Eventos en Opina+
  */
 
-export type LogDomain =
+type LogDomain =
     | 'auth'
     | 'access_policy'
     | 'signal_write'
@@ -14,21 +14,21 @@ export type LogDomain =
     | 'platform_core'
     | 'unexpected_ui_state';
 
-export type LogSeverity =
+type LogSeverity =
     | 'info'
     | 'warning'
     | 'recoverable_error'
     | 'blocking_error'
     | 'critical_integrity_error';
 
-export type LogState =
+type LogState =
     | 'confirmed'
     | 'pending'
     | 'failed'
     | 'blocked'
     | 'retrying';
 
-export interface LogBaseContext {
+interface LogBaseContext {
     domain: LogDomain;
     severity?: LogSeverity;
     origin?: string; // Nombre de componente, hook o función

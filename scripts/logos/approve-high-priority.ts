@@ -12,7 +12,7 @@ async function loadCsv<T>(filePath: string): Promise<{ rows: T[], headers: strin
   return new Promise((resolve, reject) => {
     const rows: T[] = [];
     let headers: string[] = [];
-    let isFirst = true;
+    const isFirst = true;
 
     if (!fs.existsSync(filePath)) return resolve({ rows, headers });
     fs.createReadStream(filePath)

@@ -32,7 +32,7 @@ async function purgeUsers() {
     // Auth user list is paginated
     let hasMore = true;
     let page = 1;
-    let usersToDelete: { id: string; email?: string }[] = [];
+    const usersToDelete: { id: string; email?: string }[] = [];
 
     while (hasMore) {
         const { data, error } = await supabaseAdmin.auth.admin.listUsers({

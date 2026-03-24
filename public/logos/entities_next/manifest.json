@@ -271,7 +271,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:15:56.651Z"
+    "updatedAt": "2026-03-24T16:18:05.745Z"
   },
   {
     "entityId": "csv-13",
@@ -697,23 +697,23 @@
     "entityId": "csv-33",
     "entitySlug": "escudo",
     "entityName": "Escudo",
-    "domain": null,
+    "domain": "ccu.cl/marcas-productos/escudo",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
-    "providerType": "backup",
-    "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/escudoconsultoria.com.br?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
-    "localPath": "/logos/entities_next/escudo.jpg",
-    "format": "jpg",
-    "contentType": "image/jpeg",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/escudo.png",
+    "localPath": "/logos/entities_next/escudo.png",
+    "format": "png",
+    "contentType": null,
     "width": null,
     "height": null,
-    "score": 35,
-    "reason": "Remote accessible (image/jpeg)",
+    "score": 85,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:15:57.211Z"
+    "updatedAt": "2026-03-24T16:18:08.779Z"
   },
   {
     "entityId": "csv-34",
@@ -1097,45 +1097,45 @@
     "entityId": "csv-52",
     "entitySlug": "tienda-concha-y-toro",
     "entityName": "Tienda Concha y Toro",
-    "domain": null,
+    "domain": "ELIMINAR",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
-    "status": "missing",
-    "providerType": null,
-    "sourceProvider": null,
-    "sourceUrl": null,
-    "localPath": null,
-    "format": null,
+    "status": "approved",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/tienda-concha-y-toro.png",
+    "localPath": "/logos/entities_next/tienda-concha-y-toro.png",
+    "format": "png",
     "contentType": null,
     "width": null,
     "height": null,
-    "score": null,
-    "reason": "No valid candidates found.",
+    "score": 85,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:15:57.691Z"
+    "updatedAt": "2026-03-24T16:18:11.363Z"
   },
   {
     "entityId": "csv-53",
     "entitySlug": "tienda-santa-rita",
     "entityName": "Tienda Santa Rita",
-    "domain": null,
+    "domain": "ELIMINAR",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
-    "status": "missing",
-    "providerType": null,
-    "sourceProvider": null,
-    "sourceUrl": null,
-    "localPath": null,
-    "format": null,
+    "status": "approved",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/tienda-santa-rita.png",
+    "localPath": "/logos/entities_next/tienda-santa-rita.png",
+    "format": "png",
     "contentType": null,
     "width": null,
     "height": null,
-    "score": null,
-    "reason": "No valid candidates found.",
+    "score": 85,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:15:58.160Z"
+    "updatedAt": "2026-03-24T16:18:13.475Z"
   },
   {
     "entityId": "csv-54",
@@ -1199,7 +1199,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:02.751Z"
+    "updatedAt": "2026-03-24T16:18:17.018Z"
   },
   {
     "entityId": "csv-57",
@@ -1557,7 +1557,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:07.862Z"
+    "updatedAt": "2026-03-24T16:18:21.988Z"
   },
   {
     "entityId": "csv-74",
@@ -1663,7 +1663,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:16:09.999Z"
+    "updatedAt": "2026-03-24T16:18:24.495Z"
   },
   {
     "entityId": "csv-79",
@@ -2147,7 +2147,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:14.433Z"
+    "updatedAt": "2026-03-24T16:18:28.954Z"
   },
   {
     "entityId": "csv-102",
@@ -2258,23 +2258,23 @@
     "entityId": "csv-107",
     "entitySlug": "elvive",
     "entityName": "Elvive",
-    "domain": "loreal-paris.cl",
+    "domain": "ELIMINAR",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
-    "providerType": "primary",
-    "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/loreal-paris.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/elvive.jpg",
     "localPath": "/logos/entities_next/elvive.jpg",
     "format": "jpg",
-    "contentType": "image/jpeg",
+    "contentType": null,
     "width": null,
     "height": null,
-    "score": 65,
-    "reason": "Remote accessible (image/jpeg)",
+    "score": 45,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:16.832Z"
+    "updatedAt": "2026-03-24T16:18:31.641Z"
   },
   {
     "entityId": "csv-108",
@@ -2595,23 +2595,23 @@
     "entityId": "csv-123",
     "entitySlug": "justo",
     "entityName": "Justo",
-    "domain": "justo.cl",
+    "domain": "ELIMINAR",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
-    "providerType": "primary",
-    "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/justo.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/justo.jpg",
     "localPath": "/logos/entities_next/justo.jpg",
     "format": "jpg",
-    "contentType": "image/jpeg",
+    "contentType": null,
     "width": null,
     "height": null,
-    "score": 65,
-    "reason": "Remote accessible (image/jpeg)",
+    "score": 45,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:30.154Z"
+    "updatedAt": "2026-03-24T16:18:34.171Z"
   },
   {
     "entityId": "csv-124",
@@ -2759,7 +2759,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:34.495Z"
+    "updatedAt": "2026-03-24T16:18:38.863Z"
   },
   {
     "entityId": "csv-131",
@@ -2823,7 +2823,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:38.262Z"
+    "updatedAt": "2026-03-24T16:18:42.152Z"
   },
   {
     "entityId": "csv-134",
@@ -2892,23 +2892,23 @@
     "entityId": "csv-137",
     "entitySlug": "little-caesars",
     "entityName": "Little Caesars",
-    "domain": "littlecaesars.cl",
+    "domain": "cl.littlecaesars.com/es-cl",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
-    "providerType": "primary",
-    "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/littlecaesars.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/little-caesars.jpg",
     "localPath": "/logos/entities_next/little-caesars.jpg",
     "format": "jpg",
-    "contentType": "image/jpeg",
+    "contentType": null,
     "width": null,
     "height": null,
-    "score": 65,
-    "reason": "Remote accessible (image/jpeg)",
+    "score": 45,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:43.794Z"
+    "updatedAt": "2026-03-24T16:18:47.266Z"
   },
   {
     "entityId": "csv-138",
@@ -3287,7 +3287,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:48.662Z"
+    "updatedAt": "2026-03-24T16:18:50.834Z"
   },
   {
     "entityId": "csv-156",
@@ -3414,7 +3414,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:52.791Z"
+    "updatedAt": "2026-03-24T16:18:55.571Z"
   },
   {
     "entityId": "csv-162",
@@ -3462,23 +3462,23 @@
     "entityId": "csv-164",
     "entitySlug": "universidad-de-concepcion",
     "entityName": "Universidad de Concepción",
-    "domain": "udec.cl",
+    "domain": "udec.cl/pexterno",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
-    "providerType": "primary",
-    "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/udec.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/universidad-de-concepcion.jpg",
     "localPath": "/logos/entities_next/universidad-de-concepcion.jpg",
     "format": "jpg",
-    "contentType": "image/jpeg",
+    "contentType": null,
     "width": null,
     "height": null,
-    "score": 65,
-    "reason": "Remote accessible (image/jpeg)",
+    "score": 45,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:56.027Z"
+    "updatedAt": "2026-03-24T16:18:58.956Z"
   },
   {
     "entityId": "csv-165",
@@ -3589,7 +3589,7 @@
     "entityId": "csv-170",
     "entitySlug": "muvix",
     "entityName": "Muvix",
-    "domain": "muvix.cl",
+    "domain": "muvix.cl/Browsing",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
@@ -3605,7 +3605,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:16:59.746Z"
+    "updatedAt": "2026-03-24T16:19:04.199Z"
   },
   {
     "entityId": "csv-171",
@@ -3884,23 +3884,23 @@
     "entityId": "csv-184",
     "entitySlug": "carolina",
     "entityName": "Carolina",
-    "domain": "radiocarolina.cl",
+    "domain": "chcarolinaherrera.com/cl/es",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
-    "providerType": "primary",
-    "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/radiocarolina.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/carolina.jpg",
     "localPath": "/logos/entities_next/carolina.jpg",
     "format": "jpg",
-    "contentType": "image/jpeg",
+    "contentType": null,
     "width": null,
     "height": null,
-    "score": 65,
-    "reason": "Remote accessible (image/jpeg)",
+    "score": 45,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:02.178Z"
+    "updatedAt": "2026-03-24T16:19:09.929Z"
   },
   {
     "entityId": "csv-185",
@@ -4384,7 +4384,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:06.013Z"
+    "updatedAt": "2026-03-24T16:19:14.373Z"
   },
   {
     "entityId": "csv-208",
@@ -4448,7 +4448,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:10.891Z"
+    "updatedAt": "2026-03-24T16:19:21.475Z"
   },
   {
     "entityId": "csv-211",
@@ -4827,7 +4827,7 @@
     "score": 115,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:14.606Z"
+    "updatedAt": "2026-03-24T16:19:25.247Z"
   },
   {
     "entityId": "csv-229",
@@ -4870,7 +4870,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:19.587Z"
+    "updatedAt": "2026-03-24T16:19:30.492Z"
   },
   {
     "entityId": "csv-231",
@@ -5128,14 +5128,14 @@
     "entityId": "csv-243",
     "entitySlug": "redcompra",
     "entityName": "Redcompra",
-    "domain": "redcompra.cl",
+    "domain": "transbank.cl",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
     "providerType": "primary",
     "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/redcompra.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "sourceUrl": "https://img.logo.dev/transbank.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
     "localPath": "/logos/entities_next/redcompra.jpg",
     "format": "jpg",
     "contentType": "image/jpeg",
@@ -5144,7 +5144,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:28.319Z"
+    "updatedAt": "2026-03-24T16:19:34.935Z"
   },
   {
     "entityId": "csv-244",
@@ -5208,7 +5208,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:32.770Z"
+    "updatedAt": "2026-03-24T16:19:38.142Z"
   },
   {
     "entityId": "csv-247",
@@ -5629,7 +5629,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:35.663Z"
+    "updatedAt": "2026-03-24T16:19:40.944Z"
   },
   {
     "entityId": "csv-267",
@@ -5656,23 +5656,23 @@
     "entityId": "csv-268",
     "entitySlug": "royal-canin",
     "entityName": "Royal Canin",
-    "domain": "royalcanin.com",
+    "domain": "royalcanin.com/cl",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
-    "providerType": "primary",
-    "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/royalcanin.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "providerType": "local_carry_over",
+    "sourceProvider": "local",
+    "sourceUrl": "public/logos/entities/royal-canin.jpg",
     "localPath": "/logos/entities_next/royal-canin.jpg",
     "format": "jpg",
-    "contentType": "image/jpeg",
+    "contentType": null,
     "width": null,
     "height": null,
-    "score": 65,
-    "reason": "Remote accessible (image/jpeg)",
+    "score": 45,
+    "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:39.936Z"
+    "updatedAt": "2026-03-24T16:19:45.903Z"
   },
   {
     "entityId": "csv-269",
@@ -5988,7 +5988,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:43.140Z"
+    "updatedAt": "2026-03-24T16:19:49.176Z"
   },
   {
     "entityId": "csv-284",
@@ -6052,7 +6052,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:46.729Z"
+    "updatedAt": "2026-03-24T16:19:53.588Z"
   },
   {
     "entityId": "csv-287",
@@ -6368,7 +6368,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:49.369Z"
+    "updatedAt": "2026-03-24T16:19:56.064Z"
   },
   {
     "entityId": "csv-302",
@@ -6432,7 +6432,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:53.378Z"
+    "updatedAt": "2026-03-24T16:19:59.760Z"
   },
   {
     "entityId": "csv-305",
@@ -6454,7 +6454,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:17:57.112Z"
+    "updatedAt": "2026-03-24T16:20:04.482Z"
   },
   {
     "entityId": "csv-306",
@@ -6686,7 +6686,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:18:03.353Z"
+    "updatedAt": "2026-03-24T16:20:10.657Z"
   },
   {
     "entityId": "csv-317",
@@ -6708,7 +6708,7 @@
     "score": 75,
     "reason": "Remote accessible (image/png)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:06.721Z"
+    "updatedAt": "2026-03-24T16:20:17.286Z"
   },
   {
     "entityId": "csv-318",
@@ -6793,7 +6793,7 @@
     "score": 75,
     "reason": "Remote accessible (image/png)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:08.544Z"
+    "updatedAt": "2026-03-24T16:20:22.432Z"
   },
   {
     "entityId": "csv-322",
@@ -6836,7 +6836,7 @@
     "score": 115,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:11.058Z"
+    "updatedAt": "2026-03-24T16:20:27.178Z"
   },
   {
     "entityId": "csv-324",
@@ -6900,7 +6900,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:13.482Z"
+    "updatedAt": "2026-03-24T16:20:29.604Z"
   },
   {
     "entityId": "csv-327",
@@ -6922,7 +6922,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:16.891Z"
+    "updatedAt": "2026-03-24T16:20:32.767Z"
   },
   {
     "entityId": "csv-328",
@@ -7007,7 +7007,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:19.210Z"
+    "updatedAt": "2026-03-24T16:20:36.855Z"
   },
   {
     "entityId": "csv-332",
@@ -7155,7 +7155,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:23.662Z"
+    "updatedAt": "2026-03-24T16:20:41.472Z"
   },
   {
     "entityId": "csv-339",
@@ -7219,7 +7219,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:29.165Z"
+    "updatedAt": "2026-03-24T16:20:45.427Z"
   },
   {
     "entityId": "csv-342",
@@ -7241,7 +7241,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:34.482Z"
+    "updatedAt": "2026-03-24T16:20:51.895Z"
   },
   {
     "entityId": "csv-343",
@@ -7625,14 +7625,14 @@
     "entityId": "csv-361",
     "entitySlug": "fraccion",
     "entityName": "Fracción",
-    "domain": "farmaciafraccion.cl",
+    "domain": "fraccion.cl",
     "assetType": "brand_logo",
     "entityKind": "brand",
     "usedBrandFallback": false,
     "status": "approved",
     "providerType": "primary",
     "sourceProvider": "logodev",
-    "sourceUrl": "https://img.logo.dev/farmaciafraccion.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+    "sourceUrl": "https://img.logo.dev/fraccion.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
     "localPath": "/logos/entities_next/fraccion.jpg",
     "format": "jpg",
     "contentType": "image/jpeg",
@@ -7641,7 +7641,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:18:36.821Z"
+    "updatedAt": "2026-03-24T16:20:54.984Z"
   },
   {
     "entityId": "csv-362",
@@ -7726,7 +7726,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": false,
-    "updatedAt": "2026-03-24T01:18:40.741Z"
+    "updatedAt": "2026-03-24T16:20:59.906Z"
   },
   {
     "entityId": "csv-366",
@@ -8084,7 +8084,7 @@
     "score": 75,
     "reason": "Remote accessible (image/png)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:45.322Z"
+    "updatedAt": "2026-03-24T16:21:04.713Z"
   },
   {
     "entityId": "csv-383",
@@ -8148,7 +8148,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:50.124Z"
+    "updatedAt": "2026-03-24T16:21:09.819Z"
   },
   {
     "entityId": "csv-386",
@@ -8548,7 +8548,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:53.812Z"
+    "updatedAt": "2026-03-24T16:21:12.795Z"
   },
   {
     "entityId": "csv-405",
@@ -8780,7 +8780,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:18:59.937Z"
+    "updatedAt": "2026-03-24T16:21:18.527Z"
   },
   {
     "entityId": "csv-416",
@@ -8823,7 +8823,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:19:03.995Z"
+    "updatedAt": "2026-03-24T16:21:24.256Z"
   },
   {
     "entityId": "csv-418",
@@ -8845,7 +8845,7 @@
     "score": 65,
     "reason": "Remote accessible (image/jpeg)",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:19:08.045Z"
+    "updatedAt": "2026-03-24T16:21:30.116Z"
   },
   {
     "entityId": "csv-419",
@@ -9119,7 +9119,7 @@
     "score": 85,
     "reason": "Local file exists",
     "isManualOverride": true,
-    "updatedAt": "2026-03-24T01:19:12.385Z"
+    "updatedAt": "2026-03-24T16:21:35.707Z"
   },
   {
     "entityId": "csv-432",

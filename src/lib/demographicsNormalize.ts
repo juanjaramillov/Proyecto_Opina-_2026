@@ -1,5 +1,5 @@
 import { DemographicData } from '../features/auth/types';
-export const REGION_NAME_TO_CODE: Record<string, string> = {
+const REGION_NAME_TO_CODE: Record<string, string> = {
     // Canon
     "RM": "RM",
     "V": "V",
@@ -51,7 +51,7 @@ export function normalizeRegion(input?: string): string | undefined {
     return REGION_NAME_TO_CODE[raw] ?? REGION_NAME_TO_CODE[raw.toLowerCase()] ?? raw;
 }
 
-export function normalizeGender(input?: string): string | undefined {
+function normalizeGender(input?: string): string | undefined {
     if (input === undefined) return undefined;
     const raw = String(input).trim();
     if (!raw) return undefined;
@@ -111,7 +111,7 @@ export function computeAgeBucketFromBirthYear(birthYear?: number): string | unde
 }
 
 // UI Options (Consolidated from segmentation.ts)
-export type SegmentOption = { value: string; label: string };
+type SegmentOption = { value: string; label: string };
 
 export const SEG_GENDERS: SegmentOption[] = [
     { value: "all", label: "Todos" },

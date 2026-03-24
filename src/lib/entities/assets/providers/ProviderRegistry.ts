@@ -1,5 +1,4 @@
 import { AssetCandidate, AssetProvider, AssetType, EntityCatalogItem } from '../types';
-import { HtmlMetadataProvider } from './HtmlMetadataProvider';
 
 export class ProviderRegistry {
   private providers: AssetProvider[] = [];

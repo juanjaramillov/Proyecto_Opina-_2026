@@ -119,6 +119,14 @@
   }
 
   /* ✅ V3 RESULTS ANIMATIONS & CLASSES */
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
   .glass-panel {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
