@@ -46,8 +46,6 @@ export default function VersusGame(props: GameProps) {
         locked,
         lockedByLimit,
         selected,
-        idx,
-        total,
         vote,
         next,
         champion,
@@ -178,11 +176,9 @@ export default function VersusGame(props: GameProps) {
     };
 
     return (
-        <div id="versus-container" className="w-full max-w-5xl mx-auto px-4 md:px-6 pb-6 md:pb-8 pt-4 md:pt-8 space-y-6 scroll-mt-20">
-            <div className="px-4 pt-4 pb-2 text-center">
-                {/* Title and subtitle only at the top */}
-
-                <VersusHeader title={effectiveBattle.title} onResetGame={resetGame} />
+        <div id="versus-container" className="w-full mx-auto pb-8 md:pb-12 pt-4 md:pt-8 space-y-8 md:space-y-12 scroll-mt-20">
+            <div className="pt-2 pb-2">
+                <VersusHeader title={effectiveBattle.title} />
 
                 {effectiveBattle.layout === 'opinion' && effectiveBattle.mainImageUrl && (
                     <motion.div
@@ -216,40 +212,15 @@ export default function VersusGame(props: GameProps) {
                             transition={{ duration: 0.3, ease: "easeOut" }}
                             className="relative"
                         >
-                            {/* Instruction + Progress immediately above cards */}
-                            {!props.hideProgress && (
-                                <div className="max-w-xl mx-auto mb-8">
-                                    <div className="mt-8 relative z-20 text-center animate-fade-in-up">
-                                        <span className="inline-flex items-center gap-2 bg-white/50 backdrop-blur-md px-4 py-1.5 rounded-full border border-stroke text-xs font-black uppercase tracking-wider text-slate-600 mix-blend-multiply">
-                                            <span className="material-symbols-outlined text-[16px]">touch_app</span>
-                                            Elige una opción para avanzar
-                                        </span>
-                                    </div>
-
-                                    <div className="mt-2 h-1.5 rounded-full bg-slate-100 border border-slate-200 overflow-hidden shadow-inner">
-                                        <div
-                                            className="h-full rounded-full bg-gradient-brand shadow-[0_0_8px_rgba(59,130,246,0.4)] transition-all duration-500 ease-out"
-                                            style={{ width: `${Math.round(((idx) / Math.max(1, total)) * 100)}%` }}
-                                        />
-                                    </div>
-
-                                    <div className="mt-2 text-[11px] md:text-xs font-bold text-slate-500 text-center uppercase tracking-wider">
-                                        Cruzando señal con perfil
-                                    </div>
-                                </div>
-                            )}
-                            {/* Spinners eliminated conceptually to favor instant UX */}
-
                             {/* Error handling interior si no hay opciones */}
                             {(!a && !b) ? (
                                 <div className="p-8 text-center text-rose-400 font-bold bg-rose-500/10 rounded-2xl mx-4 mb-4 border border-rose-500/20">
                                     Hay un problema de datos con esta señal. No hay opciones configuradas.
                                 </div>
                             ) : (
-                                <div className="relative mt-6 w-full mx-auto">
-                                    {/* VS badge central eliminado por lineamientos de copy (no lenguaje bélico) */}
-
-                                    <div className={`grid grid-cols-2 gap-3 md:gap-8 lg:gap-10 relative z-20 transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
+                                <div className="relative mt-8 md:mt-12 w-full mx-auto px-4 md:px-0">
+                                    {/* Prominent Options Grid with Expanded Gaps */}
+                                    <div className={`grid grid-cols-2 gap-4 md:gap-8 lg:gap-12 relative z-20 transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
                                         {a && (
                                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: "easeOut" }} className="w-full flex">
                                                 <OptionCard
@@ -301,7 +272,7 @@ export default function VersusGame(props: GameProps) {
                                     <motion.div
                                         initial={{ opacity: 0, y: 15 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className={`mt-4 max-w-3xl mx-auto rounded-[2rem] border overflow-hidden relative z-20 w-full transition-all duration-700 h-[250px] sm:h-[210px] md:h-[220px] ${!selectedOption ? 'border-slate-100 bg-white shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)]' : 'border-transparent shadow-[0_20px_50px_-12px_rgba(37,99,235,0.4)] bg-gradient-brand'}`}
+                                        className={`mt-8 md:mt-12 max-w-4xl mx-auto rounded-[2rem] overflow-hidden relative z-20 w-full transition-all duration-700 h-[250px] sm:h-[210px] md:h-[220px] ${!selectedOption ? 'bg-transparent border-transparent shadow-none' : 'border-transparent shadow-[0_20px_50px_-12px_rgba(37,99,235,0.4)] bg-gradient-brand'}`}
                                     >
                                         <AnimatePresence mode="wait">
                                             {!selectedOption ? (

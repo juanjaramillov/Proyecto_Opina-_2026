@@ -2,11 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface VersusHeaderProps {
     title: string;
-    onResetGame: () => void;
-    onExploreCategories?: () => void;
 }
 
-export function VersusHeader({ title, onResetGame, onExploreCategories }: VersusHeaderProps) {
+export function VersusHeader({ title }: VersusHeaderProps) {
     const formatTitle = (str: string) => {
         const match = str.match(/^([¿¡\s]*)(.*)/);
         if (!match) return str;
@@ -81,36 +79,21 @@ export function VersusHeader({ title, onResetGame, onExploreCategories }: Versus
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5, transition: { duration: 0.15 } }}
             >
-                <div className="text-center">
-                    <div className="flex items-center justify-between w-full mb-6">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-sm">
-                            <span className="inline-block w-2 h-2 rounded-full bg-gradient-to-r from-primary to-emerald-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]" />
-                            Comparación Corta
+                <div className="text-center md:text-left pt-2 pb-6 px-4 md:px-0">
+                    {/* Badge Sutil Premium */}
+                    <div className="flex items-center justify-center md:justify-start w-full mb-6">
+                        <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                            Señal Activa
                         </div>
-
-                        <button
-                            onClick={() => onExploreCategories ? onExploreCategories() : onResetGame()}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-50 hover:bg-primary-100 border border-primary-100 hover:border-primary-200 text-primary-600 hover:text-primary-700 transition-all group shadow-sm"
-                            title="Explorar otras categorías o ver mis resultados"
-                        >
-                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">Explorar Categorías</span>
-                            <span className="material-symbols-outlined text-sm font-bold transition-transform group-hover:scale-110">explore</span>
-                        </button>
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 leading-[1.2] drop-shadow-sm px-4">
+                    {/* Título Principal (Native Hero Headline) */}
+                    <h2 className="text-3xl sm:text-4xl md:text-[2.75rem] font-black tracking-tight text-slate-800 leading-[1.1] md:leading-[1.1] drop-shadow-sm max-w-2xl mx-auto md:mx-0">
                         {beforeHighlight && <>{beforeHighlight} </>}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500 pb-1">{highlightWord}</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">{highlightWord}</span>
                         {afterHighlight && <> {afterHighlight}</>}
                     </h2>
-
-                    <p className="mt-3 text-base md:text-lg font-bold text-slate-600">
-                        Dos opciones. Una decisión rápida.
-                    </p>
-
-                    <div className="mt-2 text-sm font-medium text-slate-500">
-                        Toca una carta para señalar tu preferencia.
-                    </div>
                 </div>
             </motion.div>
         </AnimatePresence>
