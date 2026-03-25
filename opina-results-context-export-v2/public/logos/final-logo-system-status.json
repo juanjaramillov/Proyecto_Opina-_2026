@@ -1,0 +1,11 @@
+{
+  "metrics": {
+    "totalStrongProductivosFinales": 419,
+    "totalArchivosEnEntities": 0,
+    "totalRegistrosEnManifest": 438,
+    "casosResueltosPorAutomatizacion": 401,
+    "casosResueltosPorPrioridadAlta": 18,
+    "casosResueltosPorPrioridadMedia": 0,
+    "pendientesManualesRestantes": 48
+  }
+}

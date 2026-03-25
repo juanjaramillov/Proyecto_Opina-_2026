@@ -1,0 +1,3926 @@
+{
+  "lastUpdated": "2026-03-24T15:54:03.789Z",
+  "summary": {
+    "totalAttempted": 439,
+    "migratedStrongCount": 521,
+    "excludedWeak": 35,
+    "excludedNeedsReview": 13,
+    "excludedMissing": 4
+  },
+  "details": {
+    "bruno-fritsch": {
+      "localPath": "/logos/entities/bruno-fritsch.jpg",
+      "qualityTier": "strong"
+    },
+    "gildemeister": {
+      "localPath": "/logos/entities/gildemeister.png",
+      "qualityTier": "strong"
+    },
+    "portillo": {
+      "localPath": "/logos/entities/portillo.jpg",
+      "qualityTier": "strong"
+    },
+    "salazar-israel": {
+      "localPath": "/logos/entities/salazar-israel.jpg",
+      "qualityTier": "strong"
+    },
+    "byd": {
+      "localPath": "/logos/entities/byd.jpg",
+      "qualityTier": "strong"
+    },
+    "chery": {
+      "localPath": "/logos/entities/chery.png",
+      "qualityTier": "strong"
+    },
+    "geely": {
+      "localPath": "/logos/entities/geely.png",
+      "qualityTier": "strong"
+    },
+    "great-wall": {
+      "localPath": "/logos/entities/great-wall.jpg",
+      "qualityTier": "strong"
+    },
+    "haval": {
+      "localPath": "/logos/entities/haval.jpg",
+      "qualityTier": "strong"
+    },
+    "jac": {
+      "localPath": "/logos/entities/jac.png",
+      "qualityTier": "strong"
+    },
+    "mg": {
+      "entityId": "csv-13",
+      "entityName": "MG",
+      "domain": "mgmotor.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/mg.svg",
+      "localPath": "/logos/entities/mg.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:39:51.665Z"
+    },
+    "bmw": {
+      "entityId": "csv-14",
+      "entityName": "BMW",
+      "domain": "bmw.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/bmw.svg",
+      "localPath": "/logos/entities/bmw.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:39:55.665Z"
+    },
+    "chevrolet": {
+      "entityId": "csv-15",
+      "entityName": "Chevrolet",
+      "domain": "chevrolet.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/chevrolet.svg",
+      "localPath": "/logos/entities/chevrolet.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:39:59.191Z"
+    },
+    "hyundai": {
+      "entityId": "csv-16",
+      "entityName": "Hyundai",
+      "domain": "hyundai.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/hyundai.svg",
+      "localPath": "/logos/entities/hyundai.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:00.891Z"
+    },
+    "kia": {
+      "entityId": "csv-17",
+      "entityName": "Kia",
+      "domain": "kia.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/kia.svg",
+      "localPath": "/logos/entities/kia.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:03.102Z"
+    },
+    "mazda": {
+      "entityId": "csv-18",
+      "entityName": "Mazda",
+      "domain": "mazda.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/mazda.svg",
+      "localPath": "/logos/entities/mazda.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:06.195Z"
+    },
+    "mercedes-benz": {
+      "localPath": "/logos/entities/mercedes-benz.png",
+      "qualityTier": "strong"
+    },
+    "nissan": {
+      "entityId": "csv-20",
+      "entityName": "Nissan",
+      "domain": "nissan.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/nissan.svg",
+      "localPath": "/logos/entities/nissan.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:13.664Z"
+    },
+    "peugeot": {
+      "localPath": "/logos/entities/peugeot.svg",
+      "qualityTier": "strong"
+    },
+    "suzuki": {
+      "entityId": "csv-22",
+      "entityName": "Suzuki",
+      "domain": "suzuki.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/suzuki.svg",
+      "localPath": "/logos/entities/suzuki.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:21.006Z"
+    },
+    "toyota": {
+      "entityId": "csv-23",
+      "entityName": "Toyota",
+      "domain": "toyota.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/toyota.svg",
+      "localPath": "/logos/entities/toyota.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:24.840Z"
+    },
+    "aquarius": {
+      "localPath": "/logos/entities/aquarius.jpg",
+      "qualityTier": "strong"
+    },
+    "benedictino": {
+      "localPath": "/logos/entities/benedictino.jpg",
+      "qualityTier": "strong"
+    },
+    "cachantun": {
+      "localPath": "/logos/entities/cachantun.png",
+      "qualityTier": "strong"
+    },
+    "evian": {
+      "localPath": "/logos/entities/evian.png",
+      "qualityTier": "strong"
+    },
+    "perrier": {
+      "localPath": "/logos/entities/perrier.png",
+      "qualityTier": "strong"
+    },
+    "vital": {
+      "localPath": "/logos/entities/vital.jpg",
+      "qualityTier": "strong"
+    },
+    "becker": {
+      "localPath": "/logos/entities/becker.jpg",
+      "qualityTier": "strong"
+    },
+    "corona": {
+      "localPath": "/logos/entities/corona.png",
+      "qualityTier": "strong"
+    },
+    "cristal": {
+      "localPath": "/logos/entities/cristal.png",
+      "qualityTier": "strong"
+    },
+    "heineken": {
+      "localPath": "/logos/entities/heineken.png",
+      "qualityTier": "strong"
+    },
+    "burn": {
+      "localPath": "/logos/entities/burn.png",
+      "qualityTier": "strong"
+    },
+    "celsius": {
+      "localPath": "/logos/entities/celsius.svg",
+      "qualityTier": "strong"
+    },
+    "monster": {
+      "entityId": "csv-38",
+      "entityName": "Monster",
+      "domain": "monsterenergy.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/monster.svg",
+      "localPath": "/logos/entities/monster.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:56.366Z"
+    },
+    "canada-dry": {
+      "localPath": "/logos/entities/canada-dry.png",
+      "qualityTier": "strong"
+    },
+    "coca-cola": {
+      "localPath": "/logos/entities/coca-cola.jpg",
+      "qualityTier": "strong"
+    },
+    "fanta": {
+      "localPath": "/logos/entities/fanta.jpg",
+      "qualityTier": "strong"
+    },
+    "pepsi": {
+      "localPath": "/logos/entities/pepsi.png",
+      "qualityTier": "strong"
+    },
+    "schweppes": {
+      "localPath": "/logos/entities/schweppes.png",
+      "qualityTier": "strong"
+    },
+    "sprite": {
+      "localPath": "/logos/entities/sprite.png",
+      "qualityTier": "strong"
+    },
+    "descorcha": {
+      "localPath": "/logos/entities/descorcha.jpg",
+      "qualityTier": "strong"
+    },
+    "el-mundo-del-vino": {
+      "localPath": "/logos/entities/el-mundo-del-vino.jpg",
+      "qualityTier": "strong"
+    },
+    "la-cav": {
+      "localPath": "/logos/entities/la-cav.png",
+      "qualityTier": "strong"
+    },
+    "la-vinoteca": {
+      "localPath": "/logos/entities/la-vinoteca.jpg",
+      "qualityTier": "strong"
+    },
+    "concha-y-toro": {
+      "localPath": "/logos/entities/concha-y-toro.png",
+      "qualityTier": "strong"
+    },
+    "san-pedro": {
+      "localPath": "/logos/entities/san-pedro.png",
+      "qualityTier": "strong"
+    },
+    "santa-rita": {
+      "localPath": "/logos/entities/santa-rita.jpg",
+      "qualityTier": "strong"
+    },
+    "undurraga": {
+      "localPath": "/logos/entities/undurraga.png",
+      "qualityTier": "strong"
+    },
+    "bebesit": {
+      "localPath": "/logos/entities/bebesit.png",
+      "qualityTier": "strong"
+    },
+    "chicco": {
+      "localPath": "/logos/entities/chicco.png",
+      "qualityTier": "strong"
+    },
+    "graco": {
+      "localPath": "/logos/entities/graco.jpg",
+      "qualityTier": "strong"
+    },
+    "infanti": {
+      "localPath": "/logos/entities/infanti.jpg",
+      "qualityTier": "strong"
+    },
+    "joie": {
+      "localPath": "/logos/entities/joie.jpg",
+      "qualityTier": "strong"
+    },
+    "maxi-cosi": {
+      "localPath": "/logos/entities/maxi-cosi.jpg",
+      "qualityTier": "strong"
+    },
+    "enfamil": {
+      "localPath": "/logos/entities/enfamil.png",
+      "qualityTier": "strong"
+    },
+    "pediasure": {
+      "localPath": "/logos/entities/pediasure.png",
+      "qualityTier": "strong"
+    },
+    "babysec": {
+      "localPath": "/logos/entities/babysec.png",
+      "qualityTier": "strong"
+    },
+    "huggies": {
+      "localPath": "/logos/entities/huggies.jpg",
+      "qualityTier": "strong"
+    },
+    "pampers": {
+      "localPath": "/logos/entities/pampers.jpg",
+      "qualityTier": "strong"
+    },
+    "waterwipes": {
+      "localPath": "/logos/entities/waterwipes.png",
+      "qualityTier": "strong"
+    },
+    "l-oreal-paris": {
+      "localPath": "/logos/entities/l-oreal-paris.png",
+      "qualityTier": "strong"
+    },
+    "mac": {
+      "localPath": "/logos/entities/mac.jpg",
+      "qualityTier": "strong"
+    },
+    "maybelline": {
+      "localPath": "/logos/entities/maybelline.jpg",
+      "qualityTier": "strong"
+    },
+    "nyx": {
+      "localPath": "/logos/entities/nyx.png",
+      "qualityTier": "strong"
+    },
+    "natura": {
+      "localPath": "/logos/entities/natura.jpg",
+      "qualityTier": "strong"
+    },
+    "petrizzio": {
+      "localPath": "/logos/entities/petrizzio.jpg",
+      "qualityTier": "strong"
+    },
+    "axe": {
+      "localPath": "/logos/entities/axe.jpg",
+      "qualityTier": "strong"
+    },
+    "dove": {
+      "localPath": "/logos/entities/dove.jpg",
+      "qualityTier": "strong"
+    },
+    "lady-speed-stick": {
+      "localPath": "/logos/entities/lady-speed-stick.jpg",
+      "qualityTier": "strong"
+    },
+    "nivea": {
+      "localPath": "/logos/entities/nivea.jpg",
+      "qualityTier": "strong"
+    },
+    "old-spice": {
+      "localPath": "/logos/entities/old-spice.jpg",
+      "qualityTier": "strong"
+    },
+    "rexona": {
+      "localPath": "/logos/entities/rexona.png",
+      "qualityTier": "strong"
+    },
+    "aquafresh": {
+      "localPath": "/logos/entities/aquafresh.png",
+      "qualityTier": "strong"
+    },
+    "closeup": {
+      "localPath": "/logos/entities/closeup.jpg",
+      "qualityTier": "strong"
+    },
+    "colgate": {
+      "localPath": "/logos/entities/colgate.png",
+      "qualityTier": "strong"
+    },
+    "oral-b": {
+      "localPath": "/logos/entities/oral-b.png",
+      "qualityTier": "strong"
+    },
+    "pepsodent": {
+      "entityId": "csv-93",
+      "entityName": "Pepsodent",
+      "domain": "pepsodent.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/pepsodent.svg",
+      "localPath": "/logos/entities/pepsodent.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:43:22.011Z"
+    },
+    "calvin-klein": {
+      "localPath": "/logos/entities/calvin-klein.jpg",
+      "qualityTier": "strong"
+    },
+    "carolina-herrera": {
+      "localPath": "/logos/entities/carolina-herrera.jpg",
+      "qualityTier": "strong"
+    },
+    "chanel": {
+      "localPath": "/logos/entities/chanel.jpg",
+      "qualityTier": "strong"
+    },
+    "dior": {
+      "entityId": "csv-98",
+      "entityName": "Dior",
+      "domain": "dior.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/dior.svg",
+      "localPath": "/logos/entities/dior.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:43:44.036Z"
+    },
+    "hugo-boss": {
+      "localPath": "/logos/entities/hugo-boss.jpg",
+      "qualityTier": "strong"
+    },
+    "rabanne": {
+      "localPath": "/logos/entities/rabanne.jpg",
+      "qualityTier": "strong"
+    },
+    "hawaiian-tropic": {
+      "localPath": "/logos/entities/hawaiian-tropic.png",
+      "qualityTier": "strong"
+    },
+    "isdin": {
+      "localPath": "/logos/entities/isdin.png",
+      "qualityTier": "strong"
+    },
+    "la-roche-posay": {
+      "localPath": "/logos/entities/la-roche-posay.png",
+      "qualityTier": "strong"
+    },
+    "raytan": {
+      "localPath": "/logos/entities/raytan.png",
+      "qualityTier": "strong"
+    },
+    "vichy": {
+      "localPath": "/logos/entities/vichy.jpg",
+      "qualityTier": "strong"
+    },
+    "elvive": {
+      "localPath": "/logos/entities/elvive.jpg",
+      "qualityTier": "strong"
+    },
+    "head-shoulders": {
+      "localPath": "/logos/entities/head-shoulders.png",
+      "qualityTier": "strong"
+    },
+    "pantene": {
+      "localPath": "/logos/entities/pantene.jpg",
+      "qualityTier": "strong"
+    },
+    "sedal": {
+      "localPath": "/logos/entities/sedal.jpg",
+      "qualityTier": "strong"
+    },
+    "tio-nacho": {
+      "localPath": "/logos/entities/tio-nacho.jpg",
+      "qualityTier": "strong"
+    },
+    "bioderma": {
+      "localPath": "/logos/entities/bioderma.jpg",
+      "qualityTier": "strong"
+    },
+    "cerave": {
+      "localPath": "/logos/entities/cerave.jpg",
+      "qualityTier": "strong"
+    },
+    "cetaphil": {
+      "localPath": "/logos/entities/cetaphil.png",
+      "qualityTier": "strong"
+    },
+    "eucerin": {
+      "localPath": "/logos/entities/eucerin.png",
+      "qualityTier": "strong"
+    },
+    "cafe-haiti": {
+      "localPath": "/logos/entities/cafe-haiti.png",
+      "qualityTier": "strong"
+    },
+    "castano": {
+      "localPath": "/logos/entities/castano.png",
+      "qualityTier": "strong"
+    },
+    "dunkin": {
+      "localPath": "/logos/entities/dunkin.png",
+      "qualityTier": "strong"
+    },
+    "juan-valdez": {
+      "localPath": "/logos/entities/juan-valdez.jpg",
+      "qualityTier": "strong"
+    },
+    "starbucks": {
+      "localPath": "/logos/entities/starbucks.svg",
+      "qualityTier": "strong"
+    },
+    "tavelli": {
+      "localPath": "/logos/entities/tavelli.png",
+      "qualityTier": "strong"
+    },
+    "didi-food": {
+      "localPath": "/logos/entities/didi-food.jpg",
+      "qualityTier": "strong"
+    },
+    "justo": {
+      "localPath": "/logos/entities/justo.jpg",
+      "qualityTier": "strong"
+    },
+    "orders": {
+      "localPath": "/logos/entities/orders.jpg",
+      "qualityTier": "strong"
+    },
+    "pedidosya": {
+      "localPath": "/logos/entities/pedidosya.png",
+      "qualityTier": "strong"
+    },
+    "rappi": {
+      "localPath": "/logos/entities/rappi.png",
+      "qualityTier": "strong"
+    },
+    "uber-eats": {
+      "localPath": "/logos/entities/uber-eats.jpg",
+      "qualityTier": "strong"
+    },
+    "burger-king": {
+      "localPath": "/logos/entities/burger-king.svg",
+      "qualityTier": "strong"
+    },
+    "doggis": {
+      "localPath": "/logos/entities/doggis.jpg",
+      "qualityTier": "strong"
+    },
+    "juan-maestro": {
+      "localPath": "/logos/entities/juan-maestro.png",
+      "qualityTier": "strong"
+    },
+    "kfc": {
+      "entityId": "csv-131",
+      "entityName": "KFC",
+      "domain": "kfc.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/kfc.svg",
+      "localPath": "/logos/entities/kfc.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:45:37.824Z"
+    },
+    "mcdonald-s": {
+      "localPath": "/logos/entities/mcdonald-s.jpg",
+      "qualityTier": "strong"
+    },
+    "pedro-juan-diego": {
+      "localPath": "/logos/entities/pedro-juan-diego.png",
+      "qualityTier": "strong"
+    },
+    "subway": {
+      "localPath": "/logos/entities/subway.png",
+      "qualityTier": "strong"
+    },
+    "domino-s": {
+      "localPath": "/logos/entities/domino-s.png",
+      "qualityTier": "strong"
+    },
+    "little-caesars": {
+      "entityId": "csv-137",
+      "entityName": "Little Caesars",
+      "domain": "littlecaesars.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/littlecaesars.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/little-caesars.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:16:43.794Z"
+    },
+    "papa-johns": {
+      "localPath": "/logos/entities/papa-johns.jpg",
+      "qualityTier": "strong"
+    },
+    "pizza-hut": {
+      "localPath": "/logos/entities/pizza-hut.png",
+      "qualityTier": "strong"
+    },
+    "telepizza": {
+      "localPath": "/logos/entities/telepizza.jpg",
+      "qualityTier": "strong"
+    },
+    "cobreloa": {
+      "localPath": "/logos/entities/cobreloa.png",
+      "qualityTier": "strong"
+    },
+    "colo-colo": {
+      "localPath": "/logos/entities/colo-colo.png",
+      "qualityTier": "strong"
+    },
+    "santiago-wanderers": {
+      "localPath": "/logos/entities/santiago-wanderers.png",
+      "qualityTier": "strong"
+    },
+    "universidad-catolica": {
+      "localPath": "/logos/entities/universidad-catolica.jpg",
+      "qualityTier": "strong"
+    },
+    "universidad-de-chile": {
+      "localPath": "/logos/entities/universidad-de-chile.jpg",
+      "qualityTier": "strong"
+    },
+    "union-espanola": {
+      "localPath": "/logos/entities/union-espanola.png",
+      "qualityTier": "strong"
+    },
+    "duoc-uc": {
+      "localPath": "/logos/entities/duoc-uc.jpg",
+      "qualityTier": "strong"
+    },
+    "enac": {
+      "localPath": "/logos/entities/enac.png",
+      "qualityTier": "strong"
+    },
+    "inacap": {
+      "localPath": "/logos/entities/inacap.jpg",
+      "qualityTier": "strong"
+    },
+    "ipchile": {
+      "localPath": "/logos/entities/ipchile.jpg",
+      "qualityTier": "strong"
+    },
+    "santo-tomas": {
+      "localPath": "/logos/entities/santo-tomas.png",
+      "qualityTier": "strong"
+    },
+    "cpech": {
+      "localPath": "/logos/entities/cpech.png",
+      "qualityTier": "strong"
+    },
+    "filadd": {
+      "localPath": "/logos/entities/filadd.png",
+      "qualityTier": "strong"
+    },
+    "m30m": {
+      "localPath": "/logos/entities/m30m.jpg",
+      "qualityTier": "strong"
+    },
+    "pedro-de-valdivia": {
+      "localPath": "/logos/entities/pedro-de-valdivia.png",
+      "qualityTier": "strong"
+    },
+    "preu-uc": {
+      "localPath": "/logos/entities/preu-uc.png",
+      "qualityTier": "strong"
+    },
+    "puntaje-nacional": {
+      "localPath": "/logos/entities/puntaje-nacional.jpg",
+      "qualityTier": "strong"
+    },
+    "pontificia-universidad-catolica": {
+      "localPath": "/logos/entities/pontificia-universidad-catolica.png",
+      "qualityTier": "strong"
+    },
+    "uai": {
+      "localPath": "/logos/entities/uai.jpg",
+      "qualityTier": "strong"
+    },
+    "udp": {
+      "localPath": "/logos/entities/udp.jpg",
+      "qualityTier": "strong"
+    },
+    "cine-hoyts": {
+      "localPath": "/logos/entities/cine-hoyts.png",
+      "qualityTier": "strong"
+    },
+    "cinemark": {
+      "localPath": "/logos/entities/cinemark.png",
+      "qualityTier": "strong"
+    },
+    "cineplanet": {
+      "localPath": "/logos/entities/cineplanet.jpg",
+      "qualityTier": "strong"
+    },
+    "cinestar": {
+      "localPath": "/logos/entities/cinestar.jpg",
+      "qualityTier": "strong"
+    },
+    "cinepolis": {
+      "localPath": "/logos/entities/cinepolis.jpg",
+      "qualityTier": "strong"
+    },
+    "muvix": {
+      "localPath": "/logos/entities/muvix.png",
+      "qualityTier": "strong"
+    },
+    "discord": {
+      "entityId": "csv-171",
+      "entityName": "Discord",
+      "domain": "discord.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/discord.svg",
+      "localPath": "/logos/entities/discord.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:47:34.814Z"
+    },
+    "pinterest": {
+      "entityId": "csv-172",
+      "entityName": "Pinterest",
+      "domain": "cl.pinterest.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/pinterest.svg",
+      "localPath": "/logos/entities/pinterest.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:47:37.137Z"
+    },
+    "quora": {
+      "entityId": "csv-173",
+      "entityName": "Quora",
+      "domain": "quora.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/quora.svg",
+      "localPath": "/logos/entities/quora.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:47:39.791Z"
+    },
+    "reddit": {
+      "entityId": "csv-174",
+      "entityName": "Reddit",
+      "domain": "reddit.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/reddit.svg",
+      "localPath": "/logos/entities/reddit.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:47:41.772Z"
+    },
+    "steam-community": {
+      "localPath": "/logos/entities/steam-community.png",
+      "qualityTier": "strong"
+    },
+    "tumblr": {
+      "entityId": "csv-176",
+      "entityName": "Tumblr",
+      "domain": "tumblr.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/tumblr.svg",
+      "localPath": "/logos/entities/tumblr.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:47:47.108Z"
+    },
+    "cnn-chile": {
+      "localPath": "/logos/entities/cnn-chile.png",
+      "qualityTier": "strong"
+    },
+    "el-mostrador": {
+      "localPath": "/logos/entities/el-mostrador.jpg",
+      "qualityTier": "strong"
+    },
+    "emol": {
+      "localPath": "/logos/entities/emol.png",
+      "qualityTier": "strong"
+    },
+    "adn-radio": {
+      "localPath": "/logos/entities/adn-radio.jpg",
+      "qualityTier": "strong"
+    },
+    "carolina": {
+      "entityId": "csv-184",
+      "entityName": "Carolina",
+      "domain": "radiocarolina.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/radiocarolina.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/carolina.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:02.178Z"
+    },
+    "pudahuel": {
+      "localPath": "/logos/entities/pudahuel.png",
+      "qualityTier": "strong"
+    },
+    "facebook": {
+      "entityId": "csv-188",
+      "entityName": "Facebook",
+      "domain": "facebook.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/facebook.svg",
+      "localPath": "/logos/entities/facebook.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:10.457Z"
+    },
+    "instagram": {
+      "entityId": "csv-189",
+      "entityName": "Instagram",
+      "domain": "instagram.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/instagram.svg",
+      "localPath": "/logos/entities/instagram.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:12.970Z"
+    },
+    "snapchat": {
+      "entityId": "csv-191",
+      "entityName": "Snapchat",
+      "domain": "snapchat.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/snapchat.svg",
+      "localPath": "/logos/entities/snapchat.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:17.504Z"
+    },
+    "tiktok": {
+      "entityId": "csv-192",
+      "entityName": "TikTok",
+      "domain": "tiktok.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/tiktok.svg",
+      "localPath": "/logos/entities/tiktok.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:19.782Z"
+    },
+    "x": {
+      "entityId": "csv-193",
+      "entityName": "X",
+      "domain": "x.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/x.svg",
+      "localPath": "/logos/entities/x.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:21.637Z"
+    },
+    "amazon-music": {
+      "localPath": "/logos/entities/amazon-music.png",
+      "qualityTier": "strong"
+    },
+    "apple-music": {
+      "localPath": "/logos/entities/apple-music.png",
+      "qualityTier": "strong"
+    },
+    "deezer": {
+      "entityId": "csv-196",
+      "entityName": "Deezer",
+      "domain": "deezer.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/deezer.svg",
+      "localPath": "/logos/entities/deezer.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:29.434Z"
+    },
+    "spotify": {
+      "entityId": "csv-197",
+      "entityName": "Spotify",
+      "domain": "spotify.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/spotify.svg",
+      "localPath": "/logos/entities/spotify.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:31.865Z"
+    },
+    "tidal": {
+      "entityId": "csv-198",
+      "entityName": "TIDAL",
+      "domain": "tidal.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/tidal.svg",
+      "localPath": "/logos/entities/tidal.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:33.329Z"
+    },
+    "youtube-music": {
+      "localPath": "/logos/entities/youtube-music.png",
+      "qualityTier": "strong"
+    },
+    "apple-tv": {
+      "localPath": "/logos/entities/apple-tv.png",
+      "qualityTier": "strong"
+    },
+    "disney": {
+      "localPath": "/logos/entities/disney.png",
+      "qualityTier": "strong"
+    },
+    "mubi": {
+      "entityId": "csv-202",
+      "entityName": "MUBI",
+      "domain": "mubi.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/mubi.svg",
+      "localPath": "/logos/entities/mubi.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:42.459Z"
+    },
+    "max": {
+      "entityId": "csv-203",
+      "entityName": "Max",
+      "domain": "max.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/max.svg",
+      "localPath": "/logos/entities/max.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:45.486Z"
+    },
+    "netflix": {
+      "entityId": "csv-204",
+      "entityName": "Netflix",
+      "domain": "netflix.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/netflix.svg",
+      "localPath": "/logos/entities/netflix.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:48.760Z"
+    },
+    "paramount": {
+      "localPath": "/logos/entities/paramount.png",
+      "qualityTier": "strong"
+    },
+    "prime-video": {
+      "localPath": "/logos/entities/prime-video.png",
+      "qualityTier": "strong"
+    },
+    "universal": {
+      "localPath": "/logos/entities/universal.png",
+      "qualityTier": "strong"
+    },
+    "canal-13": {
+      "localPath": "/logos/entities/canal-13.png",
+      "qualityTier": "strong"
+    },
+    "chilevision": {
+      "localPath": "/logos/entities/chilevision.png",
+      "qualityTier": "strong"
+    },
+    "la-red": {
+      "localPath": "/logos/entities/la-red.png",
+      "qualityTier": "strong"
+    },
+    "mega": {
+      "entityId": "csv-211",
+      "entityName": "Mega",
+      "domain": "mega.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/mega.svg",
+      "localPath": "/logos/entities/mega.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:49:05.619Z"
+    },
+    "bci": {
+      "localPath": "/logos/entities/bci.png",
+      "qualityTier": "strong"
+    },
+    "banco-bice": {
+      "localPath": "/logos/entities/banco-bice.jpg",
+      "qualityTier": "strong"
+    },
+    "banco-falabella": {
+      "localPath": "/logos/entities/banco-falabella.png",
+      "qualityTier": "strong"
+    },
+    "banco-de-chile": {
+      "localPath": "/logos/entities/banco-de-chile.png",
+      "qualityTier": "strong"
+    },
+    "bancoestado": {
+      "localPath": "/logos/entities/bancoestado.png",
+      "qualityTier": "strong"
+    },
+    "consorcio": {
+      "localPath": "/logos/entities/consorcio.png",
+      "qualityTier": "strong"
+    },
+    "itau": {
+      "localPath": "/logos/entities/itau.webp",
+      "qualityTier": "strong"
+    },
+    "santander": {
+      "localPath": "/logos/entities/santander.png",
+      "qualityTier": "strong"
+    },
+    "scotiabank": {
+      "localPath": "/logos/entities/scotiabank.jpg",
+      "qualityTier": "strong"
+    },
+    "chek": {
+      "localPath": "/logos/entities/chek.jpg",
+      "qualityTier": "strong"
+    },
+    "fintual": {
+      "localPath": "/logos/entities/fintual.jpg",
+      "qualityTier": "strong"
+    },
+    "global66": {
+      "localPath": "/logos/entities/global66.jpg",
+      "qualityTier": "strong"
+    },
+    "mercado-pago": {
+      "entityId": "csv-228",
+      "entityName": "Mercado Pago",
+      "domain": "mercadopago.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/mercado-pago.svg",
+      "localPath": "/logos/entities/mercado-pago.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:14.606Z"
+    },
+    "prex": {
+      "localPath": "/logos/entities/prex.jpg",
+      "qualityTier": "strong"
+    },
+    "tenpo": {
+      "localPath": "/logos/entities/tenpo.png",
+      "qualityTier": "strong"
+    },
+    "bice-inversiones": {
+      "localPath": "/logos/entities/bice-inversiones.jpg",
+      "qualityTier": "strong"
+    },
+    "btg-pactual": {
+      "localPath": "/logos/entities/btg-pactual.jpg",
+      "qualityTier": "strong"
+    },
+    "banchile-inversiones": {
+      "localPath": "/logos/entities/banchile-inversiones.jpg",
+      "qualityTier": "strong"
+    },
+    "mbi": {
+      "localPath": "/logos/entities/mbi.svg",
+      "qualityTier": "strong"
+    },
+    "santander-corredora": {
+      "localPath": "/logos/entities/santander-corredora.jpg",
+      "qualityTier": "strong"
+    },
+    "american-express": {
+      "entityId": "csv-239",
+      "entityName": "American Express",
+      "domain": "americanexpress.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/american-express.svg",
+      "localPath": "/logos/entities/american-express.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:50:25.338Z"
+    },
+    "cmr-falabella": {
+      "localPath": "/logos/entities/cmr-falabella.jpg",
+      "qualityTier": "strong"
+    },
+    "getnet": {
+      "localPath": "/logos/entities/getnet.png",
+      "qualityTier": "strong"
+    },
+    "mastercard": {
+      "entityId": "csv-242",
+      "entityName": "Mastercard",
+      "domain": "mastercard.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/mastercard.svg",
+      "localPath": "/logos/entities/mastercard.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:50:28.807Z"
+    },
+    "redcompra": {
+      "localPath": "/logos/entities/redcompra.jpg",
+      "qualityTier": "strong"
+    },
+    "visa": {
+      "entityId": "csv-244",
+      "entityName": "Visa",
+      "domain": "visa.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/visa.svg",
+      "localPath": "/logos/entities/visa.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:50:35.879Z"
+    },
+    "webpay": {
+      "localPath": "/logos/entities/webpay.png",
+      "qualityTier": "strong"
+    },
+    "dyson": {
+      "entityId": "csv-246",
+      "entityName": "Dyson",
+      "domain": "dyson.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/dyson.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/dyson.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:32.770Z"
+    },
+    "electrolux": {
+      "localPath": "/logos/entities/electrolux.png",
+      "qualityTier": "strong"
+    },
+    "philips": {
+      "localPath": "/logos/entities/philips.png",
+      "qualityTier": "strong"
+    },
+    "thomas": {
+      "localPath": "/logos/entities/thomas.png",
+      "qualityTier": "strong"
+    },
+    "ursus-trotter": {
+      "localPath": "/logos/entities/ursus-trotter.png",
+      "qualityTier": "strong"
+    },
+    "xiaomi": {
+      "entityId": "csv-251",
+      "entityName": "Xiaomi",
+      "domain": "xiaomi.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/xiaomi.svg",
+      "localPath": "/logos/entities/xiaomi.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:51:03.145Z"
+    },
+    "cic": {
+      "localPath": "/logos/entities/cic.jpg",
+      "qualityTier": "strong"
+    },
+    "drimkip": {
+      "localPath": "/logos/entities/drimkip.png",
+      "qualityTier": "strong"
+    },
+    "emma": {
+      "localPath": "/logos/entities/emma.png",
+      "qualityTier": "strong"
+    },
+    "flex": {
+      "localPath": "/logos/entities/flex.jpg",
+      "qualityTier": "strong"
+    },
+    "mantahue": {
+      "localPath": "/logos/entities/mantahue.jpg",
+      "qualityTier": "strong"
+    },
+    "rosen": {
+      "localPath": "/logos/entities/rosen.jpg",
+      "qualityTier": "strong"
+    },
+    "bosch": {
+      "entityId": "csv-258",
+      "entityName": "Bosch",
+      "domain": "bosch.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/bosch.svg",
+      "localPath": "/logos/entities/bosch.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:51:23.454Z"
+    },
+    "fensa": {
+      "localPath": "/logos/entities/fensa.png",
+      "qualityTier": "strong"
+    },
+    "lg": {
+      "entityId": "csv-260",
+      "entityName": "LG",
+      "domain": "lg.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/lg.svg",
+      "localPath": "/logos/entities/lg.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:51:30.842Z"
+    },
+    "midea": {
+      "localPath": "/logos/entities/midea.jpg",
+      "qualityTier": "strong"
+    },
+    "samsung": {
+      "entityId": "csv-262",
+      "entityName": "Samsung",
+      "domain": "samsung.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/samsung.svg",
+      "localPath": "/logos/entities/samsung.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:51:38.814Z"
+    },
+    "whirlpool": {
+      "localPath": "/logos/entities/whirlpool.png",
+      "qualityTier": "strong"
+    },
+    "acana": {
+      "localPath": "/logos/entities/acana.jpg",
+      "qualityTier": "strong"
+    },
+    "bravery": {
+      "localPath": "/logos/entities/bravery.jpg",
+      "qualityTier": "strong"
+    },
+    "cat-chow": {
+      "localPath": "/logos/entities/cat-chow.jpg",
+      "qualityTier": "strong"
+    },
+    "whiskas": {
+      "localPath": "/logos/entities/whiskas.png",
+      "qualityTier": "strong"
+    },
+    "pedigree": {
+      "localPath": "/logos/entities/pedigree.png",
+      "qualityTier": "strong"
+    },
+    "clinica-veterinaria-alemana": {
+      "localPath": "/logos/entities/clinica-veterinaria-alemana.jpg",
+      "qualityTier": "strong"
+    },
+    "hospital-clinico-veterinario-u-de-chile": {
+      "localPath": "/logos/entities/hospital-clinico-veterinario-u-de-chile.jpg",
+      "qualityTier": "strong"
+    },
+    "petsalud": {
+      "localPath": "/logos/entities/petsalud.png",
+      "qualityTier": "strong"
+    },
+    "vet24": {
+      "localPath": "/logos/entities/vet24.png",
+      "qualityTier": "strong"
+    },
+    "vetpoint": {
+      "localPath": "/logos/entities/vetpoint.png",
+      "qualityTier": "strong"
+    },
+    "vets": {
+      "localPath": "/logos/entities/vets.png",
+      "qualityTier": "strong"
+    },
+    "club-de-perros-y-gatos": {
+      "localPath": "/logos/entities/club-de-perros-y-gatos.jpg",
+      "qualityTier": "strong"
+    },
+    "maspet": {
+      "localPath": "/logos/entities/maspet.jpg",
+      "qualityTier": "strong"
+    },
+    "pet-bj": {
+      "localPath": "/logos/entities/pet-bj.png",
+      "qualityTier": "strong"
+    },
+    "pet-happy": {
+      "localPath": "/logos/entities/pet-happy.jpg",
+      "qualityTier": "strong"
+    },
+    "petslandia": {
+      "localPath": "/logos/entities/petslandia.jpg",
+      "qualityTier": "strong"
+    },
+    "amphora": {
+      "localPath": "/logos/entities/amphora.jpg",
+      "qualityTier": "strong"
+    },
+    "pandora": {
+      "entityId": "csv-285",
+      "entityName": "Pandora",
+      "domain": "pandoraoficial.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/pandora.svg",
+      "localPath": "/logos/entities/pandora.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:52:57.536Z"
+    },
+    "secret": {
+      "localPath": "/logos/entities/secret.png",
+      "qualityTier": "strong"
+    },
+    "swarovski": {
+      "localPath": "/logos/entities/swarovski.jpg",
+      "qualityTier": "strong"
+    },
+    "tous": {
+      "localPath": "/logos/entities/tous.jpg",
+      "qualityTier": "strong"
+    },
+    "aldo": {
+      "localPath": "/logos/entities/aldo.jpg",
+      "qualityTier": "strong"
+    },
+    "bata": {
+      "entityId": "csv-291",
+      "entityName": "Bata",
+      "domain": "bata.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/bata.svg",
+      "localPath": "/logos/entities/bata.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:53:29.153Z"
+    },
+    "guante": {
+      "localPath": "/logos/entities/guante.png",
+      "qualityTier": "strong"
+    },
+    "hush-puppies": {
+      "localPath": "/logos/entities/hush-puppies.jpg",
+      "qualityTier": "strong"
+    },
+    "nike": {
+      "entityId": "csv-294",
+      "entityName": "Nike",
+      "domain": "nike.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/nike.svg",
+      "localPath": "/logos/entities/nike.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:53:39.201Z"
+    },
+    "skechers": {
+      "localPath": "/logos/entities/skechers.jpg",
+      "qualityTier": "strong"
+    },
+    "adidas": {
+      "entityId": "csv-296",
+      "entityName": "adidas",
+      "domain": "adidas.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/adidas.svg",
+      "localPath": "/logos/entities/adidas.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:53:44.322Z"
+    },
+    "decathlon": {
+      "localPath": "/logos/entities/decathlon.jpg",
+      "qualityTier": "strong"
+    },
+    "new-balance": {
+      "localPath": "/logos/entities/new-balance.jpg",
+      "qualityTier": "strong"
+    },
+    "puma": {
+      "entityId": "csv-299",
+      "entityName": "Puma",
+      "domain": "puma.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/puma.svg",
+      "localPath": "/logos/entities/puma.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:53:49.198Z"
+    },
+    "reebok": {
+      "entityId": "csv-300",
+      "entityName": "Reebok",
+      "domain": "reebok.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/reebok.svg",
+      "localPath": "/logos/entities/reebok.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:53:51.001Z"
+    },
+    "sparta": {
+      "localPath": "/logos/entities/sparta.png",
+      "qualityTier": "strong"
+    },
+    "bershka": {
+      "localPath": "/logos/entities/bershka.jpg",
+      "qualityTier": "strong"
+    },
+    "mango": {
+      "localPath": "/logos/entities/mango.jpg",
+      "qualityTier": "strong"
+    },
+    "pull-bear": {
+      "localPath": "/logos/entities/pull-bear.jpg",
+      "qualityTier": "strong"
+    },
+    "stradivarius": {
+      "localPath": "/logos/entities/stradivarius.jpg",
+      "qualityTier": "strong"
+    },
+    "zara": {
+      "entityId": "csv-309",
+      "entityName": "Zara",
+      "domain": "zara.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/zara.svg",
+      "localPath": "/logos/entities/zara.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:54:07.747Z"
+    },
+    "columbia": {
+      "localPath": "/logos/entities/columbia.jpg",
+      "qualityTier": "strong"
+    },
+    "lippi": {
+      "localPath": "/logos/entities/lippi.jpg",
+      "qualityTier": "strong"
+    },
+    "marmot": {
+      "localPath": "/logos/entities/marmot.jpg",
+      "qualityTier": "strong"
+    },
+    "patagonia": {
+      "localPath": "/logos/entities/patagonia.jpg",
+      "qualityTier": "strong"
+    },
+    "the-north-face": {
+      "localPath": "/logos/entities/the-north-face.png",
+      "qualityTier": "strong"
+    },
+    "family-shop": {
+      "localPath": "/logos/entities/family-shop.png",
+      "qualityTier": "strong"
+    },
+    "sybilla": {
+      "localPath": "/logos/entities/sybilla.png",
+      "qualityTier": "strong"
+    },
+    "tricot": {
+      "localPath": "/logos/entities/tricot.png",
+      "qualityTier": "strong"
+    },
+    "aliexpress": {
+      "entityId": "csv-319",
+      "entityName": "AliExpress",
+      "domain": "aliexpress.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/aliexpress.svg",
+      "localPath": "/logos/entities/aliexpress.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:54:37.279Z"
+    },
+    "amazon": {
+      "localPath": "/logos/entities/amazon.jpg",
+      "qualityTier": "strong"
+    },
+    "falabella": {
+      "localPath": "/logos/entities/falabella.png",
+      "qualityTier": "strong"
+    },
+    "linio": {
+      "localPath": "/logos/entities/linio.png",
+      "qualityTier": "strong"
+    },
+    "mercado-libre": {
+      "localPath": "/logos/entities/mercado-libre.svg",
+      "qualityTier": "strong"
+    },
+    "paris": {
+      "localPath": "/logos/entities/paris.jpg",
+      "qualityTier": "strong"
+    },
+    "ripley": {
+      "localPath": "/logos/entities/ripley.png",
+      "qualityTier": "strong"
+    },
+    "chilemat": {
+      "localPath": "/logos/entities/chilemat.png",
+      "qualityTier": "strong"
+    },
+    "construmart": {
+      "localPath": "/logos/entities/construmart.png",
+      "qualityTier": "strong"
+    },
+    "easy": {
+      "localPath": "/logos/entities/easy.svg",
+      "qualityTier": "strong"
+    },
+    "imperial": {
+      "localPath": "/logos/entities/imperial.jpg",
+      "qualityTier": "strong"
+    },
+    "mts": {
+      "localPath": "/logos/entities/mts.png",
+      "qualityTier": "strong"
+    },
+    "sodimac": {
+      "entityId": "csv-331",
+      "entityName": "Sodimac",
+      "domain": "sodimac.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/sodimac.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/sodimac.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": true,
+      "updatedAt": "2026-03-24T01:18:19.210Z"
+    },
+    "abc": {
+      "localPath": "/logos/entities/abc.png",
+      "qualityTier": "strong"
+    },
+    "hites": {
+      "localPath": "/logos/entities/hites.jpg",
+      "qualityTier": "strong"
+    },
+    "la-polar": {
+      "localPath": "/logos/entities/la-polar.jpg",
+      "qualityTier": "strong"
+    },
+    "alvi": {
+      "localPath": "/logos/entities/alvi.png",
+      "qualityTier": "strong"
+    },
+    "jumbo": {
+      "localPath": "/logos/entities/jumbo.png",
+      "qualityTier": "strong"
+    },
+    "santa-isabel": {
+      "localPath": "/logos/entities/santa-isabel.png",
+      "qualityTier": "strong"
+    },
+    "tottus": {
+      "localPath": "/logos/entities/tottus.png",
+      "qualityTier": "strong"
+    },
+    "unimarc": {
+      "localPath": "/logos/entities/unimarc.jpg",
+      "qualityTier": "strong"
+    },
+    "pc-factory": {
+      "localPath": "/logos/entities/pc-factory.jpg",
+      "qualityTier": "strong"
+    },
+    "reifstore": {
+      "localPath": "/logos/entities/reifstore.png",
+      "qualityTier": "strong"
+    },
+    "sp-digital": {
+      "localPath": "/logos/entities/sp-digital.jpg",
+      "qualityTier": "strong"
+    },
+    "weplay": {
+      "localPath": "/logos/entities/weplay.jpg",
+      "qualityTier": "strong"
+    },
+    "bupa": {
+      "localPath": "/logos/entities/bupa.webp",
+      "qualityTier": "strong"
+    },
+    "integramedica": {
+      "localPath": "/logos/entities/integramedica.jpg",
+      "qualityTier": "strong"
+    },
+    "megasalud": {
+      "localPath": "/logos/entities/megasalud.jpg",
+      "qualityTier": "strong"
+    },
+    "redsalud": {
+      "localPath": "/logos/entities/redsalud.png",
+      "qualityTier": "strong"
+    },
+    "uc-christus": {
+      "localPath": "/logos/entities/uc-christus.png",
+      "qualityTier": "strong"
+    },
+    "vidaintegra": {
+      "localPath": "/logos/entities/vidaintegra.jpg",
+      "qualityTier": "strong"
+    },
+    "clinica-alemana": {
+      "localPath": "/logos/entities/clinica-alemana.png",
+      "qualityTier": "strong"
+    },
+    "clinica-indisa": {
+      "localPath": "/logos/entities/clinica-indisa.jpg",
+      "qualityTier": "strong"
+    },
+    "clinica-meds": {
+      "localPath": "/logos/entities/clinica-meds.png",
+      "qualityTier": "strong"
+    },
+    "clinica-santa-maria": {
+      "localPath": "/logos/entities/clinica-santa-maria.jpg",
+      "qualityTier": "strong"
+    },
+    "cruz-verde": {
+      "localPath": "/logos/entities/cruz-verde.jpg",
+      "qualityTier": "strong"
+    },
+    "dr-simi": {
+      "localPath": "/logos/entities/dr-simi.png",
+      "qualityTier": "strong"
+    },
+    "farmacias-ahumada": {
+      "localPath": "/logos/entities/farmacias-ahumada.jpg",
+      "qualityTier": "strong"
+    },
+    "fraccion": {
+      "localPath": "/logos/entities/fraccion.jpg",
+      "qualityTier": "strong"
+    },
+    "knop": {
+      "localPath": "/logos/entities/knop.png",
+      "qualityTier": "strong"
+    },
+    "salcobrand": {
+      "localPath": "/logos/entities/salcobrand.jpg",
+      "qualityTier": "strong"
+    },
+    "banmedica": {
+      "localPath": "/logos/entities/banmedica.jpg",
+      "qualityTier": "strong"
+    },
+    "colmena": {
+      "localPath": "/logos/entities/colmena.png",
+      "qualityTier": "strong"
+    },
+    "consalud": {
+      "localPath": "/logos/entities/consalud.png",
+      "qualityTier": "strong"
+    },
+    "nueva-masvida": {
+      "localPath": "/logos/entities/nueva-masvida.png",
+      "qualityTier": "strong"
+    },
+    "vida-tres": {
+      "localPath": "/logos/entities/vida-tres.png",
+      "qualityTier": "strong"
+    },
+    "bci-seguros": {
+      "localPath": "/logos/entities/bci-seguros.png",
+      "qualityTier": "strong"
+    },
+    "hdi-seguros": {
+      "localPath": "/logos/entities/hdi-seguros.png",
+      "qualityTier": "strong"
+    },
+    "mapfre": {
+      "localPath": "/logos/entities/mapfre.png",
+      "qualityTier": "strong"
+    },
+    "metlife": {
+      "localPath": "/logos/entities/metlife.jpg",
+      "qualityTier": "strong"
+    },
+    "apple": {
+      "entityId": "csv-375",
+      "entityName": "Apple",
+      "domain": "apple.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/apple.svg",
+      "localPath": "/logos/entities/apple.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:57:41.758Z"
+    },
+    "bose": {
+      "entityId": "csv-376",
+      "entityName": "Bose",
+      "domain": "bose.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/bose.svg",
+      "localPath": "/logos/entities/bose.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:57:46.768Z"
+    },
+    "jbl": {
+      "entityId": "csv-377",
+      "entityName": "JBL",
+      "domain": "jbl.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/jbl.svg",
+      "localPath": "/logos/entities/jbl.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:57:49.404Z"
+    },
+    "sony": {
+      "entityId": "csv-379",
+      "entityName": "Sony",
+      "domain": "sony.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/sony.svg",
+      "localPath": "/logos/entities/sony.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:57:51.999Z"
+    },
+    "asus": {
+      "entityId": "csv-380",
+      "entityName": "ASUS",
+      "domain": "rog.asus.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/asus.svg",
+      "localPath": "/logos/entities/asus.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:57:55.353Z"
+    },
+    "lenovo": {
+      "entityId": "csv-381",
+      "entityName": "Lenovo",
+      "domain": "lenovo.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/lenovo.svg",
+      "localPath": "/logos/entities/lenovo.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:07.990Z"
+    },
+    "nintendo": {
+      "localPath": "/logos/entities/nintendo.jpg",
+      "qualityTier": "strong"
+    },
+    "playstation": {
+      "entityId": "csv-383",
+      "entityName": "PlayStation",
+      "domain": "ps.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/playstation.svg",
+      "localPath": "/logos/entities/playstation.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:14.252Z"
+    },
+    "steam-deck": {
+      "localPath": "/logos/entities/steam-deck.jpg",
+      "qualityTier": "strong"
+    },
+    "xbox": {
+      "localPath": "/logos/entities/xbox.png",
+      "qualityTier": "strong"
+    },
+    "aoc": {
+      "entityId": "csv-386",
+      "entityName": "AOC",
+      "domain": "aocchile.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:link_icon",
+      "sourceUrl": "https://www.aocchile.cl/cdn/shop/files/AOC_SVG.svg?crop=center&height=32&v=1772737235&width=32",
+      "localPath": "/logos/entities/aoc.svg",
+      "format": "svg",
+      "contentType": "image/svg+xml",
+      "width": null,
+      "height": null,
+      "score": 105,
+      "reason": "Remote accessible (image/svg+xml)",
+      "updatedAt": "2026-03-23T22:58:24.647Z"
+    },
+    "acer": {
+      "entityId": "csv-387",
+      "entityName": "Acer",
+      "domain": "acer.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/acer.svg",
+      "localPath": "/logos/entities/acer.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:28.673Z"
+    },
+    "msi": {
+      "localPath": "/logos/entities/msi.svg",
+      "qualityTier": "strong"
+    },
+    "dell": {
+      "entityId": "csv-389",
+      "entityName": "Dell",
+      "domain": "dell.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/dell.svg",
+      "localPath": "/logos/entities/dell.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:33.436Z"
+    },
+    "hp": {
+      "entityId": "csv-390",
+      "entityName": "HP",
+      "domain": "hp.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/hp.svg",
+      "localPath": "/logos/entities/hp.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:36.876Z"
+    },
+    "corsair": {
+      "entityId": "csv-391",
+      "entityName": "Corsair",
+      "domain": "corsair.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/corsair.svg",
+      "localPath": "/logos/entities/corsair.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:39.013Z"
+    },
+    "hyperx": {
+      "entityId": "csv-392",
+      "entityName": "HyperX",
+      "domain": "hyperx.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/hyperx.svg",
+      "localPath": "/logos/entities/hyperx.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:42.583Z"
+    },
+    "logitech-g": {
+      "localPath": "/logos/entities/logitech-g.jpg",
+      "qualityTier": "strong"
+    },
+    "razer": {
+      "localPath": "/logos/entities/razer.svg",
+      "qualityTier": "strong"
+    },
+    "redragon": {
+      "entityId": "csv-395",
+      "entityName": "Redragon",
+      "domain": "redragon.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/redragon.svg",
+      "localPath": "/logos/entities/redragon.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:52.957Z"
+    },
+    "steelseries": {
+      "entityId": "csv-396",
+      "entityName": "SteelSeries",
+      "domain": "steelseries.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/steelseries.svg",
+      "localPath": "/logos/entities/steelseries.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:54.708Z"
+    },
+    "honor": {
+      "entityId": "csv-397",
+      "entityName": "Honor",
+      "domain": "honor.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/honor.svg",
+      "localPath": "/logos/entities/honor.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:58:58.877Z"
+    },
+    "huawei": {
+      "entityId": "csv-398",
+      "entityName": "Huawei",
+      "domain": "huawei.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/huawei.svg",
+      "localPath": "/logos/entities/huawei.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:59:03.142Z"
+    },
+    "motorola": {
+      "entityId": "csv-399",
+      "entityName": "Motorola",
+      "domain": "motorola.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/motorola.svg",
+      "localPath": "/logos/entities/motorola.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:59:06.298Z"
+    },
+    "oppo": {
+      "entityId": "csv-400",
+      "entityName": "Oppo",
+      "domain": "oppo.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/oppo.svg",
+      "localPath": "/logos/entities/oppo.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:59:10.176Z"
+    },
+    "realme": {
+      "localPath": "/logos/entities/realme.jpg",
+      "qualityTier": "strong"
+    },
+    "amazfit": {
+      "localPath": "/logos/entities/amazfit.png",
+      "qualityTier": "strong"
+    },
+    "garmin": {
+      "entityId": "csv-403",
+      "entityName": "Garmin",
+      "domain": "garmin.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/garmin.svg",
+      "localPath": "/logos/entities/garmin.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:59:20.343Z"
+    },
+    "hisense": {
+      "localPath": "/logos/entities/hisense.png",
+      "qualityTier": "strong"
+    },
+    "tcl": {
+      "localPath": "/logos/entities/tcl.png",
+      "qualityTier": "strong"
+    },
+    "claro": {
+      "localPath": "/logos/entities/claro.jpg",
+      "qualityTier": "strong"
+    },
+    "entel": {
+      "localPath": "/logos/entities/entel.png",
+      "qualityTier": "strong"
+    },
+    "gtd": {
+      "localPath": "/logos/entities/gtd.png",
+      "qualityTier": "strong"
+    },
+    "movistar": {
+      "entityId": "csv-409",
+      "entityName": "Movistar",
+      "domain": "movistar.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/movistar.svg",
+      "localPath": "/logos/entities/movistar.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:59:33.726Z"
+    },
+    "mundo": {
+      "localPath": "/logos/entities/mundo.png",
+      "qualityTier": "strong"
+    },
+    "telsur": {
+      "localPath": "/logos/entities/telsur.png",
+      "qualityTier": "strong"
+    },
+    "vtr": {
+      "localPath": "/logos/entities/vtr.jpg",
+      "qualityTier": "strong"
+    },
+    "dgo": {
+      "localPath": "/logos/entities/dgo.png",
+      "qualityTier": "strong"
+    },
+    "michv": {
+      "localPath": "/logos/entities/michv.jpg",
+      "qualityTier": "strong"
+    },
+    "tvn-play": {
+      "localPath": "/logos/entities/tvn-play.png",
+      "qualityTier": "strong"
+    },
+    "directv": {
+      "entityId": "csv-417",
+      "entityName": "DIRECTV",
+      "domain": "directvgo.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/directvgo.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/directv.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": true,
+      "updatedAt": "2026-03-24T01:19:03.995Z"
+    },
+    "tuves": {
+      "localPath": "/logos/entities/tuves.jpg",
+      "qualityTier": "strong"
+    },
+    "wom": {
+      "localPath": "/logos/entities/wom.jpg",
+      "qualityTier": "strong"
+    },
+    "air-france": {
+      "entityId": "csv-420",
+      "entityName": "Air France",
+      "domain": "airfrance.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/air-france.svg",
+      "localPath": "/logos/entities/air-france.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:16.217Z"
+    },
+    "american-airlines": {
+      "entityId": "csv-421",
+      "entityName": "American Airlines",
+      "domain": "aa.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/american-airlines.svg",
+      "localPath": "/logos/entities/american-airlines.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:17.542Z"
+    },
+    "avianca": {
+      "entityId": "csv-422",
+      "entityName": "Avianca",
+      "domain": "avianca.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/avianca.svg",
+      "localPath": "/logos/entities/avianca.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:20.347Z"
+    },
+    "copa-airlines": {
+      "localPath": "/logos/entities/copa-airlines.png",
+      "qualityTier": "strong"
+    },
+    "delta-air-lines": {
+      "localPath": "/logos/entities/delta-air-lines.jpg",
+      "qualityTier": "strong"
+    },
+    "iberia": {
+      "entityId": "csv-425",
+      "entityName": "Iberia",
+      "domain": "iberia.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/iberia.svg",
+      "localPath": "/logos/entities/iberia.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:26.906Z"
+    },
+    "jetsmart": {
+      "localPath": "/logos/entities/jetsmart.png",
+      "qualityTier": "strong"
+    },
+    "klm": {
+      "entityId": "csv-427",
+      "entityName": "KLM",
+      "domain": "klm.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/klm.svg",
+      "localPath": "/logos/entities/klm.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:31.966Z"
+    },
+    "latam": {
+      "localPath": "/logos/entities/latam.jpg",
+      "qualityTier": "strong"
+    },
+    "sky-airline": {
+      "localPath": "/logos/entities/sky-airline.png",
+      "qualityTier": "strong"
+    },
+    "united-airlines": {
+      "localPath": "/logos/entities/united-airlines.png",
+      "qualityTier": "strong"
+    },
+    "cabify": {
+      "localPath": "/logos/entities/cabify.png",
+      "qualityTier": "strong"
+    },
+    "didi": {
+      "localPath": "/logos/entities/didi.png",
+      "qualityTier": "strong"
+    },
+    "transvip": {
+      "localPath": "/logos/entities/transvip.png",
+      "qualityTier": "strong"
+    },
+    "uber": {
+      "entityId": "csv-434",
+      "entityName": "Uber",
+      "domain": "uber.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/uber.svg",
+      "localPath": "/logos/entities/uber.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:51.658Z"
+    },
+    "indrive": {
+      "localPath": "/logos/entities/indrive.jpg",
+      "qualityTier": "strong"
+    },
+    "messenger": {
+      "entityId": "csv-436",
+      "entityName": "Messenger",
+      "domain": "messenger.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/messenger.svg",
+      "localPath": "/logos/entities/messenger.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:55.591Z"
+    },
+    "signal": {
+      "entityId": "csv-437",
+      "entityName": "Signal",
+      "domain": "signal.org",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/signal.svg",
+      "localPath": "/logos/entities/signal.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:00:57.114Z"
+    },
+    "telegram": {
+      "entityId": "csv-438",
+      "entityName": "Telegram",
+      "domain": "telegram.org",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/telegram.svg",
+      "localPath": "/logos/entities/telegram.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:01:01.376Z"
+    },
+    "wechat": {
+      "entityId": "csv-439",
+      "entityName": "WeChat",
+      "domain": "wechat.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/wechat.svg",
+      "localPath": "/logos/entities/wechat.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:01:05.346Z"
+    },
+    "whatsapp": {
+      "entityId": "csv-440",
+      "entityName": "WhatsApp",
+      "domain": "whatsapp.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/whatsapp.svg",
+      "localPath": "/logos/entities/whatsapp.svg",
+      "format": "svg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 115,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T23:01:07.344Z"
+    },
+    "dercocenter": {
+      "entityId": "csv-1",
+      "entityName": "DercoCenter",
+      "domain": "dercocenter.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/dercocenter.jpg",
+      "localPath": "/logos/entities/dercocenter.jpg",
+      "format": "jpg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:39:15.345Z"
+    },
+    "kaufmann": {
+      "entityId": "csv-3",
+      "entityName": "Kaufmann",
+      "domain": "kaufmann.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/kaufmann.jpeg",
+      "localPath": "/logos/entities/kaufmann.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:39:19.522Z"
+    },
+    "kunstmann": {
+      "entityId": "csv-35",
+      "entityName": "Kunstmann",
+      "domain": "cerveza-kunstmann.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/kunstmann.jpeg",
+      "localPath": "/logos/entities/kunstmann.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:40:54.672Z"
+    },
+    "prime-energy": {
+      "entityId": "csv-39",
+      "entityName": "Prime Energy",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/rdgfilings.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/prime-energy.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:34:26.146Z"
+    },
+    "red-bull": {
+      "entityId": "csv-40",
+      "entityName": "Red Bull",
+      "domain": "redbull.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_24/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2026/2/20/rh0dajetbgs0gqukls0h/red-bull-symphonic-documental",
+      "localPath": "/logos/entities/red-bull.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:40:59.531Z"
+    },
+    "rockstar": {
+      "entityId": "csv-41",
+      "entityName": "Rockstar",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/rockstargames.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/rockstar.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:34:27.311Z"
+    },
+    "miguel-torres": {
+      "entityId": "csv-55",
+      "entityName": "Miguel Torres",
+      "domain": "migueltorres.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.migueltorres.cl/wp/wp-content/uploads/2017/01/filtro-edad.jpg",
+      "localPath": "/logos/entities/miguel-torres.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:41:30.006Z"
+    },
+    "nan": {
+      "entityId": "csv-67",
+      "entityName": "NAN",
+      "domain": "nestle.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/nan.jpg",
+      "localPath": "/logos/entities/nan.jpg",
+      "format": "jpg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:42:07.605Z"
+    },
+    "nidal": {
+      "entityId": "csv-68",
+      "entityName": "Nidal",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/nidaleard.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/nidal.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:35:02.386Z"
+    },
+    "s-26": {
+      "entityId": "csv-70",
+      "entityName": "S-26",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/stripe.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/s-26.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:35:03.380Z"
+    },
+    "similac": {
+      "entityId": "csv-71",
+      "entityName": "Similac",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/similac.jpeg",
+      "localPath": "/logos/entities/similac.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:42:08.416Z"
+    },
+    "bbtips": {
+      "entityId": "csv-72",
+      "entityName": "BBTips",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/b2btips.se?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/bbtips.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:35:04.874Z"
+    },
+    "sensodyne": {
+      "entityId": "csv-94",
+      "entityName": "Sensodyne",
+      "domain": "sensodyne.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/sensodyne.jpeg",
+      "localPath": "/logos/entities/sensodyne.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:43:24.962Z"
+    },
+    "tarragona": {
+      "entityId": "csv-135",
+      "entityName": "Tarragona",
+      "domain": "tarragona.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://tofuu.getjusto.com/orioneat-prod/B5EfTARKMtKyZ6opp-Prueba.jpg",
+      "localPath": "/logos/entities/tarragona.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 20,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:45:50.234Z"
+    },
+    "melt-pizzas": {
+      "entityId": "csv-138",
+      "entityName": "Melt Pizzas",
+      "domain": "meltpizzas.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/melt-pizzas.jpeg",
+      "localPath": "/logos/entities/melt-pizzas.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:46:00.774Z"
+    },
+    "aiep": {
+      "entityId": "csv-148",
+      "entityName": "AIEP",
+      "domain": "aiep.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.aiep.cl/assets/uploads/2025/11/AIEP-60-ANOS1914-OG.jpg",
+      "localPath": "/logos/entities/aiep.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:46:27.224Z"
+    },
+    "usach": {
+      "entityId": "csv-163",
+      "entityName": "USACH",
+      "domain": "usach.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:link_icon",
+      "sourceUrl": "https://usach.cl/sites/default/files/logo-usach.ico",
+      "localPath": "/logos/entities/usach.png",
+      "format": "unknown",
+      "contentType": "image/vnd.microsoft.icon",
+      "width": null,
+      "height": null,
+      "score": 15,
+      "reason": "Remote accessible (image/vnd.microsoft.icon)",
+      "updatedAt": "2026-03-23T22:47:14.031Z"
+    },
+    "biobiochile": {
+      "entityId": "csv-177",
+      "entityName": "BioBioChile",
+      "domain": "biobiochile.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.biobiochile.cl/assets/escritorio/bbcl-2020/img/bbcl-social-2.jpg",
+      "localPath": "/logos/entities/biobiochile.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:47:48.844Z"
+    },
+    "cooperativa": {
+      "entityId": "csv-179",
+      "entityName": "Cooperativa",
+      "domain": "cooperativa.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.cooperativa.cl/noticias/imag/fotos/logo-cooperativa-cl-facebook-1200x630.jpg",
+      "localPath": "/logos/entities/cooperativa.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:47:51.910Z"
+    },
+    "la-tercera": {
+      "entityId": "csv-182",
+      "entityName": "La Tercera",
+      "domain": "latercera.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.latercera.com/resizer/v2/LNTX4CAJLZGAFJCQTL2EWO7STA.jpg?auth=9d190a9c367914860440827b4cabd17409892544b709bb1efa29e47eb3112d08&height=630&width=1200&focal=600%2C315",
+      "localPath": "/logos/entities/la-tercera.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:47:58.274Z"
+    },
+    "radio-agricultura": {
+      "entityId": "csv-186",
+      "entityName": "Radio Agricultura",
+      "domain": "radioagricultura.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/radio-agricultura.jpg",
+      "localPath": "/logos/entities/radio-agricultura.jpg",
+      "format": "jpg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:48:06.697Z"
+    },
+    "radio-bio-bio": {
+      "entityId": "csv-187",
+      "entityName": "Radio Bío Bío",
+      "domain": "biobiochile.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.biobiochile.cl/assets/escritorio/bbcl-2020/img/bbcl-social-2.jpg",
+      "localPath": "/logos/entities/radio-bio-bio.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:48:08.206Z"
+    },
+    "linkedin": {
+      "entityId": "csv-190",
+      "entityName": "LinkedIn",
+      "domain": "linkedin.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:link_icon",
+      "sourceUrl": "https://static.licdn.com/aero-v1/sc/h/al2o9zrvru7aqj8e1x2rzsrca",
+      "localPath": "/logos/entities/linkedin.png",
+      "format": "unknown",
+      "contentType": "image/x-icon",
+      "width": null,
+      "height": null,
+      "score": 0,
+      "reason": "Remote accessible (image/x-icon)",
+      "updatedAt": "2026-03-23T22:48:15.503Z"
+    },
+    "tv": {
+      "entityId": "csv-212",
+      "entityName": "TV+",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/aajtak.in?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/tv.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:38:51.553Z"
+    },
+    "tvn": {
+      "entityId": "csv-213",
+      "entityName": "TVN",
+      "domain": "tvn.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.tvn.cl/tvn/imag/v1/logos/tvn_1600x900.jpg",
+      "localPath": "/logos/entities/tvn.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:49:08.121Z"
+    },
+    "security": {
+      "entityId": "csv-223",
+      "entityName": "Security",
+      "domain": "security.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/security.jpeg",
+      "localPath": "/logos/entities/security.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:49:48.484Z"
+    },
+    "mach": {
+      "entityId": "csv-227",
+      "entityName": "MACH",
+      "domain": "somosmach.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/mach.jpeg",
+      "localPath": "/logos/entities/mach.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:49:55.570Z"
+    },
+    "larrainvial": {
+      "entityId": "csv-235",
+      "entityName": "LarrainVial",
+      "domain": "larrainvial.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://chile.larrainvial.com/uploads/cache/compartir-sitio-1200x630-7ae5ef6ed32c8b5371def494f40844cd.jpg",
+      "localPath": "/logos/entities/larrainvial.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:50:15.647Z"
+    },
+    "renta4": {
+      "entityId": "csv-237",
+      "entityName": "Renta4",
+      "domain": "renta4.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.r4.com/content/dam/rentabanco/renta4chile/imagenes/cc01---banner-destacado/CC01_broker_online.jpg",
+      "localPath": "/logos/entities/renta4.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 20,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:50:20.333Z"
+    },
+    "pro-plan": {
+      "entityId": "csv-267",
+      "entityName": "Pro Plan",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/proplanvetdirect.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/pro-plan.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:40:23.555Z"
+    },
+    "dog-chow": {
+      "entityId": "csv-270",
+      "entityName": "Dog Chow",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/purina.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/dog-chow.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:40:24.360Z"
+    },
+    "under-armour": {
+      "entityId": "csv-302",
+      "entityName": "Under Armour",
+      "domain": "underarmour.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.underarmour.cl/cdn/shop/files/unnamed_dab5317a-7e44-4d5c-ae2f-945e8dad38c6.webp?v=1763465919",
+      "localPath": "/logos/entities/under-armour.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:53:55.683Z"
+    },
+    "doite": {
+      "entityId": "csv-311",
+      "entityName": "Doite",
+      "domain": "doite.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.doite.cl/cdn/shop/files/logo_1200x628_730cb475-e93f-4d9d-b22b-87badf9ba2c2.jpg?v=1749246743",
+      "localPath": "/logos/entities/doite.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:23:18.532Z"
+    },
+    "lider": {
+      "entityId": "csv-337",
+      "entityName": "Líder",
+      "domain": "lider.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "local_carry_over",
+      "sourceProvider": "local",
+      "sourceUrl": "public/logos/entities/lider.jpeg",
+      "localPath": "/logos/entities/lider.jpeg",
+      "format": "jpeg",
+      "contentType": null,
+      "width": null,
+      "height": null,
+      "score": 45,
+      "reason": "Local file exists",
+      "updatedAt": "2026-03-23T22:55:20.763Z"
+    },
+    "clinica-las-condes": {
+      "entityId": "csv-355",
+      "entityName": "Clínica Las Condes",
+      "domain": "clc.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.clinicalascondes.cl/Dev_CLC/media/Imagenes/header/logo-clinica-las-condes.jpg",
+      "localPath": "/logos/entities/clinica-las-condes.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 20,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:56:20.057Z"
+    },
+    "cruz-blanca": {
+      "entityId": "csv-367",
+      "entityName": "Cruz Blanca",
+      "domain": "cruzblanca.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://www.cruzblanca.cl/cruzblanca/site/artic/20240605/imag/foto_0000000620240605094947/GettyImages-1134672184-1440.jpg",
+      "localPath": "/logos/entities/cruz-blanca.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:57:09.707Z"
+    },
+    "zurich": {
+      "entityId": "csv-374",
+      "entityName": "Zurich",
+      "domain": "zurich.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://edge.sitecorecloud.io/zurichinsurf8c0-zwpshared-prod-d824/media/project/zurich-headless/chile/images/foto-edif-casa-matriz-800x450.jpg?h=450&iar=0&w=800",
+      "localPath": "/logos/entities/zurich.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 20,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T22:57:39.843Z"
+    },
+    "skullcandy": {
+      "entityId": "csv-378",
+      "entityName": "Skullcandy",
+      "domain": null,
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/skullcandy.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/skullcandy.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 35,
+      "reason": "Remote accessible (image/jpeg)",
+      "updatedAt": "2026-03-23T23:43:23.307Z"
+    },
+    "zapping": {
+      "entityId": "csv-416",
+      "entityName": "Zapping",
+      "domain": "zapping.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "backup",
+      "sourceProvider": "html_metadata:og_image",
+      "sourceUrl": "https://cdn.prod.website-files.com/656f1dc7559d92d610980758/689cbf04ff6e2dbb888df32e_opengraph.webp",
+      "localPath": "/logos/entities/zapping.webp",
+      "format": "webp",
+      "contentType": "image/webp",
+      "width": null,
+      "height": null,
+      "score": 40,
+      "reason": "Remote accessible (image/webp)",
+      "updatedAt": "2026-03-23T23:00:05.727Z"
+    },
+    "jetour": {
+      "entityId": "csv-12",
+      "entityName": "Jetour",
+      "domain": "jetourchile.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/jetourchile.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/jetour.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": true,
+      "updatedAt": "2026-03-24T01:15:56.651Z"
+    },
+    "montes": {
+      "entityId": "csv-56",
+      "entityName": "Montes",
+      "domain": "monteswines.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/monteswines.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/montes.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:16:02.751Z"
+    },
+    "eucerin-sun": {
+      "entityId": "csv-101",
+      "entityName": "Eucerin Sun",
+      "domain": "eucerin.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/eucerin.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/eucerin-sun.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:16:14.433Z"
+    },
+    "universidad-de-concepcion": {
+      "entityId": "csv-164",
+      "entityName": "Universidad de Concepción",
+      "domain": "udec.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/udec.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/universidad-de-concepcion.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:16:56.027Z"
+    },
+    "tapp": {
+      "entityId": "csv-230",
+      "entityName": "Tapp",
+      "domain": "tapp.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/tapp.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/tapp.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:19.587Z"
+    },
+    "royal-canin": {
+      "entityId": "csv-268",
+      "entityName": "Royal Canin",
+      "domain": "royalcanin.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/royalcanin.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/royal-canin.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:39.936Z"
+    },
+    "superzoo": {
+      "entityId": "csv-283",
+      "entityName": "SuperZoo",
+      "domain": "superzoo.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/superzoo.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/superzoo.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:43.140Z"
+    },
+    "saxoline": {
+      "entityId": "csv-286",
+      "entityName": "Saxoline",
+      "domain": "saxoline.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/saxoline.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/saxoline.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:46.729Z"
+    },
+    "forever-21": {
+      "entityId": "csv-304",
+      "entityName": "Forever 21",
+      "domain": "forever21.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/forever21.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/forever-21.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:53.378Z"
+    },
+    "h-m": {
+      "entityId": "csv-305",
+      "entityName": "H&M",
+      "domain": "cl.hm.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/cl.hm.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/h-m.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": false,
+      "updatedAt": "2026-03-24T01:17:57.112Z"
+    },
+    "acuenta": {
+      "entityId": "csv-341",
+      "entityName": "aCuenta",
+      "domain": "acuenta.cl",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/acuenta.cl?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/acuenta.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": true,
+      "updatedAt": "2026-03-24T01:18:29.165Z"
+    },
+    "maconline": {
+      "entityId": "csv-342",
+      "entityName": "MacOnline",
+      "domain": "maconline.com",
+      "assetType": "brand_logo",
+      "entityKind": "brand",
+      "usedBrandFallback": false,
+      "status": "approved",
+      "providerType": "primary",
+      "sourceProvider": "logodev",
+      "sourceUrl": "https://img.logo.dev/maconline.com?token=pk_fTj0i3frTzeohntsedusqQ&retina=true",
+      "localPath": "/logos/entities/maconline.jpg",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "width": null,
+      "height": null,
+      "score": 65,
+      "reason": "Remote accessible (image/jpeg)",
+      "isManualOverride": true,
+      "updatedAt": "2026-03-24T01:18:34.482Z"
+    }
+  }
+}
