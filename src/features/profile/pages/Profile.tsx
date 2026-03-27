@@ -14,7 +14,7 @@ import { logger } from "../../../lib/logger";
 
 import { NextActionRecommendation, ActionType } from '../../../components/ui/NextActionRecommendation';
 import { InlineLoader } from '../../../components/ui/InlineLoader';
-import { EmptyState } from '../../../components/ui/EmptyState';
+import { EmptyState } from '../../../components/ui/foundation/EmptyState';
 import { notifyService } from "../../notifications/notifyService";
 import PageHeader from "../../../components/ui/PageHeader";
 import ProfileHeader from '../components/ProfileHeader';
@@ -38,8 +38,7 @@ export default function Profile() {
         <EmptyState
           title="Completa tu perfil"
           description="Necesitamos algunos datos para habilitar tus señales."
-          actionLabel="Completar ahora"
-          onAction={() => navigate('/complete-profile')}
+          primaryAction={{ label: "Completar ahora", onClick: () => navigate('/complete-profile') }}
           icon="account_circle"
         />
       </div>

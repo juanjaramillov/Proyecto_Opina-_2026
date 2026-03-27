@@ -48,7 +48,7 @@ export const MODULES: OpinaModule[] = [
     {
         key: "pulso",
         slug: "pulso",
-        title: "Tu Pulso",
+        title: "Tu Tendencia",
         description: "Sincroniza tu estado actual. Registra cómo te sientes hoy.",
         status: "soon",
         icon: "favorite",

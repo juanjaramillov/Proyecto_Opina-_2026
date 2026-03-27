@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Battle } from "../../signals/types";
 import { PARENT_INDUSTRIES } from "../data/industries";
 import { IndustrySelector } from "./IndustrySelector";
@@ -22,9 +22,19 @@ export default function TorneoView({ battles, onBack }: TorneoViewProps) {
     const [selectedTheme, setSelectedTheme] = useState<string | 'mix'>('mix');
     const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
     const [progressiveRefreshKey, setProgressiveRefreshKey] = useState(() => Math.floor(Math.random() * 1000));
+    const sequenceIdRef = useRef<string>(crypto.randomUUID());
+
+    useEffect(() => {
+        sequenceIdRef.current = crypto.randomUUID();
+    }, [progressiveRefreshKey]);
 
     const progressiveData = useMemo(() => {
-        let validBattles = (battles || []).filter(b => {
+        const validMappedBattles = battles.map(b => ({
+            ...b,
+            options: b.options.filter(o => o.is_active_torneo !== false)
+        })).filter(b => b.options.length >= 2);
+
+        let validBattles = validMappedBattles.filter(b => {
             const slug = (b.category as { slug?: string })?.slug || b.industry;
             return slug !== 'vida_diaria';
         });
@@ -171,11 +181,18 @@ export default function TorneoView({ battles, onBack }: TorneoViewProps) {
                                             loser_option_name: rejected.label,
                                             subcategory: progressiveData.industry,
                                             stage: (metadata?.round as number) || 1,
+                                            response_time_ms: metadata?.responseTimeMs as number | undefined,
+                                            left_entity_id: metadata?.leftOptionId as string | undefined,
+                                            right_entity_id: metadata?.rightOptionId as string | undefined,
+                                            sequence_id: sequenceIdRef.current,
+                                            sequence_order: (metadata?.round as number) || 1
                                         });
                                     } else {
                                         await signalService.saveSignalEvent({
                                             battle_id,
                                             option_id,
+                                            sequence_id: sequenceIdRef.current,
+                                            sequence_order: (metadata?.round as number) || 1,
                                             meta: { opponent_id: opponentId, mode: 'torneo', ...metadata }
                                         });
                                     }

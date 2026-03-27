@@ -14,13 +14,12 @@ export const moduleInterestService = {
             // DG-B02: Telemetría va por RPC, no por signal_events (tabla protegida)
             const clientEventId = crypto.randomUUID();
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const { error } = await (supabase as any).rpc('track_module_interest', {
+            const { error } = await supabase.rpc('track_module_interest', {
                 p_module_key: metadata.module_slug,
                 p_event_type: eventType ?? 'open',
                 p_client_event_id: clientEventId,
-                p_device_hash: localStorage.getItem('opina_device_hash'),
-                p_metadata: metadata ?? {}
+                p_device_hash: localStorage.getItem('opina_device_hash') || undefined,
+                p_metadata: (metadata as any) ?? {}
             });
 
             if (error) {

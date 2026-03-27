@@ -1,8 +1,14 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { useResultsExperience } from './useResultsExperience';
-import { getCuratedMasterHubSnapshot } from '../data/getCuratedMasterHubSnapshot';
+import { getLaunchSyntheticMasterHubSnapshot } from '../data/launch/resultsLaunchSyntheticData';
 import { trackPage } from '../../telemetry/track';
+
+// 1. Mock Runtime Config
+vi.mock('../config/resultsRuntime', () => ({
+    isResultsLaunchSyntheticMode: true,
+    isResultsRealMode: false
+}));
 
 // 1. Mock Auth
 let mockProfile: Record<string, unknown> | null = null;
@@ -10,9 +16,9 @@ vi.mock('../../auth', () => ({
     useAuth: () => ({ profile: mockProfile })
 }));
 
-// 2. Mock Data Provider (Curated Master Hub)
-vi.mock('../data/getCuratedMasterHubSnapshot', () => ({
-    getCuratedMasterHubSnapshot: vi.fn()
+// 2. Mock Data Provider (Launch Synthetic)
+vi.mock('../data/launch/resultsLaunchSyntheticData', () => ({
+    getLaunchSyntheticMasterHubSnapshot: vi.fn()
 }));
 
 // 3. Mock Telemetry
@@ -33,14 +39,14 @@ describe('useResultsExperience', () => {
                 torneo: { state: 'available', total_answers: 5, pending_signals: 0 }
             }
         };
-        (getCuratedMasterHubSnapshot as import('vitest').Mock).mockReturnValue(mockSnapshot);
+        (getLaunchSyntheticMasterHubSnapshot as import('vitest').Mock).mockReturnValue(mockSnapshot);
 
-        // Since getCuratedMasterHubSnapshot is synchronous, loading finishes immediately in the first effect
+        // Since getLaunchSyntheticMasterHubSnapshot is synchronous, loading finishes immediately in the first effect
         const { result } = renderHook(() => useResultsExperience());
 
         expect(result.current.loading).toBe(false);
         expect(result.current.snapshot).toEqual(mockSnapshot);
-        expect(getCuratedMasterHubSnapshot).toHaveBeenCalledWith('test-user-id', {});
+        expect(getLaunchSyntheticMasterHubSnapshot).toHaveBeenCalledWith('test-user-id', {});
         expect(trackPage).toHaveBeenCalledWith('results_hub_b2c');
     });
 
@@ -56,7 +62,7 @@ describe('useResultsExperience', () => {
                 privacyState: 'insufficient_cohort' as const
             }
         };
-        (getCuratedMasterHubSnapshot as import('vitest').Mock).mockImplementation((_userId: string, filters: Record<string, unknown>) => {
+        (getLaunchSyntheticMasterHubSnapshot as import('vitest').Mock).mockImplementation((_userId: string, filters: Record<string, unknown>) => {
             if (filters.ageRange === '18-24' && filters.region === 'north') {
                 return insufficientSnapshot;
             }
@@ -78,7 +84,7 @@ describe('useResultsExperience', () => {
     });
 
     it('manages activeModule and filters state', async () => {
-        (getCuratedMasterHubSnapshot as import('vitest').Mock).mockReturnValue({});
+        (getLaunchSyntheticMasterHubSnapshot as import('vitest').Mock).mockReturnValue({});
 
         const { result } = renderHook(() => useResultsExperience());
 
@@ -99,15 +105,20 @@ describe('useResultsExperience', () => {
         expect(result.current.filters).toEqual({ gender: 'female' });
     });
 
-    it('does not load data if profile is not available', async () => {
+    it('loads synthetic data with fallback id if profile is not available in launch mode', async () => {
         mockProfile = null; // Unauthenticated
+        const mockSnapshot = {
+            modules: { versus: { state: 'available', total_answers: 0, unplayed_count: 0 } }
+        };
+        (getLaunchSyntheticMasterHubSnapshot as import('vitest').Mock).mockReturnValue(mockSnapshot);
         
         const { result } = renderHook(() => useResultsExperience());
 
-        // Effect runs but returns early
-        expect(getCuratedMasterHubSnapshot).not.toHaveBeenCalled();
+        // Effect runs and calls synthetic data with fallback id
+        expect(getLaunchSyntheticMasterHubSnapshot).toHaveBeenCalledWith('launch-anonymous-user', {});
         
-        // It initializes with loading true, but won't change snapshot
-        expect(result.current.snapshot).toBeNull();
+        // Stops loading and sets snapshot
+        expect(result.current.loading).toBe(false);
+        expect(result.current.snapshot).toEqual(mockSnapshot);
     });
 });

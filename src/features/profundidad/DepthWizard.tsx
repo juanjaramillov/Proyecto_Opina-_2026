@@ -4,6 +4,7 @@ import DepthHUD from './components/DepthHUD';
 import DepthQuestionCard from './components/DepthQuestionCard';
 import DepthComplete from './components/DepthComplete';
 import { logger } from '../../lib/logger';
+import { useInteractionTimer } from '../../hooks/useInteractionTimer';
 
 interface DepthWizardProps {
     packTitle: string;
@@ -14,7 +15,7 @@ interface DepthWizardProps {
         options?: string[];
         subtext?: string;
     }>;
-    onSave: (answers: Record<string, string | number>) => Promise<void>;
+    onSave: (answers: Record<string, string | number>, times?: Record<string, number>) => Promise<void>;
     onCancel: () => void;
     onComplete: () => void;
 }
@@ -28,19 +29,31 @@ const DepthWizard: React.FC<DepthWizardProps> = ({
 }) => {
     const [step, setStep] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string | number>>({});
+    const [responseTimes, setResponseTimes] = useState<Record<string, number>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
+    const { startTimer, getElapsedMs } = useInteractionTimer();
+
+    React.useEffect(() => {
+        if (step >= 0 && step < questions.length) {
+            startTimer();
+        }
+    }, [step, questions.length, startTimer]);
 
     const handleAnswer = async (value: string | number) => {
+        const ms = getElapsedMs();
         const newAnswers = { ...answers, [questions[step].id]: value };
+        const newTimes = { ...responseTimes, [questions[step].id]: ms || 0 };
+        
         setAnswers(newAnswers);
+        setResponseTimes(newTimes);
 
         if (step < questions.length - 1) {
             setStep(step + 1);
         } else {
             setIsSubmitting(true);
             try {
-                await onSave(newAnswers);
+                await onSave(newAnswers, newTimes);
                 setIsFinished(true);
             } catch (error) {
                 logger.error('[DepthWizard] Error saving answers:', error);

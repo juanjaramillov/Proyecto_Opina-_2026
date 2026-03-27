@@ -151,7 +151,7 @@ export default function AdminSignals() {
                                     <td className="p-4">
                                         <div className="flex items-center gap-1.5 text-sm text-slate-600">
                                             <Activity className="w-4 h-4 text-slate-400" />
-                                            <span className="font-bold">{signal.total_votes.toLocaleString()}</span> votos
+                                            <span className="font-bold">{signal.total_votes.toLocaleString()}</span> señales
                                         </div>
                                     </td>
                                     <td className="p-4 text-right">

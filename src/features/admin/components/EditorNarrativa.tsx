@@ -47,6 +47,28 @@ export function EditorNarrativa({ formData, setFormData }: EditorNarrativaProps)
                         placeholder="Ej: «Aún queda mucho camino que recorrer» - M. Marcel"
                     />
                 </div>
+
+                <div>
+                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">URL de Imagen (Opcional - Prioridad Alta)</label>
+                    <input
+                        type="url"
+                        value={(formData.metadata?.image_url as string) || ""}
+                        onChange={e => 
+                            setFormData(prev => ({ 
+                                ...prev, 
+                                metadata: { 
+                                    ...(prev.metadata || {}), 
+                                    image_url: e.target.value 
+                                } 
+                            }))
+                        }
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all text-sm text-slate-700 font-mono"
+                        placeholder="Ej: https://ejemplo.com/imagen.jpg"
+                    />
+                    <p className="mt-2 text-xs text-slate-500">
+                        Si la IA no detectó una imagen o es incorrecta, pega aquí la URL directa de la foto. Esta imagen tendrá prioridad sobre las demás.
+                    </p>
+                </div>
             </div>
         </section>
     );

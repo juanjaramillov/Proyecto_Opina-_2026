@@ -57,7 +57,7 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
         }
     };
 
-    const handleComplete = async (answers: { question_id: string, answer_value: string }[]) => {
+    const handleComplete = async (answers: { question_id: string, answer_value: string, response_time_ms?: number }[]) => {
         if (!selectedTopicDetail) return;
 
         try {

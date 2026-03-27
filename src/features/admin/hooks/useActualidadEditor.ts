@@ -35,6 +35,7 @@ export function useActualidadEditor(id: string | undefined) {
                     status: data.status,
                     tags: data.tags,
                     actors: data.actors,
+                    metadata: data.metadata,
                 });
 
                 // Helper para asegurar que las opciones sean SIEMPRE un arreglo de strings

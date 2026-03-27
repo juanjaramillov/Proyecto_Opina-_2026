@@ -140,7 +140,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
         }
     };
 
-    const handleSurveyCompleteReturn = async (answers: Record<string, string | number>) => {
+    const handleSurveyCompleteReturn = async (answers: Record<string, string | number>, times?: Record<string, number>) => {
         // 🛡️ PROFILE WIZARD V2 CHECK: Ensure at least stage 1 for signaling
         const currentStage = profile?.demographics?.profileStage || 0;
         const isAdmin = profile?.role === 'admin';
@@ -154,7 +154,8 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
         try {
             const structuredAnswers = Object.entries(answers).map(([key, val]) => ({
                 question_key: key,
-                answer_value: String(val)
+                answer_value: String(val),
+                response_time_ms: times?.[key]
             }));
 
             await depthService.saveDepthStructured(optionId, structuredAnswers);

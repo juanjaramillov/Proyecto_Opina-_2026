@@ -19,6 +19,8 @@ export type BattleOption = {
         consensus?: number;
         trend?: 'up' | 'down' | 'stable';
     };
+    is_active_versus?: boolean;
+    is_active_torneo?: boolean;
 };
 
 export type BattleMomentum = {

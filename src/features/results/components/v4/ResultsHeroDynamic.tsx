@@ -173,9 +173,12 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
   };
 
   return (
-    <section className="w-full pt-4 pb-8 md:pt-12 md:pb-16 relative overflow-visible bg-white">
-      {/* Elemento decorativo de fondo para darle más fuerza visual y empaque premium */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-slate-50 to-transparent rounded-full blur-3xl opacity-50 pointer-events-none -translate-y-1/2 translate-x-1/3" />
+    <section className="w-full pt-6 pb-12 md:pt-16 md:pb-20 relative overflow-visible z-10">
+      {/* Elemento decorativo de fondo fluido y envolvente */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-gradient-to-bl from-indigo-100/40 via-purple-50/20 to-transparent rounded-full blur-[100px] opacity-70 -translate-y-1/2 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-gradient-to-tr from-emerald-50/30 to-transparent rounded-full blur-[80px] opacity-60 translate-y-1/3 -translate-x-1/4" />
+      </div>
 
       <div className="container-ws relative z-10 w-full">
         
@@ -192,25 +195,25 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 {/* Context Labels */}
-                <div className="flex flex-wrap items-center gap-2 mb-6">
-                  <span className="px-2.5 py-1 bg-slate-100 rounded-md border border-slate-200 text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
+                <div className="flex flex-wrap items-center gap-2 mb-8">
+                  <span className="px-3 py-1.5 bg-white/60 backdrop-blur-md rounded-lg border border-white/80 shadow-sm text-[10px] sm:text-xs font-black text-slate-700 uppercase tracking-[0.2em]">
                     {moduleLabels[activeModule] || activeModule}
                   </span>
-                  <span className="px-2.5 py-1 bg-slate-100 rounded-md border border-slate-200 text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
+                  <span className="px-3 py-1.5 bg-white/60 backdrop-blur-md rounded-lg border border-white/80 shadow-sm text-[10px] sm:text-xs font-black text-slate-700 uppercase tracking-[0.2em]">
                     {periodLabels[activePeriod] || activePeriod}
                   </span>
                   {activeGeneration !== "ALL" && (
-                    <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-200 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                    <span className="px-3 py-1.5 bg-indigo-50/80 backdrop-blur-md text-indigo-700 rounded-lg border border-indigo-200/60 shadow-sm text-[10px] sm:text-xs font-black uppercase tracking-[0.2em]">
                       Filtro: {generationLabels[activeGeneration]}
                     </span>
                   )}
-                  <span className="px-2.5 py-1 bg-slate-800 text-white rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-                    {snapshot.overview.totalSignals.toLocaleString()} Señales Analizadas
+                  <span className="px-3 py-1.5 bg-slate-900/90 backdrop-blur-md text-white rounded-lg shadow-md text-[10px] sm:text-xs font-black uppercase tracking-[0.2em]">
+                    {snapshot.overview.totalSignals.toLocaleString()} Señales
                   </span>
                 </div>
                 
                 {/* Titular Editorial WOW */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink leading-[1.05] mb-6">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter text-slate-900 leading-[1.02] mb-6">
                   {editorial.mainInsight.headline}
                 </h1>
                 
@@ -220,23 +223,26 @@ export function ResultsHeroDynamic({ snapshot, activeModule, activePeriod, activ
                 </p>
 
                 {/* 2 Hallazgos Secundarios */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-10">
                   {editorial.secondaryInsights.slice(0, 2).map((sec, idx) => (
                     <motion.div 
                       key={idx}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.2 + (idx * 0.1) }}
-                      className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex items-start gap-4 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.1)] hover:border-indigo-200 transition-all group"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + (idx * 0.1), ease: "easeOut" }}
+                      className="relative bg-white/60 backdrop-blur-xl border border-white/80 rounded-3xl p-5 sm:p-6 flex items-start gap-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:bg-white/80 transition-all duration-300 group overflow-hidden"
                     >
-                      <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 group-hover:scale-110 transition-transform group-hover:bg-indigo-50">
+                      {/* Decorative inner glow */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                      
+                      <div className="w-12 h-12 rounded-2xl bg-white/80 backdrop-blur-sm shadow-sm flex items-center justify-center shrink-0 border border-slate-100/50 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300">
                         {getSecondaryIcon(sec.type)}
                       </div>
-                      <div>
-                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                      <div className="relative z-10">
+                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1.5">
                           {sec.title}
                         </div>
-                        <div className="text-sm font-black text-slate-800 leading-tight">
+                        <div className="text-base sm:text-lg font-black text-slate-900 leading-tight">
                           {sec.value}
                         </div>
                       </div>

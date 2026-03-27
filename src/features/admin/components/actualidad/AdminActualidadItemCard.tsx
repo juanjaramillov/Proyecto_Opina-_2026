@@ -105,7 +105,7 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
                 icon={Eye}
             />
             <MetricAvailabilityCard 
-                label="Votos" 
+                label="Señales" 
                 status="pending" 
                 compact
                 icon={MessageCircle} 

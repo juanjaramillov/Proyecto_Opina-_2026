@@ -1,4 +1,4 @@
-import { EmptyState } from '../../../components/ui/EmptyState';
+import { EmptyState } from '../../../components/ui/foundation/EmptyState';
 import { ParticipationSummary, ActivityEvent } from '../services/profileService';
 
 interface ProfileActivitySummaryProps {

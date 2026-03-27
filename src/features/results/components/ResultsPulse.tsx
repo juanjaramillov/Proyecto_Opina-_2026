@@ -34,7 +34,7 @@ export function ResultsPulse() {
             Qué está pasando ahora
           </span>
           <h3 className="mt-4 text-2xl md:text-3xl font-black tracking-tight text-slate-950">
-            Pulso del momento
+            Tendencias del momento
           </h3>
         </div>
 

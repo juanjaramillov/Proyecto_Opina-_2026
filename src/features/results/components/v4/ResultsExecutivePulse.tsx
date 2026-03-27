@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Activity, Zap, Compass, ShieldAlert, Crown, ArrowUpRight, TrendingUp } from "lucide-react";
+import { SectionShell } from '../../../../components/ui/foundation/SectionShell';
 import { MasterHubSnapshot } from "../../../../read-models/b2c/hub-types";
 import { ResultsPeriod, ResultsGeneration } from "../../hooks/useResultsExperience";
 
@@ -63,32 +64,22 @@ export function ResultsExecutivePulse({ snapshot, activePeriod }: ResultsExecuti
         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 shadow-sm">
           <Activity className="w-4 h-4 text-slate-500" />
           <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-600">
-            Pulso Ejecutivo del Ecosistema
+            Qué está moviendo a la gente
           </span>
         </div>
       </div>
 
-      <div className="w-full bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col relative group">
-        
-        {/* Background glow base */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-white via-slate-50 to-indigo-50/30 opacity-60 pointer-events-none" />
-
-        {/* Top Info Bar */}
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between px-8 pt-8 pb-4 border-b border-slate-100/50">
-          <div className="text-center md:text-left mb-4 md:mb-0">
-             <h2 className="text-2xl md:text-3xl font-black text-ink tracking-tight">Estado de la Red</h2>
-             <p className="text-sm text-slate-500 font-medium">
-               {activePeriod === "7D" ? "Últimos 7 días" : activePeriod === "30D" ? "Últimos 30 días" : "Últimos 90 días"} • {signalVolume.toLocaleString()} señales activas
-             </p>
-          </div>
-          
-          <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-100 px-4 py-2 rounded-2xl">
-             <div className="flex flex-col items-end">
-               <span className="text-[10px] uppercase font-bold text-emerald-700 tracking-widest">Crecimiento (MoM)</span>
-               <div className="text-xl font-black text-emerald-600 tracking-tighter flex items-center gap-1">+18.4% <TrendingUp className="w-4 h-4" /></div>
-             </div>
-          </div>
-        </div>
+        <SectionShell
+          title="Estado de la Red"
+          description={`${activePeriod === "7D" ? "Últimos 7 días" : activePeriod === "30D" ? "Últimos 30 días" : "Últimos 90 días"} • ${signalVolume.toLocaleString()} señales activas`}
+          variant="highlighted"
+          actionContent={
+            <div className="bg-emerald-50 border border-emerald-100 px-4 py-2 rounded-2xl flex flex-col items-end">
+              <span className="text-[10px] uppercase font-bold text-emerald-700 tracking-widest">Crecimiento (MoM)</span>
+              <div className="text-xl font-black text-emerald-600 tracking-tighter flex items-center gap-1">+18.4% <TrendingUp className="w-4 h-4" /></div>
+            </div>
+          }
+        >
 
         {/* 3 Main Data Pillars */}
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
@@ -143,7 +134,7 @@ export function ResultsExecutivePulse({ snapshot, activePeriod }: ResultsExecuti
               {/* Visual de distribución transversal */}
               <div className="space-y-2">
                 <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  <span>Share del Ecosistema</span>
+                  <span>Mayor peso</span>
                   <span className="text-indigo-600">45%</span>
                 </div>
                 <VolumeDistributionBar />
@@ -191,7 +182,7 @@ export function ResultsExecutivePulse({ snapshot, activePeriod }: ResultsExecuti
             Explorar Raw Data <ArrowUpRight className="w-3 h-3" />
           </button>
         </div>
-      </div>
+        </SectionShell>
     </div>
   );
 }

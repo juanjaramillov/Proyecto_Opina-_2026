@@ -1,4 +1,4 @@
-import { supabase } from '../../../supabase/client';
+import { supabaseLegacyUnsafe as supabase } from '../../../supabase/client-legacy-unsafe';
 import { logger } from '../../../lib/logger';
 import { Topic, TopicQuestion, TopicStatus } from '../../signals/types/actualidad';
 import { generateTopicSlug, validateTopicForPublication } from '../utils/actualidadHelpers';

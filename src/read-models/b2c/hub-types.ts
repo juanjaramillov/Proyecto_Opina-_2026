@@ -31,12 +31,10 @@ export interface TorneoModuleResult extends BaseModuleResult {
 }
 
 export interface ThermometricInsight {
-  topic: string;
-  userStance: 'for' | 'against' | 'neutral';
-  consensusPercentage: number;
-  consensusStance: 'for' | 'against' | 'neutral';
-  divergenceLevel: 'high' | 'medium' | 'low';
-  description: string;
+  label: string;
+  polarizationScore: number;
+  userPosition: string;
+  communityPosition: string;
 }
 
 export interface ActualidadModuleResult extends BaseModuleResult {
@@ -77,6 +75,7 @@ export interface HubFilters {
   ageRange?: string | null; // e.g., '18-24'
   generation?: 'ALL' | 'BOOMERS' | 'GEN_X' | 'MILLENNIALS' | 'GEN_Z';
   region?: string | null;
+  socioeconomicLevel?: string | null;
 }
 
 // ---------------------------------------------------------

@@ -38,18 +38,14 @@ Copia `.env.example` a `.env.local` y define lo siguiente:
 
 ## Política de "Zip Limpio"
 
-Para auditorías o respaldos, el empaquetado **nunca debe ser manual**. Utiliza los comandos automatizados para garantizar higiene y portabilidad:
+Para auditorías o respaldos, el empaquetado **nunca debe ser manual**. Utiliza los comandos automatizados para garantizar higiene del entorno:
 
-1. **Verificar Higiene:**
-   ```bash
-   npm run ops:repo-hygiene
-   ```
-2. **Generar Zip:**
+1. **Generar Zip:**
    ```bash
    npm run export:clean
    ```
 
-- **EXCLUIDOS EXPLÍCITAMENTE**: Consulta `docs/operations/CLEAN_EXPORT_POLICY.md` para ver la lista estricta de exclusiones. El empaquetado generado aparecerá en la carpeta `/exports`.
+- **EXCLUIDOS EXPLÍCITAMENTE**: Consulta `docs/internal/repo-hygiene-and-export-governance.md` para ver la lista estricta de exclusiones operativas. El empaquetado limpio generado aparecerá en la raíz, en la carpeta `exports/`.
 
 ---
 
@@ -57,3 +53,6 @@ Para auditorías o respaldos, el empaquetado **nunca debe ser manual**. Utiliza 
 1. **Validación de Tipos**: `npm run typecheck` es el estándar de verdad, no la vista previa.
 2. **Acceso Seguro**: Todo privilegio se deriva de `role` en la tabla `users`.
 3. **Core Vivo**: Los módulos activos son Versus, Torneo, Actualidad y B2B Dashboard.
+4. **UI Foundation (Fase 2)**: Al crear o modificar vistas complejas, DEBEN utilizarse los componentes núcleo de `src/components/ui/foundation` (e.g., `SectionShell`, `StatTile`). Prohibido reinventar layouts de métricas o cards artesanales.
+5. **Partición de Componentes (Fase 2)**: Todo componente monolítico vivo con mezcla de responsabilidades debe fragmentarse extrayendo sus subcomponentes lógicos y configuraciones. Consultar `docs/internal/component-partitioning-governance.md`.
+6. **Lenguaje Humano (Fase 2)**: El "runtime" B2C (Home, Signals, Results) requiere un registro estrictamente Premium-Editorial. Prohibido usar vocablos corporativos de BI ("Overview", "Ejecutivo", "Ecosistema", "Dashboard") en vistas orientadas a consumidores.

@@ -68,7 +68,23 @@ export const signalWriteService = {
             p_device_hash: deviceHash,
             p_value_json: (payload.meta as Database['public']['Tables']['signal_events']['Row']['value_json']) || {},
             p_signal_type_code: signalTypeCode,
-            p_module_type: moduleType
+            p_module_type: moduleType,
+            
+            // V14 NATIVE INJECTION
+            p_event_status: payload.event_status || undefined,
+            p_origin_module: payload.origin_module || undefined,
+            p_origin_element: payload.origin_element || undefined,
+            p_question_id: payload.question_id || undefined,
+            p_question_version: payload.question_version || undefined,
+            p_display_order: payload.display_order || undefined,
+            p_response_time_ms: payload.response_time_ms || undefined,
+            p_sequence_id: payload.sequence_id || undefined,
+            p_sequence_order: payload.sequence_order || undefined,
+            p_content_snapshot_id: payload.content_snapshot_id || undefined,
+            p_left_entity_id: payload.left_entity_id || undefined,
+            p_right_entity_id: payload.right_entity_id || undefined,
+            p_selected_entity_id: payload.selected_entity_id || payload.option_id,
+            p_interaction_outcome: payload.interaction_outcome || undefined
         };
 
         // 3. ENCOLAR SIEMPRE
@@ -143,6 +159,7 @@ export const signalWriteService = {
 
                 logger.warn('[SignalService] RPC insert_signal_event failed (transient)', eMsg);
             } else {
+                // V14 Enrichment: Native backend persistence handles all args. No subsequent async UPDATE requirement.
                 removeOutboxJob(id);
                 track("signal_saved", "info", { battle_id: payload.battle_id, option_id: payload.option_id }, id);
             }
@@ -167,10 +184,21 @@ export const signalWriteService = {
         selected_option_name: string;
         loser_option_name: string;
         subcategory?: string;
+        
+        // V14 Attributes
+        left_entity_id?: string;
+        right_entity_id?: string;
+        response_time_ms?: number;
     }): Promise<void> => {
         return signalWriteService.saveSignalEvent({
             battle_id: args.battle_uuid,
             option_id: args.selected_option_id,
+            left_entity_id: args.left_entity_id,
+            right_entity_id: args.right_entity_id,
+            response_time_ms: args.response_time_ms,
+            selected_entity_id: args.selected_option_id,
+            event_status: 'completed',
+            interaction_outcome: 'selected',
             meta: {
                 source: 'versus',
                 loser_option_id: args.loser_option_id,
@@ -190,10 +218,22 @@ export const signalWriteService = {
         loser_option_name: string;
         subcategory?: string;
         stage?: number;
+        response_time_ms?: number;
+        left_entity_id?: string;
+        right_entity_id?: string;
+        sequence_id?: string;
+        sequence_order?: number;
     }): Promise<void> => {
         return signalWriteService.saveSignalEvent({
             battle_id: args.battle_uuid,
             option_id: args.selected_option_id,
+            response_time_ms: args.response_time_ms,
+            left_entity_id: args.left_entity_id,
+            right_entity_id: args.right_entity_id,
+            selected_entity_id: args.selected_option_id,
+            sequence_id: args.sequence_id,
+            sequence_order: args.sequence_order,
+            origin_module: 'progressive',
             meta: {
                 source: 'progressive',
                 loser_option_id: args.loser_option_id,

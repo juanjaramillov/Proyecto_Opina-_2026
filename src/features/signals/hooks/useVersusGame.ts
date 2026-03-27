@@ -6,9 +6,13 @@ import { Battle, BattleOption, TorneoTournament, VoteResult, BattleMomentum } fr
 import { logger } from '../../../lib/logger';
 import { supabase } from '../../../supabase/client';
 
+export interface VoteMetadata {
+    responseTimeMs?: number;
+}
+
 interface UseVersusGameProps {
     battles: Battle[];
-    onVote: (battleId: string, optionId: string, opponentId: string) => Promise<VoteResult>;
+    onVote: (battleId: string, optionId: string, opponentId: string, meta?: VoteMetadata) => Promise<VoteResult>;
     mode?: 'classic' | 'survival' | 'torneo';
     autoNextMs?: number;
     progressiveData?: TorneoTournament;
@@ -54,6 +58,7 @@ export function useVersusGame({
 
     const timeoutRef = useRef<number | null>(null);
     const exitTimeoutRef = useRef<number | null>(null);
+    const viewStartTimeRef = useRef<number>(Date.now());
 
     const effectiveBattle = useMemo(() => {
         if (mode === 'torneo' && progressiveData && progressiveData.candidates) {
@@ -132,8 +137,14 @@ export function useVersusGame({
             setIdx((prev) => prev + 1);
         }
     };
+    
+    useEffect(() => {
+        // Reset timing when effective battle changes
+        viewStartTimeRef.current = Date.now();
+    }, [effectiveBattle?.id]);
 
-    const vote = async (optionId: string) => {
+
+    const emitSignal = async (optionId: string) => {
         if (!effectiveBattle) return;
         if (isSubmitting || isTransitioning) return;
 
@@ -158,9 +169,11 @@ export function useVersusGame({
 
         const opponent = effectiveBattle.options.find(o => o.id !== optionId);
         if (!opponent && effectiveBattle.options.length > 1) return;
+        
+        const responseTimeMs = Date.now() - viewStartTimeRef.current;
 
         try {
-            const r = await onVote(effectiveBattle.id, optionId, opponent?.id || 'unknown');
+            const r = await onVote(effectiveBattle.id, optionId, opponent?.id || 'unknown', { responseTimeMs });
 
             if (r.error) {
                 const knownMsg = formatKnownError(r.error);
@@ -184,7 +197,7 @@ export function useVersusGame({
                 voteId: `${effectiveBattle.id}-${Date.now()}`,
                 eventDetail: {
                     type: 'versus',
-                    description: `Votó por ${choiceLabel} en ${effectiveBattle.title}`,
+                    description: `Emitió señal por ${choiceLabel} en ${effectiveBattle.title}`,
                     metadata: {
                         sourceId: effectiveBattle.id,
                         choiceLabel: choiceLabel,
@@ -246,7 +259,7 @@ export function useVersusGame({
             const msg = formatKnownError(err) ?? 'No se pudo registrar tu señal.';
             notifyService.error(msg);
             setIsTransitioning(false);
-            // We do NOT call setResult, so the UI stays in 'voting' phase for the same battle.
+            // We do NOT call setResult, so the UI stays in 'signaling' phase for the same battle.
         }
     };
 
@@ -261,7 +274,7 @@ export function useVersusGame({
         battle: effectiveBattle,
         effectiveBattle, // Alias for component compatibility
         idx,
-        vote,
+        emitSignal,
         result,
         showAuthModal,
         setShowAuthModal,
@@ -278,7 +291,7 @@ export function useVersusGame({
         locked: false,
         lockedByLimit: false,
         selected: selectedId,
-        phase: (result ? 'result' : 'voting') as 'idle' | 'voting' | 'result' | 'next',
+        phase: (result ? 'result' : 'signaling') as 'idle' | 'signaling' | 'result' | 'next',
         total: battles.length,
         streak: sessionHistory.length,
         next: goNext,

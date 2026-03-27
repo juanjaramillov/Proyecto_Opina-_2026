@@ -1,3 +1,9 @@
+/**
+ * AUTO-GENERATED FILE.
+ * Source of truth: Supabase CLI.
+ * Do not edit manually.
+ * Manual overrides must live outside this file in `database-manual-overrides.ts`.
+ */
 export type Json =
   | string
   | number
@@ -7,6 +13,11 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.5"
+  }
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -344,6 +355,51 @@ export type Database = {
         }
         Relationships: []
       }
+      app_sessions: {
+        Row: {
+          app_version: string | null
+          browser: string | null
+          created_at: string
+          device_type: string | null
+          ended_at: string | null
+          entry_point: string | null
+          id: string
+          os: string | null
+          platform: string | null
+          started_at: string
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          app_version?: string | null
+          browser?: string | null
+          created_at?: string
+          device_type?: string | null
+          ended_at?: string | null
+          entry_point?: string | null
+          id?: string
+          os?: string | null
+          platform?: string | null
+          started_at?: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          app_version?: string | null
+          browser?: string | null
+          created_at?: string
+          device_type?: string | null
+          ended_at?: string | null
+          entry_point?: string | null
+          id?: string
+          os?: string | null
+          platform?: string | null
+          started_at?: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       b2b_leads: {
         Row: {
           company: string | null
@@ -413,6 +469,13 @@ export type Database = {
             referencedRelation: "battles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "battle_instances_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
+          },
         ]
       }
       battle_options: {
@@ -455,11 +518,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "battle_options_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
+          },
+          {
             foreignKeyName: "battle_options_brand_id_fkey"
             columns: ["brand_id"]
             isOneToOne: false
             referencedRelation: "entities"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "battle_options_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "battle_options_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "battle_options_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
           },
         ]
       }
@@ -503,6 +594,68 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      behavior_events: {
+        Row: {
+          context_id: string | null
+          created_at: string
+          duration_ms: number | null
+          entity_id: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          module_type: string | null
+          occurred_at: string
+          screen_name: string | null
+          session_id: string | null
+          source_element: string | null
+          source_module: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          context_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          entity_id?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          module_type?: string | null
+          occurred_at?: string
+          screen_name?: string | null
+          session_id?: string | null
+          source_element?: string | null
+          source_module?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          context_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          entity_id?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          module_type?: string | null
+          occurred_at?: string
+          screen_name?: string | null
+          session_id?: string | null
+          source_element?: string | null
+          source_module?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "behavior_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "app_sessions"
             referencedColumns: ["id"]
           },
         ]
@@ -632,6 +785,124 @@ export type Database = {
           weight_sum?: number
         }
         Relationships: []
+      }
+      content_snapshots: {
+        Row: {
+          captured_at: string
+          id: string
+          news_article_id: string | null
+          published_at_snapshot: string | null
+          source_domain_snapshot: string | null
+          source_name_snapshot: string | null
+          summary_snapshot: string | null
+          title_snapshot: string | null
+          url_snapshot: string | null
+        }
+        Insert: {
+          captured_at?: string
+          id?: string
+          news_article_id?: string | null
+          published_at_snapshot?: string | null
+          source_domain_snapshot?: string | null
+          source_name_snapshot?: string | null
+          summary_snapshot?: string | null
+          title_snapshot?: string | null
+          url_snapshot?: string | null
+        }
+        Update: {
+          captured_at?: string
+          id?: string
+          news_article_id?: string | null
+          published_at_snapshot?: string | null
+          source_domain_snapshot?: string | null
+          source_name_snapshot?: string | null
+          summary_snapshot?: string | null
+          title_snapshot?: string | null
+          url_snapshot?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_snapshots_news_article_id_fkey"
+            columns: ["news_article_id"]
+            isOneToOne: false
+            referencedRelation: "news_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      context_links: {
+        Row: {
+          context_id: string
+          created_at: string
+          id: string
+          is_primary: boolean
+          signal_event_id: string
+        }
+        Insert: {
+          context_id: string
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          signal_event_id: string
+        }
+        Update: {
+          context_id?: string
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          signal_event_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "context_links_context_id_fkey"
+            columns: ["context_id"]
+            isOneToOne: false
+            referencedRelation: "signal_contexts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "context_links_context_id_fkey"
+            columns: ["context_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["context_id"]
+          },
+          {
+            foreignKeyName: "context_links_signal_event_id_fkey"
+            columns: ["signal_event_id"]
+            isOneToOne: false
+            referencedRelation: "signal_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "context_links_signal_event_id_fkey"
+            columns: ["signal_event_id"]
+            isOneToOne: false
+            referencedRelation: "signal_events_analytics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "context_links_signal_event_id_fkey"
+            columns: ["signal_event_id"]
+            isOneToOne: false
+            referencedRelation: "signal_events_analytics_all"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "context_links_signal_event_id_fkey"
+            columns: ["signal_event_id"]
+            isOneToOne: false
+            referencedRelation: "signal_events_analytics_clean"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "context_links_signal_event_id_fkey"
+            columns: ["signal_event_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       current_topics: {
         Row: {
@@ -836,6 +1107,27 @@ export type Database = {
             referencedRelation: "entities"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "depth_definitions_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "depth_definitions_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "depth_definitions_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
         ]
       }
       entities: {
@@ -947,13 +1239,6 @@ export type Database = {
             foreignKeyName: "entity_aliases_entity_id_fkey"
             columns: ["entity_id"]
             isOneToOne: false
-            referencedRelation: "v_depth_entity_question_summary"
-            referencedColumns: ["entity_id"]
-          },
-          {
-            foreignKeyName: "entity_aliases_entity_id_fkey"
-            columns: ["entity_id"]
-            isOneToOne: false
             referencedRelation: "v_signal_entity_period_summary"
             referencedColumns: ["entity_id"]
           },
@@ -978,11 +1263,141 @@ export type Database = {
             referencedRelation: "v_signal_events_enriched"
             referencedColumns: ["entity_id"]
           },
+        ]
+      }
+      entity_category_links: {
+        Row: {
+          category_id: string
+          created_at: string
+          entity_id: string
+          id: string
+          is_primary: boolean
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          entity_id: string
+          id?: string
+          is_primary?: boolean
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          entity_id?: string
+          id?: string
+          is_primary?: boolean
+        }
+        Relationships: [
           {
-            foreignKeyName: "entity_aliases_entity_id_fkey"
+            foreignKeyName: "entity_category_links_entity_id_fkey"
             columns: ["entity_id"]
             isOneToOne: false
-            referencedRelation: "v_trend_week_over_week"
+            referencedRelation: "signal_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_category_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_period_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_category_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_category_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_type_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_category_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["entity_id"]
+          },
+        ]
+      }
+      entity_context_links: {
+        Row: {
+          context_id: string
+          created_at: string
+          entity_id: string
+          id: string
+          is_primary: boolean
+          relation_type: string | null
+        }
+        Insert: {
+          context_id: string
+          created_at?: string
+          entity_id: string
+          id?: string
+          is_primary?: boolean
+          relation_type?: string | null
+        }
+        Update: {
+          context_id?: string
+          created_at?: string
+          entity_id?: string
+          id?: string
+          is_primary?: boolean
+          relation_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_context_links_context_id_fkey"
+            columns: ["context_id"]
+            isOneToOne: false
+            referencedRelation: "signal_contexts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_context_links_context_id_fkey"
+            columns: ["context_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["context_id"]
+          },
+          {
+            foreignKeyName: "entity_context_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "signal_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_context_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_period_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_context_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_context_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_type_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_context_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
             referencedColumns: ["entity_id"]
           },
         ]
@@ -1044,6 +1459,27 @@ export type Database = {
             referencedRelation: "entities"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "entity_daily_aggregates_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_daily_aggregates_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_daily_aggregates_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
         ]
       }
       entity_legacy_mappings: {
@@ -1095,13 +1531,6 @@ export type Database = {
             foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
             columns: ["entity_id"]
             isOneToOne: false
-            referencedRelation: "v_depth_entity_question_summary"
-            referencedColumns: ["entity_id"]
-          },
-          {
-            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
-            columns: ["entity_id"]
-            isOneToOne: false
             referencedRelation: "v_signal_entity_period_summary"
             referencedColumns: ["entity_id"]
           },
@@ -1124,13 +1553,6 @@ export type Database = {
             columns: ["entity_id"]
             isOneToOne: false
             referencedRelation: "v_signal_events_enriched"
-            referencedColumns: ["entity_id"]
-          },
-          {
-            foreignKeyName: "entity_legacy_mappings_entity_id_fkey"
-            columns: ["entity_id"]
-            isOneToOne: false
-            referencedRelation: "v_trend_week_over_week"
             referencedColumns: ["entity_id"]
           },
         ]
@@ -1177,6 +1599,27 @@ export type Database = {
             referencedRelation: "entities"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "entity_rank_snapshots_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_rank_snapshots_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "entity_rank_snapshots_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
         ]
       }
       entity_relationships: {
@@ -1216,13 +1659,6 @@ export type Database = {
             foreignKeyName: "entity_relationships_child_entity_id_fkey"
             columns: ["child_entity_id"]
             isOneToOne: false
-            referencedRelation: "v_depth_entity_question_summary"
-            referencedColumns: ["entity_id"]
-          },
-          {
-            foreignKeyName: "entity_relationships_child_entity_id_fkey"
-            columns: ["child_entity_id"]
-            isOneToOne: false
             referencedRelation: "v_signal_entity_period_summary"
             referencedColumns: ["entity_id"]
           },
@@ -1245,13 +1681,6 @@ export type Database = {
             columns: ["child_entity_id"]
             isOneToOne: false
             referencedRelation: "v_signal_events_enriched"
-            referencedColumns: ["entity_id"]
-          },
-          {
-            foreignKeyName: "entity_relationships_child_entity_id_fkey"
-            columns: ["child_entity_id"]
-            isOneToOne: false
-            referencedRelation: "v_trend_week_over_week"
             referencedColumns: ["entity_id"]
           },
           {
@@ -1265,13 +1694,6 @@ export type Database = {
             foreignKeyName: "entity_relationships_parent_entity_id_fkey"
             columns: ["parent_entity_id"]
             isOneToOne: false
-            referencedRelation: "v_depth_entity_question_summary"
-            referencedColumns: ["entity_id"]
-          },
-          {
-            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
-            columns: ["parent_entity_id"]
-            isOneToOne: false
             referencedRelation: "v_signal_entity_period_summary"
             referencedColumns: ["entity_id"]
           },
@@ -1294,13 +1716,6 @@ export type Database = {
             columns: ["parent_entity_id"]
             isOneToOne: false
             referencedRelation: "v_signal_events_enriched"
-            referencedColumns: ["entity_id"]
-          },
-          {
-            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
-            columns: ["parent_entity_id"]
-            isOneToOne: false
-            referencedRelation: "v_trend_week_over_week"
             referencedColumns: ["entity_id"]
           },
         ]
@@ -1610,6 +2025,119 @@ export type Database = {
             columns: ["source_id"]
             isOneToOne: false
             referencedRelation: "news_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      news_context_links: {
+        Row: {
+          context_id: string
+          created_at: string
+          id: string
+          is_primary: boolean
+          news_article_id: string
+        }
+        Insert: {
+          context_id: string
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          news_article_id: string
+        }
+        Update: {
+          context_id?: string
+          created_at?: string
+          id?: string
+          is_primary?: boolean
+          news_article_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "news_context_links_context_id_fkey"
+            columns: ["context_id"]
+            isOneToOne: false
+            referencedRelation: "signal_contexts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "news_context_links_context_id_fkey"
+            columns: ["context_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["context_id"]
+          },
+          {
+            foreignKeyName: "news_context_links_news_article_id_fkey"
+            columns: ["news_article_id"]
+            isOneToOne: false
+            referencedRelation: "news_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      news_entity_links: {
+        Row: {
+          created_at: string
+          entity_id: string
+          id: string
+          is_primary: boolean
+          news_article_id: string
+        }
+        Insert: {
+          created_at?: string
+          entity_id: string
+          id?: string
+          is_primary?: boolean
+          news_article_id: string
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string
+          id?: string
+          is_primary?: boolean
+          news_article_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "news_entity_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "signal_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "news_entity_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_period_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "news_entity_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "news_entity_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_entity_type_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "news_entity_links_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "news_entity_links_news_article_id_fkey"
+            columns: ["news_article_id"]
+            isOneToOne: false
+            referencedRelation: "news_articles"
             referencedColumns: ["id"]
           },
         ]
@@ -1932,6 +2460,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "public_rank_snapshots_attribute_id_fkey"
+            columns: ["attribute_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "public_rank_snapshots_attribute_id_fkey"
+            columns: ["attribute_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "public_rank_snapshots_attribute_id_fkey"
+            columns: ["attribute_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+          {
             foreignKeyName: "public_rank_snapshots_battle_id_fkey"
             columns: ["battle_id"]
             isOneToOne: false
@@ -1939,10 +2488,91 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "public_rank_snapshots_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
+          },
+          {
             foreignKeyName: "public_rank_snapshots_option_id_fkey"
             columns: ["option_id"]
             isOneToOne: false
             referencedRelation: "battle_options"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_catalog: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          module_type: string
+          question_code: string
+          question_type: string
+          text: string
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          module_type: string
+          question_code: string
+          question_type: string
+          text: string
+          version?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          module_type?: string
+          question_code?: string
+          question_type?: string
+          text?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      question_set_items: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          display_order: number
+          entity_type_id: number | null
+          id: string
+          is_active: boolean
+          question_id: string
+          set_code: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          display_order: number
+          entity_type_id?: number | null
+          id?: string
+          is_active?: boolean
+          question_id: string
+          set_code: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          display_order?: number
+          entity_type_id?: number | null
+          id?: string
+          is_active?: boolean
+          question_id?: string
+          set_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_set_items_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "question_catalog"
             referencedColumns: ["id"]
           },
         ]
@@ -2034,12 +2664,16 @@ export type Database = {
           code: string | null
           context_kind: string
           created_at: string
+          display_name: string | null
+          display_order: number | null
           ends_at: string | null
           external_ref: string | null
           id: string
           is_active: boolean
           metadata: Json
           name: string
+          parent_context_id: string | null
+          slug: string | null
           source_module: string | null
           starts_at: string | null
           updated_at: string
@@ -2048,12 +2682,16 @@ export type Database = {
           code?: string | null
           context_kind: string
           created_at?: string
+          display_name?: string | null
+          display_order?: number | null
           ends_at?: string | null
           external_ref?: string | null
           id?: string
           is_active?: boolean
           metadata?: Json
           name: string
+          parent_context_id?: string | null
+          slug?: string | null
           source_module?: string | null
           starts_at?: string | null
           updated_at?: string
@@ -2062,17 +2700,36 @@ export type Database = {
           code?: string | null
           context_kind?: string
           created_at?: string
+          display_name?: string | null
+          display_order?: number | null
           ends_at?: string | null
           external_ref?: string | null
           id?: string
           is_active?: boolean
           metadata?: Json
           name?: string
+          parent_context_id?: string | null
+          slug?: string | null
           source_module?: string | null
           starts_at?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "signal_contexts_parent_context_id_fkey"
+            columns: ["parent_context_id"]
+            isOneToOne: false
+            referencedRelation: "signal_contexts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signal_contexts_parent_context_id_fkey"
+            columns: ["parent_context_id"]
+            isOneToOne: false
+            referencedRelation: "v_signal_events_enriched"
+            referencedColumns: ["context_id"]
+          },
+        ]
       }
       signal_entities: {
         Row: {
@@ -2080,6 +2737,7 @@ export type Database = {
           country_code: string | null
           created_at: string
           display_name: string
+          domain: string | null
           entity_type_id: number
           external_ref: string | null
           id: string
@@ -2097,6 +2755,7 @@ export type Database = {
           country_code?: string | null
           created_at?: string
           display_name: string
+          domain?: string | null
           entity_type_id: number
           external_ref?: string | null
           id?: string
@@ -2114,6 +2773,7 @@ export type Database = {
           country_code?: string | null
           created_at?: string
           display_name?: string
+          domain?: string | null
           entity_type_id?: number
           external_ref?: string | null
           id?: string
@@ -2148,25 +2808,38 @@ export type Database = {
           client_event_id: string | null
           commune: string | null
           computed_weight: number | null
+          content_snapshot_id: string | null
           context_id: string | null
           country: string | null
           created_at: string
           device_hash: string | null
+          display_order: number | null
           effective_weight: number
           entity_id: string | null
           entity_type: string | null
+          event_status: string | null
           gender: string | null
           id: string
           influence_level_snapshot: string | null
+          interaction_outcome: string | null
+          left_entity_id: string | null
           meta: Json | null
           metadata: Json
           module_type: string | null
           occurred_at: string
           opinascore: number | null
           option_id: string | null
+          origin_element: string | null
           profile_completeness: number | null
+          question_id: string | null
+          question_version: number | null
           raw_weight: number
           region: string | null
+          response_time_ms: number | null
+          right_entity_id: string | null
+          selected_entity_id: string | null
+          sequence_id: string | null
+          sequence_order: number | null
           session_id: string | null
           signal_id: string
           signal_type_id: number | null
@@ -2192,25 +2865,38 @@ export type Database = {
           client_event_id?: string | null
           commune?: string | null
           computed_weight?: number | null
+          content_snapshot_id?: string | null
           context_id?: string | null
           country?: string | null
           created_at?: string
           device_hash?: string | null
+          display_order?: number | null
           effective_weight?: number
           entity_id?: string | null
           entity_type?: string | null
+          event_status?: string | null
           gender?: string | null
           id?: string
           influence_level_snapshot?: string | null
+          interaction_outcome?: string | null
+          left_entity_id?: string | null
           meta?: Json | null
           metadata?: Json
           module_type?: string | null
           occurred_at?: string
           opinascore?: number | null
           option_id?: string | null
+          origin_element?: string | null
           profile_completeness?: number | null
+          question_id?: string | null
+          question_version?: number | null
           raw_weight?: number
           region?: string | null
+          response_time_ms?: number | null
+          right_entity_id?: string | null
+          selected_entity_id?: string | null
+          sequence_id?: string | null
+          sequence_order?: number | null
           session_id?: string | null
           signal_id: string
           signal_type_id?: number | null
@@ -2236,25 +2922,38 @@ export type Database = {
           client_event_id?: string | null
           commune?: string | null
           computed_weight?: number | null
+          content_snapshot_id?: string | null
           context_id?: string | null
           country?: string | null
           created_at?: string
           device_hash?: string | null
+          display_order?: number | null
           effective_weight?: number
           entity_id?: string | null
           entity_type?: string | null
+          event_status?: string | null
           gender?: string | null
           id?: string
           influence_level_snapshot?: string | null
+          interaction_outcome?: string | null
+          left_entity_id?: string | null
           meta?: Json | null
           metadata?: Json
           module_type?: string | null
           occurred_at?: string
           opinascore?: number | null
           option_id?: string | null
+          origin_element?: string | null
           profile_completeness?: number | null
+          question_id?: string | null
+          question_version?: number | null
           raw_weight?: number
           region?: string | null
+          response_time_ms?: number | null
+          right_entity_id?: string | null
+          selected_entity_id?: string | null
+          sequence_id?: string | null
+          sequence_order?: number | null
           session_id?: string | null
           signal_id?: string
           signal_type_id?: number | null
@@ -2283,6 +2982,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "battles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signal_events_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
           },
           {
             foreignKeyName: "signal_events_battle_instance_id_fkey"
@@ -2346,6 +3052,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "signal_hourly_aggs_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
+          },
+          {
             foreignKeyName: "signal_hourly_aggs_battle_instance_id_fkey"
             columns: ["battle_instance_id"]
             isOneToOne: false
@@ -2360,6 +3073,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      signal_migration_audit_log: {
+        Row: {
+          affected_columns: string | null
+          execution_time: string | null
+          filter_criteria: string | null
+          id: number
+          migration_name: string | null
+          notes: string | null
+          records_affected: number | null
+          records_detected: number | null
+        }
+        Insert: {
+          affected_columns?: string | null
+          execution_time?: string | null
+          filter_criteria?: string | null
+          id?: number
+          migration_name?: string | null
+          notes?: string | null
+          records_affected?: number | null
+          records_detected?: number | null
+        }
+        Update: {
+          affected_columns?: string | null
+          execution_time?: string | null
+          filter_criteria?: string | null
+          id?: number
+          migration_name?: string | null
+          notes?: string | null
+          records_affected?: number | null
+          records_detected?: number | null
+        }
+        Relationships: []
       }
       signal_rollups_hourly: {
         Row: {
@@ -2497,13 +3243,6 @@ export type Database = {
             foreignKeyName: "topic_answers_topic_id_fkey"
             columns: ["topic_id"]
             isOneToOne: false
-            referencedRelation: "actualidad_stats_view"
-            referencedColumns: ["topic_id"]
-          },
-          {
-            foreignKeyName: "topic_answers_topic_id_fkey"
-            columns: ["topic_id"]
-            isOneToOne: false
             referencedRelation: "current_topics"
             referencedColumns: ["id"]
           },
@@ -2540,13 +3279,6 @@ export type Database = {
             foreignKeyName: "topic_articles_topic_id_fkey"
             columns: ["topic_id"]
             isOneToOne: false
-            referencedRelation: "actualidad_stats_view"
-            referencedColumns: ["topic_id"]
-          },
-          {
-            foreignKeyName: "topic_articles_topic_id_fkey"
-            columns: ["topic_id"]
-            isOneToOne: false
             referencedRelation: "current_topics"
             referencedColumns: ["id"]
           },
@@ -2572,13 +3304,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "topic_question_sets_topic_id_fkey"
-            columns: ["topic_id"]
-            isOneToOne: true
-            referencedRelation: "actualidad_stats_view"
-            referencedColumns: ["topic_id"]
-          },
           {
             foreignKeyName: "topic_question_sets_topic_id_fkey"
             columns: ["topic_id"]
@@ -3393,6 +4118,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "signal_events_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
+          },
+          {
             foreignKeyName: "signal_events_battle_instance_id_fkey"
             columns: ["battle_instance_id"]
             isOneToOne: false
@@ -3525,6 +4257,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "battles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signal_events_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
           },
           {
             foreignKeyName: "signal_events_battle_instance_id_fkey"
@@ -3661,6 +4400,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "signal_events_battle_id_fkey"
+            columns: ["battle_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["battle_id"]
+          },
+          {
             foreignKeyName: "signal_events_battle_instance_id_fkey"
             columns: ["battle_instance_id"]
             isOneToOne: false
@@ -3687,6 +4433,20 @@ export type Database = {
           weighted_wins: number | null
           win_rate: number | null
           wins_count: number | null
+        }
+        Relationships: []
+      }
+      v_demographic_preference_insights: {
+        Row: {
+          age_bucket: string | null
+          battle_id: string | null
+          battle_title: string | null
+          entity_id: string | null
+          entity_name: string | null
+          gender: string | null
+          option_count: number | null
+          preference_percentage: number | null
+          segment_total: number | null
         }
         Relationships: []
       }
@@ -4002,6 +4762,20 @@ export type Database = {
         }
         Returns: Json
       }
+      calculate_opinascore_v1_1: {
+        Args: {
+          p_entity_id: string
+          p_module_type: string
+          p_option_id?: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["opinascore_breakdown"]
+        SetofOptions: {
+          from: "*"
+          to: "opinascore_breakdown"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       calculate_rank_snapshot: { Args: never; Returns: undefined }
       calculate_recency_factor: {
         Args: { p_created_at: string; p_half_life_days?: number }
@@ -4020,6 +4794,10 @@ export type Database = {
           signals_count: number
           user_score: number
         }[]
+      }
+      calculate_wilson_interval_weighted: {
+        Args: { n_eff: number; p_hat: number; p_z?: number }
+        Returns: Json
       }
       claim_guest_activity: { Args: { p_anon_id: string }; Returns: undefined }
       consume_access_gate_code: {
@@ -4134,8 +4912,86 @@ export type Database = {
         Args: { p_category_slug?: string }
         Returns: string
       }
+      get_analytical_integrity_flags: {
+        Args: { p_entity_id: string }
+        Returns: {
+          analysis_warning_label: string
+          flag_device_concentration: boolean
+          flag_repetitive_pattern: boolean
+          flag_velocity_burst: boolean
+          integrity_score: number
+        }[]
+      }
       get_analytics_mode: { Args: never; Returns: string }
+      get_b2b_actualidad_topic_analytics: {
+        Args: { p_topic_id: string }
+        Returns: {
+          analytics_payload: Json
+          entity_id: string
+          entropy_normalized: number
+          fragmentation_label: string
+          options_count: number
+          stats_version: string
+          total_effective_weight: number
+        }[]
+      }
+      get_b2b_battle_analytics: {
+        Args: { p_battle_id: string }
+        Returns: {
+          analytics_payload: Json
+          battle_id: string
+          global_entropy_normalized: number
+          global_fragmentation_label: string
+          n_eff: number
+          options_count: number
+          stats_version: string
+          total_effective_weight: number
+        }[]
+      }
+      get_b2b_bayesian_leaderboard: {
+        Args: { p_category?: string; p_m?: number; p_prior?: number }
+        Returns: {
+          bayesian_m: number
+          bayesian_prior: number
+          bayesian_rank: number
+          bayesian_score_pct: number
+          entity_id: string
+          entity_name: string
+          n_eff: number
+          raw_score_pct: number
+          raw_wins_weight: number
+          stats_version: string
+          total_effective_weight: number
+        }[]
+      }
       get_b2b_dashboard_data: { Args: never; Returns: Json }
+      get_b2b_depth_brand_analytics: {
+        Args: { p_entity_id: string }
+        Returns: {
+          analytics_payload: Json
+          entity_id: string
+          stats_version: string
+          total_effective_weight: number
+        }[]
+      }
+      get_b2b_trending_decay_leaderboard: {
+        Args: {
+          p_category?: string
+          p_half_life_days?: number
+          p_limit?: number
+        }
+        Returns: {
+          bayesian_score_corrected: number
+          decay_rank: number
+          decayed_wins_weight: number
+          entity_id: string
+          entity_name: string
+          n_eff: number
+          raw_wins_weight: number
+          stats_version: string
+          temporal_decay_applied: boolean
+        }[]
+      }
       get_battle_momentum: { Args: { p_battle_id: string }; Returns: Json }
       get_battle_volatility: {
         Args: { p_battle_slug: string; p_days_back?: number }
@@ -4272,6 +5128,18 @@ export type Database = {
           total_responses: number
         }[]
       }
+      get_entities_by_module: {
+        Args: { p_module: string }
+        Returns: {
+          category: string
+          id: string
+          image_url: string
+          name: string
+          rating: number
+          reviews: number
+          slug: string
+        }[]
+      }
       get_entity_rankings_latest: {
         Args: { p_category_slug: string; p_segment_id?: string }
         Returns: {
@@ -4395,6 +5263,16 @@ export type Database = {
           option_label: string
         }[]
       }
+      get_opinion_entropy_stats: {
+        Args: { p_context_target: string; p_is_battle?: boolean }
+        Returns: {
+          entropy_normalized: number
+          entropy_raw: number
+          opinion_fragmentation_label: string
+          options_count: number
+          total_effective_weight: number
+        }[]
+      }
       get_or_create_anon_id: { Args: never; Returns: string }
       get_platform_alerts: {
         Args: { p_limit?: number }
@@ -4424,6 +5302,16 @@ export type Database = {
           top_share: number
         }[]
       }
+      get_premium_eligibility_v1_1: {
+        Args: { p_entity_id: string; p_module_type: string }
+        Returns: Database["public"]["CompositeTypes"]["b2b_premium_output"][]
+        SetofOptions: {
+          from: "*"
+          to: "b2b_premium_output"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_ranking_with_variation: {
         Args: never
         Returns: {
@@ -4449,11 +5337,29 @@ export type Database = {
           verified_signals_last_3h: number
         }[]
       }
+      get_results_kpis: { Args: never; Returns: Json }
       get_retention_metrics: {
         Args: never
         Returns: {
           retention_day_1: number
           retention_day_7: number
+        }[]
+      }
+      get_robust_versus_stats: {
+        Args: { p_battle_id: string }
+        Returns: {
+          battle_uuid: string
+          ci_lower: number
+          ci_upper: number
+          mass_to_revert: number
+          n_eff: number
+          option_id: string
+          raw_effective_wins: number
+          raw_win_rate: number
+          stability_label: string
+          stats_version: string
+          technical_tie_flag: boolean
+          total_effective_weight: number
         }[]
       }
       get_segment_influence: {
@@ -4535,6 +5441,17 @@ export type Database = {
         }[]
       }
       get_trending_feed_grouped: { Args: never; Returns: Json }
+      get_trending_leaderboard_decay: {
+        Args: { p_category?: string; p_half_life_days?: number }
+        Returns: {
+          decay_rank: number
+          decayed_wins_weight: number
+          entity_id: string
+          entity_name: string
+          raw_wins_weight: number
+          temporal_decay_applied: boolean
+        }[]
+      }
       get_user_personal_history: {
         Args: { p_user_id: string }
         Returns: {
@@ -4557,20 +5474,59 @@ export type Database = {
         Args: { p_answers: Json; p_option_id: string }
         Returns: undefined
       }
-      insert_signal_event: {
-        Args: {
-          p_attribute_id?: string
-          p_battle_id: string
-          p_client_event_id?: string
-          p_device_hash?: string
-          p_module_type?: string
-          p_option_id: string
-          p_session_id?: string
-          p_signal_type_code?: string
-          p_value_json?: Json
-        }
-        Returns: undefined
-      }
+      insert_signal_event:
+        | {
+            Args: {
+              p_attribute_id?: string
+              p_battle_id?: string
+              p_client_event_id?: string
+              p_context_id?: string
+              p_device_hash?: string
+              p_entity_id?: string
+              p_entity_type?: string
+              p_module_type?: string
+              p_option_id?: string
+              p_session_id?: string
+              p_signal_type_code?: string
+              p_value_json?: Json
+              p_value_numeric?: number
+              p_value_text?: string
+            }
+            Returns: undefined
+          }
+        | {
+            Args: {
+              p_attribute_id?: string
+              p_battle_id?: string
+              p_client_event_id?: string
+              p_content_snapshot_id?: string
+              p_context_id?: string
+              p_device_hash?: string
+              p_display_order?: number
+              p_entity_id?: string
+              p_entity_type?: string
+              p_event_status?: string
+              p_interaction_outcome?: string
+              p_left_entity_id?: string
+              p_module_type?: string
+              p_option_id?: string
+              p_origin_element?: string
+              p_origin_module?: string
+              p_question_id?: string
+              p_question_version?: number
+              p_response_time_ms?: number
+              p_right_entity_id?: string
+              p_selected_entity_id?: string
+              p_sequence_id?: string
+              p_sequence_order?: number
+              p_session_id?: string
+              p_signal_type_code?: string
+              p_value_json?: Json
+              p_value_numeric?: number
+              p_value_text?: string
+            }
+            Returns: undefined
+          }
       is_admin_user: { Args: never; Returns: boolean }
       is_b2b_user: { Args: never; Returns: boolean }
       kpi_engagement_quality: {
@@ -4794,7 +5750,31 @@ export type Database = {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      b2b_premium_output: {
+        entity_id: string | null
+        opinascore_value: number | null
+        opinascore_base: number | null
+        integrity_multiplier: number | null
+        opinascore_version: string | null
+        opinascore_context: string | null
+        eligibility_status: string | null
+        eligibility_reasons: string[] | null
+        integrity_score: number | null
+        integrity_flags: string[] | null
+        n_eff: number | null
+        technical_tie_flag: boolean | null
+        stability_label: string | null
+        entropy_normalized: number | null
+        decay_applied: boolean | null
+        stats_version: string | null
+      }
+      opinascore_breakdown: {
+        opinascore_base: number | null
+        integrity_multiplier: number | null
+        opinascore_final: number | null
+        context: string | null
+        version: string | null
+      }
     }
   }
 }
@@ -4924,4 +5904,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-

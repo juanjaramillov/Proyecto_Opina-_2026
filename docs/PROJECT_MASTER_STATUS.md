@@ -11,8 +11,8 @@ Esta zona del proyecto constituye el **Core Estable**. Ha sido formalmente audit
 | Área Protegida | Descripción Técnica |
 | :--- | :--- |
 | **Capa de Acceso y Gatekeeper** | El orquestador `Gate.tsx`, `accessGate.ts` y las policies RPC de Supabase que resuelven los roles estrictos (Bypass vs Autenticado vs Admin vs B2B). |
-| **Motor de Señales y Extracción** | Todo el sistema subyacente para emitir señales (Votos Versus, Ranking Torneo), manejando consistencia de IDs en DB. |
-| **Resiliencia P2P (Outbox)** | La cola local síncrona/asíncrona garantizando que los votos jamás se pierdan en desconexiones temporales. |
+| **Motor de Señales y Extracción** | Todo el sistema subyacente para emitir señales (Señales Versus, Ranking Torneo), manejando consistencia de IDs en DB. |
+| **Resiliencia P2P (Outbox)** | La cola local síncrona/asíncrona garantizando que las señales jamás se pierdan en desconexiones temporales. |
 | **Read Models Canónicos** | La estructura `src/read-models/`. Contratos fuente de Verdad absoluta: cálculo paramétrico de _Confidence_ y _Sufficiency_. |
 | **Panel de Resultados B2C** | La topología de `Results.tsx` adaptándose dócilmente a los estados de suficiencia y el pipeline de insights multivariados. Actualmente opera conectado a un **Snapshot Ficticio Curado**, aislando la experiencia visual de lecturas reales parciales. |
 | **Overview Ejecutivo B2B** | El dashboard primario de administradores cliente `OverviewB2B.tsx`, alimentado por `PlatformOverviewSnapshot` estrictamente. |
@@ -91,6 +91,10 @@ El proyecto ha pasado por 5 bloques de estabilización técnica y de tooling de 
 - **Bloque 6**: Higiene Operativa del Repo y Export Limpio. Formalización de la política de `export:clean` para compartir código fuente libre de secretos, caches y dependencias.
 - **Bloque 7**: Cierre de B2B como Producto Vendible. Establecimiento de caso curado ficticio ("Vitalidad" vs "Letargo") inyectado directamente a Overview, Deep Dive (como panel comparativo) y Reports (como Executive Briefing final).
 - **Sprint de Validación**: Instrumentación Mínima (Analytics B2C + B2B). Sembrado de nodos transparentes en Rutas de Señales, Resultados y B2B para auditar el engagement.
+- **Fase 1 (Saneamiento Operativo)**: Cierre definitivo de la higiene operativa de "Señales". Purga completa del lenguaje heredado de "voto" o "pulso".
+- **Fase 2 / Bloque 1 (UI Foundation)**: Creación de la capa base reusable (`SectionShell`, `StatTile`, `FilterPill`, `EmptyState`) y su adopción quirúrgica en el runtime principal de Results y Signals. Eliminación de wrappers artesanales iterando hacia una escalabilidad estandarizada.
+- **Fase 2 / Bloque 2 (Partición de Monolíticos)**: Completada. Fragmentación estructural exitosa de componentes masivos (`HubSecondaryTracks`, orquestadores de `Actualidad`, `LiveTrendsSection`), separando lógica de vista, extrayendo helpers redundantes e integrando UI Foundation (`EmptyState`, contenedores) garantizando 0 errores en Typecheck y Smoke tests en verde para el runtime vivo.
+- **Fase 2 / Bloque 3 (Refinamiento Editorial UI/Docs)**: Completada. Sustitución de terminología técnico-corporativa ("Ecosistema", "Overview", "Share") en módulos vivos del B2C (ResultsWowClosing, ResultsExecutivePulse, etc.) por equivalentes Premium-Editorial ("La Conversación", "Radiografía de la Opinión", "Tracción Principal"). Corrección de nomenclatura histórica suelta en manuales maestros.
 
 ---
 
@@ -134,15 +138,20 @@ npm run build
 
 ### Política de Exportación Limpia (Empaquetado Seguro del Repositorio)
 Para compartir, respaldar o auditar el repositorio **NUNCA DEBE COMPRIMIRSE MANUALMENTE**. 
-Existe un protocolo estricto documentado en `docs/operations/CLEAN_EXPORT_POLICY.md` y un script que excluye automáticamente la basura descrita en dicha política.
+Existe un protocolo estricto, integrado y documentado en `docs/internal/repo-hygiene-and-export-governance.md` regido por un script shell atómico inteligente.
 
-Para generar un archivo ZIP distribuible transparente y reproducible:
+Para generar un archivo ZIP distribuible transparente, libre de secretos reales `.env` y sin dependencias monstruosas:
 ```bash
 npm run export:clean
 ```
-El archivo se almacenará en el directorio `/exports`.
+El archivo sanitizado se almacenará silenciosamente en el directorio raíz `exports/` el cual será automáticamente ignorado por Git.
 
 ## 7. Protocolos de Validación (QA)
+
+### Smoke Tests Mínimos del Flujo Vivo
+Ejecutable vía `npm run test:smoke`. Proveen una malla antifragilidad de la carga en memoria del ecosistema activo (Bloque 5).
+- **Cubierto:** Montaje básico sin cuelgues de `<App />`, carga del nodo principal de `<Home />` con su dependencia a la data sintética base, y `<Results />` resolviendo satisfactoriamente el estado de carga (`launch_synthetic`).
+- **Qué NO cubren:** Testeos End-to-End densos (E2E), animaciones, flujos admin B2B (aún pendiente de test propios).
 
 ### Acceso y Seguridad (Access Gate)
 1. **Generación**: Los códigos de acceso se crean en el panel Admin.
@@ -161,5 +170,5 @@ Este documento no enumera exhaustivamente la deuda menor. Para auditar todas las
 
 ### Supuestos Actuales
 - **Conectividad**: Se requiere internet estable para el bootstrap inicial del perfil interactivo.
-- **Anonimato Técnico**: Todas las votaciones se enmascaran contra perfiles sombreados.
+- **Anonimato Técnico**: Todas las señales emitidas se enmascaran contra perfiles sombreados.
 - **Ecosistema**: La validación WhatsApp/Twilio recae fuertemente en Edge Functions de Supabase.

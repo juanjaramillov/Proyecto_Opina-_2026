@@ -1,17 +1,42 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Zap } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { ActualidadTopicDetail, TopicQuestion } from '../../signals/services/actualidadService';
+import { useInteractionTimer } from '../../../hooks/useInteractionTimer';
+
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b',
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa',
+  'https://images.unsplash.com/photo-1518770660439-4636190af475',
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31',
+  'https://images.unsplash.com/photo-1614729939124-032f0b5609ce',
+  'https://images.unsplash.com/photo-1504384308090-c894fdcc538d',
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5',
+  'https://images.unsplash.com/photo-1531297172864-822d1fe15a2e',
+  'https://images.unsplash.com/photo-1519389950473-47ba0277781c',
+  'https://images.unsplash.com/photo-1563206767-5b18f218e8de'
+];
+
+const getDeterministicImage = (topic: ActualidadTopicDetail) => {
+    // 1. Try real metadata image
+    const realImg = topic.image_url || topic.metadata?.image_url || topic.metadata?.image || (topic.metadata?.image && typeof topic.metadata.image === 'object' ? (topic.metadata.image as Record<string, unknown>).url : null) || (topic as any).image || (topic as any).cover_image;
+    if (realImg && typeof realImg === 'string' && realImg.trim() !== '' && realImg !== 'null') return realImg;
+    
+    // 2. Deterministic Hash Fallback
+    const hash = topic.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return `${FALLBACK_IMAGES[hash % FALLBACK_IMAGES.length]}?auto=format&fit=crop&w=1200&q=80`;
+};
 
 interface ActualidadTopicViewProps {
     topic: ActualidadTopicDetail;
-    onComplete: (answers: { question_id: string, answer_value: string }[]) => void;
+    onComplete: (answers: { question_id: string, answer_value: string, response_time_ms?: number }[]) => void;
     onCancel: () => void;
 }
 
 export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadTopicViewProps) {
     const [currentStepIndex, setCurrentStepIndex] = useState<number>(-1); // -1 is context, 0...N are questions
-    const [answers, setAnswers] = useState<{ question_id: string, answer_value: string }[]>([]);
+    const [answers, setAnswers] = useState<{ question_id: string, answer_value: string, response_time_ms?: number }[]>([]);
+    const { startTimer, getElapsedMs } = useInteractionTimer();
 
     const questions: TopicQuestion[] = useMemo(() => {
         // Fallback safety if no questions
@@ -19,8 +44,15 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
         return [...topic.questions].sort((a, b) => a.question_order - b.question_order);
     }, [topic.questions]);
 
+    useEffect(() => {
+        if (currentStepIndex >= 0 && currentStepIndex < questions.length) {
+            startTimer();
+        }
+    }, [currentStepIndex, questions.length, startTimer]);
+
     const handleSelectOption = (questionId: string, value: string) => {
-        const newAnswers = [...answers, { question_id: questionId, answer_value: value }];
+        const ms = getElapsedMs();
+        const newAnswers = [...answers, { question_id: questionId, answer_value: value, response_time_ms: ms || undefined }];
         setAnswers(newAnswers);
 
         if (currentStepIndex < questions.length - 1) {
@@ -139,53 +171,91 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                     {currentStepIndex === -1 && (
                         <motion.div
                             key="context"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className="py-10 flex flex-col items-center justify-center w-full"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.4 }}
+                            className="py-6 sm:py-10 flex flex-col items-center w-full"
                         >
-                            <div className="bg-white rounded-[2.5rem] p-8 sm:p-12 border border-stroke/50 text-center shadow-2xl w-full relative overflow-hidden group">
-                                {/* Fondos decorativos sutiles */}
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100 to-transparent rounded-full -mr-32 -mt-32 blur-[60px] opacity-40 pointer-events-none z-0"></div>
-                                <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-50 rounded-full -ml-20 -mb-20 blur-[50px] pointer-events-none z-0"></div>
-
-                                {topic.impact_quote ? (
-                                    <div className="relative z-10 mb-8 border-l-4 border-blue-500 pl-6 text-left">
-                                        <h3 className="text-2xl sm:text-3xl font-serif italic text-slate-600 leading-relaxed mb-2">
-                                            "{topic.impact_quote}"
-                                        </h3>
+                            <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-stroke/50 shadow-2xl w-full relative overflow-hidden group max-w-4xl mx-auto">
+                                {/* Hero Image Block */}
+                                <div className="relative w-full h-[250px] sm:h-[350px] rounded-2xl sm:rounded-[1.5rem] overflow-hidden mb-8 shadow-inner group-hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.3)] transition-all duration-500">
+                                    <div className="absolute inset-0 bg-slate-900/20 z-10 mix-blend-multiply" />
+                                    <div 
+                                        className="absolute inset-0 bg-cover bg-center" 
+                                        style={{ backgroundImage: `url('https://www.transparenttextures.com/patterns/stardust.png')`, opacity: 0.5, zIndex: 11, mixBlendMode: 'overlay' }} 
+                                    />
+                                    <img 
+                                        src={getDeterministicImage(topic)} 
+                                        alt={topic.title} 
+                                        className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
+                                    />
+                                    {/* Source Badge Inside Image */}
+                                    <div className="absolute top-4 left-4 z-20 flex items-center shadow-lg bg-black/40 backdrop-blur-md rounded-xl p-0.5 border border-white/10 ring-1 ring-black/5">
+                                        <div className="bg-gradient-brand text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                                            Fuente
+                                        </div>
+                                        <div className="px-3 py-1.5 text-xs font-bold text-white/90 truncate max-w-[150px] sm:max-w-xs drop-shadow-sm">
+                                            {topic.source_domain || topic.source_title || 'Medio Independiente'}
+                                        </div>
                                     </div>
-                                ) : (
-                                    <motion.div 
-                                        animate={{ 
-                                            y: [0, -4, 0],
-                                        }}
-                                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                        className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 text-blue-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm border border-blue-100 relative z-10"
-                                    >
-                                        <Zap className="w-8 h-8 sm:w-10 sm:h-10 text-blue-500" />
-                                    </motion.div>
-                                )}
-                                <h2 className="text-3xl sm:text-5xl font-black text-ink mb-6 leading-[1.1] tracking-tight relative z-10">{topic.title}</h2>
-                                <p className="text-slate-500 font-medium mb-12 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto relative z-10">
-                                    {topic.short_summary}
-                                </p>
+                                    {/* CTA Externo Floating */}
+                                    {!!(topic.metadata?.url || topic.metadata?.link) && (
+                                        <div className="absolute bottom-4 right-4 z-20">
+                                            <a 
+                                                href={(topic.metadata.url || topic.metadata.link) as string} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 bg-white/90 backdrop-blur-md hover:bg-white text-slate-800 px-4 py-2 rounded-xl text-sm font-bold shadow-lg transition-all hover:scale-105"
+                                            >
+                                                <span>Leer Nota Original</span>
+                                                <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    )}
+                                </div>
 
-                                {questions.length > 0 ? (
-                                    <button
-                                        onClick={() => setCurrentStepIndex(0)}
-                                        className="w-full sm:w-2/3 mx-auto bg-blue-600 hover:bg-blue-700 text-white rounded-2xl py-5 sm:py-6 text-xl font-black flex items-center justify-center gap-3 shadow-[0_8px_30px_-8px_rgba(37,99,235,0.4)] hover:-translate-y-1 hover:shadow-[0_12px_40px_-5px_rgba(37,99,235,0.5)] transition-all uppercase tracking-widest relative z-10 group/btn"
-                                    >
-                                        <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_#34D399]"></span>
-                                        Comenzar a opinar 
-                                        <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
-                                    </button>
-                                ) : (
-                                    <div className="p-4 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl text-sm font-bold flex items-center justify-center gap-2">
-                                        Tema sin preguntas configuradas.
+                                {/* Content Body */}
+                                <div className="max-w-3xl mx-auto text-left relative z-10">
+                                    <h2 className="text-3xl sm:text-5xl font-black text-ink mb-6 leading-[1.1] tracking-tight">{topic.title}</h2>
+                                    
+                                    {topic.impact_quote && (
+                                        <div className="mb-8 border-l-4 border-[var(--accent-primary)] pl-6">
+                                            <h3 className="text-xl sm:text-2xl font-serif italic text-slate-600 leading-relaxed">
+                                                "{topic.impact_quote}"
+                                            </h3>
+                                        </div>
+                                    )}
+
+                                    <div className="prose prose-lg sm:prose-xl text-slate-600 mb-12">
+                                        <p className="leading-relaxed font-medium">{topic.short_summary}</p>
                                     </div>
-                                )}
+
+                                    {/* Action Footprint */}
+                                    <div className="mt-8 pt-8 border-t border-slate-100 flex flex-col items-center justify-center text-center">
+                                        <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-6 border border-slate-200 rounded-full px-4 py-1.5 shadow-sm inline-block">
+                                            Queremos saber qué piensas
+                                        </h4>
+                                        {questions.length > 0 ? (
+                                            <button
+                                                onClick={() => setCurrentStepIndex(0)}
+                                                className="w-full sm:w-2/3 mx-auto bg-slate-900 hover:bg-slate-800 text-white rounded-2xl py-5 sm:py-6 text-xl sm:text-2xl font-black flex items-center justify-center gap-3 shadow-[0_10px_40px_-10px_rgba(15,23,42,0.5)] hover:-translate-y-1 transition-all relative overflow-hidden group/btn"
+                                            >
+                                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000 ease-in-out"></div>
+                                                <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_12px_#34D399]"></span>
+                                                Comenzar a opinar 
+                                                <span className="text-sm border border-slate-700 bg-slate-800 text-slate-300 px-3 py-1 rounded-full hidden sm:inline-block ml-2">{questions.length} preguntas</span>
+                                                <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
+                                            </button>
+                                        ) : (
+                                            <div className="p-4 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl text-sm font-bold flex items-center justify-center gap-2 w-full">
+                                                Tema sin preguntas configuradas.
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     )}

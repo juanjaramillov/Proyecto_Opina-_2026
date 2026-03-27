@@ -44,9 +44,14 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
     }, []);
 
     const filteredVersusBattles = useMemo(() => {
-        if (versusIndustry === 'mix') return battles;
-        return battles.filter(b => {
-            const categorySlug = typeof b.category === 'object' ? b.category.slug : b.category;
+        const validMappedBattles = battles.map(b => ({
+            ...b,
+            options: b.options.filter(o => o.is_active_versus !== false)
+        })).filter(b => b.options.length >= 2);
+
+        if (versusIndustry === 'mix') return validMappedBattles;
+        return validMappedBattles.filter(b => {
+            const categorySlug = typeof b.category === 'object' ? b.category?.slug : b.category;
             const parent = PARENT_INDUSTRIES[versusIndustry];
             if (parent) {
                 if (selectedSubcategoryId) {
@@ -108,7 +113,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
         return queue;
     }, [filteredVersusBattles, versusIndustry]);
 
-    const handleVote = async (battleId: string, optionId: string, _opponentId: string): Promise<Record<string, number>> => {
+    const handleVote = async (battleId: string, optionId: string, _opponentId: string, meta?: { responseTimeMs?: number }): Promise<Record<string, number>> => {
         if (profile && profile.signalsDailyLimit !== -1 && signalsToday >= profile.signalsDailyLimit) {
             if (profile.tier === "guest") {
                 setIsLoginModalOpen(true);
@@ -133,11 +138,17 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                     selected_option_name: selected.label,
                     loser_option_name: rejected.label,
                     subcategory: typeof b.category === 'object' ? b.category.slug : b.category || b.industry,
+                    left_entity_id: b.options[0]?.id,
+                    right_entity_id: b.options[1]?.id,
+                    response_time_ms: meta?.responseTimeMs
                 });
             } else {
                 await signalService.saveSignalEvent({ 
                     battle_id: battleId, 
-                    option_id: optionId
+                    option_id: optionId,
+                    response_time_ms: meta?.responseTimeMs,
+                    left_entity_id: b?.options[0]?.id,
+                    right_entity_id: b?.options[1]?.id,
                 });
             }
             

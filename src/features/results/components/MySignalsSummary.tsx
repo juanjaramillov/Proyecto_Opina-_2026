@@ -6,6 +6,8 @@ interface MySignalsSummaryProps {
   loading: boolean;
 }
 
+import { StatTile } from '../../../components/ui/foundation/StatTile';
+
 export function MySignalsSummary({ snapshot, loading }: MySignalsSummaryProps) {
   if (loading) {
     return (
@@ -41,7 +43,7 @@ export function MySignalsSummary({ snapshot, loading }: MySignalsSummaryProps) {
     },
     { 
       id: 'news', 
-      label: 'Pulso de Tendencia', 
+      label: 'Tu actividad', 
       active: hasNews, 
       req: '1 lectura',
       desc: 'Respuesta ante eventos macro.'
@@ -49,7 +51,16 @@ export function MySignalsSummary({ snapshot, loading }: MySignalsSummaryProps) {
   ];
 
   return (
-    <div className="card p-6 border border-stroke bg-white shadow-sm flex flex-col relative overflow-hidden group hover:border-primary/20 transition-all duration-300">
+    <StatTile 
+      label="Red Personal Activa" 
+      icon="dynamic_feed" 
+      value={
+        <div className="flex items-baseline gap-1">
+          <span>{total}</span>
+          <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-none">señales</span>
+        </div>
+      }
+    >
       <div className="absolute top-0 right-0 p-6 opacity-[0.02] pointer-events-none">
         <Target className="w-32 h-32 text-primary -mt-8 -mr-8" />
       </div>
@@ -104,6 +115,6 @@ export function MySignalsSummary({ snapshot, loading }: MySignalsSummaryProps) {
           </div>
         )}
       </div>
-    </div>
+    </StatTile>
   );
 }

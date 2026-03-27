@@ -14,6 +14,7 @@ import VersusView from "../components/VersusView";
 import TorneoView from "../components/TorneoView";
 import ProfundidadView from "../components/ProfundidadView";
 import LugaresView from "../components/LugaresView";
+import ServiciosView from "../components/ServiciosView";
 import BatchSessionResults, { BatchSessionResultRecord } from "../components/BatchSessionResults";
 import { ModuleErrorBoundary } from "../../../components/ui/ModuleErrorBoundary";
 import HubSecondaryTracks from "../components/hub/HubSecondaryTracks";
@@ -271,6 +272,23 @@ export default function SignalsHub() {
                                 </button>
                             </div>
                             <LugaresView onClose={resetToMenu} battles={battles as unknown as Battle[]} />
+                        </div>
+                    </ModuleErrorBoundary>
+                )}
+
+                {mode === "servicios" && (
+                    <ModuleErrorBoundary moduleName="Servicios">
+                        <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500 relative">
+                            <div className="sticky top-4 z-[100] w-full flex justify-start mb-2 px-4 md:px-0">
+                                <button
+                                    onClick={resetToMenu}
+                                    className="h-10 px-4 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 font-bold text-sm transition-all shadow-md active:scale-95 shrink-0 flex items-center gap-2"
+                                >
+                                    <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+                                    Volver al Hub
+                                </button>
+                            </div>
+                            <ServiciosView onClose={resetToMenu} battles={battles as unknown as Battle[]} />
                         </div>
                     </ModuleErrorBoundary>
                 )}

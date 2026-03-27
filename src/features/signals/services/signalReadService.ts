@@ -132,10 +132,27 @@ export const signalReadService = {
                 image_url: getAssetPathForOption(opt.label, opt.image_url),
                 brand_domain: opt.brand_domain || null,
                 category: (opt as { category?: string | null }).category || null,
+                is_active_versus: (opt as { is_active_versus?: boolean }).is_active_versus ?? true,
+                is_active_torneo: (opt as { is_active_torneo?: boolean }).is_active_torneo ?? true,
                 type: 'brand',
                 imageFit: 'contain'
             }))
         })) as ActiveBattle[];
+    },
+
+    getEntitiesByModule: async (module: string) => {
+        if (!hasSupabaseEnv()) return [];
+
+        const { data, error } = await (sb.rpc as any)('get_entities_by_module', {
+            p_module: module
+        });
+
+        if (error) {
+            logger.error(`[Entities module=${module}] Error fetching entities:`, error);
+            return [];
+        }
+
+        return data || [];
     },
 
     getUserStats: async (): Promise<Database['public']['Tables']['user_stats']['Row'] | null> => {

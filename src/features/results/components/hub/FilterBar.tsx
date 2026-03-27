@@ -1,3 +1,4 @@
+import { FilterPill } from "../../../../components/ui/foundation/FilterPill";
 import { ResultsModule, ResultsPeriod, ResultsView, ResultsGeneration } from "../../hooks/useResultsExperience";
 
 interface FilterBarProps {
@@ -55,17 +56,14 @@ export function FilterBar({
       {/* Selector de Módulo */}
       <div className="flex items-center gap-1.5 shrink-0 px-1">
         {modules.map(mod => (
-          <button
+          <FilterPill
             key={mod.id}
+            label={mod.label}
+            selected={activeModule === mod.id}
             onClick={() => onModuleChange(mod.id)}
-            className={`whitespace-nowrap px-4 py-2 rounded-full text-[13px] font-bold transition-all snap-start ${
-              activeModule === mod.id 
-                ? 'bg-indigo-600 text-white shadow-md scale-105' 
-                : 'bg-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            {mod.label}
-          </button>
+            variant="primary"
+            size="lg"
+          />
         ))}
       </div>
 
@@ -91,17 +89,14 @@ export function FilterBar({
       {/* Selector de Vista */}
       <div className="flex items-center gap-1 shrink-0 px-1">
         {views.map(view => (
-          <button
+          <FilterPill
             key={view.id}
+            label={view.label}
+            selected={activeView === view.id}
             onClick={() => onViewChange(view.id as ResultsView)}
-            className={`whitespace-nowrap px-3 py-1.5 rounded-full text-[12px] font-bold transition-all snap-start ${
-              activeView === view.id 
-                ? 'bg-slate-800 text-white shadow-sm' 
-                : 'bg-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            {view.label}
-          </button>
+            variant="secondary"
+            size="md"
+          />
         ))}
       </div>
       
@@ -113,17 +108,14 @@ export function FilterBar({
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 md:hidden bg-gradient-to-l from-slate-50 to-transparent h-full z-10 pointer-events-none" />
         
         {generations.map(gen => (
-          <button
+          <FilterPill
             key={gen.id}
+            label={gen.label}
+            selected={activeGeneration === gen.id}
             onClick={() => onGenerationChange(gen.id as ResultsGeneration)}
-            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-[11px] font-bold transition-all snap-start shrink-0 ${
-              activeGeneration === gen.id 
-                ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200 shadow-sm' 
-                : 'bg-transparent text-slate-400 hover:text-slate-700 hover:bg-slate-100/50'
-            }`}
-          >
-            {gen.label}
-          </button>
+            variant="soft"
+            size="sm"
+          />
         ))}
       </div>
     </div>

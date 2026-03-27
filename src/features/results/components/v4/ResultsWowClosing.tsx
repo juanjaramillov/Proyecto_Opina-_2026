@@ -113,13 +113,13 @@ export function ResultsWowClosing() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-4 py-1.5 mb-8">
-            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-300">
-              El Ecosistema Sigue Vivo
+            <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-300">
+              La Conversación Sigue Viva
             </span>
           </div>
 
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-8 leading-[1.05] text-white">
-            Cada señal <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-indigo-400">reescribe</span><br />el mapa de inteligencia.
+            Así se está moviendo <br className="hidden md:block"/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-indigo-400">tu generación.</span>
           </h2>
           
           <p className="text-lg md:text-2xl text-slate-400 font-medium mb-12 max-w-2xl mx-auto px-4 md:px-0 leading-relaxed">
@@ -129,10 +129,16 @@ export function ResultsWowClosing() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button 
               onClick={() => navigate("/signals")}
-              className="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 rounded-[2rem] font-black text-lg md:text-xl hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all shadow-[0_0_50px_rgba(255,255,255,0.15)] flex items-center justify-center gap-3 group"
+              className="w-full sm:w-auto px-10 py-4 bg-white text-slate-900 rounded-[2rem] font-black text-lg hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all shadow-[0_0_50px_rgba(255,255,255,0.15)] flex items-center justify-center gap-3 group"
             >
-              <Compass className="w-6 h-6 text-indigo-600" />
-              Generar Nuevas Señales
+              <Compass className="w-5 h-5 text-indigo-600" />
+              Explorar Señales
+            </button>
+            <button 
+              onClick={() => navigate("/profile")}
+              className="w-full sm:w-auto px-10 py-4 bg-transparent border-2 border-white/20 text-white rounded-[2rem] font-bold text-lg hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center gap-3 group"
+            >
+              Ver mi Perfil Generacional
               <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
             </button>
           </div>

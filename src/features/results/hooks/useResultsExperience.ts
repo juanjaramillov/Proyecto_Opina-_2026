@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
-import { getCuratedMasterHubSnapshot } from "../data/getCuratedMasterHubSnapshot";
+import { getLaunchSyntheticMasterHubSnapshot } from "../data/launch/resultsLaunchSyntheticData";
+import { isResultsLaunchSyntheticMode, isResultsRealMode } from "../config/resultsRuntime";
 import { MasterHubSnapshot, HubFilters } from "../../../read-models/b2c/hub-types";
+import { SYNTHETIC_USER_ID } from "../../shared/types/launchSynthetic";
 import { useAuth } from "../../auth";
 import { logger } from '../../../lib/logger';
 import { trackPage } from "../../telemetry/track";
@@ -23,18 +25,30 @@ export function useResultsExperience() {
   const [activeGeneration, setActiveGeneration] = useState<ResultsGeneration>("ALL");
 
   const loadData = useCallback(async () => {
-    if (!profile?.id) return;
+    // Modo Real: requerimos perfil para datos reales.
+    if (isResultsRealMode && !profile?.id) {
+      setLoading(false);
+      return;
+    }
     
     setLoading(true);
     try {
-      const snap = getCuratedMasterHubSnapshot(profile.id, filters);
+      let snap: MasterHubSnapshot | null = null;
+      if (isResultsLaunchSyntheticMode) {
+        // En modo sintético, proveemos un fallback explícito si no hay id, evitando dejar al usuario atascado.
+        const syntheticUserId = profile?.id || SYNTHETIC_USER_ID;
+        snap = getLaunchSyntheticMasterHubSnapshot(syntheticUserId, filters);
+      } else {
+        // Reservado para conexión a BDD Real
+        logger.info("Real data mode not yet implemented for Master Hub", { domain: 'network_api', origin: 'Results_Hub_B2C' });
+      }
       setSnapshot(snap);
     } catch (e) {
       logger.error("Error loading master hub data", { domain: 'network_api', origin: 'Results_Hub_B2C', action: 'load_data', state: 'failed' }, e);
     } finally {
       setLoading(false);
     }
-  }, [profile, filters]); 
+  }, [profile?.id, filters]); 
 
   useEffect(() => {
     loadData();

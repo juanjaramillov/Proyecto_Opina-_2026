@@ -23,7 +23,8 @@ export interface DepthImmediateComparison {
 export const depthService = {
     async saveDepthStructured(
         optionId: string,
-        answers: Array<{ question_key: string; answer_value: string }>
+        answers: Array<{ question_key: string; answer_value: string; response_time_ms?: number; question_id?: string; question_version?: number; }>,
+        extraMeta?: Partial<import('./signalTypes').SignalEventPayload>
     ): Promise<void> {
         // 1. ESCRITURA CANÓNICA (Signal Engine)
         const { signalService } = await import('./signalService');
@@ -34,8 +35,14 @@ export const depthService = {
                     entity_id: optionId, // La entidad evaluada
                     context_id: answer.question_key, // La pregunta específica (el contexto)
                     value_numeric: parseFloat(answer.answer_value), // En depth, se evaluan numeros (del 1 al 10, o scores)
+                    response_time_ms: answer.response_time_ms,
+                    question_id: answer.question_id || answer.question_key,
+                    question_version: answer.question_version,
+                    origin_module: 'depth',
+                    ...extraMeta,
                     meta: {
-                        source: 'depth'
+                        source: 'depth',
+                        ...(extraMeta?.meta || {})
                     }
                 });
             } catch (err: unknown) {

@@ -31,6 +31,8 @@ export interface DemographicInsight {
   segmentName: string;
   finding: string;
   confidence: ConfidenceLevel;
+  relevanceMetric?: number;
+  insightType?: string;
 }
 
 // ---------------------------------------------------------

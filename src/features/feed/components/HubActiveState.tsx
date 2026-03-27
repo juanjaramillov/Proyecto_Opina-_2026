@@ -35,7 +35,7 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
         return weighted.slice(0, 15);
     }, [battles]);
 
-    const handleVote = async (battleId: string, optionId: string, opponentId: string) => {
+    const handleVote = async (battleId: string, optionId: string, opponentId: string, meta?: { responseTimeMs?: number }) => {
         try {
             const b = battlesForQueue.find(x => x.id === battleId);
             const selected = b?.options.find((o: BattleOption) => o.id === optionId);
@@ -51,9 +51,18 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                     selected_option_name: selected.label,
                     loser_option_name: rejected.label,
                     subcategory: typeof b.category === 'object' ? b.category.slug : b.category || b.industry,
+                    left_entity_id: b.options[0]?.id,
+                    right_entity_id: b.options[1]?.id,
+                    response_time_ms: meta?.responseTimeMs
                 });
             } else {
-                await signalService.saveSignalEvent({ battle_id: battleId, option_id: optionId });
+                await signalService.saveSignalEvent({ 
+                    battle_id: battleId, 
+                    option_id: optionId,
+                    response_time_ms: meta?.responseTimeMs,
+                    left_entity_id: b?.options[0]?.id,
+                    right_entity_id: b?.options[1]?.id,
+                });
             }
             
             // Consumir señal en la sesión local

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Battle } from "../../signals/types";
 
 // Simulación de los badges para fitrar tipos de lugares
@@ -50,7 +50,7 @@ const PLACE_CATEGORIES = [
     },
 ];
 
-import { MOCK_PLACES } from "./mockLugares";
+import { signalService } from "../../signals/services/signalService";
 import LugarDetailView, { Place } from "./LugarDetailView";
 
 interface LugaresViewProps {
@@ -63,6 +63,39 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
     const [activeSubfilter, setActiveSubfilter] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
+    const [places, setPlaces] = useState<Place[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPlaces = async () => {
+            setIsLoading(true);
+            try {
+                const data = await signalService.getEntitiesByModule('is_active_lugar');
+                const mappedPlaces: Place[] = data.map((entity: any) => {
+                    const meta = typeof entity.metadata === 'object' ? entity.metadata || {} : {};
+                    return {
+                        id: entity.id,
+                        name: entity.name,
+                        image: entity.image_url || "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=800",
+                        distance: meta.distance ? String(meta.distance) : "1.2 km",
+                        rating: meta.rating ? Number(meta.rating) : 4.8,
+                        reviews: meta.reviews ? Number(meta.reviews) : 1245,
+                        trendValue: meta.trendValue ? String(meta.trendValue) : "Tendencia Local",
+                        trendDirection: (meta.trendDirection as 'up'|'down'|'neutral') || 'up',
+                        category: entity.category?.toLowerCase() || "restaurants",
+                        subcategory: meta.subcategory ? String(meta.subcategory) : "all_rest",
+                        tags: meta.tags ? String(meta.tags) : "Popular"
+                    };
+                });
+                setPlaces(mappedPlaces);
+            } catch (err) {
+                console.error("Failed to load places", err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchPlaces();
+    }, []);
 
     const activeCategoryDef = PLACE_CATEGORIES.find(c => c.id === activeFilter);
     const hasSubcategories = activeCategoryDef?.subcategories && activeCategoryDef.subcategories.length > 0;
@@ -79,7 +112,7 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
         }
     };
 
-    const filteredPlaces = MOCK_PLACES.filter(place => {
+    const filteredPlaces = places.filter(place => {
         // Filtrar por categoría principal
         const matchesCat = activeFilter === "all" || place.category === activeFilter;
         // Filtrar por subcategoría si hay una activa (y que no empiece con "all_" para no excluir el "Todo")
@@ -88,6 +121,15 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
         const matchesSearch = place.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCat && matchesSubcat && matchesSearch;
     });
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
+                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
+                <h3 className="text-xl font-black text-slate-800">Cargando lugares...</h3>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-8 flex flex-col animate-in fade-in duration-500 w-full mb-24">
@@ -265,7 +307,7 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
             {/* Modal / Ficha de Detalles del Lugar */}
             {selectedPlaceId && (
                 <LugarDetailView 
-                    place={MOCK_PLACES.find(p => p.id === selectedPlaceId) as Place} 
+                    place={places.find(p => p.id === selectedPlaceId) as Place} 
                     onClose={() => setSelectedPlaceId(null)} 
                 />
             )}

@@ -4,6 +4,7 @@ import { useActualidadHome } from '../hooks/useActualidadHome';
 import { ActualidadHomeHero } from './actualidad/ActualidadHomeHero';
 import { ActualidadCategoryFilter } from './actualidad/ActualidadCategoryFilter';
 import { ActualidadTopicsGrid } from './actualidad/ActualidadTopicsGrid';
+import { EmptyState } from '../../../components/ui/foundation';
 
 interface ActualidadHomeProps {
     topics: ActualidadTopic[];
@@ -26,21 +27,19 @@ export function ActualidadHome({ topics, loading, onSelectTopic }: ActualidadHom
         return (
             <div className="flex-1 flex flex-col items-center justify-center py-20">
                 <div className="w-12 h-12 border-4 border-slate-200 border-t-[var(--accent-primary)] rounded-full animate-spin"></div>
-                <p className="mt-4 text-text-muted font-medium">Buscando el pulso de hoy...</p>
+                <p className="mt-4 text-text-muted font-medium">Buscando las señales de hoy...</p>
             </div>
         );
     }
 
     if (topics.length === 0) {
         return (
-            <div className="flex-1 flex flex-col items-center justify-center py-20 text-center px-4">
-                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6">
-                    <Search className="w-10 h-10 text-slate-400" />
-                </div>
-                <h2 className="text-xl font-black text-ink mb-2">Todo en calma</h2>
-                <p className="text-text-secondary max-w-sm">
-                    No hay nuevos temas de actualidad en este momento. Vuelve más tarde para participar en la conversación.
-                </p>
+            <div className="flex-1 py-20">
+                <EmptyState 
+                    icon={Search}
+                    title="Todo en calma"
+                    description="No hay nuevos temas de actualidad en este momento. Vuelve más tarde para participar en la conversación."
+                />
             </div>
         );
     }

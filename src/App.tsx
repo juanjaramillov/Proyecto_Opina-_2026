@@ -38,13 +38,14 @@ const AdminActualidad = lazy(() => import("./features/admin/pages/AdminActualida
 const AdminActualidadEditor = lazy(() => import("./features/admin/pages/AdminActualidadEditor"));
 const AdminUsers = lazy(() => import("./features/admin/pages/AdminUsers"));
 const AdminSignals = lazy(() => import("./features/admin/pages/AdminSignals"));
-const AdminBrands = lazy(() => import("./features/admin/pages/AdminBrands"));
+const AdminEntities = lazy(() => import("./features/admin/pages/AdminEntities"));
 
 const AboutUs = lazy(() => import("./pages/static/AboutUs"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 import { Analytics } from '@vercel/analytics/react';
 import { useSessionTracker } from './hooks/useSessionTracker';
+import { SessionProvider } from './features/analytics/providers/SessionProvider';
 
 export default function App() {
   // Mount the global session tracker
@@ -67,8 +68,9 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <MotionConfig reducedMotion="user">
-        <Analytics />
+      <SessionProvider>
+        <MotionConfig reducedMotion="user">
+          <Analytics />
         <GlobalErrorBoundary>
         <Suspense fallback={<div className="min-h-screen w-full flex items-center justify-center bg-[#07051A]"><div className="w-12 h-12 border-4 border-[#3D37F0] border-t-transparent rounded-full animate-spin"></div></div>}>
         <Routes>
@@ -116,7 +118,7 @@ export default function App() {
             <Route path="/admin/actualidad/:id" element={<Gate module="admin"><AdminActualidadEditor /></Gate>} />
             <Route path="/admin/users" element={<Gate module="admin"><AdminUsers /></Gate>} />
             <Route path="/admin/signals" element={<Gate module="admin"><AdminSignals /></Gate>} />
-            <Route path="/admin/brands" element={<Gate module="admin"><AdminBrands /></Gate>} />
+            <Route path="/admin/entities" element={<Gate module="admin"><AdminEntities /></Gate>} />
 
             {/* 6. FALLBACK */}
             <Route path="*" element={<NotFound />} />
@@ -125,6 +127,7 @@ export default function App() {
         </Suspense>
         </GlobalErrorBoundary>
       </MotionConfig>
+      </SessionProvider>
     </AuthProvider>
   );
 }

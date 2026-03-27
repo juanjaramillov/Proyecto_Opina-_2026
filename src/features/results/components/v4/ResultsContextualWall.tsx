@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, ArrowRight, ArrowLeft, Zap, Target, Activity } from "lucide-react";
+import { ArrowRight, ArrowLeft, Zap, Target, Activity } from "lucide-react";
 import { useState, useEffect } from "react";
 import { ResultsModule, ResultsGeneration } from "../../hooks/useResultsExperience";
+import { SectionShell } from "../../../../components/ui/foundation/SectionShell";
 
 interface ResultsContextualWallProps {
   activeModule: ResultsModule;
@@ -24,7 +25,7 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
       id: 2,
       type: "tension",
       text: "Choque frontal sobre subsidios energéticos. Se dividen las opiniones exactas 50/50.",
-      author: "Ecosistema Emprendedor",
+      author: "Comunidad de Startups",
       module: "VERSUS",
       color: "bg-rose-50 border-rose-100 text-rose-950",
       accent: "text-rose-600",
@@ -113,35 +114,24 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
   };
 
   return (
-    <div className="container-ws py-16 md:py-24 border-t border-slate-100 relative">
-      {/* Abstract background for the section */}
-      <div className="absolute inset-0 bg-slate-50/50 pointer-events-none" />
-      
-      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-        <div className="max-w-2xl">
-           <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white text-slate-600 px-3 py-1 mb-4">
-             <MessageCircle className="w-4 h-4" />
-             <span className="text-[10px] font-bold uppercase tracking-widest">Señales Cualitativas</span>
-           </div>
-          <h3 className="text-4xl md:text-5xl font-black text-ink tracking-tight mb-4">
-            Muro de Percepciones
-          </h3>
-          <p className="text-slate-500 text-lg leading-relaxed">
-            La voz del ecosistema sin filtros. Lecturas profundas extraídas directamente de las fricciones y consensos más importantes.
-          </p>
-        </div>
-
-        <div className="hidden md:flex gap-3">
-          <button onClick={handlePrev} className="w-12 h-12 flex items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-sm">
-            <ArrowLeft className="w-5 h-5 text-slate-600" />
-          </button>
-          <button onClick={handleNext} className="w-12 h-12 flex items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-sm">
-            <ArrowRight className="w-5 h-5 text-slate-600" />
-          </button>
-        </div>
-      </div>
-
-      <div className="relative z-10 flex lg:grid lg:grid-cols-12 gap-6 pb-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-4 px-4 lg:mx-0 lg:px-0 lg:overflow-visible">
+    <div className="container-ws py-8 border-t border-slate-100 relative">
+      <SectionShell
+        eyebrow="Señales Cualitativas"
+        title="Muro de Percepciones"
+        description="La voz del ecosistema sin filtros. Lecturas profundas extraídas directamente de las fricciones y consensos más importantes."
+        className="mb-8"
+        actionContent={
+          <div className="hidden md:flex gap-3">
+            <button onClick={handlePrev} className="w-12 h-12 flex items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-sm">
+              <ArrowLeft className="w-5 h-5 text-slate-600" />
+            </button>
+            <button onClick={handleNext} className="w-12 h-12 flex items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-sm">
+              <ArrowRight className="w-5 h-5 text-slate-600" />
+            </button>
+          </div>
+        }
+      >
+      <div className="relative z-10 flex lg:grid lg:grid-cols-12 gap-6 pb-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar lg:mx-0 lg:px-0 lg:overflow-visible">
         
         {/* Protagonist Card - EDITORIAL STYLE */}
         {protagonist && (
@@ -267,6 +257,7 @@ export function ResultsContextualWall({ activeModule, activeGeneration }: Result
         </button>
       </div>
 
+      </SectionShell>
     </div>
   );
 }

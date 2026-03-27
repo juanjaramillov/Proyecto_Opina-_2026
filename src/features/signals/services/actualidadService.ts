@@ -40,6 +40,7 @@ export interface ActualidadTopic {
     approved_by?: string | null;
     archived_at?: string | null;
     metadata?: Record<string, unknown>;
+    image_url?: string | null;
     stats?: {
         total_participants: number | null;
         total_signals: number | null;
@@ -123,6 +124,7 @@ export const actualidadService = {
                 admin_edited: t.admin_edited,
                 archived_at: t.archived_at,
                 metadata: t.metadata as Record<string, unknown> || undefined,
+                image_url: (t as unknown as { image_url?: string }).image_url || null,
                 stats: statsMap.get(t.id) || { total_participants: 0, total_signals: 0 },
                 has_answered: answeredTopicIds.has(t.id)
             }));
@@ -219,6 +221,8 @@ export const actualidadService = {
                 created_by_ai: topic.created_by_ai,
                 admin_edited: topic.admin_edited,
                 archived_at: topic.archived_at,
+                metadata: topic.metadata as Record<string, unknown> || undefined,
+                image_url: (topic as unknown as { image_url?: string }).image_url || null,
                 stats,
                 questions,
                 user_answers: userAnswers,
@@ -235,7 +239,12 @@ export const actualidadService = {
      * Submit multiple answers for a topic.
      * answers parameter should be: { question_id: string, answer_value: string }[]
      */
-    async submitAnswers(topicId: string, answers: { question_id: string, answer_value: string }[], temporalMode: string = 'live'): Promise<boolean> {
+    async submitAnswers(
+        topicId: string, 
+        answers: { question_id: string, answer_value: string, response_time_ms?: number, question_version?: number }[], 
+        temporalMode: string = 'live',
+        extraMeta?: Partial<import('./signalTypes').SignalEventPayload>
+    ): Promise<boolean> {
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return false;
@@ -251,9 +260,15 @@ export const actualidadService = {
                         entity_id: topicId,
                         context_id: answer.question_id,
                         value_text: answer.answer_value, // Guardamos la respuesta explícitamente The original fallback option_id also works but value_text is semantically better.
+                        response_time_ms: answer.response_time_ms,
+                        question_id: answer.question_id,
+                        question_version: answer.question_version,
+                        origin_module: 'actualidad',
+                        ...extraMeta,
                         meta: { 
                             source: 'actualidad',
-                            temporal_mode: temporalMode
+                            temporal_mode: temporalMode,
+                            ...(extraMeta?.meta || {})
                         }
                     });
                 } catch (err: unknown) {

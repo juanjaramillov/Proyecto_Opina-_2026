@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { behaviorService } from "../../analytics/services/behaviorService";
 
-export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "actualidad" | "lugares";
+export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "actualidad" | "lugares" | "servicios";
 
 export function useExperienceMode() {
     const location = useLocation();
@@ -9,24 +10,45 @@ export function useExperienceMode() {
     const requestedMode = location.state?.mode as ExperienceMode | undefined;
     const requestedBatch = (location.state as { nextBatch?: number })?.nextBatch;
     
-    // Priority:
-    // 1. Explicit mode requested via state
-    // 2. Legacy batch parameter => implies versus
-    // 3. Fallback => menu
     const initialMode: ExperienceMode = requestedMode 
         ? requestedMode 
         : (typeof requestedBatch === "number" ? "versus" : "menu");
     
-    const [mode, setMode] = useState<ExperienceMode>(initialMode);
-    
-    // Sync mode when navigating via state while component is already mounted
-    useEffect(() => {
-        if (requestedMode && requestedMode !== mode) {
-            setMode(requestedMode);
-        }
-    }, [requestedMode, mode]);
+    const [mode, setModeState] = useState<ExperienceMode>(initialMode);
+    const [isManualOverride, setIsManualOverride] = useState<boolean>(false);
 
-    const resetToMenu = () => setMode("menu");
+    const setMode = (newMode: ExperienceMode) => {
+        if (newMode !== mode && newMode !== "menu") {
+            const moduleMap: Record<string, string> = {
+                'versus': 'versus',
+                'torneo': 'progressive',
+                'profundidad': 'depth',
+                'actualidad': 'news',
+                'lugares': 'pulse',
+                'servicios': 'services'
+            };
+            
+            behaviorService.trackEvent({
+                event_type: 'module_open',
+                module_type: (moduleMap[newMode] || 'home') as any,
+                screen_name: `hub_${newMode}`,
+                status: 'completed'
+            });
+        }
+        setIsManualOverride(true);
+        setModeState(newMode);
+    };
+    
+    useEffect(() => {
+        if (requestedMode && requestedMode !== mode && !isManualOverride) {
+            setModeState(requestedMode);
+        }
+    }, [requestedMode, mode, isManualOverride]);
+
+    const resetToMenu = () => {
+        setIsManualOverride(true);
+        setModeState("menu");
+    };
 
     return {
         mode,

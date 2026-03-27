@@ -12,13 +12,11 @@ import { Battle, BattleOption, TorneoTournament, VoteResult } from '../types';
 import SessionSummary from './SessionSummary';
 import { FallbackAvatar } from '../../../components/ui/FallbackAvatar';
 import { VersusGameModals } from './versus/VersusGameModals';
-
-
-// --- CONSTANTS & HELPERS ---
+import { VoteMetadata } from '../hooks/useVersusGame';
 
 type GameProps = {
     battles: Battle[];
-    onVote: (battleId: string, optionId: string, opponentId: string) => Promise<VoteResult>;
+    onVote: (battleId: string, optionId: string, opponentId: string, meta?: VoteMetadata) => Promise<VoteResult>;
     autoNextMs?: number;
     relatedTrendId?: string;
     mode?: 'classic' | 'survival' | 'torneo';
@@ -46,7 +44,7 @@ export default function VersusGame(props: GameProps) {
         locked,
         lockedByLimit,
         selected,
-        vote,
+        emitSignal,
         next,
         champion,
         isCompleted,
@@ -144,7 +142,7 @@ export default function VersusGame(props: GameProps) {
             }
         }
 
-        await vote(optionId);
+        await emitSignal(optionId);
 
 
 

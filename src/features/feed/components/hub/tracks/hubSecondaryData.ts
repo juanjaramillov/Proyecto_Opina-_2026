@@ -1,0 +1,260 @@
+export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "actualidad" | "lugares" | "servicios";
+export type ActiveTrackMode = Exclude<ExperienceMode, "menu" | "versus">;
+export type TrackKey = ActiveTrackMode | "servicios" | "publicidad";
+
+export interface TrackCard {
+    key: TrackKey;
+    mode?: ActiveTrackMode;
+    title: string;
+    subtitle: string;
+    statement: string;
+    bullets: string[];
+    cta: string;
+    status: string;
+    meta?: string;
+    icon: string;
+    tone: "indigo" | "emerald" | "orange" | "sky" | "violet" | "pink";
+    preview: "torneo" | "actualidad" | "lugares" | "profundidad" | "servicios" | "locked";
+    available: boolean;
+}
+
+export const TRACKS: TrackCard[] = [
+    {
+        key: "torneo",
+        mode: "torneo",
+        title: "Torneos",
+        subtitle: "Duelo tras duelo hasta que quede un ganador.",
+        statement: "Sigue eliminatorias vivas y descubre qué opción domina cuando la comparación sube de nivel.",
+        bullets: ["Vota cara a cara", "Desbloquea fases", "Ve cómo escala el ganador"],
+        cta: "Explorar duelos",
+        status: "Activo",
+        meta: "4.2K señales",
+        icon: "emoji_events",
+        tone: "indigo",
+        preview: "torneo",
+        available: true,
+    },
+    {
+        key: "actualidad",
+        mode: "actualidad",
+        title: "Actualidad",
+        subtitle: "La conversación del momento, en tiempo real.",
+        statement: "Mide cómo reacciona la comunidad frente a noticias, temas calientes y cambios que impactan hoy.",
+        bullets: ["Temas vivos", "Tendencias rápidas", "Lectura inmediata del contexto"],
+        cta: "Ver tendencias",
+        status: "En vivo",
+        meta: "Nuevo hoy",
+        icon: "campaign",
+        tone: "emerald",
+        preview: "actualidad",
+        available: true,
+    },
+    {
+        key: "lugares",
+        mode: "lugares",
+        title: "Lugares",
+        subtitle: "La experiencia real en sucursales y espacios físicos.",
+        statement: "Encuentra qué lugares destacan, fallan o sorprenden cerca de ti con señales de personas reales.",
+        bullets: ["Cerca de ti", "Servicio real", "Comparación entre sedes"],
+        cta: "Explorar lugares",
+        status: "Cerca de ti",
+        meta: "1.5K señales",
+        icon: "place",
+        tone: "orange",
+        preview: "lugares",
+        available: true,
+    },
+    {
+        key: "profundidad",
+        mode: "profundidad",
+        title: "Profundidad",
+        subtitle: "Una mirada más completa que la señal rápida.",
+        statement: "Entra más hondo en una marca, producto o tema con una evaluación más estructurada y reveladora.",
+        bullets: ["Más contexto", "Más capas", "Más criterio comparativo"],
+        cta: "Entrar al análisis",
+        status: "Premium",
+        meta: "10 preguntas",
+        icon: "psychology",
+        tone: "sky",
+        preview: "profundidad",
+        available: true,
+    },
+    {
+        key: "servicios",
+        mode: "servicios",
+        title: "Servicios",
+        subtitle: "Evalúa y compara proveedores y suscripciones.",
+        statement: "Explora la oferta de servicios y decide con la visión de la comunidad.",
+        bullets: ["Telecomunicaciones", "Servicios Financieros", "Salud y Seguros"],
+        cta: "Explorar servicios",
+        status: "Nuevo",
+        meta: "Directorio",
+        icon: "storefront",
+        tone: "violet",
+        preview: "servicios",
+        available: true,
+    },
+    {
+        key: "publicidad",
+        title: "Publicidad",
+        subtitle: "Espacios para activar campañas con mejor señal.",
+        statement: "Una futura capa para conectar productos y mensajes con una audiencia más precisa y medible.",
+        bullets: ["Controlado", "Segmentable", "Pensado para más adelante"],
+        cta: "Acceso restringido",
+        status: "Próximamente",
+        meta: "Beta",
+        icon: "ads_click",
+        tone: "pink",
+        preview: "locked",
+        available: false,
+    },
+];
+
+export function toneClasses(tone: TrackCard["tone"]) {
+    switch (tone) {
+        case "indigo":
+            return {
+                border: "hover:border-indigo-300",
+                shadow: "hover:shadow-[0_24px_60px_-28px_rgba(79,70,229,0.38)]",
+                glow: "from-indigo-500/14 via-indigo-400/8 to-transparent",
+                wash: "from-indigo-50/90 via-white to-white",
+                iconWrap: "bg-indigo-50 text-indigo-600 border-indigo-100",
+                badge: "bg-indigo-50 text-indigo-700 border-indigo-100",
+                meta: "bg-white/88 text-slate-600 border-slate-200/80",
+                titleHover: "group-hover:text-indigo-600",
+                bullet: "text-indigo-500",
+                cta: "from-indigo-500 to-blue-500",
+                ctaText: "text-white",
+                ctaGhost: "bg-indigo-50 text-indigo-700 border-indigo-100",
+                previewRing: "border-indigo-100",
+                previewBg: "from-indigo-50/75 via-white to-white",
+                previewSoft: "bg-indigo-50/80",
+                previewLine: "bg-indigo-500",
+                previewLineSoft: "bg-indigo-100",
+                softBlob: "bg-indigo-500/10",
+                hairline: "from-indigo-100/0 via-indigo-200/80 to-indigo-100/0",
+                accentText: "text-indigo-600",
+                accentSoft: "bg-indigo-500",
+            };
+        case "emerald":
+            return {
+                border: "hover:border-emerald-300",
+                shadow: "hover:shadow-[0_24px_60px_-28px_rgba(16,185,129,0.32)]",
+                glow: "from-emerald-500/12 via-emerald-400/6 to-transparent",
+                wash: "from-emerald-50/90 via-white to-white",
+                iconWrap: "bg-emerald-50 text-emerald-600 border-emerald-100",
+                badge: "bg-emerald-50 text-emerald-700 border-emerald-100",
+                meta: "bg-white/88 text-slate-600 border-slate-200/80",
+                titleHover: "group-hover:text-emerald-600",
+                bullet: "text-emerald-500",
+                cta: "from-emerald-400 to-teal-400",
+                ctaText: "text-white",
+                ctaGhost: "bg-emerald-50 text-emerald-700 border-emerald-100",
+                previewRing: "border-emerald-100",
+                previewBg: "from-emerald-50/75 via-white to-white",
+                previewSoft: "bg-emerald-50/80",
+                previewLine: "bg-emerald-500",
+                previewLineSoft: "bg-emerald-100",
+                softBlob: "bg-emerald-500/10",
+                hairline: "from-emerald-100/0 via-emerald-200/80 to-emerald-100/0",
+                accentText: "text-emerald-600",
+                accentSoft: "bg-emerald-500",
+            };
+        case "orange":
+            return {
+                border: "hover:border-orange-300",
+                shadow: "hover:shadow-[0_24px_60px_-28px_rgba(249,115,22,0.32)]",
+                glow: "from-orange-500/14 via-amber-400/8 to-transparent",
+                wash: "from-orange-50/90 via-white to-white",
+                iconWrap: "bg-orange-50 text-orange-600 border-orange-100",
+                badge: "bg-orange-50 text-orange-700 border-orange-100",
+                meta: "bg-white/88 text-slate-600 border-slate-200/80",
+                titleHover: "group-hover:text-orange-600",
+                bullet: "text-orange-500",
+                cta: "from-orange-400 to-amber-400",
+                ctaText: "text-white",
+                ctaGhost: "bg-orange-50 text-orange-700 border-orange-100",
+                previewRing: "border-orange-100",
+                previewBg: "from-orange-50/75 via-white to-white",
+                previewSoft: "bg-orange-50/80",
+                previewLine: "bg-orange-500",
+                previewLineSoft: "bg-orange-100",
+                softBlob: "bg-orange-500/10",
+                hairline: "from-orange-100/0 via-orange-200/80 to-orange-100/0",
+                accentText: "text-orange-600",
+                accentSoft: "bg-orange-500",
+            };
+        case "sky":
+            return {
+                border: "hover:border-sky-300",
+                shadow: "hover:shadow-[0_24px_60px_-28px_rgba(14,165,233,0.32)]",
+                glow: "from-sky-500/12 via-cyan-400/8 to-transparent",
+                wash: "from-sky-50/90 via-white to-white",
+                iconWrap: "bg-sky-50 text-sky-600 border-sky-100",
+                badge: "bg-sky-50 text-sky-700 border-sky-100",
+                meta: "bg-white/88 text-slate-600 border-slate-200/80",
+                titleHover: "group-hover:text-sky-600",
+                bullet: "text-sky-500",
+                cta: "from-sky-400 to-cyan-400",
+                ctaText: "text-white",
+                ctaGhost: "bg-sky-50 text-sky-700 border-sky-100",
+                previewRing: "border-sky-100",
+                previewBg: "from-sky-50/75 via-white to-white",
+                previewSoft: "bg-sky-50/80",
+                previewLine: "bg-sky-500",
+                previewLineSoft: "bg-sky-100",
+                softBlob: "bg-sky-500/10",
+                hairline: "from-sky-100/0 via-sky-200/80 to-sky-100/0",
+                accentText: "text-sky-600",
+                accentSoft: "bg-sky-500",
+            };
+        case "violet":
+            return {
+                border: "hover:border-violet-300",
+                shadow: "hover:shadow-[0_24px_60px_-28px_rgba(139,92,246,0.30)]",
+                glow: "from-violet-500/12 via-violet-400/8 to-transparent",
+                wash: "from-violet-50/90 via-white to-white",
+                iconWrap: "bg-violet-50 text-violet-600 border-violet-100",
+                badge: "bg-violet-50 text-violet-700 border-violet-100",
+                meta: "bg-white/88 text-slate-600 border-slate-200/80",
+                titleHover: "group-hover:text-violet-600",
+                bullet: "text-violet-500",
+                cta: "from-violet-400 to-fuchsia-400",
+                ctaText: "text-white",
+                ctaGhost: "bg-violet-50 text-violet-700 border-violet-100",
+                previewRing: "border-violet-100",
+                previewBg: "from-violet-50/75 via-white to-white",
+                previewSoft: "bg-violet-50/80",
+                previewLine: "bg-violet-500",
+                previewLineSoft: "bg-violet-100",
+                softBlob: "bg-violet-500/10",
+                hairline: "from-violet-100/0 via-violet-200/80 to-violet-100/0",
+                accentText: "text-violet-600",
+                accentSoft: "bg-violet-500",
+            };
+        case "pink":
+            return {
+                border: "hover:border-pink-300",
+                shadow: "hover:shadow-[0_24px_60px_-28px_rgba(236,72,153,0.28)]",
+                glow: "from-pink-500/12 via-rose-400/8 to-transparent",
+                wash: "from-pink-50/90 via-white to-white",
+                iconWrap: "bg-pink-50 text-pink-600 border-pink-100",
+                badge: "bg-pink-50 text-pink-700 border-pink-100",
+                meta: "bg-white/88 text-slate-600 border-slate-200/80",
+                titleHover: "group-hover:text-pink-600",
+                bullet: "text-pink-500",
+                cta: "from-pink-400 to-rose-400",
+                ctaText: "text-white",
+                ctaGhost: "bg-pink-50 text-pink-700 border-pink-100",
+                previewRing: "border-pink-100",
+                previewBg: "from-pink-50/75 via-white to-white",
+                previewSoft: "bg-pink-50/80",
+                previewLine: "bg-pink-500",
+                previewLineSoft: "bg-pink-100",
+                softBlob: "bg-pink-500/10",
+                hairline: "from-pink-100/0 via-pink-200/80 to-pink-100/0",
+                accentText: "text-pink-600",
+                accentSoft: "bg-pink-500",
+            };
+    }
+}
