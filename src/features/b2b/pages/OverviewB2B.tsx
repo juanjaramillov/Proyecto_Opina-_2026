@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Building2, AlertTriangle } from "lucide-react";
-import { trackEvent } from "../../../services/analytics/trackEvent";
+import { analyticsService } from "../../../features/analytics/services/analyticsService";
 
 import { useOverviewB2BState } from "../hooks/useOverviewB2BState";
 import { OverviewB2BHeader } from "../components/OverviewB2BHeader";
@@ -28,7 +28,7 @@ export default function OverviewB2B() {
     } = useOverviewB2BState();
 
     useEffect(() => {
-        trackEvent('b2b_opened_overview');
+        analyticsService.trackSystem('b2b_opened_overview', 'info');
     }, []);
 
     if (!isB2B) {

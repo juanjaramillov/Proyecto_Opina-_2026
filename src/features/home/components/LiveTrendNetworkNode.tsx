@@ -1,9 +1,22 @@
 import { Globe, Activity, Users, Sparkles, TrendingUp, PieChart } from "lucide-react";
-import { HomeLaunchSyntheticData } from "../data/launch/homeLaunchSyntheticData";
+
+export interface NetworkPulseInfo {
+  totalUsers: number;
+  totalUsersGrowth: string;
+  active24h: number;
+  newToday: number;
+  monthlyGoal: {
+    current: number;
+    target: string;
+    percentage: number;
+  };
+  signals7Days: number;
+  signalsStatus: string;
+}
 
 interface LiveTrendNetworkNodeProps {
   pulseCount: number;
-  networkPulseInfo: HomeLaunchSyntheticData['networkPulseInfo'];
+  networkPulseInfo: NetworkPulseInfo;
 }
 
 export function LiveTrendNetworkNode({ pulseCount, networkPulseInfo }: LiveTrendNetworkNodeProps) {

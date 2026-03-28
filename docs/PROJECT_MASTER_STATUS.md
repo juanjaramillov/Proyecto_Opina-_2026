@@ -14,7 +14,7 @@ Esta zona del proyecto constituye el **Core Estable**. Ha sido formalmente audit
 | **Motor de Señales y Extracción** | Todo el sistema subyacente para emitir señales (Señales Versus, Ranking Torneo), manejando consistencia de IDs en DB. |
 | **Resiliencia P2P (Outbox)** | La cola local síncrona/asíncrona garantizando que las señales jamás se pierdan en desconexiones temporales. |
 | **Read Models Canónicos** | La estructura `src/read-models/`. Contratos fuente de Verdad absoluta: cálculo paramétrico de _Confidence_ y _Sufficiency_. |
-| **Panel de Resultados B2C** | La topología de `Results.tsx` adaptándose dócilmente a los estados de suficiencia y el pipeline de insights multivariados. Actualmente opera conectado a un **Snapshot Ficticio Curado**, aislando la experiencia visual de lecturas reales parciales. |
+| **Panel de Resultados B2C** | La topología de `Results.tsx` adaptándose dócilmente a los estados de suficiencia y el pipeline de insights multivariados. Opera consumiendo el Read Model conectado en tiempo real a la vista canónica de base de datos, garantizando paridad con la operación viva. |
 | **Overview Ejecutivo B2B** | El dashboard primario de administradores cliente `OverviewB2B.tsx`, alimentado por `PlatformOverviewSnapshot` estrictamente. |
 | **Tooling y Operaciones Base** | Los scripts en `ops/` que garantizan auditorías puras y descargas de Zip higienizadas. |
 

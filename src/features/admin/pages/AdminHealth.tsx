@@ -7,6 +7,7 @@ import { logger } from '../../../lib/logger';
 type TestItem = {
     id: string;
     label: string;
+    description: string;
     action: () => Promise<HealthCheckResult>;
 };
 
@@ -21,11 +22,36 @@ export default function AdminHealth() {
     const [configError, setConfigError] = useState<string | null>(null);
 
     const tests: TestItem[] = [
-        { id: 'session', label: '1. Auth Session Activa', action: adminHealthService.checkSession },
-        { id: 'admin_invites', label: '2. RPC: admin_list_invites', action: adminHealthService.checkListInvites },
-        { id: 'admin_redemptions', label: '3. RPC: admin_list_invite_redemptions', action: adminHealthService.checkListRedemptions },
-        { id: 'admin_events', label: '4. RPC: admin_list_app_events', action: adminHealthService.checkListAppEvents },
-        { id: 'signal_smoke', label: '5. RPC: insert_signal_event (Smoke)', action: () => adminHealthService.checkSignalSmoke(dryRunSignal) },
+        { 
+            id: 'session', 
+            label: '1. Auth Session Activa', 
+            description: 'Verifica que tu token esté vigente y la nube te reconozca como Administrador.',
+            action: adminHealthService.checkSession 
+        },
+        { 
+            id: 'admin_invites', 
+            label: '2. Invitaciones B2B', 
+            description: 'Comprueba el ancho de banda y permisos para leer el panel de accesos y referidos.',
+            action: adminHealthService.checkListInvites 
+        },
+        { 
+            id: 'admin_redemptions', 
+            label: '3. Canjes de Acceso', 
+            description: 'Asegura que el historial de códigos premium canjeados responda correctamente.',
+            action: adminHealthService.checkListRedemptions 
+        },
+        { 
+            id: 'admin_events', 
+            label: '4. Auditoría de Sistema', 
+            description: 'Valida la conectividad con el registro central de alertas y métricas del servidor.',
+            action: adminHealthService.checkListAppEvents 
+        },
+        { 
+            id: 'signal_smoke', 
+            label: '5. Emisión de Señales (Smoke)', 
+            description: 'Prueba crítica: inyecta un voto de prueba para detectar si hay cuellos de botella guardando encuestas.',
+            action: () => adminHealthService.checkSignalSmoke(dryRunSignal) 
+        },
     ];
 
     const handleRunChecks = async () => {
@@ -221,12 +247,13 @@ export default function AdminHealth() {
                             <span className={`material-symbols-outlined mt-0.5 ${iconColor}`}>{icon}</span>
                             <div className="flex-1 flex flex-col">
                                 <h3 className="font-bold text-slate-800 text-sm">{test.label}</h3>
+                                <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">{test.description}</p>
                                 {status && status !== 'pending' && status !== 'running' ? (
-                                    <p className="text-xs mt-1 font-mono text-slate-600 bg-slate-100/50 p-2 rounded-lg break-all">
+                                    <p className="text-[10px] mt-2 font-mono text-slate-600 bg-slate-100/50 p-2 rounded-lg break-all">
                                         {(status as HealthCheckResult).detail || ((status as HealthCheckResult).ok ? 'OK' : 'Error Desconocido')}
                                     </p>
                                 ) : (
-                                    <p className="text-xs text-slate-400 mt-1 italic">
+                                    <p className="text-xs text-slate-400 mt-2 italic">
                                         {status === 'running' ? 'Evaluando constraint base...' : 'Esperando ejecución'}
                                     </p>
                                 )}

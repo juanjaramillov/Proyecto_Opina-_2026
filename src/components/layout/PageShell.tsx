@@ -89,7 +89,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
           {/* Mobile Menu Button */}
           <button
-            className="sm:hidden p-2 text-slate-600 bg-white hover:bg-slate-50 hover:text-primary-600 active:scale-95 transition-all outline-none rounded-xl border border-slate-200 shadow-sm flex items-center justify-center"
+            className="lg:hidden p-2 text-slate-600 bg-white hover:bg-slate-50 hover:text-primary-600 active:scale-95 transition-all outline-none rounded-xl border border-slate-200 shadow-sm flex items-center justify-center"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -99,7 +99,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden sm:flex items-center gap-2 lg:gap-4 justify-end flex-nowrap">
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-4 justify-end flex-nowrap">
             {/* Desktop Menu Mapping */}
             {MENU_ITEMS.map((item) => {
               const isResultsLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
@@ -178,6 +178,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
                   </NavLink>
+                  <NavLink to="/admin/math-engine" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
+                    <span className="material-symbols-outlined text-[16px]">calculate</span>
+                    Motor Matemático
+                  </NavLink>
                   <NavLink to="/admin/health" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">monitor_heart</span>
                     Health Checks
@@ -206,7 +210,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
 
         {/* Mobile Navigation Dropdown/Drawer */}
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 top-[72px] bg-white z-40 sm:hidden flex flex-col overflow-y-auto animate-in slide-in-from-top-2 duration-200 pb-20">
+          <div className="fixed inset-0 top-[72px] bg-white z-40 lg:hidden flex flex-col overflow-y-auto animate-in slide-in-from-top-2 duration-200 pb-20">
             {MENU_ITEMS.map((item) => {
               const isResultsLocked = item.id === 'results' && signals < MIN_SIGNALS_THRESHOLD;
               const isB2BLocked = item.id === 'intelligence' && role !== 'admin' && role !== 'b2b';
@@ -278,7 +282,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   <span className={`material-symbols-outlined text-[20px] transition-transform duration-300 ${isMobileAdminOpen ? 'rotate-180' : ''}`}>expand_more</span>
                 </button>
 
-                <div className={`transition-all duration-300 ease-in-out ${isMobileAdminOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                <div className={`transition-all duration-300 ease-in-out ${isMobileAdminOpen ? 'max-h-[800px] opacity-100 scrollbar-hide overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}>
                   <div className="flex flex-col gap-1 p-2 bg-white/50 border-t border-slate-100">
                     <NavLink to="/admin/system" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[18px]">data_usage</span>
@@ -287,6 +291,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[18px]">vpn_key</span>
                       Invitaciones
+                    </NavLink>
+                    <NavLink to="/admin/math-engine" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">calculate</span>
+                      Motor Matemático
                     </NavLink>
                     <NavLink to="/admin/health" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[18px]">monitor_heart</span>

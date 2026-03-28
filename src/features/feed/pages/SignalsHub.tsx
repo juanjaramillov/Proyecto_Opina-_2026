@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useActiveBattles } from "../../../hooks/useActiveBattles";
 import { useSignalStore } from "../../../store/signalStore";
 import { useAuth } from "../../auth";
-import { trackEvent } from "../../../services/analytics/trackEvent";
+import { analyticsService } from "../../../features/analytics/services/analyticsService";
 
 import PageHeader from "../../../components/ui/PageHeader";
 import { PageState } from "../../../components/ui/StateBlocks";
@@ -46,7 +46,7 @@ export default function SignalsHub() {
     const signalsLimit = profile?.role === 'admin' ? '∞' : profile?.signalsDailyLimit === -1 ? '∞' : (profile?.signalsDailyLimit ?? "?").toString();
 
     useEffect(() => {
-        trackEvent('user_entered_signals');
+        analyticsService.trackSystem('user_entered_signals', 'info');
     }, []);
 
     useEffect(() => {

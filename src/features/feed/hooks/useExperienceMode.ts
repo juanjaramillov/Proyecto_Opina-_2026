@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { behaviorService } from "../../analytics/services/behaviorService";
+import { analyticsService } from "../../analytics/services/analyticsService";
 
 export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "actualidad" | "lugares" | "servicios";
 
@@ -28,7 +28,7 @@ export function useExperienceMode() {
                 'servicios': 'services'
             };
             
-            behaviorService.trackEvent({
+            analyticsService.trackBehavior({
                 event_type: 'module_open',
                 module_type: (moduleMap[newMode] || 'home') as any,
                 screen_name: `hub_${newMode}`,

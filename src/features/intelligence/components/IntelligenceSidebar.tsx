@@ -188,7 +188,9 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
 
 function HealthMetric({ label, value, desc, color }: { label: string, value: string, desc: string, color: string }) {
     const colorClasses: Record<string, string> = {
-        emerald: "text-emerald-600"
+        emerald: "text-emerald-600",
+        primary: "text-primary-600",
+        slate: "text-slate-600"
     };
 
     return (

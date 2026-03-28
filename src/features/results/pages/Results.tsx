@@ -1,32 +1,51 @@
 import { useEffect, useState } from "react";
-import { trackEvent } from "../../../services/analytics/trackEvent";
+import { analyticsService } from "../../analytics/services/analyticsService";
 import { useResultsExperience, ResultsGeneration } from "../hooks/useResultsExperience";
-import { ResultsGenerationSelector } from "../components/v5/ResultsGenerationSelector";
-import { ResultsEditorialHero } from "../components/v5/ResultsEditorialHero";
-import { ResultsLivePulse } from "../components/v5/ResultsLivePulse";
-import { ResultsVersusBlock } from "../components/v5/ResultsVersusBlock";
-import { ResultsTournamentBlock } from "../components/v5/ResultsTournamentBlock";
-import { ResultsDepthBlock } from "../components/v5/ResultsDepthBlock";
-import { ResultsNewsBlock } from "../components/v5/ResultsNewsBlock";
-import { ResultsPlacesBlock } from "../components/v5/ResultsPlacesBlock";
-import { ResultsFutureModules } from "../components/v5/ResultsFutureModules";
+import { Skeleton } from "../../../components/ui/Skeleton";
+import { ResultsGenerationSelector } from "../components/ResultsGenerationSelector";
+import { ResultsEditorialHero } from "../components/ResultsEditorialHero";
+import { ResultsLivePulse } from "../components/ResultsLivePulse";
+import { ResultsVersusBlock } from "../components/ResultsVersusBlock";
+import { ResultsTournamentBlock } from "../components/ResultsTournamentBlock";
+import { ResultsDepthBlock } from "../components/ResultsDepthBlock";
+import { ResultsNewsBlock } from "../components/ResultsNewsBlock";
+import { ResultsPlacesBlock } from "../components/ResultsPlacesBlock";
+import { ResultsFutureModules } from "../components/ResultsFutureModules";
 
 // Importaremos los modulos futuros aqui
-import { ResultsWowClosing } from "../components/v5/ResultsWowClosing";
+import { ResultsWowClosing } from "../components/ResultsWowClosing";
 
 export default function ResultsPage() {
   const { snapshot } = useResultsExperience();
   const [activeGeneration, setActiveGeneration] = useState<ResultsGeneration>("ALL");
 
   useEffect(() => {
-    trackEvent("user_opened_results");
+    analyticsService.trackSystem("user_opened_results", "info");
     window.scrollTo(0, 0);
   }, []);
 
   if (!snapshot) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin" />
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-start pt-24 px-4 sm:px-8 w-full">
+        {/* Generacional Selector Skeleton */}
+        <Skeleton variant="pill" className="w-[300px] h-12 mb-12 bg-white border border-slate-100 shadow-sm" />
+        
+        {/* Editorial Hero Skeleton */}
+        <div className="w-full max-w-5xl bg-white p-8 sm:p-12 rounded-[40px] border border-slate-100 shadow-xl overflow-hidden relative">
+             <div className="flex flex-col gap-6 w-full relative z-10">
+                 <Skeleton variant="pill" className="w-32 h-6 bg-slate-100" />
+                 <Skeleton variant="text" className="w-3/4 h-12 sm:h-16 bg-slate-200" />
+                 <Skeleton variant="text" className="w-full h-6 bg-slate-100 mt-4" />
+                 <Skeleton variant="text" className="w-5/6 h-6 bg-slate-100" />
+                 
+                 <div className="flex gap-4 mt-8">
+                     <Skeleton variant="card" className="w-1/2 h-40 bg-slate-50 border border-slate-100" />
+                     <Skeleton variant="card" className="w-1/2 h-40 bg-slate-50 border border-slate-100" />
+                 </div>
+             </div>
+             {/* Shimmer Effect */}
+             <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/50 to-transparent z-20" />
+        </div>
       </div>
     );
   }

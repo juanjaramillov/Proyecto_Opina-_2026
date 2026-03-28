@@ -2,12 +2,11 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { useResultsExperience } from './useResultsExperience';
 import { resultsCommunityService } from '../services/resultsCommunityService';
-import { trackPage } from '../../telemetry/track';
+import { analyticsService } from '../../analytics/services/analyticsService';
 
 // 1. Mock Runtime Config
 vi.mock('../config/resultsRuntime', () => ({
-    isResultsLaunchSyntheticMode: true,
-    isResultsRealMode: false
+    isResultsRealMode: true
 }));
 
 // Mock Auth
@@ -24,8 +23,11 @@ vi.mock('../services/resultsCommunityService', () => ({
 }));
 
 // 3. Mock Telemetry
-vi.mock('../../telemetry/track', () => ({
-    trackPage: vi.fn()
+vi.mock('../../analytics/services/analyticsService', () => ({
+    analyticsService: {
+        trackSystem: vi.fn(),
+        trackBehavior: vi.fn()
+    }
 }));
 
 // Basic mock snapshot for tests
@@ -61,7 +63,7 @@ describe('useResultsExperience', () => {
         expect(resultsCommunityService.getResultsCommunitySnapshot).toHaveBeenCalledWith(
             { period: '30D', module: 'ALL', generation: 'ALL' }
         );
-        expect(trackPage).toHaveBeenCalledWith('results_hub_b2c');
+        expect(analyticsService.trackSystem).toHaveBeenCalledWith('user_opened_results', 'info');
     });
 
     it('handles guardrails correctly when cohort is small', async () => {
@@ -104,18 +106,4 @@ describe('useResultsExperience', () => {
         expect(result.current.activePeriod).toBe('7D');
     });
 
-    it('loads synthetic data even if profile is not available in launch mode', async () => {
-        mockProfile = null; // Unauthenticated
-        const mockSnapshot = createMockSnapshot();
-        (resultsCommunityService.getResultsCommunitySnapshot as import('vitest').Mock).mockResolvedValue(mockSnapshot);
-        
-        const { result } = renderHook(() => useResultsExperience());
-
-        await waitFor(() => {
-            expect(result.current.loading).toBe(false);
-        });
-
-        expect(resultsCommunityService.getResultsCommunitySnapshot).toHaveBeenCalled();
-        expect(result.current.snapshot).toEqual(mockSnapshot);
-    });
 });

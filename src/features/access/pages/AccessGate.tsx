@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../../supabase/client';
 import { accessGate } from '../services/accessGate';
 import FeedbackFab from '../../../components/ui/FeedbackFab';
-import { track, trackPage } from "../../telemetry/track";
+import { analyticsService } from "../../analytics/services/analyticsService";
 import { logger } from '../../../lib/logger';
 
 function getNext(search: string) {
@@ -19,7 +19,7 @@ export default function AccessGatePage() {
     const nextPath = useMemo(() => getNext(loc.search), [loc.search]);
 
     useEffect(() => {
-        trackPage("access_gate", { next: nextPath });
+        analyticsService.trackSystem("access_gate_page_view", "info", { next: nextPath });
     }, [nextPath]);
 
     const [code, setCode] = useState('');
@@ -40,12 +40,12 @@ export default function AccessGatePage() {
 
         const normalized = code.trim().toUpperCase();
         if (!normalized) {
-            track("access_gate_submit_missing_code", "warn");
+            analyticsService.trackSystem("access_gate_submit_missing_code", "warn");
             setErr('Ingresa tu código.');
             return;
         }
 
-        track("access_gate_submit", "info", { code_len: normalized.length, next: nextPath });
+        analyticsService.trackSystem("access_gate_submit", "info", { code_len: normalized.length, next: nextPath });
         setLoading(true);
         try {
             // 1) Validar en modo anon (NO consumir / NO claim)
@@ -55,20 +55,20 @@ export default function AccessGatePage() {
             if (vErr) throw vErr;
 
             if (!isValid) {
-                track("access_gate_code_invalid", "warn", { code_len: normalized.length, next: nextPath });
+                analyticsService.trackSystem("access_gate_code_invalid", "warn", { code_len: normalized.length, next: nextPath });
                 setErr('Ese código ya venció o no existe. Pide uno nuevo.');
                 return;
             }
 
             // 2) Guardar pase local para permitir navegar el piloto (sin quemar el código)
             accessGate.grant(`CODE:${normalized}`, Number.isFinite(daysValid) ? daysValid : 30);
-            track("access_gate_granted_local", "info", { days_valid: daysValid, next: nextPath });
+            analyticsService.trackSystem("access_gate_granted_local", "info", { days_valid: daysValid, next: nextPath });
 
             // 3) Entrar
             nav(nextPath, { replace: true });
         } catch (error: unknown) {
             const msg = error instanceof Error ? error.message : String(error);
-            track("access_gate_error", "error", { message: msg.slice(0, 160) });
+            analyticsService.trackSystem("access_gate_error", "error", { message: msg.slice(0, 160) });
             setErr(msg || 'Ese código no calza. Revisa y prueba de nuevo.');
         } finally {
             setLoading(false);
@@ -135,7 +135,7 @@ export default function AccessGatePage() {
                                         }
 
                                         if (data?.role === "admin") {
-                                            track("access_gate_admin_bypass", "info");
+                                            analyticsService.trackSystem("access_gate_admin_bypass", "info");
                                             localStorage.setItem("opina_access_pass", "admin");
                                             window.location.href = "/";
                                         } else {

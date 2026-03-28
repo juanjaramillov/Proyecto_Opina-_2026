@@ -420,4 +420,14 @@
   .mix-blend-multiply {
     mix-blend-mode: multiply;
   }
+
+  /* ✅ B2B Dashboard Clinical Mode (Reduced Cognitive Load) */
+  .b2b-mode .animate-blob,
+  .b2b-mode .bg-pulse-gradient,
+  .b2b-mode .signal-pulse,
+  .b2b-mode .pulse-soft {
+    animation: none !important;
+    background-image: none !important;
+    transform: none !important;
+  }
 }

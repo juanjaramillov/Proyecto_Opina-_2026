@@ -29,28 +29,30 @@ echo ">> Empaquetando código fuente en: $ZIP_FILE"
 
 # 3. Compresión con exclusión paramétrica rigurosa
 zip -r "$ZIP_FILE" . \
-  -x "*/node_modules/*" "node_modules/*" \
-  -x "*/dist/*" "dist/*" \
-  -x "*/build/*" "build/*" \
-  -x "*/.git/*" ".git/*" \
-  -x "*/.vercel/*" ".vercel/*" \
-  -x "*/.next/*" ".next/*" \
-  -x "*/.vite/*" ".vite/*" \
-  -x "*/coverage/*" "coverage/*" \
-  -x "*/.DS_Store" ".DS_Store" \
-  -x "*/__MACOSX/*" "__MACOSX/*" \
-  -x "exports/*" \
-  -x "*.zip" \
-  -x "*.log" \
-  -x "*.bak" \
-  -x "*.tmp" \
-  -x "*.swp" \
-  -x "*/.env" ".env" \
-  -x "*/.env.local" ".env.local" \
-  -x "*/.env.*.local" ".env.*.local" \
-  -x "*/.env.production" ".env.production" \
-  -x "*/.env.development" ".env.development" \
-  -x "*/.env.vercel.*" ".env.vercel.*" \
+  -x "node_modules/*" "node_modules" "*/node_modules/*" "*/node_modules" \
+  -x "dist/*" "dist" "*/dist/*" "*/dist" \
+  -x "build/*" "build" "*/build/*" "*/build" \
+  -x ".git/*" ".git" "*/.git/*" "*/.git" \
+  -x ".github/*" ".github" "*/.github/*" "*/.github" \
+  -x ".vercel/*" ".vercel" "*/.vercel/*" "*/.vercel" \
+  -x ".vscode/*" ".vscode" "*/.vscode/*" "*/.vscode" \
+  -x ".gemini/*" ".gemini" "*/.gemini/*" "*/.gemini" \
+  -x "gemini-analysis-pack/*" "gemini-analysis-pack" "*/gemini-analysis-pack/*" "*/gemini-analysis-pack" \
+  -x "opina-v14-proof-pack/*" "opina-v14-proof-pack" "*/opina-v14-proof-pack/*" "*/opina-v14-proof-pack" \
+  -x "exports/*" "exports" \
+  -x "*.DS_Store" "*/.DS_Store" \
+  -x "*.zip" "*/*.zip" \
+  -x "*.log" "*/*.log" \
+  -x "*.env" "*/.env" \
+  -x "*.env.local" "*/.env.local" \
+  -x "*.env.*.local" "*/.env.*.local" \
+  -x "*.env.production" "*/.env.production" \
+  -x "*.env.development" "*/.env.development" \
+  -x "*.env.vercel.*" "*/.env.vercel.*" \
+  -x "tmp_pdf_contents.txt" \
+  -x "v3_files_to_include.json" \
+  -x "AUDITORIA_*.md" \
+  -x "*.pdf" "*/*.pdf" \
   > /dev/null
 
 echo ">> [SUCCESS] Exportación limpia generada. Código fuente listo para traslado operativo."

@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import { ArrowLeftRight, Building2, TrendingUp, TrendingDown, Target, ShieldAlert, Sparkles } from "lucide-react";
-import { trackEvent } from "../../../services/analytics/trackEvent";
+import { analyticsService } from "../../../features/analytics/services/analyticsService";
 import { Link } from "react-router-dom";
 import { PremiumGate } from "../../../components/ui/PremiumGate";
 import { b2bCuratedSnapshot } from "../../../read-models/b2b/b2bCuratedSnapshot";
+import { useAuth } from "../../../features/auth/hooks/useAuth";
 
 export default function DeepDiveB2B() {
     useEffect(() => {
-        trackEvent('b2b_opened_deep_dive');
+        analyticsService.trackSystem('b2b_opened_deep_dive', 'info');
     }, []);
+
+    const { profile } = useAuth();
+    const isAdmin = profile?.role === 'admin';
 
     const { deepDive } = b2bCuratedSnapshot;
 
@@ -18,7 +22,7 @@ export default function DeepDiveB2B() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 shrink-0">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                        <ArrowLeftRight className="w-8 h-8 text-indigo-600" />
+                        <ArrowLeftRight className="w-8 h-8 text-primary-600" />
                         <span className="text-gradient-brand">Comparativa Estratégica</span>
                     </h1>
                     <p className="text-slate-500 mt-1">
@@ -29,7 +33,7 @@ export default function DeepDiveB2B() {
                 <div className="flex items-center gap-3">
                     <Link 
                         to="/b2b"
-                        onClick={() => trackEvent('b2b_clicked_next_view', { destination_view: 'overview' })}
+                        onClick={() => analyticsService.trackSystem('b2b_clicked_next_view', 'info', { destination_view: 'overview' })}
                         className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm"
                     >
                         Volver al Overview
@@ -43,11 +47,11 @@ export default function DeepDiveB2B() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     
                     {/* Opción Lider */}
-                    <div className="bg-white rounded-3xl border-2 border-indigo-100 shadow-xl overflow-hidden relative">
-                        <div className="absolute top-0 right-0 px-4 py-1 bg-indigo-500 text-white text-xs font-bold rounded-bl-xl z-20">LÍDER ACTUAL</div>
-                        <div className="p-8 text-center bg-gradient-to-b from-indigo-50/50 to-white relative z-10">
-                            <div className="w-20 h-20 bg-white rounded-2xl border border-indigo-100 shadow-md flex items-center justify-center mx-auto mb-6 transform rotate-3">
-                                <Building2 className="w-10 h-10 text-indigo-600" />
+                    <div className="bg-white rounded-3xl border-2 border-primary-100 shadow-xl overflow-hidden relative">
+                        <div className="absolute top-0 right-0 px-4 py-1 bg-primary-500 text-white text-xs font-bold rounded-bl-xl z-20">LÍDER ACTUAL</div>
+                        <div className="p-8 text-center bg-gradient-to-b from-primary-50/50 to-white relative z-10">
+                            <div className="w-20 h-20 bg-white rounded-2xl border border-primary-100 shadow-md flex items-center justify-center mx-auto mb-6 transform rotate-3">
+                                <Building2 className="w-10 h-10 text-primary-600" />
                             </div>
                             <h2 className="text-4xl font-black text-slate-900 -tracking-wide mb-2">{deepDive.winner.name}</h2>
                             <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{deepDive.winner.id}</p>
@@ -56,7 +60,7 @@ export default function DeepDiveB2B() {
                         <div className="p-8 border-t border-slate-100 bg-white">
                             <div className="text-center mb-8">
                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Share of Preference</p>
-                                <h3 className="text-5xl font-black text-indigo-600">{(deepDive.winner.winRate * 100).toFixed(1)}%</h3>
+                                <h3 className="text-5xl font-black text-primary-600">{(deepDive.winner.winRate * 100).toFixed(1)}%</h3>
                                 <div className="flex items-center justify-center gap-1 text-slate-500 mt-2 text-sm font-medium">
                                     <Target className="w-4 h-4" /> Base: {deepDive.winner.comparisons.toLocaleString()} duelos
                                 </div>
@@ -104,7 +108,7 @@ export default function DeepDiveB2B() {
                 </div>
 
                 {/* Brecha / Insight Ejecutivo */}
-                <PremiumGate featureName="Deep Dive Insight Comparativo" isLocked={true}>
+                <PremiumGate featureName="Deep Dive Insight Comparativo" isLocked={!isAdmin}>
                     <div className="bg-slate-900 p-8 md:p-10 rounded-3xl shadow-xl relative overflow-hidden border border-slate-800">
                         <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
                             <ArrowLeftRight className="w-48 h-48 text-white -rotate-12 transform" />
@@ -114,10 +118,10 @@ export default function DeepDiveB2B() {
                             <div className="flex flex-col md:flex-row items-start gap-8">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-6">
-                                        <div className="p-2 bg-indigo-500/20 rounded-xl backdrop-blur-sm border border-indigo-500/20">
-                                            <Sparkles className="w-5 h-5 text-indigo-400" />
+                                        <div className="p-2 bg-primary-500/20 rounded-xl backdrop-blur-sm border border-primary-500/20">
+                                            <Sparkles className="w-5 h-5 text-primary-400" />
                                         </div>
-                                        <span className="text-xs font-black uppercase tracking-widest text-indigo-400">Insight Comparativo de IA</span>
+                                        <span className="text-xs font-black uppercase tracking-widest text-primary-400">Insight Comparativo de IA</span>
                                     </div>
                                     
                                     <p className="text-lg md:text-xl font-medium text-white leading-relaxed mb-6">
@@ -128,7 +132,7 @@ export default function DeepDiveB2B() {
                                         <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-mono font-bold tracking-wide border border-slate-700">
                                             Confianza: {deepDive.executiveInsight.confidence}
                                         </span>
-                                        <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-200 text-xs font-bold uppercase tracking-wider">
+                                        <span className="px-3 py-1 rounded-full bg-primary-500/20 text-primary-200 text-xs font-bold uppercase tracking-wider">
                                             Categoría: {deepDive.executiveInsight.category}
                                         </span>
                                     </div>

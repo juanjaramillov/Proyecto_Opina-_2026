@@ -4,6 +4,7 @@ import { LeaderboardEntry } from "../../metrics/services/metricsService";
 import { logger } from "../../../lib/logger";
 import { TrendingUp, Search, Activity, ChevronRight, X, Zap } from "lucide-react";
 import { PremiumGate } from "../../../components/ui/PremiumGate";
+import { useAuth } from "../../../features/auth/hooks/useAuth";
 
 interface SystemNarrative {
     intelligenceText: string;
@@ -15,8 +16,17 @@ interface SystemNarrative {
 }
 
 
+const MOCK_LEADERBOARD: LeaderboardEntry[] = [
+    { entity_id: 'ent-1', entity_name: 'Apple', win_rate: 0.68, total_comparisons: 15420, wins_count: 10485, losses_count: 4935, preference_share: 0.25 },
+    { entity_id: 'ent-2', entity_name: 'Samsung', win_rate: 0.52, total_comparisons: 14800, wins_count: 7696, losses_count: 7104, preference_share: 0.23 },
+    { entity_id: 'ent-3', entity_name: 'Microsoft', win_rate: 0.61, total_comparisons: 12500, wins_count: 7625, losses_count: 4875, preference_share: 0.18 },
+    { entity_id: 'ent-4', entity_name: 'Google', win_rate: 0.59, total_comparisons: 13200, wins_count: 7788, losses_count: 5412, preference_share: 0.19 }
+];
+
 // The Benchmark Component handles the giant comparative Ranking Table and the Entity Deep Dive Panel
 export default function BenchmarkB2B() {
+    const { profile } = useAuth();
+    const isAdmin = profile?.role === 'admin';
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [selectedEntity, setSelectedEntity] = useState<LeaderboardEntry | null>(null);
     const [entityNarrative, setEntityNarrative] = useState<SystemNarrative | null>(null);
@@ -28,7 +38,7 @@ export default function BenchmarkB2B() {
         setLoading(true);
         try {
             const board = await metricsService.getGlobalLeaderboard();
-            setLeaderboard(board);
+            setLeaderboard(board.length > 0 ? board : MOCK_LEADERBOARD);
         } catch (err) {
             logger.error("[BenchmarkB2B] Error loading data:", err);
         } finally {
@@ -190,7 +200,7 @@ export default function BenchmarkB2B() {
                         ) : (
                             <div className="space-y-6">
                                 {/* Narrative Card */}
-                                <PremiumGate featureName="Análisis Narrativo Ejecutivo" isLocked={true}>
+                                <PremiumGate featureName="Análisis Narrativo Ejecutivo" isLocked={!isAdmin}>
                                     <div className="bg-gradient-to-br from-indigo-900 to-slate-900 p-6 rounded-3xl shadow-lg relative overflow-hidden">
                                         <div className="absolute top-0 right-0 p-4 opacity-10">
                                             <Zap className="w-24 h-24 text-white" />

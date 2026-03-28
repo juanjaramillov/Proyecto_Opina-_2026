@@ -28,11 +28,11 @@ export default function B2BLayout() {
     }
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
+        <div className="b2b-mode flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 bg-slate-900 border-b border-slate-800">
                 <div className="flex items-center gap-2">
-                    <Building2 className="w-6 h-6 text-indigo-400" />
+                    <Building2 className="w-6 h-6 text-primary-400" />
                     <span className="text-lg font-black text-white tracking-tight">Intelligence B2B</span>
                 </div>
                 <button 
@@ -51,8 +51,8 @@ export default function B2BLayout() {
             `}>
                 <div className="p-6 hidden md:block">
                     <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 bg-indigo-500/20 rounded-xl">
-                            <Building2 className="w-5 h-5 text-indigo-400" />
+                        <div className="p-2 bg-primary-500/20 rounded-xl">
+                            <Building2 className="w-5 h-5 text-primary-400" />
                         </div>
                         <h2 className="text-xl font-black text-white tracking-tight">Opina+ B2B</h2>
                     </div>
@@ -74,11 +74,11 @@ export default function B2BLayout() {
                                 className={({ isActive }) => `
                                     flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200
                                     ${isActive 
-                                        ? 'bg-indigo-500/15 text-indigo-300 border border-indigo-500/20 shadow-inner' 
+                                        ? 'bg-primary-500/15 text-primary-300 border border-primary-500/20 shadow-inner' 
                                         : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'}
                                 `}
                             >
-                                <Icon className={`w-4 h-4 ${location.pathname.includes(module.path) ? 'text-indigo-400' : 'opacity-70'}`} />
+                                <Icon className={`w-4 h-4 ${location.pathname.includes(module.path) ? 'text-primary-400' : 'opacity-70'}`} />
                                 {module.label}
                             </NavLink>
                         );
@@ -99,8 +99,8 @@ export default function B2BLayout() {
 
                 <div className="p-4 mt-auto border-t border-slate-800">
                     <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl border border-slate-800">
-                        <div className="p-1.5 bg-indigo-500/20 rounded-lg">
-                            <Zap className="w-4 h-4 text-indigo-400" />
+                        <div className="p-1.5 bg-primary-500/20 rounded-lg">
+                            <Zap className="w-4 h-4 text-primary-400" />
                         </div>
                         <div>
                             <p className="text-xs font-bold text-white">Live Data Feed</p>

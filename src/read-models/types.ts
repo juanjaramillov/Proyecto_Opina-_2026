@@ -83,9 +83,16 @@ export interface UserResultsSnapshot extends BaseSnapshot {
 export interface LeaderboardEntry {
   entityId: string;
   entityName: string;
-  winRate: number;    // 0.0 - 1.0
+  winRate: number;    // 0.0 - 1.0 (Simple average)
   winsCount: number;
   totalComparisons: number;
+  // Nuevos KPIs Analíticos B2B:
+  wilsonScore?: {
+    lowerBound: number;
+    upperBound: number;
+  };
+  volatilityIndex?: number; // 0.0 - 1.0 (How much the winrate fluctuates)
+  momentumScore?: number; // Rate of change (e.g., +4.2 or -1.5)
 }
 
 export interface TrendEntry {

@@ -1,4 +1,4 @@
-import { supabaseLegacyUnsafe as supabase } from '../../../supabase/client-legacy-unsafe';
+import { supabase } from '../../../supabase/client';
 import { Database } from '../../../supabase/database.types';
 
 export type UserLoyaltyStats = Database['public']['Tables']['user_loyalty_stats']['Row'] & {

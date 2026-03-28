@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { MockService } from "./mockServicios";
+import { ServiceEntity } from "../types/service";
 
 interface ServicioDetailViewProps {
-    service: MockService;
+    service: ServiceEntity;
     onClose: () => void;
 }
 

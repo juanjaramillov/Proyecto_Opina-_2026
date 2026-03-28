@@ -1,9 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { isResultsLaunchSyntheticMode, isResultsRealMode } from "../config/resultsRuntime";
+import { isResultsRealMode } from "../config/resultsRuntime";
 import { HubFilters } from "../../../read-models/b2c/hub-types"; // @deprecated
 import { useAuth } from "../../auth";
 import { logger } from '../../../lib/logger';
-import { trackPage } from "../../telemetry/track";
+import { analyticsService } from "../../analytics/services/analyticsService";
 import { ResultsCommunitySnapshot, ResultsCommunityQuery } from "../../../read-models/b2c/resultsCommunityTypes";
 import { resultsCommunityService } from "../services/resultsCommunityService";
 
@@ -40,13 +40,9 @@ export function useResultsExperience() {
       };
 
       let snap: ResultsCommunitySnapshot | null = null;
-      if (isResultsLaunchSyntheticMode) {
-        snap = await resultsCommunityService.getResultsCommunitySnapshot(query);
-      } else {
-        // Reservado para conexión a BDD Real usando el mismo servicio en el futuro (mode='real')
-        snap = await resultsCommunityService.getResultsCommunitySnapshot({ ...query, period: "30D" });
-        logger.info("Real data mode using facade", { domain: 'network_api', origin: 'Results_Hub_B2C' });
-      }
+      // Reservado para conexión a BDD Real usando el mismo servicio en el futuro (mode='real')
+      snap = await resultsCommunityService.getResultsCommunitySnapshot({ ...query, period: "30D" });
+      logger.info("Real data mode using facade", { domain: 'network_api', origin: 'Results_Hub_B2C' });
       setSnapshot(snap);
     } catch (e) {
       logger.error("Error loading community hub data", { domain: 'network_api', origin: 'Results_Hub_B2C', action: 'load_data', state: 'failed' }, e);
@@ -57,7 +53,7 @@ export function useResultsExperience() {
 
   useEffect(() => {
     loadData();
-    trackPage("results_hub_b2c");
+    analyticsService.trackSystem("results_hub_b2c_page_view", "info");
   }, [loadData, activePeriod, activeModule, activeGeneration]);
   
   return {

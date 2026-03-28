@@ -1,8 +1,7 @@
-export type AppDataMode = "launch_synthetic" | "real";
+export type AppDataMode = "real";
 
 // Global data mode configuration
-export const APP_DATA_MODE: AppDataMode = "launch_synthetic" as AppDataMode;
+export const APP_DATA_MODE: AppDataMode = "real";
 
 // Boolean helpers for easy conditional rendering or data fetching
-export const isLaunchSyntheticMode = (APP_DATA_MODE as AppDataMode) === "launch_synthetic";
-export const isRealDataMode = (APP_DATA_MODE as AppDataMode) === "real";
+export const isRealDataMode = APP_DATA_MODE === "real";

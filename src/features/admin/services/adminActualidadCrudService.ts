@@ -1,4 +1,4 @@
-import { supabaseLegacyUnsafe as supabase } from '../../../supabase/client-legacy-unsafe';
+import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 import { Topic, TopicQuestion, TopicStatus } from '../../signals/types/actualidad';
 import { generateTopicSlug, validateTopicForPublication } from '../utils/actualidadHelpers';
@@ -237,9 +237,10 @@ export const adminActualidadCrudService = {
       }
 
       return true;
-    } catch (e: any) {
+    } catch (e: unknown) {
       logger.error(`Error actualizando preguntas para el tema ${topicId}`, { error: e });
-      alert(`[DIAGNÓSTICO OPINA] Error DB Preguntas: ${e?.message || JSON.stringify(e)}`);
+      const msg = e instanceof Error ? e.message : JSON.stringify(e);
+      alert(`[DIAGNÓSTICO OPINA] Error DB Preguntas: ${msg}`);
       return false;
     }
   },

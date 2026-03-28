@@ -25,14 +25,26 @@ export interface PlatformAlert {
     created_at: string;
 }
 
+export interface SystemHealthDB {
+    signal_integrity_percent: number;
+    profile_completion_percent: number;
+    last_snapshot_at: string;
+    total_users: number;
+    verified_users: number;
+}
+
 export const healthService = {
     getSystemHealthMetrics: async (): Promise<SystemHealth> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: SystemHealth | null, error: unknown }>)('get_system_health_metrics');
-        if (error) {
-            logger.error('[HealthService] Error fetching health metrics:', error);
+        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: SystemHealthDB | null, error: unknown }>)('get_system_health_metrics');
+        if (error || !data) {
+            if (error) logger.error('[HealthService] Error fetching health metrics:', error);
             return { data_quality_score: 0, profile_completeness_avg: 0, signal_integrity_pct: 0 };
         }
-        return data || { data_quality_score: 0, profile_completeness_avg: 0, signal_integrity_pct: 0 };
+        return {
+            data_quality_score: Math.round((data.signal_integrity_percent + data.profile_completion_percent) / 2),
+            profile_completeness_avg: data.profile_completion_percent,
+            signal_integrity_pct: data.signal_integrity_percent
+        };
     },
 
     getSuspiciousUsers: async (): Promise<SuspiciousUser[]> => {

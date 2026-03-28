@@ -1,45 +1,32 @@
 import { GranularAnalyticsQuery } from "../analytics/analyticsTypes";
 import { IntelligenceAnalyticsSnapshot } from "./intelligenceAnalyticsTypes";
-import { generateAnalyticGuardrails } from "../analytics/analyticsGuardrails";
+// import { generateAnalyticGuardrails } from "../analytics/analyticsGuardrails";
 
 export async function getIntelligenceAnalyticsReadModel(query: GranularAnalyticsQuery): Promise<IntelligenceAnalyticsSnapshot> {
-  const guardrails = generateAnalyticGuardrails(150, new Date(), true); // Mock synthetic
-  
+  // TODO: Implementar la conexión real con el motor canónico B2B mediante Supabase RPC
+  // Retornamos un estado base nulo/cero para evitar roturas visuales mientras se desarrollan los hooks de red.
   return Promise.resolve({
     generatedAt: new Date().toISOString(),
     query,
     overview: {
-      primaryMetricValue: 85.4,
+      primaryMetricValue: 0,
       primaryMetricLabel: "Share de Preferencia",
       secondaryMetrics: {
-        momentum: 12.5,
-        volatility: 3.2
+        momentum: 0,
+        volatility: 0
       }
     },
-    timeSeries: [
-      { date: "2026-03-20", value: 80 },
-      { date: "2026-03-21", value: 82 },
-      { date: "2026-03-22", value: 85.4 }
-    ],
-    segmentBreakdown: [
-      { segmentName: "Gen Z", metricValue: 88, sampleSize: 50 },
-      { segmentName: "Millennials", metricValue: 84, sampleSize: 100 }
-    ],
-    drivers: {
-      "Innovación": 90,
-      "Confiabilidad": 75
-    },
+    timeSeries: [],
+    segmentBreakdown: [],
+    drivers: {},
     crossModuleInsights: [
-      "Fuerte presencia en torneos recientes.",
-      "Caída leve post-noticia negativa."
+      "No hay datos suficientes procesados aún en este rango."
     ],
-    alerts: [
-      { id: "a1", severity: "medium", message: "Aumento rápido de volatilidad", metricId: "volatility" }
-    ],
+    alerts: [],
     technicalMeta: {
       freshnessDate: new Date().toISOString(),
-      minimumCohortApplied: guardrails.isSufficientCohort,
-      sourceMode: guardrails.mode
+      minimumCohortApplied: false,
+      sourceMode: "real"
     }
   });
 }

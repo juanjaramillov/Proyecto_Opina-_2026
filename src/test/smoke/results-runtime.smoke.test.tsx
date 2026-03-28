@@ -4,10 +4,9 @@ import { SmokeTestProvider } from './SmokeTestProvider';
 import ResultsPage from '../../features/results/pages/Results';
 
 // 1. Mockeamos la configuración del runtime para FORZAR que el test 
-// forzar que el test corra en modo synthetic y no exija perfiles reales
+// corra en modo real
 vi.mock('../../features/results/config/resultsRuntime', () => ({
-  isResultsLaunchSyntheticMode: true,
-  isResultsRealMode: false
+  isResultsRealMode: true
 }));
 
 // Mock del trackPage para evitar fallos de telemetría sin init de mixpanel
@@ -15,7 +14,16 @@ vi.mock('../../features/telemetry/track', () => ({
   trackPage: vi.fn(),
 }));
 
-describe('Results Runtime Smoke Test (Synthetic Mode)', () => {
+// Mock de useAuth para simular sesión en modo real
+vi.mock('../../features/auth', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../features/auth')>();
+  return {
+    ...actual,
+    useAuth: () => ({ profile: { id: 'smoke-test-user-id' } })
+  };
+});
+
+describe('Results Runtime Smoke Test (Real Mode)', () => {
   
   beforeEach(() => {
     // Resetear mocks si es necesario
@@ -25,7 +33,7 @@ describe('Results Runtime Smoke Test (Synthetic Mode)', () => {
     window.scrollTo = vi.fn();
   });
 
-  it('renders Results resolving the synthetic loading state without freezing', async () => {
+  it('renders Results resolving the real loading state without freezing', async () => {
     render(
       <SmokeTestProvider initialRoute="/results">
         <ResultsPage />

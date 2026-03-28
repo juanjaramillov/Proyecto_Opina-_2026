@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { FileText, Download, Target, CalendarDays, BarChart3, AlertTriangle, LightbulbIcon, ArrowLeft } from "lucide-react";
-import { trackEvent } from "../../../services/analytics/trackEvent";
+import { analyticsService } from "../../../features/analytics/services/analyticsService";
 import { Link } from "react-router-dom";
 import { b2bCuratedSnapshot } from "../../../read-models/b2b/b2bCuratedSnapshot";
 
 export default function ReportsB2B() {
     useEffect(() => {
-        trackEvent('b2b_opened_reports');
+        analyticsService.trackSystem('b2b_opened_reports', 'info');
     }, []);
 
     const { reports } = b2bCuratedSnapshot;
@@ -17,7 +17,7 @@ export default function ReportsB2B() {
             <div className="flex items-center justify-between mb-8 max-w-5xl mx-auto w-full">
                 <Link 
                     to="/b2b" 
-                    onClick={() => trackEvent('b2b_clicked_next_view', { destination_view: 'overview' })}
+                    onClick={() => analyticsService.trackSystem('b2b_clicked_next_view', 'info', { destination_view: 'overview' })}
                     className="text-slate-500 hover:text-indigo-600 transition flex items-center gap-2 font-medium text-sm"
                 >
                     <ArrowLeft className="w-4 h-4" />

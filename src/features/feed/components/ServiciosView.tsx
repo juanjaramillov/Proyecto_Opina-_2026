@@ -200,7 +200,8 @@ const SERVICE_CATEGORIES = [
     }
 ];
 
-import { MockService } from "./mockServicios";
+import { ServiceEntity } from "../types/service";
+
 import { signalService } from "../../signals/services/signalService";
 import ServicioDetailView from "./ServicioDetailView";
 
@@ -214,7 +215,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
     const [activeSubfilter, setActiveSubfilter] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
-    const [services, setServices] = useState<MockService[]>([]);
+    const [services, setServices] = useState<ServiceEntity[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -222,7 +223,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
             setIsLoading(true);
             try {
                 const data = await signalService.getEntitiesByModule('is_active_servicio');
-                const mappedServices: MockService[] = data.map((entity: any) => {
+                const mappedServices: ServiceEntity[] = data.map((entity: any) => {
                     const meta = typeof entity.metadata === 'object' ? entity.metadata || {} : {};
                     return {
                         id: entity.id,
@@ -457,7 +458,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
             {/* Modal / Ficha de Detalles */}
             {selectedServiceId && (
                 <ServicioDetailView 
-                    service={services.find(p => p.id === selectedServiceId) as MockService} 
+                    service={services.find(p => p.id === selectedServiceId) as ServiceEntity} 
                     onClose={() => setSelectedServiceId(null)} 
                 />
             )}

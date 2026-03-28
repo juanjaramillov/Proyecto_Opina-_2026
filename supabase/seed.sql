@@ -3137,7 +3137,7 @@ COMMIT;
 DELETE FROM signal_events WHERE id IS NOT NULL;
 DELETE FROM battle_options WHERE id IS NOT NULL;
 DELETE FROM battles WHERE id IS NOT NULL;
-DELETE FROM entities WHERE name != 'none_xyz_fake';
+DELETE FROM entities WHERE id IS NOT NULL;
 UPDATE categories SET active = false;
 
 INSERT INTO categories (id, name, slug, comparison_family, entity_type, generation_mode, pairing_rules) VALUES

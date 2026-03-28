@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS public.analytics_daily_depth_rollup (
 -- 4. Estado de Publicación de Resultados B2C (Hero y Highlights Editoriales)
 CREATE TABLE IF NOT EXISTS public.results_publication_state (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  mode TEXT NOT NULL DEFAULT 'synthetic' CHECK (mode IN ('synthetic', 'real', 'hybrid')),
+  mode TEXT NOT NULL DEFAULT 'real' CHECK (mode IN ('synthetic', 'real', 'hybrid')),
   hero_payload JSONB DEFAULT '{}'::jsonb,
   highlights_payload JSONB DEFAULT '[]'::jsonb,
   blocks_visibility_payload JSONB DEFAULT '{}'::jsonb,
@@ -73,7 +73,7 @@ CREATE POLICY "Enable read access for all users" ON public.results_publication_s
 
 -- Sólo Admins escriben en configuration state
 CREATE POLICY "Admins can insert config" ON public.results_publication_state
-  FOR INSERT TO authenticated USING (
+  FOR INSERT TO authenticated WITH CHECK (
     EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
   );
 CREATE POLICY "Admins can update config" ON public.results_publication_state

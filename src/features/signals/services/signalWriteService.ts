@@ -8,7 +8,7 @@ import {
     isNonRetriableSignalErrorMessage,
     removeOutboxJob
 } from './signalOutbox';
-import { track } from "../../telemetry/track";
+import { analyticsService } from '../../analytics/services/analyticsService';
 import { SignalEventPayload } from './signalTypes';
 
 const sb = supabase as unknown as SupabaseClient<Database>;
@@ -56,35 +56,35 @@ export const signalWriteService = {
         }
 
         const args = {
-            p_battle_id: payload.battle_id || undefined,
-            p_option_id: payload.option_id || undefined,
-            p_session_id: payload.session_id || undefined,
-            p_attribute_id: payload.attribute_id || undefined,
-            p_entity_id: payload.entity_id || undefined,
-            p_entity_type: payload.entity_type || undefined,
-            p_context_id: payload.context_id || undefined,
-            p_value_numeric: payload.value_numeric ?? undefined,
-            p_value_text: payload.value_text || undefined,
+            p_battle_id: payload.battle_id || null,
+            p_option_id: payload.option_id || null,
+            p_session_id: payload.session_id || null,
+            p_attribute_id: payload.attribute_id || null,
+            p_entity_id: payload.entity_id || null,
+            p_entity_type: payload.entity_type || null,
+            p_context_id: payload.context_id || null,
+            p_value_numeric: payload.value_numeric ?? null,
+            p_value_text: payload.value_text || null,
             p_device_hash: deviceHash,
             p_value_json: (payload.meta as Database['public']['Tables']['signal_events']['Row']['value_json']) || {},
             p_signal_type_code: signalTypeCode,
             p_module_type: moduleType,
             
             // V14 NATIVE INJECTION
-            p_event_status: payload.event_status || undefined,
-            p_origin_module: payload.origin_module || undefined,
-            p_origin_element: payload.origin_element || undefined,
-            p_question_id: payload.question_id || undefined,
-            p_question_version: payload.question_version || undefined,
-            p_display_order: payload.display_order || undefined,
-            p_response_time_ms: payload.response_time_ms || undefined,
-            p_sequence_id: payload.sequence_id || undefined,
-            p_sequence_order: payload.sequence_order || undefined,
-            p_content_snapshot_id: payload.content_snapshot_id || undefined,
-            p_left_entity_id: payload.left_entity_id || undefined,
-            p_right_entity_id: payload.right_entity_id || undefined,
-            p_selected_entity_id: payload.selected_entity_id || payload.option_id,
-            p_interaction_outcome: payload.interaction_outcome || undefined
+            p_event_status: payload.event_status || null,
+            p_origin_module: payload.origin_module || null,
+            p_origin_element: payload.origin_element || null,
+            p_question_id: payload.question_id || null,
+            p_question_version: payload.question_version || null,
+            p_display_order: payload.display_order || null,
+            p_response_time_ms: payload.response_time_ms || null,
+            p_sequence_id: payload.sequence_id || null,
+            p_sequence_order: payload.sequence_order || null,
+            p_content_snapshot_id: payload.content_snapshot_id || null,
+            p_left_entity_id: payload.left_entity_id || null,
+            p_right_entity_id: payload.right_entity_id || null,
+            p_selected_entity_id: payload.selected_entity_id || payload.option_id || null,
+            p_interaction_outcome: payload.interaction_outcome || null
         };
 
         // 3. ENCOLAR SIEMPRE
@@ -131,7 +131,7 @@ export const signalWriteService = {
                     msg.includes('PROFILE_INCOMPLETE') || code.includes('PROFILE_INCOMPLETE');
 
                 if (isInviteRequired) {
-                    track("signal_blocked_invite_required", "warn", { battle_id: payload.battle_id });
+                    analyticsService.trackSystem("signal_blocked_invite_required", "warn", { battle_id: payload.battle_id });
                     const next = encodeURIComponent(window.location.pathname + window.location.search);
                     window.dispatchEvent(
                         new CustomEvent('opina:navigate', { detail: { to: `/access?next=${next}` } })
@@ -141,14 +141,14 @@ export const signalWriteService = {
 
                 if (isProfileMissing || isProfileIncomplete) {
                     // Redirigir a ProfileWizard (mínimos)
-                    track("signal_blocked_profile_required", "warn", { battle_id: payload.battle_id });
+                    analyticsService.trackSystem("signal_blocked_profile_required", "warn", { battle_id: payload.battle_id });
                     window.dispatchEvent(new CustomEvent('opina:navigate', { detail: { to: '/complete-profile' } }));
                     throw error;
                 }
 
                 if (isNonRetriableSignalErrorMessage(eMsg)) {
                     removeOutboxJob(id);
-                    track("signal_emit_non_retriable_error", "error", { message: String(eMsg).slice(0, 160) }, id);
+                    analyticsService.trackSystem("signal_emit_non_retriable_error", "error", { message: String(eMsg).slice(0, 160) }, id);
                     try {
                         window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
                     } catch {
@@ -161,7 +161,7 @@ export const signalWriteService = {
             } else {
                 // V14 Enrichment: Native backend persistence handles all args. No subsequent async UPDATE requirement.
                 removeOutboxJob(id);
-                track("signal_saved", "info", { battle_id: payload.battle_id, option_id: payload.option_id }, id);
+                analyticsService.trackSystem("signal_saved", "info", { battle_id: payload.battle_id, option_id: payload.option_id }, id);
             }
         } catch (err: unknown) {
             // Re-throw if it was already explicitly thrown for business rules

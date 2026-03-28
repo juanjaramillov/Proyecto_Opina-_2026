@@ -41,18 +41,14 @@ const AdminSignals = lazy(() => import("./features/admin/pages/AdminSignals"));
 const AdminEntities = lazy(() => import("./features/admin/pages/AdminEntities"));
 const AdminAnalytics = lazy(() => import("./features/admin/pages/AdminAnalytics"));
 const AdminResults = lazy(() => import("./features/admin/pages/AdminResults"));
+const AdminMathEngine = lazy(() => import("./features/admin/pages/AdminMathEngine"));
 
 const AboutUs = lazy(() => import("./pages/static/AboutUs"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-import { Analytics } from '@vercel/analytics/react';
-import { useSessionTracker } from './hooks/useSessionTracker';
 import { SessionProvider } from './features/analytics/providers/SessionProvider';
 
 export default function App() {
-  // Mount the global session tracker
-  useSessionTracker();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,9 +68,8 @@ export default function App() {
     <AuthProvider>
       <SessionProvider>
         <MotionConfig reducedMotion="user">
-          <Analytics />
         <GlobalErrorBoundary>
-        <Suspense fallback={<div className="min-h-screen w-full flex items-center justify-center bg-[#07051A]"><div className="w-12 h-12 border-4 border-[#3D37F0] border-t-transparent rounded-full animate-spin"></div></div>}>
+        <Suspense fallback={<div className="min-h-screen w-full flex items-center justify-center bg-slate-50"><div className="w-12 h-12 border-4 border-[#2563EB] border-t-transparent rounded-full animate-spin"></div></div>}>
         <Routes>
           <Route path="/access" element={<AccessGatePage />} />
           <Route path="/admin-login" element={<Login />} />
@@ -122,6 +117,7 @@ export default function App() {
             <Route path="/admin/signals" element={<Gate module="admin"><AdminSignals /></Gate>} />
             <Route path="/admin/entities" element={<Gate module="admin"><AdminEntities /></Gate>} />
             <Route path="/admin/analytics" element={<Gate module="admin"><AdminAnalytics /></Gate>} />
+            <Route path="/admin/math-engine" element={<Gate module="admin"><AdminMathEngine /></Gate>} />
             <Route path="/admin/results" element={<Gate module="admin"><AdminResults /></Gate>} />
 
             {/* 6. FALLBACK */}

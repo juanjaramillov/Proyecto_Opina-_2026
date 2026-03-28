@@ -9,7 +9,7 @@ import { DemographicData } from "../types";
 import { useToast } from "../../../components/ui/useToast";
 import { SEG_REGIONS } from "../../../lib/demographicsNormalize";
 import { normalizeRegion } from "../../../lib/demographicsNormalize";
-import { track, trackPage } from "../../telemetry/track";
+import { analyticsService } from "../../analytics/services/analyticsService";
 import { useEffect } from "react";
 
 const COMUNAS_SANTIAGO = [
@@ -49,7 +49,7 @@ export default function ProfileWizard() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        trackPage("profile_wizard", { step });
+        analyticsService.trackSystem("profile_wizard_page_view", "info", { step });
     }, [step]);
 
     // Admin bypass: if they somehow land here, redirect them immediately
@@ -109,12 +109,12 @@ export default function ProfileWizard() {
 
             if (Object.keys(payload).length > 0) {
                 await authService.updateProfileDemographics(payload);
-                track("profile_wizard_step_completed", "info", { step, isSkip, profile_stage: payload.profileStage });
+                analyticsService.trackSystem("profile_wizard_step_completed", "info", { step, isSkip, profile_stage: payload.profileStage });
                 await refreshProfile();
             }
 
             if (isSkip || step === 4) {
-                track("profile_wizard_completed", "info", { final_step: step, isSkip });
+                analyticsService.trackSystem("profile_wizard_completed", "info", { final_step: step, isSkip });
                 navigate("/");
             } else {
                 setStep((s) => s + 1);

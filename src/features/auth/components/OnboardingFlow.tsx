@@ -5,7 +5,7 @@ import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 import { notifyService, formatKnownError } from '../../notifications/notifyService';
 
-import { track } from "../../telemetry/track";
+import { analyticsService } from '../../analytics/services/analyticsService';
 import StepIdentity from './onboarding/StepIdentity';
 import StepDemographics from './onboarding/StepDemographics';
 import StepSuccess from './onboarding/StepSuccess';
@@ -102,13 +102,13 @@ export default function OnboardingFlow({ onClose, onSuccess, isMandatory = false
                     await authService.bootstrapUserAfterSignup(nickname, inviteCode);
                 } catch (bsErr: unknown) {
                     await authService.signOut();
-                    track("auth_bootstrap_failed", "warn", { mode, error: bsErr });
+                    analyticsService.trackSystem("auth_bootstrap_failed", "warn", { mode, error: bsErr });
                     throw new Error("Código inválido / expirado / ya usado.");
                 }
             }
 
             // Si funciona correctamente, pasamos al step de demográficos
-            track("auth_email_success", "info", { mode });
+            analyticsService.trackSystem("auth_email_success", "info", { mode });
             setStep('demographics');
         } catch (err: unknown) {
             logger.error('Email auth falló', err);
@@ -130,8 +130,8 @@ export default function OnboardingFlow({ onClose, onSuccess, isMandatory = false
                 profileStage: 1,
                 signalWeight: 1.0
             });
-            track("profile_stage_1_completed", "info", { source: "onboarding", gender, region, age_bucket: ageRange });
-            track("onboarding_completed", "info");
+            analyticsService.trackSystem("profile_stage_1_completed", "info", { source: "onboarding", gender, region, age_bucket: ageRange });
+            analyticsService.trackSystem("onboarding_completed", "info");
             setStep('success');
         } catch (err: unknown) {
             logger.error('Actualización de demográficos falló', err);

@@ -9,13 +9,13 @@ export const b2bCuratedSnapshot = {
         keyFindings: [
             {
                 title: "Dominio Estable",
-                description: "Vitalidad mantiene +24 puntos de brecha competitiva en el target principal (25-34 años).",
+                description: "Vitalidad mantiene +24 puntos de brecha competitiva en el target principal (25-34 años), con un Intervalo de Confianza (Wilson) proyectado de ±2.1%.",
                 trend: "positive",
                 icon: "trending-up"
             },
             {
-                title: "Riesgo en Gen Z",
-                description: "Letargo creció un 14.2% en preferencia de compra en los últimos 15 días entre jóvenes de 18-24.",
+                title: "Anomalía de Crecimiento (Gen Z)",
+                description: "Letargo aceleró su tasa de retención un 14.2% WoW. Momentum detectado: +4.8 (Alta significancia p < 0.01).",
                 trend: "negative",
                 icon: "trending-down"
             },
@@ -29,13 +29,13 @@ export const b2bCuratedSnapshot = {
         alerts: [
             {
                 type: "risk",
-                title: "Fuga de Lealtad Juvenil",
-                description: "La tracción de 'Letargo' en Gen Z amenaza con erosionar la cuota de mercado futura si no se responde activamente en 30 días."
+                title: "Fuga de Lealtad Juvenil (Volatilidad Index: 0.12)",
+                description: "El motor de Series Temporales alerta de erosión en la cuota de mercado futura si no se responde activamente en 30 días."
             },
             {
                 type: "opportunity",
                 title: "Campaña de Retención",
-                description: "Los usuarios entre 25-34 años muestran altísima receptividad (78%) a programas de lealtad basados en gamificación."
+                description: "Los usuarios entre 25-34 años muestran altísima receptividad (78%) a programas de lealtad basados en gamificación, con bajísima volatilidad."
             }
         ]
     },
@@ -55,8 +55,8 @@ export const b2bCuratedSnapshot = {
             delta: 4.8
         },
         executiveInsight: {
-            intelligenceText: "Aunque Vitalidad gana cómodamente el global, Letargo aplica una estrategia de flanqueo clásico. Están ignorando a los consumidores maduros leales al líder y concentrando todo su capital conversacional en los nuevos entrantes (18-24). Esta brecha segmentada no es ruido estadístico: es una tendencia consistente durante 3 semanas seguidas que demanda acción táctica.",
-            confidence: "Alta (94%)",
+            intelligenceText: "Aunque Vitalidad gana cómodamente el global, Letargo aplica una estrategia de flanqueo clásico. La desviación estándar del volumen confirma que están concentrando el capital conversacional en los nuevos entrantes. Esta brecha segmentada no es ruido estadístico: el P-Value indica una tendencia consistente durante 3 semanas que demanda acción táctica.",
+            confidence: "Muy Alta (Nivel de Confianza Wilson: 99%)",
             category: "Estrategia Competitiva"
         }
     },
