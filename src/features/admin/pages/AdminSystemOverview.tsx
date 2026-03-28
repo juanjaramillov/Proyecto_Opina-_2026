@@ -47,6 +47,18 @@ export default function AdminSystemOverview() {
 
                 <div className="mt-3 flex flex-wrap gap-2">
                     <a
+                        href="/admin/analytics"
+                        className="rounded-xl border border-slate-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100"
+                    >
+                        Salud Analítica (Rollups)
+                    </a>
+                    <a
+                        href="/admin/results"
+                        className="rounded-xl border border-slate-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-800 hover:bg-indigo-100"
+                    >
+                        Publicador Results B2C
+                    </a>
+                    <a
                         href="mailto:contacto@opina.plus?subject=Opina%2B%20-%20Solicitud%20Demo%20B2B&body=Hola%2C%20quiero%20una%20demo%20B2B%20y%20un%20snapshot%20comercial.%0A%0AIndustria%3A%20%0APa%C3%ADs%3A%20%0AObjetivo%3A%20%0ASegmentos%20de%20inter%C3%A9s%3A%20%0AVentana%20de%20tiempo%3A%20"
                         className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-100"
                     >

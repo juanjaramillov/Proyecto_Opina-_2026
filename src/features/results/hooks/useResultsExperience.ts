@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import { getLaunchSyntheticMasterHubSnapshot } from "../data/launch/resultsLaunchSyntheticData";
 import { isResultsLaunchSyntheticMode, isResultsRealMode } from "../config/resultsRuntime";
-import { MasterHubSnapshot, HubFilters } from "../../../read-models/b2c/hub-types";
-import { SYNTHETIC_USER_ID } from "../../shared/types/launchSynthetic";
+import { HubFilters } from "../../../read-models/b2c/hub-types"; // @deprecated
 import { useAuth } from "../../auth";
 import { logger } from '../../../lib/logger';
 import { trackPage } from "../../telemetry/track";
+import { ResultsCommunitySnapshot, ResultsCommunityQuery } from "../../../read-models/b2c/resultsCommunityTypes";
+import { resultsCommunityService } from "../services/resultsCommunityService";
 
 export type ResultsModule = "ALL" | "VERSUS" | "TOURNAMENT" | "PROFUNDIDAD" | "ACTUALIDAD" | "LUGARES";
 export type ResultsPeriod = "7D" | "30D" | "90D";
@@ -15,7 +15,7 @@ export type ResultsGeneration = "ALL" | "BOOMERS" | "GEN_X" | "MILLENNIALS" | "G
 export function useResultsExperience() {
   const { profile } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [snapshot, setSnapshot] = useState<MasterHubSnapshot | null>(null);
+  const [snapshot, setSnapshot] = useState<ResultsCommunitySnapshot | null>(null);
   const [filters, setFilters] = useState<HubFilters>({});
   
   // New Exploration State
@@ -33,27 +33,32 @@ export function useResultsExperience() {
     
     setLoading(true);
     try {
-      let snap: MasterHubSnapshot | null = null;
+      const query: ResultsCommunityQuery = {
+        period: activePeriod,
+        module: activeModule,
+        generation: activeGeneration,
+      };
+
+      let snap: ResultsCommunitySnapshot | null = null;
       if (isResultsLaunchSyntheticMode) {
-        // En modo sintético, proveemos un fallback explícito si no hay id, evitando dejar al usuario atascado.
-        const syntheticUserId = profile?.id || SYNTHETIC_USER_ID;
-        snap = getLaunchSyntheticMasterHubSnapshot(syntheticUserId, filters);
+        snap = await resultsCommunityService.getResultsCommunitySnapshot(query);
       } else {
-        // Reservado para conexión a BDD Real
-        logger.info("Real data mode not yet implemented for Master Hub", { domain: 'network_api', origin: 'Results_Hub_B2C' });
+        // Reservado para conexión a BDD Real usando el mismo servicio en el futuro (mode='real')
+        snap = await resultsCommunityService.getResultsCommunitySnapshot({ ...query, period: "30D" });
+        logger.info("Real data mode using facade", { domain: 'network_api', origin: 'Results_Hub_B2C' });
       }
       setSnapshot(snap);
     } catch (e) {
-      logger.error("Error loading master hub data", { domain: 'network_api', origin: 'Results_Hub_B2C', action: 'load_data', state: 'failed' }, e);
+      logger.error("Error loading community hub data", { domain: 'network_api', origin: 'Results_Hub_B2C', action: 'load_data', state: 'failed' }, e);
     } finally {
       setLoading(false);
     }
-  }, [profile?.id, filters]); 
+  }, [profile?.id, activePeriod, activeModule, activeGeneration]); 
 
   useEffect(() => {
     loadData();
     trackPage("results_hub_b2c");
-  }, [loadData]);
+  }, [loadData, activePeriod, activeModule, activeGeneration]);
   
   return {
     loading,

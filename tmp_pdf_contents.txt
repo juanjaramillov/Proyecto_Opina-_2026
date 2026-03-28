@@ -1,0 +1,712 @@
+Documento Maestro Comercial,
+Estratégico y de Arquitectura
+Señales de personas. Inteligencia para decisiones.
+Visión comercial, propuesta de valor, capacidad analítica y estado actual de construcción de
+Opina+.
+Versión V6 — Marzo 2026
+Uso Documento interno de trabajo y validación estratégica
+Los ejemplos de cifras, insights y lecturas incluidos en este
+Nota
+documento son ilustrativos y no corresponden a datos productivos
+reales.
+Propósito del documento
+Consolidar, en un solo texto, la tesis completa de Opina+ como producto, negocio y sistema de datos:
+qué problema resuelve, qué valor crea para usuarios y empresas, qué métricas puede producir, cómo
+valida la calidad de señal y en qué estado real se encuentra su construcción hoy.
+Opina+ | Documento Maestro
+Resumen ejecutivo
+Opina+ es una plataforma diseñada para transformar participación digital en inteligencia accionable.
+Su unidad de valor no es el voto ni la respuesta aislada, sino la señal: una huella estructurada de
+preferencia, comparación, tensión, contexto y evolución temporal. Bajo esa lógica, la plataforma
+conecta una experiencia B2C liviana y participativa con una capa B2B capaz de entregar lectura de
+mercado, segmentación, alertas tempranas, benchmarking competitivo y tendencia histórica.
+La oportunidad que toma Opina+ nace de un problema evidente. Los mecanismos tradicionales para
+medir opinión y satisfacción llevan años perdiendo efectividad: cuesta más conseguir respuesta, la
+experiencia de contestar sigue siendo casi la misma de hace décadas y una gran parte de las personas
+siente que entregar feedback no cambia nada. Desde el lado empresa, esto se traduce en datos más
+caros, más lentos y muchas veces demasiado estáticos para entender cómo realmente se mueve la
+preferencia de las personas.
+Opina+ propone reemplazar esa lógica estática por una captura continua de señales. En vez de pedir
+largos cuestionarios, la plataforma usa dinámicas comparativas, progresivas y editoriales para lograr
+interacciones rápidas, repetibles y con retorno visible para el usuario. En vez de devolver un único
+score, construye una base que puede leerse por categoría, marca, atributo, segmento, momento,
+territorio y tendencia. El resultado no es solo una mejor experiencia de participación; es un activo de
+datos longitudinales que, si se ejecuta bien, se vuelve difícil de replicar.
+Idea fuerza
+Opina+ no busca preguntar una opinión más. Busca construir una infraestructura capaz de capturar
+cómo decide la gente, qué tensiona su decisión, cómo cambia esa preferencia con el tiempo y qué
+acciones concretas pueden tomar las empresas a partir de ello.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+1. ¿Qué es Opina+?
+1.1 Definición y tesis del proyecto
+Opina+ es una plataforma de opinión e inteligencia basada en señales. Su tesis central es que una
+preferencia vale mucho más cuando se observa como comportamiento comparativo, repetido y
+contextualizado, que cuando se reduce a una sola respuesta cerrada en una encuesta. Por eso, el
+proyecto no se construye sobre la lógica clásica de “preguntar y almacenar respuestas”, sino sobre la
+lógica de “capturar señales y convertirlas en lectura viva del mercado”.
+En términos prácticos, Opina+ une dos mundos que normalmente aparecen separados. Por un lado,
+ofrece una experiencia B2C diseñada para que participar sea fácil, rápida, visual y recurrente. Por otro,
+traduce esa participación en una capa B2B de inteligencia con valor comercial. Esa conexión es la
+base del modelo: mientras más señales bien capturadas, perfiladas y validadas existan, mayor es la
+profundidad analítica disponible para empresas, marcas, medios y organizaciones.
+1.2 El problema que viene a solucionar
+El mercado de la opinión, el feedback y la investigación convive hace años con una fricción estructural.
+Las empresas necesitan comprender mejor a sus clientes y a sus categorías, pero los instrumentos
+disponibles siguen descansando, en gran medida, en formatos que exigen tiempo, concentración y
+una voluntad de respuesta que hoy es mucho menor. Del lado usuario, el problema es simple: la
+mayoría de las personas no quiere llenar formularios largos ni contestar preguntas que no devuelven
+nada visible. Del lado empresa, el problema es más costoso: cada vez es más difícil obtener señal
+fresca, comparativa y segmentable con suficiente volumen.
+Este deterioro no es una sensación suelta. La American Association for Public Opinion Research ha
+documentado que las tasas de respuesta han caído en todos los modos de encuesta, en algunos
+casos de manera precipitada, y Pew Research Center reportó que sus encuestas telefónicas pasaron
+de una tasa de respuesta de 36% en 1997 a 6% en 2018. En paralelo, el mercado sigue operando con
+instrumentos muy parecidos a los de décadas anteriores: cuestionarios, escalas, mediciones de un
+momento puntual y muy poca devolución tangible al usuario.
+Contexto de industria
+La encuesta clásica no desaparece; simplemente dejó de bastar. Opina+ la complementa al capturar
+señal continua, comparativa y evolutiva.
+A eso se suma un problema de credibilidad y de impacto percibido. Muchas personas sienten que
+responder o no responder da lo mismo: no ven los resultados, no saben si hubo cambios y tampoco
+sienten que exista una consecuencia concreta por haber participado. Este punto es crítico, porque
+cuando el usuario percibe que su respuesta desaparece dentro de un sistema opaco, la calidad del
+dato cae antes incluso de que caiga la tasa de respuesta.
+NPS y otras métricas sintéticas siguen siendo útiles dentro de ciertos marcos, pero por sí solas no
+bastan para entender comportamiento competitivo, tensiones de decisión, cambio de percepción o
+evolución por segmento. No es casual que el propio ecosistema de Bain haya desarrollado la lógica de
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+Predictive NPS para inferir actitud incluso cuando no existe respuesta directa de encuesta. La señal
+que necesita el mercado ya no se resuelve solo con una pregunta ni con una foto estática.
+1.3 Qué cambia con Opina+
+Lo que Opina+ cambia no es solo la interfaz; cambia la unidad de captura y la lógica de valor. En lugar
+de preguntarle al usuario una opinión aislada, le propone interacciones que revelan elección, tensión,
+contexto, prioridad y trayectoria. En lugar de almacenar datos muertos, construye un sistema vivo
+donde cada señal puede leerse en relación con otras señales, con segmentos demográficos, con
+etapas del tiempo, con categorías y con eventos coyunturales.
+Ese cambio es profundo porque transforma una medición puntual en una base longitudinal. Una
+empresa deja de mirar solo qué respondió la gente en un corte y pasa a observar qué atributo ganó
+peso, qué marca perdió fuerza, qué segmento cambió primero, qué tensión emergió y qué tan estable
+o frágil es el liderazgo dentro de una categoría. En otras palabras, deja de ver una fotografía y empieza
+a ver una película.
+1.4 Qué no es y qué sí es
+Aclaración estratégica Explicación
+Aunque utiliza dinámicas livianas y rápidas, el objetivo no es entretener
+No es solo una encuesta
+por entretener. El objetivo es capturar señal estructurada y reutilizable
+gamificada
+para lectura comercial y estratégica.
+Las redes muestran ruido, volumen conversacional y tono, pero no
+No es solo social listening
+necesariamente preferencia comparativa ni contexto demográfico
+consistente. Opina+ captura elección estructurada y trazable.
+Los dashboards muestran KPIs; Opina+ busca producir una
+No es solo un dashboard
+infraestructura de señal que luego pueda traducirse en KPIs,
+tendencias, comparaciones, alertas y scores propietarios.
+Del lado usuario, ofrece participación y retorno. Del lado empresa,
+Sí es una plataforma B2C +
+habilita inteligencia, segmentación, aprendizaje competitivo y
+B2B
+monitoreo de evolución.
+1.5 Por qué este momento es especialmente favorable
+Opina+ aparece en un momento en que convergen cuatro fuerzas: saturación de encuesta, mayor
+necesidad de lectura temprana por parte de las empresas, hábitos digitales que favorecen
+interacciones cortas y expectativa creciente de participación con retorno visible. Esa combinación
+abre una ventana clara. El mercado necesita nuevas formas de medir; los usuarios necesitan nuevas
+razones para participar; y la tecnología actual permite almacenar, segmentar y procesar esas señales
+con una profundidad que antes era mucho más difícil de operar.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+2. Valor comercial y valor agregado que produce Opina+
+para B2C y B2B
+2.1 Valor para el usuario B2C
+El valor B2C de Opina+ no puede definirse solo como “la posibilidad de opinar”. Eso es insuficiente. El
+usuario entra y vuelve cuando la plataforma le entrega una combinación concreta de bajo esfuerzo,
+curiosidad, comparación, pertenencia y devolución visible. Si el sistema solo le pidiera información,
+repetiría el mismo error que ya cometen las encuestas: exigir energía sin construir vínculo.
+En Opina+, el usuario recibe una experiencia donde participar toma pocos segundos, donde sus
+señales pueden activar resultados, comparaciones e historias, y donde su trayectoria gana valor con el
+tiempo. Esa diferencia importa porque convierte el acto de responder en algo con retorno. El usuario
+no solo entrega información; observa qué piensa la comunidad, dónde coincide, dónde se distancia,
+qué tensiones dominan y cómo cambian ciertos temas en su entorno o segmento.
+2.1.1 Beneficios concretos para el usuario
+Desde la perspectiva del usuario, Opina+ puede generar valor en varios planos al mismo tiempo.
+Primero, reduce fricción: participar es liviano y rápido. Segundo, devuelve contexto: la persona
+entiende cómo su señal se relaciona con el resto. Tercero, genera seguimiento: la experiencia no se
+agota en una interacción aislada, sino que puede mostrar evolución, patrones y tendencias. Cuarto,
+crea progresión: a mayor completitud, verificación y consistencia, mayor relevancia puede tener su
+presencia dentro de la plataforma.
+Beneficio B2C Valor concreto
+Bajo esfuerzo Un versus o una señal editorial puede completarse en segundos, lo que
+baja la fatiga y aumenta la probabilidad de recurrencia.
+El usuario puede ver si coincide con la comunidad, con su generación,
+Resultado visible
+con su comuna o con un segmento específico, y no quedarse con la
+sensación de que respondió al vacío.
+La plataforma puede revelar tendencias o tensiones que el usuario no
+Descubrimiento
+había visto: por ejemplo, que una categoría dejó de moverse por precio y
+empezó a moverse por confianza.
+A medida que completa perfil, verifica identidad y participa con
+Progresión
+constancia, su experiencia puede desbloquear más profundidad, más
+personalización y mayor peso relativo dentro del ecosistema.
+2.1.2 Ejemplos ilustrativos de valor para usuarios
+Para que esta propuesta no quede en abstracto, conviene pensar en ejemplos concretos de lo que un
+usuario podría obtener como retorno visible. Los números siguientes son ilustrativos, pero muestran el
+tipo de lectura que sí tiene sentido dentro del modelo de Opina+.
+Ejemplo Insight visible Valor percibido
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+Ejemplo Insight visible Valor percibido
+“El 68% de las personas de 25 a
+Coincidencia con
+34 años eligió lo mismo que tú en
+El usuario no solo ve un resultado general; ve su
+comunidad
+esta batalla, pero en tu comuna
+señal comparada con su contexto.
+esa coincidencia baja a 54%.”
+“Hace 90 días el atributo más
+importante para elegir internet
+hogar era precio. Hoy, en tu
+La plataforma muestra tendencia, no solo
+Evolución en el tiempo
+segmento, estabilidad de
+fotografía.
+conexión subió 14 puntos y ya es
+el principal driver.”
+“Tus señales de este mes se
+parecen 1,7 veces más al patrón
+Mapa personal de
+El usuario recibe una lectura más rica sobre su
+del segmento 35–44 premium que
+afinidad
+propio patrón de decisión.
+al promedio total de la
+categoría.”
+“En tu zona, la preferencia por
+locales de conveniencia creció 9
+La participación entrega una visión local y
+Percepción territorial
+puntos en 8 semanas; en el
+comparativa que una encuesta puntual rara vez
+promedio general, el crecimiento
+devuelve.
+fue solo de 3 puntos.”
+2.2 Fidelización, progresión y recurrencia
+El programa de fidelización no es un accesorio del proyecto. Es una pieza estructural. Sin recurrencia,
+la base pierde frescura; sin progresión, el usuario no tiene incentivo claro para volver; sin fidelización,
+el sistema captura interacciones sueltas, pero no construye historia. Por eso, Opina+ necesita operar
+con una lógica donde participar tenga un retorno acumulativo.
+La fidelización puede apoyarse en varios mecanismos complementarios: niveles por perfil, hitos de
+participación, acceso a más resultados, mejor personalización, mayor capacidad de comparación,
+visibilidad del propio historial y, eventualmente, beneficios o recompensas definidas por reglas. Lo
+relevante no es “premiar por premiar”, sino construir un motivo coherente para sostener la frecuencia
+de uso y la calidad de la señal.
+Por qué esto importa para B2B
+Cada usuario recurrente no solo suma más volumen. Suma trayectoria. Esa trayectoria permite
+detectar estabilidad, cambio, consistencia y migración de preferencia. En términos comerciales, eso
+convierte la base de Opina+ en un activo longitudinal, mucho más valioso que un corte aislado.
+Desde esta lógica, el verdadero beneficio del programa de fidelización no es solo mejorar engagement.
+Es elevar la calidad económica del dato. Un usuario con seis meses de actividad, perfil completo y
+buena consistencia analítica vale mucho más que una respuesta anónima de una sola vez. Esa
+diferencia tiene impacto directo en la robustez de segmentación, en los modelos estadísticos posibles
+y en la credibilidad de la capa B2B.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+2.3 Valor comercial para empresas B2B
+Aquí está una de las piezas más importantes del documento. Las empresas no comprarían Opina+ por
+“tener una base de datos” en abstracto. La comprarían porque esa base permite resolver preguntas
+que hoy siguen mal respondidas o demasiado lentas de responder. El valor B2B de Opina+ está en su
+capacidad para revelar preferencia viva, tensiones de decisión, evolución temporal y diferencias entre
+segmentos con una cadencia mucho más rica que la de los instrumentos tradicionales.
+Dicho de otra forma: Opina+ puede transformarse en una herramienta para anticipar, corregir y
+priorizar. Anticipar cambios de percepción antes de que se vuelvan visibles en ventas. Corregir
+narrativas, experiencias o propuestas de valor cuando la señal indique deterioro. Y priorizar acciones,
+territorios, audiencias o atributos cuando la categoría muestre una tensión dominante que exige
+movimiento.
+2.3.1 Qué puede solucionar o mejorar en la práctica
+Área de decisión Qué puede cambiar con Opina+
+Permite detectar qué atributo está empujando hoy la preferencia real,
+qué campaña alteró percepción y qué segmento reaccionó primero. Una
+Marketing
+marca puede dejar de invertir a ciegas y mover presupuesto hacia
+mensajes que ya están mostrando tracción.
+Permite observar cuándo la tensión dominante de una categoría pasa de
+precio a confianza, de velocidad a resolución o de cobertura a cercanía.
+Experiencia de cliente
+Esto ayuda a ajustar journeys, discurso de servicio y prioridades
+operativas.
+Permite entender si una noticia, crisis o conversación editorial está
+Branding y reputación
+cambiando preferencia, polarización o rechazo. No solo mide ruido:
+mide cómo esa coyuntura se traduce en posicionamiento competitivo.
+Permite comparar territorios, comunas o segmentos donde una marca
+Estrategia comercial
+sobreindexa o pierde tracción. Eso ayuda a focalizar expansión, pricing,
+surtido o intensidad comercial.
+Permite observar qué concepto o atributo gana valor relativo con el
+Innovación y producto
+tiempo y qué grupos empujan primero ese cambio. Esto puede ahorrar
+ciclos de prueba y acelerar decisiones de roadmap o propuesta de valor.
+2.3.2 Énfasis: por qué esta información vale para B2B
+Lo que vuelve especialmente poderosa a la información de Opina+ no es solo el dato individual, sino la
+posibilidad de cruzarlo. Una empresa puede observar la preferencia total de una categoría, pero
+también aislarla por edad, sexo, comuna, nivel de ingreso proxy, grado de verificación, frecuencia de
+participación, contexto coyuntural y módulo de origen. Ese cruce permite pasar de una lectura
+superficial a una lectura realmente accionable.
+Por ejemplo, una caída general de una marca puede no exigir una reacción total, pero sí una reacción
+quirúrgica si el deterioro está concentrado en mujeres 25–34 de una zona específica y se explica,
+además, por un atributo puntual como confianza o servicio postventa. Ahí aparece el valor real: la
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+empresa no solo sabe que cayó; sabe dónde cayó, por qué pudo caer, qué otra marca se llevó el
+movimiento y qué variable debería intervenir primero.
+Otra ventaja clave es la velocidad de aprendizaje. Cuando la información se acumula en el tiempo y se
+lee como tendencia, la empresa puede distinguir entre un ruido semanal y un cambio estructural.
+Puede detectar si un liderazgo es sólido o frágil, si un repunte es sostenido o circunstancial, y si una
+campaña levantó notoriedad pero no logró mover preferencia efectiva. Esa diferencia entre mirar
+volumen y mirar señal útil es parte central del valor agregado de Opina+.
+2.4 Ejemplos ilustrativos de insights B2B con números y decisiones posibles
+A continuación se muestran ejemplos ilustrativos de cómo una empresa podría leer información
+proveniente de Opina+. No son datos reales de la plataforma; están construidos para hacer visible el
+tipo de insight y la clase de decisión que se habilita.
+Tipo de insight Lectura que puede mostrar
+Opina+ Acción habilitada
+“En Santiago Oriente, la
+preferencia por Marca A cayó de
+41% a 34% en 8 semanas,
+mientras Marca B subió de 22% a
+Revisar mix de mensaje, experiencia digital y
+Movilidad de preferencia
+31%. El movimiento fue
+reacción competitiva en ese segmento específico.
+especialmente fuerte en usuarios
+25–34 con alta frecuencia
+digital.”
+“Hace tres meses la categoría se
+ordenaba por precio. Hoy, en
+Ajustar campaña y propuesta de valor: insistir solo
+Cambio de driver
+clientes de ticket medio alto, el
+en descuento podría ser menos rentable que
+principal
+atributo confianza pesa 1,8 veces
+reforzar credibilidad y respaldo.
+más que precio en la elección.”
+“Luego de una noticia relevante,
+la polarización de la marca creció
+Polarización
+Activar contención reputacional localizada y medir
+17 puntos y el rechazo se
+reputacional
+recuperación por cohorte y territorio.
+concentró en comunas donde
+antes su preferencia era estable.”
+“La campaña elevó recordación
+espontánea estimada y volumen
+Brecha entre notoriedad
+de interacción, pero la
+Corregir la estrategia creativa o de experiencia: la
+y elección
+preferencia efectiva frente al
+atención creció, pero no cambió decisión.
+principal competidor se movió
+apenas 1 punto.”
+“En mayores de 45 años, ninguna
+marca supera 18% de preferencia
+Definir si la marca debe competir por nicho en el
+efectiva y la entropía de la
+Oportunidad de nicho
+grupo fragmentado o redoblar inversión donde ya
+categoría es alta; en menores de
+existe concentración y batalla real.
+30, dos marcas concentran más
+del 60%.”
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+Tipo de insight Lectura que puede mostrar
+Opina+ Acción habilitada
+“En comunas periféricas, la
+variable cercanía física explica
+Adaptar red comercial, cobertura, comunicación y
+Sensibilidad territorial
+24% más de señal favorable que
+promesa de servicio según territorio.
+en comunas céntricas, donde
+gana facilidad digital.”
+2.5 Por qué una empresa compraría esta base o esta capa de inteligencia
+Una empresa compraría Opina+ si entiende que no está adquiriendo solo un tablero más, sino una
+ventaja informacional. La plataforma le permite responder con mayor velocidad y más contexto
+preguntas que impactan marketing, customer experience, innovación, reputación y estrategia. No
+compra únicamente resultados; compra capacidad para interpretar el mercado con una profundidad
+que hoy pocas fuentes entregan de forma continua.
+Ese valor se vuelve aún más fuerte cuando la base alcanza masa crítica y persistencia temporal. En
+ese punto, Opina+ deja de ser solo una fuente descriptiva y se convierte en una fuente comparativa,
+dinámica y defensiva. Defensiva porque una vez que la plataforma acumula meses o años de señal
+validada, la riqueza histórica, el nivel de cruce y la lectura de trayectorias se vuelven difíciles de copiar
+rápidamente.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+3. Modelos matemáticos, estadísticos y KPIs que pueden
+obtenerse de las señales
+Este capítulo es clave porque muestra que Opina+ no es solo una experiencia bonita ni una idea
+comercial atractiva. Debajo existe la posibilidad de construir una capa analítica seria. La plataforma
+puede producir métricas de producto, indicadores de preferencia, lecturas competitivas, validación de
+calidad, modelos de tendencia e incluso índices propietarios. Lo importante no es listar nombres
+técnicos, sino explicar qué resuelve cada uno y por qué tiene valor para una empresa.
+3.1 KPIs base de captura y comportamiento
+Los KPIs base permiten evaluar la salud del sistema de captura. Miden cuánta señal entra, con qué
+frecuencia, desde qué módulos, cuánto esfuerzo exige, cuánto abandona el usuario y qué tan sólida es
+la base para leer segmentos. Son métricas operativas, pero también comerciales, porque de su
+calidad depende la credibilidad de todo lo que viene después.
+KPI Qué mide Valor para el sistema / negocio
+Cantidad total de señales válidas
+Permite dimensionar escala, cadencia y densidad
+Volumen de señales
+capturadas por día, semana,
+disponible para lectura.
+mes, módulo o categoría.
+Señales por usuario Promedio y distribución de
+participación por persona.
+Muestra profundidad de comportamiento y ayuda a
+distinguir base superficial vs. base con hábito.
+Recurrencia Usuarios que vuelven en 7, 30 o
+90 días.
+Es una de las métricas más críticas: sin retorno, no
+hay historia longitudinal.
+Tasa de abandono Porcentaje que inicia una
+dinámica y no la completa.
+Ayuda a ajustar UX y detectar fricción donde la
+captura de dato se rompe.
+Tiempo por señal Cuánto tarda el usuario en decidir
+o responder.
+Puede revelar fricción, confianza, duda o
+complejidad en el estímulo.
+Cobertura por segmento Cuánto volumen útil existe por
+edad, sexo, comuna u otro corte.
+Evita sobreleer segmentos con poca densidad y
+ordena el valor comercial real.
+3.2 KPIs de preferencia, competencia y estructura de mercado
+Una vez validada la captura, la segunda capa analítica se enfoca en la competencia real dentro de
+cada categoría. Aquí ya no importa solo cuánto participa la gente, sino qué elige, contra quién
+compara, cuánto domina un actor, cuánta fragmentación existe y qué tan abierta o cerrada está la
+batalla competitiva.
+KPI Qué expresa Qué puede resolver para B2B
+Participación relativa de una
+Permite leer liderazgo y tamaño competitivo de
+Share de preferencia
+marca u opción dentro de la señal
+forma viva.
+válida total.
+Porcentaje de enfrentamientos
+Ayuda a entender fortaleza comparativa directa, no
+Win rate en versus
+ganados por una opción frente a
+solo volumen agregado.
+sus rivales.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+KPI Qué expresa Qué puede resolver para B2B
+Distancia 1° vs. 2° Brecha entre líder y perseguidor
+principal. Muestra si el liderazgo es sólido o frágil.
+Concentración Peso acumulado de las marcas
+líderes.
+Indica si la categoría está dominada o si el
+mercado sigue abierto.
+Fragmentación Dispersión de preferencia entre
+múltiples actores.
+Ayuda a detectar categorías donde ninguna marca
+logra consolidar dominio.
+Polarización Separación entre señales muy
+favorables y muy desfavorables.
+Resulta especialmente útil en reputación,
+coyuntura y marcas expuestas.
+3.3 KPIs temporales y de tendencia
+La gran ventaja de Opina+ es que no tiene por qué quedarse en el corte puntual. Cuando la plataforma
+acumula señal en el tiempo, la lectura cambia de nivel. Aparecen métricas que permiten ver
+aceleración, estabilidad, fragilidad, momentum, volatilidad y capacidad de reversión. Eso es
+particularmente valioso para empresas que necesitan reaccionar antes de que el cambio llegue a
+ventas, churn o reputación consolidada.
+KPI temporal Lectura Utilidad práctica
+Dirección y magnitud del cambio
+Tendencia semanal /
+Permite separar movimiento real de fotografía
+en una métrica a lo largo del
+mensual
+aislada.
+tiempo.
+Velocidad reciente del
+Momentum de
+Sirve para identificar ganadores tempranos y
+crecimiento o caída de una
+preferencia
+deterioros incipientes.
+marca o atributo.
+Volatilidad Nivel de variación de una opción
+o categoría en un período.
+Ayuda a distinguir categorías estables de
+categorías sensibles o vulnerables.
+Persistencia Capacidad de sostener una
+preferencia en el tiempo. Mide si el liderazgo es estructural o circunstancial.
+Cambio de driver
+Variación del atributo que más
+Es una de las señales más accionables para
+dominante
+influye en la decisión.
+marketing y propuesta de valor.
+Estimación de cuánto cambio
+Da contexto sobre qué tan difícil es desplazar a un
+Masa para revertir
+adicional sería necesario para
+líder o recuperar una caída.
+alterar una posición dominante.
+3.4 Validación de señal y métricas de calidad
+No toda señal vale lo mismo. Esa es una de las ideas más importantes de Opina+. Una plataforma
+seria no puede tratar igual una interacción rápida, anónima, aislada y errática que una señal
+proveniente de un usuario verificado, con perfil completo, recurrencia consistente y comportamiento
+estable. La validación de señal es el puente entre participación y credibilidad comercial.
+La calidad puede evaluarse desde varios frentes: identidad, completitud, consistencia, coherencia
+temporal, patrón de uso y densidad de historial. Esto permite asignar pesos, filtros o niveles de
+confianza. El objetivo no es excluir arbitrariamente, sino construir una base más robusta para que los
+insights B2B no se vean contaminados por ruido, spam o sesgos obvios de captura.Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+Métrica de calidad Qué valida Por qué importa
+Distingue entre acceso rápido,
+usuario registrado, perfil
+Permite ponderar mejor la calidad de muestra y
+Nivel de verificación
+completo y usuario con
+abrir lecturas premium.
+validación formal.
+Evalúa si el patrón de señal del
+Ayuda a separar trayectoria utilizable de
+Consistencia histórica
+usuario es razonablemente
+comportamiento errático.
+estable o muestra ruido extremo.
+Revisa secuencias improbables,
+Permite filtrar fraude, automatización o
+Integridad de sesión
+tiempos imposibles o patrones
+manipulación.
+artificiales.
+Ajusta el peso analítico cuando
+parece haber mucho dato, pero
+Protege contra sobrelectura y falsa seguridad
+Effective sample size
+está demasiado concentrado en
+estadística.
+pocos perfiles.
+Exige umbrales mínimos antes de
+Cobertura mínima por
+Evita conclusiones débiles y mejora credibilidad
+mostrar ciertos segmentos o
+corte
+frente a clientes.
+cruces.
+Índice compuesto de verificación,
+Score de calidad de
+Puede convertirse en una capa propietaria de
+completitud, consistencia y
+señal
+confianza dentro del sistema.
+comportamiento.
+3.5 Modelos matemáticos y estadísticos viables
+Sobre esta base, Opina+ puede operar con varios modelos matemáticos y estadísticos que elevan la
+lectura más allá del conteo simple. El objetivo no es complejizar por complejizar, sino mejorar
+precisión, estabilidad interpretativa y utilidad comercial. Cuando una empresa compra inteligencia,
+espera más que porcentajes crudos: espera criterio analítico.
+Modelo / técnica Lectura y aporte
+Bayesian priors Suavizan estimaciones en muestras pequeñas para evitar sobrepremiar
+outliers o movimientos espurios.
+Intervalos de Wilson Permiten mostrar incertidumbre de proporciones de manera más sólida
+que aproximaciones simples.
+Time decay / half-life Da más peso a señales recientes sin perder completamente la historia,
+ideal para tendencias vivas.
+Entropía de Shannon Sirve para medir fragmentación o concentración real de una categoría.
+Cohortes y retención Permiten leer comportamiento por grupos de ingreso, retorno y
+permanencia.
+Matrices de transición Muestran cómo migra la preferencia entre marcas, atributos o
+posiciones en el tiempo.
+Correlaciones y
+Ayudan a entender cuánto cambia una señal cuando sube o baja el peso
+elasticidades
+de cierto atributo.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+Modelo / técnica Lectura y aporte
+Scores compuestos
+Permiten crear indicadores como OpinaScore, confianza competitiva,
+propietarios
+estabilidad de liderazgo o riesgo reputacional.
+3.6 Traducción comercial de estas métricas y modelos
+La traducción comercial es lo que evita que este capítulo se vuelva académico. Un modelo sirve
+cuando cambia una decisión. Si la entropía indica alta fragmentación, la empresa entiende que la
+categoría está abierta y que puede capturar share con una propuesta clara. Si un intervalo de
+confianza muestra mucha incertidumbre en un segmento, se sabe que todavía no conviene construir
+relato agresivo ahí. Si el time decay muestra aceleración reciente de una marca rival, marketing y
+comercial pueden decidir si reaccionar hoy o esperar. Si la matriz de transición revela que los
+desertores de una marca migran casi siempre al mismo competidor, el plan de recuperación puede
+dejar de ser genérico y volverse quirúrgico.
+Lectura clave para B2B
+Los KPIs de Opina+ no solo describen. Ayudan a priorizar presupuesto, redefinir mensaje, mover
+operación, intervenir segmentos, detectar riesgos tempranos y medir si una acción realmente cambió
+preferencia o solo generó ruido.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+4. Arquitectura y construcción actual del proyecto
+Este capítulo busca mostrar el estado real del proyecto sin entrar en microdetalle técnico innecesario.
+La intención es dejar claro qué está definido, qué ya existe, cuál es la arquitectura conceptual y de
+datos, y qué piezas siguen en consolidación. Esta transparencia es importante porque un documento
+maestro serio no solo describe visión; también muestra madurez real de construcción.
+4.1 Estado actual y fase del proyecto
+Opina+ se encuentra en una fase avanzada de definición de producto y arquitectura, con una parte
+importante del sistema ya estructurada y varias páginas funcionales en proceso de refinamiento. El
+proyecto ya no está en nivel de idea general. Cuenta con decisiones claras sobre módulos, lógica de
+señal, progresión de usuario, arquitectura de eventos y capas de lectura B2C y B2B.
+Hoy el foco está en consolidar el sistema como una plataforma coherente, escalable y vendible. Eso
+implica trabajar en paralelo sobre tres frentes: experiencia de usuario, robustez de captura de señal y
+construcción de la capa de inteligencia. Algunas piezas visuales ya están mucho más maduras; otras,
+especialmente donde corresponde mostrar resultados, aún operan con valores ficticios curados para
+ordenar narrativa y validar UX antes de conectar lectura productiva total.
+4.2 Arquitectura funcional por capas
+Capa Rol dentro del sistema
+Es la experiencia de entrada y participación. Aquí viven las dinámicas
+Capa B2C
+que convierten fricción en interacción: versus, progresivos, profundidad,
+actualidad, perfil y resultados comunitarios.
+Es la capa de inteligencia. Aquí se traducen las señales en rankings,
+Capa B2B
+tendencias, segmentaciones, comparativos, alertas e indicadores de
+lectura comercial.
+Capa admin y curación Ordena catálogos, entidades, temas, contenidos de actualidad, estados
+de publicación y validación operativa del sistema.
+Capa de datos y eventos Centraliza la captura de interacciones, snapshots de usuario, contexto
+de módulo, secuencias, historial y estructura maestra del ecosistema.
+4.3 Módulos principales actualmente definidos
+La arquitectura del producto está construida sobre varios módulos que capturan señales desde
+lógicas distintas pero compatibles. Esta diversidad es importante porque permite leer preferencia
+desde ángulos complementarios y evita depender de un único formato de interacción.
+Módulo Función estratégica
+Comparación directa entre dos opciones dentro de una misma
+Versus
+subcategoría. Es el módulo más rápido para capturar preferencia
+comparativa y fricción de decisión.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+Módulo Función estratégica
+La opción ganadora sigue compitiendo dentro de una secuencia. Esto
+Progresivo / Torneo
+permite observar fortaleza relativa, supervivencia y consistencia
+competitiva.
+Profundidad Captura evaluación estructurada sobre una marca, opción o entidad. Su
+valor está en conectar rapidez con lectura más rica de atributos.
+Actualidad Transforma hechos, noticias o temas publicados en señales editoriales
+que permiten medir reacción, sensibilidad y cambio coyuntural.
+Resultados Es la capa B2C de lectura comunitaria. Debe comunicar lo que está
+pasando con la comunidad, no actuar como dashboard corporativo.
+Inteligencia Es la capa B2B. Aquí debería concentrarse la lectura más profunda,
+segmentada, ejecutiva y comercial del sistema.
+Perfil y progresión Ordena historia individual, comparación personal, niveles de desarrollo
+y fidelización del usuario.
+4.4 Lógica de captura de señal y de datos
+Una decisión central del proyecto es que las interacciones relevantes converjan sobre una lógica de
+señal común. Eso permite cruzar módulos y evita que cada experiencia termine generando una base
+aislada. En la práctica, cada interacción puede viajar con contexto suficiente para convertirse después
+en una pieza analítica rica: tipo de módulo, entidad o contexto, momento, resultado de la interacción,
+secuencia, snapshot del usuario y otras variables que ayudan a explicar la señal sin mezclarla con
+ruido operativo.
+Otra decisión importante es la separación entre comportamiento real y metadatos de operación. La
+plataforma necesita distinguir la acción significativa del usuario de información secundaria como
+estado técnico, origen del flujo, abandono, errores o secuencia. Esa separación hace la arquitectura
+más limpia y mejora la posibilidad de construir modelos de lectura robustos a futuro.
+4.5 Base principal, historial y snapshots
+La arquitectura conceptual del proyecto se apoya en una base principal única donde las interacciones
+quedan estructuradas como eventos. Esa base se complementa con snapshots del usuario y con un
+catálogo maestro reutilizable de entidades, categorías y contextos. El objetivo es que la información no
+solo sirva para mostrar el resultado del día, sino para poder reconstruir el estado del sistema y del
+usuario al momento de cada señal.
+Esto habilita algo muy importante: historicidad real. Cuando una señal queda ligada a un snapshot, la
+plataforma puede analizar después no solo qué pasó, sino desde qué perfil pasó, en qué contexto
+pasó y cómo cambió ese patrón a lo largo del tiempo. Esa posibilidad es uno de los activos más fuertes
+de Opina+, porque permite construir evolución individual, comunitaria y competitiva sin perder
+trazabilidad.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+4.6 Estado visual y funcional del proyecto hoy
+A nivel de experiencia, el proyecto ya tiene páginas, componentes y flujos relevantes en
+funcionamiento, aunque no todas las capas reflejan todavía el estado final deseado. La Home y el
+ecosistema de Señales han pasado por varias iteraciones de refinamiento para buscar una identidad
+premium, clara y menos genérica. Resultados está concebida como una capa editorial B2C y, por
+instrucción actual del proyecto, debe operar por ahora con valores ficticios curados en lugar de datos
+reales para ordenar mejor la narrativa.
+Esto es coherente con una buena secuencia de construcción. Primero se define qué se quiere
+comunicar, cómo se quiere leer y qué lógica de producto soporta esa lectura. Luego se conecta la
+capa productiva real con mayor seguridad. La arquitectura de datos y la lógica de eventos ya están
+mucho más definidas que antes; el trabajo actual consiste en consolidar la experiencia visible y
+preparar la siguiente etapa de explotación analítica y comercial.
+4.7 Qué está especialmente avanzado y qué sigue pendiente
+Estado Lectura honesta del proyecto
+Muy avanzado Definición de tesis de producto, lógica de señal, módulos principales,
+arquitectura conceptual de datos y separación B2C / B2B.
+Avanzado Home, Señales, base de resultados B2C editorial, captura de múltiples
+tipos de interacción y criterio de progresión de usuario.
+En consolidación Expresión final de la capa B2B Inteligencia, madurez visual total de
+Resultados y despliegue completo de modelos/lecturas avanzadas.
+Validación comercial sistemática con empresas, aterrizaje definitivo del
+Pendiente estratégico
+programa de fidelización y profundización de la oferta de productos de
+inteligencia.
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+5. Casos de uso B2B prioritarios
+Aunque Opina+ puede tener múltiples aplicaciones, conviene ordenar algunos casos de uso
+prioritarios para mostrar desde ya cómo se transformaría la información en negocio. Esto ayuda a
+vender la plataforma de manera más concreta y a enfocar las primeras validaciones comerciales.
+Vertical Qué puede resolver
+Detectar qué tensión empuja hoy la elección —precio, calidad,
+Retail y consumo
+cercanía, diseño, confianza— y cómo cambia por comuna, edad o nivel
+de preferencia histórica.
+Medir si la categoría se está ordenando por cobertura, velocidad,
+Telecomunicaciones
+estabilidad, atención o precio, y detectar con qué rapidez cambia esa
+jerarquía.
+Banca y financieros Leer confianza, claridad, digitalización y cercanía como drivers
+comparativos, no solo como satisfacción declarada.
+Salud privada y seguros Observar cuándo la decisión se mueve por respaldo, red, velocidad de
+respuesta o precio, y qué segmentos muestran mayor sensibilidad.
+Medios y reputación Transformar coyuntura y actualidad en lectura de impacto sobre
+preferencia, rechazo, polarización y fragmentación.
+6. Riesgos, condiciones de éxito y ventaja defensiva
+Un proyecto como Opina+ no se vuelve valioso solo por tener una buena idea. Necesita cumplir
+condiciones concretas. La primera es recurrencia: sin retorno, no hay activo longitudinal. La segunda
+es calidad de señal: sin validación y densidad mínima, la lectura B2B pierde credibilidad. La tercera es
+claridad narrativa: si el mercado ve la plataforma solo como entretenimiento, se pierde parte
+importante de su valor real. La cuarta es marco legal y reputacional: privacidad, términos, derechos de
+uso y consistencia de comunicación deben estar resueltos con seriedad.
+Dicho eso, también existe una ventaja defensiva muy potente. Si Opina+ logra acumular señal
+continua, bien segmentada y con historial, la plataforma empieza a construir algo difícil de replicar:
+una base longitudinal de preferencias, tensiones y cambios de percepción. Lo defendible no es solo la
+interfaz. Es la trayectoria acumulada del dato y la capacidad de leerla mejor que otros.
+7. Cierre estratégico
+La manera correcta de narrar Opina+ no es como una app para opinar ni como una encuesta más
+entretenida. Su narrativa correcta es la de una plataforma que convierte señales de personas en
+inteligencia comercial, comparativa y evolutiva. Esa frase resume mejor el proyecto porque captura su
+doble naturaleza: experiencia de participación y activo de datos.
+Si ejecuta bien su capa B2C, sostiene una lógica de fidelización efectiva, valida calidad de señal y
+aterriza una oferta B2B clara, Opina+ puede transformarse en una infraestructura de valor para
+Uso interno — Documento de trabajo
+Opina+ | Documento Maestro
+múltiples industrias. Ahí está el punto central: el verdadero negocio no es pedir respuestas; es
+construir una nueva forma de entender cómo se mueve la preferencia real de las personas.
+Fuentes de contexto utilizadas para reforzar el diagnóstico del problema
+AAPOR — Response Rate Overview; Pew Research Center — caída de response rates en encuestas
+telefónicas; Bain & Company — Predictive NPS y evolución del sistema Net Promoter. Estas referencias
+se usan para contextualizar la crisis del modelo tradicional de feedback, no como sustento de métricas
+propias de Opina+.
+Uso interno — Documento de trabajo

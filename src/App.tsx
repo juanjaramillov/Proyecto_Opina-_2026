@@ -39,6 +39,8 @@ const AdminActualidadEditor = lazy(() => import("./features/admin/pages/AdminAct
 const AdminUsers = lazy(() => import("./features/admin/pages/AdminUsers"));
 const AdminSignals = lazy(() => import("./features/admin/pages/AdminSignals"));
 const AdminEntities = lazy(() => import("./features/admin/pages/AdminEntities"));
+const AdminAnalytics = lazy(() => import("./features/admin/pages/AdminAnalytics"));
+const AdminResults = lazy(() => import("./features/admin/pages/AdminResults"));
 
 const AboutUs = lazy(() => import("./pages/static/AboutUs"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -119,6 +121,8 @@ export default function App() {
             <Route path="/admin/users" element={<Gate module="admin"><AdminUsers /></Gate>} />
             <Route path="/admin/signals" element={<Gate module="admin"><AdminSignals /></Gate>} />
             <Route path="/admin/entities" element={<Gate module="admin"><AdminEntities /></Gate>} />
+            <Route path="/admin/analytics" element={<Gate module="admin"><AdminAnalytics /></Gate>} />
+            <Route path="/admin/results" element={<Gate module="admin"><AdminResults /></Gate>} />
 
             {/* 6. FALLBACK */}
             <Route path="*" element={<NotFound />} />
