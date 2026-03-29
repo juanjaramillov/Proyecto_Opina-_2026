@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { Building2, AlertTriangle } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { analyticsService } from "../../../features/analytics/services/analyticsService";
-
 import { useOverviewB2BState } from "../hooks/useOverviewB2BState";
 import { OverviewB2BHeader } from "../components/OverviewB2BHeader";
 import { OverviewB2BEntityList } from "../components/OverviewB2BEntityList";
 import { OverviewB2BAlertsPanel } from "../components/OverviewB2BAlertsPanel";
 import { OverviewB2BDeepDive } from "../components/OverviewB2BDeepDive";
 import { OverviewB2BExecutiveSummary } from "../components/OverviewB2BExecutiveSummary";
+import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
 
 export default function OverviewB2B() {
     const {
@@ -21,7 +21,6 @@ export default function OverviewB2B() {
         leaderboard,
         selectedEntity,
         setSelectedEntity,
-        entityNarrative,
         loadingDetails,
         handleSelectEntity,
         loadData
@@ -47,21 +46,21 @@ export default function OverviewB2B() {
         <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10">
             <OverviewB2BHeader onRefresh={loadData} />
 
-            {snapshot?.sufficiency === 'insufficient_data' && (
-                <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-4">
-                    <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
-                    <div>
-                        <h4 className="font-bold text-amber-900">Datos Insuficientes</h4>
-                        <p className="text-sm text-amber-700">Aún no hay suficiente actividad (menos de 50 señales) en la plataforma para reflejar tendencias válidas globales. Las métricas mostradas tienen alcance exploratorio únicamente.</p>
-                    </div>
+            {snapshot && snapshot.availability !== 'healthy' && (
+                <div className="mb-8">
+                    <MetricAvailabilityCard 
+                        label="Radar Global"
+                        status={snapshot.availability === 'insufficient_data' ? 'insufficient_data' : 'pending'} 
+                        helperText="Aún no hay suficiente actividad de batallas en la plataforma para reflejar tendencias válidas globales."
+                    />
                 </div>
             )}
 
-            <OverviewB2BExecutiveSummary />
+            {snapshot && <OverviewB2BExecutiveSummary snapshot={snapshot} />}
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
                 <div className="lg:col-span-2">
-                    <h3 className="text-xl font-bold text-slate-900 mb-6 px-2">Radar de Anomalías</h3>
+                    <h3 className="text-xl font-bold text-slate-900 mb-6 px-2">Ranking Competitivo</h3>
                     <OverviewB2BEntityList 
                         loading={loading}
                         searchTerm={searchTerm}
@@ -80,7 +79,6 @@ export default function OverviewB2B() {
 
             <OverviewB2BDeepDive 
                 selectedEntity={selectedEntity}
-                entityNarrative={entityNarrative}
                 loadingDetails={loadingDetails}
                 onClose={() => setSelectedEntity(null)}
             />

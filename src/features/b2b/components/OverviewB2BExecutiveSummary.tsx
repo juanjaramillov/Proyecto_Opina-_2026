@@ -1,9 +1,9 @@
 import { AlertTriangle, TrendingDown, TrendingUp, Zap, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { b2bCuratedSnapshot } from "../../../read-models/b2b/b2bCuratedSnapshot";
+import { IntelligenceAnalyticsSnapshot } from "../../../read-models/b2b/intelligenceAnalyticsTypes";
 
-export function OverviewB2BExecutiveSummary() {
-    const { overview } = b2bCuratedSnapshot;
+export function OverviewB2BExecutiveSummary({ snapshot }: { snapshot: IntelligenceAnalyticsSnapshot }) {
+    const { overview, alerts } = snapshot;
 
     const renderIcon = (iconName: string) => {
         switch (iconName) {
@@ -17,6 +17,38 @@ export function OverviewB2BExecutiveSummary() {
                 return <Sparkles className="w-5 h-5 text-indigo-500" />;
         }
     };
+
+    const executiveSummaryText = `Durante este período, la plataforma registra un ${overview.primaryMetricLabel.toLowerCase()} de ${overview.primaryMetricValue}. ` 
+        + (overview.leaderEntityName ? `El liderazgo está marcado por ${overview.leaderEntityName}, ` : `No hay un líder claro, `)
+        + (overview.topRisingEntityName ? `con un crecimiento notable de ${overview.topRisingEntityName}. ` : 'sin variaciones destacadas al alza. ')
+        + (overview.activeRiskAreas > 0 ? `Se detectan ${overview.activeRiskAreas} áreas de atención operativa.` : 'El estado del ecosistema es estable.');
+
+    const dynamicFindings = [
+        {
+            title: "Entidad Líder",
+            description: overview.leaderEntityName 
+                ? `${overview.leaderEntityName} presenta la posición más fuerte del mercado actual.`
+                : "Aún sin datos suficientes para declarar líder concluyente.",
+            trend: "positive",
+            icon: "sparkles"
+        },
+        {
+            title: "Mayor Crecimiento",
+            description: overview.topRisingEntityName 
+                ? `${overview.topRisingEntityName} aceleró en sus métricas recientes.`
+                : "Sin entidades con aceleración significativa detectada.",
+            trend: "positive",
+            icon: "trending-up"
+        },
+        {
+            title: "Áreas de Riesgo",
+            description: overview.activeRiskAreas > 0 
+                ? `${overview.activeRiskAreas} puntos operativos detectados con bajo performance.`
+                : "No se registran señales de alerta significativas hoy.",
+            trend: overview.activeRiskAreas > 0 ? "negative" : "neutral",
+            icon: overview.activeRiskAreas > 0 ? "trending-down" : "zap"
+        }
+    ];
 
     return (
         <div className="mb-10 space-y-8">
@@ -35,7 +67,7 @@ export function OverviewB2BExecutiveSummary() {
                     </div>
                     
                     <p className="text-lg md:text-xl font-medium text-white leading-relaxed mb-8">
-                        {overview.executiveSummary}
+                        {executiveSummaryText}
                     </p>
 
                     <div className="flex flex-wrap gap-4">
@@ -61,7 +93,7 @@ export function OverviewB2BExecutiveSummary() {
                 
                 {/* 3 Key Findings */}
                 <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {overview.keyFindings.map((finding, idx) => (
+                    {dynamicFindings.map((finding, idx) => (
                         <div key={idx} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col h-full hover:border-indigo-100 transition-colors">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className={`p-3 rounded-2xl ${
@@ -81,26 +113,26 @@ export function OverviewB2BExecutiveSummary() {
 
                 {/* Signals / Alerts */}
                 <div className="lg:col-span-1 space-y-4">
-                    {overview.alerts.map((alert, idx) => (
+                    {alerts.slice(0, 3).map((alert, idx) => (
                         <div key={idx} className={`p-5 rounded-3xl border shadow-sm ${
-                            alert.type === 'risk' 
+                            alert.severity === 'high' 
                                 ? 'bg-rose-50 border-rose-100' 
                                 : 'bg-emerald-50 border-emerald-100'
                         }`}>
                             <div className="flex items-center gap-2 mb-2">
-                                {alert.type === 'risk' ? (
+                                {alert.severity === 'high' ? (
                                     <AlertTriangle className="w-5 h-5 text-rose-600" />
                                 ) : (
                                     <Sparkles className="w-5 h-5 text-emerald-600" />
                                 )}
                                 <h4 className={`font-bold text-sm ${
-                                    alert.type === 'risk' ? 'text-rose-900' : 'text-emerald-900'
-                                }`}>{alert.title}</h4>
+                                    alert.severity === 'high' ? 'text-rose-900' : 'text-emerald-900'
+                                }`}>{alert.headline}</h4>
                             </div>
                             <p className={`text-xs leading-relaxed ${
-                                alert.type === 'risk' ? 'text-rose-700' : 'text-emerald-700'
+                                alert.severity === 'high' ? 'text-rose-700' : 'text-emerald-700'
                             }`}>
-                                {alert.description}
+                                {alert.message}
                             </p>
                         </div>
                     ))}

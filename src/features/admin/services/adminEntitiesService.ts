@@ -10,7 +10,6 @@ export interface AdminEntity {
   vertical: string | null;
   is_active: boolean | null;
   elo_score: number | null;
-  elo_modifier_pct: number | null;
   logo_path: string | null;
   metadata: any | null; // For module toggles: { modules: { versus: true, torneo: true, lugar: true, servicio: true, profundidad: true } }
 }
@@ -20,7 +19,7 @@ export const adminEntitiesService = {
     try {
       const { data, error } = await supabase
         .from('entities')
-        .select('id, name, slug, category, type, vertical, is_active, elo_score, elo_modifier_pct, logo_path, metadata')
+        .select('id, name, slug, category, type, vertical, is_active, elo_score, logo_path, metadata')
         .order('name', { ascending: true });
 
       if (error) throw error;
@@ -31,19 +30,9 @@ export const adminEntitiesService = {
     }
   },
 
-  async updateEloModifier(id: string, newModifierPct: number): Promise<boolean> {
-    try {
-      const { error } = await supabase
-        .from('entities')
-        .update({ elo_modifier_pct: newModifierPct })
-        .eq('id', id);
-
-      if (error) throw error;
-      return true;
-    } catch (e) {
-      logger.error(`Error al actualizar el modificador ELO para la entidad ${id}`, { error: e });
-      return false;
-    }
+  async updateEloModifier(_id: string, _newModifierPct: number): Promise<boolean> {
+    // Deprecated in V14, elo modifiers handled directly by b2b rollups / db jobs
+    return true;
   },
 
   async toggleEntityStatus(id: string, isActive: boolean): Promise<boolean> {

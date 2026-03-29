@@ -29,26 +29,32 @@ export default function AdminHealth() {
             action: adminHealthService.checkSession 
         },
         { 
+            id: 'system_health', 
+            label: '2. Salud Operativa (Freshness)', 
+            description: 'Mide la latencia de ingestión y cuenta señales recibidas en las últimas 24 hrs.',
+            action: adminHealthService.getSystemHealth 
+        },
+        { 
             id: 'admin_invites', 
-            label: '2. Invitaciones B2B', 
+            label: '3. Invitaciones B2B', 
             description: 'Comprueba el ancho de banda y permisos para leer el panel de accesos y referidos.',
             action: adminHealthService.checkListInvites 
         },
         { 
             id: 'admin_redemptions', 
-            label: '3. Canjes de Acceso', 
+            label: '4. Canjes de Acceso', 
             description: 'Asegura que el historial de códigos premium canjeados responda correctamente.',
             action: adminHealthService.checkListRedemptions 
         },
         { 
             id: 'admin_events', 
-            label: '4. Auditoría de Sistema', 
+            label: '5. Auditoría de Sistema', 
             description: 'Valida la conectividad con el registro central de alertas y métricas del servidor.',
             action: adminHealthService.checkListAppEvents 
         },
         { 
             id: 'signal_smoke', 
-            label: '5. Emisión de Señales (Smoke)', 
+            label: '6. Emisión de Señales (Smoke)', 
             description: 'Prueba crítica: inyecta un voto de prueba para detectar si hay cuellos de botella guardando encuestas.',
             action: () => adminHealthService.checkSignalSmoke(dryRunSignal) 
         },
@@ -249,9 +255,20 @@ export default function AdminHealth() {
                                 <h3 className="font-bold text-slate-800 text-sm">{test.label}</h3>
                                 <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">{test.description}</p>
                                 {status && status !== 'pending' && status !== 'running' ? (
-                                    <p className="text-[10px] mt-2 font-mono text-slate-600 bg-slate-100/50 p-2 rounded-lg break-all">
-                                        {(status as HealthCheckResult).detail || ((status as HealthCheckResult).ok ? 'OK' : 'Error Desconocido')}
-                                    </p>
+                                    <div className="mt-2 space-y-1">
+                                        <p className="text-[10px] font-mono text-slate-600 bg-slate-100/50 p-2 rounded-lg break-all">
+                                            {(status as HealthCheckResult).detail || ((status as HealthCheckResult).ok ? 'OK' : 'Error Desconocido')}
+                                        </p>
+                                        {(status as HealthCheckResult).payload && (
+                                            <div className="text-[10px] p-2 bg-slate-800 text-slate-300 rounded-lg font-mono whitespace-pre-wrap">
+                                                Último evento: {String((status as HealthCheckResult).payload?.last_event_age_seconds)}s atrás<br/>
+                                                Última señal: {String((status as HealthCheckResult).payload?.last_signal_age_seconds)}s atrás<br/>
+                                                Usuarios 24h: {String((status as HealthCheckResult).payload?.active_users_24h)}<br/>
+                                                Señales 24h: {String((status as HealthCheckResult).payload?.total_signals_24h)}<br/>
+                                                Estado General: {String((status as HealthCheckResult).payload?.system_status)}
+                                            </div>
+                                        )}
+                                    </div>
                                 ) : (
                                     <p className="text-xs text-slate-400 mt-2 italic">
                                         {status === 'running' ? 'Evaluando constraint base...' : 'Esperando ejecución'}

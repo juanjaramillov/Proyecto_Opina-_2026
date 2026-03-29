@@ -56,15 +56,13 @@ export function useActualidadEditor(id: string | undefined) {
 
                 if (sortedQ.length === 0) {
                     const aiPayload = data.metadata?.raw_ai_payload as Record<string, unknown> | undefined;
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const aiQuestions = aiPayload?.questions as any[];
+                    const aiQuestions = aiPayload?.questions as Array<Record<string, unknown>> | undefined;
                     if (aiQuestions && Array.isArray(aiQuestions)) {
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        sortedQ = aiQuestions.map((q: any) => ({
+                        sortedQ = aiQuestions.map((q) => ({
                             id: crypto.randomUUID(),
-                            order: q.order || 1,
-                            text: q.text || "",
-                            type: q.type || 'single_choice',
+                            order: (typeof q.order === 'number' ? q.order : 1),
+                            text: typeof q.text === 'string' ? q.text : "",
+                            type: 'single_choice' as const,
                             options: sanitizeOptions(q.options)
                         })).sort((a, b) => a.order - b.order);
                     }
@@ -144,8 +142,12 @@ export function useActualidadEditor(id: string | undefined) {
         });
     };
 
-    const validateForm = () => {
+    const validateForm = (isDraft: boolean = false) => {
         if (!formData.title?.trim()) return "El título es obligatorio.";
+        
+        // Si es borrador, permitimos guardar con datos parciales siempre que tenga título
+        if (isDraft) return null;
+
         if (!formData.summary?.trim()) return "El resumen neutral es obligatorio.";
         if (!formData.category) return "Debe tener una categoría.";
 
@@ -160,10 +162,12 @@ export function useActualidadEditor(id: string | undefined) {
         return null;
     };
 
-    const handleSave = async (silent = false) => {
+    const handleSave = async (silent = false, enforceValidation = false) => {
         if (!topic || !id) return false;
 
-        const err = validateForm();
+        const isDraftLike = formData.status === 'detected' || formData.status === 'draft' || formData.status === 'rejected';
+        const err = validateForm(isDraftLike && !enforceValidation);
+        
         if (err) {
             if (!silent) alert(err);
             return false;
@@ -196,13 +200,13 @@ export function useActualidadEditor(id: string | undefined) {
     const handleStatusChange = async (newStatus: TopicStatus) => {
         if (!id || !topic) return;
 
-        if (newStatus === 'published' || newStatus === 'approved') {
-            const err = validateForm();
+        if (newStatus === 'published' || newStatus === 'approved' || newStatus === 'review') {
+            const err = validateForm(false); // Validacion estricta siempre
             if (err) {
-                alert(`No se puede ${newStatus === 'approved' ? 'aprobar' : 'publicar'}. Corrige lo siguiente:\n\n- ${err}`);
+                alert(`No se puede transicionar a ${newStatus}. Corrige lo siguiente:\n\n- ${err}`);
                 return;
             }
-            const saved = await handleSave(true);
+            const saved = await handleSave(true, true);
             if (!saved) {
                 alert("Error técnico al guardar los cambios antes de transicionar. Revisa la consola.");
                 return;

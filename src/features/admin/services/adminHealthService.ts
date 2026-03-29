@@ -3,6 +3,7 @@ import { supabase } from '../../../supabase/client';
 export type HealthCheckResult = {
     ok: boolean;
     detail?: string;
+    payload?: Record<string, unknown>;
 };
 
 export const adminHealthService = {
@@ -12,6 +13,16 @@ export const adminHealthService = {
             if (error) throw error;
             if (!data.session) return { ok: false, detail: 'No activa' };
             return { ok: true, detail: `UID: ${data.session.user.id}` };
+        } catch (err: unknown) {
+            return { ok: false, detail: (err as Error).message || 'Unknown error' };
+        }
+    },
+
+    async getSystemHealth(): Promise<HealthCheckResult> {
+        try {
+            const { data, error } = await supabase.rpc('get_system_health');
+            if (error) throw error;
+            return { ok: true, detail: 'Métricas de frescura obtenidas', payload: data as Record<string, unknown> };
         } catch (err: unknown) {
             return { ok: false, detail: (err as Error).message || 'Unknown error' };
         }

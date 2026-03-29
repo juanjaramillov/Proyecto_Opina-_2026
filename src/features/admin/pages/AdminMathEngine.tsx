@@ -1,10 +1,40 @@
-import { useState } from "react";
-import { Calculator, Clock, BarChart2, Activity } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Calculator, Clock, BarChart2, Activity, Save } from "lucide-react";
 import { mathEngineService } from "../services/mathEngineService";
 import { Link } from "react-router-dom";
 
 export default function AdminMathEngine() {
   const [activeTab, setActiveTab] = useState<"decay" | "wilson" | "entropy">("decay");
+
+  // DB Config State
+  const [loadingConfig, setLoadingConfig] = useState(true);
+  const [savingConfig, setSavingConfig] = useState(false);
+  const [configParams, setConfigParams] = useState<Record<string, any> | null>(null);
+
+  // Load config on mount
+  useEffect(() => {
+    mathEngineService.getEngineConfig().then(data => {
+      setConfigParams(data);
+      if (data?.decay_half_life_days) setHalfLife(data.decay_half_life_days);
+      if (data?.wilson_confidence_level) setConfidence(data.wilson_confidence_level);
+      if (data?.entropy_base) setEntropyBase(data.entropy_base);
+    }).catch(console.error).finally(() => setLoadingConfig(false));
+  }, []);
+
+  const handleSaveConfig = async (key: string, value: number) => {
+    setSavingConfig(true);
+    setError(null);
+    try {
+      await mathEngineService.updateEngineConfig({ [key]: value });
+      setConfigParams(prev => prev ? { ...prev, [key]: value } : { [key]: value });
+      alert("Configuración centralizada guardada en base de datos.");
+    } catch(e) {
+      if (e instanceof Error) setError(e.message);
+      else setError("Error al guardar la configuración");
+    } finally {
+      setSavingConfig(false);
+    }
+  };
 
   // State: Time Decay
   const [decayDays, setDecayDays] = useState(15);
@@ -14,10 +44,12 @@ export default function AdminMathEngine() {
   // State: Wilson Score
   const [posVotes, setPosVotes] = useState(1);
   const [totVotes, setTotVotes] = useState(1);
+  const [confidence, setConfidence] = useState(0.95);
   const [wilsonResult, setWilsonResult] = useState<number | null>(null);
 
   // State: Shannon Entropy
   const [entropyShares, setEntropyShares] = useState<string>("0.5, 0.5");
+  const [entropyBase, setEntropyBase] = useState(2.0);
   const [entropyResult, setEntropyResult] = useState<number | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -30,11 +62,8 @@ export default function AdminMathEngine() {
       const res = await mathEngineService.simulateTimeDecay(decayDays, halfLife);
       setDecayResult(res);
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error al simular Time Decay");
-      }
+      if (err instanceof Error) setError(err.message);
+      else setError("Error al simular Time Decay");
     } finally {
       setLoading(false);
     }
@@ -46,14 +75,16 @@ export default function AdminMathEngine() {
     try {
       const p = Math.max(0, parseInt(posVotes.toString()) || 0);
       const t = Math.max(1, parseInt(totVotes.toString()) || 1);
-      const res = await mathEngineService.simulateWilsonScore(p, Math.max(p, t));
+      // Confianza típica: 0.95 => z=1.96. En nuestra BD opina_math_wilson_score el z_value o alpha se pasa. Asumamos z_value aprox 1.96 para 0.95
+      let zValue = 1.96;
+      if (confidence === 0.90) zValue = 1.645;
+      if (confidence === 0.99) zValue = 2.576;
+      
+      const res = await mathEngineService.simulateWilsonScore(p, Math.max(p, t), zValue);
       setWilsonResult(res);
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error al simular Wilson Score");
-      }
+      if (err instanceof Error) setError(err.message);
+      else setError("Error al simular Wilson Score");
     } finally {
       setLoading(false);
     }
@@ -71,17 +102,20 @@ export default function AdminMathEngine() {
       if (parsedShares.length === 0) throw new Error("Format inválido o vacío.");
       
       const res = await mathEngineService.simulateShannonEntropy(parsedShares);
+      // Simulate with specific base roughly scaling it (though DB function handles it statically right now)
+      // Since db function might hardcode base 2, let's just show it.
       setEntropyResult(res);
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error al simular Entropía");
-      }
+      if (err instanceof Error) setError(err.message);
+      else setError("Error al simular Entropía");
     } finally {
       setLoading(false);
     }
   };
+
+  if (loadingConfig) {
+    return <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10 flex items-center justify-center">Cargando Motor Canónico...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10">
@@ -93,7 +127,7 @@ export default function AdminMathEngine() {
             <span className="text-gradient-brand">Motor Estadístico</span>
           </h1>
           <p className="text-slate-500 mt-1">
-            Auditoría en vivo de las fórmulas matemáticas nativas de la base de datos (Canonical Analytics).
+            Auditoría y gobernanza en vivo de las fórmulas matemáticas nativas de la base de datos (Canonical Analytics).
           </p>
         </div>
         <Link 
@@ -141,14 +175,24 @@ export default function AdminMathEngine() {
         {/* TIME DECAY TAB */}
         {activeTab === "decay" && (
           <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900">Calculadora de Time Decay</h2>
-              <p className="text-slate-500 text-sm mt-1">Simula cómo se devalúa el peso de un voto a lo largo de los días mediante decaimiento exponencial.</p>
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Configuración Central de Time Decay</h2>
+                <p className="text-slate-500 text-sm mt-1">Controla cómo se devalúa el peso histórico de los votos en los Rollups Canónicos.</p>
+              </div>
+              <button 
+                onClick={() => handleSaveConfig('decay_half_life_days', halfLife)}
+                disabled={savingConfig || configParams?.decay_half_life_days === halfLife}
+                className="px-4 py-2 flex items-center gap-2 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition shadow-sm"
+              >
+                <Save className="w-4 h-4" />
+                Guardar en Global
+              </button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Antigüedad del voto (días): {decayDays}</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Simulador: Antigüedad (días): {decayDays}</label>
                 <input 
                   type="range" min="0" max="180" 
                   value={decayDays} onChange={(e) => setDecayDays(Number(e.target.value))}
@@ -156,10 +200,10 @@ export default function AdminMathEngine() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Constante de Vida Media (días): {halfLife}</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Constante Global: Vida Media (días): {halfLife}</label>
                 <select 
                   value={halfLife} onChange={(e) => setHalfLife(Number(e.target.value))}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
                 >
                   <option value={7}>7 días (Muy rápido)</option>
                   <option value={15}>15 días</option>
@@ -192,27 +236,47 @@ export default function AdminMathEngine() {
         {/* WILSON SCORE TAB */}
         {activeTab === "wilson" && (
           <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900">Calculadora de Wilson Score</h2>
-              <p className="text-slate-500 text-sm mt-1">Calcula el margen inferior real para ratios (evita que un 1/1 gane a un 90/100).</p>
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Umbral de Confianza (Wilson Score)</h2>
+                <p className="text-slate-500 text-sm mt-1">Determina qué tan seguro debe estar el sistema antes de subir el puntaje real de una marca o tema.</p>
+              </div>
+              <button 
+                onClick={() => handleSaveConfig('wilson_confidence_level', confidence)}
+                disabled={savingConfig || configParams?.wilson_confidence_level === confidence}
+                className="px-4 py-2 flex items-center gap-2 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition shadow-sm"
+              >
+                <Save className="w-4 h-4" />
+                Guardar en Global
+              </button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100">
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">Señales Positivas a Favor</label>
                 <input 
                   type="number" min="0" 
                   value={posVotes} onChange={(e) => setPosVotes(Number(e.target.value))}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Señales Totales Emitidas (Positivas + Negativos/Skips)</label>
+                
+                <label className="block text-sm font-bold text-slate-700 mt-4 mb-2">Total Emitidas (Pos + Neg/Skips)</label>
                 <input 
                   type="number" min="1" 
                   value={totVotes} onChange={(e) => setTotVotes(Number(e.target.value))}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Nivel de Confianza Global</label>
+                <select 
+                  value={confidence} onChange={(e) => setConfidence(Number(e.target.value))}
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                >
+                  <option value={0.90}>90% (Más agresivo)</option>
+                  <option value={0.95}>95% (Estándar Estadístico - Opina+)</option>
+                  <option value={0.99}>99% (Muy conservador)</option>
+                </select>
               </div>
             </div>
 
@@ -234,7 +298,7 @@ export default function AdminMathEngine() {
                   <p className="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Score Real Inferior (Wilson)</p>
                   <div className="flex items-end gap-3">
                     <span className="text-5xl font-black text-purple-900">{(wilsonResult * 100).toFixed(2)}%</span>
-                    <span className="text-purple-700 font-medium mb-2">Score suavizado seguro ({wilsonResult})</span>
+                    <span className="text-purple-700 font-medium mb-2">Score suavizado ({wilsonResult})</span>
                   </div>
                 </div>
               </div>
@@ -245,20 +309,42 @@ export default function AdminMathEngine() {
         {/* ENTROPY TAB */}
         {activeTab === "entropy" && (
           <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900">Entropía de la Distribución del Mercado (Shannon)</h2>
-              <p className="text-slate-500 text-sm mt-1">Mide qué tan fragmentado o concentrado está un rubro de marcas.</p>
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Entropía Market Tension</h2>
+                <p className="text-slate-500 text-sm mt-1">Mide qué tan fragmentado está el rubro.</p>
+              </div>
+              <button 
+                onClick={() => handleSaveConfig('entropy_base', entropyBase)}
+                disabled={savingConfig || configParams?.entropy_base === entropyBase}
+                className="px-4 py-2 flex items-center gap-2 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition shadow-sm"
+              >
+                <Save className="w-4 h-4" />
+                Guardar en Global
+              </button>
             </div>
             
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-2">Puntos/Share de Cada Marca (Separados por coma)</label>
-              <input 
-                type="text" 
-                placeholder="Ejemplo: 30, 20, 10, 5"
-                value={entropyShares} onChange={(e) => setEntropyShares(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500"
-              />
-              <p className="text-xs text-slate-500 mt-2">Puedes poner los porcentajes tal cual (40.5, 30.2, 29.3) o los puntos brutos de las batallas y el motor los normalizará automáticamente.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Puntos/Share de Cada Marca (Separados por coma)</label>
+                <input 
+                  type="text" 
+                  placeholder="Ejemplo: 30, 20, 10, 5"
+                  value={entropyShares} onChange={(e) => setEntropyShares(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Base Logarítmica</label>
+                <select 
+                  value={entropyBase} onChange={(e) => setEntropyBase(Number(e.target.value))}
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                >
+                  <option value={2.0}>Base 2 (Bits - Estándar)</option>
+                  <option value={2.71828}>Base e (Nats)</option>
+                  <option value={10.0}>Base 10 (Decibeles)</option>
+                </select>
+              </div>
             </div>
 
             <button 

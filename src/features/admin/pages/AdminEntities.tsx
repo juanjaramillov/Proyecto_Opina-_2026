@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter, ChevronDown, BadgeAlert, TrendingUp, TrendingDown, Power, Search, Plus, X, Edit2 } from "lucide-react";
+import { Filter, ChevronDown, BadgeAlert, Power, Search, Plus, X, Edit2 } from "lucide-react";
 import { adminEntitiesService, AdminEntity } from "../services/adminEntitiesService";
 import { logger } from '../../../lib/logger';
 import { getAssetPathForOption } from '../../signals/config/brandAssets';
@@ -112,9 +112,9 @@ export default function AdminEntities() {
     }
 
     result.sort((a, b) => {
-      const eloPubA = (a.elo_score || 1500) * (1 + (a.elo_modifier_pct || 0) / 100);
-      const eloPubB = (b.elo_score || 1500) * (1 + (b.elo_modifier_pct || 0) / 100);
-      const eloDiff = eloPubB - eloPubA;
+      const eloA = a.elo_score || 1500;
+      const eloB = b.elo_score || 1500;
+      const eloDiff = eloB - eloA;
       if (eloDiff !== 0) return eloDiff;
       return a.name.localeCompare(b.name);
     });
@@ -122,20 +122,7 @@ export default function AdminEntities() {
     return result;
   }, [entities, searchQuery, categoryFilter, subcategoryFilter, statusFilter]);
 
-  const handleModifierChange = async (id: string, currentModifier: number | null, delta: number) => {
-    const newModifier = (currentModifier || 0) + delta;
-    setEntities(prev => prev.map(e => e.id === id ? { ...e, elo_modifier_pct: newModifier } : e));
-    try {
-      const success = await adminEntitiesService.updateEloModifier(id, newModifier);
-      if (!success) {
-        setEntities(prev => prev.map(e => e.id === id ? { ...e, elo_modifier_pct: currentModifier } : e));
-        alert("Error al actualizar modificador");
-      }
-    } catch (err) {
-      setEntities(prev => prev.map(e => e.id === id ? { ...e, elo_modifier_pct: currentModifier } : e));
-      logger.error("Error updating modifier", err);
-    }
-  };
+
 
   const handleStatusToggle = async (id: string, currentStatus: boolean | null) => {
     const newStatus = !currentStatus;
@@ -162,7 +149,6 @@ export default function AdminEntities() {
       logo_path: '',
       is_active: true,
       elo_score: 1500,
-      elo_modifier_pct: 0,
       metadata: {
         subcategory: '',
         contact: { address: '', phone: '' },
@@ -382,7 +368,7 @@ export default function AdminEntities() {
                   <th className="px-6 py-4 text-center">Entidad</th>
                   <th className="px-6 py-4 text-center">Tipo / Cat</th>
                   <th className="px-6 py-4 text-center">Estado</th>
-                  <th className="px-6 py-4 text-center">ELO / Mod</th>
+                  <th className="px-6 py-4 text-center">ELO Score</th>
                   <th className="px-6 py-4 text-center">Módulos</th>
                   <th className="px-6 py-4 text-right">Acciones</th>
                 </tr>
@@ -447,16 +433,9 @@ export default function AdminEntities() {
                       </td>
                       <td className="px-6 py-4 text-center">
                         <div className="flex flex-col items-center gap-1">
-                          <span className={`text-sm font-black tabular-nums ${(entity.elo_modifier_pct || 0) !== 0 ? 'text-primary-600' : 'text-slate-800'}`}>
-                            {Math.round((entity.elo_score || 1500) * (1 + (entity.elo_modifier_pct || 0) / 100))}
+                          <span className="text-sm font-black tabular-nums text-slate-800">
+                            {entity.elo_score || 1500}
                           </span>
-                          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={() => handleModifierChange(entity.id, entity.elo_modifier_pct, -15)} className="text-red-500 hover:text-red-700 p-1"><TrendingDown className="w-3 h-3" /></button>
-                            <span className={`text-[10px] font-bold tabular-nums ${entity.elo_modifier_pct && entity.elo_modifier_pct > 0 ? 'text-emerald-600' : entity.elo_modifier_pct && entity.elo_modifier_pct < 0 ? 'text-red-600' : 'text-slate-400'}`}>
-                              {entity.elo_modifier_pct ? (entity.elo_modifier_pct > 0 ? `+${entity.elo_modifier_pct}%` : `${entity.elo_modifier_pct}%`) : '0%'}
-                            </span>
-                            <button onClick={() => handleModifierChange(entity.id, entity.elo_modifier_pct, 15)} className="text-emerald-500 hover:text-emerald-700 p-1"><TrendingUp className="w-3 h-3" /></button>
-                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-center">

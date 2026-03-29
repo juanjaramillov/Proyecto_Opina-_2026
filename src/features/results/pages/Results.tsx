@@ -62,20 +62,18 @@ export default function ResultsPage() {
       {/* 2. Main Content Flow Vertical */}
       <main className="w-full flex flex-col relative z-10 pb-20">
         
-        {/* Editorials and Blocks: For now we pass snapshot as any to avoid type errors since components might still expect MasterHubSnapshot.
-            We adapter or typecast this so that the app doesn't break. 
-        */}
-        <ResultsEditorialHero snapshot={snapshot as any} />
+        {/* Editorials and Blocks */}
+        <ResultsEditorialHero heroData={snapshot.hero} />
         
         {/* Franja de Pulso Vivo */}
-        <ResultsLivePulse />
+        <ResultsLivePulse pulseData={snapshot.pulse} />
 
         {/* Bloques Editoriales Modulares (Cada uno controla su propio ancho y background) */}
         <div className="w-full flex flex-col pt-8">
-           <ResultsVersusBlock />
-           <ResultsTournamentBlock />
-           <ResultsDepthBlock />
-           <ResultsNewsBlock />
+           <ResultsVersusBlock versusData={snapshot.blocks.versus} />
+           <ResultsTournamentBlock tournamentData={snapshot.blocks.tournament} />
+           <ResultsDepthBlock depthData={snapshot.blocks.depth} />
+           <ResultsNewsBlock newsData={snapshot.blocks.news} />
            <ResultsPlacesBlock />
            <ResultsFutureModules />
         </div>

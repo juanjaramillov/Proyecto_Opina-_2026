@@ -2,14 +2,81 @@ import { useEffect } from "react";
 import { FileText, Download, Target, CalendarDays, BarChart3, AlertTriangle, LightbulbIcon, ArrowLeft } from "lucide-react";
 import { analyticsService } from "../../../features/analytics/services/analyticsService";
 import { Link } from "react-router-dom";
-import { b2bCuratedSnapshot } from "../../../read-models/b2b/b2bCuratedSnapshot";
+import { useOverviewB2BState } from "../hooks/useOverviewB2BState";
+import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
 
 export default function ReportsB2B() {
     useEffect(() => {
         analyticsService.trackSystem('b2b_opened_reports', 'info');
     }, []);
 
-    const { reports } = b2bCuratedSnapshot;
+    const { loading, snapshot } = useOverviewB2BState();
+
+    if (loading) {
+        return (
+            <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC] items-center justify-center">
+                <div className="animate-pulse flex flex-col items-center">
+                    <FileText className="w-12 h-12 text-slate-300 mb-4" />
+                    <div className="text-slate-500 font-medium">Generando Reporte de Inteligencia...</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!snapshot || snapshot.availability === 'insufficient_data' || snapshot.reports.exportStatus === 'blocked') {
+        const total = snapshot?.overview.secondaryMetrics["Total Señales Evaluadas"] || 0;
+        return (
+            <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC]">
+                <div className="flex items-center justify-between mb-8 max-w-5xl mx-auto w-full">
+                    <Link 
+                        to="/b2b" 
+                        onClick={() => analyticsService.trackSystem('b2b_clicked_next_view', 'info', { destination_view: 'overview' })}
+                        className="text-slate-500 hover:text-indigo-600 transition flex items-center gap-2 font-medium text-sm"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Volver
+                    </Link>
+                </div>
+                <div className="max-w-3xl mx-auto w-full mt-10">
+                    <MetricAvailabilityCard 
+                        label="Reporte de Inteligencia B2B"
+                        status="insufficient_data"
+                        helperText={`Se requiere mayor actividad global para desbloquear la generación de reportes B2B. (Interacciones Mínimas: 30, Actual: ${total})`}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    // Filtrar usando lógica de elegibilidad comercial
+    const eligibleEntities = snapshot.benchmark.entries.filter(
+        e => e.commercialEligibilityLabel === "premium_export_ready" || e.commercialEligibilityLabel === "standard_ready"
+    );
+
+    const leader = eligibleEntities.length > 0 ? eligibleEntities[0] : null;
+    const growing = eligibleEntities.find(e => e.stabilityLabel === 'en_aceleración');
+    const universeCount = snapshot.overview.secondaryMetrics["Total Señales Evaluadas"] || 0;
+    
+    // Generar contenido del reporte dinámicamente
+    const reports = {
+        title: "Brief Ejecutivo: Dinámica Competitiva B2B",
+        dateRange: "Actualización Continua",
+        universe: `${universeCount} señales validadas (Mercado Nacional)`,
+        summary: leader 
+            ? `El mercado muestra una dinámica activa. La entidad '${leader.entityName}' consolida su liderazgo capturando un ${(leader.weightedPreferenceShare * 100).toFixed(1)}% de preferencia, manteniéndose ${leader.stabilityLabel.replace('_',' ')}.`
+            : "Actividad consolidada sin un líder claro elegible para exportación comercial en este momento.",
+        findings: eligibleEntities.slice(0, 3).map(e => 
+            `La entidad '${e.entityName}' mantiene una preferencia del ${(e.weightedPreferenceShare * 100).toFixed(1)}%, con volumen muestral de ${e.nEff.toFixed(0)} interacciones (Elegibilidad: ${e.commercialEligibilityLabel.replace('_',' ')}).`
+        ),
+        criticalAlert: snapshot.alerts.filter(a => a.severity === 'high').length > 0
+            ? snapshot.alerts.filter(a => a.severity === 'high')[0].message
+            : "No se detectan fugas de lealtad críticas ni pérdidas de momentum severas en el universo analizado.",
+        strategicRecommendation: growing
+            ? `Oportunidad Táctica: '${growing.entityName}' muestra aceleración positiva. Evaluar tácticas de retención o alianzas estratégicas inmediatas considerando su tracción ascendente.`
+            : leader 
+                ? `Mantener estrategias de consolidación sobre '${leader.entityName}' para proteger su margen frente a posibles retadores emergentes.`
+                : "Se requiere mayor flujo de datos para emitir una recomendación estratégica c-level sólida."
+    };
 
     return (
         <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC]">
@@ -80,17 +147,21 @@ export default function ReportsB2B() {
                             {/* Key Findings List */}
                             <section>
                                 <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
-                                    <Target className="w-4 h-4" /> Hallazgos Principales
+                                    <Target className="w-4 h-4" /> Hallazgos Principales (Eligibles)
                                 </h2>
                                 <ul className="space-y-4">
-                                    {reports.findings.map((finding, idx) => (
+                                    {reports.findings.length > 0 ? reports.findings.map((finding, idx) => (
                                         <li key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
                                             <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs shrink-0">
                                                 {idx + 1}
                                             </span>
                                             <span className="text-slate-700 font-medium leading-relaxed">{finding}</span>
                                         </li>
-                                    ))}
+                                    )) : (
+                                        <li className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <span className="text-slate-500 font-medium">No hay suficientes entidades con grado comercial.</span>
+                                        </li>
+                                    )}
                                 </ul>
                             </section>
 
@@ -99,7 +170,7 @@ export default function ReportsB2B() {
                                 <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
                                     <AlertTriangle className="w-4 h-4 text-rose-500" /> Riesgo Inminente
                                 </h2>
-                                <div className="bg-rose-50 p-6 rounded-3xl border border-rose-200 shadow-sm relative overflow-hidden">
+                                <div className="bg-rose-50 p-6 rounded-3xl border border-rose-200 shadow-sm relative overflow-hidden h-full">
                                     <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                                         <AlertTriangle className="w-32 h-32 text-rose-900 -rotate-12" />
                                     </div>

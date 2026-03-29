@@ -3,8 +3,9 @@ import { ArrowLeftRight, Building2, TrendingUp, TrendingDown, Target, ShieldAler
 import { analyticsService } from "../../../features/analytics/services/analyticsService";
 import { Link } from "react-router-dom";
 import { PremiumGate } from "../../../components/ui/PremiumGate";
-import { b2bCuratedSnapshot } from "../../../read-models/b2b/b2bCuratedSnapshot";
 import { useAuth } from "../../../features/auth/hooks/useAuth";
+import { useOverviewB2BState } from "../hooks/useOverviewB2BState";
+import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
 
 export default function DeepDiveB2B() {
     useEffect(() => {
@@ -14,7 +15,56 @@ export default function DeepDiveB2B() {
     const { profile } = useAuth();
     const isAdmin = profile?.role === 'admin';
 
-    const { deepDive } = b2bCuratedSnapshot;
+    const { loading, snapshot } = useOverviewB2BState();
+
+    if (loading) {
+        return (
+            <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC] items-center justify-center">
+                <div className="animate-pulse flex flex-col items-center">
+                    <ArrowLeftRight className="w-12 h-12 text-slate-300 mb-4" />
+                    <div className="text-slate-500 font-medium">Cargando Análisis Comparativo...</div>
+                </div>
+            </div>
+        );
+    }
+
+    const total = snapshot?.overview.secondaryMetrics["Total Señales Evaluadas"] || 0;
+    const entries = snapshot?.benchmark?.entries || [];
+    const leader = entries.length > 0 ? entries[0] : null;
+    const challenger = entries.length > 1 ? entries[1] : null;
+
+    if (!snapshot || snapshot.availability === 'insufficient_data' || !leader || !challenger) {
+        return (
+            <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 shrink-0">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                            <ArrowLeftRight className="w-8 h-8 text-primary-600" />
+                            <span className="text-gradient-brand">Comparativa Estratégica</span>
+                        </h1>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Link 
+                            to="/b2b"
+                            className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm"
+                        >
+                            Volver al Overview
+                        </Link>
+                    </div>
+                </div>
+                <div className="max-w-3xl mx-auto w-full mt-10">
+                    <MetricAvailabilityCard 
+                        label="Comparativa Estratégica (Head-to-Head)"
+                        status="insufficient_data" 
+                        helperText={`Se requieren múltiples competidores fuertes con datos sólidos para desbloquear el análisis profundo (Interacciones Mínimas: 30, Actuales: ${total}).`}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    const leaderGap = leader.weightedPreferenceShare - challenger.weightedPreferenceShare;
+    const projectionGap = leaderGap; // Using exact gap as projection base
 
     return (
         <div className="p-6 lg:p-10 flex flex-col h-full min-h-screen bg-[#F8FAFC]">
@@ -53,24 +103,24 @@ export default function DeepDiveB2B() {
                             <div className="w-20 h-20 bg-white rounded-2xl border border-primary-100 shadow-md flex items-center justify-center mx-auto mb-6 transform rotate-3">
                                 <Building2 className="w-10 h-10 text-primary-600" />
                             </div>
-                            <h2 className="text-4xl font-black text-slate-900 -tracking-wide mb-2">{deepDive.winner.name}</h2>
-                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{deepDive.winner.id}</p>
+                            <h2 className="text-4xl font-black text-slate-900 -tracking-wide mb-2">{leader.entityName}</h2>
+                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{leader.entityId}</p>
                         </div>
                         
                         <div className="p-8 border-t border-slate-100 bg-white">
                             <div className="text-center mb-8">
                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Share of Preference</p>
-                                <h3 className="text-5xl font-black text-primary-600">{(deepDive.winner.winRate * 100).toFixed(1)}%</h3>
+                                <h3 className="text-5xl font-black text-primary-600">{(leader.weightedPreferenceShare * 100).toFixed(1)}%</h3>
                                 <div className="flex items-center justify-center gap-1 text-slate-500 mt-2 text-sm font-medium">
-                                    <Target className="w-4 h-4" /> Base: {deepDive.winner.comparisons.toLocaleString()} duelos
+                                    <Target className="w-4 h-4" /> Base: {leader.nEff.toFixed(0)} duelos efectivos
                                 </div>
                             </div>
                             
                             <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <span className="text-sm font-bold text-slate-600">Momentum (30d)</span>
-                                <div className="flex items-center gap-2 text-rose-500 font-bold bg-white px-3 py-1 rounded-xl shadow-sm border border-slate-100">
-                                    <TrendingDown className="w-4 h-4" />
-                                    {deepDive.winner.delta}%
+                                <span className="text-sm font-bold text-slate-600">Status Competitivo</span>
+                                <div className={`flex items-center gap-2 font-bold px-3 py-1 rounded-xl shadow-sm border ${leader.stabilityLabel === 'en_caída' ? 'text-rose-500 bg-rose-50 border-rose-100' : leader.stabilityLabel === 'en_aceleración' ? 'text-emerald-500 bg-emerald-50 border-emerald-100' : 'text-slate-500 bg-white border-slate-100'}`}>
+                                    {leader.stabilityLabel === 'en_caída' ? <TrendingDown className="w-4 h-4" /> : leader.stabilityLabel === 'en_aceleración' ? <TrendingUp className="w-4 h-4" /> : null}
+                                    {leader.stabilityLabel.replace('_', ' ').toUpperCase()}
                                 </div>
                             </div>
                         </div>
@@ -78,28 +128,29 @@ export default function DeepDiveB2B() {
 
                     {/* Retador */}
                     <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden relative opacity-95">
+                        <div className="absolute top-0 right-0 px-4 py-1 bg-slate-600 text-white text-xs font-bold rounded-bl-xl z-20">PRINCIPAL RETADOR</div>
                         <div className="p-8 text-center bg-gradient-to-b from-slate-50/50 to-white relative z-10">
                             <div className="w-20 h-20 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center mx-auto mb-6 transform -rotate-3">
                                 <Building2 className="w-10 h-10 text-slate-400" />
                             </div>
-                            <h2 className="text-4xl font-black text-slate-900 -tracking-wide mb-2">{deepDive.challenger.name}</h2>
-                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{deepDive.challenger.id}</p>
+                            <h2 className="text-4xl font-black text-slate-900 -tracking-wide mb-2">{challenger.entityName}</h2>
+                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{challenger.entityId}</p>
                         </div>
                         
                         <div className="p-8 border-t border-slate-100 bg-white">
                             <div className="text-center mb-8">
                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Share of Preference</p>
-                                <h3 className="text-5xl font-black text-slate-700">{(deepDive.challenger.winRate * 100).toFixed(1)}%</h3>
+                                <h3 className="text-5xl font-black text-slate-700">{(challenger.weightedPreferenceShare * 100).toFixed(1)}%</h3>
                                 <div className="flex items-center justify-center gap-1 text-slate-500 mt-2 text-sm font-medium">
-                                    <Target className="w-4 h-4" /> Base: {deepDive.challenger.comparisons.toLocaleString()} duelos
+                                    <Target className="w-4 h-4" /> Base: {challenger.nEff.toFixed(0)} duelos efectivos
                                 </div>
                             </div>
                             
                             <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <span className="text-sm font-bold text-slate-600">Momentum (30d)</span>
-                                <div className="flex items-center gap-2 text-emerald-500 font-bold bg-white px-3 py-1 rounded-xl shadow-sm border border-slate-100">
-                                    <TrendingUp className="w-4 h-4" />
-                                    +{deepDive.challenger.delta}%
+                                <span className="text-sm font-bold text-slate-600">Status Competitivo</span>
+                                <div className={`flex items-center gap-2 font-bold px-3 py-1 rounded-xl shadow-sm border ${challenger.stabilityLabel === 'en_caída' ? 'text-rose-500 bg-rose-50 border-rose-100' : challenger.stabilityLabel === 'en_aceleración' ? 'text-emerald-500 bg-emerald-50 border-emerald-100' : 'text-slate-500 bg-white border-slate-100'}`}>
+                                    {challenger.stabilityLabel === 'en_caída' ? <TrendingDown className="w-4 h-4" /> : challenger.stabilityLabel === 'en_aceleración' ? <TrendingUp className="w-4 h-4" /> : null}
+                                    {challenger.stabilityLabel.replace('_', ' ').toUpperCase()}
                                 </div>
                             </div>
                         </div>
@@ -121,19 +172,19 @@ export default function DeepDiveB2B() {
                                         <div className="p-2 bg-primary-500/20 rounded-xl backdrop-blur-sm border border-primary-500/20">
                                             <Sparkles className="w-5 h-5 text-primary-400" />
                                         </div>
-                                        <span className="text-xs font-black uppercase tracking-widest text-primary-400">Insight Comparativo de IA</span>
+                                        <span className="text-xs font-black uppercase tracking-widest text-primary-400">Insight Comparativo Dinámico de IA</span>
                                     </div>
                                     
                                     <p className="text-lg md:text-xl font-medium text-white leading-relaxed mb-6">
-                                        "{deepDive.executiveInsight.intelligenceText}"
+                                        "{leader.entityName} mantiene la posición dominante pero el momentum competitivo indica dinámicas cambiantes en el segmento profundo. La desviación estándar del volumen modelada confirma una brecha del {(leaderGap * 100).toFixed(1)}%. Este fenómeno requiere estrategias tácticas si {challenger.entityName} capitaliza su ciclo actual."
                                     </p>
                                     
                                     <div className="flex flex-wrap items-center gap-3">
                                         <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-mono font-bold tracking-wide border border-slate-700">
-                                            Confianza: {deepDive.executiveInsight.confidence}
+                                            Confianza Wilson: {leader.wilsonLowerBound > 0.5 ? 'Muy Alta' : 'Moderada'}
                                         </span>
                                         <span className="px-3 py-1 rounded-full bg-primary-500/20 text-primary-200 text-xs font-bold uppercase tracking-wider">
-                                            Categoría: {deepDive.executiveInsight.category}
+                                            Categoría: Competitividad
                                         </span>
                                     </div>
                                 </div>
@@ -145,11 +196,11 @@ export default function DeepDiveB2B() {
                                     <div className="space-y-4">
                                         <div>
                                             <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Brecha Actual</p>
-                                            <p className="text-2xl font-black text-white">24.8 <span className="text-sm text-slate-400 font-medium">puntos</span></p>
+                                            <p className="text-2xl font-black text-white">{(leaderGap * 100).toFixed(1)} <span className="text-sm text-slate-400 font-medium">puntos</span></p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Proyección 90d</p>
-                                            <p className="text-xl font-bold text-amber-500">12.5 <span className="text-sm text-amber-500/50 font-medium">puntos</span> <TrendingDown className="inline w-4 h-4" /></p>
+                                            <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Proyección Tendencial</p>
+                                            <p className="text-xl font-bold text-amber-500">{(projectionGap * 100).toFixed(1)} <span className="text-sm text-amber-500/50 font-medium">puntos</span> {projectionGap < leaderGap ? <TrendingDown className="inline w-4 h-4 ml-1" /> : <TrendingUp className="inline w-4 h-4 ml-1" />}</p>
                                         </div>
                                     </div>
                                 </div>

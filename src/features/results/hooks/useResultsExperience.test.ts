@@ -63,7 +63,7 @@ describe('useResultsExperience', () => {
         expect(resultsCommunityService.getResultsCommunitySnapshot).toHaveBeenCalledWith(
             { period: '30D', module: 'ALL', generation: 'ALL' }
         );
-        expect(analyticsService.trackSystem).toHaveBeenCalledWith('user_opened_results', 'info');
+        expect(analyticsService.trackSystem).toHaveBeenCalledWith('results_hub_b2c_page_view', 'info');
     });
 
     it('handles guardrails correctly when cohort is small', async () => {

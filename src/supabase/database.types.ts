@@ -1,9 +1,3 @@
-/**
- * AUTO-GENERATED FILE.
- * Source of truth: Supabase CLI.
- * Do not edit manually.
- * Manual overrides must live outside this file in `database-manual-overrides.ts`.
- */
 export type Json =
   | string
   | number
@@ -13,11 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
-  }
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -150,6 +139,426 @@ export type Database = {
           trust_multiplier_enabled?: boolean | null
           verification_multiplier?: number
           version_name?: string
+        }
+        Relationships: []
+      }
+      analytics_daily_depth_rollup: {
+        Row: {
+          attribute_category: string
+          created_at: string
+          depth_score: number
+          entity_id: string
+          id: string
+          responses_count: number
+          summary_date: string
+        }
+        Insert: {
+          attribute_category: string
+          created_at?: string
+          depth_score?: number
+          entity_id: string
+          id?: string
+          responses_count?: number
+          summary_date?: string
+        }
+        Update: {
+          attribute_category?: string
+          created_at?: string
+          depth_score?: number
+          entity_id?: string
+          id?: string
+          responses_count?: number
+          summary_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_daily_depth_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_depth_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_depth_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_depth_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+        ]
+      }
+      analytics_daily_entity_rollup: {
+        Row: {
+          created_at: string
+          entity_id: string
+          id: string
+          losses: number
+          momentum: number | null
+          preference_share: number | null
+          summary_date: string
+          total_battles: number
+          wins: number
+        }
+        Insert: {
+          created_at?: string
+          entity_id: string
+          id?: string
+          losses?: number
+          momentum?: number | null
+          preference_share?: number | null
+          summary_date?: string
+          total_battles?: number
+          wins?: number
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string
+          id?: string
+          losses?: number
+          momentum?: number | null
+          preference_share?: number | null
+          summary_date?: string
+          total_battles?: number
+          wins?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_daily_entity_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_entity_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_entity_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_entity_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+        ]
+      }
+      analytics_daily_segment_rollup: {
+        Row: {
+          created_at: string
+          entity_id: string
+          id: string
+          preference_share: number | null
+          segment_type: string
+          segment_value: string
+          summary_date: string
+          total_battles: number
+          wins: number
+        }
+        Insert: {
+          created_at?: string
+          entity_id: string
+          id?: string
+          preference_share?: number | null
+          segment_type: string
+          segment_value: string
+          summary_date?: string
+          total_battles?: number
+          wins?: number
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string
+          id?: string
+          preference_share?: number | null
+          segment_type?: string
+          segment_value?: string
+          summary_date?: string
+          total_battles?: number
+          wins?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_daily_segment_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_segment_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_demographic_preference_insights"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_segment_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_depth_entity_question_summary"
+            referencedColumns: ["entity_id"]
+          },
+          {
+            foreignKeyName: "analytics_daily_segment_rollup_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "v_trend_week_over_week"
+            referencedColumns: ["entity_id"]
+          },
+        ]
+      }
+      analytics_daily_topic_rollup: {
+        Row: {
+          created_at: string
+          dominant_answer: string | null
+          dominant_answer_share: number | null
+          entropy_normalized: number | null
+          fragmentation_label: string | null
+          heat_index: number | null
+          id: string
+          linked_contexts_count: number | null
+          linked_entities_count: number | null
+          polarization_index: number | null
+          reaction_latency_minutes: number | null
+          resonance_index: number | null
+          summary_date: string
+          topic_id: string
+          total_effective_weight: number
+          total_signals: number
+          unique_users: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dominant_answer?: string | null
+          dominant_answer_share?: number | null
+          entropy_normalized?: number | null
+          fragmentation_label?: string | null
+          heat_index?: number | null
+          id?: string
+          linked_contexts_count?: number | null
+          linked_entities_count?: number | null
+          polarization_index?: number | null
+          reaction_latency_minutes?: number | null
+          resonance_index?: number | null
+          summary_date?: string
+          topic_id: string
+          total_effective_weight?: number
+          total_signals?: number
+          unique_users?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dominant_answer?: string | null
+          dominant_answer_share?: number | null
+          entropy_normalized?: number | null
+          fragmentation_label?: string | null
+          heat_index?: number | null
+          id?: string
+          linked_contexts_count?: number | null
+          linked_entities_count?: number | null
+          polarization_index?: number | null
+          reaction_latency_minutes?: number | null
+          resonance_index?: number | null
+          summary_date?: string
+          topic_id?: string
+          total_effective_weight?: number
+          total_signals?: number
+          unique_users?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      analytics_engine_config: {
+        Row: {
+          decay_half_life_days: number
+          entropy_base: number
+          id: string
+          min_sample_size: number
+          updated_at: string
+          updated_by: string | null
+          wilson_confidence_level: number
+        }
+        Insert: {
+          decay_half_life_days?: number
+          entropy_base?: number
+          id?: string
+          min_sample_size?: number
+          updated_at?: string
+          updated_by?: string | null
+          wilson_confidence_level?: number
+        }
+        Update: {
+          decay_half_life_days?: number
+          entropy_base?: number
+          id?: string
+          min_sample_size?: number
+          updated_at?: string
+          updated_by?: string | null
+          wilson_confidence_level?: number
+        }
+        Relationships: []
+      }
+      analytics_metric_overrides: {
+        Row: {
+          exportable_override: boolean | null
+          forced_status: string | null
+          is_enabled: boolean
+          max_freshness_hours_override: number | null
+          metric_id: string
+          min_n_eff_override: number | null
+          min_sample_override: number | null
+          notes: string | null
+          updated_at: string
+          visible_by_default_override: boolean | null
+        }
+        Insert: {
+          exportable_override?: boolean | null
+          forced_status?: string | null
+          is_enabled?: boolean
+          max_freshness_hours_override?: number | null
+          metric_id: string
+          min_n_eff_override?: number | null
+          min_sample_override?: number | null
+          notes?: string | null
+          updated_at?: string
+          visible_by_default_override?: boolean | null
+        }
+        Update: {
+          exportable_override?: boolean | null
+          forced_status?: string | null
+          is_enabled?: boolean
+          max_freshness_hours_override?: number | null
+          metric_id?: string
+          min_n_eff_override?: number | null
+          min_sample_override?: number | null
+          notes?: string | null
+          updated_at?: string
+          visible_by_default_override?: boolean | null
+        }
+        Relationships: []
+      }
+      analytics_rollup_runs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          rollup_name: string
+          rows_affected: number | null
+          started_at: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          rollup_name: string
+          rows_affected?: number | null
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          rollup_name?: string
+          rows_affected?: number | null
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      analytics_surface_metric_config: {
+        Row: {
+          created_at: string
+          id: string
+          is_pinned: boolean
+          is_visible: boolean
+          metric_id: string
+          slot_key: string
+          sort_order: number
+          surface_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_pinned?: boolean
+          is_visible?: boolean
+          metric_id: string
+          slot_key?: string
+          sort_order?: number
+          surface_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_pinned?: boolean
+          is_visible?: boolean
+          metric_id?: string
+          slot_key?: string
+          sort_order?: number
+          surface_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      analytics_surface_presets: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          preset_name: string
+          surface_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          preset_name: string
+          surface_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          preset_name?: string
+          surface_id?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1138,7 +1547,6 @@ export type Database = {
           city: string | null
           country_code: string | null
           created_at: string | null
-          elo_modifier_pct: number | null
           elo_score: number | null
           id: string
           image_url: string | null
@@ -1160,7 +1568,6 @@ export type Database = {
           city?: string | null
           country_code?: string | null
           created_at?: string | null
-          elo_modifier_pct?: number | null
           elo_score?: number | null
           id?: string
           image_url?: string | null
@@ -1182,7 +1589,6 @@ export type Database = {
           city?: string | null
           country_code?: string | null
           created_at?: string | null
-          elo_modifier_pct?: number | null
           elo_score?: number | null
           id?: string
           image_url?: string | null
@@ -2640,6 +3046,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      results_publication_state: {
+        Row: {
+          blocks_visibility_payload: Json | null
+          hero_payload: Json | null
+          highlights_payload: Json | null
+          id: string
+          mode: string
+          published_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          blocks_visibility_payload?: Json | null
+          hero_payload?: Json | null
+          highlights_payload?: Json | null
+          id?: string
+          mode?: string
+          published_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          blocks_visibility_payload?: Json | null
+          hero_payload?: Json | null
+          highlights_payload?: Json | null
+          id?: string
+          mode?: string
+          published_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
       }
       rollup_state: {
         Row: {
@@ -5413,6 +5849,7 @@ export type Database = {
         }[]
       }
       get_state_benchmarks: { Args: never; Returns: Json }
+      get_system_health: { Args: never; Returns: Json }
       get_system_health_metrics: {
         Args: never
         Returns: {
@@ -5474,59 +5911,39 @@ export type Database = {
         Args: { p_answers: Json; p_option_id: string }
         Returns: undefined
       }
-      insert_signal_event:
-        | {
-            Args: {
-              p_attribute_id?: string
-              p_battle_id?: string
-              p_client_event_id?: string
-              p_context_id?: string
-              p_device_hash?: string
-              p_entity_id?: string
-              p_entity_type?: string
-              p_module_type?: string
-              p_option_id?: string
-              p_session_id?: string
-              p_signal_type_code?: string
-              p_value_json?: Json
-              p_value_numeric?: number
-              p_value_text?: string
-            }
-            Returns: undefined
-          }
-        | {
-            Args: {
-              p_attribute_id?: string
-              p_battle_id?: string
-              p_client_event_id?: string
-              p_content_snapshot_id?: string
-              p_context_id?: string
-              p_device_hash?: string
-              p_display_order?: number
-              p_entity_id?: string
-              p_entity_type?: string
-              p_event_status?: string
-              p_interaction_outcome?: string
-              p_left_entity_id?: string
-              p_module_type?: string
-              p_option_id?: string
-              p_origin_element?: string
-              p_origin_module?: string
-              p_question_id?: string
-              p_question_version?: number
-              p_response_time_ms?: number
-              p_right_entity_id?: string
-              p_selected_entity_id?: string
-              p_sequence_id?: string
-              p_sequence_order?: number
-              p_session_id?: string
-              p_signal_type_code?: string
-              p_value_json?: Json
-              p_value_numeric?: number
-              p_value_text?: string
-            }
-            Returns: undefined
-          }
+      insert_signal_event: {
+        Args: {
+          p_attribute_id?: string
+          p_battle_id?: string
+          p_client_event_id?: string
+          p_content_snapshot_id?: string
+          p_context_id?: string
+          p_device_hash?: string
+          p_display_order?: number
+          p_entity_id?: string
+          p_entity_type?: string
+          p_event_status?: string
+          p_interaction_outcome?: string
+          p_left_entity_id?: string
+          p_module_type?: string
+          p_option_id?: string
+          p_origin_element?: string
+          p_origin_module?: string
+          p_question_id?: string
+          p_question_version?: number
+          p_response_time_ms?: number
+          p_right_entity_id?: string
+          p_selected_entity_id?: string
+          p_sequence_id?: string
+          p_sequence_order?: number
+          p_session_id?: string
+          p_signal_type_code?: string
+          p_value_json?: Json
+          p_value_numeric?: number
+          p_value_text?: string
+        }
+        Returns: undefined
+      }
       is_admin_user: { Args: never; Returns: boolean }
       is_b2b_user: { Args: never; Returns: boolean }
       kpi_engagement_quality: {
@@ -5598,6 +6015,31 @@ export type Database = {
         Returns: undefined
       }
       normalize_entity_name: { Args: { p_input: string }; Returns: string }
+      opina_math_shannon_entropy: {
+        Args: { probabilities: number[] }
+        Returns: number
+      }
+      opina_math_shannon_entropy_json: {
+        Args: { shares: Json }
+        Returns: number
+      }
+      opina_math_time_decay:
+        | {
+            Args: { half_life_days?: number; signal_timestamp: string }
+            Returns: number
+          }
+        | {
+            Args: {
+              half_life_days?: number
+              reference_timestamp: string
+              signal_timestamp: string
+            }
+            Returns: number
+          }
+      opina_math_wilson_score: {
+        Args: { positive_votes: number; total_votes: number; z_value?: number }
+        Returns: number
+      }
       process_loyalty_action: {
         Args: { p_action_type: string; p_user_id: string }
         Returns: undefined
@@ -5698,6 +6140,26 @@ export type Database = {
           p_verification_level_code?: string
         }
         Returns: string
+      }
+      refresh_analytics_all_rollups: {
+        Args: { p_days?: number }
+        Returns: Json
+      }
+      refresh_analytics_depth_rollup: {
+        Args: { p_days?: number }
+        Returns: number
+      }
+      refresh_analytics_entity_rollup: {
+        Args: { p_days?: number }
+        Returns: number
+      }
+      refresh_analytics_segment_rollup: {
+        Args: { p_days?: number }
+        Returns: number
+      }
+      refresh_analytics_topic_rollup: {
+        Args: { p_days?: number }
+        Returns: number
       }
       refresh_daily_aggregates: {
         Args: { p_days?: number }
@@ -5904,3 +6366,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+

@@ -189,8 +189,7 @@ export function InvitesTable({
                                             NO
                                         </button>
                                         <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => handleStatusChange(invite.id, invite.status, confirmRowAction.action as any)}
+                                            onClick={() => handleStatusChange(invite.id, invite.status, confirmRowAction.action)}
                                             disabled={loading}
                                             className={`px-1.5 py-0.5 rounded text-[10px] font-bold text-white ${confirmRowAction.action === 'delete' ? 'bg-red-600 hover:bg-red-700' :
                                                 confirmRowAction.action === 'revoked' ? 'bg-blue-600 hover:bg-blue-700' :

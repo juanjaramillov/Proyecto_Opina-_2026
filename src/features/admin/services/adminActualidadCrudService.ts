@@ -214,7 +214,14 @@ export const adminActualidadCrudService = {
 
       // 4. Preparar UPSERT
       const questionsToUpsert = questions.map(q => {
-        const payload: Record<string, unknown> = {
+        const payload: {
+          set_id: string;
+          question_order: number;
+          question_text: string;
+          answer_type: string;
+          options_json: string[];
+          id?: string;
+        } = {
           set_id: set!.id,
           question_order: q.order,
           question_text: q.text,
@@ -231,8 +238,7 @@ export const adminActualidadCrudService = {
       if (questionsToUpsert.length > 0) {
         const { error: upsertError } = await supabase
           .from('topic_questions')
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .upsert(questionsToUpsert as any[], { onConflict: 'id' });
+          .upsert(questionsToUpsert, { onConflict: 'id' });
         if (upsertError) throw upsertError;
       }
 

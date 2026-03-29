@@ -23,9 +23,11 @@ export function ActualidadPreview({ data }: Props) {
         {/* Topic Image Cover */}
         {(() => {
           // Extraemos la URL de imagen usando los mismos fallbacks que el frontend principal
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const rawData = data as any;
-          const imgUrl = rawData.image_url || data.metadata?.image_url || data.metadata?.image || rawData.metadata?.raw_ai_payload?.image_url || rawData.cover_image;
+          const rawData = data as Record<string, unknown>;
+          const rawMetadata = (data.metadata || {}) as Record<string, unknown>;
+          const rawAiPayload = (rawMetadata.raw_ai_payload || {}) as Record<string, unknown>;
+          
+          const imgUrl = rawData.image_url || rawMetadata.image_url || rawMetadata.image || rawAiPayload.image_url || rawData.cover_image;
           
           if (imgUrl) {
             return (

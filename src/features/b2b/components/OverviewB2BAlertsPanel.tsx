@@ -1,8 +1,8 @@
 import { Bell } from "lucide-react";
-import { SystemAlert } from "../hooks/useOverviewB2BState";
+import { IntelligenceAlert } from "../../../read-models/b2b/intelligenceAnalyticsTypes";
 
 interface OverviewB2BAlertsPanelProps {
-  alerts: SystemAlert[];
+  alerts: IntelligenceAlert[];
 }
 
 export function OverviewB2BAlertsPanel({ alerts }: OverviewB2BAlertsPanelProps) {
@@ -25,17 +25,17 @@ export function OverviewB2BAlertsPanel({ alerts }: OverviewB2BAlertsPanelProps) 
               <div key={alert.id} className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors cursor-pointer">
                 <div className="flex items-center gap-2 mb-2">
                   <span className={`w-2 h-2 rounded-full ${
-                    alert.severity === 'CRITICAL' ? 'bg-rose-500 animate-pulse' :
-                    alert.severity === 'WARNING' ? 'bg-amber-500' : 'bg-blue-500'
+                    alert.severity === 'high' ? 'bg-rose-500 animate-pulse' :
+                    alert.severity === 'medium' ? 'bg-amber-500' : 'bg-blue-500'
                   }`} />
                   <p className="text-xs font-bold text-slate-900">{alert.category}</p>
                 </div>
                 <p className="text-[11px] text-slate-600 font-medium">
-                  {alert.entityName}
+                  {alert.headline}
                 </p>
                 <div className="mt-2 text-[10px] text-slate-400 flex items-center justify-between">
-                  <span>Origen: {(alert.metadata?.baseMetric as string) || 'Sistema'}</span>
-                  <span>Hace {Math.floor((Date.now() - new Date(alert.createdAt).getTime()) / 60000)} min</span>
+                  <span>Origen: {(alert.metricId) || 'Sistema'}</span>
+                  <span>Hace {Math.floor((Date.now() - new Date(alert.timestamp).getTime()) / 60000)} min</span>
                 </div>
               </div>
             ))

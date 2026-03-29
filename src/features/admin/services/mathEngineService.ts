@@ -15,7 +15,6 @@ export const mathEngineService = {
     const signalDate = new Date();
     signalDate.setDate(signalDate.getDate() - daysOld);
     
-    // @ts-expect-error - Tipo pendiente de generar en database.types.ts
     const { data, error } = await supabase.rpc("opina_math_time_decay", {
       signal_timestamp: signalDate.toISOString(),
       half_life_days: halfLife
@@ -33,7 +32,6 @@ export const mathEngineService = {
    * Simula el cálculo del Wilson Score Interval (Límite Inferior)
    */
   simulateWilsonScore: async (positiveVotes: number, totalVotes: number, confidence: number = 1.96): Promise<number> => {
-    // @ts-expect-error - Tipo pendiente de generar en database.types.ts
     const { data, error } = await supabase.rpc("opina_math_wilson_score", {
       positive_votes: positiveVotes,
       total_votes: totalVotes,
@@ -52,7 +50,6 @@ export const mathEngineService = {
    * Simula la entropía de Shannon pasándole los "shares" porcentuales o fraccionales (Ej: [0.3, 0.4, 0.3])
    */
   simulateShannonEntropy: async (shares: number[]): Promise<number> => {
-    // @ts-expect-error - Tipo pendiente de generar en database.types.ts
     const { data, error } = await supabase.rpc("opina_math_shannon_entropy_json", {
       shares: shares
     });
@@ -63,5 +60,46 @@ export const mathEngineService = {
     }
 
     return Number(data) || 0;
+  },
+
+  /**
+   * Obtiene la configuración maestra actual del motor
+   */
+  getEngineConfig: async () => {
+    const { data, error } = await supabase
+      .from('analytics_engine_config')
+      .select('*')
+      .limit(1)
+      .single();
+
+    if (error) {
+      console.error("Error al obtener config:", error);
+      throw error;
+    }
+    return data;
+  },
+
+  /**
+   * Actualiza la configuración maestra del motor
+   */
+  updateEngineConfig: async (configParams: Partial<Record<string, number>>) => {
+    const { data: current } = await supabase
+      .from('analytics_engine_config')
+      .select('id')
+      .limit(1)
+      .single();
+
+    if (!current?.id) throw new Error("Configuración principal no encontrada");
+
+    const { error } = await supabase
+      .from('analytics_engine_config')
+      .update(configParams)
+      .eq('id', current.id);
+
+    if (error) {
+      console.error("Error al actualizar config:", error);
+      throw error;
+    }
+    return true;
   }
 };

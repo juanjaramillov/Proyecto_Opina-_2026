@@ -1,75 +1,30 @@
-import { useEffect, useState, useCallback } from "react";
-import { logger } from "../../../lib/logger";
+import { useEffect, useState } from "react";
 import { Bell, Activity, Search } from "lucide-react";
-
-import { metricsService } from "../../metrics/services/metricsService";
-
-interface SystemAlert {
-    id: string;
-    entityName: string;
-    severity: string;
-    category: string;
-    message: string;
-    metadata?: Record<string, unknown>;
-    createdAt: string;
-}
+import { analyticsService } from "../../../features/analytics/services/analyticsService";
+import { useOverviewB2BState } from "../hooks/useOverviewB2BState";
 
 export default function AlertsB2B() {
-    const [alerts, setAlerts] = useState<SystemAlert[]>([]);
-    const [loading, setLoading] = useState(true);
+    const { loading, snapshot } = useOverviewB2BState();
     const [searchTerm, setSearchTerm] = useState("");
     const [filterSeverity, setFilterSeverity] = useState<string>("ALL");
 
-    const loadData = useCallback(async () => {
-        setLoading(true);
-        try {
-            const trends = await metricsService.getTrendSummary();
-            const activeAlerts: SystemAlert[] = [];
-            
-            if (trends && trends.trendingDown.length > 0) {
-                 const worst = [...trends.trendingDown].sort((a,b) => b.signal_count - a.signal_count)[0];
-                 if (worst) {
-                     activeAlerts.push({
-                         id: `alert-down-${worst.entity_id}`,
-                         entityName: worst.entity_name,
-                         severity: 'WARNING',
-                         category: 'Pérdida de Momentum',
-                         message: `La entidad ${worst.entity_name} registra caída sostenida en preferencia comparativa.`,
-                         createdAt: new Date().toISOString()
-                     });
-                 }
-            }
-            if (trends && trends.trendingUp.length > 0) {
-                 const best = [...trends.trendingUp].sort((a,b) => b.signal_count - a.signal_count)[0];
-                 if (best) {
-                     activeAlerts.push({
-                         id: `alert-up-${best.entity_id}`,
-                         entityName: best.entity_name,
-                         severity: 'INFO',
-                         category: 'Aceleración Positiva',
-                         message: `La entidad ${best.entity_name} lidera las tendencias positivas en atención B2C.`,
-                         createdAt: new Date().toISOString()
-                     });
-                 }
-            }
-            
-            setAlerts(activeAlerts);
-        } catch (err) {
-            logger.error("[AlertsB2B] Error loading alerts:", err);
-        } finally {
-            setLoading(false);
-        }
+    useEffect(() => {
+        analyticsService.trackSystem('b2b_opened_alerts', 'info');
     }, []);
 
-    useEffect(() => {
-        loadData();
-    }, [loadData]);
+    const alerts = snapshot?.alerts || [];
 
     const filteredAlerts = alerts.filter(alert => {
-        const matchesEntity = alert.entityName.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesSeverity = filterSeverity === "ALL" || alert.severity === filterSeverity;
+        const matchesEntity = alert.entityName?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+        const matchesSeverity = filterSeverity === "ALL" || alert.severity.toUpperCase() === filterSeverity;
         return matchesEntity && matchesSeverity;
     });
+
+    const refreshData = () => {
+       // El hook useOverviewB2BState ya expone data reactiva, 
+       // pero podemos forzar un re-mount o recarga manual de ser necesario en el master state.
+       window.location.reload();
+    };
 
     return (
         <div className="p-6 lg:p-10">
@@ -87,7 +42,7 @@ export default function AlertsB2B() {
                 
                 <div className="flex items-center gap-3">
                     <button 
-                        onClick={loadData}
+                        onClick={refreshData}
                         className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
                     >
                         <Activity className="w-4 h-4 text-indigo-500" />
@@ -115,9 +70,9 @@ export default function AlertsB2B() {
                             onChange={(e) => setFilterSeverity(e.target.value)}
                         >
                             <option value="ALL">Todas las severidades</option>
-                            <option value="CRITICAL">Críticas</option>
-                            <option value="WARNING">Advertencias</option>
-                            <option value="INFO">Informativas</option>
+                            <option value="HIGH">Críticas</option>
+                            <option value="MEDIUM">Advertencias</option>
+                            <option value="LOW">Informativas</option>
                         </select>
                     </div>
                 </div>
@@ -134,21 +89,21 @@ export default function AlertsB2B() {
                                     <div className="flex items-start justify-between mb-3">
                                         <div className="flex items-center gap-2">
                                             <span className={`w-2.5 h-2.5 rounded-full ${
-                                                alert.severity === 'CRITICAL' ? 'bg-rose-500 animate-pulse' :
-                                                alert.severity === 'WARNING' ? 'bg-amber-500' : 'bg-blue-500'
+                                                alert.severity === 'high' ? 'bg-rose-500 animate-pulse' :
+                                                alert.severity === 'medium' ? 'bg-amber-500' : 'bg-blue-500'
                                             }`} />
                                             <p className="text-xs font-black text-slate-900 tracking-wide uppercase">{alert.category}</p>
                                         </div>
                                     </div>
                                     <h3 className="text-sm font-bold text-slate-800 mb-1">
-                                        {alert.entityName}
+                                        {alert.entityName || alert.headline}
                                     </h3>
                                     <p className="text-xs text-slate-500 leading-relaxed mb-4">
                                         {alert.message}
                                     </p>
                                     <div className="pt-3 mt-auto border-t border-slate-50 flex items-center justify-between text-[10px] text-slate-400 font-medium uppercase tracking-wider">
-                                        <span>Origen: {(alert.metadata?.baseMetric as string) || 'Global Signal'}</span>
-                                        <span>{Math.floor((Date.now() - new Date(alert.createdAt).getTime()) / 60000)} min atrás</span>
+                                        <span>Origen: {alert.metricId || 'Global Signal'}</span>
+                                        <span>{Math.floor((Date.now() - new Date(alert.timestamp).getTime()) / 60000)} min atrás</span>
                                     </div>
                                 </div>
                             ))
@@ -156,7 +111,7 @@ export default function AlertsB2B() {
                             <div className="col-span-full py-12 text-center">
                                 <Bell className="w-12 h-12 text-slate-200 mx-auto mb-3" />
                                 <h3 className="text-sm font-bold text-slate-800 mb-1">Mercado sin sorpresas</h3>
-                                <p className="text-xs text-slate-500">No se registran alertas con esos parámetros.</p>
+                                <p className="text-xs text-slate-500">No se registran alertas con esos parámetros o aún no hay datos suficientes de mercado.</p>
                             </div>
                         )}
                     </div>

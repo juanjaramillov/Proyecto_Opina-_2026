@@ -1,14 +1,14 @@
 import { Search, ChevronRight } from "lucide-react";
-import { LeaderboardEntry } from "../../../read-models/types";
+import { IntelligenceBenchmarkEntry } from "../../../read-models/b2b/intelligenceAnalyticsTypes";
 
 interface OverviewB2BEntityListProps {
   loading: boolean;
   searchTerm: string;
   setSearchTerm: (t: string) => void;
-  filteredRankings: LeaderboardEntry[];
+  filteredRankings: IntelligenceBenchmarkEntry[];
   totalRankings: number;
-  selectedEntity: LeaderboardEntry | null;
-  onSelectEntity: (entity: LeaderboardEntry) => void;
+  selectedEntity: IntelligenceBenchmarkEntry | null;
+  onSelectEntity: (entity: IntelligenceBenchmarkEntry) => void;
 }
 
 export function OverviewB2BEntityList({
@@ -44,10 +44,9 @@ export function OverviewB2BEntityList({
           <thead className="bg-slate-50/50 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
             <tr>
               <th className="px-6 py-4">Entidad</th>
-              <th className="px-6 py-4 text-center">Win Rate</th>
-              <th className="px-6 py-4 text-center">Volatilidad</th>
-              <th className="px-6 py-4 text-center">Momentum</th>
-              <th className="px-6 py-4 text-center">Volumen</th>
+              <th className="px-6 py-4 text-center">Pref. Share</th>
+              <th className="px-6 py-4 text-center">Estabilidad</th>
+              <th className="px-6 py-4 text-center">Muestra (n_eff)</th>
               <th className="px-6 py-4"></th>
             </tr>
           </thead>
@@ -55,7 +54,7 @@ export function OverviewB2BEntityList({
             {loading ? (
               Array(5).fill(0).map((_, i) => (
                 <tr key={i} className="animate-pulse">
-                  <td colSpan={6} className="px-6 py-4 h-16 bg-slate-50/30"></td>
+                  <td colSpan={5} className="px-6 py-4 h-16 bg-slate-50/30"></td>
                 </tr>
               ))
             ) : filteredRankings.length > 0 ? (
@@ -70,31 +69,25 @@ export function OverviewB2BEntityList({
                     <div className="text-[10px] text-slate-400 mt-0.5">Rank #{index + 1} • General</div>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="text-sm font-bold text-slate-700">{(entity.winRate * 100).toFixed(1)}%</div>
+                    <div className="text-sm font-bold text-slate-700">{(entity.weightedPreferenceShare * 100).toFixed(1)}%</div>
                     <div className="w-full bg-slate-100 rounded-full h-1.5 mt-2">
-                      <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: `${entity.winRate * 100}%` }}></div>
+                      <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: `${entity.weightedPreferenceShare * 100}%` }}></div>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="flex items-center justify-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${(entity.volatilityIndex ?? 0) > 0.1 ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`}></div>
-                      <span className="text-sm font-semibold text-slate-700">
-                        {((entity.volatilityIndex ?? 0) * 100).toFixed(1)}%
+                     <div className="flex items-center justify-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${
+                          entity.stabilityLabel === 'volátil' ? 'bg-amber-500 animate-pulse' : 
+                          entity.stabilityLabel === 'estable' ? 'bg-emerald-500' : 'bg-slate-400'
+                      }`}></div>
+                      <span className="text-sm font-semibold capitalize text-slate-700">
+                        {entity.stabilityLabel.replace('_', ' ')}
                       </span>
                     </div>
-                    <div className="text-[10px] text-slate-400 mt-1">{(entity.volatilityIndex ?? 0) > 0.1 ? 'Alta' : 'Estable'}</div>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className={`inline-flex items-center gap-1 font-bold text-sm px-2.5 py-1 rounded-full ${(entity.momentumScore ?? 0) >= 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}`}>
-                      <span className="material-symbols-outlined text-[14px]">
-                        {(entity.momentumScore ?? 0) >= 0 ? 'trending_up' : 'trending_down'}
-                      </span>
-                      {(entity.momentumScore ?? 0) > 0 ? '+' : ''}{(entity.momentumScore ?? 0).toFixed(1)}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <div className="text-sm font-bold text-slate-700">{entity.totalComparisons}</div>
-                    <div className="text-[10px] text-slate-400">batallas</div>
+                    <div className="text-sm font-bold text-slate-700">{entity.nEff > 0 ? entity.nEff.toFixed(0) : 0}</div>
+                    <div className="text-[10px] text-slate-400">interacciones</div>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button className="p-2 text-slate-300 group-hover:text-indigo-500 transition">
@@ -105,7 +98,7 @@ export function OverviewB2BEntityList({
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-6 py-12 text-center text-slate-500 text-sm">
+                <td colSpan={5} className="px-6 py-12 text-center text-slate-500 text-sm">
                   Sin resultados encontrados.
                 </td>
               </tr>
