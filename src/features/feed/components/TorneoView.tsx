@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { Battle } from "../../signals/types";
 import { PARENT_INDUSTRIES } from "../data/industries";
 import { IndustrySelector } from "./IndustrySelector";
-import TorneoRunner from "../../signals/components/TorneoRunner";
+import ProgressiveRunner from "../../signals/components/runner/ProgressiveRunner";
 import { signalService } from "../../signals/services/signalService";
 import { useToast } from "../../../components/ui/useToast";
 import { useHubSession } from "../hooks/useHubSession";
@@ -31,7 +31,7 @@ export default function TorneoView({ battles, onBack }: TorneoViewProps) {
     const progressiveData = useMemo(() => {
         const validMappedBattles = battles.map(b => ({
             ...b,
-            options: b.options.filter(o => o.is_active_torneo !== false)
+            options: b.options.filter(o => o.is_active_progressive !== false)
         })).filter(b => b.options.length >= 2);
 
         let validBattles = validMappedBattles.filter(b => {
@@ -162,7 +162,7 @@ export default function TorneoView({ battles, onBack }: TorneoViewProps) {
                             <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 ${selectedTheme !== 'mix' ? PARENT_INDUSTRIES[selectedTheme]?.theme?.bgGradient : 'from-blue-50 to-white'} rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
                         </div>
 
-                        <TorneoRunner
+                        <ProgressiveRunner
                             progressiveData={progressiveData}
                             onVote={async (battle_id, option_id, opponentId, metadata) => {
                                 try {

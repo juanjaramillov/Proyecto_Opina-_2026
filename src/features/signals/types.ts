@@ -20,7 +20,8 @@ export type BattleOption = {
         trend?: 'up' | 'down' | 'stable';
     };
     is_active_versus?: boolean;
-    is_active_torneo?: boolean;
+    is_active_progressive?: boolean;
+    is_active_tournament?: boolean; // Reservado para flujos de árbol genuinos
 };
 
 export type BattleMomentum = {
@@ -45,9 +46,9 @@ export type Battle = {
     slug?: string;
     title: string;
     subtitle?: string;
-    totalVotes?: number;
+    totalSignals?: number;
     options: BattleOption[];
-    myVote?: 'A' | 'B';
+    mySignal?: 'A' | 'B';
     tags?: string[];
     showPercentage?: boolean;
     isHighSignal?: boolean;
@@ -68,7 +69,7 @@ export type InsightQuestion = {
     options: { id: string; label: string }[];
 };
 
-export type TorneoTournament = {
+export type Progressive = {
     id: string;
     title: string;
     subtitle?: string;
@@ -82,4 +83,4 @@ export type TorneoTournament = {
     candidates?: BattleOption[];
 };
 
-export type VoteResult = Record<string, number>;
+export type SignalResult = Record<string, number>;

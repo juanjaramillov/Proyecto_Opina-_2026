@@ -104,7 +104,7 @@ export function ResultsEditorialHero({ heroData }: Props) {
              ) : (
                  <div className="min-w-[240px]">
                     <MetricAvailabilityCard 
-                        label="SEÑALES EN TIEMPO REAL" 
+                        label="SEÑALES EN FLUJO CONTINUO" 
                         status={(signalStatus === "insufficient_data" || signalStatus === "error") ? "insufficient_data" : "pending"} 
                         helperText="Se requieren más interacciones activas para proyectar resultados en vivo."
                     />

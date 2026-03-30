@@ -1,7 +1,7 @@
-import { TorneoTournament, BattleOption } from '../../types';
+import { Progressive, BattleOption } from '../../types';
 
 interface ProgressiveEmptyStateProps {
-    progressiveData: Omit<TorneoTournament, 'stage'> | null;
+    progressiveData: Omit<Progressive, 'stage'> | null;
 }
 
 export function ProgressiveEmptyState({ progressiveData }: ProgressiveEmptyStateProps) {

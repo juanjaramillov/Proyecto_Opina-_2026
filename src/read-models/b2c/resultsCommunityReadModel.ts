@@ -4,6 +4,7 @@ import { supabase } from "../../supabase/client";
 import { assembleSurfaceMetrics } from "../analytics/surfaceAssemblers";
 import { ResolutionContext } from "../analytics/metricResolvers";
 import { MetricAvailabilityState as CoreAvailabilityState } from "../analytics/metricAvailability";
+import { PublicationMode } from "../analytics/analyticsTypes";
 
 /**
  * Adapter: Backend Core Availability -> Frontend B2C UI Availability
@@ -41,6 +42,7 @@ export async function getResultsCommunityReadModel(query: ResultsCommunityQuery)
     .from('results_publication_state')
     .select('*')
     .order('published_at', { ascending: false })
+    .order('publication_seq', { ascending: false })
     .limit(1)
     .single();
 
@@ -49,7 +51,7 @@ export async function getResultsCommunityReadModel(query: ResultsCommunityQuery)
   }
 
   const pubState = data;
-  const mode = pubState?.mode || "real";
+  const mode = (pubState?.mode as PublicationMode) || "curated";
   
   const heroData = pubState?.hero_payload as Record<string, string> | null;
   const blocksData = pubState?.blocks_visibility_payload as Record<string, boolean> | null;
@@ -63,15 +65,13 @@ export async function getResultsCommunityReadModel(query: ResultsCommunityQuery)
   };
 
   // Traer los diccionarios por bloque
-  // Esto asume que METRIC_CATALOG en un futuro asigne bien las `surfaces`. 
-  // Por ahora "results_hero" contiene la mayoría en `metricCatalog.ts`.
   const heroMetrics = await assembleSurfaceMetrics("results_hero", ctx);
   const pulseMetrics = await assembleSurfaceMetrics("results_pulse", ctx);
-  // (Si en un futuro segmentas las métricas de Versus, Depth, etc en "results_versus", lo cambiarías.)
-  const versusMetrics = await assembleSurfaceMetrics("results_hero", ctx); // Using hero as unified for now as base metrics are mapped to hero
-  const tournamentMetrics = await assembleSurfaceMetrics("results_hero", ctx);
-  const depthMetrics = await assembleSurfaceMetrics("results_hero", ctx);
-  const newsMetrics = await assembleSurfaceMetrics("results_hero", ctx);
+  const versusMetrics = await assembleSurfaceMetrics("results_versus", ctx);
+  const tournamentMetrics = await assembleSurfaceMetrics("results_tournament", ctx);
+  const depthMetrics = await assembleSurfaceMetrics("results_depth", ctx);
+  const newsMetrics = await assembleSurfaceMetrics("results_news", ctx);
+  const footerMetrics = await assembleSurfaceMetrics("results_footer", ctx);
 
   // Funciones de conveniencia
   const getNum = (dict: Record<string, import("../analytics/metricAvailability").MetricAvailabilityResult>, key: string) => dict[key]?.resolvedValue?.valueNumeric ?? null;
@@ -80,7 +80,7 @@ export async function getResultsCommunityReadModel(query: ResultsCommunityQuery)
 
   return {
     calculatedAt: new Date().toISOString(),
-    mode: mode as "synthetic" | "real" | "hybrid",
+    mode: mode,
     query: {
       period: query.period || "30D",
       module: query.module || "ALL",
@@ -108,14 +108,14 @@ export async function getResultsCommunityReadModel(query: ResultsCommunityQuery)
     },
     pulse: {
       metrics: {
-        fastestRiserEntity: getStr(heroMetrics, "fastest_riser_entity") || getStr(pulseMetrics, "fastest_riser_entity"),
-        fastestFallerEntity: getStr(heroMetrics, "fastest_faller_entity") || getStr(pulseMetrics, "fastest_faller_entity"),
-        communityActivityLabel: getStr(heroMetrics, "community_activity_label") || getStr(pulseMetrics, "community_activity_label"),
-        hotTopicTitle: getStr(heroMetrics, "hot_topic_title") || getStr(pulseMetrics, "hot_topic_title"),
-        fragmentationLabel: getStr(heroMetrics, "fragmentation_label") || getStr(pulseMetrics, "fragmentation_label"),
-        generationGapLabel: getStr(heroMetrics, "generation_gap_label") || getStr(pulseMetrics, "generation_gap_label"),
+        fastestRiserEntity: getStr(pulseMetrics, "fastest_riser_entity"),
+        fastestFallerEntity: getStr(pulseMetrics, "fastest_faller_entity"),
+        communityActivityLabel: getStr(pulseMetrics, "community_activity_label"),
+        hotTopicTitle: getStr(pulseMetrics, "hot_topic_title"),
+        fragmentationLabel: getStr(pulseMetrics, "fragmentation_label"),
+        generationGapLabel: getStr(pulseMetrics, "generation_gap_label"),
       },
-      availability: aggregateAvailability([getState(heroMetrics, "fastest_riser_entity"), getState(heroMetrics, "community_activity_label")])
+      availability: aggregateAvailability([getState(pulseMetrics, "fastest_riser_entity"), getState(pulseMetrics, "community_activity_label")])
     },
     editorialHighlights: highlightsData || [],
     blocks: {
@@ -172,10 +172,10 @@ export async function getResultsCommunityReadModel(query: ResultsCommunityQuery)
       title: "La voz de todos cuenta",
       description: "Únete a la conversación aportando tus señales diariamente.",
       metrics: {
-        generationGapLabel: getStr(heroMetrics, "generation_gap_label"),
-        territoryGapLabel: getStr(heroMetrics, "territory_gap_label"),
-        communityActivityLabel: getStr(heroMetrics, "community_activity_label"),
-        sampleQualityLabel: getStr(heroMetrics, "quality_perception_label")
+        generationGapLabel: getStr(footerMetrics, "generation_gap_label"),
+        territoryGapLabel: getStr(footerMetrics, "territory_gap_label"),
+        communityActivityLabel: getStr(footerMetrics, "community_activity_label"),
+        sampleQualityLabel: getStr(footerMetrics, "quality_perception_label")
       }
     }
   };

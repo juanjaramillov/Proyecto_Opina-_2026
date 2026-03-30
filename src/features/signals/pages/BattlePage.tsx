@@ -87,22 +87,6 @@ export default function BattlePage() {
         return {};
     };
 
-    // Generate credible but static "live" stats based on battleSlug hash
-    const activeStats = useMemo(() => {
-        if (!battleSlug) return { users: 0, signals: 0 };
-        let hash = 0;
-        for (let i = 0; i < battleSlug.length; i++) {
-            hash = battleSlug.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const base = Math.abs(hash) % 1000;
-        return {
-            users: 45 + (base % 300),
-            signals: 4500 + (base * 12)
-        };
-    }, [battleSlug]);
-
-    const fmt = (n: number) => new Intl.NumberFormat("es-CL").format(n);
-
     if (loading) {
         return (
             <div className="container-ws section-y">
@@ -133,9 +117,9 @@ export default function BattlePage() {
                 eyebrow={
                     <div className="flex items-center gap-3">
                         <span className="badge bg-primary-50 text-primary-600 border border-primary-100 shadow-sm font-bold tracking-widest uppercase">Versus</span>
-                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-50 border border-rose-100 shadow-sm">
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_5px_rgba(244,63,94,0.5)]"></span>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-rose-600">Debate Activo</span>
+                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-50 border border-slate-200 shadow-sm">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary-500"></span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Módulo de Señales</span>
                         </div>
                     </div>
                 }
@@ -151,13 +135,13 @@ export default function BattlePage() {
                         </p>
                         <div className="hidden sm:block text-slate-300">•</div>
                         <div className="flex items-center gap-4 text-xs font-bold text-slate-500">
-                            <span className="flex items-center gap-1 bg-white px-2 py-1 rounded-lg border border-slate-100 shadow-sm">
-                                <span className="material-symbols-outlined text-[14px] text-primary-500">groups</span>
-                                <span className="text-slate-700">{activeStats.users}</span> señalando ahora
+                            <span className="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-lg border border-slate-100 shadow-sm">
+                                <span className="material-symbols-outlined text-[14px] text-primary-500">bolt</span>
+                                <span className="text-slate-700">Evaluación rápida</span>
                             </span>
-                            <span className="flex items-center gap-1 bg-white px-2 py-1 rounded-lg border border-slate-100 shadow-sm">
-                                <span className="material-symbols-outlined text-[14px] text-emerald-500">stacked_bar_chart</span>
-                                <span className="text-slate-700">{fmt(activeStats.signals)}</span> señales total
+                            <span className="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-lg border border-slate-100 shadow-sm">
+                                <span className="material-symbols-outlined text-[14px] text-emerald-500">lock</span>
+                                <span className="text-slate-700">100% Anónimo</span>
                             </span>
                         </div>
                     </div>

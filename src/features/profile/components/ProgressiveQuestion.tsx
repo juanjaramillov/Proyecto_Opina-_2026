@@ -20,7 +20,7 @@ const QUESTIONS: QuestionConfig[] = [
     // BLOCK B: Socioeconómico (Paso 3)
     { key: 'educationLevel', label: 'Nivel Educacional', description: 'Para correlacionar formación con visión.', priority: 'B', options: ['Básica incompleta o menos', 'Básica completa', 'Media incompleta', 'Media completa', 'Técnica incompleta', 'Técnica completa', 'Universitaria incompleta', 'Universitaria completa', 'Postgrado'] },
     { key: 'employmentStatus', label: 'Situación Laboral', description: 'Para medir el contexto económico real.', priority: 'B', options: ['Trabajador dependiente', 'Trabajador independiente', 'Cesante', 'Estudiante', 'Dueño/a de casa', 'Jubilado/a'] },
-    { key: 'incomeRange', label: 'Ingreso Hogar', description: 'Dato anónimo para cruces socioeconómicos.', priority: 'B', options: ['Menos de $400.000', '$400.000 - $800.000', '$800.000 - $1.500.000', '$1.500.000 - $3.000.000', 'Más de $3.000.000'] },
+    { key: 'incomeRange', label: 'Ingreso Hogar', description: 'Agrupado estadísticamente (identidad no visible públicamente).', priority: 'B', options: ['Menos de $400.000', '$400.000 - $800.000', '$800.000 - $1.500.000', '$1.500.000 - $3.000.000', 'Más de $3.000.000'] },
 
     // BLOCK C: Contexto Hogar (Paso 4)
     { key: 'householdSize', label: 'Personas en el hogar', description: '¿Cuántos viven contigo?', priority: 'C', options: ['Vivo solo/a', '2 personas', '3 personas', '4 personas', '5 o más personas'] },

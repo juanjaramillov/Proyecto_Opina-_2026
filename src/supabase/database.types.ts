@@ -1552,6 +1552,7 @@ export type Database = {
           image_url: string | null
           is_active: boolean | null
           logo_path: string | null
+          logo_storage_path: string | null
           metadata: Json | null
           name: string
           slug: string
@@ -1573,6 +1574,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean | null
           logo_path?: string | null
+          logo_storage_path?: string | null
           metadata?: Json | null
           name: string
           slug: string
@@ -1594,6 +1596,7 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean | null
           logo_path?: string | null
+          logo_storage_path?: string | null
           metadata?: Json | null
           name?: string
           slug?: string

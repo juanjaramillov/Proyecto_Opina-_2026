@@ -43,12 +43,12 @@ export default function ChallengesMenuSection() {
       miniData: (
         <div className="flex flex-col gap-1 w-full mt-1 px-2 border border-transparent group-hover:border-sky-100/50 rounded-lg p-1 transition-colors">
           <div className="flex items-center justify-between px-1 text-[9px] font-black uppercase tracking-widest text-slate-500 group-hover:text-sky-600 transition-colors">
-            <span>60%</span>
-            <span>40%</span>
+            <span>OPINIÓN A</span>
+            <span>OPINIÓN B</span>
           </div>
           <div className="w-full flex h-1.5 rounded-full overflow-hidden opacity-60 group-hover:opacity-100 transition-opacity">
-            <div className="h-full bg-blue-500 transition-all duration-1000 ease-out w-1/2 group-hover:w-[60%]" />
-            <div className="h-full bg-sky-400 transition-all duration-1000 ease-out w-1/2 group-hover:w-[40%]" />
+            <div className="h-full bg-blue-500 transition-all duration-1000 ease-out w-[50%] group-hover:w-[65%]" />
+            <div className="h-full bg-sky-400 transition-all duration-1000 ease-out w-[50%] group-hover:w-[35%]" />
           </div>
         </div>
       ),

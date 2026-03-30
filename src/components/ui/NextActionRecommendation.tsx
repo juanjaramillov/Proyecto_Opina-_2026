@@ -46,7 +46,7 @@ export const NextActionRecommendation: React.FC<NextActionRecommendationProps> =
         buttonLabel = 'Emitir Más Señales';
     } else {
         recommendedAction = 'results';
-        actionDescription = 'Revisa cómo tus patrones impactan y moldean el ecosistema en tiempo real.';
+        actionDescription = 'Revisa cómo tus patrones impactan y moldean la estadística del ecosistema.';
         actionIcon = 'monitoring';
         buttonLabel = 'Ver Resumen Global';
     }

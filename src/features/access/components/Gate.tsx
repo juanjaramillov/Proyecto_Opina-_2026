@@ -56,6 +56,13 @@ export default function Gate({ module, children }: GateProps) {
             }
         }
 
+        // Evitar loop infinito si ya estamos en la ruta de destino (ej. /complete-profile)
+        // Ocurre cuando policy redirige a /complete-profile por faltar completar el perfil, 
+        // pero la ruta ya está intentando renderizar el ProfileWizard en /complete-profile.
+        if (location.pathname === (policyResult.redirectTo || '/')) {
+             return <>{children}</>;
+        }
+
         return <Navigate to={destination} replace />;
     }
 

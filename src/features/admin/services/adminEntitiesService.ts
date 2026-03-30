@@ -1,5 +1,15 @@
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
+import { catalogGovernance, CatalogEntitySyncData } from '../../../lib/catalogGovernance';
+
+export interface EntityMetadata {
+  modules?: Record<string, boolean>;
+  subcategory?: string;
+  contact?: { address?: string; phone?: string };
+  socials?: { instagram?: string; website?: string };
+  image_source?: string;
+  [key: string]: any;
+}
 
 export interface AdminEntity {
   id: string;
@@ -11,7 +21,8 @@ export interface AdminEntity {
   is_active: boolean | null;
   elo_score: number | null;
   logo_path: string | null;
-  metadata: any | null; // For module toggles: { modules: { versus: true, torneo: true, lugar: true, servicio: true, profundidad: true } }
+  logo_storage_path: string | null;
+  metadata: EntityMetadata | null;
 }
 
 export const adminEntitiesService = {
@@ -19,11 +30,21 @@ export const adminEntitiesService = {
     try {
       const { data, error } = await supabase
         .from('entities')
-        .select('id, name, slug, category, type, vertical, is_active, elo_score, logo_path, metadata')
+        .select('id, name, slug, category, type, vertical, is_active, elo_score, logo_path, logo_storage_path, metadata')
         .order('name', { ascending: true });
 
       if (error) throw error;
-      return data as AdminEntity[];
+      
+      // Sincronización Estricta (Backfill en Lectura): 
+      // Si existe un identificador canónico en Storage, se asegura que el frontend vea innegablemente su URL pública oficial.
+      const entities = data.map(entity => ({
+        ...entity,
+        logo_path: entity.logo_storage_path 
+            ? supabase.storage.from('entities-media').getPublicUrl(entity.logo_storage_path).data.publicUrl 
+            : entity.logo_path
+      }));
+
+      return entities as AdminEntity[];
     } catch (e) {
       logger.error('Error al obtener entidades (Admin)', { error: e });
       return [];
@@ -37,25 +58,21 @@ export const adminEntitiesService = {
 
   async toggleEntityStatus(id: string, isActive: boolean): Promise<boolean> {
     try {
-      const { error } = await supabase
-        .from('entities')
-        .update({ is_active: isActive })
-        .eq('id', id);
-
-      if (error) throw error;
+      await catalogGovernance.updateEntityStatus(supabase, id, isActive);
       return true;
-    } catch (e: any) {
+    } catch (e: unknown) {
       logger.error(`Error al cambiar estado de la entidad ${id}`, { error: e });
-      alert(`Error DB [Estado]: ${e?.message || JSON.stringify(e)}`);
+      alert(`Error DB [Estado]: ${e instanceof Error ? e.message : JSON.stringify(e)}`);
       return false;
     }
   },
 
-  async uploadEntityImage(file: File): Promise<string | null> {
+  async uploadEntityImage(file: File, slug: string): Promise<{ publicUrl: string; storagePath: string }> {
     try {
+      if (!slug) throw new Error("Entidad sin identificador (slug). Guarde primero la entidad.");
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-      const filePath = `logos/${fileName}`;
+      const filePath = `logos/${slug}/${fileName}`;
       
       const { error } = await supabase.storage
         .from('entities-media')
@@ -63,31 +80,46 @@ export const adminEntitiesService = {
 
       if (error) {
         logger.error('Error uploading image to storage:', error);
-        return null;
+        throw error;
       }
 
       const { data: publicUrlData } = supabase.storage
         .from('entities-media')
         .getPublicUrl(filePath);
 
-      return publicUrlData.publicUrl;
+      return {
+        publicUrl: publicUrlData.publicUrl,
+        storagePath: filePath,
+      };
     } catch (e) {
       logger.error('Unexpected error uploading image:', e);
-      return null;
+      throw e;
     }
   },
 
-  async upsertEntity(entity: any): Promise<boolean> {
+  async upsertEntity(entity: AdminEntity): Promise<boolean> {
     try {
-      const { error } = await supabase
-        .from('entities')
-        .upsert(entity, { onConflict: 'id' });
+      const payload: CatalogEntitySyncData = {
+        id: entity.id,
+        slug: entity.slug,
+        name: entity.name,
+        is_active: entity.is_active !== false,
+        category: entity.category,
+        type: entity.type,
+        vertical: entity.vertical,
+        elo_score: entity.elo_score,
+        logo_path: entity.logo_path,
+        logo_storage_path: entity.logo_storage_path,
+        metadata: entity.metadata
+      };
 
-      if (error) throw error;
+      await catalogGovernance.upsertDualCatalogEntity(supabase, payload);
+
       return true;
-    } catch (e: any) {
+    } catch (e: unknown) {
       logger.error(`Error al crear/actualizar la entidad`, { error: e });
-      alert(`Error DB [Guardar Módulo]: ${e?.message || JSON.stringify(e)}`);
+      const msg = e instanceof Error ? e.message : JSON.stringify(e);
+      alert(`Error DB [Guardar Módulo]: ${msg}`);
       return false;
     }
   }

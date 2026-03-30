@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function ResultsInsightCarousel() {
-  const insights = [
+const insights = [
     { text: "Te pareces más al promedio en tus hábitos de consumo diario.", type: "consensus" },
     { text: "Donde más te diferencias de tu grupo es en tecnología e innovación.", type: "divergence" },
     { text: "Tus señales muestran decisiones bastante consistentes a lo largo del tiempo.", type: "polarization" },
     { text: "Tu perfil de inversor está mucho más definido que el del promedio general.", type: "divergence" }
-  ];
+];
+
+export function ResultsInsightCarousel() {
 
   const [current, setCurrent] = useState(0);
 
@@ -17,7 +18,7 @@ export function ResultsInsightCarousel() {
       setCurrent((prev) => (prev + 1) % length);
     }, 4500);
     return () => clearInterval(interval);
-  }, [insights.length]);
+  }, []);
 
   return (
     <section className="w-full bg-white py-16 md:py-24 relative border-t border-slate-100 min-h-[500px] flex items-center">

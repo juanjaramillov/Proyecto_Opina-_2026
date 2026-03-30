@@ -37,10 +37,6 @@ export function ResultsVersusBlock({ versusData }: Props) {
                Qué factores están haciendo que las personas elijan una opción sobre otra hoy mismo.
              </p>
            </div>
-           
-           <button className="shrink-0 flex items-center gap-2 text-[10px] font-black text-rose-300 transition-colors uppercase tracking-widest bg-rose-500/10 px-6 py-2 rounded-full border border-rose-500/20 backdrop-blur-sm cursor-not-allowed" disabled>
-             Matriz B2B<span className="opacity-50 ml-1">(Próximamente)</span>
-           </button>
         </div>
 
         {/* Content Layout */}

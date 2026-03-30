@@ -44,6 +44,7 @@ export function CrownedChampionView({
                 >
                     <EntityLogo
                         name={champion.label || "Campeón actual"}
+                        src={champion.image_url || champion.imageUrl}
                         slug={resolveEntitySlug(champion)}
                         size="lg"
                         rounded={false}
@@ -71,7 +72,7 @@ export function CrownedChampionView({
                 <p className="text-lg text-slate-500 font-medium">Opción sobreviviente tras {round} decisiones consecutivas.</p>
             </div>
 
-            {/* Simulated AI Insight */}
+            {/* Decision Profile Insight */}
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -79,24 +80,24 @@ export function CrownedChampionView({
                 className="card card-pad text-left relative overflow-hidden group w-full"
             >
                 <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center shadow-lg shadow-primary-500/20">
-                        <span className="material-symbols-outlined text-white text-[18px]">auto_awesome</span>
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                        <span className="material-symbols-outlined text-white text-[18px]">verified</span>
                     </div>
-                    <span className="text-xs font-black uppercase tracking-widest text-primary-600">AI Insight Progresivo</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-emerald-600">Perfil de Decisión</span>
                 </div>
 
                 <p className="text-slate-700 font-bold leading-relaxed md:text-lg">
-                    Tu preferencia sostenida es <span className="text-primary-600 font-black">{champion.label}</span> frente a otras opciones de su categoría. El <span className="text-emerald-600 font-black">{40 + Math.floor(Math.random() * 20)}%</span> de la comunidad Opina+ también respaldó a esta opción en escenarios de descarte similares.
+                    Tu preferencia sostenida es <span className="text-emerald-600 font-black">{champion.label}</span>. Tras descartar a las demás opciones, esta marca se consolida como tu elección dominante en esta iteración.
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-4">
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                        <span className="material-symbols-outlined text-[14px] text-emerald-500">verified</span>
-                        Confianza: Alta
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                        <span className="material-symbols-outlined text-[14px] text-slate-400">save</span>
+                        Señal Completada
                     </div>
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                        <span className="material-symbols-outlined text-[14px] text-blue-500">public</span>
-                        Global Reach: 78%
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                        <span className="material-symbols-outlined text-[14px] text-slate-400">lock</span>
+                        Proceso Anónimo
                     </div>
                 </div>
             </motion.div>
@@ -126,6 +127,7 @@ export function CrownedChampionView({
                                             </div>
                                             <EntityLogo
                                                 name={opp.label}
+                                                src={opp.image_url || opp.imageUrl}
                                                 slug={resolveEntitySlug(opp)}
                                                 size="sm"
                                                 rounded={false}

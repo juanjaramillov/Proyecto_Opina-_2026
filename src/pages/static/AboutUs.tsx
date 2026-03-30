@@ -43,7 +43,7 @@ export default function AboutUs() {
                         </h1>
 
                         <p className="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto">
-                            Opina+ nace de una premisa simple: las personas no deberían pesar lo mismo sin contexto, y las marcas no deberían tomar decisiones basadas en intuición estática. Construimos el estándar para leer la sociedad en tiempo real.
+                            Opina+ nace de una premisa simple: las personas no deberían pesar lo mismo sin contexto, y las marcas no deberían tomar decisiones basadas en intuición estática. Construimos el estándar para leer la sociedad con monitoreo y actualización continua.
                         </p>
                     </motion.div>
                 </div>
@@ -122,7 +122,7 @@ export default function AboutUs() {
                     <span className="text-primary-500 font-bold uppercase tracking-widest text-xs mb-4 block">El Problema Estructural</span>
                     <h2 className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight mb-6">Ni estudios eternos, ni likes vacíos.</h2>
                     <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-3xl mx-auto">
-                        Una queja anónima no vale lo mismo que la preferencia de un consumidor habitual.
+                        Una queja sin contexto no vale lo mismo que la preferencia de un consumidor habitual.
                         Los likes son superficiales y los estudios tradicionales envejecen antes de publicarse.
                         <strong className="text-slate-700 font-bold"> La calidad del dato depende inherentemente de la calidad y el contexto de quien lo emite.</strong>
                     </p>
@@ -187,12 +187,12 @@ export default function AboutUs() {
                     </div>
                     <div className="hidden md:block w-px h-12 bg-slate-200"></div>
                     <div>
-                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">100%</span>
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Información Estructurada</span>
+                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">Estructurada</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Señal de Opinión</span>
                     </div>
                     <div className="hidden md:block w-px h-12 bg-slate-200"></div>
                     <div>
-                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">Real-Time</span>
+                        <span className="block text-4xl font-black text-slate-900 mb-2 tracking-tight">Dinámica</span>
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Velocidad de Lectura</span>
                     </div>
                 </div>
@@ -225,7 +225,7 @@ export default function AboutUs() {
                         <div className="relative z-10 mb-10">
                             <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] mb-4 block">Para Usuarios y Ciudadanos</span>
                             <h3 className="text-3xl font-black text-slate-900 mb-4 leading-tight">Pasa del ruido a la tendencia estructurada.</h3>
-                            <p className="text-slate-500 font-medium">Tus señales construyen el ranking en tiempo real de lo que está pasando. Suma valor, elige tu nicho y avanza.</p>
+                            <p className="text-slate-500 font-medium">Tus señales construyen un mapa de tendencias con actualización continua. Suma valor, elige tu nicho y avanza.</p>
                         </div>
                         <button
                             onClick={() => navigate('/signals')}

@@ -4,6 +4,7 @@ import { IntelligenceAnalyticsSnapshot } from "../../read-models/b2b/intelligenc
 import { resultsCommunityService } from "../../features/results/services/resultsCommunityService";
 import { intelligenceAnalyticsService } from "../../features/b2b/services/intelligenceAnalyticsService";
 import { supabase } from "../../supabase/client";
+import { PublicationMode } from "../../read-models/analytics/analyticsTypes";
 
 export interface AdminAnalyticsSnapshot {
   lastRollupDate: string;
@@ -11,7 +12,7 @@ export interface AdminAnalyticsSnapshot {
   totalSignalsProcessed: number;
   activeEntities: number;
   activeSegments: number;
-  currentMode: "synthetic" | "real" | "hybrid";
+  currentMode: PublicationMode;
   activeMetrics: string[];
   recentErrors: string[];
 }
@@ -19,7 +20,7 @@ export interface AdminAnalyticsSnapshot {
 export interface AdminResultsConfiguration {
   heroTitle: string;
   blocksVisibility: Record<string, boolean>;
-  mode: "synthetic" | "real" | "hybrid";
+  mode: PublicationMode;
   surfaceConfigs: SurfaceMetricConfig[];
   presets: SurfacePreset[];
 }
@@ -37,15 +38,21 @@ export const analyticsReadService = {
   },
 
   getAdminAnalyticsSnapshot: async (): Promise<AdminAnalyticsSnapshot> => {
-    // Mock de stats generales (el core del cálculo no entra en el scope de este bloque)
+    // Reemplazo de mocks por consultas reales a la base de datos
+    const [signalsCount, entitiesCount, reportsData] = await Promise.all([
+      supabase.from('signal_events').select('*', { count: 'estimated', head: true }),
+      supabase.from('entities').select('*', { count: 'exact', head: true }),
+      supabase.from('executive_reports').select('generated_at').order('generated_at', { ascending: false }).limit(1).maybeSingle()
+    ]);
+
     return {
-      lastRollupDate: new Date().toISOString(),
-      freshnessStatus: "ok",
-      totalSignalsProcessed: 145020,
-      activeEntities: 340,
-      activeSegments: 15,
-      currentMode: "hybrid",
-      activeMetrics: ["preference_share"],
+      lastRollupDate: reportsData.data?.generated_at || new Date().toISOString(),
+      freshnessStatus: reportsData.data ? "ok" : "stale",
+      totalSignalsProcessed: signalsCount.count || 0,
+      activeEntities: entitiesCount.count || 0,
+      activeSegments: 0,
+      currentMode: "real",
+      activeMetrics: ["preference_share", "momentum", "volatility"],
       recentErrors: []
     };
   },
@@ -62,16 +69,21 @@ export const analyticsReadService = {
   },
 
   getAdminResultsPublisherSnapshot: async (): Promise<AdminResultsConfiguration> => {
-    // Carga la configuración editorial y de base de datos
-    const [configsRes, presetsRes] = await Promise.all([
+    // Carga la configuración de la verdadera fuente de verdad
+    const [pubStateRes, configsRes, presetsRes] = await Promise.all([
+      supabase.from('results_publication_state').select('*').order('published_at', { ascending: false }).order('publication_seq', { ascending: false }).limit(1).maybeSingle(),
       supabase.from('analytics_surface_metric_config').select('*').in('surface_id', ['results_hero', 'results_news', 'results_pulse', 'results_depth', 'results_tournament', 'results_versus']),
       supabase.from('analytics_surface_presets').select('*').in('surface_id', ['results_hero', 'results_news', 'results_pulse', 'results_depth', 'results_tournament', 'results_versus'])
     ]);
 
+    const pubState = pubStateRes.data;
+    const heroPayload = pubState?.hero_payload as Record<string, string> | null;
+    const blocksPayload = pubState?.blocks_visibility_payload as Record<string, boolean> | null;
+
     return {
-      heroTitle: "Radiografía de la Opinión", // Se conectará a app_config a futuro si es necesario
-      blocksVisibility: { versus: true, tournament: true, depth: true, news: true, places: true },
-      mode: "hybrid",
+      heroTitle: heroPayload?.title || "Radiografía de la Opinión", 
+      blocksVisibility: blocksPayload || { versus: true, tournament: true, depth: true, news: true, places: true },
+      mode: (pubState?.mode as PublicationMode) || "curated",
       surfaceConfigs: (configsRes.data as SurfaceMetricConfig[]) || [],
       presets: (presetsRes.data as SurfacePreset[]) || []
     };
@@ -80,7 +92,25 @@ export const analyticsReadService = {
   publishResultsConfiguration: async (payload: Partial<AdminResultsConfiguration>): Promise<boolean> => {
     console.log("Published config payload", payload);
     
-    // Si se enviaron surface configs nuevos/actualizados (visibilidad activada o desactivada por slot)
+    // 1. Guardar la configuración general (Mode y Flags) como una nueva iteración de publicación
+    const { mode, heroTitle, blocksVisibility } = payload;
+    
+    const { error: stateError } = await supabase.from('results_publication_state').insert({
+      mode: mode || "curated",
+      hero_payload: {
+        title: heroTitle || "Radiografía de la Opinión",
+        subtitle: "Lo que la comunidad está decidiendo esta semana", // Preservando base
+        description: "Los resultados listados dependen exclusivamente de la participación de usuarios reales."
+      },
+      blocks_visibility_payload: blocksVisibility || { versus: true, tournament: true, depth: true, news: true, places: true },
+      published_by: "system_admin"
+    });
+
+    if (stateError) {
+      console.error("Error publishing results_publication_state:", stateError);
+    }
+
+    // 2. Si se enviaron surface configs nuevos/actualizados (visibilidad activada o desactivada por slot)
     if (payload.surfaceConfigs && payload.surfaceConfigs.length > 0) {
       const { error } = await supabase.from('analytics_surface_metric_config').upsert(payload.surfaceConfigs);
       if (error) {
@@ -93,7 +123,7 @@ export const analyticsReadService = {
   },
 
   refreshAnalyticsRollups: async (): Promise<boolean> => {
-    console.log("Analytics Rollup refreshed.");
-    return true; // Mock refesh
+    console.log("Analytics Rollup refreshed [PLACEHOLDER - Awaiting Edge Function Connection]");
+    return true; // Mock refresh explícitamente marcado
   }
 };

@@ -1,0 +1,218 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - link "Saltar al contenido" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "Opina+" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e11]: Opina+
+      - navigation [ref=e12]:
+        - link "Señales" [ref=e13] [cursor=pointer]:
+          - /url: /signals
+        - link "Resultados lock" [ref=e14] [cursor=pointer]:
+          - /url: /results
+          - text: Resultados
+          - generic [ref=e15]: lock
+        - link "Inteligencia lock" [ref=e16] [cursor=pointer]:
+          - /url: /b2b
+          - text: Inteligencia
+          - generic [ref=e17]: lock
+        - link "Nosotros" [ref=e18] [cursor=pointer]:
+          - /url: /about
+        - link "login Entrar" [ref=e19] [cursor=pointer]:
+          - /url: /login
+          - generic [ref=e20]: login
+          - text: Entrar
+  - main [ref=e21]:
+    - main [ref=e22]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: Tu opinión no es un voto. Es una señal.
+          - heading "Convierte tu opinión en una señal." [level=1] [ref=e28]:
+            - text: Convierte tu
+            - text: opinión en una
+            - text: señal.
+          - paragraph [ref=e29]: Participa, compara, desbloquea recompensas y descubre tendencias en tiempo real.
+          - link "Empezar a opinar arrow_forward" [ref=e30] [cursor=pointer]:
+            - /url: /signals
+            - text: Empezar a opinar
+            - generic [ref=e31]: arrow_forward
+          - generic [ref=e32]:
+            - generic [ref=e34]: local_fire_department
+            - generic [ref=e35]:
+              - heading "Tu racha diaria está activa" [level=4] [ref=e36]
+              - paragraph [ref=e37]: Aporta 10 señales más hoy para mantener tu racha de crecimiento.
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - img
+            - generic:
+              - generic: compare_arrows
+              - text: Versus
+            - generic:
+              - generic: emoji_events
+              - text: Torneos
+            - generic:
+              - generic: newspaper
+              - text: Actualidad
+            - generic:
+              - generic: category
+              - text: Productos
+            - generic:
+              - generic: psychology
+              - text: Profundidad
+            - generic:
+              - generic: place
+              - text: Lugares
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]: El Motor de Opina+
+          - heading "¿Qué es Opina+ ?" [level=2] [ref=e43]:
+            - text: ¿Qué es
+            - generic [ref=e44]: Opina+
+            - text: "?"
+          - paragraph [ref=e45]: Una plataforma donde cada opinión se convierte en una señal. Participa, compara tu visión con la comunidad y desbloquea valor real.
+        - generic [ref=e46]:
+          - link "1. Participa Suma Señales Responde dinámicas ágiles y comparativas semanales. Cada elección tuya alimenta nuestra base de datos colectiva." [ref=e49] [cursor=pointer]:
+            - /url: /signals
+            - generic [ref=e52]:
+              - img [ref=e53]
+              - img [ref=e59]
+            - generic [ref=e64]: 1. Participa
+            - heading "Suma Señales" [level=3] [ref=e65]
+            - paragraph [ref=e66]: Responde dinámicas ágiles y comparativas semanales. Cada elección tuya alimenta nuestra base de datos colectiva.
+          - link "2. Descubre Compara Visión Accede a radiografías en tiempo real. Entérate cómo piensa la comunidad y dónde te ubicas en el debate." [ref=e67] [cursor=pointer]:
+            - /url: /results
+            - generic [ref=e70]:
+              - img [ref=e71]
+              - img [ref=e74]
+            - generic [ref=e77]: 2. Descubre
+            - heading "Compara Visión" [level=3] [ref=e78]
+            - paragraph [ref=e79]: Accede a radiografías en tiempo real. Entérate cómo piensa la comunidad y dónde te ubicas en el debate.
+          - link "3. Gana Desbloquea Valor Tu consistencia y calidad de aportes te permiten reclamar recompensas tangibles y escalar como usuario VIP." [ref=e80] [cursor=pointer]:
+            - /url: /profile
+            - generic [ref=e83]:
+              - img [ref=e84]
+              - img [ref=e88]
+              - img [ref=e93]
+            - generic [ref=e96]: 3. Gana
+            - heading "Desbloquea Valor" [level=3] [ref=e97]
+            - paragraph [ref=e98]: Tu consistencia y calidad de aportes te permiten reclamar recompensas tangibles y escalar como usuario VIP.
+      - generic [ref=e100]:
+        - heading "Descubre la tendencia. Suma tus señales a los temas del momento." [level=2] [ref=e101]:
+          - text: Descubre la tendencia.
+          - generic [ref=e102]: Suma tus señales a los temas del momento.
+        - generic [ref=e103]:
+          - link "Torneos La final de marcas Torneo Activo" [ref=e104] [cursor=pointer]:
+            - /url: /torneos
+            - img [ref=e105]
+            - generic [ref=e109]:
+              - img [ref=e113]
+              - generic [ref=e119]: Torneos
+              - heading "La final de marcas" [level=3] [ref=e120]
+            - generic [ref=e124]: Torneo Activo
+          - link "Actualidad El debate de la semana 60% 40%" [ref=e125] [cursor=pointer]:
+            - /url: /versus
+            - img
+            - generic [ref=e126]:
+              - img [ref=e130]
+              - generic [ref=e132]: Actualidad
+              - heading "El debate de la semana" [level=3] [ref=e133]
+            - generic [ref=e136]:
+              - generic [ref=e137]: 60%
+              - generic [ref=e138]: 40%
+          - link "Profundidad Accede a la radiografía Desbloquear Insight" [ref=e142] [cursor=pointer]:
+            - /url: /resultados
+            - img [ref=e143]
+            - generic [ref=e146]:
+              - img [ref=e150]
+              - generic [ref=e153]: Profundidad
+              - heading "Accede a la radiografía" [level=3] [ref=e154]
+            - generic [ref=e156]:
+              - img [ref=e157]
+              - generic [ref=e160]: Desbloquear Insight
+      - generic [ref=e163]:
+        - generic [ref=e164]:
+          - generic [ref=e165]:
+            - img [ref=e166]
+            - generic [ref=e169]: Valor B2C
+          - heading "Tus señales tienen valor." [level=2] [ref=e170]:
+            - text: Tus señales
+            - text: tienen valor.
+          - paragraph [ref=e171]: En Opina+ no solo dejas tu huella. Construyes tu reputación y desbloqueas datos e insights por ayudar a mapear la inteligencia colectiva.
+        - generic [ref=e172]:
+          - generic [ref=e175]:
+            - img [ref=e177]
+            - heading "Acumula señales" [level=3] [ref=e182]
+            - paragraph [ref=e183]: Cada aporte fortalece tu perfil interactivo y suma valor real a la red de inteligencia colectiva.
+          - generic [ref=e186]:
+            - img [ref=e188]
+            - heading "Accede a radiografías" [level=3] [ref=e191]
+            - paragraph [ref=e192]: Cruza la barrera de participación para ver macro-tendencias e insights avanzados ocultos para el resto.
+          - generic [ref=e195]:
+            - img [ref=e197]
+            - heading "Escala tu influencia" [level=3] [ref=e200]
+            - paragraph [ref=e201]: Mientras más aportas, más subes de nivel y te conviertes en un referente dentro del mapa relacional.
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - generic [ref=e209]:
+            - generic [ref=e211]:
+              - generic [ref=e212]:
+                - img [ref=e214]
+                - generic [ref=e218]: Opina+
+              - generic [ref=e219]:
+                - generic [ref=e220]:
+                  - generic [ref=e221]: Nivel 4
+                  - generic [ref=e222]: 1,200 XP
+                - img [ref=e224]
+            - generic [ref=e229]:
+              - generic [ref=e231]:
+                - img [ref=e232]
+                - text: Señal Activa
+              - heading "¿El futuro es el modelo de trabajo 100% remoto o híbrido?" [level=4] [ref=e234]
+              - generic [ref=e235]:
+                - generic [ref=e236]:
+                  - generic [ref=e237]: 🏠
+                  - generic [ref=e238]: 100% Remoto
+                - generic [ref=e239]:
+                  - generic [ref=e240]: 🏢
+                  - generic [ref=e241]: Híbrido
+            - generic [ref=e243]:
+              - generic [ref=e244]: Consenso Global
+              - generic [ref=e245]: 82%
+            - generic [ref=e248]:
+              - generic [ref=e249]:
+                - img [ref=e250]
+                - generic [ref=e255]: Señales
+              - generic [ref=e256]:
+                - img [ref=e257]
+                - generic [ref=e262]: Resultados
+              - generic [ref=e263]:
+                - img [ref=e264]
+                - generic [ref=e268]: Comunidad
+          - img [ref=e271]
+          - img [ref=e274]
+          - img [ref=e278]
+        - generic [ref=e281]:
+          - heading "No pierdas tu impacto." [level=2] [ref=e282]
+          - paragraph [ref=e283]: Tu historial te define. Guarda tus señales y compárate con la comunidad Opina+.
+          - link "Guarda tus señales gratis" [ref=e284] [cursor=pointer]:
+            - /url: /wizard/welcome
+            - generic [ref=e286]: Guarda tus señales gratis
+            - img [ref=e287]
+  - button "Enviar comentario por WhatsApp" [ref=e290] [cursor=pointer]:
+    - img [ref=e291]
+  - contentinfo [ref=e293]:
+    - generic [ref=e294]:
+      - generic [ref=e295]:
+        - generic [ref=e296]: gavel
+        - generic [ref=e297]: Legal
+      - paragraph [ref=e298]: Opina+ muestra tendencias agregadas. No es asesoría, no es verdad absoluta. Es señal.
+      - paragraph [ref=e299]: © 2026 Opina+
+```

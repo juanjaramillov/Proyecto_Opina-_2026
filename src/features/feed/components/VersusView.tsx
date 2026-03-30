@@ -15,7 +15,7 @@ import { logger } from "../../../lib/logger";
 interface VersusViewProps {
     battles: Battle[];
     batchIndex: number;
-    onBatchComplete: (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number; }>) => void;
+    onBatchComplete: (history: Array<{ battle: Battle; mySignal: 'A' | 'B'; pctA: number; }>) => void;
     onBack: () => void;
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { adminResultsService } from "../services/adminResultsService";
 import { AdminResultsConfiguration } from "../../../services/analytics/analyticsReadService";
+import { PublicationMode } from "../../../read-models/analytics/analyticsTypes";
 import { METRIC_CATALOG } from "../../../read-models/analytics/metricCatalog";
 import { SurfaceMetricConfig, MetricSurface } from "../../../read-models/analytics/analyticsTypes";
 
@@ -80,12 +81,12 @@ export default function AdminResults() {
             <label className="block text-sm font-semibold mb-1">Modo de Datos</label>
             <select 
               value={config.mode}
-              onChange={(e) => setConfig({...config, mode: e.target.value as "synthetic" | "hybrid" | "real"})}
+              onChange={(e) => setConfig({...config, mode: e.target.value as PublicationMode})}
               className="w-full border p-2 rounded"
             >
-              <option value="synthetic">Synthetic (Curado)</option>
-              <option value="hybrid">Hybrid</option>
-              <option value="real">Real DB</option>
+              <option value="curated">Curated (Placeholder/Editorial)</option>
+              <option value="hybrid">Hybrid (Fallback Mixto)</option>
+              <option value="real">Real DB (Supabase API)</option>
             </select>
           </div>
         </div>

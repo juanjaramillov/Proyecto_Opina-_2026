@@ -23,26 +23,37 @@ async function runTests() {
   const normalEmail = 'test_normal_user@opina.plus'
   const password = 'TestNormal123!_seguro'
 
-  // Crear o recuperar admin (ya creado en el bloque 1) y normal user
-  const { data: usersData } = await supabaseAdmin.auth.admin.listUsers()
-  
-  let adminId = usersData.users.find(u => u.email === adminEmail)?.id
-  if (!adminId) {
-    const { data: newUser } = await supabaseAdmin.auth.admin.createUser({ email: adminEmail, password, email_confirm: true })
-    adminId = newUser.user!.id
-    await supabaseAdmin.from('users').update({ role: 'admin' }).eq('user_id', adminId)
+  // Create edge-function test users robustly
+  let adminId;
+  const adminRes = await supabaseAdmin.auth.admin.createUser({ email: adminEmail, password, email_confirm: true })
+  if (adminRes.error && adminRes.error.message.includes("already exist")) {
+     // Retrieve user
+     const page = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
+     adminId = page.data.users.find(u => u.email === adminEmail)?.id
+     if (adminId) await supabaseAdmin.auth.admin.updateUserById(adminId, { password })
   } else {
-    await supabaseAdmin.auth.admin.updateUserById(adminId, { password })
+     adminId = adminRes.data?.user?.id
+     if (adminId) await supabaseAdmin.from('users').update({ role: 'admin' }).eq('user_id', adminId)
   }
 
-  let normalId = usersData.users.find(u => u.email === normalEmail)?.id
-  if (!normalId) {
-    const { data: newUser } = await supabaseAdmin.auth.admin.createUser({ email: normalEmail, password, email_confirm: true })
-    normalId = newUser.user!.id
-    await supabaseAdmin.from('users').update({ role: 'member' }).eq('user_id', normalId)
+  let normalId;
+  const normalRes = await supabaseAdmin.auth.admin.createUser({ email: normalEmail, password, email_confirm: true })
+  if (normalRes.error && normalRes.error.message.includes("already exist")) {
+     const page = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 })
+     normalId = page.data.users.find(u => u.email === normalEmail)?.id
+     if (normalId) {
+         await supabaseAdmin.auth.admin.updateUserById(normalId, { password })
+         await supabaseAdmin.from('users').update({ role: 'member' }).eq('user_id', normalId)
+     }
   } else {
-     await supabaseAdmin.auth.admin.updateUserById(normalId, { password })
-     await supabaseAdmin.from('users').update({ role: 'member' }).eq('user_id', normalId)
+     normalId = normalRes.data?.user?.id
+     if (normalId) await supabaseAdmin.from('users').update({ role: 'member' }).eq('user_id', normalId)
+  }
+
+  if (normalId) {
+      // Pre-seed del perfil para asegurar que inicie en nivel mínimo 1 (evita bug de renderizado vacío en CompleteProfile)
+      await new Promise(r => setTimeout(r, 500)) // esperar a trigger de DB
+      await supabaseAdmin.from('user_profiles').update({ profile_stage: 1, nickname: 'E2ETester' }).eq('user_id', normalId)
   }
 
   // 1. Iniciar sesión con Normal User

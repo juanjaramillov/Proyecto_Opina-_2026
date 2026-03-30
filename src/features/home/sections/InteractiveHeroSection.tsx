@@ -16,7 +16,7 @@ export default function InteractiveHeroSection() {
             {/* Minimalist Header */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] sm:text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            Tu opinión no es un voto. Es una señal.
+            La plataforma de inteligencia de mercado abierta
             </div>
 
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-display tracking-tight text-ink mb-6 leading-[1.1]">
@@ -26,26 +26,26 @@ export default function InteractiveHeroSection() {
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl text-slate-500 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
-            Participa, compara, desbloquea recompensas y descubre tendencias en tiempo real.
+            Participa, compara posiciones, sube de nivel y descubre en qué dirección giran las grandes tendencias.
             </p>
 
             <Link 
             to="/signals"
             className="inline-flex items-center gap-2 bg-ink hover:bg-slate-800 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-transform hover:scale-105 hover:shadow-xl hover:shadow-ink/20 mb-10 sm:mb-12"
             >
-            Empezar a opinar
+            Explorar Señales
             <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
 
-            {/* Streak Box */}
-            <div className="w-full max-w-md bg-orange-50/80 backdrop-blur-sm border border-orange-100/80 rounded-3xl p-4 sm:p-5 flex items-start sm:items-center gap-4 shadow-sm">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-orange-500">
-                    <span className="material-symbols-outlined text-[20px] sm:text-[24px]">local_fire_department</span>
+            {/* Credibility / B2C Box without fake login state */}
+            <div className="w-full max-w-md bg-slate-50 border border-slate-100 rounded-3xl p-4 sm:p-5 flex items-start sm:items-center gap-4 shadow-sm">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white border border-slate-100 rounded-full flex items-center justify-center shrink-0 shadow-sm text-blue-500">
+                    <span className="material-symbols-outlined text-[20px] sm:text-[24px]">verified_user</span>
                 </div>
                 <div>
-                    <h4 className="text-orange-900 font-bold text-xs sm:text-sm mb-0.5 sm:mb-1">Tu racha diaria está activa</h4>
-                    <p className="text-orange-700/80 text-[10px] sm:text-xs font-medium leading-relaxed max-w-[280px]">
-                        Aporta 10 señales más hoy para mantener tu racha de crecimiento.
+                    <h4 className="text-slate-900 font-bold text-xs sm:text-sm mb-0.5 sm:mb-1">Evalúa de forma anónima</h4>
+                    <p className="text-slate-500 text-[10px] sm:text-xs font-medium leading-relaxed max-w-[280px]">
+                        Opina+ utiliza segmentación estructural para proteger tu identidad mientras validas productos reales.
                     </p>
                 </div>
             </div>

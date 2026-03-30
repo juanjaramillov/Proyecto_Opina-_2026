@@ -42,8 +42,11 @@ const AdminEntities = lazy(() => import("./features/admin/pages/AdminEntities"))
 const AdminAnalytics = lazy(() => import("./features/admin/pages/AdminAnalytics"));
 const AdminResults = lazy(() => import("./features/admin/pages/AdminResults"));
 const AdminMathEngine = lazy(() => import("./features/admin/pages/AdminMathEngine"));
+const AdminDemoLaunchpad = lazy(() => import("./features/admin/pages/AdminDemoLaunchpad"));
 
 const AboutUs = lazy(() => import("./pages/static/AboutUs"));
+const PrivacyPolicy = lazy(() => import("./pages/static/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/static/TermsOfService"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 import { SessionProvider } from './features/analytics/providers/SessionProvider';
@@ -77,6 +80,8 @@ export default function App() {
             {/* 1. PUBLIC ROUTES (No session required, No gate) */}
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
             <Route path="/intelligence" element={<IntelligenceLanding />} />
             
             {/* 2. AUTH ROUTES (Public) */}
@@ -87,10 +92,16 @@ export default function App() {
             <Route path="/admin-login" element={<Login />} />
 
             {/* 3. PROTECTED ROUTES - SIGNALS (Users/Admin) */}
+            {/* [CANONICAL] Módulo central interactivo (Reemplaza a Experience) */}
             <Route path="/signals" element={<Gate module="signals"><SignalsHub /></Gate>} />
-            {/* Legacy route compatibility */}
+            
+            {/* [LEGACY] Ruta antigua mantenida solo por compatibilidad de deep links */}
             <Route path="/experience" element={<Navigate to="/signals" replace />} />
+            
+            {/* [CANONICAL] Entry point genérico para submódulos de gamificación (ej. m/versus, m/torneo, m/pulso) */}
             <Route path="/m/:slug" element={<Gate module="signals"><ModuleEntry /></Gate>} />
+            
+            {/* [LEGACY] Visor aislado de una sola batalla. Se mantiene por enlaces externos compartidos de la V13/V14 */}
             <Route path="/battle/:battleSlug" element={<Gate module="signals"><BattlePage /></Gate>} />
             <Route path="/results" element={<Gate module="signals"><Results /></Gate>} />
             <Route path="/profile" element={<Gate module="signals"><Profile /></Gate>} />
@@ -119,6 +130,7 @@ export default function App() {
             <Route path="/admin/analytics" element={<Gate module="admin"><AdminAnalytics /></Gate>} />
             <Route path="/admin/math-engine" element={<Gate module="admin"><AdminMathEngine /></Gate>} />
             <Route path="/admin/results" element={<Gate module="admin"><AdminResults /></Gate>} />
+            <Route path="/admin/demo" element={<Gate module="admin"><AdminDemoLaunchpad /></Gate>} />
 
             {/* 6. FALLBACK */}
             <Route path="*" element={<NotFound />} />

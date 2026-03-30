@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from "../../auth";
 import { useSignalStore } from "../../../store/signalStore";
 import { notifyService, formatKnownError } from '../../notifications/notifyService';
-import { Battle, BattleOption, TorneoTournament, VoteResult, BattleMomentum } from '../types';
+import { Battle, BattleOption, Progressive, SignalResult, BattleMomentum } from '../types';
 import { logger } from '../../../lib/logger';
 import { supabase } from '../../../supabase/client';
 
@@ -12,17 +12,17 @@ export interface VoteMetadata {
 
 interface UseVersusGameProps {
     battles: Battle[];
-    onVote: (battleId: string, optionId: string, opponentId: string, meta?: VoteMetadata) => Promise<VoteResult>;
+    onVote: (battleId: string, optionId: string, opponentId: string, meta?: VoteMetadata) => Promise<SignalResult>;
     mode?: 'classic' | 'survival' | 'torneo';
     autoNextMs?: number;
-    progressiveData?: TorneoTournament;
+    progressiveData?: Progressive;
     onProgressiveComplete?: (result: { winner: BattleOption; defeated: BattleOption[] }) => void;
     enableAutoAdvance?: boolean;
     isQueueFinite?: boolean;
 
     // UX controls
     hideProgress?: boolean;
-    onQueueComplete?: (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number }>) => void;
+    onQueueComplete?: (history: Array<{ battle: Battle; mySignal: 'A' | 'B'; pctA: number }>) => void;
     isSubmitting?: boolean;
 }
 
@@ -43,13 +43,13 @@ export function useVersusGame({
     const addSignal = useSignalStore((s) => s.addSignal);
 
     const [idx, setIdx] = useState(0);
-    const [result, setResult] = useState<VoteResult | null>(null);
+    const [result, setResult] = useState<SignalResult | null>(null);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [showProfileModal, setShowProfileModal] = useState(false);
     const [sessionHistory, setSessionHistory] = useState<Array<{
         battle: Battle;
-        myVote: 'A' | 'B';
+        mySignal: 'A' | 'B';
         pctA: number;
     }>>([]);
     const [lastWinner, setLastWinner] = useState<BattleOption | null>(null);
@@ -217,7 +217,7 @@ export function useVersusGame({
 
             setSessionHistory(prev => [...prev, {
                 battle: effectiveBattle,
-                myVote: optionId === effectiveBattle.options[0].id ? 'A' : 'B',
+                mySignal: optionId === effectiveBattle.options[0].id ? 'A' : 'B',
                 pctA: 0 // No longer using mockPctA
             }]);
 

@@ -53,12 +53,12 @@ export const MODULES: OpinaModule[] = [
         status: "soon",
         icon: "favorite",
         tone: "rose",
-        tags: ["Privado", "Anónimo"],
+        tags: ["Privado", "Confidencial"],
         previewTitle: "Tu estado personal a un click",
         previewSubtitle: "Sincroniza tus dimensiones vitales del día a día.",
         previewBullets: [
             "Registra tu estado de ánimo, felicidad y finanzas en segundos.",
-            "100% privado y desvinculado de tu identidad pública.",
+            "Tu identidad pública permanece protegida y separada de tus respuestas.",
             "Desbloquea análisis de tendencias según el estado anímico general."
         ]
     },
@@ -105,11 +105,11 @@ export const MODULES: OpinaModule[] = [
         icon: "newspaper",
         tone: "slate",
         tags: ["Polémica", "A/B"],
-        previewTitle: "Debate en tiempo real",
+        previewTitle: "Debate dinámico",
         previewSubtitle: "Participa en los grandes debates mientras ocurren.",
         previewBullets: [
             "Opiniones a favor / en contra de los temas calientes del día.",
-            "Visualiza cómo opinan distintos rangos de edad en tiempo real.",
+            "Visualiza tendencias de percepción con actualizaciones continuas.",
             "Entiende si vives en una burbuja ideológica o sigues la norma."
         ]
     },

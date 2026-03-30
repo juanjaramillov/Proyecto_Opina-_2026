@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { metricsService } from "../../metrics/services/metricsService";
+import { analyticsReadService } from "../../../services/analytics/analyticsReadService";
 import { LeaderboardEntry } from "../../metrics/services/metricsService";
 import { logger } from "../../../lib/logger";
 import { TrendingUp, Search, Activity, ChevronRight, X, Zap } from "lucide-react";
@@ -30,10 +30,23 @@ export default function BenchmarkB2B() {
     const loadData = useCallback(async () => {
         setLoading(true);
         try {
-            const board = await metricsService.getGlobalLeaderboard();
+            const snapshot = await analyticsReadService.getIntelligenceAnalyticsSnapshot({
+                period: "30D",
+                module: "ALL"
+            });
+            const board = snapshot.benchmark.entries.map((b) => ({
+                entity_id: b.entityId,
+                entity_name: b.entityName,
+                wins_count: 0,
+                losses_count: 0,
+                total_comparisons: b.nEff,
+                preference_share: b.weightedPreferenceShare,
+                win_rate: b.weightedWinRate,
+                score: b.wilsonLowerBound
+            }));
             setLeaderboard(board || []);
         } catch (err) {
-            logger.error("[BenchmarkB2B] Error loading data:", err);
+            logger.error("[BenchmarkB2B] Error loading canonical data:", err);
             setLeaderboard([]);
         } finally {
             setLoading(false);

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { X, MonitorPlay, Settings2, Database } from "lucide-react";
 import { TrendingItem } from "../../../types/trending";
 import { DepthInsight, TemporalComparison, VolatilityData, PolarizationData, SegmentInfluence, EarlySignal, B2BBattleAnalytics, B2BEligibility, IntegrityFlags } from "../../signals/services/insightsService";
 import { PremiumExportCard } from './PremiumExportCard';
 import { B2BAnalyticsCards } from './drawer/B2BAnalyticsCards';
-import { InsightsChartsSection } from './drawer/InsightsChartsSection';
+
+const InsightsChartsSection = lazy(() => import('./drawer/InsightsChartsSection').then(m => ({ default: m.InsightsChartsSection })));
 
 interface DepthInsightsDrawerProps {
     selectedBattle: TrendingItem;
@@ -116,24 +117,26 @@ export function DepthInsightsDrawer({
                                     ))}
                                 </div>
                             ) : (
-                                <InsightsChartsSection
-                                    selectedBattle={selectedBattle}
-                                    aiSummary={aiSummary}
-                                    isGeneratingAi={isGeneratingAi}
-                                    handleGenerateAiSummary={handleGenerateAiSummary}
-                                    role={role}
-                                    b2bEligibility={b2bEligibility}
-                                    b2bAnalytics={b2bAnalytics}
-                                    volatility={volatility}
-                                    polarization={polarization}
-                                    segmentInfluence={segmentInfluence}
-                                    earlySignals={earlySignals}
-                                    temporalComparison={temporalComparison}
-                                    daysBack={daysBack}
-                                    setDaysBack={setDaysBack}
-                                    loadDepthData={loadDepthData}
-                                    depthInsights={depthInsights}
-                                />
+                                <Suspense fallback={<div className="h-48 w-full bg-slate-50 rounded-2xl animate-pulse" />}>
+                                    <InsightsChartsSection
+                                        selectedBattle={selectedBattle}
+                                        aiSummary={aiSummary}
+                                        isGeneratingAi={isGeneratingAi}
+                                        handleGenerateAiSummary={handleGenerateAiSummary}
+                                        role={role}
+                                        b2bEligibility={b2bEligibility}
+                                        b2bAnalytics={b2bAnalytics}
+                                        volatility={volatility}
+                                        polarization={polarization}
+                                        segmentInfluence={segmentInfluence}
+                                        earlySignals={earlySignals}
+                                        temporalComparison={temporalComparison}
+                                        daysBack={daysBack}
+                                        setDaysBack={setDaysBack}
+                                        loadDepthData={loadDepthData}
+                                        depthInsights={depthInsights}
+                                    />
+                                </Suspense>
                             )}
 
                             <div className="mt-12 p-6 bg-emerald-50 rounded-2xl border border-emerald-100">

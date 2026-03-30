@@ -1,7 +1,5 @@
+import { PublicationMode } from '../../../read-models/analytics/analyticsTypes';
 
+export const RESULTS_RUNTIME_MODE: PublicationMode = 'curated';
 
-export type ResultsRuntimeMode = 'real';
-
-export const RESULTS_RUNTIME_MODE: ResultsRuntimeMode = 'real';
-
-export const isResultsRealMode = RESULTS_RUNTIME_MODE === 'real';
+export const isResultsRealMode = (RESULTS_RUNTIME_MODE as string) === 'real';

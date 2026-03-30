@@ -8,6 +8,8 @@ export interface BaseAnalyticsQuery {
   module?: "VERSUS" | "TOURNAMENT" | "PROFUNDIDAD" | "ACTUALIDAD" | "LUGARES" | "ALL";
 }
 
+export type PublicationMode = "real" | "curated" | "hybrid";
+
 export interface GranularAnalyticsQuery extends BaseAnalyticsQuery {
   generation?: string;
   categorySlug?: string;
@@ -137,6 +139,10 @@ export interface MetricRegistryEntry {
   uiVariant: MetricUiVariant;
   defaultSlot: string;
   defaultSortOrder: number;
+  
+  // Estado de Integración Estricto
+  isWiredToReadModel: boolean;
+  isWiredToUI: boolean;
   
   // Overrides Combinados desde BD (Opcionales en cliente)
   overrides?: Partial<MetricOverride>; 

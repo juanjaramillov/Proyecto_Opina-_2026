@@ -103,7 +103,7 @@ export function LiveTrendNetworkNode({ pulseCount, networkPulseInfo }: LiveTrend
                        Frecuencia de Red
                     </h4>
                     <p className="text-slate-400 text-xs max-w-[220px] mx-auto leading-relaxed">
-                       Midiendo el latido y flujo de interacciones en tiempo real.
+                       Midiendo el latido y flujo de interacciones continuas.
                     </p>
                   </div>
                 </div>

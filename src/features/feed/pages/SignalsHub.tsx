@@ -9,6 +9,7 @@ import PageHeader from "../../../components/ui/PageHeader";
 import { PageState } from "../../../components/ui/StateBlocks";
 import { SkeletonModuleCard } from "../../../components/ui/Skeleton";
 
+
 import { ActualidadHubManager } from "../components/ActualidadHubManager";
 import VersusView from "../components/VersusView";
 import TorneoView from "../components/TorneoView";
@@ -17,12 +18,9 @@ import LugaresView from "../components/LugaresView";
 import ServiciosView from "../components/ServiciosView";
 import BatchSessionResults, { BatchSessionResultRecord } from "../components/BatchSessionResults";
 import { ModuleErrorBoundary } from "../../../components/ui/ModuleErrorBoundary";
-import HubSecondaryTracks from "../components/hub/HubSecondaryTracks";
-
+import HubBentoGrid from "../components/hub/HubBentoGrid";
 import { useExperienceMode } from "../hooks/useExperienceMode";
 import { Battle } from "../../signals/types";
-
-// Nuevos estados principales del Hub (Motor de Sesión)
 import { useHubSession } from "../hooks/useHubSession";
 import HubActiveState from "../components/HubActiveState";
 import HubCooldownState from "../components/HubCooldownState";
@@ -57,7 +55,7 @@ export default function SignalsHub() {
 
     if (profile && !profile.isProfileComplete && profile.role !== 'admin') return null;
 
-    const handleBatchComplete = (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number }>) => {
+    const handleBatchComplete = (history: Array<{ battle: Battle; mySignal: 'A' | 'B'; pctA: number }>) => {
         setBatchSessionHistory(history || []);
         setShowBatchResults(true);
     };
@@ -116,57 +114,52 @@ export default function SignalsHub() {
         }
 
         return (
-            <div className="w-full pb-24 md:pb-0 relative min-h-screen bg-white">
+            <div className="w-full pb-24 md:pb-0 relative min-h-screen bg-slate-50">
                 
-                {/* 1. HERO EDITORIAL LUMINOSO (Solo visible en Menu) */}
-                <section className="w-full pt-8 pb-6 md:pt-16 md:pb-12 bg-white border-b border-slate-100/50">
-                    <div className="container-ws grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                        {/* Columna Izquierda: Texto y Métricas simples */}
-                        <div className="flex flex-col items-center text-center lg:items-start lg:text-left space-y-4">
-                            <span className="text-[11px] font-bold text-blue-600 tracking-widest uppercase">Señales</span>
+                {/* 1. HERO VERTICAL PREMIUM (Versus Centrado) */}
+                <section className="w-full pt-6 pb-8 md:pt-10 md:pb-12 bg-white border-b border-slate-100/60 overflow-hidden relative">
+                    {/* Background glows */}
+                    <div className="absolute top-0 inset-x-0 h-96 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.08),transparent_70%)] pointer-events-none" />
+                    
+                    <div className="container-ws flex flex-col items-center relative z-10">
+                        {/* Cabecera ultra-limpia */}
+                        <div className="flex flex-col items-center text-center space-y-2 mb-6 md:mb-10 max-w-2xl mx-auto px-4">
+                            <div className="flex items-center gap-2 sm:gap-3 animate-in fade-in slide-in-from-bottom-2 duration-500 mb-2">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] border border-emerald-100/80 shadow-sm">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite]" /> 
+                                    Motor Activo
+                                </span>
+                                {signalsToday > 0 && (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-slate-500 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.1em] border border-slate-200/60 shadow-sm">
+                                        <span className="font-black text-slate-700">{new Intl.NumberFormat('es-CL').format(signalsToday)}</span> señales previas
+                                    </span>
+                                )}
+                            </div>
                             
-                            <h1 className="text-4xl md:text-5xl lg:text-[56px] font-black text-slate-900 tracking-tight leading-[1.05]">
-                                Pon a prueba tu instinto,<br className="hidden md:block"/> <span className="bg-gradient-to-r from-blue-700 to-emerald-600 bg-clip-text text-transparent">perspectiva y criterio.</span>
+                            <h1 className="text-[36px] md:text-5xl lg:text-[60px] font-black text-slate-900 tracking-[-0.03em] leading-[1.05] animate-in fade-in slide-in-from-bottom-3 duration-700 drop-shadow-sm">
+                                Tu instinto <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">decide</span>
                             </h1>
                             
-                            <p className="text-base md:text-lg text-slate-500 max-w-lg font-medium leading-relaxed">
-                                Evalúa tendencias y compara perfiles. Tu criterio es la brújula de nuestra comunidad.
+                            <p className="text-sm md:text-[17px] text-slate-500 font-medium max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 mt-2">
+                                Evalúa tendencias y compara perfiles con un solo clic.
                             </p>
-
-                            <div className="flex items-center justify-center lg:justify-start gap-8 pt-3">
-                                <div className="flex flex-col items-center lg:items-start">
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-0.5">Participación Hoy</span>
-                                    <span className="text-lg font-bold text-slate-800 tracking-tight">{fmt(signalsToday)} <span className="text-xs text-slate-400 font-bold uppercase tracking-wider ml-0.5">señales</span></span>
-                                </div>
-                                <div className="w-px h-8 bg-slate-200/80"></div>
-                                <div className="flex flex-col items-center lg:items-start">
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-0.5">Estado Motor</span>
-                                    <span className="text-sm font-bold text-emerald-600 flex items-center gap-1.5 mt-1">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite]"></span> Activo
-                                    </span>
-                                </div>
-                            </div>
                         </div>
 
-                        {/* Columna Derecha: BLOQUE FUNCIONAL VIVO */}
-                        <div className="w-full flex justify-center lg:justify-end mt-2 lg:mt-0">
-                            <div className="w-full max-w-[500px]">
-                                <ModuleErrorBoundary moduleName={hubState === 'ACTIVE' ? "HubActiveState" : "HubCooldownState"}>
-                                    {hubState === 'ACTIVE' ? (
-                                        <HubActiveState battles={(battles as unknown as Battle[])} onBatchComplete={handleBatchComplete} />
-                                    ) : (
-                                        <HubCooldownState />
-                                    )}
-                                </ModuleErrorBoundary>
-                            </div>
+                        {/* BLOQUE FUNCIONAL VERSUS (Centrado, Ancho Óptimo) */}
+                        <div className="w-full max-w-[600px] flex justify-center animate-in fade-in zoom-in-95 duration-700 delay-150">
+                            <ModuleErrorBoundary moduleName={hubState === 'ACTIVE' ? "HubActiveState" : "HubCooldownState"}>
+                                {hubState === 'ACTIVE' ? (
+                                    <HubActiveState battles={(battles as unknown as Battle[])} onBatchComplete={handleBatchComplete} />
+                                ) : (
+                                    <HubCooldownState />
+                                )}
+                            </ModuleErrorBoundary>
                         </div>
                     </div>
                 </section>
 
-                {/* 2. RADAR DE SEÑALES */}
-                <section className="container-ws pb-16 md:pb-20 pt-4 md:pt-6" id="hub-tracks">
-                    <HubSecondaryTracks setMode={setMode} />
-                </section>
+                {/* 2. BENTO GRID DE MÓDULOS (Reemplaza al radar horizontal) */}
+                <HubBentoGrid setMode={setMode} />
 
                 <BatchSessionResults 
                     showBatchResults={showBatchResults}

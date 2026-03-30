@@ -9,9 +9,6 @@ import { ResultsVersusBlock } from "../components/ResultsVersusBlock";
 import { ResultsTournamentBlock } from "../components/ResultsTournamentBlock";
 import { ResultsDepthBlock } from "../components/ResultsDepthBlock";
 import { ResultsNewsBlock } from "../components/ResultsNewsBlock";
-import { ResultsPlacesBlock } from "../components/ResultsPlacesBlock";
-import { ResultsFutureModules } from "../components/ResultsFutureModules";
-
 // Importaremos los modulos futuros aqui
 import { ResultsWowClosing } from "../components/ResultsWowClosing";
 
@@ -74,12 +71,10 @@ export default function ResultsPage() {
            <ResultsTournamentBlock tournamentData={snapshot.blocks.tournament} />
            <ResultsDepthBlock depthData={snapshot.blocks.depth} />
            <ResultsNewsBlock newsData={snapshot.blocks.news} />
-           <ResultsPlacesBlock />
-           <ResultsFutureModules />
         </div>
 
         {/* Cierre Continuidad */}
-        <ResultsWowClosing />
+        <ResultsWowClosing footerNarrative={snapshot.footerNarrative} />
 
       </main>
     </div>

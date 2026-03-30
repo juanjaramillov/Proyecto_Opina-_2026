@@ -13,7 +13,7 @@ export function OverviewB2BHeader({ onRefresh }: OverviewB2BHeaderProps) {
           <span className="text-gradient-brand">Executive Overview</span>
         </h1>
         <p className="text-slate-500 mt-1">
-          ¿Qué está pasando en el mercado? Monitor en tiempo real de preferencias B2C y posicionamiento competitivo.
+          ¿Qué está pasando en el mercado? Monitor estadístico continuo de preferencias B2C y posicionamiento competitivo.
         </p>
       </div>
       <div className="flex items-center gap-3">

@@ -168,7 +168,7 @@ export default function ProfileWizard() {
             subtitle={
                 <div className="flex flex-col gap-2 mt-2">
                     <span className="text-slate-500 font-medium leading-relaxed">
-                        Las señales anónimas y sin contexto valen poco. <br className="hidden sm:block" />Cuéntanos de ti para multiplicar tu peso en el sistema.
+                        Las señales sin contexto estadístico valen poco. <br className="hidden sm:block" />Cuéntanos de ti para multiplicar tu peso en el sistema.
                     </span>
                 </div>
             }
@@ -178,12 +178,13 @@ export default function ProfileWizard() {
 
 
                     {step === 2 && (
-                        <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                        <motion.div key="step2" data-testid="profile-wizard-step-basic" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <h2 className="text-xl font-bold text-slate-900 mb-2">Genial, {formData.name}</h2>
 
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Edad</label>
                                 <input
+                                    data-testid="profile-wizard-age-input"
                                     type="number"
                                     min="1920"
                                     max="2010"
@@ -248,7 +249,7 @@ export default function ProfileWizard() {
                     )}
 
                     {step === 3 && (
-                        <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                        <motion.div key="step3" data-testid="profile-wizard-step-professional" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
 
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Nivel Educacional</label>
@@ -278,7 +279,7 @@ export default function ProfileWizard() {
                     )}
 
                     {step === 4 && (
-                        <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                        <motion.div key="step4" data-testid="profile-wizard-step-home" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                             <h2 className="text-xl font-bold text-slate-900 mb-2">Contexto de Hogar</h2>
 
                             <div className="space-y-3">

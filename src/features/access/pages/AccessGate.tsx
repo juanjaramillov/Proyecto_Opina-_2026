@@ -69,7 +69,7 @@ export default function AccessGatePage() {
         } catch (error: unknown) {
             const msg = error instanceof Error ? error.message : String(error);
             analyticsService.trackSystem("access_gate_error", "error", { message: msg.slice(0, 160) });
-            setErr(msg || 'Ese código no calza. Revisa y prueba de nuevo.');
+            setErr('Código de invitación expirado o no válido.');
         } finally {
             setLoading(false);
         }
@@ -79,9 +79,9 @@ export default function AccessGatePage() {
         <div className="min-h-screen bg-white flex items-center justify-center px-4">
             <div className="w-full max-w-md">
                 <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xl shadow-slate-200/50 transition-shadow hover:shadow-2xl hover:shadow-2xl/60">
-                    <h1 className="text-xl font-black text-slate-900">Acceso por invitación</h1>
+                    <h1 className="text-xl font-black text-slate-900">Acceso Restringido</h1>
                     <p className="text-sm text-slate-500 font-medium mt-1">
-                        Si tienes código, entra. Si no, comunícate con un administrador.
+                        Entorno en fase piloto. Opina+ requiere invitación directa para participar y validar la calidad de la muestra.
                     </p>
 
                     <form onSubmit={submit} className="space-y-4 mt-6">
@@ -97,7 +97,7 @@ export default function AccessGatePage() {
                                 autoFocus
                             />
                             <p className="text-[11px] text-slate-500 mt-2 font-medium">Respeta mayúsculas y guiones.</p>
-                            {err && <p className="text-sm text-red-600 mt-2 font-medium">{err}</p>}
+                            {err && <p className="text-sm text-red-600 mt-2 font-medium">Código de invitación expirado o no válido.</p>}
                         </div>
 
                         <button
@@ -166,6 +166,13 @@ export default function AccessGatePage() {
                     >
                         Volver al inicio
                     </button>
+                </div>
+                
+                {/* Legal links */}
+                <div className="mt-8 flex justify-center gap-4 text-[11px] font-medium text-slate-400">
+                    <button onClick={() => nav('/privacy')} className="hover:text-primary-600 transition-colors">Privacidad</button>
+                    <span>·</span>
+                    <button onClick={() => nav('/terms')} className="hover:text-primary-600 transition-colors">Términos</button>
                 </div>
             </div>
             <FeedbackFab />

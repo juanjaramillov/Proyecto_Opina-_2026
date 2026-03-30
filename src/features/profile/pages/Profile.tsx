@@ -1,16 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { useAuth, authService } from "../../auth";
 import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint, getNextDemographicsUpdateDate, UserRanking } from "../services/profileService";
 import { AccountProfile } from "../../auth/types";
 import ProgressiveQuestion from "../components/ProgressiveQuestion";
 import SegmentComparisonCard from "../components/SegmentComparisonCard";
-import PersonalHistoryChart from "../components/PersonalHistoryChart";
 import RankingStatusPanel from "../components/RankingStatusPanel";
 import SignalReputationPanel from "../components/SignalReputationPanel";
 import { supabase } from "../../../supabase/client";
 import { MIN_SIGNALS_THRESHOLD, SIGNALS_PER_BATCH } from "../../../config/constants";
 import { logger } from "../../../lib/logger";
+
+const PersonalHistoryChart = lazy(() => import("../components/PersonalHistoryChart"));
 
 import { NextActionRecommendation, ActionType } from '../../../components/ui/NextActionRecommendation';
 import { InlineLoader } from '../../../components/ui/InlineLoader';
@@ -244,7 +245,7 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
                   </p>
                 </div>
                 <div className="badge border-none bg-surface2 text-text-muted shadow-none">
-                  Anonimato Estructural Activo
+                  Identidad Protegida Activa
                 </div>
               </div>
 
@@ -279,25 +280,7 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
 
           {/* PERSONAL HISTORY / EVOLUTION */}
           {!isLocked && personalHistory.length > 0 && (
-            <section className="card p-8 bg-white border-stroke shadow-sm relative overflow-hidden group hover:border-primary/20 transition-all duration-500">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
-              <div className="relative z-10">
-                <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-sm font-black text-ink uppercase tracking-widest flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary">stacked_line_chart</span>
-                    Evolución del Estado Personal
-                  </h3>
-                  <div className="inline-flex gap-1.5 opacity-80">
-                    <span className="w-2.5 h-2.5 rounded-full bg-secondary"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-danger"></span>
-                  </div>
-                </div>
-                <div className="h-64 w-full bg-surface2 rounded-2xl p-4 border border-stroke">
-                  <PersonalHistoryChart data={personalHistory} />
-                </div>
-              </div>
-            </section>
+            <LazyChartSection data={personalHistory} />
           )}
 
         </div>
@@ -323,5 +306,61 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
 
       </div>
     </div>
+  );
+}
+
+// Compuerta de Carga Tardía Real (Lazy Mount vía IntersectionObserver)
+function LazyChartSection({ data }: { data: PersonalHistoryPoint[] }) {
+  const [shouldMountChart, setShouldMountChart] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldMountChart(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '100px' }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="card p-8 bg-white border-stroke shadow-sm relative overflow-hidden group hover:border-primary/20 transition-all duration-500 min-h-[300px]">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="relative z-10">
+        <div className="flex justify-between items-center mb-8">
+            <div>
+                <h3 className="text-sm font-black text-ink uppercase tracking-widest flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary">stacked_line_chart</span>
+                    Evolución del Estado Personal
+                </h3>
+                <p className="text-xs text-text-secondary mt-1 font-medium">Revisa tu progreso de consistencia temporal.</p>
+            </div>
+            {shouldMountChart && (
+                <div className="inline-flex gap-1.5 opacity-80 animate-in fade-in duration-500">
+                    <span className="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-danger"></span>
+                </div>
+            )}
+        </div>
+        
+        {shouldMountChart && (
+            <div className="h-64 w-full bg-surface2 rounded-2xl p-4 border border-stroke animate-in fade-in duration-700">
+                <Suspense fallback={<div className="w-full h-full bg-surface2 animate-pulse rounded-lg flex items-center justify-center"><span className="text-xs text-text-muted font-bold tracking-widest uppercase flex items-center gap-2"><span className="material-symbols-outlined animate-spin">sync</span>Cargando histórico...</span></div>}>
+                <PersonalHistoryChart data={data} />
+                </Suspense>
+            </div>
+        )}
+      </div>
+    </section>
   );
 }

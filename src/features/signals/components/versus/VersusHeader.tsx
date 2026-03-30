@@ -2,9 +2,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface VersusHeaderProps {
     title: string;
+    subtitle?: string;
 }
 
-export function VersusHeader({ title }: VersusHeaderProps) {
+export function VersusHeader({ title, subtitle }: VersusHeaderProps) {
     const formatTitle = (str: string) => {
         const match = str.match(/^([¿¡\s]*)(.*)/);
         if (!match) return str;
@@ -88,7 +89,7 @@ export function VersusHeader({ title }: VersusHeaderProps) {
                     </h2>
                     
                     <p className="mt-1 md:mt-2 text-[11px] md:text-xs font-bold text-slate-400 uppercase tracking-widest text-center">
-                        Solo elige una opción
+                        {subtitle || "Solo elige una opción"}
                     </p>
                 </div>
             </motion.div>

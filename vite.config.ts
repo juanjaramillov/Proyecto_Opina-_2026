@@ -11,8 +11,10 @@ export default defineConfig({
           react: ['react', 'react-dom'],
           router: ['react-router-dom'],
 
-          // If you add charts/libs later, keep them splitable:
-          // charts: ['recharts'],
+          // B2B & Heavy Analytics Tooling (Protege rutas B2C)
+          charts: ['chart.js', 'react-chartjs-2'],
+          excel: ['xlsx'],
+          data: ['csv-parse', 'csv-parser']
         },
       },
     },

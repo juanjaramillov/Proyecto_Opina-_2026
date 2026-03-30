@@ -1,8 +1,13 @@
 
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, AlertCircle, Users, Activity, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ResultsCommunitySnapshot } from '../../../read-models/b2c/resultsCommunityTypes';
 
-export const ResultsWowClosing = () => {
+interface Props {
+  footerNarrative?: ResultsCommunitySnapshot['footerNarrative'];
+}
+
+export const ResultsWowClosing = ({ footerNarrative }: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -14,13 +19,64 @@ export const ResultsWowClosing = () => {
         <Sparkles className="w-12 h-12 text-white/50 mx-auto mb-6" />
         
         <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mb-6">
-          La opinión ciudadana <br className="hidden md:block" />
-          es un mapa en movimiento.
+          {footerNarrative?.title || (
+            <>La opinión ciudadana <br className="hidden md:block" /> es un mapa en movimiento.</>
+          )}
         </h2>
         
         <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
-          Sigue explorando señales, evalúa nuevas marcas y ayuda a construir el ecosistema en tiempo real.
+          {footerNarrative?.description || "Sigue explorando señales, evalúa nuevas marcas y ayuda a construir el ecosistema con lectura continua."}
         </p>
+
+        {/* KPIs Narrativos del Footer */}
+        {footerNarrative && footerNarrative.metrics && (
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 text-left max-w-3xl mx-auto">
+             {footerNarrative.metrics.generationGapLabel && (
+                <div className="bg-white/10 rounded-2xl p-4 border border-white/20">
+                  <div className="flex items-center gap-2 mb-2 text-white/60">
+                     <Users className="w-4 h-4" />
+                     <span className="text-xs font-bold uppercase tracking-wider">Brecha Gen.</span>
+                  </div>
+                  <div className="font-bold text-white leading-tight">
+                    {footerNarrative.metrics.generationGapLabel}
+                  </div>
+                </div>
+             )}
+             {footerNarrative.metrics.territoryGapLabel && (
+                <div className="bg-white/10 rounded-2xl p-4 border border-white/20">
+                  <div className="flex items-center gap-2 mb-2 text-white/60">
+                     <AlertCircle className="w-4 h-4" />
+                     <span className="text-xs font-bold uppercase tracking-wider">Territorio</span>
+                  </div>
+                  <div className="font-bold text-white leading-tight">
+                    {footerNarrative.metrics.territoryGapLabel}
+                  </div>
+                </div>
+             )}
+             {footerNarrative.metrics.communityActivityLabel && (
+                <div className="bg-white/10 rounded-2xl p-4 border border-white/20">
+                  <div className="flex items-center gap-2 mb-2 text-white/60">
+                     <Activity className="w-4 h-4" />
+                     <span className="text-xs font-bold uppercase tracking-wider">Actividad</span>
+                  </div>
+                  <div className="font-bold text-white leading-tight">
+                    {footerNarrative.metrics.communityActivityLabel}
+                  </div>
+                </div>
+             )}
+             {footerNarrative.metrics.sampleQualityLabel && (
+                <div className="bg-white/10 rounded-2xl p-4 border border-white/20">
+                  <div className="flex items-center gap-2 mb-2 text-white/60">
+                     <CheckCircle2 className="w-4 h-4" />
+                     <span className="text-xs font-bold uppercase tracking-wider">Calidad Muestra</span>
+                  </div>
+                  <div className="font-bold text-white leading-tight">
+                    {footerNarrative.metrics.sampleQualityLabel}
+                  </div>
+                </div>
+             )}
+           </div>
+        )}
         
         <button 
           onClick={() => navigate('/signals')}

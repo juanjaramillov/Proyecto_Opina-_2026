@@ -7,7 +7,7 @@ import { useSignalStore } from "../../../store/signalStore";
 
 export interface BatchSessionResultRecord {
     battle: Battle;
-    myVote: 'A' | 'B';
+    mySignal: 'A' | 'B';
     pctA: number;
 }
 
@@ -70,7 +70,7 @@ export default function BatchSessionResults({
 
                     <div className="space-y-4 mb-8">
                         {batchSessionHistory.map((h, i) => {
-                            const isLeft = h.myVote === 'A';
+                            const isLeft = h.mySignal === 'A';
                             const votedOption = isLeft ? h.battle.options[0] : h.battle.options[1];
                             const opponentOption = isLeft ? h.battle.options[1] : h.battle.options[0];
                             

@@ -45,10 +45,6 @@ export function ResultsTournamentBlock({ tournamentData }: Props) {
                Resultados del análisis progresivo de preferencias 1 a 1 de la comunidad.
              </p>
            </div>
-           
-           <button className="shrink-0 flex items-center gap-1 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-4 py-2 rounded-full border border-slate-200 cursor-not-allowed" disabled>
-             Evolución B2B<span className="opacity-50 ml-1">(Próximamente)</span>
-           </button>
         </div>
 
         {/* Content Layout */}

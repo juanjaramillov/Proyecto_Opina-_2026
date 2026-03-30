@@ -86,7 +86,7 @@ export default function WhatIsOpinaSection() {
             </div>
             <h3 className="text-2xl sm:text-3xl font-black text-ink mb-4 group-hover:text-emerald-600 transition-colors">Compara Visión</h3>
             <p className="text-slate-500 font-medium leading-relaxed text-base sm:text-lg">
-              Accede a radiografías en tiempo real. Entérate cómo piensa la comunidad y dónde te ubicas en el debate.
+              Accede a resultados macro. Entérate cómo piensa la comunidad y dónde te ubicas en el debate.
             </p>
           </Link>
 
@@ -106,7 +106,7 @@ export default function WhatIsOpinaSection() {
             </div>
             <h3 className="text-2xl sm:text-3xl font-black text-ink mb-4 group-hover:text-sky-500 transition-colors">Desbloquea Valor</h3>
             <p className="text-slate-500 font-medium leading-relaxed text-base sm:text-lg">
-              Tu consistencia y calidad de aportes te permiten reclamar recompensas tangibles y escalar como usuario VIP.
+              Tu consistencia al opinar alimenta tu perfil de usuario. Acumula prestigio, sube de nivel y diferénciate.
             </p>
           </Link>
         </div>

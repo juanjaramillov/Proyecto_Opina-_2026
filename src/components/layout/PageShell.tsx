@@ -202,6 +202,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <span className="material-symbols-outlined text-[16px]">group</span>
                     Usuarios CRM
                   </NavLink>
+                  <NavLink to="/admin/demo" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
+                    <span className="material-symbols-outlined text-[16px]">rocket_launch</span>
+                    Pilot Launchpad
+                  </NavLink>
                 </div>
               </div>
             )}
@@ -320,6 +324,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                       <span className="material-symbols-outlined text-[18px]">group</span>
                       Usuarios CRM
                     </NavLink>
+                    <NavLink to="/admin/demo" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">rocket_launch</span>
+                      Pilot Launchpad
+                    </NavLink>
                   </div>
                 </div>
               </div>
@@ -337,18 +345,27 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
       {showFeedbackFab ? <FeedbackFab /> : null}
 
       <footer className="w-full border-t border-slate-200 bg-white/50 backdrop-blur-sm py-6 mt-auto">
-        <div className="w-full px-4 sm:px-8 xl:px-12 mx-auto text-center space-y-2">
+        <div className="w-full px-4 sm:px-8 xl:px-12 mx-auto text-center space-y-3">
           <div className="flex justify-center items-center gap-2 mb-2 opacity-60">
             <span className="material-symbols-rounded text-[16px] text-slate-400">gavel</span>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Legal</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Legal y Privacidad</span>
           </div>
 
-          <p className="text-[11px] text-slate-500 leading-relaxed max-w-2xl mx-auto">
-            Opina+ muestra tendencias agregadas. No es asesoría, no es verdad absoluta. Es señal.
+          <p className="text-[11px] text-slate-500 leading-relaxed max-w-3xl mx-auto">
+            Opina+ consolida señales estadísticas, no asesoría ni verdades absolutas. 
+            Las marcas y logotipos exhibidos tienen fines estrictamente referenciales 
+            y comparativos dentro del contexto de percepción ciudadana, sin implicar 
+            afiliación, patrocinio ni respaldo por parte de sus titulares.
           </p>
 
-          <p className="text-[10px] text-slate-600 uppercase tracking-wider font-semibold">
-            &copy; {new Date().getFullYear()} Opina+
+          <div className="flex justify-center items-center gap-4 text-[11px] font-bold text-slate-600 uppercase mt-4 mb-2">
+            <NavLink to="/privacy" className="hover:text-primary-600 transition-colors">Privacidad</NavLink>
+            <span className="text-slate-300">•</span>
+            <NavLink to="/terms" className="hover:text-primary-600 transition-colors">Términos de Uso</NavLink>
+          </div>
+
+          <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold pt-2">
+            &copy; {new Date().getFullYear()} Opina+ Pilot Platform
           </p>
         </div>
       </footer>

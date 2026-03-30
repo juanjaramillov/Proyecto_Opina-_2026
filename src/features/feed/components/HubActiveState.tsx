@@ -9,7 +9,7 @@ import { logger } from '../../../lib/logger';
 
 interface HubActiveStateProps {
     battles: Battle[];
-    onBatchComplete: (history: Array<{ battle: Battle; myVote: 'A' | 'B'; pctA: number; }>) => void;
+    onBatchComplete: (history: Array<{ battle: Battle; mySignal: 'A' | 'B'; pctA: number; }>) => void;
 }
 
 export default function HubActiveState({ battles, onBatchComplete }: HubActiveStateProps) {

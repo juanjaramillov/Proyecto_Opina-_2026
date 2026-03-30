@@ -1,19 +1,20 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BattleOption, TorneoTournament } from '../types';
-import OptionCard from './OptionCard';
-import { logger } from '../../../lib/logger';
-import { ProgressiveEmptyState } from './runner/ProgressiveEmptyState';
-import { CrownedChampionView } from './runner/CrownedChampionView';
+import { BattleOption, Progressive } from '../../types';
+import OptionCard from '../OptionCard';
+import { logger } from '../../../../lib/logger';
+import { ProgressiveEmptyState } from './ProgressiveEmptyState';
+import { CrownedChampionView } from './CrownedChampionView';
+import VersusHeader from '../versus/VersusHeader';
 
-interface TorneoRunnerProps {
-    progressiveData: Omit<TorneoTournament, 'stage'> | null;
+interface ProgressiveRunnerProps {
+    progressiveData: Omit<Progressive, 'stage'> | null;
     onVote: (battle_id: string, option_id: string, opponentId: string, metadata?: Record<string, unknown>) => Promise<void>;
     onComplete?: (results: Record<string, unknown>) => void;
     onPlayAgain?: () => void;
 }
 
-export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: Omit<TorneoRunnerProps, 'onComplete'>) {
+export default function ProgressiveRunner({ progressiveData, onVote, onPlayAgain }: Omit<ProgressiveRunnerProps, 'onComplete'>) {
     const candidates = progressiveData?.candidates || [];
     const [processedCandidates, setProcessedCandidates] = useState<BattleOption[]>([]);
 
@@ -40,7 +41,7 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
 
     const totalRounds = useMemo(() => processedCandidates.length > 1 ? processedCandidates.length - 1 : 1, [processedCandidates]);
 
-    const initTournament = useCallback((candidatesData: BattleOption[]) => {
+    const initProgressive = useCallback((candidatesData: BattleOption[]) => {
         // Map and format
         const mapped = candidatesData.map(c => ({
             ...c,
@@ -66,9 +67,9 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
     // Initialize/Reset state when the tournament changes (e.g. category switch)
     useEffect(() => {
         if (memoCandidates.length > 0) {
-            initTournament(memoCandidates);
+            initProgressive(memoCandidates);
         }
-    }, [progressiveData?.id, memoCandidates, initTournament]);
+    }, [progressiveData?.id, memoCandidates, initProgressive]);
 
     const handleVote = useCallback(async (selectedOptionId: string) => {
         if (!leftOption || !rightOption || isVoting) return;
@@ -121,7 +122,7 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                 }
             }
         } catch (error) {
-            logger.error("Error in progressive vote", { domain: 'signal_write', origin: 'TorneoRunner', action: 'progressive_vote', state: 'failed' }, error);
+            logger.error("Error in progressive vote", { domain: 'signal_write', origin: 'ProgressiveRunner', action: 'progressive_vote', state: 'failed' }, error);
         } finally {
             setIsVoting(false);
             setLastWinnerId(null);
@@ -155,7 +156,7 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                     if (onPlayAgain) {
                         onPlayAgain();
                     } else if (memoCandidates.length > 0) {
-                        initTournament(memoCandidates);
+                        initProgressive(memoCandidates);
                     }
                 }}
             />
@@ -164,53 +165,17 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
 
     return (
         <div className="w-full max-w-5xl mx-auto px-4 md:px-6 pb-24 pt-2 md:pt-4 space-y-8">
-            <div className="px-4 pb-2 text-center">
-                <div className="text-center">
-                    <h2 className="h2 text-slate-800">
-                        {(() => {
-                            const ironicPrefixes = ["Dilema de", "Terapia de", "Diferendo de", "Sínodo de", "Anatomía de", "Fricción de", "Debate de"];
-                            const rawTitle = progressiveData?.title || "Guerra del Canal";
-
-                            // Replace "Guerra" with a random ironic prefix if found
-                            let refinedTitle = rawTitle;
-                            if (rawTitle.toLowerCase().includes('guerra')) {
-                                const randomPrefix = ironicPrefixes[Math.floor(Math.random() * ironicPrefixes.length)];
-                                refinedTitle = rawTitle.replace(/Guerra/i, randomPrefix);
-                            }
-
-                            const cleanTitle = refinedTitle.trim();
-                            const words = cleanTitle.split(/\s+/);
-
-                            if (words.length <= 1) {
-                                return (
-                                    <span style={{ color: theme.primary }}>{cleanTitle}</span>
-                                );
-                            }
-
-                            const lastWord = words.pop() || '';
-                            const firstPart = words.join(' ');
-                            return (
-                                <>
-                                    {firstPart} <span style={{ color: theme.primary }}>{lastWord}</span>
-                                </>
-                            );
-                        })()}
-                    </h2>
-
-                    <p className="body-base mt-4 md:text-lg">
-                        Si fueras descartando opciones, ¿cuál elegirías?
-                    </p>
-
-                    <div className="body-caption mt-2">
-                        Señala la opción que prefieres mantener.
-                    </div>
-                </div>
+            <div className="pt-2 pb-0">
+                <VersusHeader 
+                    title={progressiveData?.title || "Evaluación Sectorial"} 
+                    subtitle="Si fueras descartando opciones, ¿cuál elegirías?" 
+                />
             </div>
 
             {/* Battle Arena */}
-            <div className="relative mt-6">
+            <div className="relative mt-2">
                 {/* Instruction + Progress immediately above cards */}
-                <div className="max-w-xl mx-auto mb-8">
+                <div className="max-w-xl mx-auto mb-4 px-4">
                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
                         <span>Progreso</span>
                         <span>{round}/{totalRounds}</span>
@@ -223,38 +188,36 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                             animate={{ width: `${Math.round(((round - 1) / totalRounds) * 100)}%` }}
                         />
                     </div>
-
-                    <div className="mt-2 text-[11px] font-medium text-slate-500 text-center">
-                        Tu señal se cruza con tu perfil para detectar patrones.
-                    </div>
                 </div>
 
-                <div className={`relative w-full mx-auto transition-opacity duration-300 ${isVoting ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
-                    {/* VS badge central eliminado por lineamientos de copy corporativo, igual que en Versus */}
-
-                    <div className="grid grid-cols-2 gap-3 md:gap-8 lg:gap-10 relative z-20 items-stretch">
+                <div className="relative mt-2 w-full mx-auto md:px-0">
+                    {/* VERSUS ARENA: Flex Container (Vertical in mobile, Horizontal in desktop) */}
+                    <div className={`flex flex-col md:flex-row w-full h-[58vh] min-h-[480px] md:h-[500px] lg:h-[550px] rounded-[2.5rem] overflow-hidden relative shadow-2xl transition-opacity duration-300 ${isVoting ? 'opacity-80 grayscale-[0.3] pointer-events-none' : ''}`}>
                         {/* Left Option */}
-                        <AnimatePresence mode="popLayout">
-                            <motion.div
-                                initial={{ x: -40, opacity: 0, scale: 0.95 }}
-                                animate={{ x: 0, opacity: 1, scale: 1 }}
-                                exit={{ x: -20, opacity: 0, scale: 0.9 }}
-                                transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                                key={`left-${leftOption?.id}`}
-                                className="relative w-full flex"
-                            >
-                                {round > 1 && currentChampId === leftOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-brand text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
-                                        <span className="material-symbols-outlined text-[12px] align-middle mr-1">social_leaderboard</span>
-                                        Preferencia actual
-                                    </div>
-                                )}
-                                {round > 1 && currentChampId !== leftOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white whitespace-nowrap">
-                                        Nueva opción
-                                    </div>
-                                )}
-                                {leftOption && (
+                        <AnimatePresence mode="popLayout" initial={false}>
+                            {leftOption && (
+                                <motion.div
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                                    key={`left-${leftOption.id}`}
+                                    className={`flex flex-col relative w-full transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] origin-top md:origin-left z-10 ${
+                                        lastWinnerId === leftOption.id ? "flex-[1.8] md:flex-[1.5] scale-100 z-20 shadow-[0_10px_40px_rgba(0,0,0,0.15)]" 
+                                        : (lastWinnerId ? "flex-[0.2] md:flex-[0.5] opacity-50 blur-[2px] scale-[0.98]" : "flex-1")
+                                    }`}
+                                >
+                                    {round > 1 && currentChampId === leftOption.id && (
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-gradient-brand text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
+                                            <span className="material-symbols-outlined text-[10px] md:text-[12px] align-middle mr-1">social_leaderboard</span>
+                                            Preferencia actual
+                                        </div>
+                                    )}
+                                    {round > 1 && currentChampId !== leftOption.id && (
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-slate-800/80 backdrop-blur-md text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg border border-white/20 whitespace-nowrap">
+                                            Nueva opción
+                                        </div>
+                                    )}
                                     <OptionCard
                                         option={leftOption}
                                         onClick={() => handleVote(leftOption.id)}
@@ -265,32 +228,55 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                                         isChampion={currentChampId === leftOption.id}
                                         theme={theme}
                                     />
-                                )}
-                            </motion.div>
+                                </motion.div>
+                            )}
                         </AnimatePresence>
 
+                        {/* Separador Píldora VS Central (Desaparece si ya hubo voto) */}
+                        {leftOption && rightOption && !lastWinnerId && (
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none flex items-center justify-center">
+                                <motion.div 
+                                    initial={{ scale: 0, rotate: -45 }}
+                                    animate={{ scale: 1, rotate: 0 }}
+                                    exit={{ scale: 0 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.2 }}
+                                    className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-2xl border-[4px] md:border-[6px] border-slate-100/30 text-slate-800 font-black text-sm md:text-xl tracking-tighter backdrop-blur-xl"
+                                >
+                                    <span className="bg-gradient-to-br from-slate-700 to-slate-900 bg-clip-text text-transparent italic pr-0.5">VS</span>
+                                </motion.div>
+                            </div>
+                        )}
+
+                        {/* Divider dinámico que aparece al votar */}
+                        {lastWinnerId && (
+                            <div className="absolute top-1/2 left-0 w-full h-[2px] md:top-0 md:left-1/2 md:w-[2px] md:h-full bg-white/50 z-20 mix-blend-overlay pointer-events-none" />
+                        )}
+
                         {/* Right Option */}
-                        <AnimatePresence mode="popLayout">
-                            <motion.div
-                                initial={{ x: 50, opacity: 0, scale: 0.9 }}
-                                animate={{ x: 0, opacity: 1, scale: 1 }}
-                                exit={{ x: 30, opacity: 0, scale: 0.9 }}
-                                transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                                key={`right-${rightOption?.id}`}
-                                className="relative w-full flex"
-                            >
-                                {round > 1 && currentChampId === rightOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-gradient-brand text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
-                                        <span className="material-symbols-outlined text-[12px] align-middle mr-1">social_leaderboard</span>
-                                        Preferencia actual
-                                    </div>
-                                )}
-                                {round > 1 && currentChampId !== rightOption?.id && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-slate-800 text-[10px] font-black uppercase tracking-widest text-white shadow-lg border-2 border-white whitespace-nowrap">
-                                        Nueva opción
-                                    </div>
-                                )}
-                                {rightOption && (
+                        <AnimatePresence mode="popLayout" initial={false}>
+                            {rightOption && (
+                                <motion.div
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.05 }}
+                                    key={`right-${rightOption.id}`}
+                                    className={`flex flex-col relative w-full transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] origin-bottom md:origin-right z-10 ${
+                                        lastWinnerId === rightOption.id ? "flex-[1.8] md:flex-[1.5] scale-100 z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] md:shadow-[-10px_0_40px_rgba(0,0,0,0.15)]" 
+                                        : (lastWinnerId ? "flex-[0.2] md:flex-[0.5] opacity-50 blur-[2px] scale-[0.98]" : "flex-1")
+                                    }`}
+                                >
+                                    {round > 1 && currentChampId === rightOption.id && (
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-gradient-brand text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
+                                            <span className="material-symbols-outlined text-[10px] md:text-[12px] align-middle mr-1">social_leaderboard</span>
+                                            Preferencia actual
+                                        </div>
+                                    )}
+                                    {round > 1 && currentChampId !== rightOption.id && (
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-slate-800/80 backdrop-blur-md text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg border border-white/20 whitespace-nowrap">
+                                            Nueva opción
+                                        </div>
+                                    )}
                                     <OptionCard
                                         option={rightOption}
                                         onClick={() => handleVote(rightOption.id)}
@@ -301,8 +287,8 @@ export default function TorneoRunner({ progressiveData, onVote, onPlayAgain }: O
                                         isChampion={currentChampId === rightOption.id}
                                         theme={theme}
                                     />
-                                )}
-                            </motion.div>
+                                </motion.div>
+                            )}
                         </AnimatePresence>
                     </div>
 

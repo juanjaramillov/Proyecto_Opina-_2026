@@ -1,4 +1,4 @@
-import { BaseAnalyticsQuery } from "../analytics/analyticsTypes";
+import { BaseAnalyticsQuery, PublicationMode } from "../analytics/analyticsTypes";
 
 export interface ResultsCommunityQuery extends BaseAnalyticsQuery {
   generation?: "ALL" | "BOOMERS" | "GEN_X" | "MILLENNIALS" | "GEN_Z";
@@ -25,7 +25,7 @@ export interface ResultsCommunityGuardrails {
 
 export interface ResultsCommunitySnapshot {
   calculatedAt: string; // ISO Date
-  mode: "synthetic" | "real" | "hybrid";
+  mode: PublicationMode;
   query: ResultsCommunityQuery;
   guardrails: ResultsCommunityGuardrails;
   technicalMeta: Record<string, unknown>;

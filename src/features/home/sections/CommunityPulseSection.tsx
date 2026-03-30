@@ -24,7 +24,7 @@ export default function CommunityPulseSection() {
         <h2 className="text-3xl md:text-5xl font-black text-ink mb-4 tracking-tight">
           Un ecosistema en <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">constante movimiento</span>
         </h2>
-        <p className="text-xl text-slate-500 font-medium">Cada señal alimenta la red en tiempo real.</p>
+        <p className="text-xl text-slate-500 font-medium">Cada señal alimenta la red de forma estadística.</p>
       </div>
 
       <div className="relative z-10 w-full max-w-5xl h-[500px] flex items-center justify-center">

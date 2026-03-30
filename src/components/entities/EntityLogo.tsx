@@ -3,6 +3,7 @@ import BrandLogo from "../ui/BrandLogo";type EntityLogoSize = "sm" | "md" | "lg"
 
 type EntityLogoProps = {
   name: string;
+  src?: string | null;
   slug?: string | null;
   domain?: string | null;
   size?: EntityLogoSize;
@@ -33,6 +34,7 @@ function cn(...classes: Array<string | undefined | false | null>) {
 
 export default function EntityLogo({
   name,
+  src,
   slug,
   domain,
   size = "md",
@@ -47,6 +49,12 @@ export default function EntityLogo({
 
   const logoSrcs = useMemo(() => {
     const srcs: string[] = [];
+    
+    // 0. Prioridad absoluta: Imagen subida al Panel Admin (Supabase Storage)
+    if (src) {
+        srcs.push(src);
+    }
+    
     if (slug) {
       // 1. Nueva carpeta productiva (Solo Strong)
       srcs.push(`/logos/entities/${slug}.svg`);
@@ -68,15 +76,15 @@ export default function EntityLogo({
       srcs.push(`https://asset.brandfetch.io/${domain}/icon`);
     }
     return srcs;
-  }, [slug, domain]);
+  }, [src, slug, domain]);
 
   const initial = useMemo(() => getInitial(name), [name]);
 
   useEffect(() => {
-    // Reset state if slug or domain changes
+    // Reset state if src, slug or domain changes
     setCurrentSrcIndex(0);
     setHasError(false);
-  }, [slug, domain]);
+  }, [src, slug, domain]);
 
   const shellClass = cn(
     "relative flex shrink-0 items-center justify-center overflow-hidden border border-black/5 bg-white",

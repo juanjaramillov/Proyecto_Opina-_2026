@@ -12,8 +12,9 @@ export function getAssetPathForOption(_label: string, dbImageUrl: string | null)
     const isLegacyPath = dbImageUrl.startsWith('/brands/');
 
     if (isLegacyPath) {
-        return null;
+        return null; // Force fallback to EntityLogo internal logic
     }
 
+    // New format (e.g. from Supabase Storage: https://.../entities-media/...)
     return dbImageUrl;
 }

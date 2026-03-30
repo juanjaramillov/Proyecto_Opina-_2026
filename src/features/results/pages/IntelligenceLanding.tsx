@@ -36,7 +36,7 @@ export default function IntelligenceLanding() {
 
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-ink tracking-tight mb-6 leading-tight max-w-4xl">
                         No vendemos encuestas.<br />
-                        <span className="text-primary">Vendemos Inteligencia en Tiempo Real.</span>
+                        <span className="text-primary">Entregamos Lectura Estadística Continua.</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-text-secondary font-medium max-w-2xl mx-auto leading-relaxed mb-10">
@@ -287,7 +287,7 @@ export default function IntelligenceLanding() {
                         <div className="card card-pad bg-white border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
                             <span className="w-14 h-14 rounded-xl bg-surface2 border border-stroke text-ink flex items-center justify-center mb-6 group-hover:text-primary transition-colors"><span className="material-symbols-outlined text-2xl">monitor_heart</span></span>
                             <h4 className="font-black text-ink mb-2 text-lg">Monitoreo de Crisis</h4>
-                            <p className="text-[14px] leading-relaxed text-text-secondary font-medium">Sigue el impacto real en percepción tras un evento adverso casi en tiempo real.</p>
+                            <p className="text-[14px] leading-relaxed text-text-secondary font-medium">Sigue el impacto en percepción con actualización estadística tras un evento adverso.</p>
                         </div>
                         <div className="card card-pad bg-white border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
                             <span className="w-14 h-14 rounded-xl bg-surface2 border border-stroke text-ink flex items-center justify-center mb-6 group-hover:text-primary transition-colors"><span className="material-symbols-outlined text-2xl">swords</span></span>
@@ -313,7 +313,7 @@ export default function IntelligenceLanding() {
                     <div className="text-center max-w-2xl mx-auto mb-16">
                         <span className="text-primary font-bold uppercase tracking-widest text-xs mb-3 block">Accesos Especializados</span>
                         <h2 className="text-3xl lg:text-4xl font-black text-ink tracking-tight mb-4">La profundidad que tu <span className="text-gradient-brand">industria</span> necesita</h2>
-                        <p className="text-text-secondary font-medium text-lg">Desde un paneo de mercado hasta inteligencia táctica en tiempo real. Configura tu acceso a la velocidad del insight.</p>
+                        <p className="text-text-secondary font-medium text-lg">Desde un paneo de mercado hasta inteligencia táctica basada en señales. Configura tu acceso a la medida de tu industria.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-end">
@@ -369,7 +369,7 @@ export default function IntelligenceLanding() {
                         <div className="card p-8 flex flex-col relative group hover:border-primary/30 transition-colors">
                             <h3 className="text-2xl font-black text-ink mb-1">Velocity</h3>
                             <p className="text-xs font-bold text-secondary uppercase tracking-widest mb-6">Enterprise</p>
-                            <p className="text-sm text-text-secondary mb-8 font-medium border-b border-stroke pb-6">Adelántate al mercado con analítica predictiva en tiempo real.</p>
+                            <p className="text-sm text-text-secondary mb-8 font-medium border-b border-stroke pb-6">Adelántate al mercado con actualizaciones periódicas de alto volumen.</p>
 
                             <ul className="space-y-4 mb-10 flex-1">
                                 <li className="flex items-start gap-3">
@@ -399,7 +399,7 @@ export default function IntelligenceLanding() {
                             Suma categorías.<br />Cruza variables.<br />Multiplica tus certezas.
                         </h2>
                         <p className="text-text-secondary font-medium mb-12 max-w-2xl mx-auto text-lg leading-relaxed">
-                            Comienza a tomar decisiones respaldadas por inteligencia real en tiempo real. El motor escala analíticamente a la medida de los dolores puntuales de tu industria.
+                            Comienza a tomar decisiones respaldadas por señales estadísticas directas. El motor escala analíticamente a la medida de los dolores puntuales de tu industria.
                         </p>
 
                         <div id="b2b-lead-form" className="w-full max-w-2xl mx-auto mt-4 transition-all duration-500 pt-8 border-t border-stroke">

@@ -5,23 +5,29 @@
 @tailwind utilities;@layer base {
 
   :root {
-    /* ✅ BRAND COLOR OPINA+ (Corporate Blue) */
+    /* ✅ BRAND (Familia Canónica) */
     --brand-opina-blue: #2563EB;
     --brand-opina-dark: #0F172A;
+    --brand: var(--brand-opina-blue);
+
+    /* ✅ ACCENT (Familia Canónica) */
     --brand-opina-teal: #10B981;
     --brand-opina-accent-light: #3B82F6;
     --brand-opina-teal-light: #34D399;
+    --accent: var(--brand-opina-teal);
 
-    /* ✅ BRAND ACCENT GLOBAL DEFINITION - STRICT FROM THEME */
+    /* ✅ ACCENTS GLOBALES */
     --brand-accent: linear-gradient(135deg, var(--brand-opina-blue) 0%, var(--brand-opina-teal) 100%);
     --brand-accent-solid: var(--brand-opina-blue);
 
-    /* ✅ DESIGN TOKENS */
-    --primary: var(--brand-opina-blue);
-    --secondary: var(--brand-opina-teal);
-    --ink: #0F172A;
-    --surface2: #F8FAFC;
-    --stroke: #E2E8F0;
+    /* ✅ ALIASES LEGACY & SUBNIVELES ESTRUCTURALES */
+    --primary: var(--brand);      /* [LEGACY ALIAS] de Brand */
+    --secondary: var(--accent);   /* [LEGACY ALIAS] de Accent */
+    
+    /* ✅ INK, SURFACE & LINE (Familias Canónicas) */
+    --ink: #0F172A;       /* Canonical Ink Nivel 1 */
+    --surface2: #F8FAFC;  /* Canonical Surface Nivel 2 */
+    --stroke: #E2E8F0;    /* [LEGACY ALIAS] de Line */
   }
 
   html,

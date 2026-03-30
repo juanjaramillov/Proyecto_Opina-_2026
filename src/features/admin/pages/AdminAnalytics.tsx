@@ -93,10 +93,10 @@ export default function AdminAnalytics() {
             <div className="text-sm text-gray-500">Entidades Activas</div>
             <div className="text-xl font-bold">{snapshot.activeEntities}</div>
           </div>
-          <div className="flex items-center justify-center p-4 border rounded shadow-sm bg-indigo-50">
+          <div className="flex items-center justify-center p-4 border rounded shadow-sm bg-emerald-50">
             <button 
               onClick={handleRefreshRollups}
-              className="bg-indigo-600 text-white px-4 py-2 rounded font-semibold w-full h-full"
+              className="bg-emerald-600 text-white px-4 py-2 rounded font-semibold w-full h-full hover:bg-emerald-700 transition-colors"
             >
               Forzar Recálculo
             </button>
@@ -141,45 +141,66 @@ export default function AdminAnalytics() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
-              <tr className="border-b bg-gray-50">
-                <th className="p-3 font-semibold">Métrica</th>
-                <th className="p-3 font-semibold">Familia</th>
-                <th className="p-3 font-semibold">Audiencia</th>
-                <th className="p-3 font-semibold">Surfaces Default</th>
-                <th className="p-3 font-semibold">Status</th>
-                <th className="p-3 font-semibold">Enabled</th>
+              <tr className="border-b bg-gray-50 text-xs text-gray-700">
+                <th className="p-3 font-semibold w-1/4">Métrica</th>
+                <th className="p-3 font-semibold text-center">Tipo</th>
+                <th className="p-3 font-semibold text-center">En Catálogo</th>
+                <th className="p-3 font-semibold text-center">En ReadModel</th>
+                <th className="p-3 font-semibold text-center">En UI</th>
+                <th className="p-3 font-semibold text-center">Status Final</th>
+                <th className="p-3 font-semibold text-right">Visibilidad</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map(m => (
                 <tr key={m.id} className="border-b last:border-0 hover:bg-gray-50">
-                  <td className="p-3">
-                    <div className="font-semibold text-indigo-900">{m.name}</div>
-                    <div className="text-xs text-gray-500 font-mono">{m.id}</div>
-                  </td>
-                  <td className="p-3"><span className="px-2 py-1 bg-gray-100 rounded-full text-xs">{m.family}</span></td>
-                  <td className="p-3">
-                    <div className="flex gap-1 flex-wrap">
-                      {m.allowedAudience.map(a => <span key={a} className="px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] uppercase">{a}</span>)}
+                  <td className="p-3 w-1/4">
+                    <div className="font-semibold text-emerald-900">{m.name}</div>
+                    <div className="text-[10px] text-gray-500 font-mono mt-0.5">{m.id}</div>
+                    <div className="text-[10px] text-gray-400 mt-1 truncate max-w-[200px]" title={m.surfaces.join(', ')}>
+                      S. Def: {m.surfaces.join(', ')}
                     </div>
                   </td>
-                  <td className="p-3 text-xs text-gray-600 max-w-xs truncate">
-                    {m.surfaces.join(', ')}
+                  <td className="p-3 text-center">
+                    {m.visibleByDefault ? (
+                      <span className="px-2 py-1 bg-emerald-100/50 text-emerald-800 rounded font-semibold whitespace-nowrap">Core</span>
+                    ) : (
+                      <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded whitespace-nowrap">Extra</span>
+                    )}
                   </td>
-                  <td className="p-3">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      m.status === 'live' ? 'bg-green-100 text-green-800' :
-                      m.status === 'pending_instrumentation' ? 'bg-yellow-100 text-yellow-800' :
-                      m.status === 'experimental' ? 'bg-purple-100 text-purple-800' :
-                      'bg-red-100 text-red-800'
+                  <td className="p-3 text-center">
+                    <span className="inline-flex w-6 h-6 items-center justify-center bg-emerald-100/50 text-emerald-600 rounded-full text-xs">✔</span>
+                  </td>
+                  <td className="p-3 text-center">
+                    {m.isWiredToReadModel ? (
+                      <span className="inline-flex w-6 h-6 items-center justify-center bg-emerald-100/50 text-emerald-600 rounded-full text-xs">✔</span>
+                    ) : (
+                      <span className="inline-flex w-6 h-6 items-center justify-center bg-gray-100 text-gray-400 rounded-full text-xs">-</span>
+                    )}
+                  </td>
+                  <td className="p-3 text-center">
+                    {m.isWiredToUI ? (
+                      <span className="inline-flex w-6 h-6 items-center justify-center bg-emerald-100/50 text-emerald-600 rounded-full text-xs">✔</span>
+                    ) : (
+                      <span className="inline-flex w-6 h-6 items-center justify-center bg-gray-100 text-gray-400 rounded-full text-xs">-</span>
+                    )}
+                  </td>
+                  <td className="p-3 text-center">
+                    <span className={`px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider ${
+                      m.status === 'live' ? 'bg-emerald-100/50 text-emerald-700' :
+                      m.status === 'pending_instrumentation' ? 'bg-amber-100/50 text-amber-700' :
+                      m.status === 'experimental' ? 'bg-indigo-100/50 text-indigo-700' :
+                      'bg-rose-100/50 text-rose-700'
                     }`}>
-                      {m.status}
+                      {m.status.replace('_', ' ')}
                     </span>
                   </td>
-                  <td className="p-3">
+                  <td className="p-3 text-right">
                     <button
                       onClick={() => toggleEnabled(m.id, m.isEnabledAdmin)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${m.isEnabledAdmin ? 'bg-indigo-600' : 'bg-gray-200'}`}
+                      disabled={m.status === 'pending_instrumentation'}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${m.isEnabledAdmin ? 'bg-emerald-600' : 'bg-gray-200'}`}
+                      title={m.status === 'pending_instrumentation' ? "No se puede activar un KPI pendiente de instrumentación" : "Activar/Desactivar visibilidad extra"}
                     >
                       <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${m.isEnabledAdmin ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
