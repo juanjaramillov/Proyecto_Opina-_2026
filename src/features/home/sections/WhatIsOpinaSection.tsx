@@ -3,7 +3,7 @@ import { MousePointerClick, Sparkles, PieChart, TrendingUp, Gift, Coins } from '
 
 export default function WhatIsOpinaSection() {
   return (
-    <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-slate-50 border-y border-slate-100 relative overflow-hidden">
+    <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 border-y border-slate-100 relative overflow-hidden">
       {/* Estilos CSS Inline para animaciones fluidas que Tailwind no trae por defecto */}
       <style>{`
         @keyframes float-slow {
@@ -37,17 +37,17 @@ export default function WhatIsOpinaSection() {
             El Motor de Opina+
           </div>
           <h2 className="text-4xl sm:text-6xl font-black font-display text-ink mb-6 tracking-tight">
-            ¿Qué es <span className="text-gradient-brand">Opina+</span>?
+            ¿Qué es <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">Opina+</span>?
           </h2>
           <p className="text-lg sm:text-2xl text-slate-500 max-w-3xl mx-auto font-medium leading-relaxed">
-            Una plataforma donde cada opinión se convierte en una señal. Participa, compara tu visión con la comunidad y desbloquea valor real.
+            El motor de inteligencia colectiva que cruza la intuición humana con datos en tiempo real. Participa, compara tu visión con la red y desbloquea valor real.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24 relative mt-12">
           {/* Línea conectora animada (visible en desktop) */}
           <div className="hidden md:block absolute top-[4.5rem] left-[20%] right-[20%] h-1 bg-slate-200 z-0 rounded-full overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-r from-blue-500 via-emerald-400 to-sky-500 opacity-80 animate-flow-line" />
+            <div className="w-full h-full bg-gradient-to-r from-primary to-emerald-500 opacity-80 animate-flow-line" />
           </div>
 
           {/* Paso 1: Participa */}

@@ -1,11 +1,8 @@
 
 import InteractiveHeroSection from "../sections/InteractiveHeroSection";
 import LiveTrendsSection from "../sections/LiveTrendsSection";
-import ChallengesMenuSection from "../sections/ChallengesMenuSection";
 import GamifiedCTASection from "../sections/GamifiedCTASection";
 import WhatIsOpinaSection from "../sections/WhatIsOpinaSection";
-
-import RewardsValuePropsSection from "../sections/RewardsValuePropsSection";
 
 export default function Home() {
   return (
@@ -13,8 +10,6 @@ export default function Home() {
       <InteractiveHeroSection />
       <WhatIsOpinaSection />
       <LiveTrendsSection />
-      <ChallengesMenuSection />
-      <RewardsValuePropsSection />
       <GamifiedCTASection />
     </main>
   );

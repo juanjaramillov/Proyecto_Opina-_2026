@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { BarChart3, TrendingUp, Sparkles, Globe, Flame } from "lucide-react";
 
 export default function InteractiveHeroSection() {
   return (
-    <section className="relative min-h-[85vh] flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white">
+    <section className="relative min-h-[85vh] flex items-center pt-24 pb-8 lg:pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white">
       {/* Intense but clean light background */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <div className="absolute top-0 -left-1/4 w-[150%] h-[150%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-50/50 via-white to-white blur-3xl opacity-80" />
@@ -16,13 +17,13 @@ export default function InteractiveHeroSection() {
             {/* Minimalist Header */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] sm:text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            La plataforma de inteligencia de mercado abierta
+            Inteligencia Colectiva en Tiempo Real
             </div>
 
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-display tracking-tight text-ink mb-6 leading-[1.1]">
             Convierte tu<br />
             opinión en una<br />
-            <span className="text-blue-600">señal</span><span className="text-emerald-500">.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">señal.</span>
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl text-slate-500 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
@@ -31,7 +32,7 @@ export default function InteractiveHeroSection() {
 
             <Link 
             to="/signals"
-            className="inline-flex items-center gap-2 bg-ink hover:bg-slate-800 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-transform hover:scale-105 hover:shadow-xl hover:shadow-ink/20 mb-10 sm:mb-12"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-emerald-500 hover:opacity-90 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-transform hover:scale-105 hover:shadow-xl hover:shadow-primary/20 mb-10 sm:mb-12"
             >
             Explorar Señales
             <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -51,105 +52,181 @@ export default function InteractiveHeroSection() {
             </div>
         </div>
 
-        {/* RIGHT COMPONENT: 3D Illustration EXACTLY as the First Iteration */}
-        <div className="flex-1 w-full flex items-center justify-center relative min-h-[350px] sm:min-h-[400px] lg:min-h-[600px] pointer-events-none perspective-1000 mt-8 lg:mt-0">
-            
-            <div className="flex-col items-center justify-center relative pointer-events-none w-full h-[300px] lg:h-[480px] perspective-1000 -mr-0 lg:-mr-12 scale-90 sm:scale-[1.1] lg:scale-[1.3] transform-origin-center lg:transform-origin-right">
-                {/* Red de satélites / conexiones Espaciales */}
-                <div className="absolute inset-0 flex items-center justify-center transform-style-3d">
-                    {/* Superficie base (Malla de energía) rediseñada MUCHO más sutil y profunda (3D) */}
-                    <div 
-                        className="absolute w-[150%] h-[150%] bg-[linear-gradient(to_right,#3b82f6_1.5px,transparent_1.5px),linear-gradient(to_bottom,#10b981_1.5px,transparent_1.5px)] bg-[size:50px_50px] opacity-[0.15] animate-[pulse_6s_ease-in-out_infinite]"
-                        style={{ 
-                            transform: 'rotateX(75deg) rotateZ(-45deg) translateZ(-50px)',
-                            maskImage: 'radial-gradient(circle at center, black 5%, transparent 60%)', 
-                            WebkitMaskImage: 'radial-gradient(circle at center, black 5%, transparent 60%)' 
-                        }}
-                    ></div>
+        {/* RIGHT COMPONENT: Phone Mockup */}
+        <div className="flex-1 w-full flex items-center justify-center relative min-h-[350px] sm:min-h-[400px] lg:min-h-[600px] mt-8 lg:mt-0">
+           <div className="w-full flex justify-center relative scale-[1.05] sm:scale-125 lg:scale-125 transform-origin-center lg:transform-origin-right">
+             {/* Main Phone */}
+             <div className="relative z-10 w-64 h-[28rem] bg-white rounded-[3rem] border-8 border-slate-800 shadow-2xl flex flex-col overflow-hidden transform rotate-6 hover:rotate-0 transition-transform duration-700">
+               {/* Notch */}
+               <div className="absolute top-0 inset-x-0 h-6 flex justify-center">
+                  <div className="w-24 h-full bg-slate-800 rounded-b-xl" />
+               </div>
+               {/* Screen Content - Opina+ App Branded Mockup Premium */}
+               <div className="flex-1 bg-slate-50 flex flex-col relative overflow-hidden">
+                  
+                  {/* Dynamic Glowing Background Orbs */}
+                  <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/10 blur-[50px] rounded-full mix-blend-multiply animate-[pulse_6s_ease-in-out_infinite]" />
+                  <div className="absolute bottom-10 -left-10 w-48 h-48 bg-emerald-400/20 blur-[50px] rounded-full mix-blend-multiply animate-[pulse_8s_ease-in-out_infinite_reverse]" />
+                  <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-cyan-400/10 blur-[40px] rounded-full mix-blend-multiply" />
 
-                    {/* Anillos orbitales entrelazados */}
-                    <div className="absolute w-[80%] h-[80%] max-w-[400px] max-h-[400px] border-[2px] border-primary/20 rounded-full animate-[spin_15s_linear_infinite]" style={{ transform: 'rotateX(60deg) rotateY(15deg)' }}></div>
-                    <div className="absolute w-[95%] h-[95%] max-w-[450px] max-h-[450px] border-[1.5px] border-emerald-500/30 rounded-full animate-[spin_20s_linear_infinite_reverse]" style={{ transform: 'rotateX(50deg) rotateY(-20deg)' }}></div>
-                    <div className="absolute w-[70%] h-[70%] max-w-[350px] max-h-[350px] border-[2px] border-purple-500/20 rounded-full animate-[spin_10s_linear_infinite]" style={{ transform: 'rotateX(70deg) rotateZ(30deg)' }}></div>
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent transform rotate-45 rotate-x-60 animate-[shimmer_3s_infinite] blur-md mix-blend-overlay"></div>
-                    
-                    {/* Partículas viajeras MASIVAS */}
-                    <div className="absolute w-full h-full">
-                        <span className="absolute top-[20%] left-[20%] w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_15px_#3b82f6] blur-[1px] animate-[ping_3s_infinite]"></span>
-                        <span className="absolute top-[80%] left-[70%] w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#10b981] animate-pulse"></span>
-                        <span className="absolute top-[30%] right-[30%] w-4 h-4 bg-purple-500 rounded-full shadow-[0_0_20px_#8b5cf6] blur-[2px] animate-[bounce_4s_infinite]"></span>
-                        <span className="absolute bottom-[20%] right-[40%] w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_10px_#facc15] animate-[ping_2s_infinite]"></span>
-                        
-                        {/* Más puntos simulando señales masivas */}
-                        <span className="absolute top-[40%] left-[10%] w-2 h-2 bg-blue-300 rounded-full shadow-[0_0_10px_#93c5fd] animate-[ping_2.5s_infinite]"></span>
-                        <span className="absolute bottom-[40%] left-[30%] w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_12px_#34d399] animate-[bounce_3s_infinite]"></span>
-                        <span className="absolute top-[60%] right-[15%] w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_10px_#a78bfa] animate-[ping_3.5s_infinite]"></span>
-                        <span className="absolute top-[10%] right-[50%] w-3 h-3 bg-yellow-300 rounded-full shadow-[0_0_12px_#fde047] blur-[1px] animate-[pulse_2s_infinite]"></span>
-                        <span className="absolute bottom-[10%] right-[20%] w-2 h-2 bg-pink-400 rounded-full shadow-[0_0_10px_#f472b6] animate-[ping_1.5s_infinite]"></span>
-                    </div>
-                </div>
-
-                {/* Núcleo de Vida (Pulsante e inmersivo) */}
-                <div className="relative z-20 w-32 h-32 md:w-40 md:h-40 flex items-center justify-center transition-transform duration-700 animate-[bounce_6s_ease-in-out_infinite] mx-auto mt-[20%] lg:mt-[15%]">
-                    {/* Resplandores Profundos */}
-                    <div className="absolute inset-[-50%] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.3),transparent_70%)] rounded-full blur-3xl animate-[pulse_3s_linear_infinite]"></div>
-                    <div className="absolute inset-[-30%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.3),transparent_60%)] rounded-full blur-2xl animate-[ping_5s_linear_infinite]"></div>
-                    <div className="absolute inset-0 bg-white/40 rounded-full blur-xl animate-pulse"></div>
-
-                    {/* Esfera Central Glassmorphism Hiper-Premium */}
-                    <div className="relative w-24 h-24 md:w-32 md:h-32 bg-white/20 backdrop-blur-2xl border border-white/80 shadow-[0_30px_60px_rgba(0,0,0,0.15),inset_0_2px_10px_rgba(255,255,255,1)] rounded-[2.5rem] flex items-center justify-center overflow-hidden rotate-45 transform-style-3d group-hover:rotate-[40deg] transition-all duration-700">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 via-transparent to-emerald-400/30 animate-[spin_10s_linear_infinite]"></div>
-                        {/* Pulso interno 3D con LOGO OPINA+ */}
-                        <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-brand rounded-full shadow-[inset_0_-8px_15px_rgba(0,0,0,0.3),0_10px_30px_rgba(59,130,246,0.5)] flex items-center justify-center text-white relative z-10 -rotate-45 transform-style-3d perspective-1000">
-                            <div className="absolute inset-0 rounded-full bg-white opacity-20 animate-ping"></div>
-                            <div className="absolute top-1 left-2 w-4 h-4 md:w-6 md:h-6 bg-white/60 rounded-full blur-[4px] mix-blend-overlay"></div>
-                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 md:w-12 md:h-12 drop-shadow-md animate-[pulse_2s_ease-in-out_infinite] transform translate-z-10">
-                              <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                              <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                              <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                            </svg>
+                  {/* Header Premium Glassmorphism */}
+                  <div className="pt-10 pb-3 px-4 bg-white/60 backdrop-blur-xl border-b border-white shadow-[0_4px_30px_rgba(0,0,0,0.03)] flex items-center justify-between relative z-20">
+                    <div className="flex items-center gap-2">
+                      <div className="h-6 w-6 rounded-lg bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center shadow-[0_4px_10px_rgba(16,185,129,0.3)] shrink-0">
+                        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[14px] h-[14px]">
+                          <path d="M20 10V30" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                          <path d="M14 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                          <path d="M26 15V25" stroke="white" strokeWidth="4" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[12px] font-black tracking-tight text-slate-900 leading-none">Opina<span className="text-primary">+</span></span>
+                          <span className="relative flex h-1.5 w-1.5 ml-0.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                          </span>
                         </div>
+                        <span className="text-[7px] font-semibold text-slate-500 leading-none mt-0.5 uppercase tracking-wide">Live Dashboard</span>
+                      </div>
                     </div>
-                </div>
+                    
+                    {/* User Profile Info */}
+                    <div className="flex items-center gap-2 bg-gradient-to-r from-white to-slate-50 pl-2 pr-1 py-1 rounded-full border border-slate-200 shadow-sm">
+                       <div className="flex flex-col text-right">
+                         <span className="text-[6px] font-bold text-slate-400 uppercase tracking-widest">Platino</span>
+                         <span className="text-[8px] font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">4,250 XP</span>
+                       </div>
+                       <div className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 border border-white shadow-sm overflow-hidden flex items-center justify-center">
+                          <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" className="w-full h-full object-cover" />
+                       </div>
+                    </div>
+                  </div>
 
-                {/* Etiquetas de datos flotantes en 3D (Secciones de Opina+) */}
-                {/* Versus */}
-                <div className="absolute top-[15%] left-[5%] md:left-[15%] bg-white/90 backdrop-blur-xl border border-slate-100 text-ink px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-[-5deg] flex items-center gap-1.5 animate-[bounce_4.5s_ease-in-out_infinite] z-40">
-                    <span className="material-symbols-outlined text-[14px] text-blue-500">compare_arrows</span>
-                    Versus
-                </div>
-                
-                {/* Torneos */}
-                <div className="absolute top-[25%] right-[10%] lg:right-[5%] bg-purple-50/90 backdrop-blur-xl border border-purple-200 text-purple-800 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-6 flex items-center gap-1.5 animate-[bounce_5.5s_ease-in-out_infinite] z-40">
-                    <span className="material-symbols-outlined text-[14px] text-purple-600">emoji_events</span>
-                    Torneos
-                </div>
+                  {/* Feed Content */}
+                  <div className="flex-1 px-3 py-4 flex flex-col gap-3 relative z-10 overflow-hidden">
+                    
+                    {/* Tarjeta Versús Premium */}
+                    <div className="bg-white/70 backdrop-blur-lg rounded-2xl p-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.06)] border border-white/80 flex flex-col gap-3 relative group hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(16,185,129,0.1)] transition-all duration-500">
+                       
+                       {/* Shimmer Effect */}
+                       <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-0 rounded-2xl" />
 
-                {/* Actualidad */}
-                <div className="absolute top-[50%] left-[5%] lg:left-[2%] bg-pink-50/90 backdrop-blur-xl border border-pink-200 text-pink-800 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-[2deg] flex items-center gap-1.5 animate-[bounce_5s_ease-in-out_infinite] z-40">
-                    <span className="material-symbols-outlined text-[14px] text-pink-600">newspaper</span>
-                    Actualidad
-                </div>
+                       <div className="flex justify-between items-start relative z-10">
+                         <div className="flex gap-1 items-center">
+                             <span className="px-2 py-1 bg-gradient-to-r from-primary via-blue-500 to-emerald-500 text-white font-black tracking-widest uppercase text-[6px] rounded-md shadow-[0_2px_10px_rgba(16,185,129,0.3)] flex items-center gap-1 w-max">
+                                <Flame className="w-2.5 h-2.5" /> TENDENCIA GLOBAL
+                             </span>
+                             <span className="text-[6px] font-bold text-slate-500 bg-white/90 shadow-sm border border-slate-100 px-1.5 py-0.5 rounded-full uppercase tracking-wider">#Tech & IA</span>
+                         </div>
+                         <div className="flex -space-x-1.5">
+                            <img src="https://i.pravatar.cc/100?img=11" className="w-4 h-4 rounded-full border border-white shadow-sm" />
+                            <img src="https://i.pravatar.cc/100?img=5" className="w-4 h-4 rounded-full border border-white shadow-sm" />
+                            <div className="w-4 h-4 rounded-full border border-white shadow-sm bg-slate-50 flex items-center justify-center text-[5px] font-bold text-slate-600">+45k</div>
+                         </div>
+                       </div>
+                       
+                       <h4 className="text-[12px] font-black text-slate-800 leading-snug relative z-10">
+                         ¿La Inteligencia Artificial reemplazará la toma de decisiones estratégicas de los CEOs en 2030?
+                       </h4>
+                       
+                       {/* Opciones Interactivas con nuevo diseño */}
+                       <div className="flex gap-2 mt-1 relative z-10">
+                          {/* Botón VS Central animado */}
+                          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-white rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-slate-100 flex items-center justify-center z-20 group-hover:scale-110 transition-transform">
+                             <span className="text-[7px] font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-400 to-slate-600 italic">VS</span>
+                             {/* Anillos de pulso */}
+                             <div className="absolute inset-0 rounded-full border border-emerald-500/30 animate-ping opacity-30"></div>
+                          </div>
+                          
+                          {/* Opción 1 */}
+                          <div className="flex-1 bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-3 flex flex-col items-center justify-center gap-1.5 shadow-sm hover:shadow-md transition-all cursor-pointer">
+                             <div className="w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center mb-0.5">
+                               <span className="text-sm">🤖</span>
+                             </div>
+                             <span className="text-[6.5px] font-bold text-slate-600 uppercase tracking-widest">Reemplazo Total</span>
+                          </div>
+                          
+                          {/* Opción 2 - Seleccionada/Destacada */}
+                          <div className="flex-1 relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 border-none rounded-xl p-3 flex flex-col items-center justify-center gap-1.5 shadow-[0_8px_20px_rgba(15,23,42,0.4)] transition-all transform scale-[1.03] origin-right">
+                             {/* Borde brillante */}
+                             <div className="absolute inset-[1px] rounded-[11px] bg-slate-900 border border-white/10 z-0"></div>
+                             <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/30 to-primary/30 blur-md z-0 opacity-50"></div>
+                             
+                             <div className="w-6 h-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-0.5 relative z-10">
+                               <span className="text-sm drop-shadow-lg">🧠</span>
+                             </div>
+                             <span className="text-[6.5px] font-bold text-emerald-400 uppercase tracking-widest relative z-10 flex items-center gap-0.5">
+                               <svg className="w-2 h-2 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>
+                               Súper-Copiloto
+                             </span>
+                          </div>
+                       </div>
+                    </div>
 
-                {/* Productos */}
-                <div className="absolute top-[60%] right-[5%] lg:right-[2%] bg-amber-50/90 backdrop-blur-xl border border-amber-200 text-amber-800 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-[-4deg] flex items-center gap-1.5 animate-[bounce_4.8s_ease-in-out_infinite] z-40">
-                    <span className="material-symbols-outlined text-[14px] text-amber-600">category</span>
-                    Productos
-                </div>
+                    {/* Results Mini-Card Corporate */}
+                    <div className="bg-white/80 backdrop-blur-xl rounded-[1.25rem] p-4 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white/80 flex flex-col gap-3 relative translate-y-1 group-hover:translate-y-0 opacity-95 group-hover:opacity-100 transition-all duration-500 delay-75">
+                       <div className="flex justify-between items-end mb-1">
+                          <div className="flex flex-col">
+                            <span className="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Consenso Actual</span>
+                            <span className="text-[11px] font-black text-slate-800">Súper-Copiloto</span>
+                          </div>
+                          <div className="flex flex-col items-end">
+                             <span className="text-[16px] font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500 leading-none drop-shadow-sm">82%</span>
+                             <span className="text-[6px] text-emerald-500 font-bold uppercase tracking-wider mt-0.5 flex items-center gap-0.5">
+                               <TrendingUp className="w-2 h-2" /> +4% hoy
+                             </span>
+                          </div>
+                       </div>
+                       
+                       {/* Animated Progress Bar Compleja */}
+                       <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner relative flex">
+                          <div className="h-full w-[82%] bg-gradient-to-r from-primary to-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)] relative">
+                            {/* Reflexión */}
+                            <div className="absolute top-0 left-0 right-0 h-1 bg-white/30 rounded-t-full"></div>
+                          </div>
+                          <div className="h-full w-[18%] bg-cyan-50/50 rounded-r-full"></div>
+                       </div>
+                    </div>
+                  </div>
 
-                {/* Profundidad */}
-                <div className="absolute bottom-[25%] left-[20%] bg-blue-50/90 backdrop-blur-xl border border-blue-200 text-blue-800 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-[4deg] flex items-center gap-1.5 animate-[bounce_4s_ease-in-out_infinite] z-40">
-                    <span className="material-symbols-outlined text-[14px] text-blue-600">psychology</span>
-                    Profundidad
-                </div>
+                  {/* Bottom Nav Premium Mac-like Dock */}
+                  <div className="absolute bottom-4 left-4 right-4 h-14 bg-white/90 backdrop-blur-2xl rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-white flex items-center justify-around px-2 z-30 isolate">
+                     {/* Indicador de pestaña seleccionada */}
+                     <div className="absolute left-[8%] w-12 h-10 bg-slate-100/80 rounded-xl -z-10 shadow-inner"></div>
 
-                {/* Lugares */}
-                <div className="absolute bottom-[15%] right-[15%] lg:right-[10%] bg-emerald-50/90 backdrop-blur-xl border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase shadow-lg transform rotate-[-3deg] flex items-center gap-1.5 animate-[bounce_6s_ease-in-out_infinite] z-40">
-                    <span className="material-symbols-outlined text-[14px] text-emerald-600">place</span>
-                    Lugares
-                </div>
-            </div>
+                     <div className="flex flex-col items-center gap-1 text-primary cursor-pointer w-12 transform scale-110">
+                        <BarChart3 className="w-5 h-5 drop-shadow-sm" />
+                        <span className="text-[6px] font-black uppercase tracking-wider">Señales</span>
+                     </div>
+                     <div className="flex flex-col items-center gap-1 text-slate-400 cursor-pointer w-12 hover:text-cyan-500 transition-colors hover:-translate-y-1">
+                        <Sparkles className="w-5 h-5" />
+                        <span className="text-[6px] font-bold uppercase tracking-wider">Insights</span>
+                     </div>
+                     <div className="flex flex-col items-center gap-1 text-slate-400 cursor-pointer w-12 hover:text-emerald-500 transition-colors hover:-translate-y-1">
+                        <Globe className="w-5 h-5" />
+                        <span className="text-[6px] font-bold uppercase tracking-wider">Ránking</span>
+                     </div>
+                  </div>
+               </div>
+               
+               {/* Physical Phone Bottom bar indicator */}
+               <div className="h-1.5 w-1/3 bg-slate-200 rounded-full mx-auto my-2 shrink-0 z-30 shadow-inner block relative" />
+             </div>
 
+             {/* Floating elements popping out - Glassmorphism Premium */}
+             <div className="absolute top-10 -right-4 md:-right-8 z-20 bg-white/90 backdrop-blur-lg p-3.5 rounded-2xl shadow-[0_15px_30px_rgba(0,0,0,0.08)] border border-white/60 animate-[bounce_4s_ease-in-out_infinite] flex items-center justify-center">
+                <BarChart3 className="w-8 h-8 text-primary drop-shadow-md" />
+             </div>
+             <div className="absolute bottom-20 -left-6 md:-left-12 z-20 bg-white/90 backdrop-blur-lg p-3 rounded-2xl shadow-[0_15px_30px_rgba(0,0,0,0.08)] border border-white/60 animate-[bounce_5s_ease-in-out_infinite_reverse] flex items-center justify-center">
+                <TrendingUp className="w-7 h-7 text-emerald-500 drop-shadow-md" />
+             </div>
+             
+             {/* Destello Premium */}
+             <div className="absolute -top-4 left-10 z-0 opacity-80 animate-[pulse_3s_ease-in-out_infinite] drop-shadow-2xl">
+                <Sparkles className="w-10 h-10 text-cyan-400" />
+             </div>
+           </div>
         </div>
 
       </div>
