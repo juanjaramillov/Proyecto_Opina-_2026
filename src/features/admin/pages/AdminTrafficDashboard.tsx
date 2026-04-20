@@ -107,7 +107,7 @@ export default function AdminTrafficDashboard() {
   const locationChartData = {
     labels: data ? Object.keys(data.locations).filter(k => k !== 'Desconocido') : [],
     datasets: [{
-      data: data ? Object.values(data.locations).filter((_, i, arr) => Object.keys(data!.locations)[i] !== 'Desconocido') : [],
+      data: data ? Object.values(data.locations).filter((_, i) => Object.keys(data!.locations)[i] !== 'Desconocido') : [],
       backgroundColor: ['#0f172a', '#334155', '#475569', '#64748b', '#94a3b8'],
       borderWidth: 0,
     }]

@@ -43,9 +43,9 @@ export const adminTrafficService = {
     }
 
     // 3. Fetch recent profiles to map regions
-    const { data: profiles, error: profError } = await supabase
+    const { data: profiles } = await supabase
       .from('profiles')
-      .select('id, created_at, region');
+      .select('user_id, created_at, region');
       
     let newUsers = 0;
     if (profiles) {
@@ -86,7 +86,7 @@ export const adminTrafficService = {
     const userRegionMap: Record<string, string> = {};
     if (profiles) {
       profiles.forEach(p => {
-        if (p.id && p.region) userRegionMap[p.id] = p.region;
+        if (p.user_id && p.region) userRegionMap[p.user_id] = p.region;
       });
     }
 
