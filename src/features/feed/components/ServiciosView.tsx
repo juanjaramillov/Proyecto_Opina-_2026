@@ -276,7 +276,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
-                <div className="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-6"></div>
+                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
                 <h3 className="text-xl font-black text-slate-800">Cargando servicios...</h3>
             </div>
         );
@@ -289,7 +289,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
             <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-6 md:p-10 relative overflow-hidden">
                 {/* Background Decorativo */}
                 <div className="absolute inset-0 pointer-events-none opacity-30">
-                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 from-indigo-100 to-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
+                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 from-blue-100 to-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
                 </div>
                 
                 <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
@@ -298,11 +298,11 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                              <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                         </button>
                     </div>
-                    <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-indigo-600 shadow-inner">
+                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-blue-600 shadow-inner">
                         <span className="material-symbols-outlined text-4xl">storefront</span>
                     </div>
                     <h2 className="text-3xl md:text-4xl font-black text-ink tracking-tight">
-                        Explora <span className="text-indigo-600">Servicios</span>
+                        Explora <span className="text-blue-600">Servicios</span>
                     </h2>
                     <p className="text-slate-500 font-medium max-w-2xl mx-auto">
                         Evalúa y compara proveedores, suscripciones y entidades de todas las áreas.
@@ -315,7 +315,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                         </div>
                         <input 
                             type="text" 
-                            className="w-full bg-slate-50/50 border border-slate-200 text-ink rounded-full py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium placeholder:text-slate-400 shadow-sm"
+                            className="w-full bg-slate-50/50 border border-slate-200 text-ink rounded-full py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium placeholder:text-slate-400 shadow-sm"
                             placeholder="Buscar internet, bancos, isapres..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -354,7 +354,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                                 onClick={() => setActiveSubfilter(subcat.id)}
                                 className={`px-4 py-1.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm
                                     ${activeSubfilter === subcat.id 
-                                        ? 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-500/50' 
+                                        ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-500/50' 
                                         : 'bg-white border border-slate-100 text-slate-500 hover:bg-slate-50 hover:text-slate-700'
                                     }`}
                             >
@@ -401,7 +401,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                                 {/* Contenido Inferior */}
                                 <div className="p-5 flex flex-col flex-grow relative">
                                     <div className="flex justify-between items-start mb-2 gap-4">
-                                        <h3 className="text-[1.35rem] leading-tight font-black text-ink group-hover:text-indigo-600 transition-colors line-clamp-1">{service.name}</h3>
+                                        <h3 className="text-[1.35rem] leading-tight font-black text-ink group-hover:text-blue-600 transition-colors line-clamp-1">{service.name}</h3>
                                         <div className="flex flex-col items-end gap-1 shrink-0 relative">
                                             <div className="flex items-center gap-1 bg-amber-50 text-amber-700 px-2 py-1 rounded-lg border border-amber-100/50 w-full justify-center">
                                                 <span className="material-symbols-outlined text-[16px] text-amber-500 fill-current">star</span>
@@ -428,7 +428,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                                     </div>
                     
                                     <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                                        <span className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-full">
+                                        <span className="flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-full">
                                             Ver análisis
                                             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
                                         </span>

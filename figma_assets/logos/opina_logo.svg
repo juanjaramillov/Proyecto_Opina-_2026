@@ -1,0 +1,24 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Opina+ V15 Canonical Brand Gradient: Blue to Emerald -->
+    <linearGradient id="brandGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    
+    <!-- Premium Shadow -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2563EB" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Rectangle -->
+  <rect x="40" y="40" width="320" height="320" rx="80" fill="url(#brandGradient)" filter="url(#shadow)" />
+  
+  <!-- Icon Paths (Scaled up 8x from original 40x40 viewBox, centered) -->
+  <g transform="translate(40, 40) scale(8)">
+    <path d="M20 10V30" stroke="white" stroke-width="4" stroke-linecap="round" />
+    <path d="M14 15V25" stroke="white" stroke-width="4" stroke-linecap="round" />
+    <path d="M26 15V25" stroke="white" stroke-width="4" stroke-linecap="round" />
+  </g>
+</svg>

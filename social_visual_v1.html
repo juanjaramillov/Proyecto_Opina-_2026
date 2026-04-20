@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opina+ Social Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue-600: #2563EB;
+            --blue-500: #3B82F6;
+            --emerald-500: #10B981;
+            --emerald-400: #34D399;
+            --ink: #0F172A;
+            --bg-light: #F8FAFC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #E2E8F0; /* Darker background to contrast the artboard */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+        }
+
+        /* 4:5 Artboard (1080 x 1350) */
+        .artboard {
+            width: 1080px;
+            height: 1350px;
+            background-color: var(--bg-light);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            transform-origin: top center;
+        }
+
+        /* Top Content Area */
+        .header {
+            padding: 100px 100px 40px 100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .headline {
+            /* Using a structural modern font if available, fallback to Inter */
+            font-family: 'Inter', sans-serif;
+            font-size: 82px;
+            font-weight: 700;
+            line-height: 1.05;
+            color: var(--ink);
+            letter-spacing: -0.03em;
+            max-width: 900px;
+            margin-bottom: 32px;
+            text-wrap: balance;
+        }
+
+        .headline span.info {
+            color: var(--blue-600);
+        }
+
+        .headline span.signal {
+            color: var(--emerald-500);
+        }
+
+        .supporting-line {
+            font-size: 34px;
+            font-weight: 500;
+            color: #475569;
+            line-height: 1.4;
+            max-width: 800px;
+            letter-spacing: -0.01em;
+        }
+
+        /* Center Illustration Area */
+        .illustration-container {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Negative margin to pull it up slightly */
+            margin-top: -40px;
+        }
+
+        .illustration {
+            width: 110%; /* Slight oversize to fill edges smoothly */
+            height: 110%;
+            object-fit: cover;
+            object-position: center;
+            /* We blend the image since it's white to match F8FAFC, multiply works perfectly for white->bg */
+            mix-blend-mode: multiply;
+            opacity: 0.95;
+            transform: translateY(20px);
+        }
+
+        /* Background Glow to enhance the AI image if edges aren't perfect */
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(248,250,252,1) 0%, rgba(248,250,252,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        /* Bottom Content Area */
+        .footer {
+            padding: 60px 100px 80px 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 72px; /* Adjusted to maintain perfect Opina+ proportions */
+            width: auto;
+        }
+
+        .closing-container {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .closing-text {
+            font-size: 30px;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        .website {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--blue-600);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        
+        /* Utility */
+        .scale-wrapper {
+            /* To make it fit on standard 1080p laptop screens while developing */
+            transform: scale(0.65);
+            transform-origin: center center;
+        }
+
+        @media (max-width: 1400px) {
+            .scale-wrapper { transform: scale(0.5); }
+        }
+        @media (max-width: 900px) {
+            .scale-wrapper { transform: scale(0.35); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scale-wrapper">
+        <div class="artboard" id="capture">
+            
+            <div class="header">
+                <h1 class="headline">NO TODA LA <span class="info">INFORMACIÓN</span> ES <span class="signal">SEÑAL.</span></h1>
+                <p class="supporting-line">El exceso de datos no siempre mejora las decisiones.</p>
+            </div>
+
+            <div class="illustration-container">
+                <div class="glow"></div>
+                <!-- Points exactly to the image generated by the AI -->
+                <img src="/Users/juanignaciojaramillo/.gemini/antigravity/brain/5391e611-c763-40c6-8bb9-c10a1616b499/opina_abstract_illustration_1776293590118.png" alt="Signal Transformation" class="illustration">
+            </div>
+
+            <div class="footer">
+                <div class="logo-container">
+                    <!-- Points exactly to the Opina+ SVG logo in the project -->
+                    <img src="./figma_assets/logos/opina_logo.svg" alt="Opina+" class="logo">
+                </div>
+                <div class="closing-container">
+                    <div class="closing-text">Tu opinión es una señal.</div>
+                    <a href="https://www.opinamas.app" class="website">www.opinamas.app</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

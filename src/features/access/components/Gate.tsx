@@ -63,7 +63,7 @@ export default function Gate({ module, children }: GateProps) {
              return <>{children}</>;
         }
 
-        return <Navigate to={destination} replace />;
+        return <>{children}</>;
     }
 
     return <>{children}</>;

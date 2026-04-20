@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opina+ Social Visual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 1080px;
+      height: 1350px;
+      background-color: #0F172A; /* Opina+ Slate 900 */
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #F8FAFC;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .noise {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .layout {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      display: flex;
+      flex-direction: column;
+      padding: 80px 100px; /* Enhanced side padding for 4:5 ratio */
+      box-sizing: border-box;
+      z-index: 20;
+    }
+
+    .header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+    }
+
+    .illustration-container {
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0px; 
+      margin-bottom: 60px;
+      border-radius: 40px;
+    }
+
+    .content {
+      margin-bottom: 20px;
+    }
+
+    .headline {
+      font-size: 60px;
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin: 0 0 24px 0;
+      color: #F8FAFC;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #3B82F6, #34D399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .supporting {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: #94A3B8; 
+      margin: 0 0 60px 0;
+      max-width: 820px;
+      letter-spacing: -0.01em;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: #CBD5E1; 
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.08); /* Premium separator line */
+    }
+
+    .website {
+      color: #64748B; 
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  
+  <div class="layout">
+    
+    <div class="header">
+      <div class="logo">
+        <svg width="100%" height="100%" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="brandGradientLogo" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stop-color="#2563EB" />
+              <stop offset="100%" stop-color="#10B981" />
+            </linearGradient>
+            <filter id="shadowLogo" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2563EB" flood-opacity="0.2"/>
+            </filter>
+          </defs>
+          <rect x="40" y="40" width="320" height="320" rx="80" fill="url(#brandGradientLogo)" filter="url(#shadowLogo)" />
+          <g transform="translate(40, 40) scale(8)">
+            <path d="M20 10V30" stroke="white" stroke-width="4" stroke-linecap="round" />
+            <path d="M14 15V25" stroke="white" stroke-width="4" stroke-linecap="round" />
+            <path d="M26 15V25" stroke="white" stroke-width="4" stroke-linecap="round" />
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="illustration-container">
+      <!-- Massive Abstract Illustration: Strength vs Fragility -->
+      <svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(37, 99, 235, 0.12)" />
+            <stop offset="50%" stop-color="rgba(16, 185, 129, 0.04)" />
+            <stop offset="100%" stop-color="rgba(15, 23, 42, 0)" />
+          </radialGradient>
+          
+          <linearGradient id="signalGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2563EB" />
+            <stop offset="100%" stop-color="#34D399" />
+          </linearGradient>
+
+          <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <filter id="strongDropShadow" x="-20%" y="-20%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="50" stdDeviation="40" flood-color="#000000" flood-opacity="0.8"/>
+          </filter>
+          
+          <linearGradient id="glassGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(37, 99, 235, 0.08)" />
+            <stop offset="100%" stop-color="rgba(16, 185, 129, 0.15)" />
+          </linearGradient>
+          
+          <linearGradient id="glassGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(16, 185, 129, 0.1)" />
+            <stop offset="100%" stop-color="rgba(37, 99, 235, 0.15)" />
+          </linearGradient>
+        </defs>
+
+        <!-- Ambient Back Glow -->
+        <circle cx="400" cy="450" r="350" fill="url(#bgGlow)" />
+
+        <!-- ============================================== -->
+        <!-- BASE BLOCK (The Apparent Foundation)           -->
+        <!-- ============================================== -->
+        <g id="BaseBlock">
+          <!-- Left Face -->
+          <polygon points="350,750 190,670 190,550 350,630" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+          <!-- Right Face -->
+          <polygon points="350,750 510,670 510,550 350,630" fill="#0B1120" stroke="#1E293B" stroke-width="1.5" />
+          <!-- Top Face -->
+          <polygon points="350,630 190,550 350,470 510,550" fill="#334155" stroke="#475569" stroke-width="1.5" />
+        </g>
+
+        <!-- ============================================== -->
+        <!-- TRADITIONAL METRICS (Illusion gap / diagnostic bounding box) -->
+        <!-- ============================================== -->
+        <!-- Back translucent gap faces -->
+        <polygon points="190,550 350,470 430,370 270,450" fill="rgba(37, 99, 235, 0.03)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1" stroke-dasharray="4 4" />
+        <polygon points="350,470 510,550 590,450 430,370" fill="rgba(37, 99, 235, 0.03)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1" stroke-dasharray="4 4" />
+
+        <!-- Front translucent gap faces -->
+        <polygon points="350,630 190,550 270,450 430,530" fill="url(#glassGradient)" stroke="rgba(52, 211, 153, 0.5)" stroke-width="1.5" stroke-dasharray="8 6" />
+        <polygon points="350,630 510,550 590,450 430,530" fill="url(#glassGradient2)" stroke="rgba(52, 211, 153, 0.5)" stroke-width="1.5" stroke-dasharray="8 6" />
+        
+        <!-- Metric Data Points (Corners of the gap) -->
+        <circle cx="350" cy="630" r="3" fill="#34D399" />
+        <circle cx="190" cy="550" r="3" fill="#34D399" />
+        <circle cx="270" cy="450" r="3" fill="#34D399" />
+        <circle cx="430" cy="530" r="3" fill="#34D399" />
+        <circle cx="510" cy="550" r="3" fill="#34D399" />
+        <circle cx="590" cy="450" r="3" fill="#34D399" />
+
+        <!-- ============================================== -->
+        <!-- THE FRAGILITY INNER THREADS (Real signals)     -->
+        <!-- ============================================== -->
+        <!-- Intact Signal 1 (Center) -->
+        <line x1="350" y1="550" x2="430" y2="450" stroke="url(#signalGradient)" stroke-width="4" filter="url(#neonGlow)"/>
+        
+        <!-- Intact Signal 2 (Left) -->
+        <line x1="260" y1="540" x2="340" y2="440" stroke="url(#signalGradient)" stroke-width="2" filter="url(#neonGlow)"/>
+
+        <!-- Snapped String 1 (Falling from top) -->
+        <path d="M 380 455 Q 390 480 375 510" fill="none" stroke="#3B82F6" stroke-width="2.5" filter="url(#neonGlow)" />
+        <circle cx="375" cy="510" r="2.5" fill="#3B82F6" filter="url(#neonGlow)" />
+
+        <!-- Snapped String 2 (Rising from base) -->
+        <path d="M 310 525 Q 295 500 320 480" fill="none" stroke="#10B981" stroke-width="2.5" filter="url(#neonGlow)" />
+        <circle cx="320" cy="480" r="2.5" fill="#10B981" filter="url(#neonGlow)" />
+
+        <!-- Snapped String 3 (Broken in middle) -->
+        <path d="M 400 480 Q 405 500 395 515" fill="none" stroke="#34D399" stroke-width="1.5" filter="url(#neonGlow)" />
+        <circle cx="395" cy="515" r="1.5" fill="#34D399" />
+        <path d="M 320 560 Q 325 540 315 525" fill="none" stroke="#2563EB" stroke-width="1.5" filter="url(#neonGlow)" />
+        <circle cx="315" cy="525" r="1.5" fill="#2563EB" />
+
+        <!-- Data Dust (Floating particles of broken signal) -->
+        <circle cx="400" cy="480" r="2" fill="#2563EB" filter="url(#neonGlow)"/>
+        <circle cx="360" cy="490" r="1.5" fill="#34D399" filter="url(#neonGlow)"/>
+        <circle cx="340" cy="510" r="2.5" fill="#10B981" filter="url(#neonGlow)"/>
+        <circle cx="420" cy="450" r="1" fill="#34D399" />
+        <rect x="380" y="470" width="3" height="3" fill="#10B981" filter="url(#neonGlow)" transform="rotate(25 380 470)"/>
+        <rect x="390" y="520" width="4" height="4" fill="#2563EB" filter="url(#neonGlow)" transform="rotate(45 390 520)"/>
+        <rect x="320" y="490" width="2" height="2" fill="#2563EB" transform="rotate(15 320 490)"/>
+
+        <!-- ============================================== -->
+        <!-- TOP BLOCK (The Unstable Mass)                  -->
+        <!-- ============================================== -->
+        <g filter="url(#strongDropShadow)">
+          <!-- Left Face -->
+          <polygon points="430,530 270,450 270,100 430,180" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+          
+          <!-- Diagonal/Architectural grid lines on top left block -->
+          <line x1="323.33" y1="476.66" x2="323.33" y2="126.66" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
+          <line x1="376.66" y1="503.33" x2="376.66" y2="153.33" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
+
+          <!-- Right Face -->
+          <polygon points="430,530 590,450 590,100 430,180" fill="#0B1120" stroke="#1E293B" stroke-width="1.5" />
+          
+          <!-- Architectural grid lines on top right block -->
+          <line x1="483.33" y1="503.33" x2="483.33" y2="153.33" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
+          <line x1="536.66" y1="476.66" x2="536.66" y2="126.66" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
+
+          <!-- Top Face -->
+          <polygon points="430,180 270,100 430,20 590,100" fill="#334155" stroke="#475569" stroke-width="1.5" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="content">
+      <h1 class="headline">
+        UNA PREFERENCIA ALTA <br/>
+        NO SIEMPRE ES <br/>
+        <span class="gradient-text">DEFENDIBLE.</span>
+      </h1>
+      <p class="supporting">
+        Las métricas tradicionales pueden mostrar liderazgo, <br/>
+        pero no revelan su <span class="gradient-text">fragilidad</span>.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span class="closing">Tu opinión es una señal.</span>
+      <span class="website">www.opinamas.app</span>
+    </div>
+
+  </div>
+</body>
+</html>

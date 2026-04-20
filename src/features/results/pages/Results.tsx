@@ -23,21 +23,21 @@ export default function ResultsPage() {
 
   if (!snapshot) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-start pt-24 px-4 sm:px-8 w-full">
+      <div className="min-h-screen bg-surface2 flex flex-col items-center justify-start pt-24 px-4 sm:px-8 w-full">
         {/* Generacional Selector Skeleton */}
-        <Skeleton variant="pill" className="w-[300px] h-12 mb-12 bg-white border border-slate-100 shadow-sm" />
+        <Skeleton variant="pill" className="w-[300px] h-12 mb-12 bg-white border border-stroke shadow-sm" />
         
         {/* Editorial Hero Skeleton */}
-        <div className="w-full max-w-5xl bg-white p-8 sm:p-12 rounded-[40px] border border-slate-100 shadow-xl overflow-hidden relative">
+        <div className="w-full max-w-5xl bg-white p-8 sm:p-12 rounded-[40px] border border-stroke shadow-xl overflow-hidden relative">
              <div className="flex flex-col gap-6 w-full relative z-10">
-                 <Skeleton variant="pill" className="w-32 h-6 bg-slate-100" />
-                 <Skeleton variant="text" className="w-3/4 h-12 sm:h-16 bg-slate-200" />
-                 <Skeleton variant="text" className="w-full h-6 bg-slate-100 mt-4" />
-                 <Skeleton variant="text" className="w-5/6 h-6 bg-slate-100" />
+                 <Skeleton variant="pill" className="w-32 h-6 bg-surface2" />
+                 <Skeleton variant="text" className="w-3/4 h-12 sm:h-16 bg-surface2" />
+                 <Skeleton variant="text" className="w-full h-6 bg-surface2 mt-4" />
+                 <Skeleton variant="text" className="w-5/6 h-6 bg-surface2" />
                  
                  <div className="flex gap-4 mt-8">
-                     <Skeleton variant="card" className="w-1/2 h-40 bg-slate-50 border border-slate-100" />
-                     <Skeleton variant="card" className="w-1/2 h-40 bg-slate-50 border border-slate-100" />
+                     <Skeleton variant="card" className="w-1/2 h-40 bg-surface2 border border-stroke" />
+                     <Skeleton variant="card" className="w-1/2 h-40 bg-surface2 border border-stroke" />
                  </div>
              </div>
              {/* Shimmer Effect */}

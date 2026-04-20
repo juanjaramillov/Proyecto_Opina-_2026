@@ -16,9 +16,9 @@ export function ResultsGenerationSelector({ activeGeneration, onGenerationChange
   ];
 
   return (
-    <div className="w-full flex justify-center py-4 bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100/50">
+    <div className="w-full flex justify-center py-4 bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-stroke/50">
       <div className="flex items-center gap-2 md:gap-4 overflow-x-auto no-scrollbar px-4 w-full max-w-5xl">
-        <span className="text-sm font-bold text-slate-800 shrink-0 mr-2 hidden sm:block">Generación:</span>
+        <span className="text-sm font-bold text-ink shrink-0 mr-2 hidden sm:block">Generación:</span>
         {generations.map(gen => {
           const isActive = activeGeneration === gen.id;
           return (
@@ -28,11 +28,11 @@ export function ResultsGenerationSelector({ activeGeneration, onGenerationChange
               className={`
                 shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all
                 ${isActive 
-                  ? "bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-sm" 
-                  : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:text-slate-700"}
+                  ? "bg-primary/10 text-primary border border-primary/20 shadow-sm" 
+                  : "bg-white text-text-muted border border-stroke hover:bg-surface2 hover:text-ink"}
               `}
             >
-              <div className={`flex items-center justify-center w-5 h-5 rounded-full ${isActive ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500"}`}>
+              <div className={`flex items-center justify-center w-5 h-5 rounded-full ${isActive ? "bg-primary/20 text-primary" : "bg-stroke text-text-muted"}`}>
                 {gen.icon}
               </div>
               {gen.label}

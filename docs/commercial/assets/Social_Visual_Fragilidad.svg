@@ -1,0 +1,174 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&amp;display=swap');
+    text {
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+  </style>
+
+  <defs>
+    <!-- Background Gradient and Noise -->
+    <filter id="noiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    </filter>
+
+    <!-- Brand Gradients -->
+    <linearGradient id="brandGradientLogo" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <linearGradient id="gradientText" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#34D399" />
+    </linearGradient>
+
+    <linearGradient id="signalGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#34D399" />
+    </linearGradient>
+
+    <!-- Illustration Gradients -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(37, 99, 235, 0.12)" />
+      <stop offset="50%" stop-color="rgba(16, 185, 129, 0.04)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 0)" />
+    </radialGradient>
+
+    <linearGradient id="glassGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(37, 99, 235, 0.08)" />
+      <stop offset="100%" stop-color="rgba(16, 185, 129, 0.15)" />
+    </linearGradient>
+    
+    <linearGradient id="glassGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(16, 185, 129, 0.1)" />
+      <stop offset="100%" stop-color="rgba(37, 99, 235, 0.15)" />
+    </linearGradient>
+
+    <!-- Shadows & Neon -->
+    <filter id="shadowLogo" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2563EB" flood-opacity="0.2"/>
+    </filter>
+
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="strongDropShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="50" stdDeviation="40" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Base Slate Background -->
+  <rect width="1080" height="1350" fill="#0F172A" />
+  
+  <!-- Subtle Noise Texture -->
+  <rect width="1080" height="1350" filter="url(#noiseFilter)" opacity="0.04" />
+
+  <!-- Logo (Top Left) -->
+  <g transform="translate(100, 80) scale(0.2)">
+    <rect x="40" y="40" width="320" height="320" rx="80" fill="url(#brandGradientLogo)" filter="url(#shadowLogo)" />
+    <g transform="translate(40, 40) scale(8)">
+      <path d="M20 10V30" stroke="white" stroke-width="4" stroke-linecap="round" />
+      <path d="M14 15V25" stroke="white" stroke-width="4" stroke-linecap="round" />
+      <path d="M26 15V25" stroke="white" stroke-width="4" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- Illustration Group (Center) - Translated to start at 140,160 -->
+  <g transform="translate(140, 160)">
+    <!-- Ambient Back Glow -->
+    <circle cx="400" cy="450" r="350" fill="url(#bgGlow)" />
+
+    <!-- BASE BLOCK (The Apparent Foundation) -->
+    <g id="BaseBlock">
+      <polygon points="350,750 190,670 190,550 350,630" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+      <polygon points="350,750 510,670 510,550 350,630" fill="#0B1120" stroke="#1E293B" stroke-width="1.5" />
+      <polygon points="350,630 190,550 350,470 510,550" fill="#334155" stroke="#475569" stroke-width="1.5" />
+    </g>
+
+    <!-- TRADITIONAL METRICS (Illusion gap / diagnostic bounds) -->
+    <polygon points="190,550 350,470 430,370 270,450" fill="rgba(37, 99, 235, 0.03)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1" stroke-dasharray="4 4" />
+    <polygon points="350,470 510,550 590,450 430,370" fill="rgba(37, 99, 235, 0.03)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1" stroke-dasharray="4 4" />
+
+    <polygon points="350,630 190,550 270,450 430,530" fill="url(#glassGradient)" stroke="rgba(52, 211, 153, 0.5)" stroke-width="1.5" stroke-dasharray="8 6" />
+    <polygon points="350,630 510,550 590,450 430,530" fill="url(#glassGradient2)" stroke="rgba(52, 211, 153, 0.5)" stroke-width="1.5" stroke-dasharray="8 6" />
+    
+    <!-- Metric Data Points -->
+    <circle cx="350" cy="630" r="3" fill="#34D399" />
+    <circle cx="190" cy="550" r="3" fill="#34D399" />
+    <circle cx="270" cy="450" r="3" fill="#34D399" />
+    <circle cx="430" cy="530" r="3" fill="#34D399" />
+    <circle cx="510" cy="550" r="3" fill="#34D399" />
+    <circle cx="590" cy="450" r="3" fill="#34D399" />
+
+    <!-- THE FRAGILITY INNER THREADS (Real signals) -->
+    <!-- Intact Signals -->
+    <line x1="350" y1="550" x2="430" y2="450" stroke="url(#signalGradient)" stroke-width="4" filter="url(#neonGlow)"/>
+    <line x1="260" y1="540" x2="340" y2="440" stroke="url(#signalGradient)" stroke-width="2" filter="url(#neonGlow)"/>
+
+    <!-- Snapped String 1 (Falling) -->
+    <path d="M 380 455 Q 390 480 375 510" fill="none" stroke="#3B82F6" stroke-width="2.5" filter="url(#neonGlow)" />
+    <circle cx="375" cy="510" r="2.5" fill="#3B82F6" filter="url(#neonGlow)" />
+
+    <!-- Snapped String 2 (Rising) -->
+    <path d="M 310 525 Q 295 500 320 480" fill="none" stroke="#10B981" stroke-width="2.5" filter="url(#neonGlow)" />
+    <circle cx="320" cy="480" r="2.5" fill="#10B981" filter="url(#neonGlow)" />
+
+    <!-- Snapped String 3 (Broken in middle) -->
+    <path d="M 400 480 Q 405 500 395 515" fill="none" stroke="#34D399" stroke-width="1.5" filter="url(#neonGlow)" />
+    <circle cx="395" cy="515" r="1.5" fill="#34D399" />
+    <path d="M 320 560 Q 325 540 315 525" fill="none" stroke="#2563EB" stroke-width="1.5" filter="url(#neonGlow)" />
+    <circle cx="315" cy="525" r="1.5" fill="#2563EB" />
+
+    <!-- Data Dust -->
+    <circle cx="400" cy="480" r="2" fill="#2563EB" filter="url(#neonGlow)"/>
+    <circle cx="360" cy="490" r="1.5" fill="#34D399" filter="url(#neonGlow)"/>
+    <circle cx="340" cy="510" r="2.5" fill="#10B981" filter="url(#neonGlow)"/>
+    <circle cx="420" cy="450" r="1" fill="#34D399" />
+    <g transform="translate(380,470) rotate(25)">
+      <rect x="-1.5" y="-1.5" width="3" height="3" fill="#10B981" filter="url(#neonGlow)" />
+    </g>
+    <g transform="translate(390,520) rotate(45)">
+      <rect x="-2" y="-2" width="4" height="4" fill="#2563EB" filter="url(#neonGlow)" />
+    </g>
+    <g transform="translate(320,490) rotate(15)">
+      <rect x="-1" y="-1" width="2" height="2" fill="#2563EB" />
+    </g>
+
+    <!-- TOP BLOCK (The Unstable Mass) -->
+    <g filter="url(#strongDropShadow)">
+      <polygon points="430,530 270,450 270,100 430,180" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+      <line x1="323.33" y1="476.66" x2="323.33" y2="126.66" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
+      <line x1="376.66" y1="503.33" x2="376.66" y2="153.33" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
+      
+      <polygon points="430,530 590,450 590,100 430,180" fill="#0B1120" stroke="#1E293B" stroke-width="1.5" />
+      <line x1="483.33" y1="503.33" x2="483.33" y2="153.33" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
+      <line x1="536.66" y1="476.66" x2="536.66" y2="126.66" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
+      
+      <polygon points="430,180 270,100 430,20 590,100" fill="#334155" stroke="#475569" stroke-width="1.5" />
+    </g>
+  </g>
+
+  <!-- HEADLINE TEXT -->
+  <text x="100" y="1020" font-size="60" font-weight="800" fill="#F8FAFC" letter-spacing="-1.8">UNA PREFERENCIA ALTA</text>
+  <text x="100" y="1083" font-size="60" font-weight="800" fill="#F8FAFC" letter-spacing="-1.8">NO SIEMPRE ES</text>
+  <text x="100" y="1146" font-size="60" font-weight="800" fill="url(#gradientText)" letter-spacing="-1.8">DEFENDIBLE.</text>
+
+  <!-- SUPPORTING TEXT -->
+  <text x="100" y="1220" font-size="30" font-weight="400" fill="#94A3B8" letter-spacing="-0.3">Las métricas tradicionales pueden mostrar liderazgo,</text>
+  <!-- Mixing standard text and colored subtext via tspan -->
+  <text x="100" y="1262" font-size="30" font-weight="400" fill="#94A3B8" letter-spacing="-0.3">
+    pero no revelan su <tspan fill="url(#gradientText)">fragilidad</tspan>.
+  </text>
+
+  <!-- FOOTER -->
+  <line x1="100" y1="1300" x2="980" y2="1300" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+  <text x="100" y="1335" font-size="24" font-weight="500" fill="#CBD5E1">Tu opinión es una señal.</text>
+  <text x="980" y="1335" font-size="24" font-weight="500" fill="#64748B" text-anchor="end">www.opinamas.app</text>
+
+</svg>

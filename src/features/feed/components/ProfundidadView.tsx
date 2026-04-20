@@ -29,8 +29,8 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                         <span className="material-symbols-outlined text-[18px]">arrow_back</span>
                     </button>
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-indigo-600 text-[18px]">psychology</span>
+                        <div className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center">
+                            <span className="material-symbols-outlined text-sky-600 text-[18px]">psychology</span>
                         </div>
                         <div>
                             <h2 className="text-sm font-bold text-slate-900 leading-tight">Profundidad</h2>
@@ -42,7 +42,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                 <div className="flex items-center gap-3">
                     <div className="hidden md:flex flex-col items-end">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sesión Actual</span>
-                        <span className="text-xs font-black text-indigo-600">{sessionProgress}% completado</span>
+                        <span className="text-xs font-black text-sky-600">{sessionProgress}% completado</span>
                     </div>
                     {/* Golden Hour Indicator (Optional/Demo) */}
                     <div className="h-8 px-3 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 flex items-center gap-1.5 shadow-sm border border-orange-400">
@@ -55,7 +55,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
             {/* Session Progress Bar */}
             <div className="sticky top-[116px] md:top-[136px] left-0 w-full h-1 bg-slate-100 z-50">
                 <div 
-                    className="h-full bg-gradient-to-r from-indigo-400 to-indigo-600 transition-all duration-300 ease-out"
+                    className="h-full bg-gradient-to-r from-sky-400 to-sky-600 transition-all duration-300 ease-out"
                     style={{ width: `${sessionProgress}%` }}
                 />
             </div>

@@ -116,7 +116,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
 
                         {/* Acciones Rápidas */}
                         <div className="grid grid-cols-4 gap-3">
-                            <button className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors">
+                            <button className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
                                 <span className="material-symbols-outlined fill-current">support_agent</span>
                                 <span className="text-[11px] font-bold text-center leading-tight">Contacto</span>
                             </button>
@@ -157,7 +157,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
                                         </div>
                                     </div>
                                     {/* Nota Global Promedio */}
-                                    <div className="flex flex-col items-center justify-center bg-indigo-50 text-indigo-700 w-12 h-12 rounded-xl border border-indigo-100">
+                                    <div className="flex flex-col items-center justify-center bg-blue-50 text-blue-700 w-12 h-12 rounded-xl border border-blue-100">
                                         <span className="text-[10px] font-bold uppercase tracking-wide opacity-80 mb-0.5 leading-none">Prom</span>
                                         <span className="text-base font-black leading-none">{service.rating.toFixed(1)}</span>
                                     </div>
@@ -198,7 +198,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
                 <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 bg-gradient-to-t from-white via-white to-transparent border-t border-slate-100 z-10 flex">
                     <button 
                         onClick={() => {}}
-                        className="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black text-lg shadow-[0_10px_40px_-10px_rgba(79,70,229,0.6)] flex items-center justify-center gap-2 transition-transform active:scale-95"
+                        className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-lg shadow-[0_10px_40px_-10px_rgba(79,70,229,0.6)] flex items-center justify-center gap-2 transition-transform active:scale-95"
                     >
                         <span className="material-symbols-outlined text-xl">reviews</span>
                          Evaluar este Servicio

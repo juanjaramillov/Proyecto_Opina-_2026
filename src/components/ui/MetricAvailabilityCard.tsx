@@ -25,26 +25,26 @@ export function MetricAvailabilityCard({
     const statusConfig = {
         available: {
             bg: 'bg-white',
-            border: 'border-slate-200 hover:border-emerald-200',
-            iconColor: 'text-emerald-500',
-            labelColor: 'text-slate-500',
-            valueColor: 'text-slate-900',
+            border: 'border-stroke hover:border-secondary/50',
+            iconColor: 'text-secondary',
+            labelColor: 'text-text-muted',
+            valueColor: 'text-ink',
             DefaultIcon: Activity
         },
         pending: {
-            bg: 'bg-slate-50 border-dashed',
-            border: 'border-slate-200',
-            iconColor: 'text-slate-400',
-            labelColor: 'text-slate-500',
-            valueColor: 'text-slate-400',
+            bg: 'bg-surface2 border-dashed',
+            border: 'border-stroke',
+            iconColor: 'text-text-muted/70',
+            labelColor: 'text-text-muted',
+            valueColor: 'text-text-muted/70',
             DefaultIcon: Clock
         },
         insufficient_data: {
-            bg: 'bg-orange-50/30 border-dashed',
-            border: 'border-orange-100',
-            iconColor: 'text-orange-400',
-            labelColor: 'text-orange-700',
-            valueColor: 'text-orange-500',
+            bg: 'bg-surface2 border-dashed',
+            border: 'border-stroke',
+            iconColor: 'text-text-muted',
+            labelColor: 'text-text-muted',
+            valueColor: 'text-ink',
             DefaultIcon: AlertCircle
         }
     };
@@ -92,7 +92,7 @@ export function MetricAvailabilityCard({
             )}
             
             {helperText && (
-                <div className={`text-xs md:text-sm font-medium leading-snug ${status === 'available' ? 'text-slate-500' : config.labelColor}`}>
+                <div className={`text-xs md:text-sm font-medium leading-snug ${status === 'available' ? 'text-text-muted' : config.labelColor}`}>
                     {helperText}
                 </div>
             )}

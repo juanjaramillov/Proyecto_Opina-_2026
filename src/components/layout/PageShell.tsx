@@ -174,6 +174,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <span className="material-symbols-outlined text-[16px]">data_usage</span>
                     System Overview
                   </NavLink>
+                  <NavLink to="/admin/traffic" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
+                    <span className="material-symbols-outlined text-[16px]">monitoring</span>
+                    Tráfico y Usuarios
+                  </NavLink>
                   <NavLink to="/admin/invitaciones" onClick={() => setIsAdminMenuOpen(false)} className={({ isActive }) => `px-3 py-2.5 text-xs font-bold transition-all flex items-center gap-2 rounded-xl active:scale-95 ${isActive ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-surface2 hover:text-ink'}`}>
                     <span className="material-symbols-outlined text-[16px]">vpn_key</span>
                     Invitaciones
@@ -291,6 +295,10 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                     <NavLink to="/admin/system" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[18px]">data_usage</span>
                       System Overview
+                    </NavLink>
+                    <NavLink to="/admin/traffic" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
+                      <span className="material-symbols-outlined text-[18px]">monitoring</span>
+                      Tráfico y Usuarios
                     </NavLink>
                     <NavLink to="/admin/invitaciones" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => `px-4 py-3 text-sm font-bold transition-colors flex items-center gap-3 rounded-xl active:scale-95 ${isActive ? 'bg-primary-50 text-primary-600' : 'text-slate-500 hover:bg-white hover:text-slate-900 shadow-sm'}`}>
                       <span className="material-symbols-outlined text-[18px]">vpn_key</span>

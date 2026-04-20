@@ -39,6 +39,7 @@ const AdminActualidadEditor = lazy(() => import("./features/admin/pages/AdminAct
 const AdminUsers = lazy(() => import("./features/admin/pages/AdminUsers"));
 const AdminSignals = lazy(() => import("./features/admin/pages/AdminSignals"));
 const AdminEntities = lazy(() => import("./features/admin/pages/AdminEntities"));
+const AdminTrafficDashboard = lazy(() => import("./features/admin/pages/AdminTrafficDashboard"));
 const AdminAnalytics = lazy(() => import("./features/admin/pages/AdminAnalytics"));
 const AdminResults = lazy(() => import("./features/admin/pages/AdminResults"));
 const AdminMathEngine = lazy(() => import("./features/admin/pages/AdminMathEngine"));
@@ -127,6 +128,7 @@ export default function App() {
             <Route path="/admin/users" element={<Gate module="admin"><AdminUsers /></Gate>} />
             <Route path="/admin/signals" element={<Gate module="admin"><AdminSignals /></Gate>} />
             <Route path="/admin/entities" element={<Gate module="admin"><AdminEntities /></Gate>} />
+            <Route path="/admin/traffic" element={<Gate module="admin"><AdminTrafficDashboard /></Gate>} />
             <Route path="/admin/analytics" element={<Gate module="admin"><AdminAnalytics /></Gate>} />
             <Route path="/admin/math-engine" element={<Gate module="admin"><AdminMathEngine /></Gate>} />
             <Route path="/admin/results" element={<Gate module="admin"><AdminResults /></Gate>} />

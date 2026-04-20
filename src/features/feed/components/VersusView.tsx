@@ -228,22 +228,24 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                                 }}
                             />
                         ) : (
-                            <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
-                                <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100 shadow-sm">
-                                    <span className="material-symbols-outlined text-4xl text-slate-300">hourglass_empty</span>
+                            <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px] animate-in fade-in duration-500">
+                                <div className="w-24 h-24 bg-blue-50/50 rounded-[2rem] flex items-center justify-center mb-6 border border-blue-100/50 shadow-sm relative overflow-hidden">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-teal-500/10 mix-blend-multiply"></div>
+                                    <span className="material-symbols-outlined text-4xl text-blue-500 relative z-10">radar</span>
                                 </div>
                                 <h3 className="text-2xl font-black text-slate-800 mb-2">Aún no hay evaluaciones aquí</h3>
                                 <p className="text-slate-500 max-w-md mx-auto mb-8 font-medium">
-                                    Estamos preparando nuevas compañías para esta categoría. Si quieres ver evaluaciones ahora, elige otra opción abajo.
+                                    Estamos preparando nuevas compañías para esta categoría. Si quieres ver evaluaciones ahora, elige otra opción abajo o vuelve al mix principal.
                                 </p>
                                 <button
                                     onClick={() => {
                                         setVersusIndustry('mix');
                                         setSelectedSubcategoryId(null);
                                     }}
-                                    className="px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm"
+                                    className="px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-xl font-black transition-all shadow-md hover:shadow-lg active:scale-95 flex items-center gap-2"
                                 >
-                                    Ver todas las industrias
+                                    <span className="material-symbols-outlined text-[18px]">explore</span>
+                                    Explorar Mix de Industrias
                                 </button>
                             </div>
                         )}
