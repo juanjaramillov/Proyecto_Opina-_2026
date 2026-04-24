@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { supabase } from '../../../supabase/client';
 import { AccountProfile } from '../types';
-import { authService } from '../services/authService';
+
 import { profileService } from '../../profile/services/profileService';
 import { logger } from '../../../lib/logger';
 import { AccessState, AppRole } from '../../access/types/policy';
 import { accessGate } from '../../access/services/accessGate';
+import { useSessionGuard } from '../hooks/useSessionGuard';
+import { SessionSupersededBanner } from '../components/SessionSupersededBanner';
 
 interface AuthContextType {
     profile: AccountProfile | null;
@@ -21,8 +23,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [loading, setLoading] = useState(true);
     const [gateValid, setGateValid] = useState<boolean>(false);
 
-    const looksLikeUuid = (x: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(x);
-    const normalizeCodeToken = (tokenId: string) => (tokenId.startsWith("CODE:") ? tokenId.slice(5) : tokenId).trim().toUpperCase();
+    // #5 Media Drimo: multi-session lock. Registra la sesión, revoca las
+    // otras del mismo user, pingea cada 30s y hace signOut si fue superada.
+    useSessionGuard();
+
+
 
     const loadProfile = useCallback(async () => {
         setLoading(true);
@@ -34,33 +39,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             let tokenIsValid = false;
             if (p?.role === 'admin' || p?.invitation_code_id || !accessGate.isEnabled()) {
                 tokenIsValid = true;
-            } else if (accessGate.hasAccess()) {
-                const tokenId = accessGate.getTokenId();
-                if (tokenId) {
-                    if (looksLikeUuid(tokenId)) {
-                        const { data: ok } = await (supabase.rpc as unknown as (n: string, a: object) => Promise<{data: boolean}>)("validate_invite_token", { p_invite_id: tokenId });
-                        tokenIsValid = Boolean(ok);
-                    } else {
-                        const code = normalizeCodeToken(tokenId);
-                        const { data: isValid } = await (supabase.rpc as unknown as (n: string, a: object) => Promise<{data: boolean}>)("validate_invitation", { p_code: code });
-                        
-                        // Auto-consume if recently signed up
-                        if (isValid && p && p.tier !== 'guest' && !p.invitation_code_id) {
-                            try {
-                                const stored = authService.getStoredOAuthBootstrap();
-                                const nickname = stored?.nickname || p.displayName || "user";
-                                await authService.bootstrapUserAfterSignup(nickname, code);
-                                tokenIsValid = true;
-                                if (stored) authService.clearOAuthBootstrap();
-                                // We'll trigger another refresh via profile update listener or manual call
-                            } catch (e) {
-                                logger.error("Early consume error (Access Denied)", { domain: 'auth', origin: 'AuthContext', action: 'bootstrap_user', error_details: e });
-                                tokenIsValid = false; // Restrict access if code application failed
-                            }
-                        } else {
-                            tokenIsValid = Boolean(isValid);
-                        }
-                    }
+            } else {
+                // Check if user has the custom access_granted claim in their JWT session
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session && session.user.app_metadata?.access_granted === true) {
+                    tokenIsValid = true;
                 }
             }
             setGateValid(tokenIsValid);
@@ -104,6 +87,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return (
         <AuthContext.Provider value={{ profile, loading, refreshProfile: loadProfile, accessState }}>
             {children}
+            <SessionSupersededBanner />
         </AuthContext.Provider>
     );
 };
