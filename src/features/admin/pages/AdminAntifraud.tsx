@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { adminAntifraudService, AntifraudFlagRow, DeviceSummary } from '../services/adminAntifraudService';
 import { logger } from '../../../lib/logger';
+import MultiAccountDevicesPanel from '../components/MultiAccountDevicesPanel';
 
 const AdminAntifraud: React.FC = () => {
     const [flags, setFlags] = useState<AntifraudFlagRow[]>([]);
@@ -82,9 +83,9 @@ const AdminAntifraud: React.FC = () => {
     const getSeverityBadge = (severity: string) => {
         switch (severity) {
             case 'critical':
-                return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Critical</span>;
+                return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-danger-100 text-danger-800">Critical</span>;
             case 'warn':
-                return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">Warn</span>;
+                return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-warning/20 text-warning">Warn</span>;
             default:
                 return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800">{severity}</span>;
         }
@@ -92,10 +93,10 @@ const AdminAntifraud: React.FC = () => {
 
     const getStatusBadge = (active: boolean, banned: boolean) => {
         if (banned) {
-            return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Banned</span>;
+            return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-danger-100 text-danger-800">Banned</span>;
         }
         if (active) {
-            return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Active Warning</span>;
+            return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-accent-100 text-accent-800">Active Warning</span>;
         }
         return <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800">Inactive</span>;
     };
@@ -113,7 +114,7 @@ const AdminAntifraud: React.FC = () => {
                     <button
                         onClick={fetchFlags}
                         disabled={loading}
-                        className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-xl shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 transition w-full sm:w-auto"
+                        className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-xl shadow-sm text-white bg-brand hover:bg-brand focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/50 disabled:opacity-50 transition w-full sm:w-auto"
                     >
                         {loading ? 'Refrescando...' : 'Refrescar Lista'}
                     </button>
@@ -121,13 +122,13 @@ const AdminAntifraud: React.FC = () => {
             </div>
 
             {error && (
-                <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4 rounded-r-md">
+                <div className="mb-4 bg-danger-50 border-l-4 border-danger-400 p-4 rounded-r-md">
                     <div className="flex">
                         <div className="flex-shrink-0">
-                            <span className="material-symbols-outlined text-red-400">error</span>
+                            <span className="material-symbols-outlined text-danger-400">error</span>
                         </div>
                         <div className="ml-3">
-                            <p className="text-sm text-red-700">{error}</p>
+                            <p className="text-sm text-danger-700">{error}</p>
                         </div>
                     </div>
                 </div>
@@ -176,7 +177,7 @@ const AdminAntifraud: React.FC = () => {
                                             <div className="flex items-center justify-end gap-3">
                                                 <button
                                                     onClick={() => toggleExpand(flag.id, flag.device_hash)}
-                                                    className="text-primary-600 hover:text-primary-900 transition-colors bg-primary-50 hover:bg-primary-100 px-2.5 py-1 rounded-md"
+                                                    className="text-brand hover:text-brand transition-colors bg-brand/10 hover:bg-brand/20 px-2.5 py-1 rounded-md"
                                                 >
                                                     {expandedRowId === flag.id ? 'Ocultar' : 'Detalles'}
                                                 </button>
@@ -185,7 +186,7 @@ const AdminAntifraud: React.FC = () => {
                                                     disabled={loading}
                                                     className={`px-3 py-1 rounded-md text-white font-medium shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 ${flag.banned
                                                         ? 'bg-slate-600 hover:bg-slate-700 focus:ring-slate-500'
-                                                        : 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+                                                        : 'bg-danger-600 hover:bg-danger-700 focus:ring-danger-500'
                                                         }`}
                                                 >
                                                     {flag.banned ? 'Unban' : 'Ban'}
@@ -212,7 +213,7 @@ const AdminAntifraud: React.FC = () => {
                                                                 {JSON.stringify(flag.details, null, 2)}
                                                             </pre>
                                                             {flag.banned && flag.banned_reason && (
-                                                                <div className="mt-2 text-red-700 bg-red-50 p-2 rounded border border-red-100">
+                                                                <div className="mt-2 text-danger-700 bg-danger-50 p-2 rounded border border-danger-100">
                                                                     <span className="font-semibold">Motivo del Ban:</span> {flag.banned_reason}
                                                                 </div>
                                                             )}
@@ -227,7 +228,7 @@ const AdminAntifraud: React.FC = () => {
 
                                                             {loadingSummary[flag.device_hash] ? (
                                                                 <div className="p-4 flex items-center justify-center text-slate-500 bg-white border border-slate-200 rounded-lg shadow-sm">
-                                                                    <div className="w-5 h-5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mr-2"></div>
+                                                                    <div className="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin mr-2"></div>
                                                                     Cargando métricas...
                                                                 </div>
                                                             ) : summaries[flag.device_hash] ? (
@@ -239,15 +240,15 @@ const AdminAntifraud: React.FC = () => {
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1 border-b border-slate-100">
                                                                             <span className="text-slate-500">Señales (últimas 24h):</span>
-                                                                            <span className="font-medium text-primary-600">{summaries[flag.device_hash].signals_24h}</span>
+                                                                            <span className="font-medium text-brand">{summaries[flag.device_hash].signals_24h}</span>
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1 border-b border-slate-100">
                                                                             <span className="text-slate-500">Señales vel. (últimos 10m):</span>
-                                                                            <span className={`font-medium ${summaries[flag.device_hash].signals_10m! > 20 ? 'text-red-600' : 'text-slate-700'}`}>{summaries[flag.device_hash].signals_10m}</span>
+                                                                            <span className={`font-medium ${summaries[flag.device_hash].signals_10m! > 20 ? 'text-danger-600' : 'text-slate-700'}`}>{summaries[flag.device_hash].signals_10m}</span>
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1 border-b border-slate-100">
                                                                             <span className="text-slate-500">Usuarios Distintos (24h):</span>
-                                                                            <span className={`font-medium ${summaries[flag.device_hash].distinct_users_24h! > 2 ? 'text-blue-600' : 'text-slate-700'}`}>{summaries[flag.device_hash].distinct_users_24h}</span>
+                                                                            <span className={`font-medium ${summaries[flag.device_hash].distinct_users_24h! > 2 ? 'text-brand-600' : 'text-slate-700'}`}>{summaries[flag.device_hash].distinct_users_24h}</span>
                                                                         </div>
                                                                         <div className="flex justify-between items-center py-1">
                                                                             <span className="text-slate-500">Batallas Participadas (24h):</span>
@@ -255,7 +256,7 @@ const AdminAntifraud: React.FC = () => {
                                                                         </div>
                                                                     </div>
                                                                 ) : (
-                                                                    <div className="p-3 bg-red-50 text-red-600 text-xs rounded border border-red-100">
+                                                                    <div className="p-3 bg-danger-50 text-danger-600 text-xs rounded border border-danger-100">
                                                                         No se pudo cargar: {summaries[flag.device_hash].error}
                                                                     </div>
                                                                 )
@@ -274,6 +275,9 @@ const AdminAntifraud: React.FC = () => {
                     </table>
                 </div>
             </div>
+
+            {/* #9 Media Drimo — multi-cuenta detectado en user_sessions */}
+            <MultiAccountDevicesPanel />
         </div>
     );
 };

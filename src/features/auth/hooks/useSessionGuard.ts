@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { supabase } from '../../../supabase/client';
 import { typedRpc } from '../../../supabase/typedRpc';
 import { logger } from '../../../lib/logger';
+import { computeDeterministicDeviceHash } from '../../../lib/deviceFingerprint';
 
 /**
  * useSessionGuard — #5 Media Drimo (multi-session lock).
@@ -63,9 +64,23 @@ export function useSessionGuard() {
                 const deviceLabel = typeof navigator !== 'undefined' ? navigator.platform : null;
                 const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : null;
 
+                // #9 Media Drimo: device_hash determinístico (no random).
+                // Si el cómputo falla por algún motivo, mandamos null y la
+                // RPC lo guarda como NULL — no rompemos el login por esto.
+                let deviceHash: string | null = null;
+                try {
+                    deviceHash = await computeDeterministicDeviceHash();
+                } catch (err) {
+                    logger.error('computeDeterministicDeviceHash falló', {
+                        domain: 'auth', origin: 'useSessionGuard', action: 'fingerprint'
+                    }, err);
+                }
+                if (cancelled) return;
+
                 const { data, error } = await typedRpc<RegisterResult>('register_user_session', {
                     p_device_label: deviceLabel,
                     p_user_agent: userAgent,
+                    p_device_hash: deviceHash,
                 });
 
                 if (cancelled) return;
