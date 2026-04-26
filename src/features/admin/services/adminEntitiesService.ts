@@ -1,6 +1,7 @@
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
 import { catalogGovernance, CatalogEntitySyncData } from '../../../lib/catalogGovernance';
+import toast from 'react-hot-toast';
 
 export interface EntityMetadata {
   modules?: Record<string, boolean>;
@@ -62,7 +63,7 @@ export const adminEntitiesService = {
       return true;
     } catch (e: unknown) {
       logger.error(`Error al cambiar estado de la entidad ${id}`, { error: e });
-      alert(`Error DB [Estado]: ${e instanceof Error ? e.message : JSON.stringify(e)}`);
+      toast.error(`Error al cambiar el estado: ${e instanceof Error ? e.message : 'error desconocido'}`);
       return false;
     }
   },
@@ -119,7 +120,7 @@ export const adminEntitiesService = {
     } catch (e: unknown) {
       logger.error(`Error al crear/actualizar la entidad`, { error: e });
       const msg = e instanceof Error ? e.message : JSON.stringify(e);
-      alert(`Error DB [Guardar Módulo]: ${msg}`);
+      toast.error(`No se pudo guardar la entidad: ${msg}`);
       return false;
     }
   }

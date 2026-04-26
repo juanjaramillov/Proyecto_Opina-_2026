@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import toast from 'react-hot-toast';
 import { adminActualidadService } from "../services/adminActualidadService";
 import { Topic, TopicStatus, TopicCategory } from "../../signals/types/actualidad";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +48,7 @@ export function useAdminActualidad() {
       if (res.success) {
         setTopics(prev => prev.filter((t: Topic) => t.id !== id));
       } else {
-        alert(res.error || "Error al actualizar estado");
+        toast.error(res.error || "No se pudo actualizar el estado");
       }
     } catch (err) {
       logger.error("Error updating status", { domain: 'admin_actions', origin: 'AdminActualidad', action: 'update_status', state: 'failed' }, err);
@@ -78,7 +79,7 @@ export function useAdminActualidad() {
       await fetchTopics();
     } catch(e) {
       logger.error("Error triggering bot", { domain: 'admin_actions', origin: 'AdminActualidad' }, e);
-      alert("Ocurrió un error al extraer noticias.");
+      toast.error("No se pudieron extraer las noticias");
     } finally {
       setExtracting(false);
     }

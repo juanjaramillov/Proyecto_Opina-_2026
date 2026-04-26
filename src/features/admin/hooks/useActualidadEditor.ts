@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 import { Topic, TopicQuestion, TopicStatus, QuestionType } from "../../signals/types/actualidad";
 import { adminActualidadService } from "../services/adminActualidadService";
 import { logger } from '../../../lib/logger';
@@ -168,7 +169,7 @@ export function useActualidadEditor(id: string | undefined) {
         const err = validateForm(isDraftLike && !enforceValidation);
         
         if (err) {
-            if (!silent) alert(err);
+            if (!silent) toast.error(err);
             return false;
         }
 
@@ -179,17 +180,17 @@ export function useActualidadEditor(id: string | undefined) {
             const questionsSuccess = await adminActualidadService.updateTopicQuestions(id, questions);
 
             if (!editorialSuccess || !questionsSuccess) {
-                if (!silent) alert("Hubo un error al guardar los datos en la base de datos.");
+                if (!silent) toast.error("No se pudo guardar en la base de datos");
                 return false;
             }
 
             setTopic(prev => prev ? { ...prev, ...formData, admin_edited: true } as Topic : null);
 
-            if (!silent) alert("Cambios guardados exitosamente.");
+            if (!silent) toast.success("Cambios guardados");
             return true;
         } catch (e) {
             logger.error("Error al guardar cambios de actualidad", { domain: 'actualidad_editorial', origin: 'useActualidadEditor', action: 'save_topic', state: 'failed', topic_id: id }, e);
-            if (!silent) alert("Error al guardar cambios.");
+            if (!silent) toast.error("Error al guardar cambios");
             return false;
         } finally {
             setSaving(false);
@@ -202,12 +203,12 @@ export function useActualidadEditor(id: string | undefined) {
         if (newStatus === 'published' || newStatus === 'approved' || newStatus === 'review') {
             const err = validateForm(false); // Validacion estricta siempre
             if (err) {
-                alert(`No se puede transicionar a ${newStatus}. Corrige lo siguiente:\n\n- ${err}`);
+                toast.error(`No se puede transicionar a ${newStatus}: ${err}`);
                 return;
             }
             const saved = await handleSave(true, true);
             if (!saved) {
-                alert("Error técnico al guardar los cambios antes de transicionar. Revisa la consola.");
+                toast.error("Error técnico al guardar antes de transicionar (revisá la consola)");
                 return;
             }
         }
@@ -222,7 +223,7 @@ export function useActualidadEditor(id: string | undefined) {
                     navigate('/admin/actualidad');
                 }
             } else {
-                alert(res.error || "No se pudo cambiar el estado.");
+                toast.error(res.error || "No se pudo cambiar el estado");
             }
         } catch (e) {
             logger.error("Error changing topic status", { domain: 'actualidad_editorial', origin: 'useActualidadEditor', action: 'change_status', state: 'failed', topic_id: id, new_status: newStatus }, e);

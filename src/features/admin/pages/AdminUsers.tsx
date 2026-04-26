@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Search, UserCircle, Shield, Activity, Star, Medal, MoreVertical } from "lucide-react";
+import toast from 'react-hot-toast';
 import { adminUsersService, AdminUserRow } from "../services/adminUsersService";
 import { logger } from "../../../lib/logger";
 
@@ -59,7 +60,7 @@ export default function AdminUsers() {
             } else if (raw.includes('Target user does not exist')) {
                 msg = "El usuario destino no existe.";
             }
-            alert(msg);
+            toast.error(msg);
         }
     };
 

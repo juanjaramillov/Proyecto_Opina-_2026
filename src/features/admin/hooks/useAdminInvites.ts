@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import toast from 'react-hot-toast';
 import { adminInvitesService, InviteRow, RedemptionRow } from '../services/adminInvitesService';
 import { typedRpc } from '../../../supabase/typedRpc';
 
@@ -75,7 +76,7 @@ export function useAdminInvites() {
     const handleSendWhatsApp = async (invite: InviteRow) => {
         const draft = waDrafts[invite.id];
         if (!draft?.phone || !draft.phone.startsWith('+')) {
-            alert('Por favor ingresa un teléfono válido con formato +... (ej: +56912345678)');
+            toast.error('Ingresá un teléfono válido con formato +... (ej: +56912345678)');
             return;
         }
 
@@ -183,7 +184,7 @@ export function useAdminInvites() {
 
         try {
             await navigator.clipboard.writeText(activeCodes);
-            alert('Códigos copiados al portapapeles!');
+            toast.success('Códigos copiados al portapapeles');
         } catch {
             setErrorMsg('Failed to copy to clipboard');
         }

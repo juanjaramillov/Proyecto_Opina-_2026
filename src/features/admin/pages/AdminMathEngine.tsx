@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Calculator, Clock, BarChart2, Activity, Save } from "lucide-react";
+import toast from 'react-hot-toast';
 import { mathEngineService } from "../services/mathEngineService";
 import { Link } from "react-router-dom";
 import { GradientText } from "../../../components/ui/foundation";
@@ -28,7 +29,7 @@ export default function AdminMathEngine() {
     try {
       await mathEngineService.updateEngineConfig({ [key]: value });
       setConfigParams(prev => prev ? { ...prev, [key]: value } : { [key]: value });
-      alert("Configuración centralizada guardada en base de datos.");
+      toast.success("Configuración guardada");
     } catch(e) {
       if (e instanceof Error) setError(e.message);
       else setError("Error al guardar la configuración");

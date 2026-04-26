@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, ChevronDown, BadgeAlert, Power, Search, Plus, X, Edit2 } from "lucide-react";
+import toast from 'react-hot-toast';
 import { adminEntitiesService, AdminEntity } from "../services/adminEntitiesService";
 import { logger } from '../../../lib/logger';
 import { getAssetPathForOption } from '../../signals/config/brandAssets';
@@ -40,7 +41,7 @@ export default function AdminEntities() {
       setSelectedEntities([]);
     } catch (err) {
       logger.error("Error bulk updating status", err);
-      alert("Error al editar múltiples entidades");
+      toast.error("No se pudo actualizar el estado de algunas entidades");
     } finally {
       setIsSaving(false);
     }
@@ -131,7 +132,7 @@ export default function AdminEntities() {
       const success = await adminEntitiesService.toggleEntityStatus(id, newStatus);
       if (!success) {
         setEntities(prev => prev.map(e => e.id === id ? { ...e, is_active: currentStatus } : e));
-        alert("Error al actualizar estado");
+        toast.error("No se pudo actualizar el estado");
       }
     } catch (err) {
       setEntities(prev => prev.map(e => e.id === id ? { ...e, is_active: currentStatus } : e));
@@ -186,7 +187,7 @@ export default function AdminEntities() {
 
   const handleSaveEntity = async () => {
     if (!editingEntity?.name || !editingEntity?.slug) {
-      alert("Nombre y Slug son obligatorios.");
+      toast.error("Nombre y Slug son obligatorios");
       return;
     }
     setIsSaving(true);
@@ -195,9 +196,10 @@ export default function AdminEntities() {
     
     if (success) {
       setIsModalOpen(false);
+      toast.success("Entidad guardada");
       fetchEntities();
     } else {
-      alert("Error al guardar la entidad.");
+      toast.error("No se pudo guardar la entidad");
     }
   };
 
@@ -223,7 +225,7 @@ export default function AdminEntities() {
     // VALIDACIÓN: Límite de 2MB
     const MAX_SIZE_MB = 2;
     if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-      alert(`El archivo excede el límite operativo de ${MAX_SIZE_MB}MB. Por favor optimiza el logo.`);
+      toast.error(`El archivo excede el límite de ${MAX_SIZE_MB}MB. Optimiza el logo antes de subirlo.`);
       e.target.value = '';
       return;
     }
@@ -231,13 +233,13 @@ export default function AdminEntities() {
     // VALIDACIÓN: Tipos MIME permitidos (Sin binarios extraños)
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
     if (!allowedTypes.includes(file.type)) {
-      alert("Formato de seguridad no admitido. Usa JPG, PNG, WEBP o SVG puramente gráficos.");
+      toast.error("Formato no admitido. Usa JPG, PNG, WEBP o SVG.");
       e.target.value = '';
       return;
     }
 
     if (!editingEntity?.slug) {
-      alert("Debes escribir un Slug de la entidad antes de subir el logo.");
+      toast.error("Escribí un Slug antes de subir el logo");
       e.target.value = '';
       return;
     }
@@ -253,11 +255,11 @@ export default function AdminEntities() {
           logo_storage_path: response.storagePath 
         });
       } else {
-        alert("Bloqueo de Storage: Verifica permisos o la conectividad.");
+        toast.error("Error de Storage: revisá permisos o conectividad");
       }
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Permisos denegados por Supabase';
-      alert(`Error crítico de upload: ${msg}`);
+      toast.error(`Error al subir el logo: ${msg}`);
     } finally {
       setIsUploadingImage(false);
       e.target.value = ''; // Cleanup para permitir re-subida del mismo filename

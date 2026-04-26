@@ -1,5 +1,6 @@
 import React from 'react';
 import { FileText, Download, Target, AlertTriangle, CheckCircle, ShieldAlert, Box } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { B2BEligibility, B2BBattleAnalytics, IntegrityFlags } from "../../signals/services/insightsService";
 import { TrendingItem } from "../../../types/trending";
 import { generateB2BNarrative } from "../utils/b2bNarrativeEngine";
@@ -42,7 +43,7 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
             analytics_payload: b2bAnalytics?.analytics_payload
         };
         navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-        alert('B2B Payload JSON copiado al portapapeles');
+        toast.success('B2B Payload JSON copiado al portapapeles');
     };
 
     const handlePrint = () => {

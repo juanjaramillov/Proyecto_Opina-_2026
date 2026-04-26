@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Search, Database, Power, PowerOff, Activity, ImageIcon, BarChart2 } from "lucide-react";
+import toast from 'react-hot-toast';
 import { adminSignalsService, AdminSignalRow } from "../services/adminSignalsService";
 import { AdminSignalAnalyticsDrawer } from "../components/AdminSignalAnalyticsDrawer";
 
@@ -60,7 +61,7 @@ export default function AdminSignals() {
         if (res.success) {
             setSignals(prev => prev.map(s => s.id === id ? { ...s, status: newStatus } : s));
         } else {
-            alert(res.error || "Error al actualizar la señal");
+            toast.error(res.error || "No se pudo actualizar la señal");
         }
     };
 
