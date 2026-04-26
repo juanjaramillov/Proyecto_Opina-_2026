@@ -59,8 +59,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     useEffect(() => {
         loadProfile();
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-            loadProfile();
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+            // F-07: solo recargar profile cuando la identidad cambia realmente.
+            // TOKEN_REFRESHED ocurre cada hora silenciosamente y antes
+            // disparaba un getEffectiveProfile() + getSession() inútiles
+            // por cada refresh, con re-render del árbol entero.
+            // INITIAL_SESSION ya está cubierto por loadProfile() del mount.
+            if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
+                loadProfile();
+            }
         });
 
         const onUpdate = () => loadProfile();
