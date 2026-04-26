@@ -118,7 +118,7 @@ La eliminación de código o funcionalidad demo debe enfocarse exclusivamente en
 
 ### Prerrequisitos
 - **Node.js**: v18.0.0 o superior.
-- **Supabase**: Proyecto activo con tablas de `users`, `signals` y `actualidad_topics`.
+- **Supabase**: Proyecto activo con tablas de `users`, `signal_events` y `current_topics`.
 - **Variables de Entorno**: Consultar el archivo `.env.example`. Los secretos (Service Role Key) solo se usan en scripts de backend.
 
 ### Comandos Críticos

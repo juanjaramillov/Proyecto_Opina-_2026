@@ -11,7 +11,7 @@ Este documento define la estructura central (Canónica) de datos en Opina+. Hist
 
 ## Tablas Auxiliares por Módulo (Metadata)
 El nuevo paradigma dictamina que los módulos derivan metadatos hacia estas tablas **solamente tras haber confirmado** la existencia del evento canónico en `signal_events`:
-- **`actualidad_topics` / `topic_answers`**: Para el módulo editorial de debates diarios.
+- **`current_topics`**: Para el módulo editorial Actualidad (debates diarios). Reemplazó a `actualidad_topics` + `user_actualidad_responses` (legacy, droppeadas el 2026-04-26 — ver migración `20260426001000_drop_legacy_actualidad_tables.sql`).
 - **`user_pulses`**: Almacena las huellas agrupadas de la recolección rápida demográfica.
 - **`depth_segments`**: Para el enriquecimiento y segmentación contextual profunda de perfiles B2B / Demográficos.
 

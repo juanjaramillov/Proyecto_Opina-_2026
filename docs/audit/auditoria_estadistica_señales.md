@@ -31,7 +31,7 @@ En Opina+, el usuario interactúa entregando valoraciones o elecciones a las que
 
 ## 2. Emisión de Datos: ¿Qué entrega exactamente el usuario?
 
-Dependiendo del módulo, las tablas transaccionales (`signal_events`, `user_pulses`, `user_actualidad_responses`) almacenan diferentes *payloads*, pero todos comparten un esqueleto técnico de validación:
+Dependiendo del módulo, las tablas transaccionales (`signal_events`, `user_pulses`) almacenan diferentes *payloads*, pero todos comparten un esqueleto técnico de validación. (Históricamente existía además `user_actualidad_responses`, droppeada el 2026-04-26 al migrar Actualidad a `current_topics`/`signal_events`.)
 
 *   **Identificación de Decisión:** Entidades evaluadas (`left_entity_id`, `right_entity_id`, `selected_entity_id`, o `tema_id`).
 *   **Valor de la Señal:** Respuesta exacta (`value_numeric`, `value_text`, `value_boolean` o JSON estructurado).
