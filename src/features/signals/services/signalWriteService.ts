@@ -1,5 +1,10 @@
 import { supabase } from '../../../supabase/client';
-import { Database } from '../../../supabase/database.types';
+// Importamos Database desde database-contracts (alias de StrictDatabase) para
+// que el tipo del cast coincida con el cliente real (StrictDatabase no carga
+// PostgrestVersion). Tras regenerar types con CLI v2.75 el archivo
+// auto-generado pasó a `PostgrestVersion: "13.0.5"` y el cast directo a
+// SupabaseClient<Database de database.types> rompía por mismatch "12" vs "13.0.5".
+import type { Database } from '../../shared/types/database-contracts';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '../../../lib/logger';
 import {
