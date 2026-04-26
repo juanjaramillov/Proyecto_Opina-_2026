@@ -3,12 +3,21 @@ import { Search, UserCircle, Shield, Activity, Star, Medal, MoreVertical } from 
 import toast from 'react-hot-toast';
 import { adminUsersService, AdminUserRow } from "../services/adminUsersService";
 import { logger } from "../../../lib/logger";
+import ConfirmDialog from "../../../components/ui/ConfirmDialog";
+
+type PendingRoleChange = {
+    userId: string;
+    currentRole: string;
+    newRole: 'user' | 'admin' | 'b2b';
+    nickname: string;
+};
 
 export default function AdminUsers() {
     const [users, setUsers] = useState<AdminUserRow[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [pendingRoleChange, setPendingRoleChange] = useState<PendingRoleChange | null>(null);
 
     // Debounce search
     useEffect(() => {
@@ -34,13 +43,20 @@ export default function AdminUsers() {
         fetchUsers();
     }, [fetchUsers]);
 
-    const handleRoleChange = async (userId: string, currentRole: string) => {
-        const newRole = currentRole === 'admin' ? 'user' : 'admin';
-        if (!window.confirm(`¿Cambiar rol de este usuario a ${newRole.toUpperCase()}?`)) return;
+    const handleRoleChange = (userId: string, currentRole: string, nickname: string) => {
+        const newRole: 'user' | 'admin' = currentRole === 'admin' ? 'user' : 'admin';
+        setPendingRoleChange({ userId, currentRole, newRole, nickname });
+    };
+
+    const executeRoleChange = async () => {
+        if (!pendingRoleChange) return;
+        const { userId, newRole } = pendingRoleChange;
+        setPendingRoleChange(null);
 
         try {
-            await adminUsersService.updateRole(userId, newRole as 'user' | 'admin' | 'b2b');
+            await adminUsersService.updateRole(userId, newRole);
             setUsers(prev => prev.map(u => u.user_id === userId ? { ...u, role: newRole } : u));
+            toast.success(`Rol actualizado a ${newRole.toUpperCase()}`);
         } catch (err) {
             // La RPC admin_set_user_role devuelve mensajes específicos. Los
             // mapeamos a UX en español para que el admin entienda el motivo.
@@ -113,6 +129,21 @@ export default function AdminUsers() {
                     Refrescar
                 </button>
             </div>
+
+            <ConfirmDialog
+                open={!!pendingRoleChange}
+                title={pendingRoleChange?.newRole === 'admin' ? 'Promover a Admin' : 'Revocar Admin'}
+                message={
+                    pendingRoleChange
+                        ? `¿Confirmás cambiar el rol de "${pendingRoleChange.nickname}" a ${pendingRoleChange.newRole.toUpperCase()}? Esta acción queda registrada en el audit log.`
+                        : ''
+                }
+                confirmLabel={pendingRoleChange?.newRole === 'admin' ? 'Promover' : 'Revocar'}
+                cancelLabel="Cancelar"
+                danger={pendingRoleChange?.newRole === 'user'}
+                onConfirm={executeRoleChange}
+                onCancel={() => setPendingRoleChange(null)}
+            />
 
             {/* Users List */}
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
@@ -187,8 +218,8 @@ export default function AdminUsers() {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button 
-                                                    onClick={() => handleRoleChange(user.user_id, user.role)}
+                                                <button
+                                                    onClick={() => handleRoleChange(user.user_id, user.role, user.nickname || 'usuario sin nickname')}
                                                     className="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg text-xs font-bold transition-colors"
                                                     title="Ascender/Descender a Admin"
                                                 >

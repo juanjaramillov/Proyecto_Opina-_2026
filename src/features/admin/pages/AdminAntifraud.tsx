@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { adminAntifraudService, AntifraudFlagRow, DeviceSummary } from '../services/adminAntifraudService';
 import { logger } from '../../../lib/logger';
 import MultiAccountDevicesPanel from '../components/MultiAccountDevicesPanel';
+import ConfirmDialog from '../../../components/ui/ConfirmDialog';
+import PromptDialog from '../../../components/ui/PromptDialog';
 
 const AdminAntifraud: React.FC = () => {
     const [flags, setFlags] = useState<AntifraudFlagRow[]>([]);
@@ -11,6 +14,8 @@ const AdminAntifraud: React.FC = () => {
     const [loadingSummary, setLoadingSummary] = useState<Record<string, boolean>>({});
     const [error, setError] = useState<string | null>(null);
     const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+    const [pendingBan, setPendingBan] = useState<{ deviceHash: string } | null>(null);
+    const [pendingUnban, setPendingUnban] = useState<{ deviceHash: string } | null>(null);
 
     const fetchFlags = async () => {
         try {
@@ -29,19 +34,31 @@ const AdminAntifraud: React.FC = () => {
         fetchFlags();
     }, []);
 
-    const handleBanToggle = async (deviceHash: string, currentBanned: boolean) => {
-        const isBanning = !currentBanned;
-        let reason = '';
-
-        if (isBanning) {
-            const input = window.prompt("Motivo del ban (opcional):");
-            if (input === null) return; // Cancelled
-            reason = input.trim();
+    const handleBanToggle = (deviceHash: string, currentBanned: boolean) => {
+        if (currentBanned) {
+            // Unban → ConfirmDialog
+            setPendingUnban({ deviceHash });
         } else {
-            const confirmUnban = window.confirm("¿Estás seguro de quitar el ban a este dispositivo?");
-            if (!confirmUnban) return; // Cancelled
+            // Ban → PromptDialog (motivo opcional)
+            setPendingBan({ deviceHash });
         }
+    };
 
+    const executeBan = async (reason: string) => {
+        if (!pendingBan) return;
+        const { deviceHash } = pendingBan;
+        setPendingBan(null);
+        await applyBan(deviceHash, true, reason);
+    };
+
+    const executeUnban = async () => {
+        if (!pendingUnban) return;
+        const { deviceHash } = pendingUnban;
+        setPendingUnban(null);
+        await applyBan(deviceHash, false, '');
+    };
+
+    const applyBan = async (deviceHash: string, isBanning: boolean, reason: string) => {
         try {
             setLoading(true);
             setError(null);
@@ -51,9 +68,12 @@ const AdminAntifraud: React.FC = () => {
                 throw new Error(result.error || 'Error al actualizar el ban');
             }
 
+            toast.success(isBanning ? 'Dispositivo baneado' : 'Ban removido');
             await fetchFlags(); // Refresh list to get updated row from DB
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : String(err));
+            const msg = err instanceof Error ? err.message : String(err);
+            setError(msg);
+            toast.error(msg);
             setLoading(false); // only set to false on error, fetchFlags handles success
         }
     };
@@ -278,6 +298,29 @@ const AdminAntifraud: React.FC = () => {
 
             {/* #9 Media Drimo — multi-cuenta detectado en user_sessions */}
             <MultiAccountDevicesPanel />
+
+            <PromptDialog
+                open={!!pendingBan}
+                title="Banear dispositivo"
+                message="Vas a banear este device hash. Esto bloquea futuras señales del dispositivo. Podés dejar un motivo opcional para auditoría."
+                inputLabel="Motivo (opcional)"
+                placeholder="Ej: Multi-cuenta detectado, abuso de captcha, etc."
+                confirmLabel="Banear"
+                cancelLabel="Cancelar"
+                danger
+                onConfirm={executeBan}
+                onCancel={() => setPendingBan(null)}
+            />
+
+            <ConfirmDialog
+                open={!!pendingUnban}
+                title="Quitar ban del dispositivo"
+                message="¿Confirmás quitar el ban a este dispositivo? Volverá a poder enviar señales normalmente."
+                confirmLabel="Quitar ban"
+                cancelLabel="Cancelar"
+                onConfirm={executeUnban}
+                onCancel={() => setPendingUnban(null)}
+            />
         </div>
     );
 };
