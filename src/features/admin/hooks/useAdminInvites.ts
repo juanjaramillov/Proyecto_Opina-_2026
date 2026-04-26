@@ -1,15 +1,23 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { adminInvitesService, InviteRow, RedemptionRow } from '../services/adminInvitesService';
 import { typedRpc } from '../../../supabase/typedRpc';
 
 export type StatusFilterType = 'all' | 'pending' | 'in_use' | 'abandoned' | 'revoked';
 
+/**
+ * FASE 3B React Query (2026-04-26): las dos fetches (`invites` y `redemptions`)
+ * se migran a `useQuery`. Las mutations siguen siendo funciones imperativas
+ * pero ahora `invalidateQueries` en vez de mutar el array local — así
+ * cualquier consumidor que mire la misma queryKey ve la actualización.
+ *
+ * Firma pública del hook intacta para no tocar `AdminInvites.tsx`.
+ */
 export function useAdminInvites() {
+    const qc = useQueryClient();
+
     const [tab, setTab] = useState<'invites' | 'redemptions'>('invites');
-    const [invites, setInvites] = useState<InviteRow[]>([]);
-    const [redemptions, setRedemptions] = useState<RedemptionRow[]>([]);
-    const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const [prefix, setPrefix] = useState('OP');
     const [statusFilter, setStatusFilter] = useState<StatusFilterType>('all');
@@ -19,6 +27,41 @@ export function useAdminInvites() {
     const [confirmRowAction, setConfirmRowAction] = useState<{ id: string, action: 'active' | 'revoked' | 'delete' } | null>(null);
     const [waDrafts, setWaDrafts] = useState<Record<string, { phone: string; isSending: boolean; statusMsg?: string }>>({});
     const [sortConfig, setSortConfig] = useState<{ key: keyof InviteRow; direction: 'asc' | 'desc' } | null>(null);
+    // Loading auxiliar para mutations (generate / bulk / single status change).
+    // Lo separamos del loading de query para no meter race conditions con isFetching.
+    const [mutationLoading, setMutationLoading] = useState(false);
+
+    // ----- Queries -----
+    const invitesQuery = useQuery<InviteRow[], Error>({
+        queryKey: ['admin', 'invites', statusFilter, searchTerm],
+        queryFn: () => adminInvitesService.listInvites(statusFilter, searchTerm),
+        enabled: tab === 'invites',
+    });
+
+    const redemptionsQuery = useQuery<RedemptionRow[], Error>({
+        queryKey: ['admin', 'redemptions'],
+        queryFn: () => adminInvitesService.listRedemptions(200),
+        enabled: tab === 'redemptions',
+    });
+
+    const invites = invitesQuery.data ?? [];
+    const redemptions = redemptionsQuery.data ?? [];
+
+    // Loading agregado: query loading O mutation loading.
+    const loading = invitesQuery.isLoading || redemptionsQuery.isLoading || mutationLoading;
+
+    // Errores de query → errorMsg (consumidores actuales lo leen así).
+    useEffect(() => {
+        const err = invitesQuery.error?.message || redemptionsQuery.error?.message;
+        if (err) setErrorMsg(err);
+    }, [invitesQuery.error, redemptionsQuery.error]);
+
+    // Reset de selección al cambiar tab/filtro (mismo comportamiento que antes).
+    useEffect(() => {
+        setSelectedInvites(new Set());
+        setConfirmAction(null);
+        setConfirmRowAction(null);
+    }, [tab, statusFilter]);
 
     const handleSort = (key: keyof InviteRow) => {
         let direction: 'asc' | 'desc' = 'desc';
@@ -35,7 +78,7 @@ export function useAdminInvites() {
             sortableItems.sort((a, b) => {
                 const aValue = a[sortConfig.key];
                 const bValue = b[sortConfig.key];
-                
+
                 if (aValue === null || aValue === undefined) return sortConfig.direction === 'asc' ? -1 : 1;
                 if (bValue === null || bValue === undefined) return sortConfig.direction === 'asc' ? 1 : -1;
 
@@ -53,13 +96,13 @@ export function useAdminInvites() {
                 'active': 2,
                 'revoked': 3
             };
-    
+
             sortableItems.sort((a, b) => {
                 const pA = priority[a.status] || 99;
                 const pB = priority[b.status] || 99;
-    
+
                 if (pA !== pB) return pA - pB;
-    
+
                 return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
             });
         }
@@ -85,12 +128,9 @@ export function useAdminInvites() {
             const res = await adminInvitesService.sendWhatsAppInvite(invite.id, draft.phone);
             if (res.success) {
                 updateWaDraft(invite.id, { isSending: false, statusMsg: 'Enviado ✅' });
-                setInvites(prev => prev.map(i => i.id === invite.id ? {
-                    ...i,
-                    whatsapp_phone: draft.phone,
-                    whatsapp_status: 'sent',
-                    whatsapp_sent_at: new Date().toISOString()
-                } : i));
+                // Antes mutábamos invites local; ahora invalidamos para que la
+                // query traiga whatsapp_status='sent' del server (fuente única).
+                await qc.invalidateQueries({ queryKey: ['admin', 'invites'] });
             } else {
                 const detailObj = res.detail as { error?: { message?: string } } | undefined;
                 const detailMsg = detailObj?.error?.message || res.error || 'Fallo desconocido';
@@ -101,73 +141,50 @@ export function useAdminInvites() {
         }
     };
 
+    // Mantenemos `fetchInvites` y `fetchRedemptions` como wrappers de refetch
+    // para que consumidores que las llamaban explícitamente sigan funcionando.
     const fetchInvites = useCallback(async () => {
-        setLoading(true);
         setErrorMsg(null);
-        try {
-            const data = await adminInvitesService.listInvites(statusFilter, searchTerm);
-            setInvites(data);
-        } catch (err: unknown) {
-            setErrorMsg((err as Error).message || 'Error fetching invites');
-        } finally {
-            setLoading(false);
-        }
-    }, [statusFilter, searchTerm]);
+        await invitesQuery.refetch();
+    }, [invitesQuery]);
 
     const fetchRedemptions = useCallback(async () => {
-        setLoading(true);
         setErrorMsg(null);
-        try {
-            const data = await adminInvitesService.listRedemptions(200);
-            setRedemptions(data);
-        } catch (err: unknown) {
-            setErrorMsg((err as Error).message || 'Error fetching redemptions');
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        setSelectedInvites(new Set());
-        setConfirmAction(null);
-        setConfirmRowAction(null);
-        if (tab === 'invites') fetchInvites();
-        else fetchRedemptions();
-    }, [tab, statusFilter, fetchInvites, fetchRedemptions]);
+        await redemptionsQuery.refetch();
+    }, [redemptionsQuery]);
 
     const handleGenerate = async () => {
-        setLoading(true);
+        setMutationLoading(true);
         setErrorMsg(null);
         try {
             await adminInvitesService.generateInvites(10, prefix);
-            await fetchInvites();
+            await qc.invalidateQueries({ queryKey: ['admin', 'invites'] });
         } catch (err: unknown) {
             setErrorMsg((err as Error).message || 'Error generating invites');
         } finally {
-            setLoading(false);
+            setMutationLoading(false);
         }
     };
 
     const handleStatusChange = async (inviteId: string, _currentStatus: string, action: 'revoked' | 'active' | 'delete') => {
-        setLoading(true);
+        setMutationLoading(true);
         setErrorMsg(null);
         setConfirmRowAction(null);
         try {
             if (action === 'delete') {
                 await adminInvitesService.deleteInvite(inviteId);
-                setInvites(invites.filter((i) => i.id !== inviteId));
             } else {
                 const { error } = await typedRpc<unknown>('admin_set_invitation_status', {
                     p_invite_id: inviteId,
                     p_status: action,
                 });
                 if (error) throw error;
-                setInvites(invites.map((i) => i.id === inviteId ? { ...i, status: action } : i));
             }
+            await qc.invalidateQueries({ queryKey: ['admin', 'invites'] });
         } catch (err: unknown) {
             setErrorMsg((err as Error).message || `Error updating invite status to ${action}`);
         } finally {
-            setLoading(false);
+            setMutationLoading(false);
         }
     };
 
@@ -208,7 +225,7 @@ export function useAdminInvites() {
     const handleBulkAction = async (action: 'active' | 'revoked' | 'delete') => {
         if (selectedInvites.size === 0) return;
 
-        setLoading(true);
+        setMutationLoading(true);
         setErrorMsg(null);
         setConfirmAction(null);
         try {
@@ -225,12 +242,12 @@ export function useAdminInvites() {
 
             await Promise.all(promises);
 
-            await fetchInvites();
+            await qc.invalidateQueries({ queryKey: ['admin', 'invites'] });
             setSelectedInvites(new Set());
         } catch (err: unknown) {
             setErrorMsg((err as Error).message || `Error procesando acción masiva`);
         } finally {
-            setLoading(false);
+            setMutationLoading(false);
         }
     };
 

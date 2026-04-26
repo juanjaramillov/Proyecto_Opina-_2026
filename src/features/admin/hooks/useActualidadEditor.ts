@@ -1,13 +1,22 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import { Topic, TopicQuestion, TopicStatus, QuestionType } from "../../signals/types/actualidad";
 import { adminActualidadService } from "../services/adminActualidadService";
 import { logger } from '../../../lib/logger';
 
+/**
+ * FASE 3B React Query (2026-04-26): el fetch del topic individual se cachea por
+ * id. El post-processing (sanitizeOptions, AI payload fallback, default 3
+ * preguntas) corre UNA VEZ por id en un useEffect que watchea `data?.id` —
+ * no el data completo — para no machacar las ediciones del usuario tras una
+ * invalidación. Las mutations (handleSave, handleStatusChange) invalidan la
+ * query del topic y la lista global.
+ */
 export function useActualidadEditor(id: string | undefined) {
+    const qc = useQueryClient();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [topic, setTopic] = useState<Topic | null>(null);
 
@@ -16,85 +25,94 @@ export function useActualidadEditor(id: string | undefined) {
     const [tagsInput, setTagsInput] = useState("");
     const [actorsInput, setActorsInput] = useState("");
 
-    const fetchTopic = useCallback(async () => {
-        if (!id) return;
-        setLoading(true);
-        try {
-            const data = await adminActualidadService.getAdminTopicById(id);
-            if (data) {
-                setTopic(data);
-                setFormData({
-                    title: data.title,
-                    summary: data.summary,
-                    impact_phrase: data.impact_phrase, // Removed window.impact_quote fallback which used any
-                    category: data.category,
-                    intensity: data.intensity,
-                    relevance_chile: data.relevance_chile,
-                    event_stage: data.event_stage,
-                    topic_duration: data.topic_duration,
-                    opinion_maturity: data.opinion_maturity,
-                    status: data.status,
-                    tags: data.tags,
-                    actors: data.actors,
-                    metadata: data.metadata,
-                });
-
-                // Helper para asegurar que las opciones sean SIEMPRE un arreglo de strings
-                const sanitizeOptions = (opts: unknown): string[] => {
-                    if (!Array.isArray(opts)) return [];
-                    return opts.map((opt: unknown) => {
-                        if (typeof opt === 'string') return opt;
-                        if (opt && typeof opt === 'object') {
-                            const o = opt as Record<string, unknown>;
-                            return (o.text as string) || (o.label as string) || (o.value as string) || (o.title as string) || Object.values(o).find(v => typeof v === 'string') as string || "Opción";
-                        }
-                        return String(opt);
-                    }).filter(Boolean) as string[];
-                };
-
-                let sortedQ = [...(data.questions || [])].sort((a, b) => a.order - b.order);
-
-                if (sortedQ.length === 0) {
-                    const aiPayload = data.metadata?.raw_ai_payload as Record<string, unknown> | undefined;
-                    const aiQuestions = aiPayload?.questions as Array<Record<string, unknown>> | undefined;
-                    if (aiQuestions && Array.isArray(aiQuestions)) {
-                        sortedQ = aiQuestions.map((q) => ({
-                            id: crypto.randomUUID(),
-                            order: (typeof q.order === 'number' ? q.order : 1),
-                            text: typeof q.text === 'string' ? q.text : "",
-                            type: 'single_choice' as const,
-                            options: sanitizeOptions(q.options)
-                        })).sort((a, b) => a.order - b.order);
-                    }
-                }
-
-                // Asegurar que TODAS las preguntas en el State, vengan de DB o de IA, tengan options sanitizadas
-                sortedQ = sortedQ.map(q => ({ ...q, options: sanitizeOptions(q.options) }));
-
-                while (sortedQ.length < 3) {
-                    const defaultTypes: QuestionType[] = ['scale_0_10', 'single_choice', 'single_choice_polar'];
-                    sortedQ.push({
-                        id: crypto.randomUUID(),
-                        order: sortedQ.length + 1,
-                        text: "",
-                        type: defaultTypes[sortedQ.length] || 'single_choice',
-                        options: []
-                    });
-                }
-                setQuestions(sortedQ.slice(0, 3));
-                setTagsInput(data.tags?.join(", ") || "");
-                setActorsInput(data.actors?.join(", ") || "");
+    const topicQuery = useQuery<Topic | null, Error>({
+        queryKey: ['admin', 'actualidad', 'topic', id],
+        queryFn: async () => {
+            if (!id) return null;
+            try {
+                return await adminActualidadService.getAdminTopicById(id);
+            } catch (err) {
+                logger.error("Error fetching topic", { domain: 'actualidad_editorial', origin: 'useActualidadEditor', action: 'fetch_topic', state: 'failed' }, err);
+                throw err;
             }
-        } catch (err) {
-            logger.error("Error fetching topic", { domain: 'actualidad_editorial', origin: 'useActualidadEditor', action: 'fetch_topic', state: 'failed' }, err);
-        } finally {
-            setLoading(false);
-        }
-    }, [id]);
+        },
+        enabled: !!id,
+    });
 
+    const loading = topicQuery.isLoading;
+
+    // Sincroniza el form state con el data del query CUANDO cambia el id (carga
+    // inicial o navegación a otro topic). Si watcháramos `data` completo, una
+    // invalidación post-save reescribiría el form y perdería ediciones.
     useEffect(() => {
-        fetchTopic();
-    }, [fetchTopic]);
+        const data = topicQuery.data;
+        if (!data || !id) return;
+        // Solo hidratar si es la primera vez que vemos este topic en este hook.
+        if (topic?.id === data.id) return;
+
+        setTopic(data);
+        setFormData({
+            title: data.title,
+            summary: data.summary,
+            impact_phrase: data.impact_phrase,
+            category: data.category,
+            intensity: data.intensity,
+            relevance_chile: data.relevance_chile,
+            event_stage: data.event_stage,
+            topic_duration: data.topic_duration,
+            opinion_maturity: data.opinion_maturity,
+            status: data.status,
+            tags: data.tags,
+            actors: data.actors,
+            metadata: data.metadata,
+        });
+
+        // Helper para asegurar que las opciones sean SIEMPRE un arreglo de strings
+        const sanitizeOptions = (opts: unknown): string[] => {
+            if (!Array.isArray(opts)) return [];
+            return opts.map((opt: unknown) => {
+                if (typeof opt === 'string') return opt;
+                if (opt && typeof opt === 'object') {
+                    const o = opt as Record<string, unknown>;
+                    return (o.text as string) || (o.label as string) || (o.value as string) || (o.title as string) || Object.values(o).find(v => typeof v === 'string') as string || "Opción";
+                }
+                return String(opt);
+            }).filter(Boolean) as string[];
+        };
+
+        let sortedQ = [...(data.questions || [])].sort((a, b) => a.order - b.order);
+
+        if (sortedQ.length === 0) {
+            const aiPayload = data.metadata?.raw_ai_payload as Record<string, unknown> | undefined;
+            const aiQuestions = aiPayload?.questions as Array<Record<string, unknown>> | undefined;
+            if (aiQuestions && Array.isArray(aiQuestions)) {
+                sortedQ = aiQuestions.map((q) => ({
+                    id: crypto.randomUUID(),
+                    order: (typeof q.order === 'number' ? q.order : 1),
+                    text: typeof q.text === 'string' ? q.text : "",
+                    type: 'single_choice' as const,
+                    options: sanitizeOptions(q.options)
+                })).sort((a, b) => a.order - b.order);
+            }
+        }
+
+        // Asegurar que TODAS las preguntas en el State, vengan de DB o de IA, tengan options sanitizadas
+        sortedQ = sortedQ.map(q => ({ ...q, options: sanitizeOptions(q.options) }));
+
+        while (sortedQ.length < 3) {
+            const defaultTypes: QuestionType[] = ['scale_0_10', 'single_choice', 'single_choice_polar'];
+            sortedQ.push({
+                id: crypto.randomUUID(),
+                order: sortedQ.length + 1,
+                text: "",
+                type: defaultTypes[sortedQ.length] || 'single_choice',
+                options: []
+            });
+        }
+        setQuestions(sortedQ.slice(0, 3));
+        setTagsInput(data.tags?.join(", ") || "");
+        setActorsInput(data.actors?.join(", ") || "");
+    }, [topicQuery.data, id, topic?.id]);
 
     const handleTagsChange = (val: string) => {
         setTagsInput(val);
@@ -144,7 +162,7 @@ export function useActualidadEditor(id: string | undefined) {
 
     const validateForm = (isDraft: boolean = false) => {
         if (!formData.title?.trim()) return "El título es obligatorio.";
-        
+
         // Si es borrador, permitimos guardar con datos parciales siempre que tenga título
         if (isDraft) return null;
 
@@ -167,7 +185,7 @@ export function useActualidadEditor(id: string | undefined) {
 
         const isDraftLike = formData.status === 'detected' || formData.status === 'draft' || formData.status === 'rejected';
         const err = validateForm(isDraftLike && !enforceValidation);
-        
+
         if (err) {
             if (!silent) toast.error(err);
             return false;
@@ -184,7 +202,14 @@ export function useActualidadEditor(id: string | undefined) {
                 return false;
             }
 
+            // Optimistic local update — el `topic` queda sincronizado con lo
+            // que el usuario acaba de guardar sin esperar refetch.
             setTopic(prev => prev ? { ...prev, ...formData, admin_edited: true } as Topic : null);
+
+            // Invalidamos para que la próxima carga (otro tab o vuelta al
+            // listado) vea los datos frescos. NO bloqueamos el flujo del save.
+            qc.invalidateQueries({ queryKey: ['admin', 'actualidad', 'topic', id] });
+            qc.invalidateQueries({ queryKey: ['admin', 'actualidad', 'topics'] });
 
             if (!silent) toast.success("Cambios guardados");
             return true;
@@ -219,6 +244,8 @@ export function useActualidadEditor(id: string | undefined) {
             if (res.success) {
                 setTopic(prev => prev ? { ...prev, status: newStatus } : null);
                 setFormData(prev => ({ ...prev, status: newStatus }));
+                qc.invalidateQueries({ queryKey: ['admin', 'actualidad', 'topic', id] });
+                qc.invalidateQueries({ queryKey: ['admin', 'actualidad', 'topics'] });
                 if (newStatus === 'published') {
                     navigate('/admin/actualidad');
                 }

@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { adminActualidadService } from "../services/adminActualidadService";
 import { Topic, TopicStatus, TopicCategory } from "../../signals/types/actualidad";
@@ -9,44 +10,63 @@ import { useToast } from "../../../components/ui/useToast";
 
 export type SortOption = 'recent' | 'confidence' | 'intensity';
 
+/**
+ * FASE 3B React Query (2026-04-26): el listado de topics por status (activeTab)
+ * se cachea por queryKey, así cambiar de tab "detected → published → review" no
+ * dispara fetch si el dato es fresco (<5min). Mutations invalidan el namespace
+ * `['admin','actualidad','topics']` (todas las pestañas) porque mover/borrar un
+ * topic puede aparecer en otra pestaña.
+ *
+ * Firma pública del hook intacta.
+ */
 export function useAdminActualidad() {
-  const [topics, setTopics] = useState<Topic[]>([]);
-  const [loading, setLoading] = useState(true);
+  const qc = useQueryClient();
+
   const [extracting, setExtracting] = useState(false);
   const [activeTab, setActiveTab] = useState<TopicStatus>('detected');
-  
+
   // Selection
   const [selectedTopicIds, setSelectedTopicIds] = useState<string[]>([]);
-  
+
   // Filters
   const [categoryFilter, setCategoryFilter] = useState<TopicCategory | 'all'>('all');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<SortOption>('recent');
 
+  // Loading auxiliar para mass-delete (no es fetch del server, no toca el query).
+  const [mutationLoading, setMutationLoading] = useState(false);
+
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
-  const fetchTopics = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await adminActualidadService.getAdminTopics(activeTab);
-      setTopics(data);
-    } catch (err) {
-      logger.error("Error fetching topics", { domain: 'admin_actions', origin: 'AdminActualidad', action: 'fetch_topics', state: 'failed' }, err);
-    } finally {
-      setLoading(false);
-    }
-  }, [activeTab]);
+  const topicsQuery = useQuery<Topic[], Error>({
+    queryKey: ['admin', 'actualidad', 'topics', activeTab],
+    queryFn: async () => {
+      try {
+        return await adminActualidadService.getAdminTopics(activeTab);
+      } catch (err) {
+        logger.error("Error fetching topics", { domain: 'admin_actions', origin: 'AdminActualidad', action: 'fetch_topics', state: 'failed' }, err);
+        throw err;
+      }
+    },
+  });
 
-  useEffect(() => {
-    fetchTopics();
-    setSelectedTopicIds([]); // Reset selection on tab change
-  }, [fetchTopics]);
+  const topics = topicsQuery.data ?? [];
+  const loading = topicsQuery.isLoading || mutationLoading;
+
+  // Reset selection cuando cambia el tab — dispara también el refetch automático
+  // por queryKey, así no necesitamos useEffect sobre fetchTopics.
+  const handleSetActiveTab = useCallback((tab: TopicStatus) => {
+    setActiveTab(tab);
+    setSelectedTopicIds([]);
+  }, []);
 
   const updateStatus = async (id: string, newStatus: TopicStatus) => {
     try {
       const res = await adminActualidadService.updateTopicStatus(id, newStatus);
       if (res.success) {
-        setTopics(prev => prev.filter((t: Topic) => t.id !== id));
+        // Invalida todas las pestañas porque el topic se movió de tab.
+        await qc.invalidateQueries({ queryKey: ['admin', 'actualidad', 'topics'] });
       } else {
         toast.error(res.error || "No se pudo actualizar el estado");
       }
@@ -63,20 +83,21 @@ export function useAdminActualidad() {
     try {
       setExtracting(true);
       const { data: { session } } = await supabase.auth.getSession();
-      
+
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/actualidad-bot`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${session?.access_token}`
         }
       });
-      
+
       if (!res.ok) {
          throw new Error("HTTP " + res.status);
       }
-      
+
+      // Activa pestaña 'detected' (donde caen los nuevos) y refresca.
       setActiveTab('detected');
-      await fetchTopics();
+      await qc.invalidateQueries({ queryKey: ['admin', 'actualidad', 'topics'] });
     } catch(e) {
       logger.error("Error triggering bot", { domain: 'admin_actions', origin: 'AdminActualidad' }, e);
       toast.error("No se pudieron extraer las noticias");
@@ -87,7 +108,7 @@ export function useAdminActualidad() {
 
   // Mass Actions
   const toggleSelection = useCallback((id: string) => {
-    setSelectedTopicIds(prev => 
+    setSelectedTopicIds(prev =>
       prev.includes(id) ? prev.filter(tid => tid !== id) : [...prev, id]
     );
   }, []);
@@ -100,18 +121,14 @@ export function useAdminActualidad() {
     setSelectedTopicIds([]);
   }, []);
 
-  const { showToast } = useToast();
-
   const deleteSelectedTopics = async () => {
     if (!selectedTopicIds.length) return;
-    
-    // Optimistic UI approach or show a loading state 
-    // Here we will just perform it and block standard UI slightly
-    setLoading(true);
+
+    setMutationLoading(true);
     try {
       const success = await adminActualidadService.deleteTopics(selectedTopicIds);
       if (success) {
-        setTopics(prev => prev.filter(t => !selectedTopicIds.includes(t.id)));
+        await qc.invalidateQueries({ queryKey: ['admin', 'actualidad', 'topics'] });
         setSelectedTopicIds([]);
         showToast("Los temas seleccionados se han borrado exitosamente.", 'success');
       } else {
@@ -121,7 +138,7 @@ export function useAdminActualidad() {
       logger.error("Error deleting selected topics", { domain: 'admin_actions', origin: 'AdminActualidad' }, err);
       showToast("Ocurrió un error excepcional al intentar borrar.", 'error');
     } finally {
-      setLoading(false);
+      setMutationLoading(false);
     }
   };
 
@@ -161,7 +178,7 @@ export function useAdminActualidad() {
     topics,
     loading,
     activeTab,
-    setActiveTab,
+    setActiveTab: handleSetActiveTab,
     categoryFilter,
     setCategoryFilter,
     sourceFilter,
