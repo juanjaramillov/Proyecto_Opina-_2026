@@ -24,10 +24,17 @@ export async function typedRpc<TResult>(
     // Cast necesario: la RPC no existe en el tipo generado. Este es el único
     // `as unknown as` intencional — toda la deuda de casts RPC repetidos en
     // servicios se canaliza por acá.
-    const rpc = supabase.rpc as unknown as (
-        fn: string,
-        args?: Record<string, unknown>
-    ) => Promise<{ data: unknown; error: PostgrestError | null }>;
-    const { data, error } = await rpc(fnName, args);
+    //
+    // ⚠️ Llamada INLINE (no extraer a variable). Si se hace
+    //   `const rpc = supabase.rpc as ...; await rpc(...)` se pierde el `this`
+    // del método y el cuerpo interno de Supabase truena con
+    //   "Cannot read properties of undefined (reading 'rest')"
+    // porque `this.rest.rpc(...)` queda con this=undefined.
+    const { data, error } = await (
+        supabase.rpc as unknown as (
+            fn: string,
+            args?: Record<string, unknown>
+        ) => Promise<{ data: unknown; error: PostgrestError | null }>
+    ).call(supabase, fnName, args);
     return { data: data as TResult | null, error };
 }
