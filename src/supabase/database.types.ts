@@ -1,3 +1,9 @@
+/**
+ * AUTO-GENERATED FILE.
+ * Source of truth: Supabase CLI.
+ * Do not edit manually.
+ * Manual overrides must live outside this file in `database-manual-overrides.ts`.
+ */
 export type Json =
   | string
   | number
@@ -7,6 +13,11 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.5"
+  }
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -70,42 +81,72 @@ export type Database = {
         }
         Relationships: []
       }
-      actualidad_topics: {
+      admin_audit_log: {
         Row: {
-          categoria: string
-          contexto_corto: string
-          created_at: string | null
-          estado: string | null
-          fecha_fin: string | null
-          fecha_inicio: string | null
+          action: string
+          actor_email: string | null
+          actor_user_id: string | null
+          created_at: string
           id: string
-          pregunta_impacto: Json
-          pregunta_postura: Json
-          titulo: string
+          payload: Json
+          target_id: string | null
+          target_type: string | null
         }
         Insert: {
-          categoria: string
-          contexto_corto: string
-          created_at?: string | null
-          estado?: string | null
-          fecha_fin?: string | null
-          fecha_inicio?: string | null
+          action: string
+          actor_email?: string | null
+          actor_user_id?: string | null
+          created_at?: string
           id?: string
-          pregunta_impacto: Json
-          pregunta_postura: Json
-          titulo: string
+          payload?: Json
+          target_id?: string | null
+          target_type?: string | null
         }
         Update: {
-          categoria?: string
-          contexto_corto?: string
-          created_at?: string | null
-          estado?: string | null
-          fecha_fin?: string | null
-          fecha_inicio?: string | null
+          action?: string
+          actor_email?: string | null
+          actor_user_id?: string | null
+          created_at?: string
           id?: string
-          pregunta_impacto?: Json
-          pregunta_postura?: Json
-          titulo?: string
+          payload?: Json
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: []
+      }
+      admin_audit_log_archive: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_user_id: string | null
+          archived_at: string
+          created_at: string
+          id: string
+          payload: Json
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_user_id?: string | null
+          archived_at?: string
+          created_at: string
+          id: string
+          payload?: Json
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_user_id?: string | null
+          archived_at?: string
+          created_at?: string
+          id?: string
+          payload?: Json
+          target_id?: string | null
+          target_type?: string | null
         }
         Relationships: []
       }
@@ -1547,6 +1588,7 @@ export type Database = {
           city: string | null
           country_code: string | null
           created_at: string | null
+          elo_modifier_pct: number | null
           elo_score: number | null
           id: string
           image_url: string | null
@@ -1569,6 +1611,7 @@ export type Database = {
           city?: string | null
           country_code?: string | null
           created_at?: string | null
+          elo_modifier_pct?: number | null
           elo_score?: number | null
           id?: string
           image_url?: string | null
@@ -1591,6 +1634,7 @@ export type Database = {
           city?: string | null
           country_code?: string | null
           created_at?: string | null
+          elo_modifier_pct?: number | null
           elo_score?: number | null
           id?: string
           image_url?: string | null
@@ -2640,6 +2684,27 @@ export type Database = {
         }
         Relationships: []
       }
+      pilot_access_attempts: {
+        Row: {
+          attempted_at: string
+          id: number
+          succeeded: boolean
+          user_id: string
+        }
+        Insert: {
+          attempted_at?: string
+          id?: number
+          succeeded: boolean
+          user_id: string
+        }
+        Update: {
+          attempted_at?: string
+          id?: number
+          succeeded?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
       platform_alerts: {
         Row: {
           created_at: string | null
@@ -3057,6 +3122,7 @@ export type Database = {
           highlights_payload: Json | null
           id: string
           mode: string
+          publication_seq: number
           published_at: string
           updated_by: string | null
         }
@@ -3066,6 +3132,7 @@ export type Database = {
           highlights_payload?: Json | null
           id?: string
           mode?: string
+          publication_seq?: number
           published_at?: string
           updated_by?: string | null
         }
@@ -3075,6 +3142,7 @@ export type Database = {
           highlights_payload?: Json | null
           id?: string
           mode?: string
+          publication_seq?: number
           published_at?: string
           updated_by?: string | null
         }
@@ -3269,6 +3337,7 @@ export type Database = {
           opinascore: number | null
           option_id: string | null
           origin_element: string | null
+          origin_module: string | null
           profile_completeness: number | null
           question_id: string | null
           question_version: number | null
@@ -3326,6 +3395,7 @@ export type Database = {
           opinascore?: number | null
           option_id?: string | null
           origin_element?: string | null
+          origin_module?: string | null
           profile_completeness?: number | null
           question_id?: string | null
           question_version?: number | null
@@ -3383,6 +3453,7 @@ export type Database = {
           opinascore?: number | null
           option_id?: string | null
           origin_element?: string | null
+          origin_module?: string | null
           profile_completeness?: number | null
           question_id?: string | null
           question_version?: number | null
@@ -3814,47 +3885,6 @@ export type Database = {
         }
         Relationships: []
       }
-      user_actualidad_responses: {
-        Row: {
-          categoria_tema: string
-          created_at: string | null
-          id: string
-          respuesta_impacto: string
-          respuesta_postura: string
-          signal_type: string | null
-          tema_id: string
-          user_id: string
-        }
-        Insert: {
-          categoria_tema: string
-          created_at?: string | null
-          id?: string
-          respuesta_impacto: string
-          respuesta_postura: string
-          signal_type?: string | null
-          tema_id: string
-          user_id: string
-        }
-        Update: {
-          categoria_tema?: string
-          created_at?: string | null
-          id?: string
-          respuesta_impacto?: string
-          respuesta_postura?: string
-          signal_type?: string | null
-          tema_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_actualidad_responses_tema_id_fkey"
-            columns: ["tema_id"]
-            isOneToOne: false
-            referencedRelation: "actualidad_topics"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       user_daily_metrics: {
         Row: {
           anon_id: string | null
@@ -4048,6 +4078,45 @@ export type Database = {
           response_value?: string
           signal_type?: string | null
           sub_category?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_sessions: {
+        Row: {
+          created_at: string
+          device_hash: string | null
+          device_label: string | null
+          id: string
+          ip_addr: unknown
+          last_seen_at: string
+          revoked_at: string | null
+          revoked_reason: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_hash?: string | null
+          device_label?: string | null
+          id?: string
+          ip_addr?: unknown
+          last_seen_at?: string
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_hash?: string | null
+          device_label?: string | null
+          id?: string
+          ip_addr?: unknown
+          last_seen_at?: string
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          user_agent?: string | null
           user_id?: string
         }
         Relationships: []
@@ -4989,9 +5058,42 @@ export type Database = {
         Args: { p_version_id: string }
         Returns: undefined
       }
+      admin_actualidad_create_topic: {
+        Args: { p_questions?: Json; p_topic: Json }
+        Returns: string
+      }
+      admin_actualidad_delete_topics: {
+        Args: { p_ids: string[] }
+        Returns: number
+      }
+      admin_actualidad_get_topic_full: { Args: { p_id: string }; Returns: Json }
+      admin_actualidad_mark_edited: { Args: { p_id: string }; Returns: boolean }
+      admin_actualidad_update_editorial: {
+        Args: { p_id: string; p_mark_admin_edited?: boolean; p_updates: Json }
+        Returns: boolean
+      }
+      admin_actualidad_update_status: {
+        Args: { p_id: string; p_next_status: string }
+        Returns: Json
+      }
+      admin_actualidad_upsert_questions: {
+        Args: { p_questions: Json; p_topic_id: string }
+        Returns: boolean
+      }
       admin_delete_invitation: {
         Args: { p_invite_id: string }
         Returns: undefined
+      }
+      admin_find_multi_account_devices: {
+        Args: { p_min_users?: number; p_since_days?: number }
+        Returns: {
+          device_hash: string
+          distinct_users: number
+          first_seen_at: string
+          has_active: boolean
+          last_seen_at: string
+          total_sessions: number
+        }[]
       }
       admin_generate_invites: {
         Args: {
@@ -5043,6 +5145,30 @@ export type Database = {
           event_name: string
           id: string
           severity: string
+          user_id: string
+        }[]
+      }
+      admin_list_audit_log: {
+        Args: { p_action?: string; p_limit?: number }
+        Returns: {
+          action: string
+          actor_email: string
+          actor_user_id: string
+          created_at: string
+          id: string
+          payload: Json
+          target_id: string
+          target_type: string
+        }[]
+      }
+      admin_list_device_users: {
+        Args: { p_device_hash: string; p_since_days?: number }
+        Returns: {
+          first_seen_at: string
+          has_active: boolean
+          last_seen_at: string
+          sessions_count: number
+          user_email: string
           user_id: string
         }[]
       }
@@ -5119,6 +5245,10 @@ export type Database = {
         }[]
       }
       admin_revoke_invite: { Args: { p_code: string }; Returns: Json }
+      admin_revoke_user_sessions: {
+        Args: { p_reason?: string; p_user_id: string }
+        Returns: Json
+      }
       admin_search_battles: {
         Args: {
           limit_count?: number
@@ -5157,6 +5287,10 @@ export type Database = {
         Args: { p_invite_id: string; p_status: string }
         Returns: undefined
       }
+      admin_set_user_role: {
+        Args: { p_new_role: string; p_target_user_id: string }
+        Returns: Json
+      }
       antifraud_auto_decay: { Args: never; Returns: undefined }
       api_get_ranking: {
         Args: { p_api_key: string; p_battle_slug: string }
@@ -5167,6 +5301,10 @@ export type Database = {
           snapshot_at: string
           total_weight: number
         }[]
+      }
+      archive_admin_audit_log: {
+        Args: { retention_days?: number }
+        Returns: number
       }
       b2b_list_rankings: {
         Args: {
@@ -5186,6 +5324,14 @@ export type Database = {
           segment_hash: string
           signals_count: number
           snapshot_bucket: string
+        }[]
+      }
+      battle_preference_as_of: {
+        Args: { p_as_of?: string; p_battle_id: string }
+        Returns: {
+          option_id: string
+          share_pct: number
+          vote_count: number
         }[]
       }
       bootstrap_user_after_signup: {
@@ -5220,6 +5366,20 @@ export type Database = {
         Args: { p_created_at: string; p_half_life_days?: number }
         Returns: number
       }
+      calculate_temporal_movie: {
+        Args: { p_battle_id: string; p_bucket_type?: string }
+        Returns: {
+          aceleracion: number
+          n_eff: number
+          option_id: string
+          option_label: string
+          persistencia: number
+          share_pct: number
+          tendencia: number
+          time_bucket: string
+          volatilidad: number
+        }[]
+      }
       calculate_user_segment_comparison: {
         Args: { p_user_id: string }
         Returns: {
@@ -5251,6 +5411,7 @@ export type Database = {
         Returns: number
       }
       count_my_versus_signals: { Args: never; Returns: number }
+      current_user_is_admin: { Args: never; Returns: boolean }
       detect_antifraud_high_velocity: {
         Args: { p_window?: string }
         Returns: undefined
@@ -5271,6 +5432,23 @@ export type Database = {
         }[]
       }
       detect_signal_spike: { Args: { p_user: string }; Returns: boolean }
+      enforce_pilot_access_rate_limit: { Args: never; Returns: undefined }
+      enforce_signal_rate_limit: {
+        Args: { p_anon_id: string; p_module_type: string; p_user_id: string }
+        Returns: undefined
+      }
+      entity_ranking_as_of: {
+        Args: { p_as_of?: string; p_category_slug?: string; p_limit?: number }
+        Returns: {
+          entity_id: string
+          entity_name: string
+          losses_count: number
+          preference_share: number
+          total_comparisons: number
+          win_rate: number
+          wins_count: number
+        }[]
+      }
       explain_opinascore: {
         Args: { p_user_id: string }
         Returns: {
@@ -5902,6 +6080,7 @@ export type Database = {
         }[]
       }
       get_user_ranking: { Args: never; Returns: Json }
+      grant_pilot_access: { Args: { p_code: string }; Returns: boolean }
       healthcheck_baseline: {
         Args: never
         Returns: {
@@ -5947,6 +6126,7 @@ export type Database = {
         }
         Returns: undefined
       }
+      is_admin: { Args: never; Returns: boolean }
       is_admin_user: { Args: never; Returns: boolean }
       is_b2b_user: { Args: never; Returns: boolean }
       kpi_engagement_quality: {
@@ -5988,6 +6168,26 @@ export type Database = {
           signals_delta: number
           time_bucket: string
         }[]
+      }
+      list_my_active_sessions: {
+        Args: never
+        Returns: {
+          created_at: string
+          device_label: string
+          is_current: boolean
+          last_seen_at: string
+          session_id: string
+          user_agent: string
+        }[]
+      }
+      log_admin_action: {
+        Args: {
+          p_action: string
+          p_payload?: Json
+          p_target_id?: string
+          p_target_type?: string
+        }
+        Returns: string
       }
       log_app_event: {
         Args: {
@@ -6043,6 +6243,7 @@ export type Database = {
         Args: { positive_votes: number; total_votes: number; z_value?: number }
         Returns: number
       }
+      ping_user_session: { Args: { p_session_id: string }; Returns: Json }
       process_loyalty_action: {
         Args: { p_action_type: string; p_user_id: string }
         Returns: undefined
@@ -6173,8 +6374,30 @@ export type Database = {
         Args: { p_window_days?: number }
         Returns: undefined
       }
+      register_user_session:
+        | {
+            Args: {
+              p_device_hash?: string
+              p_device_label?: string
+              p_user_agent?: string
+            }
+            Returns: Json
+          }
+        | {
+            Args: { p_device_label: string; p_user_agent: string }
+            Returns: Json
+          }
+      release_stale_invite_claims: {
+        Args: { p_ttl_minutes?: number }
+        Returns: Json
+      }
       resolve_battle_context: { Args: { p_battle_slug: string }; Returns: Json }
       resolve_entity_id: { Args: { p_any_id: string }; Returns: string }
+      revoke_idle_user_sessions: {
+        Args: { p_idle_days?: number }
+        Returns: Json
+      }
+      revoke_my_session: { Args: { p_session_id: string }; Returns: Json }
       rollup_signal_events_incremental: {
         Args: { p_max_lag_minutes?: number }
         Returns: undefined
@@ -6188,6 +6411,10 @@ export type Database = {
         Returns: undefined
       }
       set_nickname_once: { Args: { p_nickname: string }; Returns: undefined }
+      signal_key_for: {
+        Args: { se: Database["public"]["Tables"]["signal_events"]["Row"] }
+        Returns: string
+      }
       track_module_interest: {
         Args: {
           p_client_event_id?: string
@@ -6207,6 +6434,84 @@ export type Database = {
         Returns: undefined
       }
       update_trust_score: { Args: { p_user: string }; Returns: undefined }
+      user_vote_as_of: {
+        Args: { p_as_of?: string; p_signal_key: string; p_user_id: string }
+        Returns: {
+          age_bucket: string | null
+          algorithm_version: string | null
+          algorithm_version_id: string | null
+          anon_id: string
+          attribute_id: string | null
+          battle_id: string | null
+          battle_instance_id: string | null
+          client_event_id: string | null
+          commune: string | null
+          computed_weight: number | null
+          content_snapshot_id: string | null
+          context_id: string | null
+          country: string | null
+          created_at: string
+          device_hash: string | null
+          display_order: number | null
+          effective_weight: number
+          entity_id: string | null
+          entity_type: string | null
+          event_status: string | null
+          gender: string | null
+          id: string
+          influence_level_snapshot: string | null
+          interaction_outcome: string | null
+          left_entity_id: string | null
+          meta: Json | null
+          metadata: Json
+          module_type: string | null
+          occurred_at: string
+          opinascore: number | null
+          option_id: string | null
+          origin_element: string | null
+          origin_module: string | null
+          profile_completeness: number | null
+          question_id: string | null
+          question_version: number | null
+          raw_weight: number
+          region: string | null
+          response_time_ms: number | null
+          right_entity_id: string | null
+          selected_entity_id: string | null
+          sequence_id: string | null
+          sequence_order: number | null
+          session_id: string | null
+          signal_id: string
+          signal_type_id: number | null
+          signal_weight: number | null
+          source_module: string | null
+          source_record_id: string | null
+          user_id: string | null
+          user_tier: string | null
+          value_boolean: boolean | null
+          value_json: Json
+          value_numeric: number | null
+          value_text: string | null
+          verification_level_id: number | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "signal_events"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      user_vote_history_for: {
+        Args: { p_signal_key: string; p_user_id: string }
+        Returns: {
+          created_at: string
+          entity_id: string
+          event_id: string
+          is_current: boolean
+          option_id: string
+          value_json: Json
+        }[]
+      }
       validate_api_key: { Args: { p_key: string }; Returns: string }
       validate_invitation: { Args: { p_code: string }; Returns: boolean }
       validate_invite_token: { Args: { p_invite_id: string }; Returns: boolean }
@@ -6369,4 +6674,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-
