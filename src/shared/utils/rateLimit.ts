@@ -1,5 +1,12 @@
 /**
  * Simple client-side rate limiting helper using localStorage.
+ *
+ * F-10 (auditoría 2026-04-26) reviewed: localStorage acceptable here.
+ * Es un anti-spam best-effort para UX (evita doble-submit del mismo botón).
+ * NO es un control de seguridad — el rate limit real vive server-side
+ * (signal_rate_limiter, edge functions). Un atacante que limpie localStorage
+ * solo se ve a sí mismo bypasseando el delay del cliente; el servidor sigue
+ * aplicando los límites.
  */
 export const rateLimit = {
     /**

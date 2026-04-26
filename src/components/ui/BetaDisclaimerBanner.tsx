@@ -4,6 +4,9 @@ export interface BetaDisclaimerBannerProps {
     /**
      * Slug corto del módulo (e.g. 'lugares', 'servicios'). Se usa como key
      * para recordar la preferencia de descarte del usuario en localStorage.
+     *
+     * F-10 reviewed: localStorage acceptable — es solo una preferencia de UI
+     * ("usuario ya cerró este banner para este módulo"), sin PII ni secretos.
      */
     moduleSlug: string;
     /**

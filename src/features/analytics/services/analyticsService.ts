@@ -30,12 +30,28 @@ export type QueuedSystemEvent = {
 };
 
 // --- SYSTEM TELEMETRY QUEUE LOGIC ---
-const LS_QUEUE_KEY = 'opina_telemetry_queue_v2';
+//
+// F-10 (auditoría 2026-04-26): el queue migró de localStorage a sessionStorage.
+// Los eventos contienen `path` y `search` de URLs visitadas — si bien no son
+// PII ni secretos, no hay valor en persistirlos cross-session. sessionStorage
+// se vacía al cerrar la pestaña → reduce la ventana de exposición ante XSS.
+// La pérdida de eventos no enviados al cerrar tab es aceptable: ya hay un
+// MAX_QUEUE=50 que descarta lo viejo, son eventos de telemetría no críticos.
+const STORAGE_KEY = 'opina_telemetry_queue_v2';
+const LEGACY_LS_KEY = 'opina_telemetry_queue_v2'; // misma key en localStorage
 const MAX_QUEUE = 50;
+
+// Limpieza one-shot del legacy localStorage (queue antigua quedó huérfana al
+// migrar a sessionStorage). Idempotente: si no hay nada, no rompe.
+try {
+  if (typeof localStorage !== 'undefined') {
+    localStorage.removeItem(LEGACY_LS_KEY);
+  }
+} catch { /* noop — SSR / storage deshabilitado */ }
 
 function readQueue(): QueuedSystemEvent[] {
   try {
-    const raw = localStorage.getItem(LS_QUEUE_KEY);
+    const raw = sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? (parsed as QueuedSystemEvent[]).slice(0, MAX_QUEUE) : [];
@@ -46,7 +62,7 @@ function readQueue(): QueuedSystemEvent[] {
 
 function writeQueue(q: QueuedSystemEvent[]) {
   try {
-    localStorage.setItem(LS_QUEUE_KEY, JSON.stringify(q.slice(0, MAX_QUEUE)));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(q.slice(0, MAX_QUEUE)));
   } catch { /* noop */ }
 }
 

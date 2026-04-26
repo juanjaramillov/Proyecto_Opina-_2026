@@ -21,6 +21,8 @@ export const moduleInterestService = {
                 p_module_key: metadata.module_slug,
                 p_event_type: eventType ?? 'open',
                 p_client_event_id: clientEventId,
+                // F-10 reviewed: opina_device_hash es un fingerprint opaco
+                // (UUID legacy o hash determinístico SHA-256). No contiene PII.
                 p_device_hash: localStorage.getItem('opina_device_hash') || undefined,
                 p_metadata: (metadata ?? {}) as unknown as TrackModuleInterestArgs['p_metadata']
             };

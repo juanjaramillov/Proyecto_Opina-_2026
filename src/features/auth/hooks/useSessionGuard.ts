@@ -26,6 +26,15 @@ import { computeDeterministicDeviceHash } from '../../../lib/deviceFingerprint';
  *
  * Debe montarse UNA SOLA VEZ en el árbol — típicamente dentro del
  * AuthProvider. Ver `docs/architecture/multi-session-lock.md`.
+ *
+ * F-10 (auditoría 2026-04-26) reviewed: el `session_id` en localStorage es
+ * un UUID custom de la tabla `user_sessions`, NO el JWT de Supabase Auth
+ * (que la lib `@supabase/supabase-js` gestiona aparte). Tener este UUID por
+ * sí solo no permite autenticarse — la RPC `ping_user_session` valida que
+ * el caller tenga sesión Supabase válida y que el session_id le pertenezca.
+ * Persistencia en localStorage es necesaria para coordinar pestañas del
+ * mismo origin (sessionStorage rompería el invariante "una fila por
+ * navegador" del multi-session lock).
  */
 
 const SESSION_ID_KEY = 'opina:session_id';

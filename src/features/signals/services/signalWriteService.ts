@@ -34,6 +34,11 @@ export const signalWriteService = {
         }
 
         // Lógica Device Hash robustecida (Audit Fix: Device Hash Débil)
+        // F-10 reviewed: opina_device_hash es un fingerprint legacy
+        // (randomUUID + browser fingerprint hex). No contiene PII ni
+        // secretos. El hash determinístico nuevo vive en lib/deviceFingerprint.ts
+        // y se usa en user_sessions; este legacy queda para signal_events
+        // existentes (no se toca para no invalidar bans previos).
         let deviceHash = localStorage.getItem('opina_device_hash');
         if (!deviceHash) {
             const getBrowserFingerprint = () => {
