@@ -35,28 +35,28 @@ export function MomentumBar({
                 <div className="flex flex-col">
                     <span className="text-sm font-black text-ink flex items-center gap-1.5">
                         {entityAName}
-                        {trendA === 'up' && <span className="material-symbols-outlined text-[14px] text-emerald-500">trending_up</span>}
-                        {trendA === 'down' && <span className="material-symbols-outlined text-[14px] text-rose-500">trending_down</span>}
+                        {trendA === 'up' && <span className="material-symbols-outlined text-[14px] text-accent">trending_up</span>}
+                        {trendA === 'down' && <span className="material-symbols-outlined text-[14px] text-danger-500">trending_down</span>}
                     </span>
-                    <span className="text-xl font-black tracking-tighter text-blue-600">{Math.round(scoreA)}%</span>
+                    <span className="text-xl font-black tracking-tighter text-brand-600">{Math.round(scoreA)}%</span>
                 </div>
                 <div className="flex flex-col items-end">
                     <span className="text-sm font-black text-ink flex items-center gap-1.5">
-                        {trendB === 'down' && <span className="material-symbols-outlined text-[14px] text-rose-500">trending_down</span>}
-                        {trendB === 'up' && <span className="material-symbols-outlined text-[14px] text-emerald-500">trending_up</span>}
+                        {trendB === 'down' && <span className="material-symbols-outlined text-[14px] text-danger-500">trending_down</span>}
+                        {trendB === 'up' && <span className="material-symbols-outlined text-[14px] text-accent">trending_up</span>}
                         {entityBName}
                     </span>
-                    <span className="text-xl font-black tracking-tighter text-emerald-600">{Math.round(scoreB)}%</span>
+                    <span className="text-xl font-black tracking-tighter text-accent">{Math.round(scoreB)}%</span>
                 </div>
             </div>
             
             <div className="relative h-4 w-full bg-slate-100 rounded-full overflow-hidden flex shadow-inner">
                 <div 
-                    className="h-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                    className="h-full bg-gradient-to-r from-brand-500 to-brand-400 transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
                     style={{ width: `${animatedScore}%` }}
                 />
                 <div 
-                    className="h-full bg-gradient-to-l from-emerald-500 to-emerald-400 transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                    className="h-full bg-gradient-to-l from-accent-500 to-accent-400 transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
                     style={{ width: `${100 - animatedScore}%` }}
                 />
                 {/* Separador Central */}

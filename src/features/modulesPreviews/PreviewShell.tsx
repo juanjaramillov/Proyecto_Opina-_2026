@@ -57,18 +57,18 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
         });
     };
     const toneColors: Record<string, string> = {
-        primary: 'bg-primary-50 text-primary-600 ring-primary-50/50',
-        rose: 'bg-rose-50 text-rose-600 ring-rose-50/50',
-        amber: 'bg-blue-50 text-blue-600 ring-blue-50/50',
-        emerald: 'bg-emerald-50 text-emerald-600 ring-emerald-50/50',
+        primary: 'bg-brand/10 text-brand ring-brand-50/50',
+        rose: 'bg-danger-50 text-danger-600 ring-danger-50/50',
+        amber: 'bg-brand-50 text-brand-600 ring-brand-50/50',
+        emerald: 'bg-accent/10 text-accent ring-accent-50/50',
         slate: 'bg-slate-50 text-slate-600 ring-slate-50/50',
     };
 
     const toneButton: Record<string, string> = {
-        primary: 'bg-primary-600 hover:bg-primary-700 shadow-primary-200',
-        rose: 'bg-rose-600 hover:bg-rose-700 shadow-rose-200',
-        amber: 'bg-blue-600 hover:bg-blue-700 shadow-blue-200',
-        emerald: 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-200',
+        primary: 'bg-brand hover:bg-brand shadow-brand-200',
+        rose: 'bg-danger-600 hover:bg-danger-700 shadow-danger-200',
+        amber: 'bg-brand-600 hover:bg-brand-700 shadow-brand-200',
+        emerald: 'bg-accent hover:bg-accent-700 shadow-accent-200',
         slate: 'bg-slate-900 hover:bg-slate-800 shadow-slate-200',
     };
 
@@ -115,7 +115,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
                         <ul className="space-y-2">
                             {bullets.slice(0, 3).map((bullet, i) => (
                                 <li key={i} className="flex items-start gap-2 text-xs font-bold text-slate-600">
-                                    <span className="material-symbols-outlined text-sm text-emerald-500 mt-0.5">check_circle</span>
+                                    <span className="material-symbols-outlined text-sm text-accent mt-0.5">check_circle</span>
                                     <span>{bullet}</span>
                                 </li>
                             ))}
@@ -141,7 +141,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
                 {/* Overlay Indicator */}
                 <div className="absolute top-4 right-4 z-20">
                     <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-sm">
-                        <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
+                        <span className="w-2 h-2 bg-brand rounded-full animate-pulse" />
                         <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Vista Conceptual</span>
                     </div>
                 </div>

@@ -98,7 +98,7 @@ export const sessionService = {
             if (error) throw error;
 
             // 1a) Añadir los votos en el outbox local
-            const queuedVotes = getQueuedVotesForSession(sessionId);
+            const queuedVotes = await getQueuedVotesForSession(sessionId);
 
             const voteRows = (rows || []) as Array<{ option_id: string | null; votes_count: number }>;
 

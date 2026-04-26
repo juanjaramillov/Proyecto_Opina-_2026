@@ -1,23 +1,36 @@
+import { useModalA11y } from "../hooks/useModalA11y";
+
 interface Props {
     onClose: () => void;
     onCompleteProfile: () => void;
 }
 
 export function ProfileRequiredModal({ onClose, onCompleteProfile }: Props) {
+    // Fase 5.2 — este modal no tiene prop `isOpen`; se renderiza condicionalmente
+    // desde el padre, así que al montarse ya está abierto.
+    const containerRef = useModalA11y<HTMLDivElement>({ isOpen: true, onClose });
+
     return (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+        <div
+            ref={containerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="profile-required-title"
+            aria-describedby="profile-required-desc"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
+        >
             <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform transition-all">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 mx-auto">
-                    <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-16 h-16 bg-brand/10 rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <svg className="w-8 h-8 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                 </div>
 
-                <h2 className="text-2xl font-bold text-slate-900 mb-4 text-center">
+                <h2 id="profile-required-title" className="text-2xl font-bold text-slate-900 mb-4 text-center">
                     Completa tu perfil
                 </h2>
 
-                <p className="text-slate-600 mb-8 text-center leading-relaxed">
+                <p id="profile-required-desc" className="text-slate-600 mb-8 text-center leading-relaxed">
                     Para garantizar la calidad de la data y una segmentación real, necesitamos conocer algunos datos básicos antes de que emitas señales.
                 </p>
 

@@ -1,40 +1,16 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import './index.css';
 import App from './App';
 import { logger } from './lib/logger';
+import { installWindowErrorBridge } from './lib/observability/windowErrorBridge';
 import { ToastProvider } from './components/ui/ToastProvider';
+import { Toaster } from 'react-hot-toast';
 import { startSignalOutbox } from './features/signals/services/signalOutbox';
 
-class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean, error: Error | null }> {
-    constructor(props: { children: ReactNode }) {
-        super(props);
-        this.state = { hasError: false, error: null };
-    }
-
-    static getDerivedStateFromError(error: Error) {
-        return { hasError: true, error };
-    }
-
-    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        logger.error("Uncaught error:", error, errorInfo);
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return (
-                <div style={{ padding: '20px', textAlign: 'center' }}>
-                    <h1>Algo salió mal.</h1>
-                    <p>{this.state.error?.message}</p>
-                    <button onClick={() => window.location.reload()}>Recargar página</button>
-                </div>
-            );
-        }
-        return this.props.children;
-    }
-}
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
@@ -95,6 +71,34 @@ if ((!supabaseUrl || !supabaseAnonKey || supabaseUrl === 'YOUR_SUPABASE_URL' || 
         </div>
     );
 } else {
+    // Fase 5.3 — observabilidad baseline: puente de `window.onerror` y
+    // `unhandledrejection` al `ErrorReporter` activo. Reemplaza el listener
+    // ad-hoc previo; se monta una sola vez gracias a la guarda interna.
+    installWindowErrorBridge();
+
+    if (import.meta.env.VITE_SENTRY_DSN) {
+        import('@sentry/react').then((Sentry) => {
+            Sentry.init({
+                dsn: import.meta.env.VITE_SENTRY_DSN,
+                environment: import.meta.env.MODE,
+                tracesSampleRate: 1.0, // In production this should be adjusted
+            });
+            import('./lib/observability/errorReporter').then(({ setErrorReporter }) => {
+                import('./lib/observability/SentryReporter').then(({ SentryReporter }) => {
+                    setErrorReporter(new SentryReporter());
+                });
+            });
+        }).catch(err => logger.error("Failed to load Sentry", err));
+    }
+
+    if (import.meta.env.VITE_NARRATIVE_PROVIDER === 'llm') {
+        import('./features/b2b/engine/LLMNarrativeProvider').then(({ LLMNarrativeProvider }) => {
+            import('./features/b2b/engine/narrativeProvider').then(({ setNarrativeProvider }) => {
+                setNarrativeProvider(new LLMNarrativeProvider());
+            });
+        }).catch(err => logger.error("Failed to load LLMNarrativeProvider", err));
+    }
+
     startSignalOutbox();
     root.render(
         <React.StrictMode>
@@ -103,6 +107,7 @@ if ((!supabaseUrl || !supabaseAnonKey || supabaseUrl === 'YOUR_SUPABASE_URL' || 
                     <HelmetProvider>
                         <ToastProvider>
                             <App />
+                            <Toaster position="bottom-center" toastOptions={{ className: 'text-sm font-bold', style: { zIndex: 9999 } }} />
                         </ToastProvider>
                     </HelmetProvider>
                 </ErrorBoundary>

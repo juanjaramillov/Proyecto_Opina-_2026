@@ -66,16 +66,16 @@ export function InsightsChartsSection({
     return (
         <div className="space-y-8">
             {/* MAGIC INSIGHTS (AI SUMMARY) */}
-            <div className="bg-gradient-to-br from-indigo-900 to-slate-900 p-6 rounded-3xl border border-indigo-800 shadow-lg relative overflow-hidden">
+            <div className="bg-gradient-to-br from-brand-900 to-slate-900 p-6 rounded-3xl border border-brand-800 shadow-lg relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                     <Zap className="w-24 h-24 text-white" />
                 </div>
                 <div className="flex items-center justify-between mb-4 relative z-10">
                     <div className="flex items-center gap-2">
-                        <div className="p-1.5 bg-indigo-500/20 rounded-lg">
-                            <Zap className="w-4 h-4 text-indigo-300" />
+                        <div className="p-1.5 bg-brand/20 rounded-lg">
+                            <Zap className="w-4 h-4 text-brand-300" />
                         </div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-indigo-300">Magic Insight B2B</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-brand-300">Magic Insight B2B</span>
                     </div>
                     {(!aiSummary || role === 'admin') && (
                         <button
@@ -89,7 +89,7 @@ export function InsightsChartsSection({
                 </div>
                 <div className="relative z-10">
                     {isGeneratingAi ? (
-                        <div className="text-sm font-medium text-indigo-200 animate-pulse italic">
+                        <div className="text-sm font-medium text-brand-200 animate-pulse italic">
                             El Analista IA está interpretando los datos de la evaluación...
                         </div>
                     ) : aiSummary ? (
@@ -97,7 +97,7 @@ export function InsightsChartsSection({
                             {aiSummary}
                         </p>
                     ) : (
-                        <p className="text-sm font-medium text-indigo-200/60 italic">
+                        <p className="text-sm font-medium text-brand-200/60 italic">
                             No hay un resumen generado. Haz clic en "Generar IA" para obtener un análisis mágico.
                         </p>
                     )}
@@ -109,7 +109,7 @@ export function InsightsChartsSection({
                 <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mt-8">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                         <div className="flex items-center gap-2">
-                            <Database className="w-4 h-4 text-indigo-500" />
+                            <Database className="w-4 h-4 text-brand" />
                             <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Estructura Competitiva</h4>
                         </div>
                         <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest border border-slate-200 px-2 py-1 rounded-md">
@@ -117,20 +117,19 @@ export function InsightsChartsSection({
                         </div>
                     </div>
                     <div className="space-y-4">
-                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                        {b2bAnalytics.analytics_payload?.map((opt: Record<string, any>, idx: number) => (
-                            <div key={idx} className={`p-4 rounded-2xl border ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-emerald-50/50 border-emerald-100' : 'bg-slate-50/50 border-slate-100'}`}>
+                        {b2bAnalytics.analytics_payload?.map((opt, idx) => (
+                            <div key={idx} className={`p-4 rounded-2xl border ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-accent-50/50 border-accent-100' : 'bg-slate-50/50 border-slate-100'}`}>
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="font-bold text-slate-800 text-sm">Opción {idx + 1} <span className="text-[10px] font-mono text-slate-400 font-normal ml-1">({String(opt.option_id).substring(0,8)})</span></span>
                                     <div className="flex items-baseline gap-1">
-                                        <span className="text-lg font-black text-indigo-600">{Math.round((opt.normalized_score || opt.raw_win_rate || 0) * 1000)}</span>
+                                        <span className="text-lg font-black text-brand">{Math.round((opt.normalized_score || opt.raw_win_rate || 0) * 1000)}</span>
                                         {opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag && (
-                                            <CheckCircle className="w-3 h-3 text-emerald-500 ml-1" />
+                                            <CheckCircle className="w-3 h-3 text-accent ml-1" />
                                         )}
                                     </div>
                                 </div>
                                 <div className="w-full bg-slate-200 rounded-full h-1.5 mb-2 overflow-hidden">
-                                    <div className={`h-1.5 rounded-full ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-emerald-500' : 'bg-indigo-400'}`} style={{ width: `${Math.max(0, Math.min(100, (opt.normalized_score || opt.raw_win_rate || 0) * 100))}%` }}></div>
+                                    <div className={`h-1.5 rounded-full ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-accent' : 'bg-brand-400'}`} style={{ width: `${Math.max(0, Math.min(100, (opt.normalized_score || opt.raw_win_rate || 0) * 100))}%` }}></div>
                                 </div>
                                 <div className="flex justify-between text-[9px] font-mono text-slate-400 font-bold mt-3 pt-2 border-t border-slate-200/50">
                                     <span>Límite Inferior: {((opt.lower_bound || 0) * 100).toFixed(1)}%</span>
@@ -141,20 +140,20 @@ export function InsightsChartsSection({
                     </div>
                     <div className="mt-5 p-3 bg-slate-50 rounded-xl border border-slate-100">
                         <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
-                            Las bandas (Lower/Upper) representan el intervalo de confianza de Wilson al 95%. Un <strong className="text-amber-600">empate técnico</strong> se declara cuando el límite inferior del líder se solapa matemáticamente con el límite superior del contendiente más cercano.
+                            Las bandas (Lower/Upper) representan el intervalo de confianza de Wilson al 95%. Un <strong className="text-warning-600">empate técnico</strong> se declara cuando el límite inferior del líder se solapa matemáticamente con el límite superior del contendiente más cercano.
                         </p>
                     </div>
                 </div>
             )}
 
             {/* VOLATILITY CARD WITH AREA CHART */}
-            <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-rose-50 border-rose-100' : volatility?.classification === 'moderate' ? 'bg-emerald-50 border-emerald-100' : 'bg-slate-50 border-slate-200'}`}>
+            <div className={`p-6 rounded-3xl border ${volatility?.classification === 'volatile' ? 'bg-danger-50 border-danger-100' : volatility?.classification === 'moderate' ? 'bg-accent/10 border-accent-100' : 'bg-slate-50 border-slate-200'}`}>
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                        <Zap className={`w-4 h-4 ${volatility?.classification === 'volatile' ? 'text-rose-500' : volatility?.classification === 'moderate' ? 'text-emerald-500' : 'text-slate-400'}`} />
+                        <Zap className={`w-4 h-4 ${volatility?.classification === 'volatile' ? 'text-danger-500' : volatility?.classification === 'moderate' ? 'text-accent' : 'text-slate-400'}`} />
                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Índice de Volatilidad (30D)</span>
                     </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${volatility?.classification === 'volatile' ? 'bg-rose-100 text-rose-600' : volatility?.classification === 'moderate' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${volatility?.classification === 'volatile' ? 'bg-danger-100 text-danger-600' : volatility?.classification === 'moderate' ? 'bg-accent/20 text-accent' : 'bg-slate-100 text-slate-500'}`}>
                         {volatility?.classification === 'volatile' ? 'Volátil' : volatility?.classification === 'moderate' ? 'Moderado' : 'Estable'}
                     </span>
                 </div>
@@ -193,13 +192,13 @@ export function InsightsChartsSection({
             </div>
 
             {/* POLARIZATION CARD */}
-            <div className={`p-6 rounded-3xl border ${polarization?.classification === 'polarized' ? 'bg-emerald-50 border-emerald-100' : polarization?.classification === 'competitive' ? 'bg-secondary-50 border-secondary-100' : 'bg-blue-50 border-blue-100'}`}>
+            <div className={`p-6 rounded-3xl border ${polarization?.classification === 'polarized' ? 'bg-accent/10 border-accent-100' : polarization?.classification === 'competitive' ? 'bg-accent-50 border-accent-100' : 'bg-brand-50 border-brand-100'}`}>
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                        <PieChart className={`w-4 h-4 ${polarization?.classification === 'polarized' ? 'text-emerald-500' : polarization?.classification === 'competitive' ? 'text-secondary-500' : 'text-slate-400'}`} />
+                        <PieChart className={`w-4 h-4 ${polarization?.classification === 'polarized' ? 'text-accent' : polarization?.classification === 'competitive' ? 'text-accent-500' : 'text-slate-400'}`} />
                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Índice de Polarización</span>
                     </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${polarization?.classification === 'polarized' ? 'bg-emerald-100 text-emerald-600' : polarization?.classification === 'competitive' ? 'bg-secondary-100 text-secondary-600' : 'bg-slate-100 text-slate-500'}`}>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${polarization?.classification === 'polarized' ? 'bg-accent/20 text-accent' : polarization?.classification === 'competitive' ? 'bg-accent-100 text-accent-600' : 'bg-slate-100 text-slate-500'}`}>
                         {polarization?.classification === 'polarized' ? 'Polarizado' : polarization?.classification === 'competitive' ? 'Competitivo' : 'Consenso'}
                     </span>
                 </div>
@@ -210,7 +209,7 @@ export function InsightsChartsSection({
             {/* SEGMENT INFLUENCE CARD */}
             <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                 <div className="flex items-center gap-2 mb-6">
-                    <Users className="w-4 h-4 text-emerald-500" />
+                    <Users className="w-4 h-4 text-accent" />
                     <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Top Influencers ({daysBack}D)</h4>
                 </div>
 
@@ -227,7 +226,7 @@ export function InsightsChartsSection({
                                     </span>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-xs font-black text-emerald-600">{(seg.contribution_percent || 0).toFixed(1)}%</div>
+                                    <div className="text-xs font-black text-accent">{(seg.contribution_percent || 0).toFixed(1)}%</div>
                                     <div className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Impacto</div>
                                 </div>
                             </div>
@@ -246,7 +245,7 @@ export function InsightsChartsSection({
             {/* EARLY SIGNAL / MOMENTUM CARD */}
             <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
                 <div className="flex items-center gap-2 mb-6">
-                    <Zap className="w-4 h-4 text-emerald-500" />
+                    <Zap className="w-4 h-4 text-accent" />
                     <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Señal Temprana (Momentum 6H)</h4>
                 </div>
 
@@ -258,8 +257,8 @@ export function InsightsChartsSection({
                                     <span className="text-[10px] font-bold text-slate-900 leading-tight">
                                         {item.option_label}
                                     </span>
-                                    <span className={`text-[9px] font-black uppercase tracking-tighter mt-1 ${item.classification === 'emerging' ? 'text-emerald-500' :
-                                        item.classification === 'cooling' ? 'text-rose-500' : 'text-slate-400'
+                                    <span className={`text-[9px] font-black uppercase tracking-tighter mt-1 ${item.classification === 'emerging' ? 'text-accent' :
+                                        item.classification === 'cooling' ? 'text-danger-500' : 'text-slate-400'
                                         }`}>
                                         {item.classification === 'emerging' ? 'Emergente ▲' :
                                             item.classification === 'cooling' ? 'Enfriándose ▼' : 'Estable'
@@ -267,7 +266,7 @@ export function InsightsChartsSection({
                                     </span>
                                 </div>
                                 <div className="text-right">
-                                    <div className={`text-xs font-black ${item.momentum_ratio > 1 ? 'text-emerald-600' : 'text-slate-600'}`}>
+                                    <div className={`text-xs font-black ${item.momentum_ratio > 1 ? 'text-accent' : 'text-slate-600'}`}>
                                         {(item.momentum_ratio || 0).toFixed(2)}x
                                     </div>
                                     <div className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Ratio</div>
@@ -298,7 +297,7 @@ export function InsightsChartsSection({
                                     if (selectedBattle) loadDepthData(selectedBattle, d);
                                 }}
                                 className={`px-3 py-1 text-[10px] font-black rounded-lg transition-all ${daysBack === d
-                                    ? 'bg-emerald-600 text-white shadow-md'
+                                    ? 'bg-accent text-white shadow-md'
                                     : 'text-slate-400 hover:text-slate-600'
                                     }`}
                             >
@@ -320,8 +319,8 @@ export function InsightsChartsSection({
                                         comp.current_score - comp.variation, // Score anterior aproximado
                                         comp.current_score
                                     ],
-                                    borderColor: idx === 0 ? '#4f46e5' : '#10b981',
-                                    backgroundColor: idx === 0 ? '#4f46e5' : '#10b981',
+                                    borderColor: idx === 0 ? '#2563EB' : '#10B981',
+                                    backgroundColor: idx === 0 ? '#2563EB' : '#10B981',
                                     tension: 0.1,
                                     borderWidth: 3,
                                     pointRadius: 4,
@@ -366,11 +365,11 @@ export function InsightsChartsSection({
                     {temporalComparison.map((comp, idx) => (
                         <div key={comp.option_id} className="bg-white p-3 rounded-2xl shadow-sm border border-slate-50">
                             <div className="flex items-center gap-2 mb-2">
-                                <div className={`w-2 h-2 rounded-full ${idx === 0 ? 'bg-primary-600' : 'bg-emerald-500'}`}></div>
+                                <div className={`w-2 h-2 rounded-full ${idx === 0 ? 'bg-brand' : 'bg-accent'}`}></div>
                                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Opción {idx + 1}</span>
                             </div>
                             <div className="text-sm font-black text-slate-900 mb-1">{comp.current_score.toLocaleString()}</div>
-                            <div className={`text-[10px] font-black flex items-center gap-1 ${comp.variation >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+                            <div className={`text-[10px] font-black flex items-center gap-1 ${comp.variation >= 0 ? 'text-accent' : 'text-danger-500'}`}>
                                 {comp.variation >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                                 {(comp.variation_percent || 0).toFixed(1)}% ({comp.variation > 0 ? '+' : ''}{comp.variation})
                             </div>
@@ -387,7 +386,7 @@ export function InsightsChartsSection({
                         <div key={idx} className="bg-slate-50/50 border border-slate-100 rounded-3xl p-6">
                             <div className="flex items-center justify-between mb-4">
                                 <span className="text-xs font-black text-slate-300 uppercase italic">Insight #{idx + 1}</span>
-                                <span className="text-[10px] font-bold text-primary-400 bg-primary-50 px-2 py-0.5 rounded uppercase">
+                                <span className="text-[10px] font-bold text-brand bg-brand/10 px-2 py-0.5 rounded uppercase">
                                     {insight.total_responses} respuestas
                                 </span>
                             </div>
@@ -402,7 +401,7 @@ export function InsightsChartsSection({
                             </div>
                             <div className="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-primary-500 rounded-full"
+                                    className="h-full bg-brand rounded-full"
                                     style={{ width: `${(insight.average_score / 10) * 100}% ` }}
                                 ></div>
                             </div>

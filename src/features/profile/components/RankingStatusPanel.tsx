@@ -22,44 +22,44 @@ export default function RankingStatusPanel({ ranking, loading }: RankingStatusPa
 
     // Interpretation logic based on percentile
     let statusContext = "Estás construyendo tu estatus en la red.";
-    let badgeColor = "bg-surface2 text-text-secondary border-stroke";
+    let badgeColor = "bg-surface2 text-slate-600 border-stroke";
     let badgeIcon = "military_tech";
     let badgeName = "Observador";
 
     if (ranking.percentile <= 5) {
         statusContext = "Perteneces a la élite absoluta de la red.";
-        badgeColor = "bg-primary/10 text-primary border-primary/20";
+        badgeColor = "bg-brand/10 text-brand border-brand/20";
         badgeIcon = "workspace_premium";
         badgeName = "Élite";
     } else if (ranking.percentile <= 15) {
         statusContext = "Estás entre los informantes de más alta fidelidad y alcance.";
-        badgeColor = "bg-secondary/10 text-secondary border-secondary/20";
+        badgeColor = "bg-accent/10 text-accent border-accent/20";
         badgeIcon = "star";
         badgeName = "Avanzado";
     } else if (ranking.percentile <= 35) {
         statusContext = "Tu constancia supera al promedio ampliamente.";
-        badgeColor = "bg-secondary/5 text-secondary border-stroke";
+        badgeColor = "bg-accent/5 text-accent border-stroke";
         badgeIcon = "trending_up";
         badgeName = "Destacado";
     } else if (ranking.percentile <= 60) {
         statusContext = "Tus señales son una parte sólida de la base rítmica de Opina+.";
-        badgeColor = "bg-primary/5 text-primary border-stroke";
+        badgeColor = "bg-brand/5 text-brand border-stroke";
         badgeIcon = "radar";
         badgeName = "Fijo";
     }
 
     return (
-        <section className="card p-6 lg:p-8 shadow-sm relative overflow-hidden group hover:border-primary/20 transition-all">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none group-hover:bg-primary/10 transition-colors duration-700"></div>
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/5 rounded-full blur-2xl pointer-events-none"></div>
+        <section className="card p-6 lg:p-8 shadow-sm relative overflow-hidden group hover:border-brand/20 transition-all">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 rounded-full blur-3xl pointer-events-none group-hover:bg-brand/10 transition-colors duration-700"></div>
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-accent/5 rounded-full blur-2xl pointer-events-none"></div>
 
             <div className="relative z-10">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                     <h3 className="text-sm font-black text-ink uppercase tracking-widest flex items-center gap-2">
-                        <span className="material-symbols-outlined text-primary">stacked_bar_chart</span>
+                        <span className="material-symbols-outlined text-brand">stacked_bar_chart</span>
                         Tu Posición Global
                     </h3>
-                    <div className="px-3 py-1.5 bg-surface2 rounded-full border border-stroke text-[10px] font-black uppercase tracking-widest text-text-muted">
+                    <div className="px-3 py-1.5 bg-surface2 rounded-full border border-stroke text-[10px] font-black uppercase tracking-widest text-slate-500">
                         Reputación: <span className="text-ink ml-1">{Math.floor(ranking.reputation_score).toLocaleString()}</span>
                     </div>
                 </div>
@@ -71,9 +71,9 @@ export default function RankingStatusPanel({ ranking, loading }: RankingStatusPa
                                 Top {Math.max(1, Math.round(ranking.percentile))}%
                             </div>
                         </div>
-                        <p className="text-text-secondary font-medium text-sm leading-relaxed max-w-md mt-4">
+                        <p className="text-slate-600 font-medium text-sm leading-relaxed max-w-md mt-4">
                             <span className="text-ink font-bold block mb-1">{statusContext}</span>
-                            Tu posición actual es la <strong className="text-primary font-black">#{ranking.position.toLocaleString()}</strong> entre {ranking.total_users.toLocaleString()} usuarios activos. Calculado ponderando tu volumen histórico y la completitud de tu perfil.
+                            Tu posición actual es la <strong className="text-brand font-black">#{ranking.position.toLocaleString()}</strong> entre {ranking.total_users.toLocaleString()} usuarios activos. Calculado ponderando tu volumen histórico y la completitud de tu perfil.
                         </p>
                     </div>
 
@@ -82,7 +82,7 @@ export default function RankingStatusPanel({ ranking, loading }: RankingStatusPa
                             <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-sm mb-3 border ${badgeColor}`}>
                                 <span className="material-symbols-outlined text-[24px]">{badgeIcon}</span>
                             </div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-text-muted text-center leading-tight">Nivel<br /><span className="text-ink text-xs">{badgeName}</span></p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 text-center leading-tight">Nivel<br /><span className="text-ink text-xs">{badgeName}</span></p>
                         </div>
                     </div>
                 </div>

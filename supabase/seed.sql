@@ -59,45 +59,37 @@ COMMIT;
 
 
 -- Source: 20260224120000_seed_master_admin_access_code.sql
-
-BEGIN;
-
--- Requiere extensión para digest (si ya existe, ok)
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
--- IMPORTANTE:
--- Cambia 'OP-ADMIN-0001' por el código real que tú vas a usar.
--- Ese valor NO quedará en claro: se guarda solo el hash sha256.
-INSERT INTO public.access_gate_tokens (code_hash, label, is_active, expires_at)
-VALUES (
-encode(extensions.digest('OP-ADMIN-0001', 'sha256'), 'hex'),
-  'MASTER_ADMIN',
-  true,
-  null
-)
-ON CONFLICT (code_hash) DO NOTHING;
-
-COMMIT;
-
-
 -- Source: 20260224124500_seed_master_admin_access_code.sql
+--
+-- RETIRADO (2026-04-24) — al cerrar la Fase B de limpieza de tester data
+-- acordada con la auditoría Drimo, se retiraron los INSERTs que sembraban
+-- dos códigos master permanentes ('OP-ADMIN-0001' y 'ADMIN-OPINA-2026').
+-- Ambos existían como puertas traseras de desarrollo que nunca expiraban.
+--
+-- Este bloque ahora DESACTIVA cualquier token con label 'MASTER_ADMIN' que
+-- siga en la BD por haber corrido el seed original alguna vez. Es idempotente:
+-- si no hay registros, no pasa nada. Si los hay, quedan deshabilitados.
+--
+-- Para generar un código master nuevo (único, propio, con expiración),
+-- hacelo manualmente desde el SQL Editor de Supabase con algo como:
+--
+--   INSERT INTO public.access_gate_tokens (code_hash, label, is_active, expires_at)
+--   VALUES (
+--     encode(extensions.digest('TU-CODIGO-UNICO-AQUI', 'sha256'), 'hex'),
+--     'MASTER_ADMIN',
+--     true,
+--     now() + interval '90 days'
+--   );
+--
+-- El valor en texto plano NUNCA debe quedar commiteado en el repo.
+
 BEGIN;
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-INSERT INTO public.access_gate_tokens (code_hash, label, is_active, expires_at)
-VALUES (
-
-
-encode(extensions.digest('ADMIN-OPINA-2026', 'sha256'), 'hex'),
-
-
-
-  'MASTER_ADMIN',
-  true,
-  null
-)
-ON CONFLICT (code_hash) DO NOTHING;
+UPDATE public.access_gate_tokens
+   SET is_active = false
+ WHERE label = 'MASTER_ADMIN';
 
 COMMIT;
 

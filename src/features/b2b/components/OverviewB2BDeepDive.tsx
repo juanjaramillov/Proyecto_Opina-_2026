@@ -20,7 +20,7 @@ export function OverviewB2BDeepDive({
         <div className="flex items-start justify-between">
           <div>
             <h3 className="text-2xl font-black text-slate-900 tracking-tight">{selectedEntity.entityName}</h3>
-            <div className="text-xs font-bold text-indigo-600 uppercase tracking-widest mt-1">Deep Dive B2B</div>
+            <div className="text-xs font-bold text-brand-600 uppercase tracking-widest mt-1">Deep Dive B2B</div>
           </div>
           <button 
             onClick={onClose}
@@ -39,28 +39,28 @@ export function OverviewB2BDeepDive({
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-indigo-900 to-slate-900 p-6 rounded-3xl shadow-lg relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-10">
-                <Zap className="w-24 h-24 text-white" />
+            <div className="bg-gradient-to-br from-white via-brand-50/30 to-accent-50/20 p-6 rounded-3xl shadow-sm border border-brand-100 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+                <Zap className="w-24 h-24 text-brand" />
               </div>
-              
+
               <div className="relative z-10">
                  <div className="flex items-center gap-2 mb-4">
-                    <div className="p-1.5 bg-indigo-500/20 rounded-lg">
-                        <Zap className="w-4 h-4 text-indigo-300" />
+                    <div className="p-1.5 bg-brand-50 border border-brand-100 rounded-lg">
+                        <Zap className="w-4 h-4 text-brand" />
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-indigo-300">Resumen Estadístico</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-brand">Resumen Estadístico</span>
                 </div>
-                
+
                 <div className="space-y-4">
-                  <p className="text-sm font-medium text-white leading-relaxed">
+                  <p className="text-sm font-medium text-ink leading-relaxed">
                     La entidad {selectedEntity.entityName} presenta una preferencia del {(selectedEntity.weightedPreferenceShare * 100).toFixed(1)}% con un nivel de estabilidad catalogado como "{selectedEntity.stabilityLabel.replace('_', ' ')}", basado en {selectedEntity.nEff.toFixed(0)} interacciones reales.
                   </p>
-                  <div className="flex items-center gap-2 mt-4 pt-4 border-t border-indigo-500/30">
-                    <span className="text-[10px] text-indigo-300 font-mono">
+                  <div className="flex items-center gap-2 mt-4 pt-4 border-t border-brand-100">
+                    <span className="text-[10px] text-brand font-mono">
                       Elegibilidad Comercial:
                     </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-200 uppercase">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-brand-50 text-brand-700 border border-brand-100 uppercase">
                       {selectedEntity.commercialEligibilityLabel.replace('_', ' ')}
                     </span>
                   </div>
@@ -85,13 +85,13 @@ export function OverviewB2BDeepDive({
                   {/* Barra con Intervalo de Confianza */}
                   <div className="relative w-full bg-slate-100 rounded-full h-3 mt-3 mb-2">
                     <div 
-                      className="absolute h-3 bg-indigo-200 rounded-full" 
+                      className="absolute h-3 bg-brand-200 rounded-full" 
                       style={{ 
                         left: `${selectedEntity.wilsonLowerBound * 100}%`, 
                         width: `${(selectedEntity.wilsonUpperBound - selectedEntity.wilsonLowerBound) * 100}%` 
                       }}
                     />
-                    <div className="absolute top-0 bottom-0 bg-indigo-600 w-1 shadow-sm" style={{ left: `${selectedEntity.weightedPreferenceShare * 100}%` }}></div>
+                    <div className="absolute top-0 bottom-0 bg-brand-600 w-1 shadow-sm" style={{ left: `${selectedEntity.weightedPreferenceShare * 100}%` }}></div>
                   </div>
                   
                   <div className="flex justify-between text-[10px] uppercase font-bold text-slate-400 tracking-widest">
@@ -117,8 +117,8 @@ export function OverviewB2BDeepDive({
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Estabilidad</span>
                     <div className="flex items-center gap-2 mt-1">
                       <div className={`w-2 h-2 rounded-full ${
-                          selectedEntity.stabilityLabel === 'volátil' ? 'bg-amber-500 animate-pulse' : 
-                          selectedEntity.stabilityLabel === 'estable' ? 'bg-emerald-500' : 'bg-slate-400'
+                          selectedEntity.stabilityLabel === 'volátil' ? 'bg-warning-500 animate-pulse' : 
+                          selectedEntity.stabilityLabel === 'estable' ? 'bg-accent' : 'bg-slate-400'
                       }`}></div>
                       <span className="text-sm font-black capitalize text-slate-900">
                         {selectedEntity.stabilityLabel.replace('_', ' ')}
@@ -132,7 +132,7 @@ export function OverviewB2BDeepDive({
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Win Rate Ponderado</span>
                     <span className="text-xs font-semibold text-slate-500">Relación de victoria frente al pool total</span>
                   </div>
-                  <div className="px-3 py-1.5 rounded-xl font-bold bg-indigo-100 text-indigo-700">
+                  <div className="px-3 py-1.5 rounded-xl font-bold bg-brand-100 text-brand-700">
                      {(selectedEntity.weightedWinRate * 100).toFixed(1)}%
                   </div>
                 </div>

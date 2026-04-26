@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { BattleOption } from '../../types';
 import EntityLogo from '../../../../components/entities/EntityLogo';
 import { resolveEntitySlug } from '../../../../lib/entities/resolveEntitySlug';
+import { GradientText } from '../../../../components/ui/foundation';
 
 interface Theme {
     primary: string;
@@ -59,7 +60,7 @@ export function CrownedChampionView({
                     style={{ borderColor: `${theme.accent}50` }}
                 />
 
-                <div className="absolute -top-6 -right-6 md:right-4 z-30 bg-slate-900 text-white w-16 h-16 rounded-2xl flex flex-col items-center justify-center shadow-xl rotate-12">
+                <div className="absolute -top-6 -right-6 md:right-4 z-30 bg-gradient-to-br from-brand to-accent text-white w-16 h-16 rounded-2xl flex flex-col items-center justify-center shadow-xl shadow-brand/30 rotate-12">
                     <span className="text-[10px] font-black uppercase">Wins</span>
                     <span className="text-2xl font-black">{champWins}</span>
                 </div>
@@ -67,7 +68,7 @@ export function CrownedChampionView({
 
             <div className="space-y-2">
                 <h2 className="text-4xl md:text-5xl font-black text-ink tracking-tight">
-                    {champion.label} <span className="text-gradient-brand">Preferencia Sólida</span>
+                    {champion.label} <GradientText>Preferencia Sólida</GradientText>
                 </h2>
                 <p className="text-lg text-slate-500 font-medium">Opción sobreviviente tras {round} decisiones consecutivas.</p>
             </div>
@@ -80,14 +81,14 @@ export function CrownedChampionView({
                 className="card card-pad text-left relative overflow-hidden group w-full"
             >
                 <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center shadow-lg shadow-accent-500/20">
                         <span className="material-symbols-outlined text-white text-[18px]">verified</span>
                     </div>
-                    <span className="text-xs font-black uppercase tracking-widest text-emerald-600">Perfil de Decisión</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-accent">Perfil de Decisión</span>
                 </div>
 
                 <p className="text-slate-700 font-bold leading-relaxed md:text-lg">
-                    Tu preferencia sostenida es <span className="text-emerald-600 font-black">{champion.label}</span>. Tras descartar a las demás opciones, esta marca se consolida como tu elección dominante en esta iteración.
+                    Tu preferencia sostenida es <span className="text-accent font-black">{champion.label}</span>. Tras descartar a las demás opciones, esta marca se consolida como tu elección dominante en esta iteración.
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-4">
@@ -110,7 +111,7 @@ export function CrownedChampionView({
                 className="w-full text-left"
             >
                 <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary-500">route</span>
+                    <span className="material-symbols-outlined text-brand">route</span>
                     Camino a la victoria
                 </h3>
                 <div className="bg-slate-50 border border-slate-100 rounded-3xl p-6 shadow-sm">
@@ -121,9 +122,9 @@ export function CrownedChampionView({
                                 <div key={idx} className="flex items-center">
                                     <div className="flex flex-col items-center gap-2 group cursor-pointer">
                                         <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-200 flex items-center justify-center overflow-hidden p-2 group-hover:-translate-y-1 transition-transform relative">
-                                            <div className="absolute inset-0 bg-rose-500/5 mix-blend-multiply z-10" />
+                                            <div className="absolute inset-0 bg-danger-500/5 mix-blend-multiply z-10" />
                                             <div className="absolute top-1 right-1 z-20">
-                                                <span className="material-symbols-outlined text-[14px] text-rose-500 drop-shadow-sm font-bold">close</span>
+                                                <span className="material-symbols-outlined text-[14px] text-danger-500 drop-shadow-sm font-bold">close</span>
                                             </div>
                                             <EntityLogo
                                                 name={opp.label}

@@ -69,9 +69,9 @@ export const userMasterResultsReadModel = {
       if (statsError) throw statsError;
 
       const totalSignals = userStats?.length || 0;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const moduleCounts = (userStats || []).reduce((acc: Record<string, number>, curr: Record<string, any>) => {
-        const mod = curr.module_type || 'versus';
+
+      const moduleCounts = (userStats ?? []).reduce<Record<string, number>>((acc, curr) => {
+        const mod = curr.module_type ?? 'versus';
         acc[mod] = (acc[mod] || 0) + 1;
         return acc;
       }, {});
@@ -81,23 +81,24 @@ export const userMasterResultsReadModel = {
         .sort((a, b) => b.count - a.count);
 
       // Historial reciente
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const recentSignals = (userStats || []).sort((a: Record<string, any>, b: Record<string, any>) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 15);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const entityIds = recentSignals.map((s: Record<string, any>) => s.entity_id).filter((id: any): id is string => !!id);
-        
+      const recentSignals = (userStats ?? [])
+        .slice()
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        .slice(0, 15);
+      const entityIds = recentSignals
+        .map((s) => s.entity_id)
+        .filter((id): id is string => !!id);
+
       let entityNames: Record<string, string> = {};
       if (entityIds.length > 0) {
          const { data: entities } = await supabase.from('signal_entities').select('id, display_name').in('id', entityIds);
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-         entityNames = (entities || []).reduce((acc: Record<string, string>, curr: Record<string, any>) => {
+         entityNames = (entities ?? []).reduce<Record<string, string>>((acc, curr) => {
            acc[curr.id] = curr.display_name;
            return acc;
-         }, {} as Record<string, string>);
+         }, {});
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const recentActivity: SignalActivity[] = recentSignals.map((s: Record<string, any>) => ({
+      const recentActivity: SignalActivity[] = recentSignals.map((s) => ({
         id: s.id,
         moduleType: s.module_type || 'versus',
         entityId: s.entity_id || undefined,
@@ -120,8 +121,7 @@ export const userMasterResultsReadModel = {
           
          if (comparisonsData) {
            for (const vs of versusSignals) {
-             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-             const comp = comparisonsData.find((c: Record<string, any>) => c.entity_id === vs.entityId);
+             const comp = comparisonsData.find((c) => c.entity_id === vs.entityId);
              if (comp) {
                const prefShare = comp.preference_share || 0;
                comparisons.push({

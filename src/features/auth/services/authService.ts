@@ -5,12 +5,40 @@ import { computeAccountProfile } from './account';
 import { DemographicData, AccountProfile, AccountTier } from '../types';
 import { logger } from '../../../lib/logger';
 import { normalizeAllDemographics } from '../../../lib/demographicsNormalize';
+import { typedRpc } from '../../../supabase/typedRpc';
 
 const sb = supabase as unknown as SupabaseClient<Database>;
 
 type UserProfileRow = Database['public']['Tables']['user_profiles']['Row'];
 type UserRow = Database['public']['Tables']['users']['Row'];
 type SubscriptionRow = Database['public']['Tables']['subscription_plans']['Row'];
+
+/**
+ * Error específico de registro, con código para permitir UX diferenciada
+ * en la pantalla de registro (p.ej. mostrar link a login si EMAIL_EXISTS).
+ *
+ * Códigos posibles (reflejan lo que devuelve la Edge Function register-user):
+ *   - EMAIL_EXISTS            (409) email ya registrado
+ *   - INVALID_EMAIL           (400)
+ *   - INVALID_PASSWORD        (400)
+ *   - INVALID_NICKNAME        (400)
+ *   - CAPTCHA_MISSING         (400) token de hCaptcha no enviado
+ *   - CAPTCHA_FAILED          (403) token de hCaptcha rechazado
+ *   - RATE_LIMITED            (429) demasiados intentos
+ *   - BAD_REQUEST             (400) body malformado
+ *   - PROFILE_CREATION_FAILED (500) rollback ocurrido
+ *   - SIGNUP_FAILED           (400) error genérico de auth
+ *   - SERVER_MISCONFIGURED    (500) env vars faltantes
+ *   - METHOD_NOT_ALLOWED      (405)
+ *   - NETWORK_ERROR           (cliente) problema de red
+ *   - LOGIN_AFTER_REGISTER_FAILED (cliente) cuenta OK pero login falló
+ */
+export class RegistrationError extends Error {
+    constructor(public code: string, message: string) {
+        super(message);
+        this.name = 'RegistrationError';
+    }
+}
 
 export const authService = {
     /**
@@ -229,7 +257,7 @@ export const authService = {
     async consumeInvitation(code: string, _nickname: string): Promise<void> {
         const { data: { user } } = await sb.auth.getUser();
         if (!user) throw new Error("No authenticated user");
-        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('bootstrap_user_after_signup_v2', {
+        const { data, error } = await typedRpc<{ ok: boolean; error?: string }>('bootstrap_user_after_signup_v2', {
                 p_nickname: _nickname,
                 p_invitation_code: code
             });
@@ -244,6 +272,85 @@ export const authService = {
         }
     },
 
+    /**
+     * Registro atómico via Edge Function `register-user`.
+     *
+     * Reemplaza al flujo anterior `registerWithEmail` + navegación a
+     * /complete-profile, que dejaba `auth.users` huérfanos si el
+     * usuario cerraba el navegador a medio camino.
+     *
+     * La Edge Function crea `auth.user` + `users` + `user_profiles`
+     * atómicamente, y hace rollback (borra auth.user) si algo falla
+     * después de crearlo.
+     *
+     * Después de success, hace signInWithPassword para establecer
+     * sesión local.
+     *
+     * @throws RegistrationError con código específico (EMAIL_EXISTS,
+     *         INVALID_NICKNAME, RATE_LIMITED, etc.) para permitir UX
+     *         específica en la pantalla de registro.
+     */
+    async registerWithProfile(email: string, password: string, nickname: string, captchaToken: string | null): Promise<void> {
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+        const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+        if (!supabaseUrl || !supabaseAnonKey) {
+            throw new RegistrationError('SERVER_MISCONFIGURED', 'Configuración del cliente incompleta.');
+        }
+
+        const url = `${supabaseUrl}/functions/v1/register-user`;
+        let response: Response;
+        try {
+            response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': supabaseAnonKey,
+                    'Authorization': `Bearer ${supabaseAnonKey}`,
+                },
+                // captchaToken puede ser null en entornos sin site key configurada
+                // (ej. local dev). El backend decide si rechazar o aceptar
+                // según su propia config de HCAPTCHA_SECRET_KEY.
+                body: JSON.stringify({ email, password, nickname, captchaToken }),
+            });
+        } catch (netErr) {
+            logger.error('Error de red en registro atómico', { domain: 'auth', action: 'register_with_profile', email }, netErr);
+            throw new RegistrationError('NETWORK_ERROR', 'Problema de conexión. Revisa tu internet e intenta de nuevo.');
+        }
+
+        let body: { ok?: boolean; error?: string; code?: string; user_id?: string } = {};
+        try {
+            body = await response.json();
+        } catch {
+            // falla al parsear — usar defaults
+        }
+
+        if (!response.ok || !body.ok) {
+            const code = body.code ?? 'UNKNOWN_ERROR';
+            const msg = body.error ?? 'Error inesperado creando la cuenta.';
+            logger.error('Registro atómico rechazado', { domain: 'auth', action: 'register_with_profile', email, code }, new Error(msg));
+            throw new RegistrationError(code, msg);
+        }
+
+        // Registro exitoso → iniciar sesión
+        const { error: loginError } = await sb.auth.signInWithPassword({ email, password });
+        if (loginError) {
+            // La cuenta se creó pero el login falló. Raro pero posible (p.ej. si la
+            // verificación de email está activa). No hay huérfano de user_profiles
+            // porque la Edge Function los creó. Dejamos mensaje específico.
+            logger.error('Login post-registro falló', { domain: 'auth', action: 'register_with_profile', email }, loginError);
+            throw new RegistrationError(
+                'LOGIN_AFTER_REGISTER_FAILED',
+                'Tu cuenta se creó pero no se pudo iniciar sesión automáticamente. Intenta iniciar sesión manualmente.'
+            );
+        }
+    },
+
+    /**
+     * @deprecated Usar `registerWithProfile` en lugar. Este método queda
+     * como fallback por compatibilidad pero tiene el bug de dejar
+     * `auth.users` huérfanos si el usuario abandona antes de completar.
+     */
     async registerWithEmail(email: string, password: string, nickname?: string): Promise<void> {
         const { error } = await sb.auth.signUp({
             email,
@@ -307,7 +414,7 @@ export const authService = {
         const { data: { user } } = await sb.auth.getUser();
         if (!user) throw new Error("No authenticated user");
         const userId = user.id;
-        const { data, error } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { ok: boolean; error?: string } | null; error: unknown }>)('bootstrap_user_after_signup_v2', {
+        const { data, error } = await typedRpc<{ ok: boolean; error?: string }>('bootstrap_user_after_signup_v2', {
                 p_nickname: _nickname,
                 p_invitation_code: invitationCode
             });
@@ -340,7 +447,7 @@ export const authService = {
         const userId = user.id;
 
         // Force a fresh calculation in backend
-        const { error: rpcError } = await (sb.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ error: unknown }>)('refresh_user_influence_rank', {
+        const { error: rpcError } = await typedRpc<unknown>('refresh_user_influence_rank', {
             p_user_id: userId
         });
         if (rpcError) {
@@ -368,11 +475,11 @@ export const authService = {
      * OAuth Handlers
      */
     prepareOAuthBootstrap(nickname: string, inviteCode: string) {
-        localStorage.setItem('pending_oauth_data', JSON.stringify({ nickname, inviteCode }));
+        sessionStorage.setItem('pending_oauth_data', JSON.stringify({ nickname, inviteCode }));
     },
 
     getStoredOAuthBootstrap(): { nickname: string; inviteCode: string } | null {
-        const raw = localStorage.getItem('pending_oauth_data');
+        const raw = sessionStorage.getItem('pending_oauth_data');
         if (!raw) return null;
         try {
             return JSON.parse(raw);
@@ -382,6 +489,6 @@ export const authService = {
     },
 
     clearOAuthBootstrap() {
-        localStorage.removeItem('pending_oauth_data');
+        sessionStorage.removeItem('pending_oauth_data');
     }
 };

@@ -45,14 +45,14 @@ const OptionCard = ({
             data-testid={`versus-option-${option.id}`}
             onClick={onClick}
             disabled={disabled}
-            className={`group relative w-full h-full text-center flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${layout === 'versus' ? 'bg-white' : 'rounded-[32px] border-[3px] shadow-xl hover:-translate-y-1 hover:shadow-2xl bg-white'} ${layout !== 'versus' && isSelected ? "border-primary-500 ring-4 ring-primary-500/20 ring-offset-2" : (layout !== 'versus' ? "border-slate-200/80 hover:border-slate-300" : "")} ${disabled && !isSelected ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-primary-600 ring-offset-2 z-20 border-primary-600 shadow-[0_15px_45px_rgba(37,99,235,0.2)]" : ""}`}
+            className={`group relative w-full h-full text-center flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${layout === 'versus' ? 'bg-white hover:bg-slate-50/50 hover:shadow-[0_0_40px_rgba(37,99,235,0.08)] z-10 hover:z-20 ring-1 ring-transparent hover:ring-brand/20' : 'rounded-[2rem] bg-white border border-slate-100 shadow-[0_10px_25px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),_inset_0_2px_4px_rgba(255,255,255,1)]'} ${layout !== 'versus' && isSelected ? "ring-2 ring-brand-500/20 ring-offset-2" : ""} ${disabled && !isSelected ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-brand ring-offset-2 z-20 border-brand shadow-[0_15px_45px_rgba(37,99,235,0.2)]" : ""}`}
         >
             {/* 2) Halo Opina+ (hover/selected) */}
-            <div className={`pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 bg-gradient-to-br from-primary-600/5 to-emerald-400/5 ${isSelected ? "opacity-100" : "group-hover:opacity-100"}`} />
-            <div className={`pointer-events-none absolute -inset-[2px] opacity-0 transition-opacity duration-500 bg-gradient-to-r from-primary-600/20 to-emerald-400/20 ${isSelected ? "opacity-100" : "group-hover:opacity-40"}`} style={{ filter: "blur(20px)", zIndex: -1 }} />
+            <div className={`pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 bg-gradient-to-br from-brand/5 to-accent/5 ${isSelected ? "opacity-100" : "group-hover:opacity-100"}`} />
+            <div className={`pointer-events-none absolute -inset-[2px] opacity-0 transition-opacity duration-500 bg-gradient-to-br from-brand/20 to-accent/20 ${isSelected ? "opacity-100" : "group-hover:opacity-40"}`} style={{ filter: "blur(20px)", zIndex: -1 }} />
 
             {isChampion && (
-                <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-gradient-to-r from-primary-600 to-emerald-400 text-white px-3 py-1.5 rounded-full shadow-lg border-2 border-white animate-bounce-slow">
+                <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-gradient-to-br from-brand to-accent text-white px-3 py-1.5 rounded-full shadow-lg border-2 border-white animate-bounce-slow">
                     <span className="material-symbols-outlined text-lg">emoji_events</span>
                     <span className="text-xs font-black uppercase tracking-wider">Campeón</span>
                 </div>
@@ -65,7 +65,7 @@ const OptionCard = ({
                 {/* 5) Estado seleccionado (check alineado a la esquina) */}
                 <div className={`absolute top-4 right-4 md:top-6 md:right-6 z-20 transition-all duration-300 ${isSelected ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
                     <div className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white border border-slate-100 shadow-lg flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[18px] text-blue-600">done</span>
+                        <span className="material-symbols-outlined text-[18px] text-brand-600">done</span>
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@ const OptionCard = ({
                         name={option.label}
                         className={`relative z-10 w-24 h-24 md:w-36 md:h-36 object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'bg-white rounded-[2rem] p-4 md:p-6 shadow-sm border border-slate-100' : 'absolute inset-0 w-full h-full object-cover'}`}
                         containerClassName="absolute inset-0 flex items-center justify-center p-3 md:p-4"
-                        fallbackClassName="w-24 h-24 md:w-36 md:h-36 text-4xl md:text-5xl font-black bg-gradient-to-br from-blue-100 via-indigo-50 to-cyan-50 text-blue-500 shadow-inner border-4 border-white rounded-[2rem] flex items-center justify-center"
+                        fallbackClassName="w-24 h-24 md:w-36 md:h-36 text-4xl md:text-5xl font-black bg-gradient-to-br from-brand/10 via-brand/5 to-accent/5 text-brand shadow-inner border-4 border-white rounded-[2rem] flex items-center justify-center"
                     />
                 )}
 
@@ -108,7 +108,7 @@ const OptionCard = ({
                                     size="lg"
                                     variant={layout === 'opinion' ? 'depth' : 'versus'}
                                     className={`relative z-10 w-full h-full object-contain transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''}`}
-                                    fallbackClassName="w-24 h-24 md:w-32 md:h-32 text-4xl md:text-5xl font-black bg-gradient-to-br from-indigo-100 via-blue-50 to-emerald-50 text-indigo-500 shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)] border-[3px] md:border-[4px] border-white rounded-[2rem] flex items-center justify-center"
+                                    fallbackClassName="w-24 h-24 md:w-32 md:h-32 text-4xl md:text-5xl font-black bg-gradient-to-br from-brand/10 via-brand/5 to-accent/5 text-brand shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)] border-[3px] md:border-[4px] border-white rounded-[2rem] flex items-center justify-center"
                                 />
                             </div>
                         </div>
@@ -160,12 +160,12 @@ const OptionCard = ({
                                 className="absolute inset-0 z-40 flex flex-col items-center justify-center pointer-events-none"
                             >
                                 {isWinner && (
-                                    <div className="absolute inset-0 bg-emerald-500/10 mix-blend-multiply blur-xl rounded-full scale-125 transition-all duration-700" />
+                                    <div className="absolute inset-0 bg-accent/10 mix-blend-multiply blur-xl rounded-full scale-125 transition-all duration-700" />
                                 )}
                                 <div className="relative drop-shadow-2xl transition-all duration-500">
                                     <span className={`text-6xl md:text-[7rem] lg:text-[9rem] font-black tracking-tighter mix-blend-overlay ${
                                         isWinner 
-                                            ? 'text-emerald-900 opacity-90' 
+                                            ? 'text-accent-900 opacity-90' 
                                             : 'text-slate-800 opacity-40'
                                     }`}>
                                         {percentValue}%
@@ -189,8 +189,8 @@ const OptionCard = ({
                     <div className={`flex flex-wrap items-center justify-center gap-2 md:gap-4 mt-1.5 md:mt-2 transition-all duration-500 ${!showResult ? 'opacity-90 group-hover:opacity-100' : 'opacity-40 grayscale blur-[1px]'}`}>
                         <div className="flex items-center gap-1.5 md:gap-2">
                             <span className="relative flex h-2 w-2 md:h-2.5 md:w-2.5">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5 bg-accent shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
                             </span>
                             <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-500 whitespace-nowrap">
                                 {option.stats.onlineCount} online
@@ -207,7 +207,7 @@ const OptionCard = ({
                     </div>
                 )}
                 
-                <div className={`mt-1 text-[13px] md:text-[15px] font-bold flex items-center justify-center gap-1.5 transition-all duration-500 w-full ${showResult ? "text-slate-400 opacity-60" : "text-slate-300 group-hover:text-primary-500"}`}>
+                <div className={`mt-2 md:mt-3 mb-1 text-[13px] md:text-[14px] font-bold flex items-center justify-center gap-1.5 transition-all duration-500 w-auto px-5 py-2 rounded-full ${showResult ? "text-slate-400 opacity-60 bg-transparent" : "text-slate-500 bg-slate-50 border border-slate-100 group-hover:bg-brand group-hover:text-white group-hover:border-brand group-hover:-translate-y-1 group-hover:shadow-[0_8px_20px_rgba(37,99,235,0.2)] shadow-sm"}`}>
                     <span className="material-symbols-outlined text-[16px] md:text-[18px]">touch_app</span>
                     Votar
                 </div>
@@ -225,7 +225,7 @@ const OptionCard = ({
                             initial={{ width: 0 }}
                             animate={{ width: `${percentValue}%` }}
                             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                            className={`h-full ${isWinner ? 'bg-gradient-to-r from-emerald-400 to-teal-500 shadow-[0_0_15px_rgba(16,185,129,0.8)]' : 'bg-slate-300/80'}`}
+                            className={`h-full ${isWinner ? 'bg-gradient-to-r from-accent-400 to-accent-500 shadow-[0_0_15px_rgba(16,185,129,0.8)]' : 'bg-slate-300/80'}`}
                         />
                     </div>
                 );

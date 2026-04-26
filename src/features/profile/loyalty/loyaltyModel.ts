@@ -24,8 +24,8 @@ export const LOYALTY_TIERS: LoyaltyTier[] = [
         id: "senalador",
         name: "Señalador",
         minSignals: 20,
-        badgeClass: "bg-primary-50 text-primary-900 border border-primary-200",
-        accentClass: "from-primary-500/12 to-transparent",
+        badgeClass: "bg-brand/10 text-brand border border-brand/30",
+        accentClass: "from-brand/12 to-transparent",
         benefits: ["Participar en señales", "Ver resultados segmentados"],
         upcomingBenefits: ["Acceso a rankings avanzados"]
     },
@@ -33,8 +33,8 @@ export const LOYALTY_TIERS: LoyaltyTier[] = [
         id: "analista",
         name: "Analista",
         minSignals: 50,
-        badgeClass: "bg-emerald-50 text-emerald-900 border border-emerald-200",
-        accentClass: "from-emerald-400/18 to-transparent",
+        badgeClass: "bg-accent/10 text-accent-900 border border-accent-200",
+        accentClass: "from-accent-400/18 to-transparent",
         benefits: ["Participar en señales", "Resultados segmentados", "Acceso a rankings avanzados"],
         upcomingBenefits: ["Participar en versus especiales"]
     },
@@ -42,8 +42,8 @@ export const LOYALTY_TIERS: LoyaltyTier[] = [
         id: "influenciador",
         name: "Influenciador",
         minSignals: 120,
-        badgeClass: "bg-amber-50 text-amber-900 border border-amber-200",
-        accentClass: "from-amber-400/18 to-transparent",
+        badgeClass: "bg-warning-50 text-warning-900 border border-warning-200",
+        accentClass: "from-warning-400/18 to-transparent",
         benefits: ["Todos los anteriores", "Participar en versus especiales"],
         upcomingBenefits: ["Acceso anticipado a nuevas secciones"]
     },
@@ -51,8 +51,8 @@ export const LOYALTY_TIERS: LoyaltyTier[] = [
         id: "oraculo",
         name: "Oráculo",
         minSignals: 300,
-        badgeClass: "bg-indigo-50 text-indigo-900 border border-indigo-200",
-        accentClass: "from-indigo-500/18 to-transparent",
+        badgeClass: "bg-brand-50 text-brand-900 border border-brand-200",
+        accentClass: "from-brand-500/18 to-transparent",
         benefits: ["Todos los anteriores", "Acceso anticipado a nuevas secciones"],
         upcomingBenefits: []
     }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { adminTrafficService, TrafficSnapshot } from "../services/adminTrafficService";
 import {
   Chart as ChartJS,
@@ -31,30 +31,54 @@ ChartJS.register(
 export default function AdminTrafficDashboard() {
   const [data, setData] = useState<TrafficSnapshot | null>(null);
   const [loading, setLoading] = useState(true);
-  const [days, setDays] = useState(30);
+  const [filterType, setFilterType] = useState<'hoy' | '7d' | '30d' | '90d' | 'custom'>('30d');
+  const [customStart, setCustomStart] = useState<string>('');
+  const [customEnd, setCustomEnd] = useState<string>('');
 
-  const loadTraffic = async () => {
+  const loadTraffic = useCallback(async () => {
     setLoading(true);
     try {
-      const snap = await adminTrafficService.getTrafficData(days);
+      let startDate = new Date();
+      let endDate = new Date();
+
+      if (filterType === 'hoy') {
+        startDate.setHours(0, 0, 0, 0);
+      } else if (filterType === '7d') {
+        startDate.setDate(startDate.getDate() - 7);
+      } else if (filterType === '30d') {
+        startDate.setDate(startDate.getDate() - 30);
+      } else if (filterType === '90d') {
+        startDate.setDate(startDate.getDate() - 90);
+      } else if (filterType === 'custom') {
+        if (!customStart || !customEnd) {
+          setLoading(false);
+          return; // Wait until both are selected
+        }
+        // Force the time so we don't have timezone offset issues comparing dates
+        startDate = new Date(`${customStart}T00:00:00`);
+        endDate = new Date(`${customEnd}T23:59:59.999`);
+      }
+
+      const snap = await adminTrafficService.getTrafficData(startDate, endDate);
       setData(snap);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
-  };
+  }, [filterType, customStart, customEnd]);
 
   useEffect(() => {
+    if (filterType === 'custom' && (!customStart || !customEnd)) return;
     loadTraffic();
-  }, [days]);
+  }, [filterType, customStart, customEnd, loadTraffic]);
 
   if (loading && !data) {
     return (
       <div className="p-8 max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-500 font-medium">Buscando señales de tráfico...</p>
+          <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-500 font-medium">Buscando señales de tráfico...</p>
         </div>
       </div>
     );
@@ -81,7 +105,7 @@ export default function AdminTrafficDashboard() {
     labels: Object.keys(data?.devices || {}),
     datasets: [{
       data: Object.values(data?.devices || {}),
-      backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6'], // Blue, Emerald, Amber, Violet
+      backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#64748B'], // brand, accent, warning, slate
       borderWidth: 0,
     }]
   };
@@ -90,7 +114,7 @@ export default function AdminTrafficDashboard() {
     labels: Object.keys(data?.browsers || {}),
     datasets: [{
       data: Object.values(data?.browsers || {}),
-      backgroundColor: ['#6366F1', '#EC4899', '#14B8A6', '#F97316'], // Indigo, Pink, Teal, Orange
+      backgroundColor: ['#2563EB', '#10B981', '#64748B', '#F59E0B'], // brand, accent, slate, warning
       borderWidth: 0,
     }]
   };
@@ -99,7 +123,7 @@ export default function AdminTrafficDashboard() {
     labels: data ? Object.keys(data.os) : [],
     datasets: [{
       data: data ? Object.values(data.os) : [],
-      backgroundColor: ['#6366f1', '#e0e7ff', '#4f46e5', '#a5b4fc', '#818cf8', '#c7d2fe'],
+      backgroundColor: ['#2563EB', '#3B82F6', '#60A5FA', '#10B981', '#34D399', '#64748B'], // brand scale + accent + slate
       borderWidth: 0,
     }]
   };
@@ -118,45 +142,71 @@ export default function AdminTrafficDashboard() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary">monitoring</span>
+            <span className="material-symbols-outlined text-brand">monitoring</span>
             Tráfico y Usuarios
           </h1>
           <p className="text-slate-500 font-medium mt-1">Overview tipo Analytics de la plataforma</p>
         </div>
 
         {/* Filters */}
-        <div className="flex bg-white rounded-xl shadow-sm border border-slate-200 p-1">
-          {[7, 30, 90].map(d => (
-            <button
-              key={d}
-              onClick={() => setDays(d)}
-              className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-colors ${days === d ? 'bg-primary/10 text-primary' : 'text-slate-500 hover:text-slate-900'}`}
-            >
-              {d} Días
-            </button>
-          ))}
+        <div className="flex flex-col md:flex-row gap-4 items-end md:items-center">
+          <div className="flex flex-wrap bg-white rounded-xl shadow-sm border border-slate-200 p-1">
+            {[
+              { id: 'hoy', label: 'HOY' },
+              { id: '7d', label: '7 Días' },
+              { id: '30d', label: '30 Días' },
+              { id: '90d', label: '90 Días' },
+              { id: 'custom', label: 'Fechas' }
+            ].map(f => (
+              <button
+                key={f.id}
+                onClick={() => setFilterType(f.id as 'hoy' | '7d' | '30d' | '90d' | 'custom')}
+                className={`px-3 py-1.5 text-sm font-bold rounded-lg transition-colors whitespace-nowrap ${filterType === f.id ? 'bg-brand/10 text-brand' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          {filterType === 'custom' && (
+            <div className="flex items-center gap-2 bg-white rounded-xl shadow-sm border border-slate-200 p-1 px-3">
+              <input 
+                type="date" 
+                value={customStart}
+                onChange={(e) => setCustomStart(e.target.value)}
+                className="text-sm font-medium text-slate-700 outline-none bg-transparent"
+              />
+              <span className="text-slate-300 font-bold">-</span>
+              <input 
+                type="date" 
+                value={customEnd}
+                onChange={(e) => setCustomEnd(e.target.value)}
+                className="text-sm font-medium text-slate-700 outline-none bg-transparent"
+              />
+            </div>
+          )}
         </div>
       </div>
 
       {loading ? (
         <div className="h-64 flex items-center justify-center">
-          <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-primary animate-spin"></div>
+          <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-brand animate-spin"></div>
         </div>
       ) : data && (
         <>
           {/* Top KPIs Row - Grid of 6 */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-accent/20 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
               <span className="text-slate-500 font-bold text-[11px] mb-1 uppercase tracking-wider">Usuarios Activos</span>
               <div className="flex items-end gap-2 mt-auto">
-                <span className="text-3xl lg:text-4xl font-black text-emerald-600 animate-pulse">{data.activeNow}</span>
+                <span className="text-3xl lg:text-4xl font-black text-accent animate-pulse">{data.activeNow}</span>
                 <span className="text-slate-400 font-medium text-xs mb-1">ahora</span>
               </div>
             </div>
 
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-primary-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-brand/10 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
               <span className="text-slate-500 font-bold text-[11px] mb-1 uppercase tracking-wider">Sesiones</span>
               <div className="flex items-end gap-2 mt-auto">
                 <span className="text-3xl lg:text-4xl font-black text-slate-800">{data.totalSessions}</span>
@@ -164,7 +214,7 @@ export default function AdminTrafficDashboard() {
             </div>
             
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-amber-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
               <span className="text-slate-500 font-bold text-[11px] mb-1 uppercase tracking-wider">T. Promedio</span>
               <div className="flex items-end gap-2 mt-auto">
                 <span className="text-3xl lg:text-4xl font-black text-slate-800">{data.avgDurationMinutes >= 1 ? data.avgDurationMinutes.toFixed(1) : Math.round(data.avgDurationMinutes * 60)}</span>
@@ -173,7 +223,7 @@ export default function AdminTrafficDashboard() {
             </div>
 
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-accent-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
               <span className="text-slate-500 font-bold text-[11px] mb-1 uppercase tracking-wider">Nuevos Úsuarios</span>
               <div className="flex items-end gap-2 mt-auto">
                 <span className="text-3xl lg:text-4xl font-black text-slate-800">{data.newUsers}</span>
@@ -181,7 +231,7 @@ export default function AdminTrafficDashboard() {
             </div>
 
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-rose-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-200 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
               <span className="text-slate-500 font-bold text-[11px] mb-1 uppercase tracking-wider">T. Conversión</span>
               <div className="flex items-end gap-2 mt-auto">
                 <span className="text-3xl lg:text-4xl font-black text-slate-800">
@@ -191,7 +241,7 @@ export default function AdminTrafficDashboard() {
             </div>
 
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-orange-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-accent-200 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
               <span className="text-slate-500 font-bold text-[11px] mb-1 uppercase tracking-wider">Tasa Rebote</span>
               <div className="flex items-end gap-2 mt-auto">
                 <span className="text-3xl lg:text-4xl font-black text-slate-800">{data.bounceRate.toFixed(1)}%</span>
@@ -269,7 +319,7 @@ export default function AdminTrafficDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center">
               <div className="w-full flex items-center gap-2 mb-4">
-                <span className="material-symbols-outlined text-rose-500">location_on</span>
+                <span className="material-symbols-outlined text-brand">location_on</span>
                 <h2 className="text-lg font-bold text-slate-800">Ubicación (Región)</h2>
               </div>
               {Object.keys(data.locations).filter(k => k !== 'Desconocido').length > 0 ? (
@@ -288,7 +338,7 @@ export default function AdminTrafficDashboard() {
             
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
               <div className="w-full flex items-center gap-2 mb-4">
-                <span className="material-symbols-outlined text-amber-500">local_fire_department</span>
+                <span className="material-symbols-outlined text-warning">local_fire_department</span>
                 <h2 className="text-lg font-bold text-slate-800">Secciones Heatmap (Top)</h2>
               </div>
               {data.topSections.length > 0 ? (
@@ -296,7 +346,7 @@ export default function AdminTrafficDashboard() {
                   {data.topSections.map((sec, i) => (
                     <div key={sec.name} className="flex items-center justify-between group">
                       <div className="flex items-center gap-3">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${i === 0 ? 'bg-amber-100 text-amber-600' : 'bg-slate-100 text-slate-500'}`}>
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${i === 0 ? 'bg-warning/20 text-warning' : 'bg-slate-100 text-slate-500'}`}>
                           {i + 1}
                         </div>
                         <span className="text-sm font-semibold text-slate-700 capitalize">

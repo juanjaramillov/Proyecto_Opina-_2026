@@ -27,6 +27,7 @@ type GameProps = {
     isQueueFinite?: boolean;
     onQueueComplete?: (history: Array<{ battle: Battle; mySignal: 'A' | 'B'; pctA: number }>) => void;
     isSubmitting?: boolean;
+    layoutMode?: 'centered' | 'editorial-split';
     theme?: {
         primary: string;
         accent: string;
@@ -124,14 +125,14 @@ export default function VersusGame(props: GameProps) {
                     className="w-24 h-24 rounded-full mb-8 flex items-center justify-center text-white shadow-xl"
                     style={{ backgroundColor: props.theme?.primary || '#10b981' }}
                 >
-                    <span className="material-symbols-outlined text-primary text-4xl mb-3">auto_awesome</span>
+                    <span className="material-symbols-outlined text-brand text-4xl mb-3">auto_awesome</span>
                 </motion.div>
                 <h2 className="text-xl font-black text-ink tracking-tight mb-2">Señal Completada</h2>
-                <p className="text-text-secondary font-medium text-sm mb-6">Tu influencia ya fue sumada al consenso general.</p>
+                <p className="text-slate-600 font-medium text-sm mb-6">Tu influencia ya fue sumada al consenso general.</p>
                 <div className="flex flex-col gap-3 w-full max-w-xs">
                     <button
                         onClick={resetGame}
-                        className="w-full px-8 py-4 bg-primary text-white font-black rounded-2xl hover:bg-primary-dark transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20"
+                        className="w-full px-8 py-4 bg-brand text-white font-black rounded-2xl hover:bg-brand-700 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-brand/20"
                     >
                         Siguiente evaluación →
                     </button>
@@ -154,18 +155,22 @@ export default function VersusGame(props: GameProps) {
     }
 
 
+    const isSplit = props.layoutMode === 'editorial-split';
+
     return (
-        <div id="versus-container" data-testid="versus-container" className="w-full mx-auto pb-4 md:pb-6 pt-2 space-y-3 md:space-y-4 scroll-mt-20">
-            <div className="pt-2 pb-0">
-                <VersusHeader title={effectiveBattle.title} />
+        <div id="versus-container" data-testid="versus-container" className={`w-full mx-auto pb-4 md:pb-6 space-y-3 md:space-y-4 scroll-mt-20 ${isSplit ? 'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center' : 'pt-2'}`}>
+            
+            {/* Cabecera (Izquierda en Split, Arriba en Centered) */}
+            <div className={`pt-2 pb-0 ${isSplit ? 'lg:col-span-5 h-full flex flex-col justify-center' : ''}`}>
+                <VersusHeader title={effectiveBattle.title} layoutMode={isSplit ? 'split' : 'centered'} />
 
                 {effectiveBattle.layout === 'opinion' && effectiveBattle.mainImageUrl && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="relative mt-8 mb-4 mx-auto max-w-lg aspect-video rounded-[2rem] overflow-hidden bg-slate-800 shadow-2xl border border-slate-700/50 group"
+                        className={`relative mt-8 mb-4 max-w-lg aspect-video rounded-[2rem] overflow-hidden bg-slate-800 shadow-2xl border border-slate-700/50 group ${isSplit ? '' : 'mx-auto'}`}
                     >
-                        <div className="absolute inset-0 bg-primary-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-3xl -z-10" />
+                        <div className="absolute inset-0 bg-brand/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-3xl -z-10" />
                         <FallbackAvatar
                             src={effectiveBattle.mainImageUrl}
                             name={effectiveBattle.title}
@@ -176,30 +181,32 @@ export default function VersusGame(props: GameProps) {
                 )}
             </div>
 
-            {
-                effectiveBattle.type === 'separator' ? (
-                    <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-                        <button onClick={next} className="px-8 py-3 bg-primary text-white rounded-xl font-bold">Siguiente comparación →</button>
-                    </div>
-                ) : (
-                    <AnimatePresence mode="popLayout" initial={false}>
-                        <motion.div
-                            key={effectiveBattle.id + (champion?.id || '')}
-                            initial={{ opacity: 0, scale: 0.96 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.25, ease: "easeIn" } }}
-                            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                            className="relative w-full"
-                        >
-                            {/* Error handling interior si no hay opciones */}
-                            {(!a && !b) ? (
-                                <div className="p-8 text-center text-rose-400 font-bold bg-rose-500/10 rounded-2xl mx-4 mb-4 border border-rose-500/20">
-                                    Hay un problema de datos con esta señal. No hay opciones configuradas.
-                                </div>
-                            ) : (
-                                <div className="relative mt-2 w-full mx-auto md:px-0">
+            {/* Contenido (Derecha en Split, Abajo en Centered) */}
+            <div className={`${isSplit ? 'lg:col-span-7 relative' : ''}`}>
+                {
+                    effectiveBattle.type === 'separator' ? (
+                        <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
+                            <button onClick={next} className="px-8 py-3 bg-brand text-white rounded-xl font-bold">Siguiente comparación →</button>
+                        </div>
+                    ) : (
+                        <AnimatePresence mode="popLayout" initial={false}>
+                            <motion.div
+                                key={effectiveBattle.id + (champion?.id || '')}
+                                initial={{ opacity: 0, scale: 0.96 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.25, ease: "easeIn" } }}
+                                transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                                className="relative w-full"
+                            >
+                                {/* Error handling interior si no hay opciones */}
+                                {(!a && !b) ? (
+                                    <div className="p-8 text-center text-danger-400 font-bold bg-danger-500/10 rounded-2xl mx-4 mb-4 border border-danger-500/20">
+                                        Hay un problema de datos con esta señal. No hay opciones configuradas.
+                                    </div>
+                                ) : (
+                                    <div className="relative mt-2 w-full mx-auto md:px-0">
                                     {/* VERSUS ARENA: Flex Container (Vertical in mobile, Horizontal in desktop) */}
-                                    <div className={`flex flex-col md:flex-row w-full h-[58vh] min-h-[480px] md:h-[500px] lg:h-[550px] rounded-[2.5rem] overflow-hidden relative shadow-2xl transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-80 grayscale-[0.3] pointer-events-none' : ''}`}>
+                                    <div className={`flex flex-col md:flex-row w-full min-h-[400px] md:min-h-[440px] max-h-[480px] rounded-[2.5rem] overflow-hidden relative bg-white border border-slate-100/50 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12),_0_10px_30px_-10px_rgba(0,0,0,0.06),_inset_0_2px_4px_rgba(255,255,255,1)] ring-1 ring-slate-900/10 transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-80 grayscale-[0.3] pointer-events-none' : ''}`}>
                                         
                                         {/* Option A */}
                                         {a && (
@@ -233,16 +240,16 @@ export default function VersusGame(props: GameProps) {
                                                     animate={{ scale: 1, rotate: 0 }}
                                                     exit={{ scale: 0 }}
                                                     transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.2 }}
-                                                    className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-2xl border-[4px] md:border-[6px] border-slate-100/30 text-slate-800 font-black text-sm md:text-xl tracking-tighter backdrop-blur-xl"
+                                                    className="w-14 h-14 md:w-20 md:h-20 bg-white/80 backdrop-blur-xl rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-200/60 ring-4 ring-white/50 text-slate-900 font-black text-lg md:text-2xl tracking-tighter"
                                                 >
-                                                    <span className="bg-gradient-to-br from-slate-700 to-slate-900 bg-clip-text text-transparent italic pr-0.5">VS</span>
+                                                    <span className="bg-gradient-to-br from-brand-600 to-accent-600 bg-clip-text text-transparent italic pr-0.5 drop-shadow-sm">VS</span>
                                                 </motion.div>
                                             </div>
                                         )}
 
                                         {/* Divider dinámico que aparece al votar para separar claramente las áreas */}
                                         {(selected || result) && (
-                                            <div className="absolute top-1/2 left-0 w-full h-[2px] md:top-0 md:left-1/2 md:w-[2px] md:h-full bg-white/50 z-20 mix-blend-overlay pointer-events-none" />
+                                            <div className="absolute top-1/2 left-0 w-full h-[2px] md:top-0 md:left-1/2 md:w-[2px] md:h-full bg-slate-100 z-20 pointer-events-none" />
                                         )}
 
                                         {/* Option B */}
@@ -275,7 +282,7 @@ export default function VersusGame(props: GameProps) {
                                         <div className="mt-3 md:mt-4 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 relative z-20">
                                             <button 
                                                 onClick={() => next()}
-                                                className="text-[11px] md:text-xs font-bold text-slate-400 hover:text-slate-600 uppercase tracking-widest transition-colors py-2 px-4 rounded-full hover:bg-slate-100"
+                                                className="text-[11px] md:text-xs font-bold text-slate-500 hover:text-slate-800 uppercase tracking-widest transition-colors py-2 px-4 rounded-full hover:bg-slate-100"
                                             >
                                                 Saltar señal
                                             </button>
@@ -283,7 +290,7 @@ export default function VersusGame(props: GameProps) {
                                             {props.showExploreCTA && (
                                                 <Link 
                                                     to="/m/versus"
-                                                    className="text-[11px] md:text-xs font-bold text-primary/70 hover:text-primary uppercase tracking-widest transition-colors py-2 px-4 rounded-full hover:bg-primary/5"
+                                                    className="text-[11px] md:text-xs font-bold text-brand/70 hover:text-brand uppercase tracking-widest transition-colors py-2 px-4 rounded-full hover:bg-brand/5"
                                                 >
                                                     Elige tu tema
                                                 </Link>
@@ -302,6 +309,7 @@ export default function VersusGame(props: GameProps) {
                     </AnimatePresence >
                 )
             }
+            </div>
 
             <VersusGameModals
                 showAuthModal={showAuthModal}

@@ -33,7 +33,7 @@ export function StepDemographics({
             className="p-8 flex-1 flex flex-col"
         >
             <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-600">
+                <div className="w-16 h-16 bg-brand-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-brand-600">
                     <span className="material-symbols-rounded text-3xl">diversity_3</span>
                 </div>
                 <h2 id="onboarding-title" className="text-2xl font-black text-slate-900 tracking-tight">Tu Perfil</h2>
@@ -44,7 +44,7 @@ export function StepDemographics({
 
             {errorMsg && (
                 <div role="alert" aria-live="polite">
-                    <p className="text-xs text-red-500 font-bold mb-4 text-center">{errorMsg}</p>
+                    <p className="text-xs text-danger-500 font-bold mb-4 text-center">{errorMsg}</p>
                 </div>
             )}
 
@@ -62,7 +62,7 @@ export function StepDemographics({
                                 key={g.id}
                                 aria-labelledby="gender-label"
                                 onClick={() => setGender(g.id)}
-                                className={`py-2.5 rounded-xl text-xs font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${gender === g.id ? 'bg-primary-600 border-primary-600 text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-primary-200'
+                                className={`py-2.5 rounded-xl text-xs font-bold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand/50 ${gender === g.id ? 'bg-brand border-brand text-white' : 'bg-white border-slate-100 text-slate-500 hover:border-brand/30'
                                     }`}
                             >
                                 {g.label}
@@ -78,7 +78,7 @@ export function StepDemographics({
                         id="ageRange"
                         value={ageRange}
                         onChange={(e) => setAgeRange(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand/50"
                     >
                         <option value="">Selecciona…</option>
                         {SEG_AGE_BUCKETS.filter(a => a.value !== "all").map(a => (
@@ -94,7 +94,7 @@ export function StepDemographics({
                         id="region"
                         value={region}
                         onChange={(e) => setRegion(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand/50"
                     >
                         <option value="">Selecciona…</option>
                         {SEG_REGIONS.filter(r => r.value !== "all").map(r => (
@@ -106,7 +106,7 @@ export function StepDemographics({
                 <button
                     onClick={onSave}
                     disabled={!gender || !ageRange || !region || loading}
-                    className="w-full bg-slate-900 py-4 rounded-2xl font-black text-white shadow-xl transition-all active:scale-[0.98] disabled:opacity-30 mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500"
+                    className="w-full bg-slate-900 py-4 rounded-2xl font-black text-white shadow-xl transition-all active:scale-[0.98] disabled:opacity-30 mt-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand/50"
                 >
                     {loading ? 'Un segundo…' : 'Listo'}
                 </button>

@@ -49,10 +49,26 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run dev',
-  //   url: 'http://localhost:5173',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  /**
+   * Dev server automático para Playwright.
+   *
+   * `reuseExistingServer: !CI` hace que en local: si ya tenés `npm run dev`
+   * corriendo en otra pestaña, Playwright lo reutiliza (rápido, mismo HMR
+   * que al desarrollar). En CI, como no hay server previo, lo arranca él.
+   *
+   * Timeout amplio (120s) para que `vite` tenga tiempo de bootear en la
+   * primera instalación de deps sin que el CI falle por falso negativo.
+   */
+  webServer: {
+    // Para e2e desactivamos el access gate vía la variable oficial
+    // (VITE_ACCESS_GATE_ENABLED=false) en lugar de usar un bypass client-side.
+    // Esto solo afecta al dev-server levantado por Playwright; `npm run dev`
+    // manual y el build de producción mantienen el gate activo.
+    command: 'VITE_ACCESS_GATE_ENABLED=false npm run dev',
+    url: 'http://localhost:5173',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000,
+    stdout: process.env.CI ? 'pipe' : 'ignore',
+    stderr: 'pipe',
+  },
 });

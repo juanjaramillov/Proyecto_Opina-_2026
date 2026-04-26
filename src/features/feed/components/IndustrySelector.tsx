@@ -88,17 +88,17 @@ export function IndustrySelector({
                                 onSubcategoryChange(null);
                             }}
                             className={`p-3 rounded-2xl border transition-all duration-300 active:scale-95 text-center flex flex-col items-center gap-2 group relative overflow-hidden ${selectedParentId === 'mix'
-                                ? 'border-primary-500 bg-primary-50 shadow-md ring-2 ring-primary-500/20'
+                                ? 'border-brand bg-brand/10 shadow-md ring-2 ring-brand-500/20'
                                 : 'border-slate-100 bg-white hover:shadow-xl hover:-translate-y-1'
                                 }`}
                             style={{ '--hover-color': '#2563eb' } as React.CSSProperties}
                         >
                             <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg ${selectedParentId === 'mix'
-                                ? 'bg-primary-500 text-white'
+                                ? 'bg-brand text-white'
                                 : 'bg-slate-50 text-slate-600 group-hover:text-white'
                                 }`}>
                                 {selectedParentId !== 'mix' && (
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl -z-10 bg-primary-600" />
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl -z-10 bg-brand" />
                                 )}
                                 <span className="material-symbols-outlined text-xl relative z-10">hub</span>
                             </div>
@@ -119,13 +119,13 @@ export function IndustrySelector({
                                     onSubcategoryChange(null);
                                 }}
                                 className={`p-3 rounded-2xl border transition-all duration-300 active:scale-95 text-center flex flex-col items-center gap-2 group relative overflow-visible ${isActive
-                                    ? 'border-primary-500 bg-primary-50 shadow-md ring-2 ring-primary-500/20'
+                                    ? 'border-brand bg-brand/10 shadow-md ring-2 ring-brand-500/20'
                                     : 'border-slate-100 bg-white hover:shadow-xl hover:-translate-y-1'
                                     }`}
                                 style={{ '--hover-color': t.theme.primary } as React.CSSProperties}
                             >
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg ${isActive
-                                    ? 'bg-primary-500 text-white'
+                                    ? 'bg-brand text-white'
                                     : 'bg-slate-50 text-slate-600 group-hover:text-white'
                                     }`}>
                                     {!isActive && (
@@ -220,13 +220,13 @@ export function IndustrySelector({
                                     variants={vItem}
                                     onClick={() => onSubcategoryChange(sub.id)}
                                     className={`p-3 rounded-2xl border transition-all duration-300 active:scale-95 flex items-center gap-3 group relative overflow-hidden ${isSelected
-                                        ? 'border-primary-500 bg-primary-50 shadow-md ring-2 ring-primary-500/20'
+                                        ? 'border-brand bg-brand/10 shadow-md ring-2 ring-brand-500/20'
                                         : 'border-slate-100 bg-white hover:shadow-xl hover:-translate-y-1'
                                         }`}
                                 >
                                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isSelected
-                                        ? 'bg-primary-500 text-white'
-                                        : 'bg-slate-50 text-slate-600 group-hover:bg-primary-500 group-hover:text-white'
+                                        ? 'bg-brand text-white'
+                                        : 'bg-slate-50 text-slate-600 group-hover:bg-brand group-hover:text-white'
                                         }`}>
                                         <span className="material-symbols-outlined text-lg">
                                             {sub.icon || 'label'}

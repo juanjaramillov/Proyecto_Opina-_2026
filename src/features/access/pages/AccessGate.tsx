@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../../supabase/client';
+import { typedRpc } from '../../../supabase/typedRpc';
 import { accessGate } from '../services/accessGate';
 import FeedbackFab from '../../../components/ui/FeedbackFab';
 import { analyticsService } from "../../analytics/services/analyticsService";
-import { logger } from '../../../lib/logger';
+
+import { useAuthContext } from '../../auth/context/AuthContext';
 
 function getNext(search: string) {
     const params = new URLSearchParams(search);
@@ -15,6 +17,7 @@ function getNext(search: string) {
 export default function AccessGatePage() {
     const nav = useNavigate();
     const loc = useLocation();
+    const { accessState } = useAuthContext();
 
     const nextPath = useMemo(() => getNext(loc.search), [loc.search]);
 
@@ -26,13 +29,11 @@ export default function AccessGatePage() {
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState<string | null>(null);
 
-    const daysValid = Number(import.meta.env.VITE_ACCESS_GATE_DAYS_VALID ?? '30');
-
     useEffect(() => {
-        if (accessGate.isEnabled() && accessGate.hasAccess()) {
+        if (accessGate.isEnabled() && !accessState.isLoading && accessState.hasAccessGateToken) {
             nav(nextPath, { replace: true });
         }
-    }, [nextPath, nav]);
+    }, [nextPath, nav, accessState]);
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -48,8 +49,15 @@ export default function AccessGatePage() {
         analyticsService.trackSystem("access_gate_submit", "info", { code_len: normalized.length, next: nextPath });
         setLoading(true);
         try {
-            // 1) Validar en modo anon (NO consumir / NO claim)
-            const { data: isValid, error: vErr } = await (supabase.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: boolean | null; error: unknown }>)('validate_invitation', {
+            // 1. Sign in anonymously if no session exists, to link the custom claim metadata
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                const { error: anonErr } = await supabase.auth.signInAnonymously();
+                if (anonErr) throw anonErr;
+            }
+
+            // 2. Add custom JWT claim via RPC
+            const { data: isValid, error: vErr } = await typedRpc<boolean>('grant_pilot_access', {
                 p_code: normalized,
             });
             if (vErr) throw vErr;
@@ -60,11 +68,11 @@ export default function AccessGatePage() {
                 return;
             }
 
-            // 2) Guardar pase local para permitir navegar el piloto (sin quemar el código)
-            accessGate.grant(`CODE:${normalized}`, Number.isFinite(daysValid) ? daysValid : 30);
-            analyticsService.trackSystem("access_gate_granted_local", "info", { days_valid: daysValid, next: nextPath });
+            // 3. Force refresh so the new claim is recognized by AuthContext downstream
+            await supabase.auth.refreshSession();
+            analyticsService.trackSystem("access_gate_granted_jwt", "info", { next: nextPath });
 
-            // 3) Entrar
+            // 4. Entrar
             nav(nextPath, { replace: true });
         } catch (error: unknown) {
             const msg = error instanceof Error ? error.message : String(error);
@@ -93,60 +101,27 @@ export default function AccessGatePage() {
                                 value={code}
                                 onChange={(e) => setCode(e.target.value)}
                                 placeholder="Ej: OPINA-7F3K"
-                                className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900 uppercase"
+                                className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-brand focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-slate-900 uppercase"
                                 autoFocus
                             />
                             <p className="text-[11px] text-slate-500 mt-2 font-medium">Respeta mayúsculas y guiones.</p>
-                            {err && <p className="text-sm text-red-600 mt-2 font-medium">Código de invitación expirado o no válido.</p>}
+                            {err && <p className="text-sm text-danger-600 mt-2 font-medium">Código de invitación expirado o no válido.</p>}
                         </div>
 
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3.5 rounded-xl bg-primary hover:opacity-90 text-white font-black transition-all disabled:opacity-50 shadow-sm"
+                            className="w-full py-3.5 rounded-xl bg-brand hover:opacity-90 text-white font-black transition-all disabled:opacity-50 shadow-sm"
                         >
                             {loading ? 'Verificando código…' : 'Entrar'}
                         </button>
 
-                        {/* Admin bypass (visible para todos, valida rol en el click) */}
+                        {/* Admin bypass redirect */}
                         <div className="mt-4 border-t border-slate-100 pt-4">
                             <button
                                 type="button"
-                                onClick={async () => {
-                                    try {
-                                        // Validar primero si hay una sesión activa real de Supabase
-                                        const { data: { user: currentUser } } = await supabase.auth.getUser();
-
-                                        if (!currentUser || currentUser.is_anonymous) {
-                                            nav('/admin-login');
-                                            return;
-                                        }
-
-                                        // Requiere que exista tabla users con role y que el usuario ya esté autenticado
-                                        const { data, error } = await supabase
-                                            .from("users")
-                                            .select("role")
-                                            .eq("user_id", currentUser.id)
-                                            .single();
-
-                                        if (error) {
-                                            nav('/admin-login');
-                                            return;
-                                        }
-
-                                        if (data?.role === "admin") {
-                                            analyticsService.trackSystem("access_gate_admin_bypass", "info");
-                                            localStorage.setItem("opina_access_pass", "admin");
-                                            window.location.href = "/";
-                                        } else {
-                                            nav('/admin-login');
-                                        }
-                                    } catch (err) {
-                                        logger.error("Bypass admin error", err);
-                                        nav('/admin-login');
-                                    }
-                                }}
-                                className="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-primary-600 hover:border-primary-200 transition-all shadow-sm"
+                                onClick={() => nav('/admin-login')}
+                                className="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-brand hover:border-brand/30 transition-all shadow-sm"
                             >
                                 <span className="material-symbols-outlined text-sm">shield_person</span>
                                 Ingreso Administrador
@@ -162,7 +137,7 @@ export default function AccessGatePage() {
                     </p>
                     <button
                         onClick={() => nav('/')}
-                        className="text-[12px] font-bold text-slate-400 hover:text-primary-600 transition-colors uppercase tracking-wider"
+                        className="text-[12px] font-bold text-slate-400 hover:text-brand transition-colors uppercase tracking-wider"
                     >
                         Volver al inicio
                     </button>
@@ -170,9 +145,9 @@ export default function AccessGatePage() {
                 
                 {/* Legal links */}
                 <div className="mt-8 flex justify-center gap-4 text-[11px] font-medium text-slate-400">
-                    <button onClick={() => nav('/privacy')} className="hover:text-primary-600 transition-colors">Privacidad</button>
+                    <button onClick={() => nav('/privacy')} className="hover:text-brand transition-colors">Privacidad</button>
                     <span>·</span>
-                    <button onClick={() => nav('/terms')} className="hover:text-primary-600 transition-colors">Términos</button>
+                    <button onClick={() => nav('/terms')} className="hover:text-brand transition-colors">Términos</button>
                 </div>
             </div>
             <FeedbackFab />

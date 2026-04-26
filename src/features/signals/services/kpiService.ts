@@ -1,5 +1,5 @@
-import { supabase as sb } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
+import { typedRpc } from "../../../supabase/typedRpc";
 
 export interface ActivityKPIs {
     dau: number;
@@ -32,20 +32,32 @@ export type EngagementQualityRow = {
     avg_profile_completeness: number;
 };
 
+export interface TemporalMovieRow {
+    time_bucket: string;
+    option_id: string;
+    option_label: string;
+    n_eff: number;
+    share_pct: number;
+    tendencia: number;
+    aceleracion: number;
+    volatilidad: number;
+    persistencia: number;
+}
+
 export const kpiService = {
     getKPIActivity: async (): Promise<ActivityKPIs> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: ActivityKPIs[] | null, error: unknown }>)('get_kpi_activity');
+        const { data, error } = await typedRpc<ActivityKPIs[]>('get_kpi_activity');
         if (error) {
-            logger.error('[KPIService] Error fetching KPI activity:', error);
+            logger.error('[KPIService] Error fetching KPI activity:', undefined, error);
             return { dau: 0, wau: 0, mau: 0 };
         }
         return data?.[0] || { dau: 0, wau: 0, mau: 0 };
     },
 
     getRetentionMetrics: async (): Promise<RetentionMetrics> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: RetentionMetrics[] | null, error: unknown }>)('get_retention_metrics');
+        const { data, error } = await typedRpc<RetentionMetrics[]>('get_retention_metrics');
         if (error) {
-            logger.error('[KPIService] Error fetching retention metrics:', error);
+            logger.error('[KPIService] Error fetching retention metrics:', undefined, error);
             return { retention_day_1: 0, retention_day_7: 0 };
         }
         return data?.[0] || { retention_day_1: 0, retention_day_7: 0 };
@@ -56,17 +68,17 @@ export const kpiService = {
         startDate?: string,
         endDate?: string
     ): Promise<ShareOfPreferenceRow[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>)('kpi_share_of_preference', {
+        const { data, error } = await typedRpc<ShareOfPreferenceRow[]>('kpi_share_of_preference', {
             p_battle_id: battleId,
             p_start_date: startDate || undefined,
             p_end_date: endDate || undefined,
         });
 
         if (error) {
-            logger.error('[KPI Share] Error:', error);
+            logger.error('[KPI Share] Error:', undefined, error);
             return [];
         }
-        return (data ?? []) as unknown as ShareOfPreferenceRow[];
+        return data ?? [];
     },
 
     getTrendVelocity: async (
@@ -75,7 +87,7 @@ export const kpiService = {
         startDate?: string,
         endDate?: string
     ): Promise<TrendVelocityRow[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>)('kpi_trend_velocity', {
+        const { data, error } = await typedRpc<TrendVelocityRow[]>('kpi_trend_velocity', {
             p_battle_id: battleId,
             p_bucket: bucket,
             p_start_date: startDate || undefined,
@@ -83,10 +95,10 @@ export const kpiService = {
         });
 
         if (error) {
-            logger.error('[KPI Trend] Error:', error);
+            logger.error('[KPI Trend] Error:', undefined, error);
             return [];
         }
-        return (data ?? []) as unknown as TrendVelocityRow[];
+        return data ?? [];
     },
 
     async getEngagementQuality(
@@ -94,16 +106,32 @@ export const kpiService = {
         startDate?: string,
         endDate?: string
     ): Promise<EngagementQualityRow[]> {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>)('kpi_engagement_quality', {
+        const { data, error } = await typedRpc<EngagementQualityRow[]>('kpi_engagement_quality', {
             p_battle_id: battleId,
             p_start_date: startDate || undefined,
             p_end_date: endDate || undefined,
         });
 
         if (error) {
-            logger.error('[KPI Quality] Error:', error);
+            logger.error('[KPI Quality] Error:', undefined, error);
             return [];
         }
-        return (data ?? []) as unknown as EngagementQualityRow[];
+        return data ?? [];
+    },
+
+    getTemporalMovieKPIs: async (
+        battleId: string,
+        bucketType: 'day' | 'week' | 'month' = 'day'
+    ): Promise<TemporalMovieRow[]> => {
+        const { data, error } = await typedRpc<TemporalMovieRow[]>('calculate_temporal_movie', {
+            p_battle_id: battleId,
+            p_bucket_type: bucketType,
+        });
+
+        if (error) {
+            logger.error('[KPI Temporal Movie] Error:', undefined, error);
+            return [];
+        }
+        return data ?? [];
     }
 } as const;

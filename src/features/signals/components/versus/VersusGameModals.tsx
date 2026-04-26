@@ -56,10 +56,10 @@ export function VersusGameModals({
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             className="relative bg-white rounded-[2rem] p-8 md:p-10 max-w-md w-full shadow-2xl border border-slate-100 text-center overflow-hidden"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary-100/50 rounded-full blur-[40px] pointer-events-none"></div>
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-brand-100/50 rounded-full blur-[40px] pointer-events-none"></div>
 
                             <div className="relative z-10">
-                                <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary-500 shadow-sm">
+                                <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-brand shadow-sm">
                                     <span className="material-symbols-outlined text-3xl">verified_user</span>
                                 </div>
                                 <h2 className="text-2xl font-black text-slate-900 mb-4 drop-shadow-sm">Señal Protegida</h2>
@@ -69,7 +69,7 @@ export function VersusGameModals({
                                 <div className="space-y-3">
                                     <button
                                         onClick={() => navigate('/profile')}
-                                        className="w-full py-4 bg-gradient-to-r from-blue-600 to-emerald-500 text-white rounded-xl font-black text-sm uppercase tracking-widest shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
+                                        className="w-full py-4 bg-gradient-to-br from-brand to-accent text-white rounded-xl font-black text-sm uppercase tracking-widest shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
                                     >
                                         INICIAR SESIÓN
                                     </button>

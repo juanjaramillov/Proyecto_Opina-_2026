@@ -21,7 +21,12 @@ export default function AdminActualidad() {
     updateStatus,
     openEditor,
     triggerExtraction,
-    extracting
+    extracting,
+    selectedTopicIds,
+    toggleSelection,
+    selectAll,
+    clearSelection,
+    deleteSelectedTopics
   } = useAdminActualidad();
 
   return (
@@ -57,6 +62,11 @@ export default function AdminActualidad() {
         activeTab={activeTab}
         onUpdateStatus={updateStatus}
         onOpenEditor={openEditor}
+        selectedIds={selectedTopicIds}
+        onToggleSelect={toggleSelection}
+        onSelectAll={selectAll}
+        onClearSelection={clearSelection}
+        onDeleteSelected={deleteSelectedTopics}
       />
     </div>
   );

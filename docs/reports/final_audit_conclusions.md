@@ -1,5 +1,11 @@
 # Auditoría Final de Preparación Operativa (Opina+ V15) 🚀
 
+> **ℹ ESTADO: HISTÓRICO — Cierre del sprint de V15 (Marzo 2026).**
+> Este documento cierra formalmente los hallazgos de `docs/audit/full-project-audit-master.md`.
+> El proyecto ha avanzado desde esta fecha (V15 → V16) con cambios adicionales de seguridad
+> (JWT gate, V14 event columns), migración de paleta y limpieza de raíz. Para el estado
+> vivo del proyecto, consultar `docs/PROJECT_MASTER_STATUS.md` y `docs/DEBT_REGISTER.md`.
+
 **Fecha de Ejecución:** Lunes, 30 de Marzo de 2026.
 **Alcance:** Revisión exhaustiva del cierre del Roadmap Fase 4 (Demo Readiness, Hardening Operativo, Data Isolation y Legal/Trust Layer).
 

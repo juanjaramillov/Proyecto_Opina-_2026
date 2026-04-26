@@ -35,7 +35,7 @@ export default function OverviewB2B() {
             <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="text-center space-y-4">
                     <Building2 className="w-16 h-16 text-slate-300 mx-auto" />
-                    <h2 className="text-xl font-bold text-slate-800">Acceso Restringido</h2>
+                    <h2 className="text-xl font-bold text-ink">Acceso Restringido</h2>
                     <p className="text-slate-500">No tienes permisos de analista corporativo.</p>
                 </div>
             </div>
@@ -60,7 +60,7 @@ export default function OverviewB2B() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
                 <div className="lg:col-span-2">
-                    <h3 className="text-xl font-bold text-slate-900 mb-6 px-2">Ranking Competitivo</h3>
+                    <h3 className="text-xl font-bold text-ink mb-6 px-2">Ranking Competitivo</h3>
                     <OverviewB2BEntityList 
                         loading={loading}
                         searchTerm={searchTerm}

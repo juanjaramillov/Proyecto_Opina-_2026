@@ -28,7 +28,7 @@ export function AdminActualidadFilters({
         <select 
           value={categoryFilter} 
           onChange={e => setCategoryFilter(e.target.value as TopicCategory | 'all')}
-          className="appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 shadow-sm transition-all cursor-pointer"
+          className="appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand shadow-sm transition-all cursor-pointer"
         >
           <option value="all">Todas las Categorías</option>
           {['País', 'Economía', 'Ciudad / Vida diaria', 'Marcas y Consumo', 'Deportes y Cultura', 'Tendencias y Sociedad'].map(c => <option key={c} value={c}>{c}</option>)}
@@ -42,7 +42,7 @@ export function AdminActualidadFilters({
           <select 
             value={sourceFilter} 
             onChange={e => setSourceFilter(e.target.value)}
-            className="appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 shadow-sm transition-all cursor-pointer"
+            className="appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand shadow-sm transition-all cursor-pointer"
           >
             <option value="all">Todas las Fuentes</option>
             {uniqueSources.map(s => <option key={s} value={s}>{s}</option>)}

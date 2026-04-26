@@ -27,8 +27,8 @@ export function VersusFeedbackOverlay({ clickPosition }: VersusFeedbackOverlayPr
                     className="fixed z-[999] pointer-events-none drop-shadow-2xl"
                 >
                     <div className="h-12 w-12 rounded-full bg-white/95 border border-slate-100 shadow-[0_15px_35px_rgba(0,0,0,0.15)] flex items-center justify-center backdrop-blur-2xl relative overflow-hidden">
-                        <div className="absolute inset-0 border-2 border-emerald-400/20 rounded-full animate-pulse" />
-                        <span className="material-symbols-outlined text-[28px] font-black text-emerald-500 drop-shadow-sm">check</span>
+                        <div className="absolute inset-0 border-2 border-accent-400/20 rounded-full animate-pulse" />
+                        <span className="material-symbols-outlined text-[28px] font-black text-accent drop-shadow-sm">check</span>
                     </div>
                 </motion.div>
             )}

@@ -4,8 +4,7 @@ import { TopicQuestion, QuestionType } from "../../signals/types/actualidad";
 
 interface EditorPreguntasProps {
     questions: TopicQuestion[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    handleQuestionChange: (orderIdx: number, field: string, value: any) => void;
+    handleQuestionChange: (orderIdx: number, field: string, value: string | string[] | number) => void;
     handleQuestionOptionAdd: (orderIdx: number) => void;
     handleQuestionOptionChange: (orderIdx: number, optIdx: number, value: string) => void;
     handleQuestionOptionRemove: (orderIdx: number, optIdx: number) => void;
@@ -52,7 +51,7 @@ export function EditorPreguntas({
                                     type="text"
                                     value={q.text || ""}
                                     onChange={e => handleQuestionChange(idx, 'text', e.target.value)}
-                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-slate-800 text-base shadow-sm"
+                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none font-bold text-slate-800 text-base shadow-sm"
                                     placeholder="Ej: ¿Qué tan de acuerdo estás con..."
                                 />
                             </div>
@@ -64,7 +63,7 @@ export function EditorPreguntas({
                                 <select
                                     value={q.type || 'single_choice'}
                                     onChange={e => handleQuestionChange(idx, 'type', e.target.value as QuestionType)}
-                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700 shadow-sm"
+                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none font-bold text-sm text-slate-700 shadow-sm"
                                 >
                                     <option value="scale_0_10">Escala 0-10</option>
                                     <option value="scale_5">Escala de 5 (Likert)</option>
@@ -83,7 +82,7 @@ export function EditorPreguntas({
                                     </label>
                                     <button
                                         onClick={() => handleQuestionOptionAdd(idx)}
-                                        className="text-xs font-bold text-primary-600 bg-primary-50 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-primary-100"
+                                        className="text-xs font-bold text-brand bg-brand/10 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-brand/20"
                                     >
                                         <Plus className="w-3 h-3" /> Añadir
                                     </button>
@@ -98,12 +97,12 @@ export function EditorPreguntas({
                                                 type="text"
                                                 value={opt || ""}
                                                 onChange={e => handleQuestionOptionChange(idx, oIdx, e.target.value)}
-                                                className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none text-sm font-medium"
+                                                className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand/50 outline-none text-sm font-medium"
                                                 placeholder="Valor de la alternativa..."
                                             />
                                             <button
                                                 onClick={() => handleQuestionOptionRemove(idx, oIdx)}
-                                                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg"
+                                                className="p-2 text-slate-400 hover:text-danger-500 hover:bg-danger-50 rounded-lg"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
@@ -116,8 +115,8 @@ export function EditorPreguntas({
                         {q.type === 'yes_no' && (
                             <div className="mt-4 pt-4 border-t border-slate-200 pl-2">
                                 <div className="flex gap-3">
-                                    <div className="px-4 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-sm font-bold shadow-sm">Sí / A Favor</div>
-                                    <div className="px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-xl text-sm font-bold shadow-sm">No / En Contra</div>
+                                    <div className="px-4 py-2 bg-accent/10 text-accent border border-accent-200 rounded-xl text-sm font-bold shadow-sm">Sí / A Favor</div>
+                                    <div className="px-4 py-2 bg-danger-50 text-danger-700 border border-danger-200 rounded-xl text-sm font-bold shadow-sm">No / En Contra</div>
                                 </div>
                             </div>
                         )}

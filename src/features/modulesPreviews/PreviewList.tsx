@@ -1,13 +1,11 @@
 import { Skeleton } from '../../components/ui/Skeleton';
 
-interface PreviewListProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    items?: Record<string, any>[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    renderItem?: (item: any, index: number) => React.ReactNode;
+interface PreviewListProps<T = unknown> {
+    items?: T[];
+    renderItem?: (item: T, index: number) => React.ReactNode;
 }
 
-const PreviewList: React.FC<PreviewListProps> = ({ items = [], renderItem }) => {
+function PreviewList<T>({ items = [], renderItem }: PreviewListProps<T>) {
     return (
         <div className="space-y-4">
             {items.length > 0 && renderItem ? (
@@ -27,6 +25,6 @@ const PreviewList: React.FC<PreviewListProps> = ({ items = [], renderItem }) => 
             )}
         </div>
     );
-};
+}
 
 export default PreviewList;

@@ -39,17 +39,16 @@ export function useActualidadEditor(id: string | undefined) {
                 });
 
                 // Helper para asegurar que las opciones sean SIEMPRE un arreglo de strings
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const sanitizeOptions = (opts: any) => {
+                const sanitizeOptions = (opts: unknown): string[] => {
                     if (!Array.isArray(opts)) return [];
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    return opts.map((opt: any) => {
+                    return opts.map((opt: unknown) => {
                         if (typeof opt === 'string') return opt;
                         if (opt && typeof opt === 'object') {
-                            return opt.text || opt.label || opt.value || opt.title || Object.values(opt).find(v => typeof v === 'string') || "Opción";
+                            const o = opt as Record<string, unknown>;
+                            return (o.text as string) || (o.label as string) || (o.value as string) || (o.title as string) || Object.values(o).find(v => typeof v === 'string') as string || "Opción";
                         }
                         return String(opt);
-                    }).filter(Boolean);
+                    }).filter(Boolean) as string[];
                 };
 
                 let sortedQ = [...(data.questions || [])].sort((a, b) => a.order - b.order);

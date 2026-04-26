@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Bell, Activity, Search } from "lucide-react";
 import { analyticsService } from "../../../features/analytics/services/analyticsService";
 import { useOverviewB2BState } from "../hooks/useOverviewB2BState";
+import { GradientText } from "../../../components/ui/foundation";
 
 export default function AlertsB2B() {
     const { loading, snapshot } = useOverviewB2BState();
@@ -31,9 +32,9 @@ export default function AlertsB2B() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                        <Bell className="w-8 h-8 text-indigo-600" />
-                        <span className="text-gradient-brand">Early Warnings</span>
+                    <h1 className="text-3xl font-bold text-ink tracking-tight flex items-center gap-3">
+                        <Bell className="w-8 h-8 text-brand-600" />
+                        <GradientText>Early Warnings</GradientText>
                     </h1>
                     <p className="text-slate-500 mt-1">
                         ¿Dónde cambió algo importante? Detección automática de riesgos e incrementos de preferencia traccionados por el consumidor B2C.
@@ -43,9 +44,9 @@ export default function AlertsB2B() {
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={refreshData}
-                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
+                        className="px-4 py-2 bg-white border border-stroke rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
                     >
-                        <Activity className="w-4 h-4 text-indigo-500" />
+                        <Activity className="w-4 h-4 text-brand-500" />
                         Refrescar
                     </button>
                 </div>
@@ -59,13 +60,13 @@ export default function AlertsB2B() {
                             <input
                                 type="text"
                                 placeholder="Filtrar entidad..."
-                                className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-indigo-500 transition"
+                                className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-brand-500 transition"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <select 
-                            className="bg-slate-50 border-none rounded-xl text-sm py-2 px-4 focus:ring-2 focus:ring-indigo-500"
+                            className="bg-slate-50 border-none rounded-xl text-sm py-2 px-4 focus:ring-2 focus:ring-brand-500"
                             value={filterSeverity}
                             onChange={(e) => setFilterSeverity(e.target.value)}
                         >
@@ -85,17 +86,17 @@ export default function AlertsB2B() {
                             ))
                         ) : filteredAlerts.length > 0 ? (
                             filteredAlerts.map((alert) => (
-                                <div key={alert.id} className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-100 transition-all">
+                                <div key={alert.id} className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand-100 transition-all">
                                     <div className="flex items-start justify-between mb-3">
                                         <div className="flex items-center gap-2">
                                             <span className={`w-2.5 h-2.5 rounded-full ${
-                                                alert.severity === 'high' ? 'bg-rose-500 animate-pulse' :
-                                                alert.severity === 'medium' ? 'bg-amber-500' : 'bg-blue-500'
+                                                alert.severity === 'high' ? 'bg-danger-500 animate-pulse' :
+                                                alert.severity === 'medium' ? 'bg-warning-500' : 'bg-brand-500'
                                             }`} />
-                                            <p className="text-xs font-black text-slate-900 tracking-wide uppercase">{alert.category}</p>
+                                            <p className="text-xs font-black text-ink tracking-wide uppercase">{alert.category}</p>
                                         </div>
                                     </div>
-                                    <h3 className="text-sm font-bold text-slate-800 mb-1">
+                                    <h3 className="text-sm font-bold text-ink mb-1">
                                         {alert.entityName || alert.headline}
                                     </h3>
                                     <p className="text-xs text-slate-500 leading-relaxed mb-4">
@@ -110,7 +111,7 @@ export default function AlertsB2B() {
                         ) : (
                             <div className="col-span-full py-12 text-center">
                                 <Bell className="w-12 h-12 text-slate-200 mx-auto mb-3" />
-                                <h3 className="text-sm font-bold text-slate-800 mb-1">Mercado sin sorpresas</h3>
+                                <h3 className="text-sm font-bold text-ink mb-1">Mercado sin sorpresas</h3>
                                 <p className="text-xs text-slate-500">No se registran alertas con esos parámetros o aún no hay datos suficientes de mercado.</p>
                             </div>
                         )}

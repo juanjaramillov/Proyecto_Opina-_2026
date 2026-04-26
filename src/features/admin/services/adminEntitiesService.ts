@@ -8,7 +8,7 @@ export interface EntityMetadata {
   contact?: { address?: string; phone?: string };
   socials?: { instagram?: string; website?: string };
   image_source?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface AdminEntity {

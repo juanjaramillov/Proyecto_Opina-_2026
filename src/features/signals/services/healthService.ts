@@ -1,5 +1,6 @@
 import { supabase as sb } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
+import { typedRpc } from "../../../supabase/typedRpc";
 
 export interface SystemHealth {
     data_quality_score: number;
@@ -35,9 +36,9 @@ export interface SystemHealthDB {
 
 export const healthService = {
     getSystemHealthMetrics: async (): Promise<SystemHealth> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: SystemHealthDB | null, error: unknown }>)('get_system_health_metrics');
+        const { data, error } = await typedRpc<SystemHealthDB>('get_system_health_metrics');
         if (error || !data) {
-            if (error) logger.error('[HealthService] Error fetching health metrics:', error);
+            if (error) logger.error('[HealthService] Error fetching health metrics:', undefined, error);
             return { data_quality_score: 0, profile_completeness_avg: 0, signal_integrity_pct: 0 };
         }
         return {
@@ -55,28 +56,28 @@ export const healthService = {
             .order("last_signal_at", { ascending: false });
 
         if (error) {
-            logger.error('[HealthService] Error fetching suspicious users:', error);
+            logger.error('[HealthService] Error fetching suspicious users:', undefined, error);
             return [];
         }
 
-        return (data as unknown) as SuspiciousUser[];
+        return (data ?? []) as SuspiciousUser[];
     },
 
     getPlatformAlerts: async (limit: number = 10): Promise<PlatformAlert[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: PlatformAlert[] | null, error: unknown }>)('get_platform_alerts', {
+        const { data, error } = await typedRpc<PlatformAlert[]>('get_platform_alerts', {
             p_limit: limit
         });
 
         if (error) {
-            logger.error('[HealthService] Error fetching platform alerts:', error);
+            logger.error('[HealthService] Error fetching platform alerts:', undefined, error);
             return [];
         }
 
-        return (data as PlatformAlert[]) || [];
+        return data || [];
     },
 
     markPlatformAlertRead: async (alertId: string): Promise<boolean> => {
-        const { error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ error: unknown }>)('mark_platform_alert_read', {
+        const { error } = await typedRpc<unknown>('mark_platform_alert_read', {
             p_alert_id: alertId
         });
 

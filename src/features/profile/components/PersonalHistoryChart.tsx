@@ -37,7 +37,7 @@ const PersonalHistoryChart: React.FC<Props> = ({ data }) => {
     const scores = sortedData.map(d => d.avg_score);
 
     // Using values that align with the brand (you could also read CSS variables here)
-    const brandColor = '#4318FF'; // Corporate primary
+    const brandColor = '#2563EB'; // brand
 
     const chartData = {
         labels,
@@ -46,7 +46,7 @@ const PersonalHistoryChart: React.FC<Props> = ({ data }) => {
                 label: 'Valoración Media',
                 data: scores,
                 borderColor: brandColor,
-                backgroundColor: 'rgba(67, 24, 255, 0.05)',
+                backgroundColor: 'rgba(37, 99, 235, 0.05)',
                 borderWidth: 3,
                 pointBackgroundColor: '#fff',
                 pointBorderColor: brandColor,
@@ -67,7 +67,7 @@ const PersonalHistoryChart: React.FC<Props> = ({ data }) => {
                 display: false,
             },
             tooltip: {
-                backgroundColor: '#1E1B4B', // ink equivalent
+                backgroundColor: '#0F172A', // ink
                 titleFont: { size: 12, weight: 'bold' as const },
                 bodyFont: { size: 12, weight: 'bold' as const },
                 padding: 12,

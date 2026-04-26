@@ -9,6 +9,47 @@ function sha256Hex(input: string) {
     });
 }
 
+/**
+ * Verifica la firma X-Hub-Signature-256 que envía Meta en cada webhook.
+ * Meta firma el body crudo con HMAC-SHA256 usando WHATSAPP_APP_SECRET.
+ *
+ * Formato del header: "sha256=<hex>"
+ *
+ * @returns true si la firma es válida, false en cualquier otro caso
+ */
+async function verifyMetaSignature(rawBody: string, signatureHeader: string | null): Promise<boolean> {
+    if (!signatureHeader || !signatureHeader.startsWith("sha256=")) {
+        return false;
+    }
+    const appSecret = Deno.env.get("WHATSAPP_APP_SECRET");
+    if (!appSecret) {
+        console.error("[whatsapp-webhook] WHATSAPP_APP_SECRET no está configurada");
+        return false;
+    }
+
+    const expectedHex = signatureHeader.slice("sha256=".length);
+
+    const key = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode(appSecret),
+        { name: "HMAC", hash: "SHA-256" },
+        false,
+        ["sign"]
+    );
+    const sigBuf = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(rawBody));
+    const computedHex = Array.from(new Uint8Array(sigBuf))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+
+    // Comparación timing-safe: ambos strings tienen longitud fija (64 hex chars).
+    if (computedHex.length !== expectedHex.length) return false;
+    let diff = 0;
+    for (let i = 0; i < computedHex.length; i++) {
+        diff |= computedHex.charCodeAt(i) ^ expectedHex.charCodeAt(i);
+    }
+    return diff === 0;
+}
+
 function looksLikeUuid(x: string) {
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(x);
 }
@@ -91,11 +132,31 @@ serve(async (req) => {
         const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
         if (!supabaseUrl || !serviceKey) return new Response("server misconfig", { status: 500 });
 
+        // ─────────────────────────────────────────────────────────────
+        // Verificación de firma HMAC X-Hub-Signature-256 (S03 fix)
+        // ─────────────────────────────────────────────────────────────
+        // Lee el body como texto CRUDO (debemos firmarlo byte-a-byte como
+        // lo recibió Meta, antes de parsear JSON).
+        const rawBody = await req.text();
+        const signatureHeader = req.headers.get("x-hub-signature-256");
+        const signatureOk = await verifyMetaSignature(rawBody, signatureHeader);
+
+        if (!signatureOk) {
+            // Loguear pero NO revelar detalles al atacante.
+            console.warn("[whatsapp-webhook] firma inválida o ausente, request rechazado");
+            return new Response("forbidden", { status: 403 });
+        }
+
         const supabase = createClient(supabaseUrl, serviceKey, {
             auth: { persistSession: false },
         });
 
-        const payload = await req.json().catch(() => null);
+        let payload: any = null;
+        try {
+            payload = JSON.parse(rawBody);
+        } catch {
+            payload = null;
+        }
         if (!payload) return new Response("bad request", { status: 400 });
 
         // WhatsApp Cloud API: events dentro de entry[].changes[].value

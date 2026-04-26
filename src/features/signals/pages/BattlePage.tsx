@@ -116,9 +116,9 @@ export default function BattlePage() {
                 variant="simple"
                 eyebrow={
                     <div className="flex items-center gap-3">
-                        <span className="badge bg-primary-50 text-primary-600 border border-primary-100 shadow-sm font-bold tracking-widest uppercase">Versus</span>
+                        <span className="badge bg-brand/10 text-brand border border-brand/20 shadow-sm font-bold tracking-widest uppercase">Versus</span>
                         <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-50 border border-slate-200 shadow-sm">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary-500"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand"></span>
                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">Módulo de Señales</span>
                         </div>
                     </div>
@@ -136,11 +136,11 @@ export default function BattlePage() {
                         <div className="hidden sm:block text-slate-300">•</div>
                         <div className="flex items-center gap-4 text-xs font-bold text-slate-500">
                             <span className="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-lg border border-slate-100 shadow-sm">
-                                <span className="material-symbols-outlined text-[14px] text-primary-500">bolt</span>
+                                <span className="material-symbols-outlined text-[14px] text-brand">bolt</span>
                                 <span className="text-slate-700">Evaluación rápida</span>
                             </span>
                             <span className="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-lg border border-slate-100 shadow-sm">
-                                <span className="material-symbols-outlined text-[14px] text-emerald-500">lock</span>
+                                <span className="material-symbols-outlined text-[14px] text-accent">lock</span>
                                 <span className="text-slate-700">100% Anónimo</span>
                             </span>
                         </div>
@@ -157,11 +157,7 @@ export default function BattlePage() {
                 }
             />
 
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] p-4 md:p-6 transition-all relative overflow-hidden group">
-                {/* Decorative background gradients purely for aesthetic depth */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary-100/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-50/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700"></div>
-
+            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_15px_35px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] p-4 md:p-6 transition-all relative overflow-hidden group">
                 <div className="relative z-10">
                     <VersusGame
                         battles={battles}

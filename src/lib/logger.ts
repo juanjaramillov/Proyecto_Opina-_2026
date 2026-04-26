@@ -40,7 +40,33 @@ interface LogBaseContext {
 const isDev = import.meta.env.DEV;
 
 class OpinaLogger {
-    // Para simplificar la consola en dev vs prod
+    private sanitizePayload(data: unknown): unknown {
+        if (!data) return data;
+        if (typeof data !== 'object') return data;
+
+        // No destruir instancias nativas como Error o Date
+        if (data instanceof Error) {
+            return { message: data.message, stack: data.stack, name: data.name };
+        }
+        if (data instanceof Date) return data.toISOString();
+
+        if (Array.isArray(data)) {
+            return data.map(item => this.sanitizePayload(item));
+        }
+
+        const sensitiveKeys = ['email', 'password', 'token', 'access_token', 'refresh_token', 'session', 'user', 'user_metadata', 'app_metadata', 'phone', 'identities'];
+        const sanitized: Record<string, unknown> = {};
+
+        for (const [key, value] of Object.entries(data as Record<string, unknown>)) {
+            if (sensitiveKeys.includes(key.toLowerCase())) {
+                sanitized[key] = '[REDACTED]';
+            } else {
+                sanitized[key] = this.sanitizePayload(value);
+            }
+        }
+        return sanitized;
+    }
+
     private logToConsole(
         method: 'log' | 'warn' | 'error' | 'info',
         message: string,
@@ -49,11 +75,14 @@ class OpinaLogger {
     ) {
         // En producción podríamos omitir logs tipo info/warning, pero por ahora mostramos todos
         // o conectamos a un observability tool (Sentry, Datadog) en el futuro.
+        const safeContext = this.sanitizePayload(context) as Record<string, unknown> | undefined;
+        const safeError = this.sanitizePayload(error);
+
         const output = {
             timestamp: new Date().toISOString(),
             message,
-            ...context,
-            ...(error ? { error_details: error } : {})
+            ...(safeContext ?? {}),
+            ...(safeError ? { error_details: safeError } : {})
         };
 
         if (isDev) {
@@ -67,8 +96,8 @@ class OpinaLogger {
                 `%c${icon} [${context?.domain || 'unknown'}] %c${message}`,
                 style,
                 'color: inherit;',
-                context,
-                error || ''
+                safeContext,
+                safeError || ''
             );
         } else {
             // Estructurado para indexadores en server/prod (CloudWatch, etc.)

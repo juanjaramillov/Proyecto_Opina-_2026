@@ -12,14 +12,27 @@ export interface TemporalComparison {
     variation_percent: number;
 }
 
+export interface B2BAnalyticsOption {
+    option_id: string;
+    option_label?: string;
+    is_winner?: boolean;
+    normalized_score?: number;
+    raw_win_rate?: number;
+    raw_score?: number;
+    effective_score?: number;
+    lower_bound?: number;
+    upper_bound?: number;
+    technical_tie_flag?: boolean;
+    [key: string]: unknown;
+}
+
 export interface B2BBattleAnalytics {
     battle_id: string;
     stats_version: string;
     total_effective_weight: number;
     n_eff: number;
     options_count: number;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    analytics_payload: Record<string, any>[];
+    analytics_payload: B2BAnalyticsOption[];
     global_entropy_normalized: number;
     global_fragmentation_label: string;
 }

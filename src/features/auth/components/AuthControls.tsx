@@ -12,10 +12,10 @@ export function AuthNotice({
 }) {
     const styles =
         variant === "success"
-            ? "bg-emerald-50 border-emerald-100 text-emerald-700"
+            ? "bg-accent/10 border-accent-100 text-accent"
             : variant === "info"
-                ? "bg-primary-50 border-primary-100 text-primary-700"
-                : "bg-rose-50 border-rose-100 text-rose-600";
+                ? "bg-brand/10 border-brand/20 text-brand"
+                : "bg-danger-50 border-danger-100 text-danger-600";
 
     const icon =
         variant === "success" ? "check_circle" : variant === "info" ? "info" : "error";
@@ -73,8 +73,8 @@ export function AuthTextInput({
 
     const toneCls =
         tone === "invite"
-            ? "bg-primary-50/30 border-primary-100 text-primary-900 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/10 font-black uppercase tracking-wider"
-            : "bg-slate-50/50 border-slate-100 text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/10";
+            ? "bg-brand-50/30 border-brand/20 text-brand focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-black uppercase tracking-wider"
+            : "bg-slate-50/50 border-slate-100 text-slate-700 focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand-500/10";
 
     return (
         <div className="space-y-2">

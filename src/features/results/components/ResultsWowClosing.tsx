@@ -11,7 +11,7 @@ export const ResultsWowClosing = ({ footerNarrative }: Props) => {
   const navigate = useNavigate();
 
   return (
-    <section className="w-full py-20 bg-primary text-white relative overflow-hidden">
+    <section className="w-full py-20 bg-brand text-white relative overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/3" />
       
@@ -80,7 +80,7 @@ export const ResultsWowClosing = ({ footerNarrative }: Props) => {
         
         <button 
           onClick={() => navigate('/signals')}
-          className="inline-flex items-center justify-center bg-white text-primary hover:bg-surface2 font-bold text-lg px-8 py-4 rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)] transition-all hover:scale-105"
+          className="inline-flex items-center justify-center bg-white text-brand hover:bg-surface2 font-bold text-lg px-8 py-4 rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)] transition-all hover:scale-105"
         >
           Explorar Señales <ArrowRight className="ml-2 w-5 h-5" />
         </button>

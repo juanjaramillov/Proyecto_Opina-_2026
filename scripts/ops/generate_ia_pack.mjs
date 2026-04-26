@@ -34,8 +34,10 @@ async function run() {
   // Opcional: Intentar Log In si es necesario (asumimos usuario de prueba estándar)
   console.log('Intentando login automático...');
   try {
+      // Arranca el dev-server con VITE_ACCESS_GATE_ENABLED=false para que el
+      // gate no redirija (el viejo bypass client-side opina_access_pass se
+      // retiró al cerrar la vulnerabilidad crítica #2 de la auditoría Drimo).
       await page.goto(`${BASE_URL}/admin-login`, { waitUntil: 'networkidle2' });
-      await page.evaluate(() => { localStorage.setItem('opina_access_pass', 'admin'); });
       await page.type('input[type="email"]', 'test_cooldown_admin@opina.plus');
       await page.type('input[type="password"]', 'TestNormal123!_seguro');
       await page.click('button[type="submit"]');

@@ -70,7 +70,7 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
                         placeholder="Buscar empresa, situación o contexto..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400"
+                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-slate-400"
                     />
                     {searchQuery && (
                         <button
@@ -86,13 +86,13 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
                 <div className="flex items-center gap-2 min-h-[32px]">
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Selección:</span>
                     {selectedOption ? (
-                        <div className="inline-flex items-center gap-2 bg-primary-50 border border-primary-100 px-3 py-1.5 rounded-full animate-in zoom-in duration-200">
+                        <div className="inline-flex items-center gap-2 bg-brand/10 border border-brand/20 px-3 py-1.5 rounded-full animate-in zoom-in duration-200">
                             {selectedOption.image_url ? (
                                 <BrandLogo src={selectedOption.image_url} alt="" variant="catalog" className="!w-4 !h-4 !min-h-0 !min-w-0 !rounded-full !bg-transparent" />
                             ) : (
-                                <div className="w-4 h-4 rounded-full bg-primary-200 flex flex-shrink-0" />
+                                <div className="w-4 h-4 rounded-full bg-brand/30 flex flex-shrink-0" />
                             )}
-                            <span className="text-xs font-bold text-primary-700">{selectedOption.label}</span>
+                            <span className="text-xs font-bold text-brand">{selectedOption.label}</span>
                         </div>
                     ) : (
                         <span className="text-xs font-medium text-slate-400 italic">Ninguna seleccionada</span>
@@ -122,7 +122,7 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
                                 onClick={() => handleSelectOption(opt)}
                                 className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all text-center
                                     ${isSelected
-                                        ? 'bg-primary-50 border-primary-500 shadow-md ring-2 ring-primary-500/20'
+                                        ? 'bg-brand/10 border-brand shadow-md ring-2 ring-brand-500/20'
                                         : 'bg-white border-slate-100 hover:border-slate-300 hover:shadow-lg hover:-translate-y-1'
                                     }`}
                             >
@@ -142,13 +142,13 @@ export const ProfundidadSelector: React.FC<ProfundidadSelectorProps> = ({ option
 
                                 {/* Details */}
                                 <div className="w-full">
-                                    <h4 className={`font-black text-sm line-clamp-2 leading-tight ${isSelected ? 'text-primary-900' : 'text-slate-800'}`}>
+                                    <h4 className={`font-black text-sm line-clamp-2 leading-tight ${isSelected ? 'text-brand' : 'text-slate-800'}`}>
                                         {opt.label}
                                     </h4>
                                 </div>
 
                                 {/* Action indicator */}
-                                <div className={`mt-2 w-full py-1.5 rounded-lg text-[10px] font-black tracking-widest uppercase transition-colors ${isSelected ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                <div className={`mt-2 w-full py-1.5 rounded-lg text-[10px] font-black tracking-widest uppercase transition-colors ${isSelected ? 'bg-brand text-white' : 'bg-slate-100 text-slate-400'}`}>
                                     {isSelected ? 'Seleccionado' : 'Profundizar'}
                                 </div>
                             </button>

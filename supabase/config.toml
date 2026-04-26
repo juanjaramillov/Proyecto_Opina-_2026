@@ -1,6 +1,16 @@
 [functions.whatsapp-webhook]
 verify_jwt = false
 
+[functions.register-user]
+enabled = true
+verify_jwt = false
+entrypoint = "./functions/register-user/index.ts"
+
+[functions.cleanup-orphan-users]
+enabled = true
+verify_jwt = true
+entrypoint = "./functions/cleanup-orphan-users/index.ts"
+
 [functions.actualidad-bot]
 enabled = true
 verify_jwt = true
@@ -50,13 +60,10 @@ enabled = true
 verify_jwt = false
 entrypoint = "./functions/send-whatsapp-invite/index.ts"
 
-
-[functions.wa-webhook]
-enabled = true
-verify_jwt = false
-# Uncomment to specify a custom file path to the entrypoint.
-# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
-entrypoint = "./functions/wa-webhook/index.ts"
-# Specifies static files to be bundled with the function. Supports glob patterns.
-# For example, if you want to serve static HTML pages in your function:
-# static_files = [ "./functions/wa-webhook/*.html" ]
+# NOTA (2026-04-25, fix F-04 — CTO audit):
+# La función legacy `wa-webhook` se eliminó. El webhook oficial de
+# WhatsApp es ahora `whatsapp-webhook`, que verifica HMAC
+# X-Hub-Signature-256, valida el token de Meta y persiste en
+# `whatsapp_inbound_messages`. La WABA "Opina Mas" (918306757653627)
+# está suscrita a la app "Opina Web" (1601252761020060) apuntando a
+# esa URL.

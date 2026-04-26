@@ -1,3 +1,19 @@
+/**
+ * ÚNICO seed oficial de usuario admin del proyecto.
+ *
+ * Crea el admin local para desarrollo (email `admin@opina.com`).
+ * Es el único lugar donde se crea un usuario en el proyecto: todos los
+ * demás scripts tester (`create-test-users.ts`, `supabase/seed_admin.sql`)
+ * fueron retirados el 2026-04-24 como parte del cierre de la auditoría
+ * Drimo (solo debe existir un admin real en la BD).
+ *
+ * Uso:
+ *   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npx tsx scripts/ops/seed_local_admin.ts
+ *
+ * Para entornos productivos / staging el flujo es otro: el dueño crea su
+ * cuenta por Supabase Auth y se le eleva el rol a admin manualmente, nunca
+ * corriendo este script contra producción.
+ */
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -24,7 +40,7 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
 async function seedAdmin() {
   console.log('Seeding Local Admin User...');
   
-  const email = 'juanjaramillov@gmail.com'; // User's assumed email, or we can use admin@opina.com
+  const email = 'admin@opina.com'; // Único admin oficial del proyecto (id e9ac2e3e-…).
   const password = 'password123';
 
   // 1. Create Auth User

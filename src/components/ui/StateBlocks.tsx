@@ -35,7 +35,7 @@ export const PageState: React.FC<PageStateProps> = ({
         return (
             <div className={["min-h-[60vh] flex items-center justify-center", className].filter(Boolean).join(" ")}>
                 <div className="flex flex-col items-center justify-center p-10 space-y-4 animate-in fade-in duration-500">
-                    <span className="material-symbols-outlined text-[32px] text-primary-500 animate-[spin_2s_linear_infinite] drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
+                    <span className="material-symbols-outlined text-[32px] text-brand animate-[spin_2s_linear_infinite] drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">
                         progress_activity
                     </span>
                     <p className="text-sm font-bold text-slate-400 tracking-wide">{loadingLabel}</p>
@@ -64,7 +64,7 @@ export const PageState: React.FC<PageStateProps> = ({
                         {primaryAction ? (
                             <button
                                 onClick={primaryAction.onClick}
-                                className="px-6 py-3 bg-primary-600 hover:bg-primary-500 active:bg-primary-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-primary-500/20 active:scale-95"
+                                className="px-6 py-3 bg-brand hover:bg-brand active:bg-brand text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/20 active:scale-95"
                             >
                                 {primaryAction.label}
                             </button>

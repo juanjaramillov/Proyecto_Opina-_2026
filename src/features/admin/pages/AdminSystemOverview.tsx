@@ -15,6 +15,7 @@ import { useIntelligence } from "../../intelligence/hooks/useIntelligence";
 import { RankingTable } from "../../intelligence/components/RankingTable";
 import { IntelligenceSidebar } from "../../intelligence/components/IntelligenceSidebar";
 import { DepthInsightsDrawer } from "../../intelligence/components/DepthInsightsDrawer";
+import { GradientText } from "../../../components/ui/foundation";
 
 export default function AdminSystemOverview() {
     const {
@@ -35,7 +36,7 @@ export default function AdminSystemOverview() {
     } = useIntelligence();
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10">
+        <div className="min-h-screen bg-slate-50 p-6 lg:p-10">
             {/* CTA Empresas B2B */}
             <div className="mb-4 rounded-2xl border border-slate-200 bg-white p-4">
                 <div className="text-sm font-semibold text-slate-900">
@@ -48,19 +49,19 @@ export default function AdminSystemOverview() {
                 <div className="mt-3 flex flex-wrap gap-2">
                     <a
                         href="/admin/analytics"
-                        className="rounded-xl border border-slate-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100"
+                        className="rounded-xl border border-slate-200 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent-800 hover:bg-accent/20"
                     >
                         Salud Analítica (Rollups)
                     </a>
                     <a
                         href="/admin/results"
-                        className="rounded-xl border border-slate-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-800 hover:bg-indigo-100"
+                        className="rounded-xl border border-slate-200 bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-800 hover:bg-brand-100"
                     >
                         Publicador Results B2C
                     </a>
                     <a
                         href="/admin/math-engine"
-                        className="rounded-xl border border-slate-200 bg-purple-50 px-4 py-2 text-sm font-semibold text-purple-800 hover:bg-purple-100"
+                        className="rounded-xl border border-slate-200 bg-brand-100 px-4 py-2 text-sm font-semibold text-brand-900 hover:bg-brand-200"
                     >
                         Motor Estadístico
                     </a>
@@ -84,8 +85,8 @@ export default function AdminSystemOverview() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                        {orgName && <Building2 className="w-8 h-8 text-emerald-600" />}
-                        {orgName ? `Panel: ${orgName} ` : <span className="text-gradient-brand">Inteligencia</span>}
+                        {orgName && <Building2 className="w-8 h-8 text-accent" />}
+                        {orgName ? `Panel: ${orgName} ` : <GradientText>Inteligencia</GradientText>}
                     </h1>
                     <p className="text-slate-500 mt-1">
                         {orgName
@@ -99,21 +100,21 @@ export default function AdminSystemOverview() {
                         onClick={loadData}
                         className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
                     >
-                        <Clock className="w-4 h-4 text-emerald-500" />
+                        <Clock className="w-4 h-4 text-accent" />
                         Actualizar
                     </button>
-                    <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" title="Sistema Online"></div>
+                    <div className="h-2 w-2 rounded-full bg-accent animate-pulse" title="Sistema Online"></div>
                 </div>
             </div>
 
             {/* NOTA ADMINISTRATIVA (ACCIONES DE IMPACTO) */}
             {role === 'admin' && (
-                <div className="mb-8 rounded-xl bg-amber-50 border border-amber-200 p-4">
+                <div className="mb-8 rounded-xl bg-warning/10 border border-warning/30 p-4">
                     <div className="flex items-start gap-3">
-                        <ShieldAlert className="w-5 h-5 text-amber-600 mt-0.5" />
+                        <ShieldAlert className="w-5 h-5 text-warning mt-0.5" />
                         <div>
-                            <h4 className="text-sm font-bold text-amber-900">Modo Administrador</h4>
-                            <p className="text-sm text-amber-700 mt-1">Ojo: estas acciones (limpieza, recálculo) afectan datos agregados. Úsalas solo si sabes qué estás haciendo.</p>
+                            <h4 className="text-sm font-bold text-warning">Modo Administrador</h4>
+                            <p className="text-sm text-warning/90 mt-1">Ojo: estas acciones (limpieza, recálculo) afectan datos agregados. Úsalas solo si sabes qué estás haciendo.</p>
                         </div>
                     </div>
                 </div>
@@ -131,7 +132,7 @@ export default function AdminSystemOverview() {
                 <select
                     value={ageRange}
                     onChange={(e) => setAgeRange(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-accent/50"
                 >
                     <option value="all">Todas las edades</option>
                     <option value="18-24">18-24 años</option>
@@ -143,7 +144,7 @@ export default function AdminSystemOverview() {
                 <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-accent/50"
                 >
                     <option value="all">Todos los géneros</option>
                     <option value="male">Masculino</option>
@@ -154,7 +155,7 @@ export default function AdminSystemOverview() {
                 <select
                     value={commune}
                     onChange={(e) => setCommune(e.target.value)}
-                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                    className="bg-slate-50 border-none rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-accent/50"
                 >
                     <option value="all">Todas las comunas</option>
                     <option value="Santiago">Santiago</option>
@@ -166,7 +167,7 @@ export default function AdminSystemOverview() {
                 {(ageRange !== 'all' || gender !== 'all' || commune !== 'all') && (
                     <button
                         onClick={() => { setAgeRange('all'); setGender('all'); setCommune('all'); }}
-                        className="text-emerald-600 text-xs font-bold hover:underline"
+                        className="text-accent text-xs font-bold hover:underline"
                     >
                         Limpiar Filtros
                     </button>
@@ -188,21 +189,21 @@ export default function AdminSystemOverview() {
                         <StatCard
                             title="Señales (24h)"
                             value={stats?.signals_24h || 0}
-                            icon={<Activity className="w-5 h-5 text-emerald-600" />}
+                            icon={<Activity className="w-5 h-5 text-accent" />}
                             color="emerald"
                             trend={[120, 150, 130, 180, 200, 250, stats?.signals_24h || 260]}
                         />
                         <StatCard
                             title="Usuarios Activos"
                             value={stats?.active_users || 0}
-                            icon={<Users className="w-5 h-5 text-emerald-600" />}
+                            icon={<Users className="w-5 h-5 text-accent" />}
                             color="emerald"
                             trend={[50, 60, 55, 70, 90, 110, stats?.active_users || 120]}
                         />
                         <StatCard
                             title="Señales Recientes (3h)"
                             value={activity?.signals_last_3h || 0}
-                            icon={<Target className="w-5 h-5 text-blue-600" />}
+                            icon={<Target className="w-5 h-5 text-brand-600" />}
                             color="amber"
                             subtitle={`${activity?.verified_signals_last_3h || 0} verificadas`}
                             trend={[10, 25, 15, 40, 30, 45, activity?.signals_last_3h || 50]}
@@ -220,7 +221,7 @@ export default function AdminSystemOverview() {
             {/* ACTIVATION & RETENTION KPIs */}
             <div className="mb-10">
                 <div className="flex items-center gap-2 mb-6">
-                    <div className="h-6 w-1 bg-emerald-600 rounded-full"></div>
+                    <div className="h-6 w-1 bg-accent rounded-full"></div>
                     <h2 className="text-lg font-bold text-slate-900">Métricas de Tracción</h2>
                 </div>
 
@@ -238,7 +239,7 @@ export default function AdminSystemOverview() {
                             <StatCard
                                 title="DAU (Diarios)"
                                 value={kpis?.dau || 0}
-                                icon={<Users className="w-5 h-5 text-emerald-500" />}
+                                icon={<Users className="w-5 h-5 text-accent" />}
                                 color="emerald"
                                 subtitle="Usuarios únicos hoy"
                                 trend={[30, 45, 40, 60, 55, 75, kpis?.dau || 80]}
@@ -246,7 +247,7 @@ export default function AdminSystemOverview() {
                             <StatCard
                                 title="WAU (Semanales)"
                                 value={kpis?.wau || 0}
-                                icon={<Users className="w-5 h-5 text-emerald-500" />}
+                                icon={<Users className="w-5 h-5 text-accent" />}
                                 color="emerald"
                                 subtitle="Últimos 7 días"
                                 trend={[200, 250, 240, 280, 310, 350, kpis?.wau || 380]}
@@ -254,7 +255,7 @@ export default function AdminSystemOverview() {
                             <StatCard
                                 title="MAU (Mensuales)"
                                 value={kpis?.mau || 0}
-                                icon={<Users className="w-5 h-5 text-emerald-500" />}
+                                icon={<Users className="w-5 h-5 text-accent" />}
                                 color="emerald"
                                 subtitle="Últimos 30 días"
                                 trend={[800, 850, 820, 950, 1100, 1250, kpis?.mau || 1400]}
@@ -277,8 +278,8 @@ export default function AdminSystemOverview() {
                             <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="p-3 bg-emerald-50 rounded-2xl">
-                                            <TrendingUp className="w-6 h-6 text-emerald-600" />
+                                        <div className="p-3 bg-accent/10 rounded-2xl">
+                                            <TrendingUp className="w-6 h-6 text-accent" />
                                         </div>
                                         <div>
                                             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D1</p>
@@ -294,8 +295,8 @@ export default function AdminSystemOverview() {
                             <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="p-3 bg-emerald-50 rounded-2xl">
-                                            <TrendingUp className="w-6 h-6 text-emerald-600" />
+                                        <div className="p-3 bg-accent/10 rounded-2xl">
+                                            <TrendingUp className="w-6 h-6 text-accent" />
                                         </div>
                                         <div>
                                             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Retención D7</p>
@@ -373,9 +374,9 @@ interface StatCardProps {
 
 function StatCard({ title, value, icon, color, subtitle, trend }: StatCardProps) {
     const colorMap: Record<string, string> = {
-        primary: "bg-primary-50 border-primary-100 text-primary-600",
-        emerald: "bg-emerald-50 border-emerald-100 text-emerald-600",
-        amber: "bg-blue-50 border-blue-100 text-blue-600",
+        primary: "bg-brand/10 border-brand/20 text-brand",
+        emerald: "bg-accent/10 border-accent-100 text-accent",
+        amber: "bg-brand-50 border-brand-100 text-brand-600",
         slate: "bg-slate-50 border-slate-100 text-slate-600",
     };
 

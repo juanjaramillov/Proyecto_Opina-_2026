@@ -5,6 +5,7 @@ import { authService } from "../services/authService";
 import { supabase } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
 import { accessGate } from "../../access/services/accessGate";
+import { useAuthContext } from "../context/AuthContext";
 
 function getParam(search: string, key: string) {
     return new URLSearchParams(search).get(key);
@@ -41,9 +42,11 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState<string | null>(null);
 
+    const { accessState } = useAuthContext();
+
     useEffect(() => {
         // Redirigir a Access Gate si no tiene token y está encendido, excepto si es admin-login
-        if (loc.pathname !== '/admin-login' && accessGate.isEnabled() && !accessGate.hasAccess()) {
+        if (loc.pathname !== '/admin-login' && accessGate.isEnabled() && !accessState.isLoading && !accessState.hasAccessGateToken) {
             nav(`/access?next=${encodeURIComponent(loc.pathname + loc.search)}`, { replace: true });
             return;
         }
@@ -57,7 +60,6 @@ export default function LoginPage() {
                     // Si intenta loguearse como admin y ya tiene sesión, verificar su rol
                     const { data: userData } = await supabase.from('users').select('role').eq('user_id', s.session.user.id).single();
                     if (userData?.role === 'admin') {
-                        localStorage.setItem("opina_access_pass", "admin");
                         window.location.href = "/";
                         return;
                     } else {
@@ -71,7 +73,7 @@ export default function LoginPage() {
                 }
             }
         })();
-    }, [nextPath, nav, loc]);
+    }, [nextPath, nav, loc, accessState]);
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,16 +82,6 @@ export default function LoginPage() {
 
         try {
             await authService.loginWithEmail(email.trim(), password);
-            
-            // Si es admin, otorgar el bypass automáticamente
-            const { data: s } = await supabase.auth.getSession();
-            if (s?.session) {
-                const { data: userData } = await supabase.from('users').select('role').eq('user_id', s.session.user.id).single();
-                if (userData?.role === 'admin') {
-                    localStorage.setItem("opina_access_pass", "admin");
-                }
-            }
-            
             nav(nextPath, { replace: true });
         } catch (error) {
             logger.error("Error en login con email", error);
@@ -105,8 +97,8 @@ export default function LoginPage() {
             subtitle={
                 <div className="flex flex-col gap-2">
                     {reasonText && (
-                        <div className="bg-primary-50 border border-primary-100 rounded-2xl px-4 py-3">
-                            <p className="text-sm font-bold text-primary-700">{reasonText}</p>
+                        <div className="bg-brand/10 border border-brand/20 rounded-2xl px-4 py-3">
+                            <p className="text-sm font-bold text-brand">{reasonText}</p>
                         </div>
                     )}
                     <span className="text-slate-600 font-medium">
@@ -123,7 +115,7 @@ export default function LoginPage() {
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/20 outline-none transition-all font-bold text-slate-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/20 outline-none transition-all font-bold text-slate-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
                         placeholder="tu@correo.com"
                         type="email"
                         required
@@ -137,30 +129,30 @@ export default function LoginPage() {
                     <input
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-primary-600 focus:ring-4 focus:ring-primary-600/20 outline-none transition-all font-bold text-slate-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/20 outline-none transition-all font-bold text-slate-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
                         placeholder="••••••••"
                         type="password"
                         required
                     />
                 </div>
 
-                {err && <p className="text-sm text-rose-600 font-bold">{err}</p>}
+                {err && <p className="text-sm text-danger-600 font-bold">{err}</p>}
 
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all hover:shadow-lg hover:shadow-primary-500/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 shadow-sm"
+                    className="w-full py-3.5 rounded-xl bg-brand hover:bg-brand text-white font-black transition-all hover:shadow-lg hover:shadow-brand-500/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 shadow-sm"
                 >
                     {loading ? "Un segundo…" : "Entrar"}
                 </button>
 
                 <div className="flex justify-between items-center pt-2">
-                    <Link to="/forgot-password" className="text-[11px] font-black text-slate-500 hover:text-primary-700 transition">
+                    <Link to="/forgot-password" className="text-[11px] font-black text-slate-500 hover:text-brand transition">
                         Olvidé mi contraseña
                     </Link>
                     <p className="text-[11px] text-slate-500 font-semibold">
                         ¿No tienes cuenta?{" "}
-                        <Link to={`/register?next=${encodeURIComponent(nextPath)}`} className="font-black text-primary-700 hover:text-primary-800 transition">
+                        <Link to={`/register?next=${encodeURIComponent(nextPath)}`} className="font-black text-brand hover:text-brand transition">
                             Crear cuenta
                         </Link>
                     </p>

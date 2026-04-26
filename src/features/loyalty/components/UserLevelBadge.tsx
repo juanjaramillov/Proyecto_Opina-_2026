@@ -22,20 +22,20 @@ export function UserLevelBadge({ hideSignalCount = false }: { hideSignalCount?: 
   let iconColorClass = 'text-slate-500';
 
   if (levelName === 'Participante') {
-    badgeColorClass = 'bg-primary-50 text-primary-700 border-primary-200';
-    iconColorClass = 'text-primary-500';
+    badgeColorClass = 'bg-brand/10 text-brand border-brand/30';
+    iconColorClass = 'text-brand';
   } else if (levelName === 'Voz Activa') {
-    badgeColorClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
-    iconColorClass = 'text-emerald-500';
+    badgeColorClass = 'bg-accent/10 text-accent border-accent-200';
+    iconColorClass = 'text-accent';
   } else if (levelName === 'Voz Nacional') {
-    badgeColorClass = 'bg-purple-50 text-purple-700 border-purple-200';
-    iconColorClass = 'text-purple-500';
+    badgeColorClass = 'bg-brand-50 text-brand-700 border-brand-200';
+    iconColorClass = 'text-brand-500';
   } else if (levelName === 'Líder de Opinión') {
-    badgeColorClass = 'bg-orange-50 text-orange-700 border-orange-200';
-    iconColorClass = 'text-orange-500';
+    badgeColorClass = 'bg-accent-50 text-accent-700 border-accent-200';
+    iconColorClass = 'text-accent-500';
   } else if (levelName === 'Ciudadano Ilustre') {
-    badgeColorClass = 'bg-gradient-to-r from-amber-50 to-yellow-50 text-amber-800 border-amber-300 shadow-sm';
-    iconColorClass = 'text-amber-500';
+    badgeColorClass = 'bg-gradient-to-br from-brand-50 to-accent-50 text-ink border-brand/30 shadow-sm';
+    iconColorClass = 'text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent';
   }
 
   return (

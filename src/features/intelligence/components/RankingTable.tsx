@@ -33,7 +33,7 @@ export function RankingTable({
                     <input
                         type="text"
                         placeholder="Buscar evaluación..."
-                        className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-emerald-500 transition"
+                        className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-accent/50 transition"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -62,7 +62,7 @@ export function RankingTable({
                                 <tr
                                     key={item.id}
                                     onClick={() => loadDepthData(item)}
-                                    className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedBattle?.id === item.id ? 'bg-primary-50/30' : ''}`}
+                                    className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedBattle?.id === item.id ? 'bg-brand-50/30' : ''}`}
                                 >
                                     <td className="px-6 py-4">
                                         <div className="font-semibold text-slate-900">{item.title}</div>
@@ -76,7 +76,7 @@ export function RankingTable({
                                         <VariationBadge variation={item.variation_percent} direction={item.direction} />
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <button className="p-2 text-slate-300 group-hover:text-emerald-500 transition">
+                                        <button className="p-2 text-slate-300 group-hover:text-accent transition">
                                             <ChevronRight className="w-5 h-5" />
                                         </button>
                                     </td>
@@ -107,7 +107,7 @@ export function RankingTable({
 function VariationBadge({ variation, direction }: { variation: number, direction: 'up' | 'down' | 'stable' }) {
     if (direction === 'up') {
         return (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold shadow-sm border border-emerald-100/50">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold shadow-sm border border-accent-100/50">
                 <TrendingUp className="w-3 h-3" />
                 +{variation.toFixed(1)}%
             </span>
@@ -115,7 +115,7 @@ function VariationBadge({ variation, direction }: { variation: number, direction
     }
     if (direction === 'down') {
         return (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 text-xs font-bold shadow-sm border border-rose-100/50">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-danger-50 text-danger-600 text-xs font-bold shadow-sm border border-danger-100/50">
                 <TrendingDown className="w-3 h-3" />
                 {variation.toFixed(1)}%
             </span>

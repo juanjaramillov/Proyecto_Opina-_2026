@@ -73,7 +73,7 @@ export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: A
                 <div className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200 p-6 flex items-center justify-between z-10">
                     <div>
                         <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                            <Activity className="w-6 h-6 text-emerald-600" />
+                            <Activity className="w-6 h-6 text-accent" />
                             Modelos y Analítica
                         </h2>
                         <p className="text-sm font-medium text-slate-500 mt-1 line-clamp-1">{battleTitle}</p>
@@ -93,16 +93,16 @@ export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: A
                         <>
                             {/* AI Summary Section */}
                             <section className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-5 bg-gradient-to-br from-indigo-500 to-purple-500 w-32 h-32 rounded-bl-full pointer-events-none" />
+                                <div className="absolute top-0 right-0 p-4 opacity-5 bg-gradient-to-br from-brand to-accent w-32 h-32 rounded-bl-full pointer-events-none" />
                                 <div className="flex items-start justify-between mb-4">
                                     <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                                        <BrainCircuit className="w-5 h-5 text-indigo-500" />
+                                        <BrainCircuit className="w-5 h-5 text-brand" />
                                         Insight IA (GPT-4o-mini)
                                     </h3>
                                     <button 
                                         onClick={handleGenerateAi}
                                         disabled={generatingAi || !slug}
-                                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-sm transition-colors disabled:opacity-50"
+                                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold text-sm transition-colors disabled:opacity-50"
                                     >
                                         {generatingAi ? <Loader2 className="w-4 h-4 animate-spin" /> : <PlayCircle className="w-4 h-4" />}
                                         {aiSummary ? "Re-generar" : "Generar"}
@@ -121,7 +121,7 @@ export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: A
                                 {/* Polarization Index */}
                                 <section className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                                     <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 mb-4">
-                                        <Gauge className="w-5 h-5 text-blue-500" />
+                                        <Gauge className="w-5 h-5 text-brand" />
                                         Índice de Polarización
                                     </h3>
                                     {polarization ? (
@@ -130,9 +130,9 @@ export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: A
                                                 {polarization.polarization_index.toFixed(1)}
                                             </div>
                                             <div className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${
-                                                polarization.classification === 'consensus' ? 'bg-emerald-100 text-emerald-700' :
-                                                polarization.classification === 'competitive' ? 'bg-amber-100 text-amber-700' :
-                                                'bg-rose-100 text-rose-700'
+                                                polarization.classification === 'consensus' ? 'bg-accent/20 text-accent' :
+                                                polarization.classification === 'competitive' ? 'bg-warning/20 text-warning' :
+                                                'bg-danger/20 text-danger'
                                             }`}>
                                                 {polarization.classification}
                                             </div>
@@ -149,7 +149,7 @@ export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: A
                                 {/* Weights Breakdown */}
                                 <section className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                                     <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 mb-4">
-                                        <ShieldAlert className="w-5 h-5 text-amber-500" />
+                                        <ShieldAlert className="w-5 h-5 text-warning" />
                                         Métricas de Pesaje
                                     </h3>
                                     {analytics ? (
@@ -176,7 +176,7 @@ export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: A
                             {/* Options Payload Raw vs Effective */}
                             <section className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
                                 <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 mb-4">
-                                    <Activity className="w-5 h-5 text-emerald-500" />
+                                    <Activity className="w-5 h-5 text-accent" />
                                     Auditoría de Opciones (Crudo vs Efectivo)
                                 </h3>
                                 {analytics?.analytics_payload && analytics.analytics_payload.length > 0 ? (
@@ -201,9 +201,9 @@ export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: A
                                                                 {opt.option_label || opt.option_id}
                                                             </td>
                                                             <td className="py-3 text-sm font-medium text-slate-500 text-right">{raw.toFixed(1)}</td>
-                                                            <td className="py-3 text-sm font-bold text-emerald-600 text-right">{eff.toFixed(1)}</td>
+                                                            <td className="py-3 text-sm font-bold text-accent text-right">{eff.toFixed(1)}</td>
                                                             <td className="py-3 text-sm font-medium text-right">
-                                                                <span className={diff < 0 ? 'text-amber-500' : diff > 0 ? 'text-blue-500' : 'text-slate-400'}>
+                                                                <span className={diff < 0 ? 'text-warning' : diff > 0 ? 'text-brand' : 'text-slate-400'}>
                                                                     {diff > 0 ? '+' : ''}{diff.toFixed(1)}
                                                                 </span>
                                                             </td>

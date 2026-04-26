@@ -26,7 +26,7 @@ export function WalletView() {
           <p className="text-sm text-slate-400 max-w-sm">
             Para acceder a tu Billetera Opina+ y comenzar a ganar dinero real, necesitas completar tu perfil demográfico al 100%.
           </p>
-          <button className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
+          <button className="mt-4 px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition-colors">
             Completar Perfil
           </button>
         </div>
@@ -34,7 +34,7 @@ export function WalletView() {
         {/* Blocked state background overlay (blurred) */}
         <div className="opacity-30 blur-[2px]">
           <div className="flex items-center gap-2 mb-4">
-            <WalletIcon className="w-5 h-5 text-green-400" />
+            <WalletIcon className="w-5 h-5 text-accent-400" />
             <h3 className="text-xl font-bold text-white">Billetera Opina+</h3>
           </div>
           <div className="text-4xl font-bold text-white">$-- <span className="text-sm font-normal text-slate-400">CLP</span></div>
@@ -52,8 +52,8 @@ export function WalletView() {
       <div className="p-6">
         <div className="flex justify-between items-start mb-6">
           <div className="flex items-center gap-2">
-            <div className="bg-green-900/30 p-2 rounded-lg border border-green-800/50">
-              <WalletIcon className="w-5 h-5 text-green-400" />
+            <div className="bg-accent-900/30 p-2 rounded-lg border border-accent-800/50">
+              <WalletIcon className="w-5 h-5 text-accent-400" />
             </div>
             <h3 className="text-xl font-bold text-white">Billetera Opina+</h3>
           </div>
@@ -74,15 +74,15 @@ export function WalletView() {
 
         {/* Estado del Pozo vs Próximo Premio */}
         {isPenaltyActive ? (
-          <div className="bg-red-950/30 border border-red-900/50 rounded-lg p-4">
+          <div className="bg-danger-950/30 border border-danger-900/50 rounded-lg p-4">
              <div className="flex items-start gap-3">
-               <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+               <AlertTriangle className="w-5 h-5 text-danger-500 shrink-0 mt-0.5" />
                <div>
-                  <h4 className="text-sm font-bold text-red-400">En período de recuperación</h4>
-                  <p className="text-xs text-red-300/80 mt-1 leading-relaxed">
+                  <h4 className="text-sm font-bold text-danger-400">En período de recuperación</h4>
+                  <p className="text-xs text-danger-300/80 mt-1 leading-relaxed">
                     Tus recompensas están pausadas. Para volver a recibir premios de $5.000, 
                     debes mantener una racha perfecta completando todas tus misiones durante 
-                    <strong className="text-red-400 ml-1">{stats?.penalty_months_remaining} mes(es)</strong> más.
+                    <strong className="text-danger-400 ml-1">{stats?.penalty_months_remaining} mes(es)</strong> más.
                   </p>
                </div>
              </div>
@@ -91,7 +91,7 @@ export function WalletView() {
           <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
             <div className="flex justify-between items-center mb-2">
                <h4 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                 <TrendingUp className="w-4 h-4 text-blue-400" />
+                 <TrendingUp className="w-4 h-4 text-brand-400" />
                  Próximo pago: $5.000
                </h4>
                <span className="text-xs font-bold text-slate-400 bg-slate-800 px-2 py-1 rounded">
@@ -101,7 +101,7 @@ export function WalletView() {
             
             <div className="w-full bg-slate-800 rounded-full h-2 mt-3 overflow-hidden">
                <div 
-                 className={`h-2 rounded-full transition-all duration-1000 ${consecutiveWeeks === 4 ? 'bg-green-500' : 'bg-blue-500'}`}
+                 className={`h-2 rounded-full transition-all duration-1000 ${consecutiveWeeks === 4 ? 'bg-accent-500' : 'bg-brand-500'}`}
                  style={{ width: `${(consecutiveWeeks / 4) * 100}%` }}
                ></div>
             </div>

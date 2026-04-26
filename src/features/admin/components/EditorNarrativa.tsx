@@ -21,7 +21,7 @@ export function EditorNarrativa({ formData, setFormData }: EditorNarrativaProps)
                         type="text"
                         value={formData.title || ""}
                         onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all font-bold text-xl text-slate-900"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 focus:bg-white focus:border-brand outline-none transition-all font-bold text-xl text-slate-900"
                         placeholder="Ej: Aprobación de la Ley Corta"
                     />
                 </div>
@@ -32,7 +32,7 @@ export function EditorNarrativa({ formData, setFormData }: EditorNarrativaProps)
                         value={formData.summary || ""}
                         onChange={e => setFormData(prev => ({ ...prev, summary: e.target.value }))}
                         rows={4}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all resize-none text-slate-700 leading-relaxed"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 focus:bg-white focus:border-brand outline-none transition-all resize-none text-slate-700 leading-relaxed"
                         placeholder="Redacta los hechos de forma objetiva..."
                     />
                 </div>
@@ -43,7 +43,7 @@ export function EditorNarrativa({ formData, setFormData }: EditorNarrativaProps)
                         type="text"
                         value={formData.impact_phrase || ""}
                         onChange={e => setFormData(prev => ({ ...prev, impact_phrase: e.target.value }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all text-sm italic text-slate-600"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 focus:bg-white focus:border-brand outline-none transition-all text-sm italic text-slate-600"
                         placeholder="Ej: «Aún queda mucho camino que recorrer» - M. Marcel"
                     />
                 </div>
@@ -62,7 +62,7 @@ export function EditorNarrativa({ formData, setFormData }: EditorNarrativaProps)
                                 } 
                             }))
                         }
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-primary-500 outline-none transition-all text-sm text-slate-700 font-mono"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 focus:bg-white focus:border-brand outline-none transition-all text-sm text-slate-700 font-mono"
                         placeholder="Ej: https://ejemplo.com/imagen.jpg"
                     />
                     <p className="mt-2 text-xs text-slate-500">

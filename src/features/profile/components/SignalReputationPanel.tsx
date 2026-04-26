@@ -26,29 +26,29 @@ export default function SignalReputationPanel({
 
     // 1. Determine Status Level based on weight and completeness
     let statusText = "Señal en Desarrollo";
-    let statusColor = "text-text-secondary";
+    let statusColor = "text-slate-600";
     let bgPulseColor = "bg-surface2";
     let ringColor = "border-stroke";
     let icon = "signal_cellular_1_bar";
     let fillWidth = "w-1/4";
-    let barColor = "bg-text-secondary";
+    let barColor = "bg-slate-600";
 
     if (signalWeight >= 1.5) {
         statusText = "Señal de Alto Impacto";
-        statusColor = "text-secondary";
-        bgPulseColor = "bg-secondary/10";
-        ringColor = "border-secondary/20 bg-secondary/5";
+        statusColor = "text-accent";
+        bgPulseColor = "bg-accent/10";
+        ringColor = "border-accent/20 bg-accent/5";
         icon = "signal_cellular_4_bar";
         fillWidth = "w-full";
-        barColor = "bg-secondary";
+        barColor = "bg-accent";
     } else if (profileCompleteness === 100) {
         statusText = "Señal Sólida";
-        statusColor = "text-primary";
-        bgPulseColor = "bg-primary/10";
-        ringColor = "border-primary/20 bg-primary/5";
+        statusColor = "text-brand";
+        bgPulseColor = "bg-brand/10";
+        ringColor = "border-brand/20 bg-brand/5";
         icon = "signal_cellular_3_bar";
         fillWidth = "w-3/4";
-        barColor = "bg-primary";
+        barColor = "bg-brand";
     } else if (profileCompleteness > 0) {
         statusText = "Señal Confiable";
         statusColor = "text-ink";
@@ -72,7 +72,7 @@ export default function SignalReputationPanel({
     }
 
     return (
-        <section className="card p-6 lg:p-8 shadow-sm relative overflow-hidden group hover:border-primary/20 transition-all">
+        <section className="card p-6 lg:p-8 shadow-sm relative overflow-hidden group hover:border-brand/20 transition-all">
 
             {/* Premium glow effect linked to status color */}
             <div className={`absolute -right-20 -top-20 w-64 h-64 rounded-full blur-3xl opacity-50 transition-colors duration-700 pointer-events-none ${bgPulseColor}`}></div>
@@ -82,7 +82,7 @@ export default function SignalReputationPanel({
                 {/* Left Side: Metrics & Reputation Status */}
                 <div className="flex-1 space-y-4">
                     <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-sm text-text-muted">cell_tower</span>
+                        <span className="material-symbols-outlined text-sm text-slate-500">cell_tower</span>
                         <h3 className="text-sm font-black text-ink uppercase tracking-widest">
                             Reputación de Señal
                         </h3>
@@ -97,7 +97,7 @@ export default function SignalReputationPanel({
 
                     <div className="mt-4">
                         <div className="text-ink font-bold text-lg mb-1">{statusText}</div>
-                        <p className="text-text-secondary text-sm leading-relaxed max-w-sm mt-2">
+                        <p className="text-slate-600 text-sm leading-relaxed max-w-sm mt-2">
                             El valor actual de tus respuestas frente al ecosistema de Opina+. Este multiplicador filtra bots y premia identidades reales.
                         </p>
                     </div>
@@ -120,7 +120,7 @@ export default function SignalReputationPanel({
                         {tipAction && (
                             <Link
                                 to={tipAction.to}
-                                className="inline-flex items-center gap-1.5 text-xs font-black text-ink uppercase tracking-wider hover:text-primary transition-colors border border-stroke bg-white px-3 py-1.5 rounded-lg shadow-sm w-max"
+                                className="inline-flex items-center gap-1.5 text-xs font-black text-ink uppercase tracking-wider hover:text-brand transition-colors border border-stroke bg-white px-3 py-1.5 rounded-lg shadow-sm w-max"
                             >
                                 {tipAction.label}
                                 <span className="material-symbols-outlined text-[14px]">arrow_forward</span>

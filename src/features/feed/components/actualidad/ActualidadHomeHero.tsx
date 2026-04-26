@@ -26,7 +26,7 @@ export function ActualidadHomeHero({
   return (
     <div className="relative mb-12 mt-4">
         {/* Glow ambient background WOW */}
-        <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl rounded-[3rem] -z-10 pointer-events-none"></div>
+        <div className="absolute -inset-4 bg-gradient-to-br from-brand/20 to-accent/20 blur-3xl rounded-[3rem] -z-10 pointer-events-none"></div>
         
         <motion.div
             key={currentHeroTopic.id}
@@ -47,7 +47,7 @@ export function ActualidadHomeHero({
                     {/* WOW Overlays Claros */}
                     <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] group-hover:bg-white/20 transition-colors duration-1000"></div>
                     <div className="absolute top-[-10%] right-[-10%] w-[120%] h-[120%] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay overflow-hidden"></div>
-                    <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-primary/20 blur-[100px] rounded-full mix-blend-multiply pointer-events-none group-hover/hero:translate-x-12 transition-transform duration-1000"></div>
+                    <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-brand/20 blur-[100px] rounded-full mix-blend-multiply pointer-events-none group-hover/hero:translate-x-12 transition-transform duration-1000"></div>
                     <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-accent/20 blur-[100px] rounded-full mix-blend-multiply pointer-events-none group-hover/hero:-translate-x-12 transition-transform duration-1000"></div>
                     
                     {/* Gradientes Claros para asegurar lectura */}
@@ -58,8 +58,8 @@ export function ActualidadHomeHero({
                 {/* Top Labels */}
                 <div className="relative z-10 flex justify-between items-start">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                        <span className="flex items-center gap-2 bg-primary/10 backdrop-blur-md border border-primary/20 text-primary text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-sm">
-                            <Zap className="w-3.5 h-3.5 fill-current text-primary" />
+                        <span className="flex items-center gap-2 bg-brand/10 backdrop-blur-md border border-brand/20 text-brand text-[10px] md:text-xs font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-sm">
+                            <Zap className="w-3.5 h-3.5 fill-current text-brand" />
                             {currentHeroTopic.category}
                         </span>
                         <span className="flex items-center gap-1.5 bg-white/80 backdrop-blur-md text-slate-600 text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-2 rounded-xl border border-slate-200 shadow-sm">
@@ -74,7 +74,7 @@ export function ActualidadHomeHero({
                                 <button 
                                     key={idx} 
                                     onClick={(e) => { e.stopPropagation(); setHeroIndex(idx); }}
-                                    className={`h-1.5 rounded-full transition-all duration-300 ${idx === heroIndex ? 'bg-primary w-6 shadow-[0_0_10px_rgba(37,99,235,0.4)]' : 'bg-slate-300 w-1.5 hover:bg-slate-400'}`}
+                                    className={`h-1.5 rounded-full transition-all duration-300 ${idx === heroIndex ? 'bg-brand w-6 shadow-[0_0_10px_rgba(37,99,235,0.4)]' : 'bg-slate-300 w-1.5 hover:bg-slate-400'}`}
                                 />
                             ))}
                         </div>
@@ -85,7 +85,7 @@ export function ActualidadHomeHero({
                 <div className="relative z-10 mt-auto pt-16">
                     {currentHeroTopic.impact_quote ? (
                         <h2 className="text-3xl md:text-5xl lg:text-[3.5rem] font-black text-ink leading-[1.1] tracking-tight text-balance text-left">
-                            <span className="text-primary font-serif italic text-5xl mr-2 drop-shadow-sm">"</span>
+                            <span className="text-brand font-serif italic text-5xl mr-2 drop-shadow-sm">"</span>
                             {currentHeroTopic.impact_quote}
                         </h2>
                     ) : (
@@ -99,7 +99,7 @@ export function ActualidadHomeHero({
             {/* RIGHT PANE: Dense Data & Direct Interaction */}
             <div className="relative w-full lg:w-5/12 bg-white/80 backdrop-blur-3xl p-8 md:p-10 flex flex-col border-l border-slate-100">
                 {/* Background ambient mesh */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] pointer-events-none group-hover/hero:bg-primary/10 transition-all duration-1000"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 rounded-full blur-[80px] pointer-events-none group-hover/hero:bg-brand/10 transition-all duration-1000"></div>
 
                 <div className="flex flex-col h-full z-10 relative">
                     {/* Information Cluster */}
@@ -121,7 +121,7 @@ export function ActualidadHomeHero({
                                 <span className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
                                     <Activity className="w-3.5 h-3.5" /> Fricción
                                 </span>
-                                <span className="text-lg font-black text-rose-500">Alta</span>
+                                <span className="text-lg font-black text-danger-500">Alta</span>
                             </div>
                             <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col gap-1 shadow-sm">
                                 <span className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
@@ -145,13 +145,13 @@ export function ActualidadHomeHero({
                             <div className="grid grid-cols-2 gap-3 mb-4">
                                 <button 
                                     onClick={(e) => { e.stopPropagation(); onSelectTopic(currentHeroTopic); }}
-                                    className="bg-white hover:bg-slate-50 hover:border-secondary/30 border border-slate-200 text-slate-600 hover:text-secondary font-bold py-3.5 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm group/btn shadow-sm"
+                                    className="bg-white hover:bg-slate-50 hover:border-accent/30 border border-slate-200 text-slate-600 hover:text-accent font-bold py-3.5 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm group/btn shadow-sm"
                                 >
                                     Apruebo <ArrowUpRight className="w-4 h-4 opacity-50 group-hover/btn:opacity-100 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5 transition-transform" />
                                 </button>
                                 <button 
                                     onClick={(e) => { e.stopPropagation(); onSelectTopic(currentHeroTopic); }}
-                                    className="bg-white hover:bg-slate-50 hover:border-rose-500/30 border border-slate-200 text-slate-600 hover:text-rose-500 font-bold py-3.5 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm group/btn shadow-sm"
+                                    className="bg-white hover:bg-slate-50 hover:border-danger-500/30 border border-slate-200 text-slate-600 hover:text-danger-500 font-bold py-3.5 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm group/btn shadow-sm"
                                 >
                                     Rechazo <ArrowUpRight className="w-4 h-4 opacity-50 group-hover/btn:opacity-100 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5 transition-transform" />
                                 </button>
@@ -161,19 +161,19 @@ export function ActualidadHomeHero({
                                 <div>
                                     <div className="flex justify-between text-xs font-mono text-slate-600 mb-1.5">
                                         <span>Tendencia a Favor</span>
-                                        <span className="text-emerald-500 font-bold">68%</span>
+                                        <span className="text-accent font-bold">68%</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-emerald-500 shadow-[0_0_10px_#10B981]" style={{ width: `68%` }} />
+                                        <div className="h-full bg-accent shadow-[0_0_10px_#10B981]" style={{ width: `68%` }} />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between text-xs font-mono text-slate-600 mb-1.5">
                                         <span>Tendencia en Contra</span>
-                                        <span className="text-rose-500 font-bold">32%</span>
+                                        <span className="text-danger-500 font-bold">32%</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-rose-500 shadow-[0_0_10px_#F43F5E]" style={{ width: `32%` }} />
+                                        <div className="h-full bg-danger-500 shadow-[0_0_10px_#EF4444]" style={{ width: `32%` }} />
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +181,7 @@ export function ActualidadHomeHero({
 
                         <div className="relative mt-2">
                             {/* Inner Button Glow */}
-                            <div className="absolute inset-x-4 top-4 h-full bg-primary/40 blur-2xl rounded-full opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                            <div className="absolute inset-x-4 top-4 h-full bg-brand/40 blur-2xl rounded-full opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
 
                             <button 
                                 onClick={(e) => { e.stopPropagation(); onSelectTopic(currentHeroTopic); }}

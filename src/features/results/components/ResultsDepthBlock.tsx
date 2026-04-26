@@ -18,13 +18,13 @@ export const ResultsDepthBlock = ({ depthData }: Props) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-end justify-between mb-16">
           <div>
-            <span className="inline-block mb-4 border border-stroke text-text-muted rounded-full px-4 py-1 uppercase tracking-widest text-xs font-semibold">
+            <span className="inline-block mb-4 border border-stroke text-slate-500 rounded-full px-4 py-1 uppercase tracking-widest text-xs font-semibold">
                ANÁLISIS DE PROFUNDIDAD
             </span>
             <h2 className="text-4xl md:text-5xl font-black text-ink tracking-tight leading-none mb-4">
               La radiografía de la calidad
             </h2>
-            <p className="text-xl text-text-muted max-w-xl">
+            <p className="text-xl text-slate-500 max-w-xl">
               Lo que la comunidad realmente valora y lo que más critican al evaluar a fondo sus marcas favoritas.
             </p>
           </div>
@@ -37,10 +37,10 @@ export const ResultsDepthBlock = ({ depthData }: Props) => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             
             {/* Main Insight / Hero Metric */}
-            <div className="lg:col-span-4 border-0 shadow-xl shadow-primary/5 bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden rounded-3xl relative p-8 flex flex-col justify-center min-h-[300px]">
-               <div className="absolute top-0 left-0 w-full h-2 bg-primary" />
-               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                 <Star className="w-6 h-6 text-primary fill-primary/20" />
+            <div className="lg:col-span-4 border-0 shadow-xl shadow-brand/5 bg-gradient-to-br from-brand/5 to-brand/10 overflow-hidden rounded-3xl relative p-8 flex flex-col justify-center min-h-[300px]">
+               <div className="absolute top-0 left-0 w-full h-2 bg-brand" />
+               <div className="w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center mb-6">
+                 <Star className="w-6 h-6 text-brand fill-brand/20" />
                </div>
                <h3 className="text-sm font-black text-ink uppercase tracking-widest mb-2">Entidad Mejor Evaluada</h3>
                <div className="text-3xl font-black text-ink leading-tight mb-4">
@@ -48,12 +48,12 @@ export const ResultsDepthBlock = ({ depthData }: Props) => {
                </div>
                
                {metrics.npsLeaderEntity && (
-                   <div className="mt-auto bg-white/60 p-4 rounded-2xl border border-primary/20">
-                     <div className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">
+                   <div className="mt-auto bg-white/60 p-4 rounded-2xl border border-brand/20">
+                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
                        Líder en Recomendación (NPS)
                      </div>
                      <div className="font-bold text-ink flex items-center gap-2">
-                       <TrendingUp className="w-4 h-4 text-secondary" />
+                       <TrendingUp className="w-4 h-4 text-accent" />
                        {metrics.npsLeaderEntity}
                      </div>
                    </div>
@@ -62,25 +62,25 @@ export const ResultsDepthBlock = ({ depthData }: Props) => {
 
             {/* Strengths & Weaknesses Detailed View */}
             <div className="lg:col-span-8 grid sm:grid-cols-2 gap-6">
-               <div className="border border-stroke shadow-xl shadow-secondary/5 bg-white overflow-hidden rounded-3xl relative h-full flex flex-col">
-                  <div className="absolute top-0 left-0 w-full h-2 bg-secondary" />
+               <div className="border border-stroke shadow-xl shadow-accent/5 bg-white overflow-hidden rounded-3xl relative h-full flex flex-col">
+                  <div className="absolute top-0 left-0 w-full h-2 bg-accent" />
                   <div className="p-8 flex-grow flex flex-col justify-center">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
-                        <ShieldCheck className="w-5 h-5 text-secondary" />
+                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                        <ShieldCheck className="w-5 h-5 text-accent" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-ink">Principal Fortaleza</h3>
-                        <p className="text-xs font-bold text-secondary uppercase tracking-widest mt-0.5">Lo que más celebran</p>
+                        <p className="text-xs font-bold text-accent uppercase tracking-widest mt-0.5">Lo que más celebran</p>
                       </div>
                     </div>
                     
-                    <div className="mt-4 bg-secondary/5 rounded-2xl border border-secondary/20 p-6 text-center">
+                    <div className="mt-4 bg-accent/5 rounded-2xl border border-accent/20 p-6 text-center">
                        <div className="text-3xl font-black text-ink">
                          {metrics.topStrengthAttribute || "No determinado"}
                        </div>
                        {metrics.qualityPerceptionLabel && (
-                           <div className="text-sm font-medium text-text-muted mt-3 pt-3 border-t border-secondary/20 italic">
+                           <div className="text-sm font-medium text-slate-500 mt-3 pt-3 border-t border-accent/20 italic">
                              "{metrics.qualityPerceptionLabel}"
                            </div>
                        )}
@@ -93,11 +93,11 @@ export const ResultsDepthBlock = ({ depthData }: Props) => {
                   <div className="p-8 flex-grow flex flex-col justify-center">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-10 h-10 rounded-full bg-surface2 flex items-center justify-center shrink-0 border border-stroke">
-                        <AlertTriangle className="w-5 h-5 text-text-muted" />
+                        <AlertTriangle className="w-5 h-5 text-slate-500" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-ink">Principal Fricción</h3>
-                        <p className="text-xs font-bold text-text-muted uppercase tracking-widest mt-0.5">La debilidad más frecuente</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-0.5">La debilidad más frecuente</p>
                       </div>
                     </div>
 

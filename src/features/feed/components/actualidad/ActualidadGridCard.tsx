@@ -36,7 +36,7 @@ export function ActualidadGridCard({
                 {/* 3D / Graphic Overlays WOW */}
                 <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] group-hover:bg-white/10 transition-colors duration-700"></div>
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 mix-blend-overlay"></div>
-                <div className="absolute top-0 right-0 w-48 h-48 bg-primary/20 blur-[50px] rounded-full mix-blend-multiply pointer-events-none group-hover:-translate-x-8 transition-transform duration-1000"></div>
+                <div className="absolute top-0 right-0 w-48 h-48 bg-brand/20 blur-[50px] rounded-full mix-blend-multiply pointer-events-none group-hover:-translate-x-8 transition-transform duration-1000"></div>
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent/20 blur-[50px] rounded-full mix-blend-multiply pointer-events-none group-hover:translate-x-8 transition-transform duration-1000"></div>
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
@@ -44,7 +44,7 @@ export function ActualidadGridCard({
 
             <div className="relative z-10 flex w-full justify-between items-start mb-auto">
                 <div className="flex flex-col gap-2 items-start">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-primary/20 shadow-sm">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-brand bg-brand/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-brand/20 shadow-sm">
                         {topic.category}
                     </span>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 bg-white/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-slate-200">
@@ -52,8 +52,8 @@ export function ActualidadGridCard({
                     </span>
                 </div>
                 {topic.has_answered && (
-                    <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shadow-sm">
-                        <span className="text-emerald-500 font-bold text-xs">✓</span>
+                    <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center shadow-sm">
+                        <span className="text-accent font-bold text-xs">✓</span>
                     </div>
                 )}
             </div>
@@ -61,9 +61,9 @@ export function ActualidadGridCard({
             <div className="relative z-10 flex w-full justify-center items-end mt-4">
                 {topic.impact_quote ? (
                     <h3 className="text-lg md:text-xl font-black text-ink leading-tight drop-shadow-sm line-clamp-3 text-center text-balance">
-                        <span className="text-primary mr-1 font-serif text-2xl leading-[0.5]">"</span>
+                        <span className="text-brand mr-1 font-serif text-2xl leading-[0.5]">"</span>
                         {topic.impact_quote}
-                        <span className="text-primary ml-1 font-serif text-2xl leading-[0.5]">"</span>
+                        <span className="text-brand ml-1 font-serif text-2xl leading-[0.5]">"</span>
                     </h3>
                 ) : (
                     <h3 className="text-lg md:text-xl font-black text-ink leading-tight drop-shadow-sm line-clamp-3 text-center text-balance">
@@ -74,9 +74,9 @@ export function ActualidadGridCard({
         </div>
 
         {/* BOTTOM HALF: Dense Data & Direct Interaction (HYBRID VERTICAL/HORIZONTAL COMPRESSED) */}
-        <div className="flex-1 bg-white backdrop-blur-md p-4 flex flex-col border-t border-slate-100 relative overflow-hidden group-hover:border-primary/20 transition-colors duration-500">
+        <div className="flex-1 bg-white backdrop-blur-md p-4 flex flex-col border-t border-slate-100 relative overflow-hidden group-hover:border-brand/20 transition-colors duration-500">
             {/* Background mesh in KPI panel */}
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-primary/10 transition-all duration-700"></div>
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-brand/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-brand/10 transition-all duration-700"></div>
 
             <div className="flex flex-col h-full z-10 relative">
                 {/* Title & Summary */}
@@ -97,7 +97,7 @@ export function ActualidadGridCard({
                             <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1 overflow-hidden">
                                 <Activity className="w-3 h-3 shrink-0" /> Fricción
                             </span>
-                            <span className="text-[12px] md:text-[13px] font-black text-rose-500 mt-0.5">Alta</span>
+                            <span className="text-[12px] md:text-[13px] font-black text-danger-500 mt-0.5">Alta</span>
                         </div>
                         <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 flex flex-col justify-center h-full shadow-sm">
                             <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1 overflow-hidden">
@@ -121,13 +121,13 @@ export function ActualidadGridCard({
                             <div className="flex flex-col gap-1.5 justify-center flex-1 w-full">
                                 <button 
                                     onClick={(e) => { e.stopPropagation(); onSelectTopic(topic); }}
-                                    className="bg-white hover:bg-slate-50 hover:border-secondary/30 border border-slate-200 text-slate-700 hover:text-secondary font-bold py-1.5 px-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] text-center"
+                                    className="bg-white hover:bg-slate-50 hover:border-accent/30 border border-slate-200 text-slate-700 hover:text-accent font-bold py-1.5 px-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] text-center"
                                 >
                                     <span className="text-[11px] md:text-xs">Apruebo</span> <ArrowUpRight className="w-3 h-3 opacity-50 block transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                                 </button>
                                 <button 
                                     onClick={(e) => { e.stopPropagation(); onSelectTopic(topic); }}
-                                    className="bg-white hover:bg-slate-50 hover:border-rose-500/30 border border-slate-200 text-slate-700 hover:text-rose-500 font-bold py-1.5 px-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] text-center"
+                                    className="bg-white hover:bg-slate-50 hover:border-danger-500/30 border border-slate-200 text-slate-700 hover:text-danger-500 font-bold py-1.5 px-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] text-center"
                                 >
                                     <span className="text-[11px] md:text-xs">Rechazo</span> <ArrowUpRight className="w-3 h-3 opacity-50 block transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                                 </button>
@@ -136,18 +136,18 @@ export function ActualidadGridCard({
                             <div className="flex flex-col gap-2 justify-center flex-1 pt-1">
                                 <div>
                                     <div className="flex justify-between text-[8px] md:text-[9px] font-mono text-slate-600 mb-1">
-                                        <span>A Favor</span><span className="text-emerald-500 font-bold">68%</span>
+                                        <span>A Favor</span><span className="text-accent font-bold">68%</span>
                                     </div>
                                     <div className="w-full h-1 bg-slate-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-emerald-500 shadow-[0_0_10px_#10B981]" style={{ width: `68%` }} />
+                                        <div className="h-full bg-accent shadow-[0_0_10px_#10B981]" style={{ width: `68%` }} />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between text-[8px] md:text-[9px] font-mono text-slate-600 mb-1">
-                                        <span>En Contra</span><span className="text-rose-500 font-bold">32%</span>
+                                        <span>En Contra</span><span className="text-danger-500 font-bold">32%</span>
                                     </div>
                                     <div className="w-full h-1 bg-slate-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-rose-500 shadow-[0_0_10px_#F43F5E]" style={{ width: `32%` }} />
+                                        <div className="h-full bg-danger-500 shadow-[0_0_10px_#EF4444]" style={{ width: `32%` }} />
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ export function ActualidadGridCard({
                 {/* Main CTA */}
                 <div className="mt-auto pt-2 border-t border-slate-100 relative">
                     {/* Inner Button Glow */}
-                    <div className="absolute inset-x-4 top-4 h-full bg-primary/40 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                    <div className="absolute inset-x-4 top-4 h-full bg-brand/40 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
 
                     <button 
                         onClick={(e) => { e.stopPropagation(); onSelectTopic(topic); }}

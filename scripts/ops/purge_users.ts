@@ -24,10 +24,26 @@ const supabaseAdmin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
     auth: { persistSession: false },
 });
 
-const ADMIN_EMAIL = "admin@opina.com";
+/**
+ * Email del admin que se PRESERVA durante la purga.
+ * Parametrizable por CLI con `--keep <email>` para evitar sorpresas al correr
+ * el script contra entornos distintos (dev/staging/prod).
+ *
+ * Default: admin@opina.com — el único admin oficial del proyecto
+ * (id e9ac2e3e-3c13-4b7d-8763-81d8094efe65, creado 2026-03-13).
+ */
+function parseKeepEmail(argv: string[]): string {
+    for (let i = 0; i < argv.length; i++) {
+        if (argv[i] === "--keep" && argv[i + 1]) return argv[i + 1];
+    }
+    return "admin@opina.com";
+}
+
+const ADMIN_EMAIL = parseKeepEmail(process.argv.slice(2));
 
 async function purgeUsers() {
     console.log(`Iniciando purga de usuarios. Se mantendrá a: ${ADMIN_EMAIL}`);
+    console.log(`(Tip: podés pasar --keep otro@email.com para preservar otro usuario)`);
     
     // Auth user list is paginated
     let hasMore = true;

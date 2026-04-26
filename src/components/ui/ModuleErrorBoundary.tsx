@@ -1,5 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { logger } from '../../lib/logger';
+import { getErrorReporter } from '../../lib/observability/errorReporter';
 
 interface Props {
   children: ReactNode;
@@ -24,14 +24,15 @@ export class ModuleErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    logger.error(`Module UI Error: ${this.props.moduleName}`, { 
-        domain: 'unexpected_ui_state', 
-        origin: 'ModuleErrorBoundary', 
-        action: 'render', 
+    // Fase 5.3 — reporter abstracto (ver `errorReporter.ts`).
+    getErrorReporter().captureException(error, {
+        domain: 'unexpected_ui_state',
+        origin: 'ModuleErrorBoundary',
+        action: 'render',
         state: 'failed',
         module: this.props.moduleName,
-        componentStack: errorInfo.componentStack
-    }, error);
+        componentStack: errorInfo.componentStack,
+    });
   }
 
   public render() {

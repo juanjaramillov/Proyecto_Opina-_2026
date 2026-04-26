@@ -32,12 +32,12 @@ async function runAudit() {
         await page.waitForNetworkIdle();
         await page.screenshot({ path: path.join(OUT_DIR, '02_Login_Page.png'), fullPage: true });
 
-        // 3. Login Flow (using existing admin to bypass email confirm)
+        // 3. Login Flow (using the project's single admin account)
         console.log("🔑 Ejecutando Login como Admin...");
         // Emulate human typing
         await page.waitForSelector('input[type="email"]');
         await page.type('input[type="email"]', 'admin@opina.com', { delay: 50 });
-        await page.type('input[type="password"]', 'admin123', { delay: 50 }); 
+        await page.type('input[type="password"]', 'admin123', { delay: 50 });
         await page.click('button[type="submit"]');
         
         // Wait for redirect to Signals Hub

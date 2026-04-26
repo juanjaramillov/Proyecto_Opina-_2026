@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Navigate } from 'react-router-dom';
 import { useAuthContext } from '../../auth/context/AuthContext';
 import { AppRouteModule } from '../types/policy';
 import { resolveAccessPolicy } from '../services/policyResolver';
@@ -37,7 +37,7 @@ export default function Gate({ module, children }: GateProps) {
     if (accessState.isLoading) {
         return (
             <div className="min-h-screen w-full flex items-center justify-center bg-slate-50">
-                <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                <div className="w-12 h-12 border-4 border-brand/30 border-t-brand rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -63,7 +63,7 @@ export default function Gate({ module, children }: GateProps) {
              return <>{children}</>;
         }
 
-        return <>{children}</>;
+        return <Navigate to={destination} replace />;
     }
 
     return <>{children}</>;

@@ -26,8 +26,8 @@ export function InvitesTable({
     const renderSortIcon = (key: keyof InviteRow) => {
         if (sortConfig?.key !== key) return <span className="text-slate-300 ml-1 text-[12px]">↕</span>;
         return sortConfig.direction === 'asc' 
-            ? <span className="text-cyan-600 ml-1 text-[12px] font-bold">↑</span> 
-            : <span className="text-cyan-600 ml-1 text-[12px] font-bold">↓</span>;
+            ? <span className="text-brand ml-1 text-[12px] font-bold">↑</span> 
+            : <span className="text-brand ml-1 text-[12px] font-bold">↓</span>;
     };
 
     return (
@@ -37,7 +37,7 @@ export function InvitesTable({
                     <th className="px-2 py-3 font-bold rounded-tl-xl w-8 text-center">
                         <input
                             type="checkbox"
-                            className="w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
+                            className="w-4 h-4 rounded border-slate-300 text-brand focus:ring-brand cursor-pointer"
                             checked={sortedInvites.length > 0 && selectedInvites.size === sortedInvites.length}
                             onChange={toggleSelectAll}
                         />
@@ -78,11 +78,11 @@ export function InvitesTable({
                     </tr>
                 ) : (
                     sortedInvites.map((invite) => (
-                        <tr key={invite.id} className={`hover:bg-slate-50/50 transition-colors ${selectedInvites.has(invite.id) ? 'bg-cyan-50/30' : ''}`}>
+                        <tr key={invite.id} className={`hover:bg-slate-50/50 transition-colors ${selectedInvites.has(invite.id) ? 'bg-brand-50/30' : ''}`}>
                             <td className="px-2 py-3 text-center">
                                 <input
                                     type="checkbox"
-                                    className="w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
+                                    className="w-4 h-4 rounded border-slate-300 text-brand focus:ring-brand cursor-pointer"
                                     checked={selectedInvites.has(invite.id)}
                                     onChange={() => toggleSelect(invite.id)}
                                 />
@@ -91,8 +91,8 @@ export function InvitesTable({
                                 <div
                                     className={`w-2 h-2 rounded-full mx-auto ${invite.used_by_user_id
                                         ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000)
-                                            ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                                            : 'bg-red-500 bg-opacity-80'
+                                            ? 'bg-accent shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                                            : 'bg-danger-500 bg-opacity-80'
                                         : 'bg-slate-200'
                                         }`}
                                     title={invite.used_by_user_id ? (invite.last_active_at && (Date.now() - new Date(invite.last_active_at).getTime()) < 5 * 60 * 1000 ? `Online` : 'Offline') : 'No usada'}
@@ -101,15 +101,15 @@ export function InvitesTable({
                             <td className="px-2 py-3 font-mono font-medium text-slate-900 whitespace-nowrap text-[11px] lg:text-sm text-center">{invite.code}</td>
                             <td className="px-2 py-3 text-slate-600 text-center text-[11px] lg:text-xs">
                                 {invite.used_by_nickname ? (
-                                    <span className="font-bold text-primary-600">{invite.used_by_nickname}</span>
+                                    <span className="font-bold text-brand">{invite.used_by_nickname}</span>
                                 ) : (
                                     '-'
                                 )}
                             </td>
                             <td className="px-2 py-3 text-center">
-                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold ${invite.status === 'active' ? 'bg-emerald-100 text-emerald-800' :
-                                    invite.status === 'used' ? 'bg-cyan-100 text-cyan-800' :
-                                        invite.status === 'revoked' ? 'bg-red-100 text-red-800' :
+                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold ${invite.status === 'active' ? 'bg-accent/20 text-accent-800' :
+                                    invite.status === 'used' ? 'bg-brand-100 text-brand-800' :
+                                        invite.status === 'revoked' ? 'bg-danger-100 text-danger-800' :
                                             'bg-slate-100 text-slate-800'
                                     }`}>
                                     {invite.status.toUpperCase()}
@@ -142,13 +142,13 @@ export function InvitesTable({
                                             placeholder="+569..."
                                             value={waDrafts[invite.id]?.phone ?? invite.whatsapp_phone ?? ''}
                                             onChange={(e) => updateWaDraft(invite.id, { phone: e.target.value })}
-                                            className="w-full text-[10px] px-2 py-1 border rounded-lg focus:ring-1 focus:ring-cyan-500 outline-none"
+                                            className="w-full text-[10px] px-2 py-1 border rounded-lg focus:ring-1 focus:ring-brand outline-none"
                                             disabled={waDrafts[invite.id]?.isSending}
                                         />
                                         <button
                                             onClick={() => handleSendWhatsApp(invite)}
                                             disabled={waDrafts[invite.id]?.isSending || !(waDrafts[invite.id]?.phone || invite.whatsapp_phone)}
-                                            className="bg-emerald-500 text-white rounded-lg p-1 hover:bg-emerald-600 disabled:opacity-50 transition-colors flex items-center justify-center shrink-0"
+                                            className="bg-accent text-white rounded-lg p-1 hover:bg-accent disabled:opacity-50 transition-colors flex items-center justify-center shrink-0"
                                             title="Enviar invitación por WhatsApp"
                                         >
                                             {waDrafts[invite.id]?.isSending ? (
@@ -161,12 +161,12 @@ export function InvitesTable({
                                     <div className="text-[9px] flex items-center gap-1 text-left w-[80px] shrink-0">
                                         {(waDrafts[invite.id]?.statusMsg || invite.whatsapp_status) && (
                                             <>
-                                                <span className={`font-bold whitespace-nowrap ${waDrafts[invite.id]?.statusMsg?.includes('Error') || invite.whatsapp_status === 'error' ? 'text-red-500' : 'text-emerald-600'
+                                                <span className={`font-bold whitespace-nowrap ${waDrafts[invite.id]?.statusMsg?.includes('Error') || invite.whatsapp_status === 'error' ? 'text-danger-500' : 'text-accent'
                                                     }`}>
                                                     {waDrafts[invite.id]?.statusMsg || (invite.whatsapp_status === 'sent' ? 'Enviado ✅' : invite.whatsapp_status)}
                                                 </span>
                                                 {invite.whatsapp_error && (
-                                                    <span className="text-red-400 truncate max-w-[80px]" title={invite.whatsapp_error}>
+                                                    <span className="text-danger-400 truncate max-w-[80px]" title={invite.whatsapp_error}>
                                                         ({invite.whatsapp_error})
                                                     </span>
                                                 )}
@@ -191,9 +191,9 @@ export function InvitesTable({
                                         <button
                                             onClick={() => handleStatusChange(invite.id, invite.status, confirmRowAction.action)}
                                             disabled={loading}
-                                            className={`px-1.5 py-0.5 rounded text-[10px] font-bold text-white ${confirmRowAction.action === 'delete' ? 'bg-red-600 hover:bg-red-700' :
-                                                confirmRowAction.action === 'revoked' ? 'bg-blue-600 hover:bg-blue-700' :
-                                                    'bg-emerald-600 hover:bg-emerald-700'
+                                            className={`px-1.5 py-0.5 rounded text-[10px] font-bold text-white ${confirmRowAction.action === 'delete' ? 'bg-danger-600 hover:bg-danger-700' :
+                                                confirmRowAction.action === 'revoked' ? 'bg-brand-600 hover:bg-brand-700' :
+                                                    'bg-accent hover:bg-accent-700'
                                                 }`}
                                         >
                                             SÍ
@@ -205,7 +205,7 @@ export function InvitesTable({
                                             <button
                                                 onClick={() => setConfirmRowAction({ id: invite.id, action: 'revoked' })}
                                                 disabled={loading}
-                                                className="text-[10px] font-bold text-red-600 hover:text-red-700 disabled:opacity-50 focus:outline-none rounded px-1"
+                                                className="text-[10px] font-bold text-danger-600 hover:text-danger-700 disabled:opacity-50 focus:outline-none rounded px-1"
                                             >
                                                 REVOCAR
                                             </button>
@@ -214,7 +214,7 @@ export function InvitesTable({
                                             <button
                                                 onClick={() => handleStatusChange(invite.id, invite.status, 'active')}
                                                 disabled={loading}
-                                                className="text-[10px] font-bold text-emerald-600 hover:text-emerald-700 disabled:opacity-50 focus:outline-none rounded px-1"
+                                                className="text-[10px] font-bold text-accent hover:text-accent disabled:opacity-50 focus:outline-none rounded px-1"
                                             >
                                                 REACTIVAR
                                             </button>
@@ -222,7 +222,7 @@ export function InvitesTable({
                                         <button
                                             onClick={() => setConfirmRowAction({ id: invite.id, action: 'delete' })}
                                             disabled={loading}
-                                            className="text-slate-400 hover:text-red-600 disabled:opacity-50 focus:outline-none rounded px-1 flex items-center justify-center"
+                                            className="text-slate-400 hover:text-danger-600 disabled:opacity-50 focus:outline-none rounded px-1 flex items-center justify-center"
                                             title="Eliminar permanentemente"
                                         >
                                             <span className="material-symbols-outlined text-[15px]">delete</span>

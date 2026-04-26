@@ -19,9 +19,8 @@
  */
 
 export type DatabaseManualOverrides = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   Tables: {
     // Espacio reservado para futuros fallbacks inestables.
-    // Ej:
-    // temporal_table: { Row: {...}, Insert: {...}, Update: {...}, Relationships: [...] }
   }
 }

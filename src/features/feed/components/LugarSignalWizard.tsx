@@ -1,10 +1,20 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import type { Place } from './LugarDetailView';
+import { useModalA11y } from '../../../hooks/useModalA11y';
+
+export interface LugarSignalData {
+    sabor: number;
+    atencion: number;
+    precio: number;
+    vibes: string[];
+    notaGlobal: number;
+}
 
 interface LugarSignalWizardProps {
-    place: any;
+    place: Place;
     onClose: () => void;
-    onComplete: (data: any) => void;
+    onComplete: (data: LugarSignalData) => void;
 }
 
 const VIBE_CHIPS = [
@@ -14,6 +24,11 @@ const VIBE_CHIPS = [
 export default function LugarSignalWizard({ place, onClose, onComplete }: LugarSignalWizardProps) {
     const [step, setStep] = useState(1);
     const totalSteps = 6; // 5 questions + 1 success screen
+
+    // Fase 5.2 — a11y: escape-to-close + restore foco. `skipInitialFocus` porque
+    // cada step tiene sus propios controles (botones con selección actual) y
+    // mover foco al contenedor root rompería la interacción.
+    const containerRef = useModalA11y<HTMLDivElement>({ isOpen: true, onClose, skipInitialFocus: true });
 
     // Form State
     const [sabor, setSabor] = useState<number>(3);
@@ -51,8 +66,12 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
         return (
             <div className="w-full px-6 pt-6 pb-2 z-50">
                 <div className="flex justify-between items-center mb-4">
-                    <button onClick={onClose} className="p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full transition-colors flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[20px]">close</span>
+                    <button
+                        onClick={onClose}
+                        aria-label="Cerrar evaluación"
+                        className="p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-full transition-colors flex items-center justify-center"
+                    >
+                        <span className="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
                     </button>
                     <span className="text-white/60 font-bold text-sm tracking-widest uppercase">
                         {step} de {totalSteps - 1}
@@ -63,7 +82,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                     {[1, 2, 3, 4, 5].map((s) => (
                         <div key={s} className="flex-1 rounded-full bg-slate-800 overflow-hidden">
                             <motion.div 
-                                className="h-full bg-primary-500"
+                                className="h-full bg-brand"
                                 initial={{ width: 0 }}
                                 animate={{ width: s <= step ? '100%' : '0%' }}
                                 transition={{ duration: 0.3 }}
@@ -76,11 +95,15 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
     };
 
     return (
-        <motion.div 
+        <motion.div
+            ref={containerRef}
             initial={{ opacity: 0, y: "100%" }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Evaluar ${place.name}`}
             className="fixed inset-0 z-[100] bg-ink text-white flex flex-col overflow-hidden"
         >
             {/* Background Blur Effect */}
@@ -108,7 +131,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                                         <button 
                                             key={val}
                                             onClick={() => setSabor(val)}
-                                            className={`relative w-14 h-14 flex items-center justify-center rounded-2xl text-3xl transition-all duration-300 ${sabor === val ? 'bg-primary-500 scale-110 shadow-[0_0_20px_rgba(37,99,235,0.4)] ring-2 ring-white/20' : 'bg-slate-800/80 grayscale opacity-50 hover:opacity-100 hover:grayscale-0'}`}
+                                            className={`relative w-14 h-14 flex items-center justify-center rounded-2xl text-3xl transition-all duration-300 ${sabor === val ? 'bg-brand scale-110 shadow-[0_0_20px_rgba(37,99,235,0.4)] ring-2 ring-white/20' : 'bg-slate-800/80 grayscale opacity-50 hover:opacity-100 hover:grayscale-0'}`}
                                         >
                                             {val === 1 && "🤢"}
                                             {val === 2 && "😕"}
@@ -125,7 +148,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                         {/* STEP 2: ATENCIÓN */}
                         {step === 2 && (
                             <motion.div key="step-2" variants={slideVariants} initial="enter" animate="center" exit="exit" className="w-full flex flex-col items-center text-center">
-                                <div className="w-20 h-20 bg-slate-800/80 rounded-3xl flex items-center justify-center mb-8 shadow-xl border border-slate-700/50 backdrop-blur-md text-emerald-400">
+                                <div className="w-20 h-20 bg-slate-800/80 rounded-3xl flex items-center justify-center mb-8 shadow-xl border border-slate-700/50 backdrop-blur-md text-accent-400">
                                     <span className="material-symbols-outlined text-[40px]">support_agent</span>
                                 </div>
                                 <h2 className="text-3xl font-black text-white mb-2 leading-tight">La atención</h2>
@@ -136,7 +159,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                                         <button 
                                             key={val}
                                             onClick={() => setAtencion(val)}
-                                            className={`relative w-14 h-14 flex items-center justify-center rounded-2xl transition-all duration-300 ${atencion === val ? 'bg-emerald-500 scale-110 shadow-[0_0_20px_rgba(16,185,129,0.4)] text-white' : 'bg-slate-800/80 text-slate-500 hover:text-white'}`}
+                                            className={`relative w-14 h-14 flex items-center justify-center rounded-2xl transition-all duration-300 ${atencion === val ? 'bg-accent scale-110 shadow-[0_0_20px_rgba(16,185,129,0.4)] text-white' : 'bg-slate-800/80 text-slate-500 hover:text-white'}`}
                                         >
                                             <span className="material-symbols-outlined text-[28px]" style={{ fontVariationSettings: `'FILL' ${atencion >= val ? 1 : 0}`}}>
                                                 star
@@ -151,7 +174,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                         {/* STEP 3: PRECIO */}
                         {step === 3 && (
                             <motion.div key="step-3" variants={slideVariants} initial="enter" animate="center" exit="exit" className="w-full flex flex-col items-center text-center">
-                                <div className="w-20 h-20 bg-slate-800/80 rounded-3xl flex items-center justify-center mb-8 shadow-xl border border-slate-700/50 backdrop-blur-md text-amber-400">
+                                <div className="w-20 h-20 bg-slate-800/80 rounded-3xl flex items-center justify-center mb-8 shadow-xl border border-slate-700/50 backdrop-blur-md text-warning-400">
                                     <span className="material-symbols-outlined text-[40px]">payments</span>
                                 </div>
                                 <h2 className="text-3xl font-black text-white mb-2 leading-tight">Valor por Dinero</h2>
@@ -162,7 +185,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                                         <button 
                                             key={val}
                                             onClick={() => setPrecio(val)}
-                                            className={`relative w-12 h-16 flex items-center justify-center rounded-xl transition-all duration-300 font-black text-2xl ${precio >= val ? 'bg-amber-500/20 text-amber-400 border border-amber-500/50 scale-110' : 'bg-slate-800 border border-slate-700 text-slate-600'}`}
+                                            className={`relative w-12 h-16 flex items-center justify-center rounded-xl transition-all duration-300 font-black text-2xl ${precio >= val ? 'bg-warning-500/20 text-warning-400 border border-warning-500/50 scale-110' : 'bg-slate-800 border border-slate-700 text-slate-600'}`}
                                         >
                                             $
                                         </button>
@@ -175,7 +198,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                         {/* STEP 4: AMBIENTE (Multi-Select) */}
                         {step === 4 && (
                             <motion.div key="step-4" variants={slideVariants} initial="enter" animate="center" exit="exit" className="w-full flex flex-col items-center text-center">
-                                <div className="w-20 h-20 bg-slate-800/80 rounded-3xl flex items-center justify-center mb-6 shadow-xl border border-slate-700/50 backdrop-blur-md text-purple-400">
+                                <div className="w-20 h-20 bg-slate-800/80 rounded-3xl flex items-center justify-center mb-6 shadow-xl border border-slate-700/50 backdrop-blur-md text-brand-400">
                                     <span className="material-symbols-outlined text-[40px]">celebration</span>
                                 </div>
                                 <h2 className="text-3xl font-black text-white mb-2 leading-tight">El Vibe</h2>
@@ -191,7 +214,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                                                     if (isSelected) setVibes(vibes.filter(v => v !== vibe));
                                                     else setVibes([...vibes, vibe]);
                                                 }}
-                                                className={`px-5 py-3 rounded-full font-bold text-sm transition-all duration-200 border ${isSelected ? 'bg-purple-500 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]' : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-700'}`}
+                                                className={`px-5 py-3 rounded-full font-bold text-sm transition-all duration-200 border ${isSelected ? 'bg-brand-500 border-brand-400 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-700'}`}
                                             >
                                                 {vibe}
                                             </button>
@@ -205,7 +228,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                         {/* STEP 5: NOTA GLOBAL */}
                         {step === 5 && (
                             <motion.div key="step-5" variants={slideVariants} initial="enter" animate="center" exit="exit" className="w-full flex flex-col items-center text-center">
-                                <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-rose-500 rounded-[2rem] flex items-center justify-center mb-6 shadow-[0_0_50px_rgba(37,99,235,0.4)] border-4 border-white">
+                                <div className="w-24 h-24 bg-gradient-to-br from-brand to-accent rounded-[2rem] flex items-center justify-center mb-6 shadow-[0_0_50px_rgba(37,99,235,0.4)] border-4 border-white">
                                     <span className="text-5xl font-black text-white">{notaGlobal}</span>
                                 </div>
                                 <h2 className="text-3xl font-black text-white mb-2 leading-tight">Señal Final</h2>
@@ -225,27 +248,31 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                                     </div>
                                 </div>
 
-                                <button onClick={handleNext} className="w-full mt-10 py-4 bg-gradient-to-r from-primary-500 to-blue-500 text-white rounded-2xl font-black text-lg transition-transform active:scale-95 shadow-[0_10px_40px_-10px_rgba(37,99,235,0.8)] flex items-center justify-center gap-2">
+                                <button onClick={handleNext} className="w-full mt-10 py-4 bg-gradient-to-br from-brand to-brand-500 text-white rounded-2xl font-black text-lg transition-transform active:scale-95 shadow-[0_10px_40px_-10px_rgba(37,99,235,0.8)] flex items-center justify-center gap-2">
                                     <span className="material-symbols-outlined text-[24px]">send</span>
                                     Lanzar Señal
                                 </button>
                             </motion.div>
                         )}
 
-                        {/* SUCCESS SCREEN */}
+                        {/* SUCCESS SCREEN — Copy honesto: Lugares aún está en Beta y la agregación pública no existe. */}
                         {step === 6 && (
                             <motion.div key="step-6" variants={slideVariants} initial="enter" animate="center" exit="exit" className="w-full flex flex-col items-center text-center">
-                                <motion.div 
+                                <motion.div
                                     initial={{ scale: 0, rotate: -180 }}
                                     animate={{ scale: 1, rotate: 0 }}
                                     transition={{ type: "spring", damping: 12 }}
-                                    className="w-28 h-28 bg-emerald-500 rounded-full flex items-center justify-center mb-8 shadow-[0_0_80px_rgba(16,185,129,0.5)] border-4 border-emerald-300"
+                                    className="w-28 h-28 bg-warning-500 rounded-full flex items-center justify-center mb-8 shadow-[0_0_80px_rgba(245,158,11,0.5)] border-4 border-warning-300"
                                 >
-                                    <span className="material-symbols-outlined text-white text-[60px]">done_all</span>
+                                    <span className="material-symbols-outlined text-white text-[60px]">science</span>
                                 </motion.div>
-                                <h2 className="text-4xl font-black text-white mb-4 leading-tight">¡Señal <br/> Capturada!</h2>
-                                <p className="text-slate-400 font-medium mb-12 max-w-[280px]">
-                                    Has aportado valiosa inteligencia colectiva a la comunidad respecto a <span className="text-white font-bold">{place.name}</span>.
+                                <h2 className="text-4xl font-black text-white mb-4 leading-tight">Gracias <br/> por evaluar</h2>
+                                <span className="inline-flex items-center gap-1 rounded-full bg-warning-500/20 border border-warning-400/40 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-warning-300 mb-5">
+                                    <span className="material-symbols-outlined text-[14px]">science</span>
+                                    Lugares · Beta
+                                </span>
+                                <p className="text-slate-400 font-medium mb-12 max-w-[300px]">
+                                    Registramos tu evaluación sobre <span className="text-white font-bold">{place.name}</span>. La agregación pública y los rankings locales llegan en próximas versiones de Lugares.
                                 </p>
 
                                 <button onClick={handleComplete} className="w-full py-4 bg-white text-ink rounded-2xl font-black text-lg transition-transform active:scale-95">

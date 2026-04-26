@@ -189,7 +189,7 @@ export const actualidadService = {
                 .from('actualidad_stats_view')
                 .select('*')
                 .eq('topic_id', topicId)
-                .single();
+                .maybeSingle();
             if (statData) {
                 stats = {
                     total_participants: statData.total_participants || 0,
@@ -253,7 +253,7 @@ export const actualidadService = {
             // Import signalService dynamically to avoid circular dependencies if any
             const { signalService } = await import('./signalService');
             
-            for (const answer of answers) {
+            const savePromises = answers.map(async (answer) => {
                 try {
                     // Para actualidad, el entity_id es el topicId y el context_id es la pregunta
                     await signalService.saveSignalEvent({
@@ -275,7 +275,9 @@ export const actualidadService = {
                     logger.error(`[ActualidadService] Failed to submit answer for question_id: ${answer.question_id}`, { error: err });
                     throw err;
                 }
-            }
+            });
+            
+            await Promise.all(savePromises);
 
             // 2. METADATA ESPECÍFICA DEL MÓDULO ALMACENADA DESPUÉS
             const inserts = answers.map(a => ({

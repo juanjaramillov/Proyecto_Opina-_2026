@@ -67,7 +67,7 @@ export function DepthInsightsDrawer({
                                     onClick={() => setIsExportView(!isExportView)}
                                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-colors border ${
                                         isExportView 
-                                            ? 'bg-indigo-50 text-indigo-700 border-indigo-200' 
+                                            ? 'bg-brand-50 text-brand-700 border-brand-200' 
                                             : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                     }`}
                                 >
@@ -139,8 +139,8 @@ export function DepthInsightsDrawer({
                                 </Suspense>
                             )}
 
-                            <div className="mt-12 p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
-                                <p className="text-[10px] text-emerald-700 font-bold leading-relaxed">
+                            <div className="mt-12 p-6 bg-accent/10 rounded-2xl border border-accent-100">
+                                <p className="text-[10px] text-accent font-bold leading-relaxed">
                                     <Database className="w-3 h-3 inline mr-1 mb-0.5" />
                                     Estos datos provienen del motor de analíticas de profundidad. El score es el promedio de valoraciones (1-10) capturadas en los Insight Packs.
                                 </p>

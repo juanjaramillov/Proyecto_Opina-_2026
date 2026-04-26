@@ -15,7 +15,7 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
             {/* DATA HEALTH DASHBOARD */}
             <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                    <ShieldCheck className="w-5 h-5 text-accent" />
                     {orgName ? "Estado Corporativo" : "Salud del Sistema"}
                 </h3>
 
@@ -40,7 +40,7 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
                         </div>
                         <div className="text-center p-3 bg-slate-50 rounded-2xl">
                             <div className="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Estado</div>
-                            <div className="text-sm font-black text-emerald-600">Óptimo</div>
+                            <div className="text-sm font-black text-accent">Óptimo</div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
 
             <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <Database className="w-4 h-4 text-emerald-500" />
+                    <Database className="w-4 h-4 text-accent" />
                     Estado del Engine
                 </h3>
                 <ul className="space-y-4">
@@ -64,12 +64,12 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
             </div>
 
             {/* SUSPICIOUS ACTIVITY SECTION */}
-            <div className="bg-white rounded-3xl border border-rose-100 p-6 shadow-sm">
+            <div className="bg-white rounded-3xl border border-danger-100 p-6 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
-                    <ShieldAlert className="w-5 h-5 text-rose-500" />
+                    <ShieldAlert className="w-5 h-5 text-danger-500" />
                     Actividad Sospechosa
                     {suspiciousUsers.length > 0 && (
-                        <span className="bg-rose-100 text-rose-600 text-[10px] px-2 py-0.5 rounded-full animate-pulse">
+                        <span className="bg-danger-100 text-danger-600 text-[10px] px-2 py-0.5 rounded-full animate-pulse">
                             {suspiciousUsers.length}
                         </span>
                     )}
@@ -81,10 +81,10 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
                             <div key={user.user_id} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                                 <div className="flex items-center justify-between mb-2">
                                     <div className="text-xs font-bold text-slate-900 flex items-center gap-2">
-                                        <UserX className="w-3.5 h-3.5 text-rose-400" />
+                                        <UserX className="w-3.5 h-3.5 text-danger-400" />
                                         ID: {user.user_id.slice(0, 8)}...
                                     </div>
-                                    <span className="text-[10px] font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded uppercase">
+                                    <span className="text-[10px] font-black text-danger-500 bg-danger-50 px-2 py-0.5 rounded uppercase">
                                         Confianza: {user.trust_score}
                                     </span>
                                 </div>
@@ -95,14 +95,14 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
                         ))
                     ) : (
                         <div className="text-center py-6">
-                            <ShieldCheck className="w-8 h-8 text-emerald-100 mx-auto mb-2" />
+                            <ShieldCheck className="w-8 h-8 text-accent-100 mx-auto mb-2" />
                             <p className="text-[10px] font-bold text-slate-300">Sin amenazas detectadas</p>
                         </div>
                     )}
                 </div>
 
                 {suspiciousUsers.length > 0 && (
-                    <button className="w-full mt-6 py-3 bg-rose-50 text-rose-600 text-xs font-bold rounded-xl hover:bg-rose-100 transition">
+                    <button className="w-full mt-6 py-3 bg-danger-50 text-danger-600 text-xs font-bold rounded-xl hover:bg-danger-100 transition">
                         Ver todos los reportes
                     </button>
                 )}
@@ -111,10 +111,10 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
             {/* PLATFORM ALERTS SECTION */}
             <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
-                    <Bell className="w-5 h-5 text-emerald-500" />
+                    <Bell className="w-5 h-5 text-accent" />
                     Alertas del Sistema
                     {alerts.filter(a => !a.is_read).length > 0 && (
-                        <span className="bg-emerald-100 text-emerald-600 text-[10px] px-2 py-0.5 rounded-full">
+                        <span className="bg-accent/20 text-accent text-[10px] px-2 py-0.5 rounded-full">
                             {alerts.filter(a => !a.is_read).length}
                         </span>
                     )}
@@ -125,15 +125,15 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
                         alerts.map((alert) => (
                             <div
                                 key={alert.id}
-                                className={`p-4 rounded-2xl border transition-all ${alert.is_read ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-emerald-100 shadow-sm'
+                                className={`p-4 rounded-2xl border transition-all ${alert.is_read ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-accent-100 shadow-sm'
                                     }`}
                             >
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <span className={`w-1.5 h-1.5 rounded-full ${alert.type === 'momentum' ? 'bg-blue-400' :
-                                                alert.type === 'volatility' ? 'bg-blue-600' :
-                                                    alert.type === 'fraud' ? 'bg-rose-500' : 'bg-blue-500'
+                                            <span className={`w-1.5 h-1.5 rounded-full ${alert.type === 'momentum' ? 'bg-brand-400' :
+                                                alert.type === 'volatility' ? 'bg-brand-600' :
+                                                    alert.type === 'fraud' ? 'bg-danger-500' : 'bg-brand-500'
                                                 }`} />
                                             <p className="text-xs font-bold text-slate-900 leading-tight">
                                                 {alert.title}
@@ -149,7 +149,7 @@ export function IntelligenceSidebar({ orgName, health, suspiciousUsers, alerts, 
                                     {!alert.is_read && (
                                         <button
                                             onClick={() => handleMarkAlertAsRead(alert.id)}
-                                            className="p-1.5 hover:bg-emerald-50 text-emerald-400 rounded-lg transition"
+                                            className="p-1.5 hover:bg-accent/10 text-accent-400 rounded-lg transition"
                                             title="Marcar como leída"
                                         >
                                             <ShieldCheck className="w-3.5 h-3.5" />
@@ -177,8 +177,8 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
                 <div className="text-sm font-bold text-slate-700">{label}</div>
                 {time && <div className="text-[10px] text-slate-400 font-medium">{time}</div>}
             </div>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${status === 'Activo' || status === 'Óptimo' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' :
-                status === 'Programado' ? 'bg-sky-100 text-sky-700 border border-sky-200' : 'bg-slate-100 text-slate-500 border border-slate-200'
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${status === 'Activo' || status === 'Óptimo' ? 'bg-accent/20 text-accent border border-accent-200' :
+                status === 'Programado' ? 'bg-brand-100 text-brand-700 border border-brand-200' : 'bg-slate-100 text-slate-500 border border-slate-200'
                 }`}>
                 {status}
             </span>
@@ -188,8 +188,8 @@ function StatusItem({ label, status, time }: { label: string, status: string, ti
 
 function HealthMetric({ label, value, desc, color }: { label: string, value: string, desc: string, color: string }) {
     const colorClasses: Record<string, string> = {
-        emerald: "text-emerald-600",
-        primary: "text-primary-600",
+        emerald: "text-accent",
+        primary: "text-brand",
         slate: "text-slate-600"
     };
 

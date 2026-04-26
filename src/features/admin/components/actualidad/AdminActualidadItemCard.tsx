@@ -1,16 +1,19 @@
 import { motion } from "framer-motion";
-import { Clock, Globe, Activity, Zap, Eye, MessageCircle, Share2, Edit2, FileEdit, XCircle, CheckCircle, UploadCloud, ArrowLeft, Archive } from "lucide-react";
+import { Clock, Globe, Activity, Zap, Eye, MessageCircle, Share2, Edit2, FileEdit, XCircle, CheckCircle, UploadCloud, ArrowLeft, Archive, CheckSquare, Square } from "lucide-react";
 import { Topic, TopicStatus } from "../../../signals/types/actualidad";
 import { MetricAvailabilityCard } from "../../../../components/ui/MetricAvailabilityCard";
+import { GradientCTA } from "../../../../components/ui/foundation";
 
 interface AdminActualidadItemCardProps {
   topic: Topic;
   activeTab: TopicStatus;
   onUpdateStatus: (id: string, status: TopicStatus) => void;
   onOpenEditor: (topic: Topic) => void;
+  isSelected?: boolean;
+  onToggleSelect?: () => void;
 }
 
-export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOpenEditor }: AdminActualidadItemCardProps) {
+export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOpenEditor, isSelected = false, onToggleSelect }: AdminActualidadItemCardProps) {
   return (
     <motion.div
       layout
@@ -18,11 +21,27 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.2 }}
-      className="group flex flex-col md:flex-row bg-white border border-slate-200/80 hover:border-slate-300 hover:shadow-md rounded-2xl overflow-hidden shadow-sm transition-all"
+      className={`relative group flex flex-col md:flex-row border rounded-2xl overflow-hidden shadow-sm transition-all ${
+        isSelected 
+          ? 'bg-brand-50/50 border-brand-300 shadow-md ring-1 ring-brand-300'
+          : 'bg-white border-slate-200/80 hover:border-slate-300 hover:shadow-md'
+      }`}
     >
+      {/* Checkbox Overlay de Selección */}
+      {onToggleSelect && (
+        <button 
+          onClick={onToggleSelect}
+          className={`absolute top-4 right-4 md:left-4 md:right-auto z-10 p-1.5 rounded-lg transition-colors bg-white/80 backdrop-blur-sm border shadow-sm flex items-center justify-center ${
+            isSelected ? 'border-brand-300 text-brand' : 'border-slate-200 text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          {isSelected ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5" />}
+        </button>
+      )}
+
       <div className={`w-1.5 shrink-0 ${
-        topic.confidence_score !== null && topic.confidence_score >= 80 ? 'bg-emerald-500' :
-        topic.confidence_score !== null && topic.confidence_score >= 50 ? 'bg-amber-400' :
+        topic.confidence_score !== null && topic.confidence_score >= 80 ? 'bg-accent' :
+        topic.confidence_score !== null && topic.confidence_score >= 50 ? 'bg-warning' :
         'bg-slate-300'
       }`} />
 
@@ -39,7 +58,9 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
       <div className="p-6 flex-1 flex flex-col justify-between">
         <div>
           <div className="flex items-center gap-2 mb-3 flex-wrap">
-            <span className="text-[10px] font-black tracking-widest uppercase text-primary-700 bg-primary-50 border border-primary-100/50 px-2.5 py-1 rounded-md">
+            <span className={`text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md border ${
+              isSelected ? 'text-brand-900 bg-brand-100 border-brand-200' : 'text-brand bg-brand/10 border-brand-100/50'
+            } md:ml-8`}>
               {topic.category}
             </span>
             
@@ -52,8 +73,8 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
 
             {topic.confidence_score !== null && (
               <span className={`text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md border flex items-center gap-1.5 ${
-                topic.confidence_score >= 80 ? 'text-emerald-700 bg-emerald-50 border-emerald-100' : 
-                'text-amber-700 bg-amber-50 border-amber-100'
+                topic.confidence_score >= 80 ? 'text-accent bg-accent/10 border-accent-100' : 
+                'text-warning bg-warning/10 border-warning/30'
               }`}>
                 <Activity className="w-3 h-3" />
                 IA: {topic.confidence_score}%
@@ -61,14 +82,14 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
             )}
 
             {topic.intensity !== null && topic.intensity > 1 && (
-              <span className="text-[10px] font-black tracking-widest uppercase text-orange-700 bg-orange-50 border border-orange-100 px-2.5 py-1 rounded-md flex items-center gap-1">
+              <span className="text-[10px] font-black tracking-widest uppercase text-warning-700 bg-warning-50 border border-warning-100 px-2.5 py-1 rounded-md flex items-center gap-1">
                 <Zap className="w-3 h-3" />
                 Intensidad {topic.intensity}/3
               </span>
             )}
 
             {topic.admin_edited && (
-              <span className="text-[10px] font-black tracking-widest uppercase text-indigo-700 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-md">
+              <span className="text-[10px] font-black tracking-widest uppercase text-brand-700 bg-brand-50 border border-brand-100 px-2.5 py-1 rounded-md">
                 Editado
               </span>
             )}
@@ -79,7 +100,7 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
             </span>
           </div>
 
-          <h2 className="text-xl font-black text-slate-900 mb-2 leading-tight group-hover:text-primary-700 transition-colors line-clamp-2 min-h-[56px]">
+          <h2 className="text-xl font-black text-slate-900 mb-2 leading-tight group-hover:text-brand transition-colors line-clamp-2 min-h-[56px]">
             {topic.title}
           </h2>
           <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2 pr-4 lg:pr-12 min-h-[40px]">
@@ -132,17 +153,17 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
         <div className="flex flex-col gap-2 w-full mt-2 md:mt-0">
           {activeTab === 'detected' && (
             <div className="flex gap-2">
-              <button 
+              <GradientCTA
+                label="Borrador"
+                icon={<FileEdit className="w-4 h-4" />}
+                iconPosition="leading"
+                size="sm"
+                className="flex-1 shadow-sm"
                 onClick={() => onUpdateStatus(topic.id, 'draft')}
-                className="flex-1 btn-primary py-2.5 px-3 shadow-sm text-sm justify-center group/btn2 relative"
-                title="Hacer Borrador"
-              >
-                <FileEdit className="w-4 h-4" />
-                <span className="sr-only md:not-sr-only md:ml-1.5">Borrador</span>
-              </button>
+              />
               <button 
                 onClick={() => onUpdateStatus(topic.id, 'rejected')}
-                className="flex-1 bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 py-2.5 px-3 rounded-xl font-bold transition-colors text-sm flex items-center justify-center"
+                className="flex-1 bg-white border border-danger-200 text-danger-600 hover:bg-danger-50 hover:border-danger-300 py-2.5 px-3 rounded-xl font-bold transition-colors text-sm flex items-center justify-center"
                 title="Rechazar"
               >
                 <XCircle className="w-4 h-4" />
@@ -154,7 +175,7 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
               {activeTab === 'draft' && (
                 <button 
                   onClick={() => onUpdateStatus(topic.id, 'review')}
-                  className="w-full btn-primary py-2.5 px-3 shadow-sm text-sm justify-center bg-indigo-600 hover:bg-indigo-700 hover:shadow-indigo-500/30"
+                  className="w-full btn-primary py-2.5 px-3 shadow-sm text-sm justify-center bg-brand hover:bg-brand-700 hover:shadow-brand/30"
                   title="Mandar a revisión"
                 >
                   <Activity className="w-4 h-4" />
@@ -165,7 +186,7 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
                 <div className="flex gap-2">
                   <button 
                       onClick={() => onUpdateStatus(topic.id, 'approved')}
-                      className="flex-1 btn-primary py-2.5 px-2 shadow-sm text-sm justify-center bg-teal-600 hover:bg-teal-700 hover:shadow-teal-500/30"
+                      className="flex-1 btn-primary py-2.5 px-2 shadow-sm text-sm justify-center bg-accent hover:bg-accent-700 hover:shadow-accent/30"
                       title="Aprobar tema"
                   >
                       <CheckCircle className="w-4 h-4" />
@@ -173,7 +194,7 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
                   </button>
                   <button 
                       onClick={() => onUpdateStatus(topic.id, 'draft')}
-                      className="flex-1 bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 hover:border-orange-300 py-2.5 px-2 rounded-xl font-bold transition-colors text-sm flex items-center justify-center"
+                      className="flex-1 bg-white border border-warning-200 text-warning-600 hover:bg-warning-50 hover:border-warning-300 py-2.5 px-2 rounded-xl font-bold transition-colors text-sm flex items-center justify-center"
                       title="Rechazar (Volver borrador)"
                   >
                       <XCircle className="w-4 h-4" />
@@ -186,7 +207,7 @@ export function AdminActualidadItemCard({ topic, activeTab, onUpdateStatus, onOp
             <div className="flex flex-col gap-2">
               <button 
                 onClick={() => onUpdateStatus(topic.id, 'published')}
-                className="w-full btn-primary py-2.5 px-3 shadow-sm text-sm justify-center bg-emerald-600 hover:bg-emerald-700 hover:shadow-emerald-500/30"
+                className="w-full btn-primary py-2.5 px-3 shadow-sm text-sm justify-center bg-accent hover:bg-accent-700 hover:shadow-accent-500/30"
                 title="Publicar en App"
               >
                 <UploadCloud className="w-4 h-4" />

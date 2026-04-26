@@ -32,7 +32,7 @@ export function OverviewB2BEntityList({
           <input
             type="text"
             placeholder="Buscar entidad..."
-            className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-indigo-500 transition"
+            className="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-brand-500 transition"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -62,7 +62,7 @@ export function OverviewB2BEntityList({
                 <tr 
                   key={entity.entityId} 
                   onClick={() => onSelectEntity(entity)}
-                  className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedEntity?.entityId === entity.entityId ? 'bg-indigo-50/30' : ''}`}
+                  className={`hover:bg-slate-50/50 transition cursor-pointer group ${selectedEntity?.entityId === entity.entityId ? 'bg-brand-50/30' : ''}`}
                 >
                   <td className="px-6 py-4">
                     <div className="font-semibold text-slate-900">{entity.entityName}</div>
@@ -71,14 +71,14 @@ export function OverviewB2BEntityList({
                   <td className="px-6 py-4 text-center">
                     <div className="text-sm font-bold text-slate-700">{(entity.weightedPreferenceShare * 100).toFixed(1)}%</div>
                     <div className="w-full bg-slate-100 rounded-full h-1.5 mt-2">
-                      <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: `${entity.weightedPreferenceShare * 100}%` }}></div>
+                      <div className="bg-brand-500 h-1.5 rounded-full" style={{ width: `${entity.weightedPreferenceShare * 100}%` }}></div>
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">
                      <div className="flex items-center justify-center gap-2">
                       <div className={`w-2 h-2 rounded-full ${
-                          entity.stabilityLabel === 'volátil' ? 'bg-amber-500 animate-pulse' : 
-                          entity.stabilityLabel === 'estable' ? 'bg-emerald-500' : 'bg-slate-400'
+                          entity.stabilityLabel === 'volátil' ? 'bg-warning-500 animate-pulse' : 
+                          entity.stabilityLabel === 'estable' ? 'bg-accent' : 'bg-slate-400'
                       }`}></div>
                       <span className="text-sm font-semibold capitalize text-slate-700">
                         {entity.stabilityLabel.replace('_', ' ')}
@@ -90,7 +90,7 @@ export function OverviewB2BEntityList({
                     <div className="text-[10px] text-slate-400">interacciones</div>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button className="p-2 text-slate-300 group-hover:text-indigo-500 transition">
+                    <button className="p-2 text-slate-400 group-hover:text-brand-500 transition">
                       <ChevronRight className="w-5 h-5" />
                     </button>
                   </td>

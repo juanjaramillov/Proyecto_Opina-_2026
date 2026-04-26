@@ -32,8 +32,8 @@ const HOUSEHOLD_SIZE_OPTIONS = ["1 persona", "2 personas", "3 personas", "4 pers
 const CHILDREN_COUNT_OPTIONS = ["No tengo hijos", "1 hijo", "2 hijos", "3 o más hijos"];
 const CAR_COUNT_OPTIONS = ["Sin auto", "1 auto", "2 autos", "3 o más autos"];
 
-const INPUT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl text-base focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 outline-none transition-all font-medium text-slate-700";
-const SELECT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl text-base outline-none focus:border-primary-600 focus:bg-white focus:ring-4 focus:ring-primary-600/10 transition-all font-bold text-slate-700";
+const INPUT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl text-base focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 outline-none transition-all font-medium text-slate-700";
+const SELECT = "w-full px-5 py-4 bg-slate-50/50 border-2 border-slate-100 rounded-2xl text-base outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 transition-all font-bold text-slate-700";
 
 // Nickname validation moved to Register.tsx
 
@@ -157,7 +157,7 @@ export default function ProfileWizard() {
         <AuthLayout
             title={
                 <div>
-                    <span className="text-xs font-black text-primary-600 uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full mb-4 inline-block">
+                    <span className="text-xs font-black text-brand uppercase tracking-widest bg-brand/10 px-3 py-1 rounded-full mb-4 inline-block">
                         Multiplicador de Señal • Nivel {step} de 4
                     </span>
                     <h1 className="text-3xl font-black text-slate-900 mt-2 tracking-tight">
@@ -208,7 +208,7 @@ export default function ProfileWizard() {
                                         <button
                                             key={g.id}
                                             onClick={() => setFormData({ ...formData, gender: g.id })}
-                                            className={`p-4 rounded-2xl border-2 transition-all font-bold text-sm ${formData.gender === g.id ? "border-primary-600 bg-primary-50 text-primary-700" : "border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200"}`}
+                                            className={`p-4 rounded-2xl border-2 transition-all font-bold text-sm ${formData.gender === g.id ? "border-brand bg-brand/10 text-brand" : "border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200"}`}
                                             type="button"
                                         >
                                             {g.label}
@@ -336,9 +336,9 @@ export default function ProfileWizard() {
                 <div className="mt-8 pt-6 border-t border-slate-100 text-center">
                     <button
                         onClick={handleSignOut}
-                        className="text-slate-400 hover:text-rose-500 font-bold text-sm transition-colors flex items-center justify-center gap-2 mx-auto"
+                        className="text-slate-400 hover:text-danger-500 font-bold text-sm transition-colors flex items-center justify-center gap-2 mx-auto"
                     >
-                        ¿No es tu cuenta? <span className="underline decoration-primary-200">Cerrar Sesión</span>
+                        ¿No es tu cuenta? <span className="underline decoration-brand-200">Cerrar Sesión</span>
                     </button>
                 </div>
 

@@ -1,7 +1,7 @@
-import { supabase as sb } from "../../../supabase/client";
 import { TrendingItem } from "../../../types/trending";
 import { logger } from "../../../lib/logger";
 import { cached } from "../../../lib/requestCache";
+import { typedRpc } from "../../../supabase/typedRpc";
 
 export interface PlatformStats {
     signals_24h: number;
@@ -33,7 +33,7 @@ interface RawTrendingRanking {
 
 export const platformService = {
     getLiveStats: async (): Promise<PlatformStats | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: PlatformStats[] | null, error: unknown }>)('get_live_platform_stats');
+        const { data, error } = await typedRpc<PlatformStats[]>('get_live_platform_stats');
 
         if (error) {
             logger.error('[PlatformService] Error fetching live stats:', error);
@@ -45,7 +45,7 @@ export const platformService = {
 
     getRecentActivity: async (): Promise<RecentActivity | null> => {
         return cached("platform:getRecentActivity", 30_000, async () => {
-            const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: RecentActivity[] | null, error: unknown }>)('get_recent_signal_activity');
+            const { data, error } = await typedRpc<RecentActivity[]>('get_recent_signal_activity');
 
             if (error) {
                 logger.error('[PlatformService] Error fetching recent activity:', error);
@@ -57,7 +57,7 @@ export const platformService = {
     },
 
     getTrendingFeedGrouped: async (): Promise<unknown[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: unknown[] | null, error: unknown }>)('get_trending_feed_grouped');
+        const { data, error } = await typedRpc<unknown[]>('get_trending_feed_grouped');
 
         if (error) {
             logger.error('[PlatformService] Error fetching trending feed:', error);
@@ -68,7 +68,7 @@ export const platformService = {
     },
 
     getTrending: async (): Promise<TrendingItem[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string) => Promise<{ data: RawTrendingRanking[] | null, error: unknown }>)('get_ranking_with_variation');
+        const { data, error } = await typedRpc<RawTrendingRanking[]>('get_ranking_with_variation');
 
         if (error) {
             logger.error('[PlatformService] Error fetching latest rankings (snapshots):', error);
@@ -95,7 +95,7 @@ export const platformService = {
         gender: string = 'all',
         commune: string = 'all'
     ): Promise<TrendingItem[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: RawTrendingRanking[] | null, error: unknown }>)('get_segmented_ranking', {
+        const { data, error } = await typedRpc<RawTrendingRanking[]>('get_segmented_ranking', {
             p_battle_slug: battleSlug,
             p_age_range: ageRange,
             p_gender: gender,
@@ -128,7 +128,7 @@ export const platformService = {
     ): Promise<TrendingItem[]> => {
         const key = `platform:getSegmentedTrending:${ageRange}:${gender}:${commune}`;
         return cached(key, 15_000, async () => {
-            const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: RawTrendingRanking[] | null, error: unknown }>)('get_segmented_trending', {
+            const { data, error } = await typedRpc<RawTrendingRanking[]>('get_segmented_trending', {
                 p_age_range: ageRange,
                 p_gender: gender,
                 p_commune: commune

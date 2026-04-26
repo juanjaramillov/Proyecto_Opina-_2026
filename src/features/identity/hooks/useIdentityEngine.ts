@@ -25,11 +25,11 @@ export interface IdentityProfile {
 
 const LEVEL_THRESHOLDS = [
     { level: 1, name: "Espectador", max: 50, icon: "visibility", colorClass: "text-slate-500", bgClass: "bg-slate-100" },
-    { level: 2, name: "Explorador", max: 250, icon: "explore", colorClass: "text-blue-500", bgClass: "bg-blue-50" },
-    { level: 3, name: "Analista", max: 1000, icon: "query_stats", colorClass: "text-indigo-500", bgClass: "bg-indigo-50" },
-    { level: 4, name: "Visionario", max: 5000, icon: "diamond", colorClass: "text-emerald-500", bgClass: "bg-emerald-50" },
-    { level: 5, name: "Oráculo", max: 25000, icon: "psychology", colorClass: "text-amber-500", bgClass: "bg-amber-50" },
-    { level: 6, name: "Leyenda", max: Infinity, icon: "local_fire_department", colorClass: "text-rose-500", bgClass: "bg-rose-50" }
+    { level: 2, name: "Explorador", max: 250, icon: "explore", colorClass: "text-brand-500", bgClass: "bg-brand-50" },
+    { level: 3, name: "Analista", max: 1000, icon: "query_stats", colorClass: "text-brand-500", bgClass: "bg-brand-50" },
+    { level: 4, name: "Visionario", max: 5000, icon: "diamond", colorClass: "text-accent", bgClass: "bg-accent/10" },
+    { level: 5, name: "Oráculo", max: 25000, icon: "psychology", colorClass: "text-warning-500", bgClass: "bg-warning-50" },
+    { level: 6, name: "Leyenda", max: Infinity, icon: "local_fire_department", colorClass: "text-danger-500", bgClass: "bg-danger-50" }
 ];
 
 export function useIdentityEngine(): IdentityProfile {

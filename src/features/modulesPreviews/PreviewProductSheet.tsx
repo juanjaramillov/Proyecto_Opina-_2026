@@ -25,32 +25,32 @@ const PreviewProductSheet: React.FC<PreviewProductSheetProps> = ({ product }) =>
 
             <div className="flex-1 space-y-8 text-left">
                 <div>
-                    <div className="text-[10px] font-black text-primary-500 uppercase tracking-widest mb-1">{product.brand} · {product.category}</div>
+                    <div className="text-[10px] font-black text-brand uppercase tracking-widest mb-1">{product.brand} · {product.category}</div>
                     <h2 className="text-3xl font-black text-slate-900 leading-tight mb-3">{product.name}</h2>
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1 px-3 py-1 bg-blue-50 rounded-full border border-blue-100">
-                            {[1, 2, 3, 4].map(s => <span key={s} className="material-symbols-outlined text-[14px] text-blue-600 fill-current">star</span>)}
-                            <span className="material-symbols-outlined text-[14px] text-blue-200 fill-current">star</span>
+                        <div className="flex items-center gap-1 px-3 py-1 bg-brand-50 rounded-full border border-brand-100">
+                            {[1, 2, 3, 4].map(s => <span key={s} className="material-symbols-outlined text-[14px] text-brand-600 fill-current">star</span>)}
+                            <span className="material-symbols-outlined text-[14px] text-brand-200 fill-current">star</span>
                         </div>
                         <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{product.rating} de 5.0</span>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100">
-                        <h4 className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <div className="bg-accent-50/50 p-4 rounded-2xl border border-accent-100">
+                        <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-3 flex items-center gap-2">
                             <span className="material-symbols-outlined text-sm">thumb_up</span> Pros
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                            {product.pros.map(p => <span key={p} className="px-2 py-1 bg-white rounded-lg text-[10px] font-bold text-emerald-700">{p}</span>)}
+                            {product.pros.map(p => <span key={p} className="px-2 py-1 bg-white rounded-lg text-[10px] font-bold text-accent">{p}</span>)}
                         </div>
                     </div>
-                    <div className="bg-rose-50/50 p-4 rounded-2xl border border-rose-100">
-                        <h4 className="text-[10px] font-black text-rose-600 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <div className="bg-danger-50/50 p-4 rounded-2xl border border-danger-100">
+                        <h4 className="text-[10px] font-black text-danger-600 uppercase tracking-widest mb-3 flex items-center gap-2">
                             <span className="material-symbols-outlined text-sm">thumb_down</span> Contras
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                            {product.cons.map(c => <span key={c} className="px-2 py-1 bg-white rounded-lg text-[10px] font-bold text-rose-700">{c}</span>)}
+                            {product.cons.map(c => <span key={c} className="px-2 py-1 bg-white rounded-lg text-[10px] font-bold text-danger-700">{c}</span>)}
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@ const PreviewProductSheet: React.FC<PreviewProductSheetProps> = ({ product }) =>
                     <ul className="space-y-3">
                         {product.conclusions.map((c, i) => (
                             <li key={i} className="flex items-start gap-3 text-sm font-bold leading-relaxed">
-                                <span className={`w-1.5 h-1.5 rounded-full mt-2 shrink-0 ${i === 0 ? 'bg-primary-400' : 'bg-slate-500'}`} />
+                                <span className={`w-1.5 h-1.5 rounded-full mt-2 shrink-0 ${i === 0 ? 'bg-brand-400' : 'bg-slate-500'}`} />
                                 {c}
                             </li>
                         ))}

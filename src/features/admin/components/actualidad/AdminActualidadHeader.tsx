@@ -15,7 +15,7 @@ export function AdminActualidadHeader({ totalTopics, loading, onExtract, isExtra
       </div>
       <div className="relative z-10">
         <div className="flex items-center gap-3 mb-2">
-          <div className="bg-primary-50 p-2.5 rounded-xl text-primary-600 border border-primary-100/50">
+          <div className="bg-brand/10 p-2.5 rounded-xl text-brand border border-brand-100/50">
             <Newspaper className="w-6 h-6" />
           </div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Mesa Editorial</h1>
@@ -41,7 +41,7 @@ export function AdminActualidadHeader({ totalTopics, loading, onExtract, isExtra
              {isExtracting ? (
                <Loader2 className="w-4 h-4 animate-spin text-slate-300" />
              ) : (
-               <Zap className="w-4 h-4 text-emerald-400" />
+               <Zap className="w-4 h-4 text-accent-400" />
              )}
              {isExtracting ? 'Generando (Toma ~20seg)...' : 'Extraer Nuevas Noticias (IA)'}
            </button>

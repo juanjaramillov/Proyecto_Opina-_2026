@@ -18,17 +18,17 @@ const PreviewNpsSurvey: React.FC<PreviewNpsSurveyProps> = ({ question, followUps
                             key={n}
                             disabled
                             className={`flex-1 h-12 md:h-16 rounded-xl md:rounded-2xl border font-black text-xs md:text-lg transition-all opacity-40 cursor-not-allowed
-                                ${n <= 6 ? 'bg-rose-50 border-rose-100 text-rose-500' :
-                                    n <= 8 ? 'bg-blue-50 border-blue-100 text-blue-600' :
-                                        'bg-emerald-50 border-emerald-100 text-emerald-500'}`}
+                                ${n <= 6 ? 'bg-danger-50 border-danger-100 text-danger-500' :
+                                    n <= 8 ? 'bg-brand-50 border-brand-100 text-brand-600' :
+                                        'bg-accent/10 border-accent-100 text-accent'}`}
                         >
                             {n}
                         </button>
                     ))}
                 </div>
                 <div className="flex justify-between mt-4 px-2">
-                    <span className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Poco Probable</span>
-                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Muy Probable</span>
+                    <span className="text-[10px] font-black text-danger-400 uppercase tracking-widest">Poco Probable</span>
+                    <span className="text-[10px] font-black text-accent-400 uppercase tracking-widest">Muy Probable</span>
                 </div>
             </div>
 

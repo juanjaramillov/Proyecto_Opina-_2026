@@ -166,7 +166,7 @@ Ejecutable vía `npm run test:smoke`. Proveen una malla antifragilidad de la car
 
 ## 8. Deuda Residual y Estado Pendiente
 
-Este documento no enumera exhaustivamente la deuda menor. Para auditar todas las decisiones aplazadas o áreas frágiles asumidas para esta V13, **consultar explícitamente el documento hermano: [DEBT_REGISTER_V13.md](./DEBT_REGISTER_V13.md)**. 
+Este documento no enumera exhaustivamente la deuda menor. Para auditar todas las decisiones aplazadas o áreas frágiles asumidas, **consultar explícitamente el documento hermano: [DEBT_REGISTER.md](./DEBT_REGISTER.md)**.
 
 ### Supuestos Actuales
 - **Conectividad**: Se requiere internet estable para el bootstrap inicial del perfil interactivo.

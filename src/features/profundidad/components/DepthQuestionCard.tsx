@@ -115,21 +115,21 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
 
                             if (max === 10) {
                                 if (val <= 6) {
-                                    activeClass = 'bg-rose-500 border-rose-500 text-white shadow-lg shadow-rose-200 scale-110 z-10';
-                                    colorClass = 'text-rose-700 bg-white border-rose-200 hover:bg-rose-50 hover:border-rose-300 hover:shadow-md hover:-translate-y-1';
-                                    glowColor = 'hover:shadow-rose-100';
+                                    activeClass = 'bg-danger-500 border-danger-500 text-white shadow-lg shadow-danger-200 scale-110 z-10';
+                                    colorClass = 'text-danger-700 bg-white border-danger-200 hover:bg-danger-50 hover:border-danger-300 hover:shadow-md hover:-translate-y-1';
+                                    glowColor = 'hover:shadow-danger-100';
                                 } else if (val <= 8) {
-                                    activeClass = 'bg-amber-500 border-amber-500 text-white shadow-lg shadow-amber-200 scale-110 z-10';
-                                    colorClass = 'text-amber-700 bg-white border-amber-200 hover:bg-amber-50 hover:border-amber-300 hover:shadow-md hover:-translate-y-1';
-                                    glowColor = 'hover:shadow-amber-100';
+                                    activeClass = 'bg-warning-500 border-warning-500 text-white shadow-lg shadow-warning-200 scale-110 z-10';
+                                    colorClass = 'text-warning-700 bg-white border-warning-200 hover:bg-warning-50 hover:border-warning-300 hover:shadow-md hover:-translate-y-1';
+                                    glowColor = 'hover:shadow-warning-100';
                                 } else {
-                                    activeClass = 'bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-200 scale-110 z-10';
-                                    colorClass = 'text-emerald-700 bg-white border-emerald-200 hover:bg-emerald-50 hover:border-emerald-300 hover:shadow-md hover:-translate-y-1';
-                                    glowColor = 'hover:shadow-emerald-100';
+                                    activeClass = 'bg-accent border-accent text-white shadow-lg shadow-accent-200 scale-110 z-10';
+                                    colorClass = 'text-accent bg-white border-accent-200 hover:bg-accent/10 hover:border-accent-300 hover:shadow-md hover:-translate-y-1';
+                                    glowColor = 'hover:shadow-accent-100';
                                 }
                             } else {
-                                activeClass = 'bg-primary-600 border-primary-600 text-white shadow-xl shadow-primary-200 scale-110 z-10';
-                                colorClass = 'text-primary-700 bg-white border-primary-200 hover:bg-primary-50 hover:border-primary-300 hover:shadow-md hover:-translate-y-1';
+                                activeClass = 'bg-brand border-brand text-white shadow-xl shadow-brand-200 scale-110 z-10';
+                                colorClass = 'text-brand bg-white border-brand/30 hover:bg-brand/10 hover:border-brand/40 hover:shadow-md hover:-translate-y-1';
                             }
 
                             return (
@@ -172,8 +172,8 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             onClick={() => handleSelection(opt)}
                             disabled={isSubmitting}
                             className={`relative text-left w-full p-5 rounded-2xl border-2 font-bold transition-all duration-300 flex justify-between items-center group overflow-hidden ${localValue === opt
-                                ? 'bg-primary-50 border-primary-500 text-primary-900 shadow-lg shadow-primary-500/20 scale-[1.02] z-10'
-                                : 'bg-white border-slate-100 text-slate-600 hover:border-primary-200 hover:shadow-md hover:-translate-y-1 active:scale-[0.98]'
+                                ? 'bg-brand/10 border-brand text-brand shadow-lg shadow-brand-500/20 scale-[1.02] z-10'
+                                : 'bg-white border-slate-100 text-slate-600 hover:border-brand/30 hover:shadow-md hover:-translate-y-1 active:scale-[0.98]'
                                 }`}
                             style={{ animationDelay: `${index * 50}ms` }}
                         >
@@ -182,7 +182,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             )}
                             <span className="relative z-10 leading-snug">{opt}</span>
                             <div
-                                className={`w-6 h-6 rounded-full border-[3px] flex items-center justify-center transition-all flex-shrink-0 ml-4 ${localValue === opt ? 'border-primary-600 bg-primary-600 scale-110' : 'border-slate-200 group-hover:border-primary-300'
+                                className={`w-6 h-6 rounded-full border-[3px] flex items-center justify-center transition-all flex-shrink-0 ml-4 ${localValue === opt ? 'border-brand bg-brand scale-110' : 'border-slate-200 group-hover:border-brand/40'
                                     }`}
                             >
                                 {localValue === opt && <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-2.5 h-2.5 bg-white rounded-full" />}
@@ -203,7 +203,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             onClick={() => handleSelection(opt)}
                             disabled={isSubmitting}
                             className={`p-8 rounded-3xl border-2 font-black text-2xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-2 group ${localValue === opt
-                                ? 'bg-primary-600 border-primary-600 text-white shadow-xl shadow-primary-500/30 scale-105 z-10'
+                                ? 'bg-brand border-brand text-white shadow-xl shadow-brand-500/30 scale-105 z-10'
                                 : 'bg-white border-slate-100 text-slate-700 hover:border-slate-300 hover:shadow-lg hover:-translate-y-1'
                                 }`}
                         >
@@ -226,9 +226,9 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             onChange={(e) => handleSelection(e.target.value.slice(0, 140))}
                             placeholder="Si quieres, una frase... (Opcional)"
                             disabled={isSubmitting || isAutoAdvancing}
-                            className="w-full p-6 bg-slate-50 border-2 border-slate-100 rounded-3xl focus:border-primary-500 focus:bg-white focus:outline-none focus:shadow-xl focus:shadow-primary-500/10 transition-all text-slate-800 font-medium min-h-[140px] resize-none text-lg leading-relaxed z-10 relative"
+                            className="w-full p-6 bg-slate-50 border-2 border-slate-100 rounded-3xl focus:border-brand focus:bg-white focus:outline-none focus:shadow-xl focus:shadow-brand-500/10 transition-all text-slate-800 font-medium min-h-[140px] resize-none text-lg leading-relaxed z-10 relative"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-emerald-500 opacity-0 group-focus-within:opacity-10 rounded-[1.4rem] -z-0 transition-opacity duration-500 blur-lg" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-brand to-accent opacity-0 group-focus-within:opacity-10 rounded-[1.4rem] -z-0 transition-opacity duration-500 blur-lg" />
                     </div>
                     <div className="flex justify-between items-center px-2">
                         <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
@@ -236,7 +236,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             Presiona Enter para enviar
                         </span>
                         <span
-                            className={`text-[11px] font-black tracking-widest px-3 py-1 rounded-full ${String(localValue || '').length >= 140 ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-500'
+                            className={`text-[11px] font-black tracking-widest px-3 py-1 rounded-full ${String(localValue || '').length >= 140 ? 'bg-danger-100 text-danger-600' : 'bg-slate-100 text-slate-500'
                                 }`}
                         >
                             {String(localValue || '').length} / 140
@@ -247,7 +247,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
         }
 
         return (
-            <div className="p-6 bg-rose-50 border border-rose-100 text-rose-600 rounded-2xl flex items-center gap-3">
+            <div className="p-6 bg-danger-50 border border-danger-100 text-danger-600 rounded-2xl flex items-center gap-3">
                 <span className="material-symbols-outlined text-2xl">error</span>
                 <div>
                     <h4 className="font-bold text-sm">Tipo de pregunta no soportado</h4>
@@ -294,7 +294,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                         onClick={() => localValue !== undefined && onAnswer(localValue)}
                         disabled={isSubmitting || isAutoAdvancing || localValue === undefined}
                         className={`py-3 px-6 rounded-2xl font-black text-sm uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 shadow-md ${localValue !== undefined
-                            ? 'bg-primary-600 text-white shadow-primary-200'
+                            ? 'bg-brand text-white shadow-brand-200'
                             : 'bg-slate-100 text-slate-400 border-2 border-transparent shadow-none'
                             }`}
                     >

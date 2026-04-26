@@ -46,9 +46,10 @@ export default function ProgressiveQuestion({ currentData }: Props) {
     const handleAnswer = async (key: keyof DemographicData, value: string) => {
         try {
             await profileService.saveDemographic({ [key]: value });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            if (error?.message?.includes('Demographics can only be updated every 30 days') || error?.code === 'P0001') {
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : '';
+            const code = (error as { code?: string } | null)?.code;
+            if (msg.includes('Demographics can only be updated every 30 days') || code === 'P0001') {
                 import('react-hot-toast').then(({ toast }) => {
                     toast.error("Solo puedes cambiar tu perfil cada 30 días.", { id: 'cooldown-error', duration: 4000 });
                 });
@@ -61,8 +62,8 @@ export default function ProgressiveQuestion({ currentData }: Props) {
     return (
         <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4 px-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <h3 className="text-xs font-black text-text-muted uppercase tracking-widest">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest">
                     Datos del Perfil
                 </h3>
             </div>
@@ -77,19 +78,19 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                             layout
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className={`p-4 rounded-xl border transition-all group relative ${isAnswered ? 'bg-secondary/5 border-secondary/20' : 'bg-white border-stroke border-dotted hover:border-primary/30 hover:bg-surface2'}`}
+                            className={`p-4 rounded-xl border transition-all group relative ${isAnswered ? 'bg-accent/5 border-accent/20' : 'bg-white border-stroke border-dotted hover:border-brand/30 hover:bg-surface2'}`}
                         >
                             <div className="flex justify-between items-start mb-3">
                                 <div>
-                                    <h3 className={`text-xs font-black tracking-wide transition-colors ${isAnswered ? 'text-secondary' : 'text-ink group-hover:text-primary'}`}>
+                                    <h3 className={`text-xs font-black tracking-wide transition-colors ${isAnswered ? 'text-accent' : 'text-ink group-hover:text-brand'}`}>
                                         {question.label}
                                     </h3>
                                     {!isAnswered && (
-                                        <p className="text-[10px] text-text-secondary leading-tight mt-1">{question.description}</p>
+                                        <p className="text-[10px] text-slate-600 leading-tight mt-1">{question.description}</p>
                                     )}
                                 </div>
                                 {isAnswered && (
-                                    <span className="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+                                    <span className="material-symbols-outlined text-[16px] text-accent">check_circle</span>
                                 )}
                             </div>
 
@@ -101,8 +102,8 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                                         max={new Date().getFullYear() - 12}
                                         value={String(currentData[question.key] || "")}
                                         className={`w-full text-xs font-bold rounded-lg px-3 py-2.5 focus:outline-none focus:ring-1 transition-colors outline-none shadow-sm ${isAnswered
-                                            ? 'bg-white border border-secondary/20 text-secondary focus:border-secondary focus:ring-secondary/20'
-                                            : 'bg-white border border-stroke text-ink focus:border-primary focus:ring-primary/20 hover:bg-surface2'
+                                            ? 'bg-white border border-accent/20 text-accent focus:border-accent focus:ring-accent/20'
+                                            : 'bg-white border border-stroke text-ink focus:border-brand focus:ring-brand/20 hover:bg-surface2'
                                             }`}
                                         onChange={(e) => handleAnswer(question.key, e.target.value)}
                                         placeholder="Ej: 1990"
@@ -112,8 +113,8 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                                         <select
                                             onChange={(e) => handleAnswer(question.key, e.target.value)}
                                             className={`w-full appearance-none text-xs font-bold rounded-lg px-3 py-2.5 pr-8 focus:outline-none focus:ring-1 cursor-pointer transition-colors shadow-sm outline-none ${isAnswered
-                                                ? 'bg-white border border-secondary/20 text-secondary focus:border-secondary focus:ring-secondary/20'
-                                                : 'bg-white border border-stroke text-ink focus:border-primary focus:ring-primary/20 hover:bg-surface2'
+                                                ? 'bg-white border border-accent/20 text-accent focus:border-accent focus:ring-accent/20'
+                                                : 'bg-white border border-stroke text-ink focus:border-brand focus:ring-brand/20 hover:bg-surface2'
                                                 }`}
                                             value={String(currentData[question.key] || "")}
                                         >
@@ -122,7 +123,7 @@ export default function ProgressiveQuestion({ currentData }: Props) {
                                                 <option key={opt} value={opt}>{opt}</option>
                                             ))}
                                         </select>
-                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted flex items-center">
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 flex items-center">
                                             <span className="material-symbols-outlined text-[16px]">expand_more</span>
                                         </div>
                                     </>

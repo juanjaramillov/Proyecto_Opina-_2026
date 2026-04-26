@@ -147,6 +147,10 @@ Cada tema final debe:
 Los 10 temas generados deben ser lo más diversos posible en categoría (Economía, Política, Internacional, etc.) y tipo de conflicto.
 No repetir el mismo subtema dentro del mismo lote salvo que sea un evento excepcional de altísimo impacto nacional.
 
+CRÍTICO - BALANCE EMOCIONAL Y TONO:
+Para evitar un feed denso o depresivo, DEBES balancear los temas. 
+Entre los 10 temas finales, OBLIGATORIAMENTE debe haber al menos 3 o 4 temas de corte positivo, inspirador, logros deportivos, innovaciones tecnológicas, éxitos chilenos o descubrimientos fascinantes. No todo puede ser política, crímenes o crisis económicas.
+
 El tono debe ser claro, directo, neutral y entendible.
 No usar tono partidista.
 No usar clickbait barato.

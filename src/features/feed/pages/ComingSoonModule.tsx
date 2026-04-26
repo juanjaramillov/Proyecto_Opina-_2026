@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MODULES, OpinaModule } from "../modulesConfig";
 import PageHeader from "../../../components/ui/PageHeader";
@@ -15,10 +15,13 @@ import PreviewNpsSurvey from "../../modulesPreviews/PreviewNpsSurvey";
 import { rateLimit } from '../../../shared/utils/rateLimit';
 import { moduleInterestService } from "../../modulesPreviews/moduleInterestService";
 import { MODULE_EVENT_TYPES } from "../../signals/eventTypes";
+import { useToast } from "../../../components/ui/useToast";
 
 export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
     const nav = useNavigate();
     const { slug } = useParams();
+    const { showToast } = useToast();
+    const [interestRegistered, setInterestRegistered] = useState(false);
 
     const activeModule = module || MODULES.find((m) => m.slug === slug);
 
@@ -32,7 +35,6 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
                 moduleInterestService.trackModuleInterestEvent(MODULE_EVENT_TYPES.MODULE_PREVIEW_VIEWED, {
                     module_key: activeModule.title, // Fallback to title if id is not on interface
                     module_slug: activeModule.slug,
-                    // @ts-expect-error - type no definido estáticamente temporalmente
                     previewType: activeModule.previewType || 'unknown',
                     source: "coming_soon",
                     entry: "hub_card"
@@ -51,28 +53,37 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
     }
 
     const renderPreviewContent = () => {
-        // @ts-expect-error - falta el tipado correspondiente en previewType
         const type = activeModule.previewType;
-        // @ts-expect-error - falta el tipado correspondiente en previewData
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data = activeModule.previewData as any;
+        const data = activeModule.previewData;
+
+        // Fallback común cuando no hay data cargada aún.
+        const emptyState = (
+            <div className="py-20 text-center opacity-20 grayscale">
+                <span className="material-symbols-outlined text-6xl mb-4">construction</span>
+                <p className="font-black uppercase tracking-widest text-xs">Módulo en Construcción</p>
+            </div>
+        );
+
+        if (!data) return emptyState;
 
         switch (type) {
             case "context_check":
-                return <PreviewContextCheck checkins={data.checkins} />;
+                return <PreviewContextCheck checkins={data.checkins ?? []} />;
 
             case "lugares":
-            case "servicios":
+            case "servicios": {
+                const items = data.items ?? [];
+                const firstItem = items[0];
                 return (
                     <div className="flex gap-8">
                         <div className="flex-1">
                             <PreviewFilterBar
-                                categories={data.categories}
-                                communes={data.communes}
+                                categories={data.categories ?? []}
+                                communes={data.communes ?? []}
                                 placeholder={`Buscar ${activeModule.title.toLowerCase()}...`}
                             />
                             <PreviewList
-                                items={data.items}
+                                items={items}
                                 renderItem={(item, i) => (
                                     <div key={i} className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm opacity-60">
                                         <div className="w-full h-32 bg-slate-100 rounded-2xl mb-4 flex items-center justify-center text-slate-300">
@@ -83,7 +94,7 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
                                         <h4 className="text-sm font-black text-slate-800 mb-1">{item.name}</h4>
                                         <div className="flex justify-between items-center text-[10px] font-bold text-slate-400">
                                             <span>{item.category}</span>
-                                            <span className="flex items-center gap-1 text-blue-600">
+                                            <span className="flex items-center gap-1 text-brand-600">
                                                 <span className="material-symbols-outlined text-[14px]">star</span>
                                                 {item.rating}
                                             </span>
@@ -92,36 +103,36 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
                                 )}
                             />
                         </div>
-                        <PreviewDetailDrawer
-                            isOpen={true}
-                            title={data.items[0].name}
-                            category={data.items[0].category}
-                            rating={data.items[0].rating}
-                        />
+                        {firstItem && (
+                            <PreviewDetailDrawer
+                                isOpen={true}
+                                title={firstItem.name}
+                                category={firstItem.category}
+                                rating={firstItem.rating}
+                            />
+                        )}
                     </div>
                 );
+            }
 
             case "news_opinion":
                 return (
                     <div className="max-w-3xl mx-auto">
                         <PreviewFilterBar categories={["Política", "Economía", "Social", "Tecnología"]} />
-                        <PreviewNewsCard items={data.news} />
+                        <PreviewNewsCard items={data.news ?? []} />
                     </div>
                 );
 
             case "productos":
+                if (!data.product) return emptyState;
                 return <PreviewProductSheet product={data.product} />;
 
             case "nps_survey":
-                return <PreviewNpsSurvey question={data.nps_question} followUps={data.follow_ups} />;
+                if (!data.nps_question) return emptyState;
+                return <PreviewNpsSurvey question={data.nps_question} followUps={data.follow_ups ?? []} />;
 
             default:
-                return (
-                    <div className="py-20 text-center opacity-20 grayscale">
-                        <span className="material-symbols-outlined text-6xl mb-4">construction</span>
-                        <p className="font-black uppercase tracking-widest text-xs">Módulo en Construcción</p>
-                    </div>
-                );
+                return emptyState;
         }
     };
 
@@ -140,8 +151,22 @@ export default function ComingSoonModule({ module }: { module?: OpinaModule }) {
                 bullets={activeModule.previewBullets || []}
                 onBack={() => nav(-1)}
                 onRequestLaunch={() => {
-                    // Acción visual para el usuario
-                    alert("¡Gracias por tu interés! Hemos registrado tu solicitud para priorizar este lanzamiento.");
+                    // Antes: alert() cosmético sin persistencia. Ahora: toast + telemetría real.
+                    // Deduplicamos por render para que el usuario no pueda spamear el evento.
+                    if (interestRegistered) {
+                        showToast("Ya registramos tu interés en este módulo.", "info");
+                        return;
+                    }
+
+                    moduleInterestService.trackModuleInterestEvent(MODULE_EVENT_TYPES.MODULE_INTEREST_CLICKED, {
+                        module_key: activeModule.title,
+                        module_slug: activeModule.slug,
+                        previewType: activeModule.previewType || 'unknown',
+                        source: "coming_soon",
+                        cta: "launch_this"
+                    });
+                    setInterestRegistered(true);
+                    showToast("Gracias, registramos tu interés. Priorizamos según demanda.", "success");
                 }}
             >
                 {renderPreviewContent()}

@@ -2,18 +2,11 @@ import { test, expect } from '@playwright/test';
 
 test.describe('B2C Happy Path', () => {
   test('Login and complete 3 signals in Versus/Signals Hub', async ({ page }) => {
-    // 0. Setear origin y bypass del accessGate local
+    // 0. Setear origin. El access gate se desactiva vía
+    //    VITE_ACCESS_GATE_ENABLED=false en playwright.config.ts → webServer.
     await page.goto('/');
-    await page.evaluate(() => {
-        localStorage.setItem('opina_access_pass', 'admin');
-        localStorage.setItem('opina_access_gate_v1', JSON.stringify({
-            tokenId: 'ADMIN-E2E',
-            grantedAt: Date.now(),
-            expiresAt: Date.now() + 86400000
-        }));
-    });
 
-    // Mock validate_invitation para que el token "admin" pase la validación del AuthContext y no bloquee el Gate
+    // Mock validate_invitation por si algún flujo del AuthContext lo consulta
     await page.route('**/rest/v1/rpc/validate_invitation*', async route => {
         await route.fulfill({ json: [{ is_valid: true }] });
     });

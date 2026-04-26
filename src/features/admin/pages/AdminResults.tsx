@@ -94,7 +94,7 @@ export default function AdminResults() {
 
       <div className="bg-white p-6 border rounded shadow-sm mb-6">
         <h2 className="text-lg font-bold mb-2">Composición de Componentes (Slots)</h2>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-slate-500 mb-6">
           Habilita qué métricas deben estar presentes en cada superficie de resultados para la audiencia B2C. 
           Las métricas mostradas dependen del Catálogo Central de Gobernanza.
         </p>
@@ -105,8 +105,8 @@ export default function AdminResults() {
           if (allowedMetrics.length === 0) return null;
 
           return (
-            <div key={s} className="mb-8 p-4 border rounded bg-gray-50">
-              <h3 className="font-bold text-gray-800 uppercase text-xs tracking-wider mb-4 border-b pb-2">Surface: {s}</h3>
+            <div key={s} className="mb-8 p-4 border rounded bg-slate-50">
+              <h3 className="font-bold text-slate-800 uppercase text-xs tracking-wider mb-4 border-b pb-2">Surface: {s}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {allowedMetrics.map(m => {
                   const conf = localConfigs.find(c => c.metric_id === m.id && c.surface_id === s);
@@ -115,12 +115,12 @@ export default function AdminResults() {
                   return (
                     <div key={m.id} className="flex items-center justify-between p-3 border rounded bg-white overflow-hidden shadow-sm">
                       <div className="flex flex-col truncate">
-                        <span className="text-sm font-semibold text-gray-800 truncate">{m.name}</span>
-                        <span className="text-[10px] text-gray-500 font-mono tracking-tight">{m.id}</span>
+                        <span className="text-sm font-semibold text-slate-800 truncate">{m.name}</span>
+                        <span className="text-[10px] text-slate-500 font-mono tracking-tight">{m.id}</span>
                       </div>
                       <button
                         onClick={() => toggleMetricVisibility(m.id, s)}
-                        className={`ml-2 relative inline-flex h-5 w-9 items-center rounded-full transition-colors flex-shrink-0 ${isVisible ? 'bg-indigo-600' : 'bg-gray-300'}`}
+                        className={`ml-2 relative inline-flex h-5 w-9 items-center rounded-full transition-colors flex-shrink-0 ${isVisible ? 'bg-brand' : 'bg-slate-300'}`}
                       >
                         <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${isVisible ? 'translate-x-5' : 'translate-x-1'}`} />
                       </button>
@@ -136,7 +136,7 @@ export default function AdminResults() {
       <div className="flex justify-end gap-4 mt-8 sticky bottom-8 p-4 bg-white/90 backdrop-blur border-t rounded-t shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
         <button 
           onClick={handleSave}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-semibold shadow-md transition-colors"
+          className="bg-brand hover:bg-brand-700 text-white px-6 py-2 rounded-lg font-semibold shadow-md transition-colors"
         >
           Guardar y Publicar
         </button>

@@ -41,7 +41,25 @@ export default function AdminUsers() {
             await adminUsersService.updateRole(userId, newRole as 'user' | 'admin' | 'b2b');
             setUsers(prev => prev.map(u => u.user_id === userId ? { ...u, role: newRole } : u));
         } catch (err) {
-            alert("Error al cambiar el rol. Posible falta de permisos RLS o fallo de red.");
+            // La RPC admin_set_user_role devuelve mensajes específicos. Los
+            // mapeamos a UX en español para que el admin entienda el motivo.
+            const e = err as { message?: string; code?: string } | null;
+            const raw = e?.message ?? '';
+            let msg = "Error al cambiar el rol. Verifica permisos o reintenta.";
+            if (raw.includes('Cannot change your own role')) {
+                msg = "No puedes cambiar tu propio rol.";
+            } else if (raw.includes('Cannot modify canonical admin')) {
+                msg = "No se puede modificar al admin canónico (admin@opina.com).";
+            } else if (raw.includes('Cannot demote the last admin')) {
+                msg = "No se puede degradar al último admin del sistema.";
+            } else if (raw.includes('Admin role required')) {
+                msg = "Se requiere rol admin para esta acción.";
+            } else if (raw.includes('Invalid role')) {
+                msg = "Rol inválido. Permitidos: user, admin, b2b.";
+            } else if (raw.includes('Target user does not exist')) {
+                msg = "El usuario destino no existe.";
+            }
+            alert(msg);
         }
     };
 
@@ -55,7 +73,7 @@ export default function AdminUsers() {
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div>
                         <div className="flex items-center gap-3 mb-2">
-                            <div className="bg-emerald-50 p-2.5 rounded-xl text-emerald-600 border border-emerald-100/50">
+                            <div className="bg-accent/10 p-2.5 rounded-xl text-accent border border-accent-100/50">
                                 <UserCircle className="w-6 h-6" />
                             </div>
                             <h1 className="text-3xl font-black text-slate-900 tracking-tight">CRM de Usuarios</h1>
@@ -84,7 +102,7 @@ export default function AdminUsers() {
                         placeholder="Buscar por nickname..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border-transparent focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 rounded-xl text-sm font-semibold transition-all outline-none"
+                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border-transparent focus:bg-white focus:border-accent focus:ring-2 focus:ring-accent-200 rounded-xl text-sm font-semibold transition-all outline-none"
                     />
                 </div>
                 <button
@@ -111,7 +129,7 @@ export default function AdminUsers() {
                             {loading ? (
                                 <tr>
                                     <td colSpan={4} className="px-6 py-12 text-center text-slate-400">
-                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500 mx-auto mb-4"></div>
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
                                         Cargando usuarios...
                                     </td>
                                 </tr>
@@ -126,7 +144,7 @@ export default function AdminUsers() {
                                     <tr key={user.user_id} className="hover:bg-slate-50/50 transition-colors group">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 text-white flex items-center justify-center font-black shadow-inner shrink-0">
+                                                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-brand to-accent text-white flex items-center justify-center font-black shadow-inner shrink-0">
                                                     {user.nickname ? user.nickname.charAt(0).toUpperCase() : '?'}
                                                 </div>
                                                 <div>
@@ -134,7 +152,7 @@ export default function AdminUsers() {
                                                         {user.nickname || 'Sin Nickname'}
                                                         {user.is_identity_verified && (
                                                             <span title="Identidad Verificada">
-                                                                <Medal className="w-4 h-4 text-amber-500" />
+                                                                <Medal className="w-4 h-4 text-warning" />
                                                             </span>
                                                         )}
                                                     </div>
@@ -147,9 +165,9 @@ export default function AdminUsers() {
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest border ${
                                                 user.role === 'admin' 
-                                                    ? 'bg-purple-50 text-purple-700 border-purple-200' 
+                                                    ? 'bg-slate-100 text-slate-800 border-slate-300'
                                                     : user.role === 'b2b'
-                                                        ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                                        ? 'bg-brand-50 text-brand-700 border-brand-200'
                                                         : 'bg-slate-100 text-slate-600 border-slate-200'
                                             }`}>
                                                 {user.role === 'admin' && <Shield className="w-3 h-3" />}
@@ -159,7 +177,7 @@ export default function AdminUsers() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
-                                                <Activity className="w-4 h-4 text-emerald-500" />
+                                                <Activity className="w-4 h-4 text-accent" />
                                                 <span className="font-bold text-slate-700">{user.total_interactions.toLocaleString()}</span>
                                             </div>
                                             <div className="text-[10px] text-slate-400 mt-1">

@@ -316,5 +316,34 @@ export const adminActualidadCrudService = {
       logger.error(`Error al marcar editado por admin en tema ${id}`, { error: e });
       return false;
     }
+  },
+
+  /**
+   * Eliminar temas definitivamente de la base de datos (Bulk Hard Delete)
+   */
+  async deleteTopics(ids: string[]): Promise<boolean> {
+    if (!ids.length) return true;
+    try {
+      const { data, error } = await supabase
+        .from('current_topics')
+        .delete()
+        .in('id', ids)
+        .select();
+
+      if (error) throw error;
+      
+      // Si RLS falló silenciosamente, data estará vacío.
+      if (!data || data.length === 0) {
+        console.warn('Supabase no borró ningún row. Posible fallo por RLS o IDs inválidos.');
+        // Opcional: puedes lanzar un error si crees que no debería estar vacío
+        // throw new Error('No se borraron registros. Chequea permisos RLS.');
+      }
+
+      return true;
+    } catch (e) {
+      console.error(`Error al realizar bulk delete de de temas`, e);
+      logger.error(`Error al realizar bulk delete de de temas`, { error: e, ids });
+      return false;
+    }
   }
 };

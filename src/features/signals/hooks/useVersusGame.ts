@@ -247,7 +247,7 @@ export function useVersusGame({
                     try {
                         const { data: momData, error: momError } = await supabase.rpc('get_battle_momentum', { p_battle_id: effectiveBattle.id });
                         if (!momError && momData) {
-                            setMomentum(momData as unknown as BattleMomentum);
+                            setMomentum(momData as BattleMomentum);
                         }
                     } catch (e) {
                         logger.warn("Failed to fetch momentum", e);
@@ -267,7 +267,7 @@ export function useVersusGame({
         if (isQueueFinite && idx >= battles.length && onQueueComplete) {
             onQueueComplete(sessionHistory);
         }
-    }, [idx, battles.length, isQueueFinite, onQueueComplete]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [idx, battles.length, isQueueFinite, onQueueComplete, sessionHistory]); 
 
 
     return {

@@ -11,6 +11,8 @@ import {
     DEMO_RECOMMENDED_SCENARIO, DEMO_OFFICIAL_TOUR, 
     DEMO_EXCLUDED_SURFACES, DemoScenarioKey 
 } from "../../../config/demoProtocol";
+import { B2CTrendCard } from "../../signals/components/results/B2CTrendCard";
+import { generateMockTemporalData } from "../../signals/utils/mockTemporalData";
 
 const { MIN_SIGNALS: MIN_SIGNALS_THRESHOLD, MIN_DEMOGRAPHICS: MIN_DEMOGRAPHICS_THRESHOLD, MIN_ENTITIES: MIN_ENTITIES_THRESHOLD } = DEMO_THRESHOLDS;
 
@@ -109,8 +111,10 @@ export default function AdminDemoLaunchpad() {
             let hasAnalytics = false;
 
             if (uniqueUserIds.length > 0) {
+                // `user_demographics` aún no está en la Database generada.
+                // TODO: regenerar tipos con `npm run ops:db:generate-types` y remover el cast.
                 const { data: demoData, error: demoErr } = await supabase
-                    .from('user_demographics' as any)
+                    .from('user_demographics' as never)
                     .select('id')
                     .in('user_id', uniqueUserIds);
 
@@ -193,13 +197,13 @@ export default function AdminDemoLaunchpad() {
                                     onClick={() => setScenario(key)}
                                     className={`text-left px-4 py-3 rounded-2xl border transition-all ${
                                         scenario === key 
-                                            ? 'bg-blue-50 border-blue-200 ring-2 ring-blue-500/20' 
+                                            ? 'bg-brand-50 border-brand-200 ring-2 ring-brand-500/20' 
                                             : 'bg-white border-slate-200 hover:border-slate-300'
                                     }`}
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="font-bold text-slate-900">{DEMO_AVAILABLE_SCENARIOS[key].name}</div>
-                                        {scenario === key && <CheckCircle2 className="w-5 h-5 text-blue-600" />}
+                                        {scenario === key && <CheckCircle2 className="w-5 h-5 text-brand-600" />}
                                     </div>
                                     <div className="text-xs text-slate-500 mt-1">slug: {DEMO_AVAILABLE_SCENARIOS[key].slug}</div>
                                 </button>
@@ -209,11 +213,11 @@ export default function AdminDemoLaunchpad() {
 
                     <div className={`rounded-3xl p-6 border shadow-sm relative overflow-hidden ${
                         loading ? 'bg-slate-50 border-slate-200' : 
-                        isGo ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'
+                        isGo ? 'bg-accent/10 border-accent-200' : 'bg-danger-50 border-danger-200'
                     }`}>
                         <div className="flex items-center justify-between mb-5">
                             <h3 className={`text-sm font-bold uppercase tracking-wider ${
-                                isGo && !loading ? 'text-emerald-900' : (!isGo && !loading ? 'text-red-900' : 'text-slate-900')
+                                isGo && !loading ? 'text-accent-900' : (!isGo && !loading ? 'text-danger-900' : 'text-slate-900')
                             }`}>
                                 2. Validation Status
                             </h3>
@@ -231,19 +235,19 @@ export default function AdminDemoLaunchpad() {
                             <div>
                                 <div className="flex items-center gap-3 mb-6">
                                     {isGo ? (
-                                        <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center border border-emerald-200">
-                                            <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+                                        <div className="w-12 h-12 bg-accent/20 rounded-2xl flex items-center justify-center border border-accent-200">
+                                            <CheckCircle2 className="w-6 h-6 text-accent" />
                                         </div>
                                     ) : (
-                                        <div className="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center border border-red-200">
-                                            <ShieldAlert className="w-6 h-6 text-red-600" />
+                                        <div className="w-12 h-12 bg-danger-100 rounded-2xl flex items-center justify-center border border-danger-200">
+                                            <ShieldAlert className="w-6 h-6 text-danger-600" />
                                         </div>
                                     )}
                                     <div>
-                                        <div className={`text-2xl font-black ${isGo ? 'text-emerald-700' : 'text-red-700'}`}>
+                                        <div className={`text-2xl font-black ${isGo ? 'text-accent' : 'text-danger-700'}`}>
                                             {isGo ? 'GO' : 'NO-GO'}
                                         </div>
-                                        <div className={`text-xs font-bold ${isGo ? 'text-emerald-600' : 'text-red-600/80'} uppercase tracking-wide`}>
+                                        <div className={`text-xs font-bold ${isGo ? 'text-accent' : 'text-danger-600/80'} uppercase tracking-wide`}>
                                             {isGo ? 'Piloto listo para mostrar' : 'Ruta crítica vacía'}
                                         </div>
                                     </div>
@@ -268,12 +272,12 @@ export default function AdminDemoLaunchpad() {
                                 </div>
 
                                 {!isGo && (
-                                    <div className="mt-6 bg-red-100 border border-red-200 rounded-xl p-4 text-sm text-red-800 font-semibold flex gap-2">
+                                    <div className="mt-6 bg-danger-100 border border-danger-200 rounded-xl p-4 text-sm text-danger-800 font-semibold flex gap-2">
                                         <AlertTriangle className="w-5 h-5 shrink-0" />
                                         <p>
                                             El entorno se verá vacío frente a clientes. <br className="hidden md:block"/>
                                             Para resolverlo, aborta la demo, ve a la terminal del proyecto y ejecuta: 
-                                            <code className="block w-full bg-red-900 text-white p-2 rounded-lg mt-2 font-mono text-xs">
+                                            <code className="block w-full bg-danger-900 text-white p-2 rounded-lg mt-2 font-mono text-xs">
                                                 npm run demo:prepare:{scenario} --allow-demo-seed
                                             </code>
                                         </p>
@@ -322,18 +326,35 @@ export default function AdminDemoLaunchpad() {
                         </div>
                     </div>
 
-                    <div className="mt-6 bg-amber-50 rounded-2xl p-6 border border-amber-200/50">
-                        <h3 className="text-sm font-bold text-amber-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <div className="mt-6 bg-warning/10 rounded-2xl p-6 border border-warning/30">
+                        <h3 className="text-sm font-bold text-warning uppercase tracking-wider mb-2 flex items-center gap-2">
                             <ShieldAlert className="w-4 h-4" /> Superficies fuera del recorrido oficial
                         </h3>
-                        <p className="text-amber-800 text-sm mb-3">
+                        <p className="text-warning/90 text-sm mb-3">
                             Durante demos externas a stakeholders <strong>evita navegar hacia</strong> estas superficies no preparadas para el piloto comercial:
                         </p>
-                        <ul className="text-amber-800 text-sm list-disc pl-5 space-y-1 font-medium">
+                        <ul className="text-warning/90 text-sm list-disc pl-5 space-y-1 font-medium">
                             {DEMO_EXCLUDED_SURFACES.map((surface, idx) => (
                                 <li key={idx}>{surface}</li>
                             ))}
                         </ul>
+                    </div>
+
+                    {/* Nueva sección experimental: Temporal KPIs (Mock) */}
+                    <div className="mt-8 bg-slate-50 rounded-3xl p-6 md:p-8 border border-slate-200 shadow-inner">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-accent-100 p-2.5 rounded-xl text-accent-600 border border-accent-200">
+                                <ActivitySquare className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-black text-slate-900">4. Motor Temporal (Experimental)</h2>
+                                <p className="text-sm text-slate-500">Prueba visual del componente B2CTrendCard alimentado por datos simulados (Mock Data).</p>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-center bg-slate-100 rounded-2xl p-8 border border-slate-200/60 bg-[radial-gradient(#E2E8F0_1px,transparent_1px)] [background-size:16px_16px]">
+                            <B2CTrendCard movieData={generateMockTemporalData()} title="Tendencia Semanal" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -345,7 +366,7 @@ function ValidationItem({ label, description, pass }: { label: string, descripti
     if (pass === null) return null;
     return (
         <div className="flex items-start gap-3 p-3 bg-white border border-slate-100 rounded-xl">
-            {pass ? <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /> : <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />}
+            {pass ? <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" /> : <XCircle className="w-5 h-5 text-danger-500 shrink-0 mt-0.5" />}
             <div>
                 <div className="font-bold text-slate-900 text-sm">{label}</div>
                 <div className="text-xs text-slate-500">{description}</div>
@@ -357,13 +378,13 @@ function ValidationItem({ label, description, pass }: { label: string, descripti
 function TourStep({ step, title, description, path, icon, isLast = false }: { step: number, title: string, description: string, path: string, icon: React.ReactNode, isLast?: boolean }) {
     return (
         <div className="flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active relative">
-            <div className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-50 bg-white shadow-sm shrink-0 md:order-1 ${isLast ? 'text-blue-600 border-blue-100 bg-blue-50' : 'text-slate-400'}`}>
+            <div className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-50 bg-white shadow-sm shrink-0 md:order-1 ${isLast ? 'text-brand-600 border-brand-100 bg-brand-50' : 'text-slate-400'}`}>
                 {icon}
             </div>
-            <div className={`w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-blue-200 hover:shadow-md transition-all group-hover:-translate-y-1 ${isLast ? 'ring-2 ring-blue-500/20 border-blue-200' : ''}`}>
+            <div className={`w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-brand-200 hover:shadow-md transition-all group-hover:-translate-y-1 ${isLast ? 'ring-2 ring-brand-500/20 border-brand-200' : ''}`}>
                 <div className="flex items-center justify-between mb-2">
                     <div className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Paso {step}</div>
-                    <Link to={path} className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
+                    <Link to={path} className="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
                         Launch <ChevronRight className="w-3 h-3" />
                     </Link>
                 </div>

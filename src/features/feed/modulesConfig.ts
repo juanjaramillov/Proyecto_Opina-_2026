@@ -1,5 +1,41 @@
 export type ModuleStatus = "active" | "soon";
 
+/**
+ * Tipos de preview disponibles para módulos en estado "soon".
+ * Cada uno corresponde a un case en ComingSoonModule.renderPreviewContent().
+ */
+export type PreviewType =
+    | "context_check"
+    | "lugares"
+    | "servicios"
+    | "news_opinion"
+    | "productos"
+    | "nps_survey";
+
+/**
+ * Shape opcional de data para los previews. Cada key alimenta a un componente
+ * hijo específico en ComingSoonModule.renderPreviewContent(). Los tipos se
+ * alinean con las props de esos componentes.
+ */
+export interface PreviewDataShape {
+    checkins?: Array<{ label: string; value: number; type?: string; icon: string }>;
+    categories?: string[];
+    communes?: string[];
+    items?: Array<{ name: string; category: string; rating: number }>;
+    news?: Array<{ title: string; source: string; date: string; question: string }>;
+    product?: {
+        name: string;
+        brand: string;
+        category: string;
+        rating: number;
+        pros: string[];
+        cons: string[];
+        conclusions: string[];
+    };
+    nps_question?: string;
+    follow_ups?: Array<{ question: string; placeholder?: string; options?: string[] }>;
+}
+
 export interface OpinaModule {
     key: string;
     slug: string;
@@ -12,6 +48,8 @@ export interface OpinaModule {
     previewTitle?: string;
     previewSubtitle?: string;
     previewBullets?: string[];
+    previewType?: PreviewType;
+    previewData?: PreviewDataShape;
 }
 
 export const MODULES: OpinaModule[] = [

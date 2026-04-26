@@ -1,4 +1,5 @@
 import { supabase } from '../../../supabase/client';
+import { typedRpc } from '../../../supabase/typedRpc';
 
 export type HealthCheckResult = {
     ok: boolean;
@@ -30,7 +31,7 @@ export const adminHealthService = {
 
     async checkListInvites(): Promise<HealthCheckResult> {
         try {
-            const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_list_invites', { p_limit: 1 });
+            const { error } = await typedRpc<unknown>('admin_list_invites', { p_limit: 1 });
             if (error) throw error;
             return { ok: true, detail: 'RPC responde 200' };
         } catch (err: unknown) {
@@ -40,7 +41,7 @@ export const adminHealthService = {
 
     async checkListRedemptions(): Promise<HealthCheckResult> {
         try {
-            const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_list_invite_redemptions', { p_limit: 1 });
+            const { error } = await typedRpc<unknown>('admin_list_invite_redemptions', { p_limit: 1 });
             if (error) throw error;
             return { ok: true, detail: 'RPC responde 200' };
         } catch (err: unknown) {
@@ -50,7 +51,7 @@ export const adminHealthService = {
 
     async checkListAppEvents(): Promise<HealthCheckResult> {
         try {
-            const { error } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('admin_list_app_events', { p_limit: 1 });
+            const { error } = await typedRpc<unknown>('admin_list_app_events', { p_limit: 1 });
             if (error) throw error;
             return { ok: true, detail: 'RPC responde 200' };
         } catch (err: unknown) {
@@ -71,7 +72,7 @@ export const adminHealthService = {
             if (battleErr || !battle) {
                 // Dummy send
                 if (dryRun) return { ok: true, detail: 'DryRun: RPC (Dummy IDs) omitido' };
-                const { error: rpcErr } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('insert_signal_event', {
+                const { error: rpcErr } = await typedRpc<unknown>('insert_signal_event', {
                     p_battle_id: crypto.randomUUID(),
                     p_option_id: crypto.randomUUID(),
                     p_session_id: null,
@@ -111,7 +112,7 @@ export const adminHealthService = {
                 p_client_event_id: crypto.randomUUID()
             };
 
-            const { error: insErr } = await (supabase.rpc as unknown as (fn: string, args: unknown) => Promise<{ error: { message: string } | null }>)('insert_signal_event', payload);
+            const { error: insErr } = await typedRpc<unknown>('insert_signal_event', payload);
             if (insErr) {
                 // Dependiendo de si la cuota ya fue cumplida o no es verificador
                 if (['PROFILE_MISSING', 'PROFILE_INCOMPLETE', 'SIGNAL_LIMIT_REACHED'].includes(insErr.message)) {

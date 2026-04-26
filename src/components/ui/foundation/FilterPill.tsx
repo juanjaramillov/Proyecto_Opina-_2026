@@ -34,9 +34,9 @@ export function FilterPill({
   // Variant mappings for ACTIVE state
   const activeStyles = {
     default: 'bg-ink text-white border-ink shadow-md scale-105 uppercase tracking-widest',
-    primary: 'bg-indigo-600 text-white border-indigo-600 shadow-md scale-105',
+    primary: 'bg-brand-600 text-white border-brand-600 shadow-md scale-105',
     secondary: 'bg-slate-800 text-white border-slate-800 shadow-sm',
-    soft: 'bg-indigo-50 text-indigo-700 border-indigo-200 ring-1 ring-indigo-200 shadow-sm'
+    soft: 'bg-brand-50 text-brand-700 border-brand-200 ring-1 ring-brand-200 shadow-sm'
   };
 
   // Variant mappings for INACTIVE state
@@ -48,7 +48,7 @@ export function FilterPill({
   };
 
   // Disabled style overrides
-  const disabledStyles = 'opacity-50 cursor-not-allowed bg-surface2 border-stroke text-text-muted';
+  const disabledStyles = 'opacity-50 cursor-not-allowed bg-surface2 border-stroke text-slate-500';
 
   // Determine current style state
   const currentStyles = disabled 

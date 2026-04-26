@@ -16,7 +16,7 @@ export default function NotFound() {
                         <span className="grad-text">Pero tu señal sí.</span>
                     </h1>
 
-                    <p className="mt-3 text-text-secondary">
+                    <p className="mt-3 text-slate-600">
                         Si llegaste acá, fue porque alguien puso un link raro… o porque tú estás explorando como corresponde 😄
                     </p>
 
@@ -35,8 +35,8 @@ export default function NotFound() {
                     </div>
 
                     <div className="mt-6 rounded-2xl border border-stroke bg-white p-4">
-                        <div className="text-xs font-semibold text-text-secondary">Dato útil</div>
-                        <div className="mt-1 text-sm text-text-muted">
+                        <div className="text-xs font-semibold text-slate-600">Dato útil</div>
+                        <div className="mt-1 text-sm text-slate-500">
                             Si esto te pasó desde un link compartido, lo más probable es que la ruta haya cambiado.
                             (Sí, a veces la gente “innova” en producción).
                         </div>

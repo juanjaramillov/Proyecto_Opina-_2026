@@ -19,10 +19,10 @@ export function MissionsPanel() {
   // Helper to choose an icon based on mission type
   const getMissionIcon = (type: string) => {
     switch (type) {
-      case 'versus': return <Zap className="w-5 h-5 text-yellow-400" />;
-      case 'torneo': return <Target className="w-5 h-5 text-red-400" />;
-      case 'actualidad': return <TrendingUp className="w-5 h-5 text-blue-400" />;
-      case 'active_days': return <CalendarDays className="w-5 h-5 text-green-400" />;
+      case 'versus': return <Zap className="w-5 h-5 text-brand-400" />;
+      case 'torneo': return <Target className="w-5 h-5 text-danger-400" />;
+      case 'actualidad': return <TrendingUp className="w-5 h-5 text-brand-400" />;
+      case 'active_days': return <CalendarDays className="w-5 h-5 text-accent-400" />;
       default: return <Target className="w-5 h-5 text-slate-400" />;
     }
   };
@@ -51,7 +51,7 @@ export function MissionsPanel() {
                     {getMissionIcon(mission.mission_type)}
                   </div>
                   <div>
-                    <h4 className={`font-semibold ${isCompleted ? 'text-green-400' : 'text-slate-200'}`}>
+                    <h4 className={`font-semibold ${isCompleted ? 'text-accent-400' : 'text-slate-200'}`}>
                       {mission.title}
                     </h4>
                     <p className="text-xs text-slate-400 mt-1">{mission.description}</p>
@@ -62,7 +62,7 @@ export function MissionsPanel() {
                     {mission.current_count} / {mission.target_count}
                   </span>
                   {isCompleted && (
-                    <CheckCircle2 className="w-4 h-4 text-green-500 mt-1" />
+                    <CheckCircle2 className="w-4 h-4 text-accent-500 mt-1" />
                   )}
                 </div>
               </div>
@@ -70,7 +70,7 @@ export function MissionsPanel() {
               {/* Custom simple progress bar if no shadcn ui progress */}
               <div className="w-full bg-slate-800 rounded-full h-2 mt-3 overflow-hidden">
                 <div 
-                  className={`h-2 rounded-full transition-all duration-500 ${isCompleted ? 'bg-green-500' : 'bg-blue-500'}`}
+                  className={`h-2 rounded-full transition-all duration-500 ${isCompleted ? 'bg-accent-500' : 'bg-brand-500'}`}
                   style={{ width: `${progressPercentage}%` }}
                 ></div>
               </div>

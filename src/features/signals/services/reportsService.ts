@@ -7,7 +7,7 @@ export const reportsService = {
         battleSlug: string,
         daysBack: number = 30
     ): Promise<Record<string, unknown> | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: Record<string, unknown> | null, error: unknown }>)('generate_executive_report', {
+        const { data, error } = await sb.rpc('generate_executive_report', {
             p_api_key: apiKey,
             p_battle_slug: battleSlug,
             p_days_back: daysBack
@@ -18,14 +18,14 @@ export const reportsService = {
             return null;
         }
 
-        return data;
+        return (data as Record<string, unknown>) || null;
     },
 
     getLatestExecutiveReport: async (
         apiKey: string,
         battleSlug: string
     ): Promise<Record<string, unknown> | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: Record<string, unknown> | null, error: unknown }>)('get_latest_executive_report', {
+        const { data, error } = await sb.rpc('get_latest_executive_report', {
             p_api_key: apiKey,
             p_battle_slug: battleSlug
         });
@@ -35,14 +35,14 @@ export const reportsService = {
             return null;
         }
 
-        return data;
+        return (data as Record<string, unknown>) || null;
     },
 
     generateBenchmarkReport: async (
         apiKey: string,
         daysBack: number = 30
     ): Promise<Record<string, unknown> | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: Record<string, unknown> | null, error: unknown }>)('generate_benchmark_report', {
+        const { data, error } = await sb.rpc('generate_benchmark_report', {
             p_api_key: apiKey,
             p_days_back: daysBack
         });
@@ -52,13 +52,13 @@ export const reportsService = {
             return null;
         }
 
-        return data;
+        return (data as Record<string, unknown>) || null;
     },
 
     getLatestBenchmarkReport: async (
         apiKey: string
     ): Promise<Record<string, unknown> | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: Record<string, unknown> | null, error: unknown }>)('get_latest_benchmark_report', {
+        const { data, error } = await sb.rpc('get_latest_benchmark_report', {
             p_api_key: apiKey
         });
 
@@ -67,7 +67,7 @@ export const reportsService = {
             return null;
         }
 
-        return data;
+        return (data as Record<string, unknown>) || null;
     },
 
     listExecutiveReports: async (): Promise<Record<string, unknown>[]> => {
@@ -103,7 +103,11 @@ export const reportsService = {
         const token = session?.access_token;
         if (!token) return null;
 
-        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://neltawfiwpvunkwyvfse.supabase.co';
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+        if (!supabaseUrl) {
+            logger.error('[InsightsService] VITE_SUPABASE_URL is not defined in environment variables');
+            return null;
+        }
 
         const response = await fetch(`${supabaseUrl}/functions/v1/insights-generator`, {
             method: 'POST',

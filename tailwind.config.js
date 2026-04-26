@@ -23,7 +23,10 @@ export default {
                     ...colors.blue,
                     DEFAULT: '#2563EB', // Blue 600
                 },
-                primary: '#2563EB', // [LEGACY ALIAS] Equivalente histórico a brand.DEFAULT
+                // NOTA: `primary` (scalar) se retiró en DEBT-009 · Fase 4.2.
+                // Todas las clases `bg-primary`/`text-primary`/... se migraron
+                // a `brand`. El CSS var `var(--primary)` sigue disponible en
+                // `:root` para cualquier referencia legacy fuera de Tailwind.
 
                 // ==========================================
                 // 2. ACCENT (Familia Canónica de Énfasis)
@@ -33,7 +36,8 @@ export default {
                     DEFAULT: '#10B981', // Emerald 500
                     alt: '#0EA5E9',     // Sky 500
                 },
-                secondary: '#10B981', // [LEGACY ALIAS] Equivalente histórico a accent.DEFAULT
+                // NOTA: `secondary` (scalar) se retiró en DEBT-009 · Fase 4.2.
+                // Todas las clases `bg-secondary`/... se migraron a `accent`.
 
                 // ==========================================
                 // 3. SURFACE (Familia Canónica de Contenedores)
@@ -51,10 +55,9 @@ export default {
                     DEFAULT: "var(--ink)", // [SUBNIVEL OFICIAL] Tinta principal
                     muted: "#64748B",      // [SUBNIVEL OFICIAL] slate-500
                 },
-                // Aliases legacy permitidos por compatibilidad:
-                "text-primary": "var(--ink)",
-                "text-secondary": "#475569", // slate-600
-                "text-muted": "#64748B",     // Equivalente a ink-muted
+                // NOTA: `text-primary`/`text-secondary`/`text-muted` se retiraron en
+                // DEBT-009 · Fase 4.2. Todas las clases `text-text-*` migraron a
+                // `text-slate-*` (mismo valor) o `text-ink`/`text-ink-muted`.
 
                 // ==========================================
                 // 5. LINE (Familia Canónica de Bordes/Divisores)
@@ -67,9 +70,19 @@ export default {
                 // ==========================================
                 // 6. STATUS (Familia Canónica de Retroalimentación)
                 // ==========================================
-                danger: "#EF4444",
-                warning: "#F59E0B",
-                success: "#10B981",
+                // Escalas completas para permitir matices semánticos (danger-50 fondo suave, danger-600 texto, etc.)
+                danger: {
+                    ...colors.red,
+                    DEFAULT: '#EF4444', // Red 500
+                },
+                warning: {
+                    ...colors.amber,
+                    DEFAULT: '#F59E0B', // Amber 500
+                },
+                success: {
+                    ...colors.emerald,
+                    DEFAULT: '#10B981', // Emerald 500 (alias semántico de accent)
+                },
 
             },
             backgroundImage: {

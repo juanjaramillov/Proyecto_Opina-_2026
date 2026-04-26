@@ -64,7 +64,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                     <span className="material-symbols-outlined text-xl">arrow_back</span>
                 </button>
 
-                <button className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 hover:bg-white hover:text-rose-500 transition-colors shadow-sm">
+                <button className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 hover:bg-white hover:text-danger-500 transition-colors shadow-sm">
                     <span className="material-symbols-outlined text-xl leading-none block">favorite</span>
                 </button>
 
@@ -82,7 +82,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                     {/* Header flotando sobre la imagen */}
                     <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 flex flex-col items-start text-white">
                         <div className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-md text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-1.5 border border-white/10 shadow-sm">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-accent-400 animate-pulse"></span>
                             Abierto ahora
                         </div>
                         <h2 className="text-3xl sm:text-4xl font-black leading-tight tracking-tight drop-shadow-xl text-white z-20 relative">{place.name}</h2>
@@ -106,7 +106,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                             <div className="flex-1 flex flex-col items-center justify-center py-2 border-r border-slate-200/60">
                                 <div className="text-3xl font-black text-ink flex items-end gap-1 leading-none">
                                     {place.rating.toFixed(1)} 
-                                    <span className="material-symbols-outlined text-amber-400 text-2xl fill-current -mb-0.5">star</span>
+                                    <span className="material-symbols-outlined text-warning-400 text-2xl fill-current -mb-0.5">star</span>
                                 </div>
                                 <span className="text-xs font-bold text-slate-500 mt-2">Valoración</span>
                             </div>
@@ -119,7 +119,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                             </div>
 
                             <div className="flex-1 flex flex-col items-center justify-center py-2">
-                                <div className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-lg font-black border ${place.trendDirection === 'up' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : place.trendDirection === 'down' ? 'bg-rose-50 text-rose-600 border-rose-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
+                                <div className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-lg font-black border ${place.trendDirection === 'up' ? 'bg-accent/10 text-accent border-accent-100/50' : place.trendDirection === 'down' ? 'bg-danger-50 text-danger-600 border-danger-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
                                     <span className="material-symbols-outlined text-lg stroke-2">
                                         {place.trendDirection === 'up' ? 'trending_up' : place.trendDirection === 'down' ? 'trending_down' : 'trending_flat'}
                                     </span>
@@ -131,7 +131,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
 
                         {/* Acciones Rápidas */}
                         <div className="grid grid-cols-4 gap-3">
-                            <button className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+                            <button className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors">
                                 <span className="material-symbols-outlined fill-current">directions</span>
                                 <span className="text-[11px] font-bold">Cómo llegar</span>
                             </button>
@@ -153,7 +153,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                         <div className="space-y-4">
                             <div className="flex justify-between items-end mb-2">
                                 <h3 className="text-lg font-black text-ink">Últimas Señales</h3>
-                                <button className="text-sm font-bold text-blue-600 hover:text-blue-700">Ver todas</button>
+                                <button className="text-sm font-bold text-brand-600 hover:text-brand-700">Ver todas</button>
                             </div>
                             
                             <div className="bg-white border border-slate-100 shadow-sm rounded-2xl p-5 flex flex-col gap-4">
@@ -165,14 +165,14 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                                         </div>
                                         <div>
                                             <div className="font-bold text-base text-ink leading-tight">Últimos 5 Usuarios</div>
-                                            <div className="text-[11px] text-emerald-600 font-bold tracking-wide uppercase mt-0.5 flex items-center gap-1">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                            <div className="text-[11px] text-accent font-bold tracking-wide uppercase mt-0.5 flex items-center gap-1">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
                                                 Tendencia Positiva
                                             </div>
                                         </div>
                                     </div>
                                     {/* Nota Global Promedio */}
-                                    <div className="flex flex-col items-center justify-center bg-blue-50 text-blue-700 w-12 h-12 rounded-xl border border-blue-100">
+                                    <div className="flex flex-col items-center justify-center bg-brand-50 text-brand-700 w-12 h-12 rounded-xl border border-brand-100">
                                         <span className="text-[10px] font-bold uppercase tracking-wide opacity-80 mb-0.5 leading-none">Prom</span>
                                         <span className="text-base font-black leading-none">4.4</span>
                                     </div>
@@ -180,14 +180,14 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                                 
                                 {/* Señales (Atributos evaluados, sin texto libre) */}
                                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                                    <div className="flex flex-col items-center justify-center gap-1.5 bg-emerald-50 text-emerald-700 p-3 rounded-xl border border-emerald-100/50">
+                                    <div className="flex flex-col items-center justify-center gap-1.5 bg-accent/10 text-accent p-3 rounded-xl border border-accent-100/50">
                                         <span className="material-symbols-outlined text-[24px]">thumb_up</span>
                                         <div className="flex flex-col items-center">
                                             <span className="text-[10px] font-bold uppercase opacity-80">Atención</span>
                                             <span className="text-lg font-black leading-none mt-0.5">5.0</span>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col items-center justify-center gap-1.5 bg-blue-50 text-blue-700 p-3 rounded-xl border border-blue-100/50">
+                                    <div className="flex flex-col items-center justify-center gap-1.5 bg-brand-50 text-brand-700 p-3 rounded-xl border border-brand-100/50">
                                         <span className="material-symbols-outlined text-[24px]">restaurant_menu</span>
                                         <div className="flex flex-col items-center">
                                             <span className="text-[10px] font-bold uppercase opacity-80">Sabor</span>
@@ -213,7 +213,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                 <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 bg-gradient-to-t from-white via-white to-transparent border-t border-slate-100 z-10 flex">
                     <button 
                         onClick={() => setShowWizard(true)}
-                        className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-lg shadow-[0_10px_40px_-10px_rgba(37,99,235,0.6)] flex items-center justify-center gap-2 transition-transform active:scale-95"
+                        className="w-full py-4 px-6 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl font-black text-lg shadow-[0_10px_40px_-10px_rgba(37,99,235,0.6)] flex items-center justify-center gap-2 transition-transform active:scale-95"
                     >
                         <span className="material-symbols-outlined text-xl">add_circle</span>
                          Deja una Señal Aquí
@@ -226,8 +226,7 @@ export default function LugarDetailView({ place, onClose }: LugarDetailViewProps
                         <LugarSignalWizard 
                             place={place} 
                             onClose={() => setShowWizard(false)} 
-                            onComplete={(data) => {
-                                console.log("Señal registrada exitosamente:", data);
+                            onComplete={() => {
                                 setShowWizard(false);
                             }} 
                         />

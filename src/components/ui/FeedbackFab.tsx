@@ -40,10 +40,16 @@ export default function FeedbackFab() {
 
     return (
         <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[90]">
+            {/*
+              EXCEPCIÓN a la Política de Color Estricta Opina+:
+              #25D366 es el verde oficial de la marca WhatsApp.
+              Por identidad de marca externa se conserva tal cual.
+              Aprobado por Juan — 2026-04-22.
+            */}
             <button
                 type="button"
                 onClick={handleFeedbackClick}
-                className="h-12 w-12 opacity-80 rounded-full shadow-lg shadow-emerald-100 bg-[#25D366] hover:opacity-100 hover:scale-105 active:scale-95 transition-all flex items-center justify-center focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-500/30"
+                className="h-12 w-12 opacity-80 rounded-full shadow-lg shadow-accent-100 bg-[#25D366] hover:opacity-100 hover:scale-105 active:scale-95 transition-all flex items-center justify-center focus:outline-none focus-visible:ring-4 focus-visible:ring-accent-500/30"
                 aria-label="Enviar comentario por WhatsApp"
                 title="Reportar algo (WhatsApp)"
             >

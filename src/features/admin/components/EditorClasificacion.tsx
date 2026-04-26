@@ -31,7 +31,7 @@ export function EditorClasificacion({
                     <select
                         value={formData.category || ""}
                         onChange={e => setFormData(prev => ({ ...prev, category: e.target.value as Topic['category'] }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none font-bold text-sm text-slate-700"
                     >
                         <option value="País">País</option>
                         <option value="Internacional">Internacional</option>
@@ -49,7 +49,7 @@ export function EditorClasificacion({
                         type="number" min="1" max="3"
                         value={formData.intensity || 1}
                         onChange={e => setFormData(prev => ({ ...prev, intensity: parseInt(e.target.value) }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none font-bold text-sm"
                     />
                 </div>
 
@@ -58,7 +58,7 @@ export function EditorClasificacion({
                     <select
                         value={formData.event_stage || 'discussion'}
                         onChange={e => setFormData(prev => ({ ...prev, event_stage: e.target.value as Topic['event_stage'] }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none font-bold text-sm text-slate-700"
                     >
                         <option value="announcement">Anuncio / Urgente</option>
                         <option value="discussion">En Debate Creciente</option>
@@ -74,7 +74,7 @@ export function EditorClasificacion({
                         type="text"
                         value={tagsInput}
                         onChange={e => handleTagsChange(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none text-sm"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none text-sm"
                         placeholder="IPC, Marcel, Banco Central"
                     />
                 </div>
@@ -85,7 +85,7 @@ export function EditorClasificacion({
                         type="text"
                         value={actorsInput}
                         onChange={e => handleActorsChange(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none text-sm"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none text-sm"
                         placeholder="Gobierno, Central Unitaria"
                     />
                 </div>
@@ -95,7 +95,7 @@ export function EditorClasificacion({
                     <select
                         value={formData.opinion_maturity || 'low'}
                         onChange={e => setFormData(prev => ({ ...prev, opinion_maturity: e.target.value as Topic['opinion_maturity'] }))}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none font-bold text-sm text-slate-700"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/50 outline-none font-bold text-sm text-slate-700"
                     >
                         <option value="low">1. Emocional / Reacción Temprana</option>
                         <option value="medium">2. Debate Informado</option>

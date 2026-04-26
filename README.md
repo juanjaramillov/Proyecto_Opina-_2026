@@ -4,7 +4,7 @@ Para entender la arquitectura de acceso, el estado de los módulos funcionales y
 👉 **[PROJECT_MASTER_STATUS.md](./docs/PROJECT_MASTER_STATUS.md)**
 
 Para supervisar los atajos técnicos que no fueron corregidos todavía y se documentaron como deuda explícita, revisar rigurosamente:
-👉 **[DEBT_REGISTER_V13.md](./docs/DEBT_REGISTER_V13.md)**
+👉 **[DEBT_REGISTER.md](./docs/DEBT_REGISTER.md)**
 
 ---
 

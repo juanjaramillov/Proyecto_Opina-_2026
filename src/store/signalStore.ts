@@ -29,11 +29,6 @@ type SignalState = {
     };
 
     signalEvents: SignalEvent[];
-    
-    // Core Loop & Session Economy
-    sessionSignals: number;
-    sessionLimit: number;
-    cooldownUntil: number | null;
 };
 
 type SignalActions = {
@@ -41,10 +36,6 @@ type SignalActions = {
     completeOnboarding: () => void;
     markMissionCelebrated: () => void;
     setSignalState: (state: Partial<SignalState>) => void;
-
-    // Session Actions
-    consumeSessionSignal: () => void;
-    checkCooldown: () => void;
 };
 
 
@@ -64,9 +55,6 @@ const INITIAL_STATE: SignalState = {
         celebrated: false,
     },
     signalEvents: [],
-    sessionSignals: 0,
-    sessionLimit: 15, // Por defecto 15 señales por sesión
-    cooldownUntil: null,
 };
 
 export const useSignalStore = create<SignalState & SignalActions>()(
@@ -89,48 +77,6 @@ export const useSignalStore = create<SignalState & SignalActions>()(
                     set({
                         dailyMission: { ...dailyMission, celebrated: true }
                     });
-                }
-            },
-
-            checkCooldown: () => {
-                const state = get();
-                if (state.cooldownUntil && Date.now() > state.cooldownUntil) {
-                    // Cooldown finished, restart session
-                    set({ sessionSignals: 0, cooldownUntil: null });
-                }
-            },
-
-            consumeSessionSignal: () => {
-                get().checkCooldown(); // always check first
-
-                const currentState = get();
-                if (currentState.cooldownUntil && Date.now() < currentState.cooldownUntil) {
-                    return; // Still in cooldown, cannot consume
-                }
-
-                const newSessionSignals = currentState.sessionSignals + 1;
-                let newCooldownUntil = currentState.cooldownUntil;
-
-                // Si se alcanza o supera el límite de la sesión, activar cooldown de 3 horas
-                if (newSessionSignals >= currentState.sessionLimit) {
-                    newCooldownUntil = Date.now() + 3 * 60 * 60 * 1000; // 3 hours in ms
-                }
-
-                set({
-                    sessionSignals: newSessionSignals,
-                    cooldownUntil: newCooldownUntil
-                });
-
-                // --- BACKEND SYNC SCAFFOLDING ---
-                // TODO(Backend): Reemplazar esta llamada con una petición real a Supabase RPC
-                // ej. supabase.rpc('consume_session_signal', { increment: 1 })
-                // para mantener la verdadera fuente de la verdad en la base de datos y evitar 
-                // exploits limpiando el localStorage.
-                try {
-                    // simulate async sync (fire and forget)
-                    // console.log("[Zustand Sync] Session updated in server.", { newSessionSignals, newCooldownUntil });
-                } catch (e) {
-                    console.error("Failed to sync session with backend", e);
                 }
             },
 

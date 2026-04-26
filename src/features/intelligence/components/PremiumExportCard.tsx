@@ -21,9 +21,9 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
     
     // Status visual mapping
     const getStatusTheme = (status?: string) => {
-        if (status === 'PUBLISHABLE') return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-        if (status === 'EXPLORATORY') return 'bg-amber-50 text-amber-700 border-amber-200';
-        if (status === 'INTERNAL_ONLY') return 'bg-rose-50 text-rose-700 border-rose-200';
+        if (status === 'PUBLISHABLE') return 'bg-accent/10 text-accent border-accent-200';
+        if (status === 'EXPLORATORY') return 'bg-warning-50 text-warning-700 border-warning-200';
+        if (status === 'INTERNAL_ONLY') return 'bg-danger-50 text-danger-700 border-danger-200';
         return 'bg-slate-50 text-slate-700 border-slate-200';
     };
 
@@ -57,7 +57,7 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
             {/* Header / Meta */}
             <div className="bg-slate-900 p-6 flex items-center justify-between text-white print:bg-white print:text-black print:border-b print:border-slate-300">
                 <div className="flex items-center gap-3">
-                    <Box className="w-6 h-6 text-indigo-400 print:text-slate-800" />
+                    <Box className="w-6 h-6 text-brand-400 print:text-slate-800" />
                     <div>
                         <h3 className="text-sm font-black uppercase tracking-widest text-slate-100 print:text-black">Opina+ Premium Insight</h3>
                         <p className="text-[10px] text-slate-400 font-mono mt-1 print:text-slate-600">ID: {item.id} | Context: {b2bEligibility.opinascore_context}</p>
@@ -87,7 +87,7 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
                 <div className="grid grid-cols-3 gap-4 mb-8">
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                         <div className="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1">OpinaScore Final</div>
-                        <div className="text-3xl font-black text-indigo-600">{Math.round(b2bEligibility.opinascore_value || 0)}</div>
+                        <div className="text-3xl font-black text-brand">{Math.round(b2bEligibility.opinascore_value || 0)}</div>
                     </div>
                     <div className={`p-4 rounded-2xl border ${getStatusTheme(b2bEligibility.eligibility_status)}`}>
                         <div className="text-[10px] uppercase tracking-widest font-bold mb-1 opacity-80">Elegibilidad B2B</div>
@@ -106,16 +106,16 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
                 {/* Síntesis Narrativa Ejecutiva */}
                 <div className="mb-8">
                     <h4 className="text-xs font-black uppercase tracking-widest text-slate-900 mb-4 flex items-center gap-2">
-                        <Target className="w-4 h-4 text-indigo-500" />
+                        <Target className="w-4 h-4 text-brand" />
                         Síntesis Ejecutiva Automática
                     </h4>
                     <div className="space-y-3">
                         {narrativeBullets.map((bullet, idx) => (
                             <div key={idx} className="flex gap-3 items-start bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-                                {bullet.type === 'positive' && <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />}
-                                {bullet.type === 'critical' && <ShieldAlert className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />}
-                                {bullet.type === 'warning' && <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />}
-                                {bullet.type === 'neutral' && <Box className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />}
+                                {bullet.type === 'positive' && <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />}
+                                {bullet.type === 'critical' && <ShieldAlert className="w-5 h-5 text-danger-500 flex-shrink-0 mt-0.5" />}
+                                {bullet.type === 'warning' && <AlertTriangle className="w-5 h-5 text-warning-500 flex-shrink-0 mt-0.5" />}
+                                {bullet.type === 'neutral' && <Box className="w-5 h-5 text-brand-500 flex-shrink-0 mt-0.5" />}
                                 <p className="text-sm font-medium text-slate-700 leading-relaxed">{bullet.text}</p>
                             </div>
                         ))}
@@ -129,13 +129,12 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
                             Estructura Competitiva (Wilson Inferior/Superior)
                         </h4>
                         <div className="space-y-2">
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            {b2bAnalytics.analytics_payload?.map((opt: Record<string, any>, idx: number) => (
+                            {b2bAnalytics.analytics_payload?.map((opt, idx) => (
                                 <div key={idx} className="flex items-center justify-between text-sm py-2 border-b border-slate-50 last:border-0">
                                     <span className="font-bold text-slate-700">Opción {idx + 1} <span className="font-normal text-[10px] text-slate-400">({String(opt.option_id).substring(0,8)})</span></span>
                                     <div className="flex items-center gap-4">
                                         <div className="w-32 bg-slate-100 h-2 rounded-full overflow-hidden">
-                                            <div className={`h-full ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-emerald-500' : 'bg-indigo-400'}`} style={{ width: `${Math.max(0, Math.min(100, (opt.normalized_score || opt.raw_win_rate || 0) * 100))}%` }}></div>
+                                            <div className={`h-full ${opt.is_winner && !b2bAnalytics.analytics_payload[0]?.technical_tie_flag ? 'bg-accent' : 'bg-brand-400'}`} style={{ width: `${Math.max(0, Math.min(100, (opt.normalized_score || opt.raw_win_rate || 0) * 100))}%` }}></div>
                                         </div>
                                         <span className="font-mono font-bold text-slate-900 text-right w-12">{((opt.normalized_score || opt.raw_win_rate || 0) * 100).toFixed(1)}%</span>
                                     </div>
@@ -143,7 +142,7 @@ export const PremiumExportCard: React.FC<PremiumExportCardProps> = ({
                             ))}
                         </div>
                         {b2bAnalytics.analytics_payload[0]?.technical_tie_flag && (
-                            <div className="mt-3 text-[10px] font-bold text-amber-600 bg-amber-50 px-3 py-2 rounded-lg border border-amber-100 inline-block">
+                            <div className="mt-3 text-[10px] font-bold text-warning-600 bg-warning-50 px-3 py-2 rounded-lg border border-warning-100 inline-block">
                                 AVISO: Existe superposición de límites de confianza (Empate Técnico Activo).
                             </div>
                         )}

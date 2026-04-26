@@ -25,25 +25,25 @@ export function MetricAvailabilityCard({
     const statusConfig = {
         available: {
             bg: 'bg-white',
-            border: 'border-stroke hover:border-secondary/50',
-            iconColor: 'text-secondary',
-            labelColor: 'text-text-muted',
+            border: 'border-stroke hover:border-accent/50',
+            iconColor: 'text-accent',
+            labelColor: 'text-slate-500',
             valueColor: 'text-ink',
             DefaultIcon: Activity
         },
         pending: {
             bg: 'bg-surface2 border-dashed',
             border: 'border-stroke',
-            iconColor: 'text-text-muted/70',
-            labelColor: 'text-text-muted',
-            valueColor: 'text-text-muted/70',
+            iconColor: 'text-slate-500/70',
+            labelColor: 'text-slate-500',
+            valueColor: 'text-slate-500/70',
             DefaultIcon: Clock
         },
         insufficient_data: {
             bg: 'bg-surface2 border-dashed',
             border: 'border-stroke',
-            iconColor: 'text-text-muted',
-            labelColor: 'text-text-muted',
+            iconColor: 'text-slate-500',
+            labelColor: 'text-slate-500',
             valueColor: 'text-ink',
             DefaultIcon: AlertCircle
         }
@@ -92,7 +92,7 @@ export function MetricAvailabilityCard({
             )}
             
             {helperText && (
-                <div className={`text-xs md:text-sm font-medium leading-snug ${status === 'available' ? 'text-text-muted' : config.labelColor}`}>
+                <div className={`text-xs md:text-sm font-medium leading-snug ${status === 'available' ? 'text-slate-500' : config.labelColor}`}>
                     {helperText}
                 </div>
             )}

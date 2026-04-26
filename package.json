@@ -33,6 +33,9 @@
     "legacy:versus:test-build": "vite build --mode testing"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.11.0",
+    "@sentry/browser": "^10.49.0",
+    "@sentry/react": "^10.49.0",
     "@supabase/supabase-js": "^2.91.0",
     "chart.js": "^4.4.1",
     "cheerio": "^1.2.0",
@@ -40,6 +43,7 @@
     "csv-parse": "^6.1.0",
     "csv-parser": "^3.2.0",
     "framer-motion": "^11.18.2",
+    "idb": "^8.0.3",
     "lucide-react": "^0.563.0",
     "node-fetch": "^3.3.2",
     "openai": "^6.27.0",
@@ -51,6 +55,7 @@
     "react-router-dom": "^6.21.3",
     "uuid": "^13.0.0",
     "xlsx": "^0.18.5",
+    "zod": "^4.3.6",
     "zustand": "^5.0.10"
   },
   "devDependencies": {
@@ -69,6 +74,7 @@
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
+    "fake-indexeddb": "^6.2.5",
     "globals": "^17.0.0",
     "image-size": "^2.0.2",
     "jsdom": "^29.0.0",

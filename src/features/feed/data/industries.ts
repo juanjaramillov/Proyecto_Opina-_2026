@@ -1,3 +1,19 @@
+/**
+ * EXCEPCIÓN DOCUMENTADA a la Política de Color Estricta Opina+
+ * ---------------------------------------------------------------
+ * Los hex values declarados en los `theme` de cada industria son
+ * DECORATIVOS per-categoría: su propósito es diferenciar visualmente
+ * cada industria en la UI (cards, badges, gradientes de fondo).
+ *
+ * Esta diferenciación es funcional (no ornamental): el usuario
+ * reconoce la categoría por el color. Forzarlas todas a brand/accent
+ * anularía esa función.
+ *
+ * La política de color estricta (solo brand + accent + slate + tokens
+ * semánticos) NO aplica aquí. Aplica en todo el resto del proyecto.
+ *
+ * Aprobado por Juan — 2026-04-22.
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PARENT_INDUSTRIES: Record<string, any> = {
     "automotriz": {

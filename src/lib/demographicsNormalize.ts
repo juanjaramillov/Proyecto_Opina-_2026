@@ -150,21 +150,45 @@ export const SEG_REGIONS: SegmentOption[] = [
     { value: "XV", label: "Arica y Parinacota" },
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function normalizeAllDemographics(input: any): DemographicData {
+/**
+ * Input genérico para el normalizador: acepta tanto snake_case (formato DB)
+ * como camelCase (formato UI). Todos los campos son opcionales — el normalizador
+ * resuelve la coexistencia y devuelve el contrato DemographicData canónico.
+ */
+type DemographicsInput = Partial<
+    Record<
+        | 'birth_year' | 'birthYear'
+        | 'gender' | 'region'
+        | 'comuna' | 'commune'
+        | 'employment_status' | 'employmentStatus'
+        | 'income_range' | 'incomeRange'
+        | 'education_level' | 'educationLevel'
+        | 'housing_type' | 'housingType'
+        | 'purchase_behavior' | 'purchaseBehavior'
+        | 'influence_level' | 'influenceLevel'
+        | 'profile_stage' | 'profileStage'
+        | 'signal_weight' | 'signalWeight'
+        | 'household_size' | 'householdSize'
+        | 'children_count' | 'childrenCount'
+        | 'car_count' | 'carCount',
+        string | number | null | undefined
+    >
+>;
+
+export function normalizeAllDemographics(input: DemographicsInput): DemographicData {
     return {
-        birthYear: input.birth_year || input.birthYear,
-        gender: normalizeGender(input.gender),
-        region: normalizeRegion(input.region),
-        commune: input.comuna || input.commune,
-        employmentStatus: input.employment_status || input.employmentStatus,
-        incomeRange: input.income_range || input.incomeRange,
-        educationLevel: input.education_level || input.educationLevel,
-        housingType: input.housing_type || input.housingType,
-        purchaseBehavior: input.purchase_behavior || input.purchaseBehavior,
-        influenceLevel: input.influence_level || input.influenceLevel,
-        profileStage: input.profile_stage || input.profileStage,
-        signalWeight: input.signal_weight || input.signalWeight,
+        birthYear: (input.birth_year || input.birthYear) as DemographicData['birthYear'],
+        gender: normalizeGender(input.gender as string | undefined),
+        region: normalizeRegion(input.region as string | undefined),
+        commune: (input.comuna || input.commune) as DemographicData['commune'],
+        employmentStatus: (input.employment_status || input.employmentStatus) as DemographicData['employmentStatus'],
+        incomeRange: (input.income_range || input.incomeRange) as DemographicData['incomeRange'],
+        educationLevel: (input.education_level || input.educationLevel) as DemographicData['educationLevel'],
+        housingType: (input.housing_type || input.housingType) as DemographicData['housingType'],
+        purchaseBehavior: (input.purchase_behavior || input.purchaseBehavior) as DemographicData['purchaseBehavior'],
+        influenceLevel: (input.influence_level || input.influenceLevel) as DemographicData['influenceLevel'],
+        profileStage: (input.profile_stage || input.profileStage) as DemographicData['profileStage'],
+        signalWeight: (input.signal_weight || input.signalWeight) as DemographicData['signalWeight'],
         householdSize: (input.household_size || input.householdSize)?.toString(),
         childrenCount: (input.children_count || input.childrenCount)?.toString(),
         carCount: (input.car_count || input.carCount)?.toString()

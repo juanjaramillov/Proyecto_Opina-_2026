@@ -90,7 +90,6 @@ export const analyticsReadService = {
   },
 
   publishResultsConfiguration: async (payload: Partial<AdminResultsConfiguration>): Promise<boolean> => {
-    console.log("Published config payload", payload);
     
     // 1. Guardar la configuración general (Mode y Flags) como una nueva iteración de publicación
     const { mode, heroTitle, blocksVisibility } = payload;
@@ -123,7 +122,6 @@ export const analyticsReadService = {
   },
 
   refreshAnalyticsRollups: async (): Promise<boolean> => {
-    console.log("Analytics Rollup refreshed [PLACEHOLDER - Awaiting Edge Function Connection]");
     return true; // Mock refresh explícitamente marcado
   }
 };

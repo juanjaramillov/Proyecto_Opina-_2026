@@ -13,7 +13,7 @@ export function ResultsEditorialHero({ heroData }: Props) {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 mt-8">
       {/* Decorative top info */}
-      <div className="flex justify-center mb-6 text-xs font-bold text-text-muted uppercase tracking-widest text-center">
+      <div className="flex justify-center mb-6 text-xs font-bold text-slate-500 uppercase tracking-widest text-center">
         {heroData.metrics.freshnessHours ? (
             `Actualizado en las últimas ${heroData.metrics.freshnessHours} horas • Muestra regional`
         ) : (
@@ -24,7 +24,7 @@ export function ResultsEditorialHero({ heroData }: Props) {
       <div className="relative w-full rounded-3xl overflow-hidden bg-surface2 shadow-xl border border-stroke">
         {/* Background Gradients and Neo-Waves */}
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-white via-surface2 to-surface2" />
-        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-brand/5 to-transparent pointer-events-none" />
         
         {/* SVG Neon Waves */}
         <svg className="absolute bottom-0 left-0 w-full h-32 opacity-20" preserveAspectRatio="none" viewBox="0 0 1000 100">
@@ -34,7 +34,7 @@ export function ResultsEditorialHero({ heroData }: Props) {
             <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#2563EB" />
               <stop offset="50%" stopColor="#10B981" />
-              <stop offset="100%" stopColor="#0EA5E9" />
+              <stop offset="100%" stopColor="#10B981" />
             </linearGradient>
             <linearGradient id="wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#10B981" />
@@ -49,7 +49,7 @@ export function ResultsEditorialHero({ heroData }: Props) {
           <div className="flex-1">
             {/* Eyebrow badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-stroke mb-6 shadow-sm">
-              <span className={`w-2 h-2 rounded-full ${signalStatus === "success" ? "bg-primary animate-pulse" : "bg-secondary"}`} />
+              <span className={`w-2 h-2 rounded-full ${signalStatus === "success" ? "bg-brand animate-pulse" : "bg-accent"}`} />
               <span className="text-[10px] md:text-xs font-bold text-ink uppercase tracking-widest">
                 {heroData.title}
               </span>
@@ -60,24 +60,24 @@ export function ResultsEditorialHero({ heroData }: Props) {
               {heroData.metrics.mainInsightHeadline || heroData.subtitle}
             </h1>
             
-            <p className="text-base md:text-lg text-text-secondary font-medium mb-8 max-w-2xl leading-relaxed">
+            <p className="text-base md:text-lg text-slate-600 font-medium mb-8 max-w-2xl leading-relaxed">
               {heroData.description}
             </p>
 
             {/* Footer info bars */}
             <div className="flex flex-wrap items-center gap-4 text-xs font-bold">
               {signalStatus === "success" ? (
-                  <div className="flex items-center gap-2 bg-secondary/10 border border-secondary/20 text-secondary px-3 py-1.5 rounded-full">
+                  <div className="flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent px-3 py-1.5 rounded-full">
                     <Clock className="w-3.5 h-3.5" />
                     Señales Continuas
                   </div>
               ) : (
-                   <div className="flex items-center gap-2 bg-surface2 border border-stroke text-text-muted px-3 py-1.5 rounded-full">
+                   <div className="flex items-center gap-2 bg-surface2 border border-stroke text-slate-500 px-3 py-1.5 rounded-full">
                     Recopilando Datos Recientes
                   </div>
               )}
               {heroData.metrics.sampleQualityLabel && (
-                  <div className="text-text-muted border-l border-stroke pl-4">
+                  <div className="text-slate-500 border-l border-stroke pl-4">
                     {heroData.metrics.sampleQualityLabel}
                   </div>
               )}
@@ -91,12 +91,12 @@ export function ResultsEditorialHero({ heroData }: Props) {
                    <div className="text-4xl md:text-5xl font-black text-ink tracking-tighter mb-1">
                      {activeSignals.toLocaleString()}
                    </div>
-                   <div className="text-xs font-bold text-text-muted uppercase tracking-widest mb-4 text-center">
+                   <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 text-center">
                      Señales Base<br/>Procesadas
                    </div>
                    {signalStatus === "success" && (
-                       <div className="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full border border-primary/20 text-xs font-black tracking-wide">
-                         <div className="bg-primary rounded-full p-0.5"><TrendingUp className="w-3 h-3 text-white" /></div>
+                       <div className="flex items-center gap-1.5 px-3 py-1 bg-brand/10 text-brand rounded-full border border-brand/20 text-xs font-black tracking-wide">
+                         <div className="bg-brand rounded-full p-0.5"><TrendingUp className="w-3 h-3 text-white" /></div>
                          En crecimiento
                        </div>
                    )}

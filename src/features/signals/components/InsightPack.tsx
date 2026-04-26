@@ -182,7 +182,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     className="bg-white rounded-[2.5rem] p-8 flex flex-col items-center justify-center max-w-sm w-full shadow-2xl relative border border-slate-100 text-center"
                 >
-                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+                    <div className="w-8 h-8 border-4 border-brand border-t-transparent rounded-full animate-spin mb-4" />
                     <p className="font-bold text-slate-500">Cargando profundidad...</p>
                 </motion.div>
             </div>
@@ -265,7 +265,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                         </div>
 
                         <div className="flex items-center gap-3 mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <h4 className="text-xs font-black uppercase tracking-widest text-text-secondary mb-3 flex items-center gap-2">
+                            <h4 className="text-xs font-black uppercase tracking-widest text-slate-600 mb-3 flex items-center gap-2">
                                 <span className="material-symbols-outlined text-[16px]">psychology</span>
                                 Decodificando la tendencia
                             </h4>
@@ -275,7 +275,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
 
                         {loadingAnalytics && (
                             <div className="text-center py-10">
-                                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                                <div className="w-8 h-8 border-4 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                                 <div className="text-slate-500 font-medium animate-pulse">
                                     Segmentando señales...
                                 </div>
@@ -283,7 +283,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                         )}
 
                         {analyticsError && (
-                            <div className="text-red-500 text-center py-4 bg-red-50 rounded-xl border border-red-100 italic">
+                            <div className="text-danger-500 text-center py-4 bg-danger-50 rounded-xl border border-danger-100 italic">
                                 {analyticsError}
                             </div>
                         )}
@@ -298,16 +298,16 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                             <div className="relative">
                                 {!profile?.canSeeInsights && (
                                     <div className="absolute inset-0 z-10 bg-white/40 backdrop-blur-[3px] flex flex-col items-center justify-center text-center p-6 rounded-2xl border-2 border-dashed border-slate-200">
-                                        <div className="w-16 h-16 bg-slate-900 text-white rounded-full flex items-center justify-center mb-4 shadow-xl">
+                                        <div className="w-16 h-16 bg-gradient-to-br from-brand to-accent text-white rounded-full flex items-center justify-center mb-4 shadow-xl shadow-brand/30">
                                             <span className="material-symbols-outlined text-3xl">lock</span>
                                         </div>
-                                        <h3 className="text-xl font-black text-slate-900 mb-2">Métrica Protegida</h3>
+                                        <h3 className="text-xl font-black text-ink mb-2">Métrica Protegida</h3>
                                         <p className="text-slate-500 text-sm mb-6 max-w-[280px]">
                                             Solo los usuarios verificados pueden ver el benchmark competitivo y la segmentación detallada.
                                         </p>
                                         <button
                                             onClick={() => setIsLoginModalOpen(true)}
-                                            className="px-8 py-3 bg-primary text-white font-black rounded-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-95"
+                                            className="px-8 py-3 bg-brand text-white font-black rounded-xl shadow-lg shadow-brand/30 hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-95"
                                         >
                                             DESBLOQUEAR AHORA
                                         </button>
@@ -322,10 +322,10 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                                                 key={questionKey}
                                                 className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group"
                                             >
-                                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-full blur-3xl -mr-10 -mt-10 opacity-50 group-hover:opacity-100 transition-opacity" />
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-brand/10 rounded-full blur-3xl -mr-10 -mt-10 opacity-50 group-hover:opacity-100 transition-opacity" />
 
                                                 <div className="relative z-10 flex justify-between items-center mb-6">
-                                                    <div className="text-[11px] font-black uppercase tracking-widest text-primary-500">
+                                                    <div className="text-[11px] font-black uppercase tracking-widest text-brand">
                                                         {questionKey.replace(/_/g, ' ')}
                                                     </div>
                                                     <div className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
@@ -334,9 +334,9 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                                                 </div>
 
                                                 <div className="relative z-10 grid grid-cols-3 gap-4 mb-6">
-                                                    <div className="flex flex-col items-center justify-center p-3 bg-primary-50 rounded-xl border border-primary-100/50">
-                                                        <span className="text-[10px] font-bold text-primary-400 uppercase tracking-wider mb-1">Tu Emisión</span>
-                                                        <span className="text-3xl font-black text-primary-600">{myAnswer.toFixed(1)}</span>
+                                                    <div className="flex flex-col items-center justify-center p-3 bg-brand/10 rounded-xl border border-brand-100/50">
+                                                        <span className="text-[10px] font-bold text-brand uppercase tracking-wider mb-1">Tu Emisión</span>
+                                                        <span className="text-3xl font-black text-brand">{myAnswer.toFixed(1)}</span>
                                                     </div>
                                                     <div className="flex flex-col items-center justify-center p-3">
                                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tu Segmento</span>
@@ -356,7 +356,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                                                             <motion.div
                                                                 initial={{ width: 0 }}
                                                                 animate={{ width: `${(myAnswer / 10) * 100}%` }}
-                                                                className="h-full bg-primary-500 rounded-full"
+                                                                className="h-full bg-brand rounded-full"
                                                             />
                                                         </div>
                                                     </div>
@@ -384,7 +384,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
 
                                                 <div className="relative z-10 mt-6 pt-4 border-t border-slate-100">
                                                     <p className="text-[11px] font-medium text-slate-500 text-center flex items-center justify-center gap-1.5">
-                                                        <span className="material-symbols-outlined text-[14px] text-primary-400">info</span>
+                                                        <span className="material-symbols-outlined text-[14px] text-brand">info</span>
                                                         Estás aportando al índice de preferencia de {optionLabel}.
                                                     </p>
                                                 </div>
@@ -398,7 +398,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                         {!loadingAnalytics && (
                             <button
                                 onClick={onComplete}
-                                className="w-full mt-6 py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-slate-800 transition-all active:scale-[0.98]"
+                                className="w-full mt-6 py-4 bg-gradient-to-br from-brand to-accent text-white rounded-2xl font-black hover:opacity-90 hover:scale-[1.02] transition-all active:scale-[0.98] shadow-lg shadow-brand/20"
                             >
                                 FINALIZAR ANÁLISIS
                             </button>

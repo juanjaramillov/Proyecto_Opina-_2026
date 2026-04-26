@@ -52,6 +52,7 @@ const PLACE_CATEGORIES = [
 
 import { signalService } from "../../signals/services/signalService";
 import LugarDetailView, { Place } from "./LugarDetailView";
+import { BetaDisclaimerBanner } from "../../../components/ui/BetaDisclaimerBanner";
 
 interface LugaresViewProps {
     battles: Battle[];
@@ -71,8 +72,15 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
             setIsLoading(true);
             try {
                 const data = await signalService.getEntitiesByModule('is_active_lugar');
-                const mappedPlaces: Place[] = data.map((entity: any) => {
-                    const meta = typeof entity.metadata === 'object' ? entity.metadata || {} : {};
+                type EntityRow = {
+                    id: string;
+                    name: string;
+                    image_url?: string | null;
+                    metadata?: Record<string, unknown> | null;
+                    category?: string | null;
+                };
+                const mappedPlaces: Place[] = (data as EntityRow[]).map((entity) => {
+                    const meta = (typeof entity.metadata === 'object' && entity.metadata) ? entity.metadata as Record<string, unknown> : {};
                     return {
                         id: entity.id,
                         name: entity.name,
@@ -125,7 +133,7 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
-                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
+                <div className="w-16 h-16 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin mb-6"></div>
                 <h3 className="text-xl font-black text-slate-800">Cargando lugares...</h3>
             </div>
         );
@@ -133,12 +141,21 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
 
     return (
         <div className="space-y-8 flex flex-col animate-in fade-in duration-500 w-full mb-24">
-            
+
+            {/* Aviso de estado Beta: el catálogo está en expansión y la agregación pública aún no se calcula. */}
+            <div className="max-w-5xl xl:max-w-6xl mx-auto w-full px-2">
+                <BetaDisclaimerBanner
+                    moduleSlug="lugares"
+                    title="Lugares está en Beta"
+                    message="El catálogo de lugares aún está en expansión y los rankings públicos agregados llegan en próximas versiones. Tus señales se registran, pero todavía no verás tendencias globales."
+                />
+            </div>
+
             {/* Header del Componente */}
             <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-6 md:p-10 relative overflow-hidden">
                 {/* Background Decorativo */}
                 <div className="absolute inset-0 pointer-events-none opacity-30">
-                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 from-blue-100 to-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
+                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 from-brand-100 to-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
                 </div>
                 
                 <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
@@ -147,11 +164,11 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
                              <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                         </button>
                     </div>
-                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-blue-600 shadow-inner">
+                    <div className="w-16 h-16 bg-brand-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-brand-600 shadow-inner">
                         <span className="material-symbols-outlined text-4xl">location_on</span>
                     </div>
                     <h2 className="text-3xl md:text-4xl font-black text-ink tracking-tight">
-                        Explora <span className="text-blue-600">Lugares</span>
+                        Explora <span className="text-brand-600">Lugares</span>
                     </h2>
                     <p className="text-slate-500 font-medium max-w-2xl mx-auto">
                         Descubre los espacios mejor valorados por la comunidad a tu alrededor.
@@ -164,7 +181,7 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
                         </div>
                         <input 
                             type="text" 
-                            className="w-full bg-slate-50/50 border border-slate-200 text-ink rounded-full py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium placeholder:text-slate-400 shadow-sm"
+                            className="w-full bg-slate-50/50 border border-slate-200 text-ink rounded-full py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all font-medium placeholder:text-slate-400 shadow-sm"
                             placeholder="Buscar un parque, restaurante, mall..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -203,7 +220,7 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
                                 onClick={() => setActiveSubfilter(subcat.id)}
                                 className={`px-4 py-1.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm
                                     ${activeSubfilter === subcat.id 
-                                        ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-500/50' 
+                                        ? 'bg-brand-100 text-brand-700 ring-1 ring-brand-500/50' 
                                         : 'bg-white border border-slate-100 text-slate-500 hover:bg-slate-50 hover:text-slate-700'
                                     }`}
                             >
@@ -236,7 +253,7 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
 
                                     {/* Action Header on Image */}
                                     <div className="absolute top-4 right-4 flex gap-2 z-10">
-                                        <button className="p-2.5 bg-white/90 hover:bg-white backdrop-blur-md rounded-full text-slate-700 hover:text-rose-500 transition-colors shadow-sm">
+                                        <button className="p-2.5 bg-white/90 hover:bg-white backdrop-blur-md rounded-full text-slate-700 hover:text-danger-500 transition-colors shadow-sm">
                                             <span className="material-symbols-outlined text-[20px] leading-none block">favorite</span>
                                         </button>
                                     </div>
@@ -250,17 +267,17 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
                                 {/* Contenido Inferior */}
                                 <div className="p-5 flex flex-col flex-grow relative">
                                     <div className="flex justify-between items-start mb-2 gap-4">
-                                        <h3 className="text-[1.35rem] leading-tight font-black text-ink group-hover:text-blue-600 transition-colors line-clamp-1">{place.name}</h3>
+                                        <h3 className="text-[1.35rem] leading-tight font-black text-ink group-hover:text-brand-600 transition-colors line-clamp-1">{place.name}</h3>
                                         <div className="flex flex-col items-end gap-1 shrink-0 relative">
-                                            <div className="flex items-center gap-1 bg-amber-50 text-amber-700 px-2 py-1 rounded-lg border border-amber-100/50 w-full justify-center">
-                                                <span className="material-symbols-outlined text-[16px] text-amber-500 fill-current">star</span>
+                                            <div className="flex items-center gap-1 bg-warning-50 text-warning-700 px-2 py-1 rounded-lg border border-warning-100/50 w-full justify-center">
+                                                <span className="material-symbols-outlined text-[16px] text-warning-500 fill-current">star</span>
                                                 <span className="text-sm font-bold">{place.rating}</span>
-                                                <span className="text-[10px] text-amber-600/70 font-semibold absolute -top-2.5 -right-2 bg-white rounded-full px-1.5 shadow-sm border border-slate-100">
+                                                <span className="text-[10px] text-warning-600/70 font-semibold absolute -top-2.5 -right-2 bg-white rounded-full px-1.5 shadow-sm border border-slate-100">
                                                     +{place.reviews >= 1000 ? (place.reviews/1000).toFixed(1)+'k' : place.reviews}
                                                 </span>
                                             </div>
                                             {place.trendDirection && (
-                                                <div className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[10px] font-bold border ${place.trendDirection === 'up' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : place.trendDirection === 'down' ? 'bg-rose-50 text-rose-600 border-rose-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
+                                                <div className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[10px] font-bold border ${place.trendDirection === 'up' ? 'bg-accent/10 text-accent border-accent-100/50' : place.trendDirection === 'down' ? 'bg-danger-50 text-danger-600 border-danger-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
                                                     <span className="material-symbols-outlined text-[12px] stroke-2">
                                                         {place.trendDirection === 'up' ? 'trending_up' : place.trendDirection === 'down' ? 'trending_down' : 'trending_flat'}
                                                     </span>
@@ -277,8 +294,8 @@ export default function LugaresView({ onClose }: LugaresViewProps) {
                                     </div>
                     
                                     <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                                        <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        <span className="flex items-center gap-1.5 text-xs font-bold text-accent bg-accent/10 px-3 py-1.5 rounded-full">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
                                             Abierto ahora
                                         </span>
                                         

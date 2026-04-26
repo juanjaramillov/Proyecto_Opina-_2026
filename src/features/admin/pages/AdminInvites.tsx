@@ -35,7 +35,7 @@ export default function AdminInvites() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-2">
                 {/* Métricas Globales de Plataforma */}
                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-indigo-50 text-indigo-500 shrink-0">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-50 text-brand shrink-0">
                         <Users className="w-5 h-5" />
                     </div>
                     <div>
@@ -47,7 +47,7 @@ export default function AdminInvites() {
                 </div>
 
                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-teal-50 text-teal-500 shrink-0">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent-50 text-accent shrink-0">
                         <UserPlus className="w-5 h-5" />
                     </div>
                     <div>
@@ -59,7 +59,7 @@ export default function AdminInvites() {
                 </div>
 
                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-amber-50 text-amber-500 shrink-0">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-100 text-brand-700 shrink-0">
                         <Clock className="w-5 h-5" />
                     </div>
                     <div>
@@ -71,7 +71,7 @@ export default function AdminInvites() {
                 </div>
                 
                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-rose-50 text-rose-500 shrink-0">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent-100 text-accent-700 shrink-0">
                         <Database className="w-5 h-5" />
                     </div>
                     <div>
@@ -84,7 +84,7 @@ export default function AdminInvites() {
 
                 {/* Métricas de Invitaciones (Originales) */}
                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-50 text-blue-500 shrink-0">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-50 text-brand-500 shrink-0">
                         <Ticket className="w-5 h-5" />
                     </div>
                     <div>
@@ -94,7 +94,7 @@ export default function AdminInvites() {
                 </div>
                 
                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-emerald-50 text-emerald-500 shrink-0">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent/10 text-accent shrink-0">
                         <Users className="w-5 h-5" />
                     </div>
                     <div>
@@ -108,8 +108,8 @@ export default function AdminInvites() {
                     </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4 cursor-pointer hover:border-orange-200 transition-colors" onClick={() => { setTab('invites'); setStatusFilter('abandoned'); }}>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-orange-50 text-orange-500 shrink-0">
+                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4 cursor-pointer hover:border-warning-200 transition-colors" onClick={() => { setTab('invites'); setStatusFilter('abandoned'); }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-warning-50 text-warning-500 shrink-0">
                         <AlertTriangle className="w-5 h-5" />
                     </div>
                     <div>
@@ -125,7 +125,7 @@ export default function AdminInvites() {
             </div>
 
             {errorMsg && (
-                <div className="bg-red-50 text-red-600 p-3 rounded-xl border border-red-200 text-sm">
+                <div className="bg-danger-50 text-danger-600 p-3 rounded-xl border border-danger-200 text-sm">
                     {errorMsg}
                 </div>
             )}
@@ -133,13 +133,13 @@ export default function AdminInvites() {
             <div className="flex bg-white rounded-xl shadow-sm border border-slate-100 p-1 mb-6 max-w-sm">
                 <button
                     onClick={() => setTab('invites')}
-                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${tab === 'invites' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand/50 ${tab === 'invites' ? 'bg-brand/10 text-brand' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
                 >
                     Invitaciones
                 </button>
                 <button
                     onClick={() => setTab('redemptions')}
-                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary-500 ${tab === 'redemptions' ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
+                    className={`flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand/50 ${tab === 'redemptions' ? 'bg-brand/10 text-brand' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`}
                 >
                     Redemptions
                 </button>
@@ -157,7 +157,7 @@ export default function AdminInvites() {
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && fetchInvites()}
-                                className="w-full h-10 px-4 rounded-xl border-2 border-slate-200 focus:border-cyan-500 focus:ring-0 transition-colors"
+                                className="w-full h-10 px-4 rounded-xl border-2 border-slate-200 focus:border-brand focus:ring-0 transition-colors"
                                 placeholder="Código, Alias o Teléfono..."
                             />
                         </div>
@@ -168,14 +168,14 @@ export default function AdminInvites() {
                                 type="text"
                                 value={prefix}
                                 onChange={(e) => setPrefix(e.target.value.toUpperCase())}
-                                className="w-full h-10 px-4 rounded-xl border-2 border-slate-200 focus:border-cyan-500 focus:ring-0 transition-colors font-mono"
+                                className="w-full h-10 px-4 rounded-xl border-2 border-slate-200 focus:border-brand focus:ring-0 transition-colors font-mono"
                                 placeholder="OP"
                             />
                         </div>
                         <button
                             onClick={handleGenerate}
                             disabled={loading}
-                            className="h-10 px-6 rounded-xl bg-cyan-600 text-white font-bold hover:bg-cyan-700 disabled:opacity-50 transition-colors shadow-sm whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-500"
+                            className="h-10 px-6 rounded-xl bg-brand text-white font-bold hover:bg-brand-700 disabled:opacity-50 transition-colors shadow-sm whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand"
                         >
                             {loading ? 'Generando...' : 'Generar 10'}
                         </button>
@@ -238,9 +238,9 @@ export default function AdminInvites() {
                                         <button
                                             onClick={() => handleBulkAction(confirmAction)}
                                             disabled={loading}
-                                            className={`px-3 py-1 rounded-md text-white text-xs font-bold disabled:opacity-50 ${confirmAction === 'delete' ? 'bg-red-600 hover:bg-red-700' :
-                                                confirmAction === 'revoked' ? 'bg-blue-600 hover:bg-blue-700' :
-                                                    'bg-emerald-600 hover:bg-emerald-700'
+                                            className={`px-3 py-1 rounded-md text-white text-xs font-bold disabled:opacity-50 ${confirmAction === 'delete' ? 'bg-danger-600 hover:bg-danger-700' :
+                                                confirmAction === 'revoked' ? 'bg-brand-600 hover:bg-brand-700' :
+                                                    'bg-accent hover:bg-accent-700'
                                                 }`}
                                         >
                                             Confirmar
@@ -251,14 +251,14 @@ export default function AdminInvites() {
                                         <button
                                             onClick={() => setConfirmAction('active')}
                                             disabled={loading}
-                                            className="px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-700 text-xs font-bold hover:bg-emerald-200 transition-colors disabled:opacity-50"
+                                            className="px-3 py-1.5 rounded-lg bg-accent/20 text-accent text-xs font-bold hover:bg-accent-200 transition-colors disabled:opacity-50"
                                         >
                                             Reactivar
                                         </button>
                                         <button
                                             onClick={() => setConfirmAction('revoked')}
                                             disabled={loading}
-                                            className="px-3 py-1.5 rounded-lg bg-red-100 text-red-700 text-xs font-bold hover:bg-red-200 transition-colors disabled:opacity-50"
+                                            className="px-3 py-1.5 rounded-lg bg-danger-100 text-danger-700 text-xs font-bold hover:bg-danger-200 transition-colors disabled:opacity-50"
                                         >
                                             Revocar
                                         </button>

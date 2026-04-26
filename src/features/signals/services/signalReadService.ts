@@ -3,9 +3,30 @@ import { Database } from '../../../supabase/database.types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { getAssetPathForOption } from '../config/brandAssets';
 import { logger } from '../../../lib/logger';
+import { typedRpc } from '../../../supabase/typedRpc';
 import { DbCategory, BattleContextResponse, ActiveBattle } from './signalTypes';
 
 const sb = supabase as unknown as SupabaseClient<Database>;
+
+type HubLiveStats24h = {
+    active_users_24h: number;
+    signals_24h: number;
+    depth_answers_24h: number;
+    active_battles: number;
+    entities_elo: number;
+};
+
+type HubTimeseriesPoint = {
+    bucket_start: string;
+    label: string;
+    signals: number;
+    depth: number;
+};
+
+type HubTopNow24h = {
+    top_versus: { slug: string; title: string; signals_24h: number } | null;
+    top_torneo: { slug: string; title: string; signals_24h: number } | null;
+};
 
 function hasSupabaseEnv(): boolean {
     const url = import.meta.env.VITE_SUPABASE_URL;
@@ -36,73 +57,46 @@ export const signalReadService = {
         return data as BattleContextResponse;
     },
 
-    getHubLiveStats24h: async (): Promise<{
-        active_users_24h: number;
-        signals_24h: number;
-        depth_answers_24h: number;
-        active_battles: number;
-        entities_elo: number;
-    }> => {
-        if (!hasSupabaseEnv()) return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
+    getHubLiveStats24h: async (): Promise<HubLiveStats24h> => {
+        const empty: HubLiveStats24h = { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
+        if (!hasSupabaseEnv()) return empty;
 
-        const { data, error } = await sb.rpc('get_hub_live_stats_24h');
+        const { data, error } = await typedRpc<HubLiveStats24h>('get_hub_live_stats_24h');
         if (error) {
-            logger.error('[Hub Live Stats] Error:', error);
-            return { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
+            logger.error('[Hub Live Stats] Error:', undefined, error);
+            return empty;
         }
-        return (data as unknown as {
-            active_users_24h: number;
-            signals_24h: number;
-            depth_answers_24h: number;
-            active_battles: number;
-            entities_elo: number;
-        }) ?? { active_users_24h: 0, signals_24h: 0, depth_answers_24h: 0, active_battles: 0, entities_elo: 0 };
+        return data ?? empty;
     },
 
-    getHubSignalTimeseries24h: async (): Promise<Array<{
-        bucket_start: string;
-        label: string;
-        signals: number;
-        depth: number;
-    }>> => {
+    getHubSignalTimeseries24h: async (): Promise<HubTimeseriesPoint[]> => {
         if (!hasSupabaseEnv()) return [];
 
-        const { data, error } = await sb.rpc('get_hub_signal_timeseries_24h');
+        const { data, error } = await typedRpc<HubTimeseriesPoint[]>('get_hub_signal_timeseries_24h');
         if (error) {
-            logger.error('[Hub Timeseries 24h] Error:', error);
+            logger.error('[Hub Timeseries 24h] Error:', undefined, error);
             return [];
         }
-
-        return (data as unknown as Array<{
-            bucket_start: string;
-            label: string;
-            signals: number;
-            depth: number;
-        }>) ?? [];
+        return data ?? [];
     },
 
-    getHubTopNow24h: async (): Promise<{
-        top_versus: { slug: string; title: string; signals_24h: number } | null;
-        top_torneo: { slug: string; title: string; signals_24h: number } | null;
-    }> => {
-        if (!hasSupabaseEnv()) return { top_versus: null, top_torneo: null };
+    getHubTopNow24h: async (): Promise<HubTopNow24h> => {
+        const empty: HubTopNow24h = { top_versus: null, top_torneo: null };
+        if (!hasSupabaseEnv()) return empty;
 
-        const { data, error } = await sb.rpc('get_hub_top_now_24h');
-
+        const { data, error } = await typedRpc<HubTopNow24h>('get_hub_top_now_24h');
         if (error) {
-            logger.error('[Hub Top Now] Error:', error);
-            return { top_versus: null, top_torneo: null };
+            logger.error('[Hub Top Now] Error:', undefined, error);
+            return empty;
         }
-
-        return (data as unknown as {
-            top_versus: { slug: string; title: string; signals_24h: number } | null;
-            top_torneo: { slug: string; title: string; signals_24h: number } | null;
-        }) ?? { top_versus: null, top_torneo: null };
+        return data ?? empty;
     },
 
     getActiveBattles: async (): Promise<ActiveBattle[]> => {
         if (!hasSupabaseEnv()) return [];
 
+        // typedRpc no soporta .range() todavía, así que mantenemos sb.rpc directo
+        // y casteamos el resultado al tipo conocido.
         const { data: page1, error: err1 } = await sb.rpc('get_active_battles').range(0, 999);
         if (err1) {
             logger.error('[Active Battles] Error fetching page 1:', err1);
@@ -114,7 +108,7 @@ export const signalReadService = {
             logger.error('[Active Battles] Error fetching page 2:', err2);
         }
 
-        const rawData = [
+        const rawData: ActiveBattle[] = [
             ...((page1 as unknown as ActiveBattle[]) || []),
             ...((page2 as unknown as ActiveBattle[]) || [])
         ];
@@ -143,6 +137,7 @@ export const signalReadService = {
     getEntitiesByModule: async (module: string) => {
         if (!hasSupabaseEnv()) return [];
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { data, error } = await (sb.rpc as any)('get_entities_by_module', {
             p_module: module
         });

@@ -29,7 +29,7 @@ export const depthService = {
         // 1. ESCRITURA CANÓNICA (Signal Engine)
         const { signalService } = await import('./signalService');
         
-        for (const answer of answers) {
+        const savePromises = answers.map(async (answer) => {
             try {
                 await signalService.saveSignalEvent({
                     entity_id: optionId, // La entidad evaluada
@@ -49,7 +49,9 @@ export const depthService = {
                 logger.error(`[DepthService] Failed to submit answer for question_key: ${answer.question_key}`, { error: err });
                 throw err;
             }
-        }
+        });
+        
+        await Promise.all(savePromises);
 
         // 2. METADATA ESPECÍFICA (Legacy RPC)
         // El RPC insert_depth_answers maneja internamente:

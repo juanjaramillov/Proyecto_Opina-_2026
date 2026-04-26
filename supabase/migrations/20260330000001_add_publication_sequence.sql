@@ -18,6 +18,9 @@ SET publication_seq = rh.assigned_seq
 FROM RankedHistory rh
 WHERE rps.id = rh.id;
 
+-- 2.5 Aseguramos NOT NULL antes de convertir a IDENTITY
+ALTER TABLE public.results_publication_state ALTER COLUMN publication_seq SET NOT NULL;
+
 -- 3. Ahora que el backfill está completo, atamos la columna al secuenciador automático
 -- de Postgres, partiendo del número más alto existente o de 1.
 DO $$

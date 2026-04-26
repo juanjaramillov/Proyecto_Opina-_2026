@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 
 import { Battle, BattleOption } from '../../signals/types';
 import VersusGame from '../../signals/components/VersusGame';
-import { useHubSession } from '../hooks/useHubSession';
 import { signalService } from '../../signals/services/signalService';
 import { useToast } from '../../../components/ui/useToast';
 import { logger } from '../../../lib/logger';
@@ -13,10 +12,6 @@ interface HubActiveStateProps {
 }
 
 export default function HubActiveState({ battles, onBatchComplete }: HubActiveStateProps) {
-    const { 
-        consumeSessionSignal
-    } = useHubSession();
-    
     const { showToast } = useToast();
 
     // Priorizar batallas inteligentes (Weighted Shuffle)
@@ -64,13 +59,14 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                     right_entity_id: b?.options[1]?.id,
                 });
             }
-            
-            // Consumir señal en la sesión local
-            consumeSessionSignal();
-
         } catch (err) {
-            logger.error("Failed to save vote:", err);
-            showToast("Error de conexión al guardar la señal", "error");
+            const errorMessage = err instanceof Error ? err.message : (err as { message?: string })?.message || String(err || "Desconocido");
+            if (errorMessage.includes('RATE_LIMITED')) {
+                showToast("Vas muy rápido. Respira un segundo antes de la próxima señal.", "info");
+            } else {
+                logger.error("Failed to save vote:", err);
+                showToast(`Error DB: ${errorMessage}`, "error");
+            }
         }
         return {};
     };
@@ -79,9 +75,9 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
         return (
             <div className="w-full flex items-center justify-center p-12 min-h-[400px] animate-in fade-in duration-500">
                 <div className="text-center flex flex-col items-center">
-                    <div className="w-20 h-20 rounded-full bg-blue-50/50 border border-blue-100 flex items-center justify-center mb-6 relative">
-                        <div className="absolute inset-0 rounded-full bg-blue-500/10 animate-ping opacity-75"></div>
-                        <span className="material-symbols-outlined text-4xl text-blue-500 animate-spin-slow relative z-10">radar</span>
+                    <div className="w-20 h-20 rounded-full bg-brand-50/50 border border-brand-100 flex items-center justify-center mb-6 relative">
+                        <div className="absolute inset-0 rounded-full bg-brand-500/10 animate-ping opacity-75"></div>
+                        <span className="material-symbols-outlined text-4xl text-brand-500 animate-spin-slow relative z-10">radar</span>
                     </div>
                     <p className="text-slate-700 font-black text-xl mb-1">Buscando señales</p>
                     <p className="text-slate-400 text-sm font-medium">Sintonizando la red comunitaria...</p>
@@ -101,11 +97,11 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                 <div className="flex-1 flex flex-col items-center justify-start p-0">
                     
                     {/* CUADRANTE VERSUS */}
-                    <div className="w-full max-w-xl md:max-w-2xl flex flex-col relative shrink-0 px-2 sm:px-4 md:px-0">
+                    <div className="w-full flex flex-col relative shrink-0 px-2 sm:px-4 md:px-0 mx-auto">
                         {/* Contenedor Físico del Juego sin cabecera extra */}
-                        <div className="w-full min-h-[300px] md:min-h-[350px] flex flex-col relative">
+                        <div className="w-full flex flex-col relative">
                             {/* VERSUS GAME COMPONENT */}
-                            <div className="flex-1 w-full relative pt-2">
+                            <div className="flex-1 w-full relative pt-0">
                                 <VersusGame
                                     key="hub-active-versus"
                                     battles={battlesForQueue}
@@ -117,6 +113,7 @@ export default function HubActiveState({ battles, onBatchComplete }: HubActiveSt
                                     autoNextMs={2000} // Speed up advance from 4s to 2s to improve load perception
                                     onQueueComplete={onBatchComplete}
                                     isSubmitting={false}
+                                    layoutMode="editorial-split"
                                     showExploreCTA={true}
                                     theme={{
                                         primary: "#2563EB",

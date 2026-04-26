@@ -31,11 +31,11 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
               className="bg-slate-900 border border-slate-700 text-white shadow-xl rounded-full pl-4 pr-6 py-3 flex items-center gap-3 min-w-[200px] backdrop-blur-md"
             >
               {toast.points ? (
-                <div className="bg-gradient-to-tr from-primary-500 to-cyan-500 text-white text-xs font-black px-2 py-1 rounded-full shadow-lg">
+                <div className="bg-gradient-to-tr from-brand to-accent text-white text-xs font-black px-2 py-1 rounded-full shadow-lg">
                   +{toast.points}
                 </div>
               ) : (
-                <span className="material-symbols-outlined text-cyan-400">
+                <span className="material-symbols-outlined text-brand-400">
                   {toast.type === 'success' ? 'check_circle' : 'info'}
                 </span>
               )}

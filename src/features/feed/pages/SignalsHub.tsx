@@ -16,15 +16,12 @@ import { ModuleErrorBoundary } from "../../../components/ui/ModuleErrorBoundary"
 import HubBentoGrid from "../components/hub/HubBentoGrid";
 import { useExperienceMode } from "../hooks/useExperienceMode";
 import { Battle } from "../../signals/types";
-import { useHubSession } from "../hooks/useHubSession";
 import HubActiveState from "../components/HubActiveState";
-import HubCooldownState from "../components/HubCooldownState";
+
 
 
 export default function SignalsHub() {
     const { mode, setMode, requestedBatch, resetToMenu } = useExperienceMode();
-    const { currentState: hubState } = useHubSession();
-    
     const { battles, loading, error } = useActiveBattles();
     const { profile } = useAuth();
     const { signalsToday } = useSignalStore();
@@ -60,7 +57,7 @@ export default function SignalsHub() {
             <div className="container-ws section-y space-y-6 pb-24">
                 <PageHeader
                     eyebrow={<span className="badge badge-primary">Hub</span>}
-                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Buscando <span className="text-primary">señales</span></h1>}
+                    title={<h1 className="text-2xl md:text-3xl font-black tracking-tight text-ink">Buscando <span className="text-brand">señales</span></h1>}
                     subtitle={<p className="text-sm text-muted font-medium">Cargando el ecosistema...</p>}
                     meta={
                         <div className="flex flex-wrap gap-2">
@@ -94,7 +91,7 @@ export default function SignalsHub() {
 
     // Flujo Principal de Sesión (Cuando el usuario entra al Hub por defecto)
     if (mode === "menu") {
-        if (!loading && battles.length === 0 && hubState === 'ACTIVE') {
+        if (!loading && battles.length === 0) {
              return (
                 <div className="container-ws section-y">
                     <PageState
@@ -109,45 +106,18 @@ export default function SignalsHub() {
         }
 
         return (
-            <div className="w-full pb-24 md:pb-0 relative min-h-screen bg-slate-50">
+            <div className="w-full pb-24 md:pb-0 relative min-h-screen bg-white">
                 
-                {/* 1. HERO VERTICAL PREMIUM (Versus Centrado) */}
-                <section className="w-full pt-6 pb-8 md:pt-10 md:pb-12 bg-white border-b border-slate-100/60 overflow-hidden relative">
-                    {/* Background glows */}
-                    <div className="absolute top-0 inset-x-0 h-96 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.08),transparent_70%)] pointer-events-none" />
+                {/* 1. HERO VERTICAL PREMIUM (Asimétrico via HubActiveState) */}
+                <section className="w-full pt-4 md:pt-6 bg-white overflow-hidden relative isolate">
                     
-                    <div className="container-ws flex flex-col items-center relative z-10">
-                        {/* Cabecera ultra-limpia */}
-                        <div className="flex flex-col items-center text-center space-y-2 mb-6 md:mb-10 max-w-2xl mx-auto px-4">
-                            <div className="flex items-center gap-2 sm:gap-3 animate-in fade-in slide-in-from-bottom-2 duration-500 mb-2">
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] border border-emerald-100/80 shadow-sm">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite]" /> 
-                                    Motor Activo
-                                </span>
-                                {signalsToday > 0 && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-slate-500 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.1em] border border-slate-200/60 shadow-sm">
-                                        <span className="font-black text-slate-700">{new Intl.NumberFormat('es-CL').format(signalsToday)}</span> señales previas
-                                    </span>
-                                )}
-                            </div>
-                            
-                            <h1 className="text-[36px] md:text-5xl lg:text-[60px] font-black text-slate-900 tracking-[-0.03em] leading-[1.05] animate-in fade-in slide-in-from-bottom-3 duration-700 drop-shadow-sm">
-                                Tu instinto <span className="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">decide</span>
-                            </h1>
-                            
-                            <p className="text-sm md:text-[17px] text-slate-500 font-medium max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 mt-2">
-                                Evalúa tendencias y compara perfiles con un solo clic.
-                            </p>
-                        </div>
+                    {/* Glow Radial Sutil de Fondo para unificar Hero y Arena */}
+                    <div className="absolute top-0 right-0 lg:right-[-10%] w-[1000px] h-[800px] bg-brand/5 blur-[120px] rounded-full pointer-events-none z-[-1] opacity-70" />
 
-                        {/* BLOQUE FUNCIONAL VERSUS (Centrado, Ancho Óptimo) */}
-                        <div className="w-full max-w-[600px] flex justify-center animate-in fade-in zoom-in-95 duration-700 delay-150">
-                            <ModuleErrorBoundary moduleName={hubState === 'ACTIVE' ? "HubActiveState" : "HubCooldownState"}>
-                                {hubState === 'ACTIVE' ? (
-                                    <HubActiveState battles={(battles as unknown as Battle[])} onBatchComplete={handleBatchComplete} />
-                                ) : (
-                                    <HubCooldownState />
-                                )}
+                    <div className="container-ws relative z-10 px-0 sm:px-4">
+                        <div className="w-full animate-in fade-in zoom-in-95 duration-700 delay-150">
+                            <ModuleErrorBoundary moduleName="HubActiveState">
+                                <HubActiveState battles={(battles as unknown as Battle[])} onBatchComplete={handleBatchComplete} />
                             </ModuleErrorBoundary>
                         </div>
                     </div>

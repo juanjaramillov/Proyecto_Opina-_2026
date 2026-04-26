@@ -10,6 +10,7 @@ import { EditorNarrativa } from "../components/EditorNarrativa";
 import { EditorClasificacion } from "../components/EditorClasificacion";
 import { EditorPreguntas } from "../components/EditorPreguntas";
 import { ActualidadPreview } from "../components/ActualidadPreview";
+import { GradientCTA } from "../../../components/ui/foundation";
 
 export default function AdminActualidadEditor() {
   const { id } = useParams<{ id: string }>();
@@ -36,7 +37,7 @@ export default function AdminActualidadEditor() {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50">
-      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600 mb-4"></div>
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand mb-4"></div>
       <p className="text-slate-400 font-medium animate-pulse">Cargando Mesa Editorial...</p>
     </div>
   );
@@ -45,16 +46,23 @@ export default function AdminActualidadEditor() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50">
       <AlertCircle className="w-16 h-16 text-slate-300 mb-4" />
       <h2 className="text-xl font-bold text-slate-800">Tema no encontrado</h2>
-      <button onClick={() => navigate('/admin/actualidad')} className="mt-4 btn-primary px-6 py-2">Volver al Directorio</button>
+      <GradientCTA
+        label="Volver al Directorio"
+        icon="arrow_back"
+        iconPosition="leading"
+        size="sm"
+        className="mt-4"
+        onClick={() => navigate('/admin/actualidad')}
+      />
     </div>
   );
 
   const getStatusColor = (status: TopicStatus) => {
     switch(status) {
       case 'detected': return 'bg-slate-100 text-slate-700 border-slate-200';
-      case 'approved': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-      case 'published': return 'bg-primary-50 text-primary-700 border-primary-200';
-      case 'rejected': return 'bg-red-50 text-red-700 border-red-200';
+      case 'approved': return 'bg-accent/10 text-accent border-accent-200';
+      case 'published': return 'bg-brand/10 text-brand border-brand/30';
+      case 'rejected': return 'bg-danger-50 text-danger-700 border-danger-200';
       case 'archived': return 'bg-slate-800 text-slate-300 border-slate-700';
       default: return 'bg-slate-100 text-slate-700 border-slate-200';
     }
@@ -118,7 +126,7 @@ export default function AdminActualidadEditor() {
             <div className="w-full xl:w-2/3 space-y-8 pb-32">
                 <div className="flex flex-col gap-3">
                     {topic.confidence_score !== null && topic.confidence_score < 70 && (
-                        <div className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl flex items-start gap-3">
+                        <div className="bg-warning/10 border border-warning/30 text-warning p-4 rounded-xl flex items-start gap-3">
                             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
                             <div>
                                 <p className="text-sm font-bold">Confianza de IA Basa ({topic.confidence_score}%)</p>
@@ -127,7 +135,7 @@ export default function AdminActualidadEditor() {
                         </div>
                     )}
                     {topic.admin_edited && (
-                        <div className="bg-indigo-50 border border-indigo-200 text-indigo-800 p-3 rounded-xl flex items-center gap-3">
+                        <div className="bg-brand-50 border border-brand-200 text-brand-800 p-3 rounded-xl flex items-center gap-3">
                             <Edit2 className="w-4 h-4 shrink-0" />
                             <p className="text-sm font-bold">Este tema ya fue intervenido manualmente por un editor de Opina+.</p>
                         </div>
@@ -179,7 +187,7 @@ export default function AdminActualidadEditor() {
                     {getSourceURL() && (
                         <div className="mt-5 pt-4 border-t border-slate-100">
                             <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">URL Original</span>
-                            <a href={getSourceURL()!} target="_blank" rel="noreferrer" className="text-sm text-primary-600 hover:text-primary-700 hover:underline break-all block">
+                            <a href={getSourceURL()!} target="_blank" rel="noreferrer" className="text-sm text-brand hover:text-brand hover:underline break-all block">
                                 Abrir fuente original &rarr;
                             </a>
                         </div>
@@ -202,7 +210,7 @@ export default function AdminActualidadEditor() {
             <div className="flex gap-3 w-full sm:w-auto justify-end">
                 {formData.status === 'detected' && (
                     <>
-                        <button onClick={() => handleStatusChange('rejected')} className="w-full sm:w-auto px-5 py-3 bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                        <button onClick={() => handleStatusChange('rejected')} className="w-full sm:w-auto px-5 py-3 bg-white border border-danger-200 text-danger-600 hover:bg-danger-50 hover:border-danger-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
                             <XCircle className="w-4 h-4" /> Rechazar IA
                         </button>
                         <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-8 py-3 bg-slate-900 text-white hover:bg-slate-800 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
@@ -213,7 +221,7 @@ export default function AdminActualidadEditor() {
 
                 {formData.status === 'draft' && (
                     <>
-                        <button onClick={() => handleStatusChange('review')} className="w-full sm:w-auto px-8 py-3 bg-indigo-600 text-white hover:bg-indigo-500 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                        <button onClick={() => handleStatusChange('review')} className="w-full sm:w-auto px-8 py-3 bg-brand text-white hover:bg-brand-700 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
                             <Activity className="w-4 h-4" /> Enviar a Revisión
                         </button>
                     </>
@@ -221,10 +229,10 @@ export default function AdminActualidadEditor() {
 
                 {formData.status === 'review' && (
                     <>
-                        <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-5 py-3 bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 hover:border-orange-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                        <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-5 py-3 bg-white border border-warning-200 text-warning-600 hover:bg-warning-50 hover:border-warning-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
                             <XCircle className="w-4 h-4" /> Rechazar (Borrador)
                         </button>
-                        <button onClick={() => handleStatusChange('approved')} className="w-full sm:w-auto px-8 py-3 bg-teal-600 text-white hover:bg-teal-500 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                        <button onClick={() => handleStatusChange('approved')} className="w-full sm:w-auto px-8 py-3 bg-accent text-white hover:bg-accent-700 shadow-md hover:shadow-xl hover:-translate-y-0.5 rounded-xl font-black flex items-center justify-center gap-2 transition-all disabled:opacity-50">
                             <CheckCircle className="w-4 h-4" /> Aprobar Tema
                         </button>
                     </>
@@ -235,7 +243,7 @@ export default function AdminActualidadEditor() {
                         <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-5 py-3 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
                             <ArrowLeft className="w-4 h-4" /> Volver a Borrador
                         </button>
-                        <button onClick={() => handleStatusChange('published')} className="w-full sm:w-auto px-10 py-3 bg-emerald-600 text-white hover:bg-emerald-500 shadow-md hover:shadow-emerald-500/30 hover:-translate-y-0.5 rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                        <button onClick={() => handleStatusChange('published')} className="w-full sm:w-auto px-10 py-3 bg-accent text-white hover:bg-accent shadow-md hover:shadow-accent-500/30 hover:-translate-y-0.5 rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all disabled:opacity-50">
                             <UploadCloud className="w-5 h-5" /> PUBLICAR A USUARIOS
                         </button>
                     </>
@@ -248,7 +256,7 @@ export default function AdminActualidadEditor() {
                 )}
                 
                 {(formData.status === 'rejected' || formData.status === 'archived') && (
-                    <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-8 py-3 bg-primary-600 text-white hover:bg-primary-500 shadow-md rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
+                    <button onClick={() => handleStatusChange('draft')} className="w-full sm:w-auto px-8 py-3 bg-brand text-white hover:bg-brand shadow-md rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50">
                         <Edit2 className="w-4 h-4" /> Restaurar a Borrador
                     </button>
                 )}

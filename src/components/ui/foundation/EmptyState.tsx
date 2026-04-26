@@ -27,11 +27,11 @@ export function EmptyState({
             {Icon && (
               <div className="w-16 h-16 bg-surface2 border border-stroke flex items-center justify-center rounded-2xl mb-6 shadow-inner">
                   {typeof Icon === 'string' ? (
-                      <span className="material-symbols-outlined text-4xl text-text-muted">
+                      <span className="material-symbols-outlined text-4xl text-slate-500">
                           {Icon}
                       </span>
                   ) : (
-                      <Icon className="w-8 h-8 text-text-muted" />
+                      <Icon className="w-8 h-8 text-slate-500" />
                   )}
               </div>
             )}
@@ -41,7 +41,7 @@ export function EmptyState({
             </h3>
 
             {description && (
-                <p className="text-sm font-medium text-text-secondary max-w-md mx-auto mb-6 leading-relaxed">
+                <p className="text-sm font-medium text-slate-600 max-w-md mx-auto mb-6 leading-relaxed">
                     {description}
                 </p>
             )}

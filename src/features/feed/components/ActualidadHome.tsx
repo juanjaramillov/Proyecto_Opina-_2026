@@ -27,7 +27,7 @@ export function ActualidadHome({ topics, loading, onSelectTopic }: ActualidadHom
         return (
             <div className="flex-1 flex flex-col items-center justify-center py-20">
                 <div className="w-12 h-12 border-4 border-slate-200 border-t-[var(--accent-primary)] rounded-full animate-spin"></div>
-                <p className="mt-4 text-text-muted font-medium">Buscando las señales de hoy...</p>
+                <p className="mt-4 text-slate-500 font-medium">Buscando las señales de hoy...</p>
             </div>
         );
     }

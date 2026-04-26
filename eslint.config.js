@@ -39,18 +39,13 @@ export default tseslint.config(
 
       // TS hygiene
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
 
-      // Evitar que lint “bloquee” por estilo/heurísticas (no rompe runtime)
-      'prefer-const': 'warn',
+      // React strictness restored
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'error',
 
-      // Estas reglas son útiles, pero hoy te están frenando por mocks / UX.
-      // Las dejamos en warning para avanzar. Si luego quieres, las volvemos a error.
-      'react-hooks/rules-of-hooks': 'warn',
-      'react-hooks/exhaustive-deps': 'warn',
-
-      // Reglas nuevas del plugin que te están pegando por Math.random y setState en effect.
-      // Las apagamos por ahora para no forzar refactor.
+      // Estos pueden seguir apagados si no son nativos, pero lo estándar lo tenemos arriba
       'react-hooks/purity': 'off',
       'react-hooks/set-state-in-effect': 'off',
     },

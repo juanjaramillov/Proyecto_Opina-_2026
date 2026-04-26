@@ -13,9 +13,15 @@ export interface TrackCard {
     status: string;
     meta?: string;
     icon: string;
-    tone: "indigo" | "rose" | "sky" | "emerald" | "violet" | "slate";
+    tone: "primary" | "urgent" | "premium" | "accent" | "neutral" | "muted";
     preview: "torneo" | "actualidad" | "lugares" | "profundidad" | "servicios" | "locked";
     available: boolean;
+    /**
+     * Track is user-accessible pero su cobertura de datos o persistencia aún es limitada.
+     * Cuando `true`, la tarjeta muestra una etiqueta BETA en el Bento Grid y la vista
+     * destino debe mostrar un disclaimer al usuario.
+     */
+    beta?: boolean;
 }
 
 
@@ -32,7 +38,7 @@ export const TRACKS: TrackCard[] = [
         status: "Competitivo",
         meta: "Fase de Grupos",
         icon: "emoji_events",
-        tone: "indigo",
+        tone: "primary",
         preview: "torneo",
         available: true,
     },
@@ -47,7 +53,7 @@ export const TRACKS: TrackCard[] = [
         status: "En vivo",
         meta: "Urgente",
         icon: "bolt",
-        tone: "rose",
+        tone: "urgent",
         preview: "actualidad",
         available: true,
     },
@@ -63,7 +69,7 @@ export const TRACKS: TrackCard[] = [
         status: "Premium",
         meta: "10 dimensiones",
         icon: "donut_large",
-        tone: "sky",
+        tone: "premium",
         preview: "profundidad",
         available: true,
     },
@@ -78,9 +84,10 @@ export const TRACKS: TrackCard[] = [
         status: "Territorial",
         meta: "Georreferenciado",
         icon: "my_location",
-        tone: "emerald",
+        tone: "accent",
         preview: "lugares",
         available: true,
+        beta: true,
     },
     // TIER 3
     {
@@ -94,135 +101,153 @@ export const TRACKS: TrackCard[] = [
         status: "Catálogo",
         meta: "Directorio",
         icon: "storefront",
-        tone: "violet",
+        tone: "neutral",
         preview: "servicios",
         available: true,
+        beta: true,
     }
 ];
 
 export function toneClasses(tone: TrackCard["tone"]) {
     switch (tone) {
-        case "indigo":
+        case "primary":
+            // Torneos — azul brand intenso. Rol: acción primaria competitiva.
             return {
-                border: "hover:border-indigo-400 border-transparent",
-                shadow: "shadow-[inset_0_0_0_1px_rgba(79,70,229,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(79,70,229,0.4)]",
-                glow: "from-indigo-600/15 via-indigo-400/5 to-transparent",
-                wash: "from-indigo-50/50 via-white to-white",
-                iconWrap: "bg-indigo-600 text-white border-indigo-700 shadow-md",
-                badge: "bg-indigo-50 text-indigo-700 border-indigo-200",
+                border: "hover:border-brand-400 border-transparent",
+                shadow: "shadow-[inset_0_0_0_1px_rgba(37,99,235,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(37,99,235,0.4)]",
+                glow: "from-brand/15 via-brand-400/5 to-transparent",
+                wash: "from-brand-50/50 via-white to-white",
+                // Icono-cubo: FORMA → gradiente diagonal to-br
+                iconWrap: "bg-gradient-to-br from-brand to-brand-700 text-white border-brand-700 shadow-md",
+                badge: "bg-brand-50 text-brand-700 border-brand-200",
                 meta: "bg-white text-slate-500 border-slate-200",
-                titleHover: "group-hover:text-indigo-700",
-                bullet: "text-indigo-500",
-                cta: "from-indigo-600 to-blue-600",
+                titleHover: "group-hover:text-brand-700",
+                bullet: "text-brand-500",
+                // CTA: FORMA → gradiente diagonal to-br (aplicado donde se consume)
+                cta: "from-brand to-brand-700",
                 ctaText: "text-white",
-                ctaGhost: "bg-indigo-50 text-indigo-700 border-indigo-100",
-                previewRing: "border-indigo-100",
-                previewBg: "from-indigo-50/75 via-white to-white",
-                previewSoft: "bg-indigo-50/80",
-                previewLine: "bg-indigo-500",
-                previewLineSoft: "bg-indigo-100",
-                softBlob: "bg-indigo-500/10",
-                hairline: "from-indigo-100/0 via-indigo-200/80 to-indigo-100/0",
-                accentText: "text-indigo-600",
-                accentSoft: "bg-indigo-500",
+                ctaGhost: "bg-brand-50 text-brand-700 border-brand-100",
+                previewRing: "border-brand-100",
+                previewBg: "from-brand-50/75 via-white to-white",
+                previewSoft: "bg-brand-50/80",
+                // Barritas de progreso
+                previewLine: "bg-brand-500",
+                previewLineSoft: "bg-brand-100",
+                softBlob: "bg-brand-500/10",
+                hairline: "from-brand-100/0 via-brand-200/80 to-brand-100/0",
+                accentText: "text-brand-600",
+                accentSoft: "bg-brand-500",
             };
-        case "emerald":
+        case "urgent":
+            // Actualidad — slate oscuro transicionando a danger. Rol: urgencia noticiosa que respira.
             return {
-                border: "hover:border-emerald-400 border-transparent",
+                border: "hover:border-slate-700 border-transparent",
+                shadow: "shadow-[inset_0_0_0_1px_rgba(15,23,42,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(220,38,38,0.28)]",
+                glow: "from-danger/10 via-slate-500/5 to-transparent",
+                wash: "from-slate-50/50 via-white to-white",
+                // Icono-cubo: FORMA → gradiente diagonal slate→danger (editorial que respira)
+                iconWrap: "bg-gradient-to-br from-slate-900 to-danger text-white border-slate-800 shadow-md",
+                badge: "bg-slate-900 text-white border-slate-700",
+                meta: "bg-white text-slate-500 border-slate-200",
+                titleHover: "group-hover:text-slate-900",
+                bullet: "text-danger",
+                // CTA: FORMA → gradiente diagonal slate→danger
+                cta: "from-slate-900 to-danger",
+                ctaText: "text-white",
+                ctaGhost: "bg-slate-50 text-slate-900 border-slate-200",
+                previewRing: "border-slate-200",
+                previewBg: "from-slate-50/75 via-white to-white",
+                previewSoft: "bg-slate-50/80",
+                previewLine: "bg-slate-900",
+                previewLineSoft: "bg-slate-200",
+                softBlob: "bg-slate-900/10",
+                hairline: "from-slate-200/0 via-slate-300/80 to-slate-200/0",
+                accentText: "text-danger",
+                accentSoft: "bg-danger",
+            };
+        case "premium":
+            // Profundidad — gradiente corporativo COMPLETO brand→accent. Rol: firma visual premium del producto.
+            return {
+                border: "hover:border-accent border-transparent",
+                shadow: "shadow-[inset_0_0_0_1px_rgba(16,185,129,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(37,99,235,0.35)]",
+                glow: "from-brand/12 via-accent/5 to-transparent",
+                wash: "from-brand-50/40 via-white to-accent-50/40",
+                // Icono-cubo: FORMA → gradiente diagonal corporativo (firma visual)
+                iconWrap: "bg-gradient-to-br from-brand to-accent text-white border-brand-700 shadow-md",
+                badge: "bg-brand-50 text-brand-700 border-brand-200",
+                meta: "bg-white text-slate-500 border-slate-200",
+                titleHover: "group-hover:text-brand-700",
+                bullet: "text-accent",
+                // CTA: FORMA → gradiente diagonal corporativo (firma visual)
+                cta: "from-brand to-accent",
+                ctaText: "text-white",
+                ctaGhost: "bg-brand-50 text-brand-700 border-brand-100",
+                previewRing: "border-brand-100",
+                previewBg: "from-brand-50/50 via-white to-accent-50/50",
+                previewSoft: "bg-brand-50/80",
+                previewLine: "bg-brand-500",
+                previewLineSoft: "bg-brand-100",
+                softBlob: "bg-brand-500/10",
+                hairline: "from-brand-100/0 via-accent-200/80 to-brand-100/0",
+                accentText: "text-brand-600",
+                accentSoft: "bg-accent",
+            };
+        case "accent":
+            // Lugares — verde accent. Rol: físico, cerca de ti, real.
+            return {
+                border: "hover:border-accent border-transparent",
                 shadow: "shadow-[inset_0_0_0_1px_rgba(16,185,129,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(16,185,129,0.35)]",
-                glow: "from-emerald-500/12 via-teal-400/5 to-transparent",
-                wash: "from-emerald-50/50 via-white to-white",
-                iconWrap: "bg-emerald-600 text-white border-emerald-700 shadow-md",
-                badge: "bg-emerald-50 text-emerald-800 border-emerald-200",
+                glow: "from-accent/12 via-accent-400/5 to-transparent",
+                wash: "from-accent-50/50 via-white to-white",
+                // Icono-cubo: FORMA → gradiente diagonal accent
+                iconWrap: "bg-gradient-to-br from-accent to-accent-700 text-white border-accent-700 shadow-md",
+                badge: "bg-accent-50 text-accent-800 border-accent-200",
                 meta: "bg-white text-slate-500 border-slate-200",
-                titleHover: "group-hover:text-emerald-700",
-                bullet: "text-emerald-500",
-                cta: "from-emerald-500 to-teal-500",
+                titleHover: "group-hover:text-accent",
+                bullet: "text-accent",
+                // CTA: FORMA → gradiente diagonal accent
+                cta: "from-accent to-accent-700",
                 ctaText: "text-white",
-                ctaGhost: "bg-emerald-50 text-emerald-700 border-emerald-100",
-                previewRing: "border-emerald-100",
-                previewBg: "from-emerald-50/75 via-white to-white",
-                previewSoft: "bg-emerald-50/80",
-                previewLine: "bg-emerald-500",
-                previewLineSoft: "bg-emerald-100",
-                softBlob: "bg-emerald-500/10",
-                hairline: "from-emerald-100/0 via-emerald-200/80 to-emerald-100/0",
-                accentText: "text-emerald-600",
-                accentSoft: "bg-emerald-500",
+                ctaGhost: "bg-accent-50 text-accent-700 border-accent-100",
+                previewRing: "border-accent-100",
+                previewBg: "from-accent-50/75 via-white to-white",
+                previewSoft: "bg-accent-50/80",
+                previewLine: "bg-accent",
+                previewLineSoft: "bg-accent-100",
+                softBlob: "bg-accent/10",
+                hairline: "from-accent-100/0 via-accent-200/80 to-accent-100/0",
+                accentText: "text-accent",
+                accentSoft: "bg-accent",
             };
-        case "rose":
+        case "neutral":
+            // Servicios — slate medio. Rol: catálogo / directorio, no compite con los otros tracks.
             return {
-                border: "hover:border-rose-400 border-transparent",
-                shadow: "shadow-[inset_0_0_0_1px_rgba(244,63,94,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(244,63,94,0.35)]",
-                glow: "from-rose-500/15 via-red-400/5 to-transparent",
-                wash: "from-rose-50/50 via-white to-white",
-                iconWrap: "bg-gradient-to-br from-rose-500 to-red-600 text-white border-rose-700 shadow-md",
-                badge: "bg-rose-50 text-rose-800 border-rose-200",
+                border: "hover:border-slate-400 border-transparent",
+                shadow: "shadow-[inset_0_0_0_1px_rgba(100,116,139,0.08)] hover:shadow-[0_24px_60px_-16px_rgba(100,116,139,0.25)]",
+                glow: "from-slate-500/8 via-slate-400/3 to-transparent",
+                wash: "from-slate-50/40 via-white to-white",
+                // Icono-cubo: FORMA → gradiente diagonal slate
+                iconWrap: "bg-gradient-to-br from-slate-500 to-slate-700 text-white border-slate-600 shadow-md",
+                badge: "bg-slate-100 text-slate-700 border-slate-200",
                 meta: "bg-white text-slate-500 border-slate-200",
-                titleHover: "group-hover:text-rose-700",
-                bullet: "text-rose-500",
-                cta: "from-rose-500 to-red-500",
+                titleHover: "group-hover:text-slate-800",
+                bullet: "text-slate-500",
+                // CTA: FORMA → gradiente diagonal slate
+                cta: "from-slate-500 to-slate-700",
                 ctaText: "text-white",
-                ctaGhost: "bg-rose-50 text-rose-700 border-rose-100",
-                previewRing: "border-rose-100",
-                previewBg: "from-rose-50/75 via-white to-white",
-                previewSoft: "bg-rose-50/80",
-                previewLine: "bg-rose-500",
-                previewLineSoft: "bg-rose-100",
-                softBlob: "bg-rose-500/10",
-                hairline: "from-rose-100/0 via-rose-200/80 to-rose-100/0",
-                accentText: "text-rose-600",
-                accentSoft: "bg-rose-500",
+                ctaGhost: "bg-slate-50 text-slate-700 border-slate-100",
+                previewRing: "border-slate-200",
+                previewBg: "from-slate-50/75 via-white to-white",
+                previewSoft: "bg-slate-50/80",
+                previewLine: "bg-slate-500",
+                previewLineSoft: "bg-slate-200",
+                softBlob: "bg-slate-500/10",
+                hairline: "from-slate-200/0 via-slate-300/80 to-slate-200/0",
+                accentText: "text-slate-700",
+                accentSoft: "bg-slate-500",
             };
-        case "sky":
-            return {
-                border: "hover:border-sky-400 border-transparent",
-                shadow: "shadow-[inset_0_0_0_1px_rgba(14,165,233,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(14,165,233,0.35)]",
-                glow: "from-sky-500/15 via-blue-400/5 to-transparent",
-                wash: "from-sky-50/50 via-white to-white",
-                iconWrap: "bg-slate-900 text-sky-400 border-slate-800 shadow-md",
-                badge: "bg-slate-900 text-sky-300 border-slate-700",
-                meta: "bg-white text-slate-500 border-slate-200",
-                titleHover: "group-hover:text-blue-700",
-                bullet: "text-sky-500",
-                cta: "from-slate-900 to-slate-800",
-                ctaText: "text-white",
-                ctaGhost: "bg-sky-50 text-sky-700 border-sky-100",
-                previewRing: "border-sky-100",
-                previewBg: "from-sky-50/75 via-white to-white",
-                previewSoft: "bg-sky-50/80",
-                previewLine: "bg-sky-500",
-                previewLineSoft: "bg-sky-100",
-                softBlob: "bg-sky-500/10",
-                hairline: "from-sky-100/0 via-sky-200/80 to-sky-100/0",
-                accentText: "text-sky-600",
-                accentSoft: "bg-sky-500",
-            };
-        case "violet":
-            return {
-                border: "hover:border-violet-300 border-transparent",
-                shadow: "shadow-[inset_0_0_0_1px_rgba(139,92,246,0.1)] hover:shadow-[0_24px_60px_-16px_rgba(139,92,246,0.3)]",
-                glow: "from-violet-500/10 via-fuchsia-400/5 to-transparent",
-                wash: "from-violet-50/30 via-white to-white",
-                iconWrap: "bg-violet-100 text-violet-700 border-violet-200",
-                badge: "bg-violet-50 text-violet-700 border-violet-100",
-                meta: "bg-white text-slate-500 border-slate-200",
-                titleHover: "group-hover:text-violet-700",
-                bullet: "text-violet-500",
-                cta: "from-violet-500 to-fuchsia-500",
-                ctaText: "text-white",
-                ctaGhost: "bg-violet-50 text-violet-700 border-violet-100",
-                previewRing: "border-violet-100",
-                previewBg: "from-violet-50/75 via-white to-white",
-                previewSoft: "bg-violet-50/80",
-                previewLine: "bg-violet-500",
-                previewLineSoft: "bg-violet-100",
-                softBlob: "bg-violet-500/10",
-                hairline: "from-violet-100/0 via-violet-200/80 to-violet-100/0",
-                accentText: "text-violet-600",
-                accentSoft: "bg-violet-500",
-            };
-        case "slate":
+        case "muted":
+            // Locked / próximamente — slate light con borde punteado. Sin vida.
             return {
                 border: "border-dashed border-slate-300 hover:border-slate-400",
                 shadow: "shadow-none",

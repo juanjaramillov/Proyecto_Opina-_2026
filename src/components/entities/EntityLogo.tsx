@@ -96,7 +96,7 @@ export default function EntityLogo({
   if (!logoSrcs.length || hasError || currentSrcIndex >= logoSrcs.length) {
     return (
       <div className={fallbackClassName || shellClass} aria-label={name} title={name}>
-        <span className={fallbackClassName ? "" : "select-none text-sm font-semibold text-neutral-700"}>
+        <span className={fallbackClassName ? "" : "select-none text-sm font-semibold text-slate-700"}>
           {initial}
         </span>
       </div>

@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 import { ServiceEntity } from "../types/service";
+import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
+import { BetaDisclaimerBanner } from "../../../components/ui/BetaDisclaimerBanner";
+import { moduleInterestService } from "../../modulesPreviews/moduleInterestService";
+import { MODULE_EVENT_TYPES } from "../../signals/eventTypes";
+import { useToast } from "../../../components/ui/useToast";
+import { rateLimit } from "../../../shared/utils/rateLimit";
 
 interface ServicioDetailViewProps {
     service: ServiceEntity;
@@ -8,6 +14,7 @@ interface ServicioDetailViewProps {
 
 export default function ServicioDetailView({ service, onClose }: ServicioDetailViewProps) {
     const [isVisible, setIsVisible] = useState(false);
+    const { showToast } = useToast();
 
     // Animación in-out casera
     useEffect(() => {
@@ -22,6 +29,40 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
     const handleClose = () => {
         setIsVisible(false);
         setTimeout(onClose, 300); // Dar tiempo a la animación de slide-down
+    };
+
+    /**
+     * DEBT-002 resto (Fase 4.3): el CTA "Evaluar este Servicio" era un
+     * `onClick={() => {}}` mudo que simulaba la acción principal de la ficha.
+     * Mientras no exista el wizard de señales para Servicios, lo que sí
+     * podemos hacer honestamente es capturar interés via
+     * `moduleInterestService` (mismo patrón que `ComingSoonModule`) y
+     * confirmar al usuario con un toast transparente.
+     */
+    const handleEvaluateInterest = () => {
+        const dedupKey = `opina_service_interest:${service.id}:daily:`;
+        if (rateLimit.hasSent(dedupKey)) {
+            showToast("Ya registramos tu interés en evaluar este servicio.", "info");
+            return;
+        }
+
+        moduleInterestService.trackModuleInterestEvent(
+            MODULE_EVENT_TYPES.MODULE_INTEREST_CLICKED,
+            {
+                module_key: service.name,
+                module_slug: "servicios",
+                previewType: "service_detail",
+                source: "coming_soon",
+                entry: "hub_card",
+                cta: "launch_this",
+                value: service.id,
+            }
+        );
+        rateLimit.markSent(dedupKey);
+        showToast(
+            "Gracias, registramos tu interés. La captura de señales para Servicios llega en la próxima versión.",
+            "success"
+        );
     };
 
     return (
@@ -49,7 +90,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
                     <span className="material-symbols-outlined text-xl">arrow_back</span>
                 </button>
 
-                <button className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 hover:bg-white hover:text-rose-500 transition-colors shadow-sm">
+                <button className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 hover:bg-white hover:text-danger-500 transition-colors shadow-sm">
                     <span className="material-symbols-outlined text-xl leading-none block">favorite</span>
                 </button>
 
@@ -67,7 +108,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
                     {/* Header flotando sobre la imagen */}
                     <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 flex flex-col items-start text-white">
                         <div className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-md text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-1.5 border border-white/10 shadow-sm">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
                             {service.entityType || 'Servicio Activo'}
                         </div>
                         <h2 className="text-3xl sm:text-4xl font-black leading-tight tracking-tight drop-shadow-xl text-white z-20 relative">{service.name}</h2>
@@ -91,7 +132,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
                             <div className="flex-1 flex flex-col items-center justify-center py-2 border-r border-slate-200/60">
                                 <div className="text-3xl font-black text-ink flex items-end gap-1 leading-none">
                                     {service.rating.toFixed(1)} 
-                                    <span className="material-symbols-outlined text-amber-400 text-2xl fill-current -mb-0.5">star</span>
+                                    <span className="material-symbols-outlined text-warning-400 text-2xl fill-current -mb-0.5">star</span>
                                 </div>
                                 <span className="text-xs font-bold text-slate-500 mt-2">Satisfacción</span>
                             </div>
@@ -104,7 +145,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
                             </div>
 
                             <div className="flex-1 flex flex-col items-center justify-center py-2">
-                                <div className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-lg font-black border ${service.trendDirection === 'up' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : service.trendDirection === 'down' ? 'bg-rose-50 text-rose-600 border-rose-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
+                                <div className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-lg font-black border ${service.trendDirection === 'up' ? 'bg-accent/10 text-accent border-accent-100/50' : service.trendDirection === 'down' ? 'bg-danger-50 text-danger-600 border-danger-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
                                     <span className="material-symbols-outlined text-lg stroke-2">
                                         {service.trendDirection === 'up' ? 'trending_up' : service.trendDirection === 'down' ? 'trending_down' : 'trending_flat'}
                                     </span>
@@ -116,7 +157,7 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
 
                         {/* Acciones Rápidas */}
                         <div className="grid grid-cols-4 gap-3">
-                            <button className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+                            <button className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors">
                                 <span className="material-symbols-outlined fill-current">support_agent</span>
                                 <span className="text-[11px] font-bold text-center leading-tight">Contacto</span>
                             </button>
@@ -134,59 +175,39 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
                             </button>
                         </div>
 
-                        {/* Recent Community Activity */}
+                        {/*
+                         * DEBT-002 resto (Fase 4.3): antes aquí vivía una sección
+                         * "Evaluación de la Comunidad · Últimos 10 Usuarios" con
+                         * métricas Confiabilidad/Resolución/Cobros hardcodeadas
+                         * (`service.rating > 4 ? 4.8 : 3.8`), más un dot pulsante
+                         * "Tendencia Estable". Sugería telemetría real sobre un
+                         * módulo que todavía no captura señales end-to-end.
+                         * Reemplazado por una superficie honesta: banner Beta
+                         * contextual + `MetricAvailabilityCard` status=pending.
+                         */}
                         <div className="space-y-4">
-                            <div className="flex justify-between items-end mb-2">
-                                <h3 className="text-lg font-black text-ink">Evaluación de la Comunidad</h3>
-                                <button className="text-sm font-bold text-blue-600 hover:text-blue-700">Explorar</button>
-                            </div>
-                            
-                            <div className="bg-white border border-slate-100 shadow-sm rounded-2xl p-5 flex flex-col gap-4">
-                                {/* Header del Resumen Anónimo */}
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 border border-slate-200 shrink-0">
-                                            <span className="material-symbols-outlined text-[28px]">group</span>
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-base text-ink leading-tight">Últimos 10 Usuarios</div>
-                                            <div className="text-[11px] text-emerald-600 font-bold tracking-wide uppercase mt-0.5 flex items-center gap-1">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                                Tendencia Estable
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Nota Global Promedio */}
-                                    <div className="flex flex-col items-center justify-center bg-blue-50 text-blue-700 w-12 h-12 rounded-xl border border-blue-100">
-                                        <span className="text-[10px] font-bold uppercase tracking-wide opacity-80 mb-0.5 leading-none">Prom</span>
-                                        <span className="text-base font-black leading-none">{service.rating.toFixed(1)}</span>
-                                    </div>
-                                </div>
-                                
-                                {/* Señales (Atributos evaluados) */}
-                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                                    <div className="flex flex-col items-center justify-center gap-1.5 bg-emerald-50 text-emerald-700 p-3 rounded-xl border border-emerald-100/50">
-                                        <span className="material-symbols-outlined text-[24px]">verified_user</span>
-                                        <div className="flex flex-col items-center">
-                                            <span className="text-[10px] font-bold uppercase opacity-80">Confiabilidad</span>
-                                            <span className="text-lg font-black leading-none mt-0.5">{(service.rating > 4 ? 4.8 : 3.8).toFixed(1)}</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col items-center justify-center gap-1.5 bg-blue-50 text-blue-700 p-3 rounded-xl border border-blue-100/50">
-                                        <span className="material-symbols-outlined text-[24px]">support_agent</span>
-                                        <div className="flex flex-col items-center">
-                                            <span className="text-[10px] font-bold uppercase opacity-80">Resolución</span>
-                                            <span className="text-lg font-black leading-none mt-0.5">{(service.rating > 4 ? 4.5 : 3.2).toFixed(1)}</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col items-center justify-center gap-1.5 bg-slate-50 text-slate-600 p-3 rounded-xl border border-slate-200/50">
-                                        <span className="material-symbols-outlined text-[24px]">payments</span>
-                                        <div className="flex flex-col items-center">
-                                            <span className="text-[10px] font-bold uppercase opacity-80">Cobros</span>
-                                            <span className="text-lg font-black leading-none mt-0.5">{(service.rating > 4 ? 4.2 : 2.5).toFixed(1)}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <BetaDisclaimerBanner
+                                moduleSlug={`servicios:detail:${service.id}`}
+                                title="Señales de Servicios en preparación"
+                                message="Estamos construyendo la captura de evaluaciones para cada servicio. Mientras tanto, puedes dejar tu interés: priorizamos los servicios con más demanda."
+                            />
+
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <MetricAvailabilityCard
+                                    label="Confiabilidad"
+                                    status="pending"
+                                    helperText="Se mostrará cuando la comunidad deje suficientes señales sobre este servicio."
+                                />
+                                <MetricAvailabilityCard
+                                    label="Resolución"
+                                    status="pending"
+                                    helperText="Tiempo y calidad para resolver reclamos — en construcción."
+                                />
+                                <MetricAvailabilityCard
+                                    label="Cobros"
+                                    status="pending"
+                                    helperText="Transparencia y previsibilidad de cobros — en construcción."
+                                />
                             </div>
                         </div>
 
@@ -196,12 +217,12 @@ export default function ServicioDetailView({ service, onClose }: ServicioDetailV
 
                 {/* CTA Flotante Anclado Abajo */}
                 <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 bg-gradient-to-t from-white via-white to-transparent border-t border-slate-100 z-10 flex">
-                    <button 
-                        onClick={() => {}}
-                        className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-lg shadow-[0_10px_40px_-10px_rgba(79,70,229,0.6)] flex items-center justify-center gap-2 transition-transform active:scale-95"
+                    <button
+                        onClick={handleEvaluateInterest}
+                        className="w-full py-4 px-6 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl font-black text-lg shadow-[0_10px_40px_-10px_rgba(37,99,235,0.6)] flex items-center justify-center gap-2 transition-transform active:scale-95"
                     >
                         <span className="material-symbols-outlined text-xl">reviews</span>
-                         Evaluar este Servicio
+                        Avísame cuando pueda evaluar
                     </button>
                 </div>
             </div>

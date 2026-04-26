@@ -27,7 +27,7 @@ export const FallbackAvatar: React.FC<FallbackAvatarProps> = ({
     if (shouldShowFallback) {
         return (
             <div
-                className={`flex items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800 font-extrabold rounded-full shadow-inner ${containerClassName} ${fallbackClassName}`}
+                className={`flex items-center justify-center bg-gradient-to-br from-brand-100 to-brand-200 text-brand font-extrabold rounded-full shadow-inner ${containerClassName} ${fallbackClassName}`}
             >
                 {initial}
             </div>

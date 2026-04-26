@@ -44,12 +44,12 @@ export function ActualidadPreview({ data }: Props) {
           {/* Topic Card Content */}
           <div className="flex flex-wrap gap-2 mb-5">
             {data.category && (
-               <span className="px-3 py-1 bg-primary-500/20 text-primary-400 border border-primary-500/30 rounded-lg text-xs font-black tracking-widest uppercase">
+               <span className="px-3 py-1 bg-brand/20 text-brand border border-brand/30 rounded-lg text-xs font-black tracking-widest uppercase">
                  {data.category}
                </span>
             )}
             {data.intensity && data.intensity > 1 ? (
-              <span className="px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-lg text-xs font-black tracking-widest uppercase flex items-center gap-1">
+              <span className="px-3 py-1 bg-warning-500/20 text-warning-400 border border-warning-500/30 rounded-lg text-xs font-black tracking-widest uppercase flex items-center gap-1">
                 <Zap className="w-3 h-3" /> INT {data.intensity}
               </span>
             ) : null}
@@ -60,7 +60,7 @@ export function ActualidadPreview({ data }: Props) {
           </h2>
           
           {data.impact_phrase && (
-             <blockquote className="border-l-4 border-primary-500 pl-4 py-1 mb-5 text-slate-300 italic text-[15px] font-medium leading-relaxed bg-gradient-to-r from-primary-500/10 to-transparent">
+             <blockquote className="border-l-4 border-brand pl-4 py-1 mb-5 text-slate-300 italic text-[15px] font-medium leading-relaxed bg-gradient-to-r from-brand/10 to-transparent">
                "{data.impact_phrase}"
              </blockquote>
           )}
@@ -81,7 +81,7 @@ export function ActualidadPreview({ data }: Props) {
                ))}
              </div>
              
-             <button className="w-full mt-6 bg-primary-600 hover:bg-primary-500 text-white font-black uppercase tracking-widest text-sm py-4 rounded-xl transition-all shadow-lg shadow-primary-500/25">
+             <button className="w-full mt-6 bg-brand hover:bg-brand text-white font-black uppercase tracking-widest text-sm py-4 rounded-xl transition-all shadow-lg shadow-brand/25">
                Opinar sobre Tema
              </button>
           </div>

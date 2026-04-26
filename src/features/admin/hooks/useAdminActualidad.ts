@@ -4,6 +4,7 @@ import { Topic, TopicStatus, TopicCategory } from "../../signals/types/actualida
 import { useNavigate } from "react-router-dom";
 import { logger } from "../../../lib/logger";
 import { supabase } from "../../../supabase/client";
+import { useToast } from "../../../components/ui/useToast";
 
 export type SortOption = 'recent' | 'confidence' | 'intensity';
 
@@ -12,6 +13,9 @@ export function useAdminActualidad() {
   const [loading, setLoading] = useState(true);
   const [extracting, setExtracting] = useState(false);
   const [activeTab, setActiveTab] = useState<TopicStatus>('detected');
+  
+  // Selection
+  const [selectedTopicIds, setSelectedTopicIds] = useState<string[]>([]);
   
   // Filters
   const [categoryFilter, setCategoryFilter] = useState<TopicCategory | 'all'>('all');
@@ -34,6 +38,7 @@ export function useAdminActualidad() {
 
   useEffect(() => {
     fetchTopics();
+    setSelectedTopicIds([]); // Reset selection on tab change
   }, [fetchTopics]);
 
   const updateStatus = async (id: string, newStatus: TopicStatus) => {
@@ -76,6 +81,46 @@ export function useAdminActualidad() {
       alert("Ocurrió un error al extraer noticias.");
     } finally {
       setExtracting(false);
+    }
+  };
+
+  // Mass Actions
+  const toggleSelection = useCallback((id: string) => {
+    setSelectedTopicIds(prev => 
+      prev.includes(id) ? prev.filter(tid => tid !== id) : [...prev, id]
+    );
+  }, []);
+
+  const selectAll = useCallback((ids: string[]) => {
+    setSelectedTopicIds(ids);
+  }, []);
+
+  const clearSelection = useCallback(() => {
+    setSelectedTopicIds([]);
+  }, []);
+
+  const { showToast } = useToast();
+
+  const deleteSelectedTopics = async () => {
+    if (!selectedTopicIds.length) return;
+    
+    // Optimistic UI approach or show a loading state 
+    // Here we will just perform it and block standard UI slightly
+    setLoading(true);
+    try {
+      const success = await adminActualidadService.deleteTopics(selectedTopicIds);
+      if (success) {
+        setTopics(prev => prev.filter(t => !selectedTopicIds.includes(t.id)));
+        setSelectedTopicIds([]);
+        showToast("Los temas seleccionados se han borrado exitosamente.", 'success');
+      } else {
+        showToast("Ocurrió un error al intentar borrar los temas seleccionados.", 'error');
+      }
+    } catch(err) {
+      logger.error("Error deleting selected topics", { domain: 'admin_actions', origin: 'AdminActualidad' }, err);
+      showToast("Ocurrió un error excepcional al intentar borrar.", 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,6 +172,11 @@ export function useAdminActualidad() {
     updateStatus,
     openEditor,
     triggerExtraction,
-    extracting
+    extracting,
+    selectedTopicIds,
+    toggleSelection,
+    selectAll,
+    clearSelection,
+    deleteSelectedTopics
   };
 }

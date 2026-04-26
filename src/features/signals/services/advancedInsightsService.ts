@@ -1,5 +1,5 @@
-import { supabase as sb } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
+import { typedRpc } from "../../../supabase/typedRpc";
 import {
     DepthInsight,
     IntegrityFlags,
@@ -19,7 +19,7 @@ export const advancedInsightsService = {
         gender: string = 'all',
         commune: string = 'all'
     ): Promise<DepthInsight[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: DepthInsight[] | null, error: unknown }>)('get_depth_insights', {
+        const { data, error } = await typedRpc<DepthInsight[]>('get_depth_insights', {
             p_battle_slug: battleSlug,
             p_option_id: optionId,
             p_age_range: ageRange,
@@ -28,7 +28,7 @@ export const advancedInsightsService = {
         });
 
         if (error) {
-            logger.error('[InsightsService] Error fetching depth insights:', error);
+            logger.error('[InsightsService] Error fetching depth insights:', undefined, error);
             return [];
         }
 
@@ -36,12 +36,12 @@ export const advancedInsightsService = {
     },
 
     getAnalyticalIntegrity: async (entityId: string): Promise<IntegrityFlags | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: IntegrityFlags[] | null, error: unknown }>)('get_analytical_integrity_flags', {
+        const { data, error } = await typedRpc<IntegrityFlags[]>('get_analytical_integrity_flags', {
             p_entity_id: entityId
         });
 
         if (error) {
-            logger.error('[InsightsService] Error fetching Analytical Integrity:', error);
+            logger.error('[InsightsService] Error fetching Analytical Integrity:', undefined, error);
             return null;
         }
 
@@ -52,13 +52,13 @@ export const advancedInsightsService = {
         battleSlug: string,
         daysBack: number = 7
     ): Promise<TemporalComparison[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: TemporalComparison[] | null, error: unknown }>)('get_temporal_comparison', {
+        const { data, error } = await typedRpc<TemporalComparison[]>('get_temporal_comparison', {
             p_battle_slug: battleSlug,
             p_days_back: daysBack
         });
 
         if (error) {
-            logger.error('[InsightsService] Error fetching temporal comparison:', error);
+            logger.error('[InsightsService] Error fetching temporal comparison:', undefined, error);
             return [];
         }
 
@@ -69,13 +69,13 @@ export const advancedInsightsService = {
         battleSlug: string,
         daysBack: number = 30
     ): Promise<VolatilityData | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: VolatilityData[] | null, error: unknown }>)('get_battle_volatility', {
+        const { data, error } = await typedRpc<VolatilityData[]>('get_battle_volatility', {
             p_battle_slug: battleSlug,
             p_days_back: daysBack
         });
 
         if (error) {
-            logger.error('[InsightsService] Error fetching battle volatility:', error);
+            logger.error('[InsightsService] Error fetching battle volatility:', undefined, error);
             return null;
         }
 
@@ -83,29 +83,29 @@ export const advancedInsightsService = {
     },
 
     getBattlePolarization: async (battleSlug: string): Promise<PolarizationData | null> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: PolarizationData[] | null, error: unknown }>)('get_polarization_index', {
+        const { data, error } = await typedRpc<PolarizationData[]>('get_polarization_index', {
             p_battle_slug: battleSlug
         });
 
         if (error) {
-            logger.error('[InsightsService] Error fetching battle polarization:', error);
+            logger.error('[InsightsService] Error fetching battle polarization:', undefined, error);
             return null;
         }
 
-        return (data?.[0] as PolarizationData) || null;
+        return data?.[0] || null;
     },
 
     getSegmentInfluence: async (
         battleSlug: string,
         daysBack: number = 7
     ): Promise<SegmentInfluence[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: SegmentInfluence[] | null, error: unknown }>)('get_segment_influence', {
+        const { data, error } = await typedRpc<SegmentInfluence[]>('get_segment_influence', {
             p_battle_slug: battleSlug,
             p_days_back: daysBack
         });
 
         if (error) {
-            logger.error('[InsightsService] Error fetching segment influence:', error);
+            logger.error('[InsightsService] Error fetching segment influence:', undefined, error);
             return [];
         }
 
@@ -116,13 +116,13 @@ export const advancedInsightsService = {
         battleSlug: string,
         hoursWindow: number = 6
     ): Promise<EarlySignal[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: EarlySignal[] | null, error: unknown }>)('detect_early_signal', {
+        const { data, error } = await typedRpc<EarlySignal[]>('detect_early_signal', {
             p_battle_slug: battleSlug,
             p_hours_window: hoursWindow
         });
 
         if (error) {
-            logger.error('[InsightsService] Error fetching early signals:', error);
+            logger.error('[InsightsService] Error fetching early signals:', undefined, error);
             return [];
         }
 
@@ -133,13 +133,13 @@ export const advancedInsightsService = {
         apiKey: string,
         battleSlug: string
     ): Promise<EnterpriseRanking[]> => {
-        const { data, error } = await (sb.rpc as unknown as (fn: string, p: object) => Promise<{ data: EnterpriseRanking[] | null, error: unknown }>)('api_get_ranking', {
+        const { data, error } = await typedRpc<EnterpriseRanking[]>('api_get_ranking', {
             p_api_key: apiKey,
             p_battle_slug: battleSlug
         });
 
         if (error) {
-            logger.error('[InsightsService] Error in API ranking call:', error);
+            logger.error('[InsightsService] Error in API ranking call:', undefined, error);
             return [];
         }
 

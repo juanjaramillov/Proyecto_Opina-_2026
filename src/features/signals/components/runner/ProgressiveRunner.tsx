@@ -208,13 +208,13 @@ export default function ProgressiveRunner({ progressiveData, onVote, onPlayAgain
                                     }`}
                                 >
                                     {round > 1 && currentChampId === leftOption.id && (
-                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-gradient-brand text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-gradient-brand text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-brand-500/30 border-2 border-white whitespace-nowrap">
                                             <span className="material-symbols-outlined text-[10px] md:text-[12px] align-middle mr-1">social_leaderboard</span>
                                             Preferencia actual
                                         </div>
                                     )}
                                     {round > 1 && currentChampId !== leftOption.id && (
-                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-slate-800/80 backdrop-blur-md text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg border border-white/20 whitespace-nowrap">
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-brand/85 backdrop-blur-md text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg border border-white/20 whitespace-nowrap">
                                             Nueva opción
                                         </div>
                                     )}
@@ -267,13 +267,13 @@ export default function ProgressiveRunner({ progressiveData, onVote, onPlayAgain
                                     }`}
                                 >
                                     {round > 1 && currentChampId === rightOption.id && (
-                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-gradient-brand text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-blue-500/30 border-2 border-white whitespace-nowrap">
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-gradient-brand text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-brand-500/30 border-2 border-white whitespace-nowrap">
                                             <span className="material-symbols-outlined text-[10px] md:text-[12px] align-middle mr-1">social_leaderboard</span>
                                             Preferencia actual
                                         </div>
                                     )}
                                     {round > 1 && currentChampId !== rightOption.id && (
-                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-slate-800/80 backdrop-blur-md text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg border border-white/20 whitespace-nowrap">
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-brand/85 backdrop-blur-md text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg border border-white/20 whitespace-nowrap">
                                             Nueva opción
                                         </div>
                                     )}

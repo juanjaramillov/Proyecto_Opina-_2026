@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { adminHealthService, HealthCheckResult } from '../services/adminHealthService';
 import { adminConfigService } from '../services/adminConfigService';
-import { supabase } from '../../../supabase/client';
+import { typedRpc } from '../../../supabase/typedRpc';
 import { logger } from '../../../lib/logger';
 
 type TestItem = {
@@ -112,7 +112,7 @@ export default function AdminHealth() {
 
             // Opcional: Refrescar snapshots ahora
             try {
-                await (supabase.rpc as unknown as (n: string) => Promise<void>)('refresh_public_rank_snapshots_3h');
+                await typedRpc<unknown>('refresh_public_rank_snapshots_3h');
                 // Podrías agregar un toast success aquí
             } catch (refreshErr) {
                 logger.warn("Snapshots no pudieron refrescarse inmediatamente", { domain: 'admin_actions', origin: 'AdminHealth', action: 'refresh_snapshots', state: 'failed', error_details: refreshErr });
@@ -133,7 +133,7 @@ export default function AdminHealth() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end p-6 bg-slate-800 rounded-3xl shadow-xl text-white">
                 <div>
                     <h1 className="text-3xl font-black tracking-tight flex items-center gap-3">
-                        <span className="material-symbols-outlined text-4xl text-emerald-400">monitor_heart</span>
+                        <span className="material-symbols-outlined text-4xl text-accent-400">monitor_heart</span>
                         Health Checks
                     </h1>
                     <p className="text-slate-400 mt-2 font-medium">Diagnóstico de servicios core y RPCs (B2B Admin).</p>
@@ -151,7 +151,7 @@ export default function AdminHealth() {
                             onChange={(e) => setDryRunSignal(!e.target.checked)}
                             disabled={running}
                         />
-                        <div className={`block w-14 h-8 rounded-full transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-primary-500 ${!dryRunSignal ? 'bg-rose-500' : 'bg-slate-200 group-hover:bg-slate-300'}`}></div>
+                        <div className={`block w-14 h-8 rounded-full transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-brand/50 ${!dryRunSignal ? 'bg-danger' : 'bg-slate-200 group-hover:bg-slate-300'}`}></div>
                         <div className={`absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform ${!dryRunSignal ? 'transform translate-x-6' : ''}`}></div>
                     </div>
                     <div className="flex flex-col">
@@ -163,7 +163,7 @@ export default function AdminHealth() {
                 <button
                     onClick={handleRunChecks}
                     disabled={running}
-                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
+                    className="px-6 py-3 bg-accent hover:bg-accent-700 active:bg-accent-800 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent/50"
                 >
                     {running ? (
                         <span className="material-symbols-outlined animate-spin">progress_activity</span>
@@ -180,7 +180,7 @@ export default function AdminHealth() {
                 <div className="p-5 rounded-2xl border bg-white border-slate-100 shadow-sm flex flex-col justify-between">
                     <div>
                         <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2">
-                            <span className="material-symbols-outlined text-primary-500 text-lg">data_usage</span>
+                            <span className="material-symbols-outlined text-brand text-lg">data_usage</span>
                             Modo de analítica
                         </h3>
                         <p className="text-xs text-slate-500 mt-1">
@@ -188,7 +188,7 @@ export default function AdminHealth() {
                         </p>
 
                         {configError && (
-                            <div className="mt-2 text-xs text-rose-600 bg-rose-50 p-2 rounded">
+                            <div className="mt-2 text-xs text-danger bg-danger/10 p-2 rounded">
                                 {configError}
                             </div>
                         )}
@@ -198,7 +198,7 @@ export default function AdminHealth() {
                             {analyticsMode === null ? (
                                 <span className="text-sm text-slate-400 italic">Cargando...</span>
                             ) : (
-                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase ${analyticsMode === 'clean' ? 'bg-primary-100 text-primary-700' : 'bg-slate-100 text-slate-700'}`}>
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase ${analyticsMode === 'clean' ? 'bg-brand/20 text-brand' : 'bg-slate-100 text-slate-700'}`}>
                                     {analyticsMode}
                                 </span>
                             )}
@@ -215,7 +215,7 @@ export default function AdminHealth() {
                         <button
                             onClick={() => handleSetMode('clean')}
                             disabled={updatingMode || analyticsMode === 'clean'}
-                            className="flex-1 py-1.5 px-3 bg-primary-50 hover:bg-primary-100 disabled:opacity-50 text-primary-700 text-xs font-semibold rounded-lg transition-colors focus:ring-2 focus:ring-primary-400"
+                            className="flex-1 py-1.5 px-3 bg-brand/10 hover:bg-brand/20 disabled:opacity-50 text-brand text-xs font-semibold rounded-lg transition-colors focus:ring-2 focus:ring-brand/40"
                         >
                             Set CLEAN
                         </button>
@@ -234,17 +234,17 @@ export default function AdminHealth() {
 
                     if (status === 'running') {
                         icon = 'progress_activity';
-                        iconColor = 'text-primary-400 animate-spin';
-                        boxColors = 'bg-primary-50/50 border-primary-100';
+                        iconColor = 'text-brand animate-spin';
+                        boxColors = 'bg-brand-50/50 border-brand/20';
                     } else if (status && status !== 'pending') {
                         if ((status as HealthCheckResult).ok) {
                             icon = 'check_circle';
-                            iconColor = 'text-emerald-500';
-                            boxColors = 'bg-emerald-50 border-emerald-100';
+                            iconColor = 'text-accent';
+                            boxColors = 'bg-accent/10 border-accent-100';
                         } else {
                             icon = 'error';
-                            iconColor = 'text-rose-500';
-                            boxColors = 'bg-rose-50 border-rose-200 shadow-rose-100/50';
+                            iconColor = 'text-danger';
+                            boxColors = 'bg-danger/10 border-danger/30 shadow-danger/10';
                         }
                     }
 

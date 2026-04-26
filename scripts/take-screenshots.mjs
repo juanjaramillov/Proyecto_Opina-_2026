@@ -50,16 +50,13 @@ import fs from 'fs';
             await route.fulfill({ json: mockBattles });
         });
 
-        // Set local storage bypasses
+        // NOTE: arranca el dev-server con VITE_ACCESS_GATE_ENABLED=false antes
+        // de correr este script para desactivar el access gate (el viejo bypass
+        // via localStorage.opina_access_pass se retiró al cerrar la vulnerabilidad
+        // crítica #2 de la auditoría Drimo).
         await page.goto('http://localhost:5173/');
         await page.evaluate(() => {
-            localStorage.setItem('opina_access_pass', 'admin');
-            localStorage.setItem('opina_access_gate_v1', JSON.stringify({
-                tokenId: 'ADMIN-E2E',
-                grantedAt: Date.now(),
-                expiresAt: Date.now() + 86400000
-            }));
-            // Provide a fake mock session in localStorage just in case auth reads from it
+            // Fake mock session por si auth la lee desde localStorage
             localStorage.setItem('sb-supabase-auth-token', JSON.stringify({
                 access_token: 'fake',
                 user: { id: 'fake-id', email: 'test@opina.plus', user_metadata: { first_name: 'Usuario' } }

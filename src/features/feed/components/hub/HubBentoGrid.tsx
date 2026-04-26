@@ -1,134 +1,292 @@
-import { ExperienceMode, TRACKS, toneClasses, TrackCard } from "./tracks/hubSecondaryData";
+import { ExperienceMode, TRACKS, TrackCard } from "./tracks/hubSecondaryData";
 
 interface HubBentoGridProps {
     setMode: (mode: ExperienceMode) => void;
 }
 
 export function HubBentoGrid({ setMode }: HubBentoGridProps) {
+    const torneo = TRACKS.find(t => t.key === 'torneo')!;
+    const actualidad = TRACKS.find(t => t.key === 'actualidad')!;
+    const profundidad = TRACKS.find(t => t.key === 'profundidad')!;
+    const lugares = TRACKS.find(t => t.key === 'lugares')!;
+    const servicios = TRACKS.find(t => t.key === 'servicios')!;
+
     return (
-        <section className="relative w-full pb-16 pt-4 md:pt-8 bg-white" id="hub-bento-grid">
-            <div className="mx-auto w-full max-w-[1280px] px-4 md:px-6">
+        <section className="relative w-full pb-24 pt-0 md:pt-4 bg-transparent z-20 -mt-6 md:-mt-8" id="hub-editorial-grid">
+            <div className="mx-auto w-full max-w-[1280px] px-4 md:px-8">
                 
-                {/* Cabecera del Grid */}
-                <div className="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                {/* Header Editorial */}
+                <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">
-                            Explora la plataforma
-                        </h2>
-                        <p className="mt-1 md:mt-2 text-sm md:text-base font-medium text-slate-500">
-                            Dinámicas, comunidades y métricas en profundidad.
-                        </p>
+                        <h2 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-2">Ecosistema Extendido</h2>
+                        <h3 className="text-3xl md:text-4xl font-light tracking-tight text-slate-900">
+                            Explora el <span className="font-medium text-brand-600 italic">Pulso</span> de Opina+
+                        </h3>
                     </div>
                 </div>
 
-                {/* Contenedor Grid Asimétrico: Siempre 4 columnas en Desktop */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5 auto-rows-[minmax(180px,auto)] px-2 sm:px-0">
-                    {TRACKS.map((card) => {
-                        let spanClass = "";
-                        
-                        // Diseño Asimétrico del Bento - Rediseño V15 (Segunda Pasada)
-                        if (card.key === "actualidad" || card.key === "torneo") {
-                            // Tier 1: Altos y destacados (2x2)
-                            spanClass = "md:col-span-2 md:row-span-2 min-h-[240px] md:min-h-[300px]";
-                        } else if (card.key === "profundidad" || card.key === "lugares") {
-                            // Tier 2: Apaisados medianos (2x1)
-                            spanClass = "md:col-span-2 min-h-[180px] md:min-h-[200px]";
-                        } else {
-                            // Tier 3: Apaisados bases (2x1)
-                            spanClass = "md:col-span-2 md:col-start-[auto] min-h-[160px] md:min-h-[180px]";
-                        }
+                <div className="flex flex-col w-full border-t border-slate-200">
+                    
+                    {/* FILA 1: Torneos & Actualidad */}
+                    <div className="flex flex-col lg:flex-row">
+                        <TorneosEditorial card={torneo} setMode={setMode} />
+                        <ActualidadEditorial card={actualidad} setMode={setMode} />
+                    </div>
 
-                        return (
-                            <BentoCard 
-                                key={card.key} 
-                                card={card} 
-                                setMode={setMode} 
-                                className={spanClass} 
-                            />
-                        );
-                    })}
+                    {/* FILA 2: Profundidad */}
+                    <div className="flex flex-col border-t border-slate-200">
+                        <ProfundidadEditorial card={profundidad} setMode={setMode} />
+                    </div>
+
+                    {/* FILA 3: Satélites (Directorio) */}
+                    <div className="flex border-t border-slate-200 pt-6">
+                        <DirectorioEditorial lugares={lugares} servicios={servicios} setMode={setMode} />
+                    </div>
+
                 </div>
             </div>
         </section>
     );
 }
 
-function BentoCard({ card, setMode, className = "" }: { card: TrackCard, setMode: (m: ExperienceMode) => void, className?: string }) {
-    const tone = toneClasses(card.tone);
-    
+// ============================================================
+// MÓDULO 1: TORNEOS (Editorial Columna Principal)
+// ============================================================
+function TorneosEditorial({ card, setMode }: { card: TrackCard, setMode: (m: ExperienceMode) => void }) {
     return (
-        <button
-            type="button"
-            onClick={card.available && card.mode ? () => setMode(card.mode as ExperienceMode) : undefined}
-            disabled={!card.available}
-            className={`
-                group relative isolate flex flex-col overflow-hidden rounded-[2rem] border text-left bg-white
-                transition-all duration-500 ease-out h-full w-full
-                border-slate-100 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.06)]
-                hover:shadow-[0_20px_40px_-16px_rgba(0,0,0,0.12)] hover:-translate-y-1.5
-                ${card.available ? "cursor-pointer" : "cursor-default opacity-85"}
-                ${tone.border}
-                ${className}
-            `}
-        >
-            {/* Background effects */}
-            <div className="absolute inset-0 z-0 bg-white" />
-            <div className={`absolute inset-0 bg-gradient-to-br ${tone.glow} opacity-60 group-hover:opacity-100 transition-opacity duration-700 z-0`} />
-            <div className={`absolute -right-20 -top-20 w-64 h-64 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] ${tone.glow} opacity-40 blur-[50px] transform group-hover:scale-125 transition-transform duration-1000 z-0 pointer-events-none`} />
-
-            <div className="relative z-10 flex flex-col h-full p-5 md:p-6 lg:p-7">
-                
-                {/* Top Section: Icon & Meta Badge (No Status) */}
-                <div className="flex items-start justify-between gap-3 w-full mb-3 md:mb-4">
-                    <div className={`flex h-12 w-12 md:h-14 md:w-14 shrink-0 items-center justify-center rounded-2xl border shadow-sm transition-transform duration-500 group-hover:scale-[1.08] group-hover:-translate-y-0.5 bg-white ${tone.iconWrap}`}>
-                        <span className="material-symbols-outlined text-[24px] md:text-[28px]">{card.icon}</span>
+        <div className="lg:w-7/12 py-12 lg:py-16 lg:pr-16 flex flex-col lg:flex-row gap-8 lg:gap-12 group">
+            <div className="flex-1 flex flex-col items-start justify-between">
+                <div>
+                    <div className="flex items-center gap-3 mb-6">
+                        <span className="material-symbols-outlined text-brand-600 text-2xl">{card.icon}</span>
+                        <span className="text-[11px] font-black uppercase tracking-widest text-slate-900">
+                            {card.title} / {card.status}
+                        </span>
                     </div>
-
-                    <div className="flex flex-col items-end gap-2 max-w-[60%]">
-                        {card.meta && (
-                            <span className={`inline-flex items-center rounded-lg bg-white/95 px-2 py-1 text-[10px] md:text-[11px] font-bold tracking-wide shadow-sm border ${tone.badge}`}>
-                                {card.meta}
-                            </span>
-                        )}
-                    </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col justify-start">
-                    <h3 className={`text-xl md:text-2xl lg:text-3xl font-black leading-tight tracking-tight text-slate-900 transition-colors duration-300 ${tone.titleHover}`}>
-                        {card.title}
-                    </h3>
-                    <p className="mt-1.5 md:mt-2 text-sm sm:text-[15px] font-medium leading-relaxed text-slate-500 line-clamp-2 md:line-clamp-3">
-                        {card.subtitle}
+                    
+                    <h4 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 leading-[0.95] mb-6">
+                        La arena de<br/><span className="text-transparent bg-clip-text bg-gradient-to-br from-slate-900 to-slate-400">competición.</span>
+                    </h4>
+                    
+                    <p className="text-base md:text-lg font-medium leading-relaxed text-slate-500 max-w-sm mb-10">
+                        {card.statement}
                     </p>
                 </div>
 
-                {/* Universal CTA Footer */}
-                <div className="mt-4 pt-4 flex items-center justify-between gap-2 border-t border-slate-100/80 w-full group/cta">
-                    <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] md:text-[11px] font-bold uppercase tracking-wider ${
-                        card.status === "En vivo" || card.status === "Activo" || card.status === "Competitivo" 
-                        ? tone.accentText 
-                        : "text-slate-400"
-                    }`}>
-                        {(card.status === "En vivo" || card.status === "Activo" || card.status === "Competitivo") && (
-                            <span className={`h-1.5 w-1.5 rounded-full ${tone.accentSoft} animate-[pulse_2s_ease-in-out_infinite]`} />
-                        )}
-                        {card.status}
+                <button 
+                    onClick={() => card.mode && setMode(card.mode as ExperienceMode)}
+                    className="group/btn inline-flex items-center gap-4 bg-slate-900 text-white px-6 py-3.5 rounded-full text-sm font-bold tracking-wide hover:bg-brand-600 transition-colors duration-300"
+                >
+                    {card.cta} 
+                    <span className="material-symbols-outlined text-[18px] group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+                </button>
+            </div>
+            
+            <div className="w-full lg:w-1/2 flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                <TorneoMinimalBracket />
+            </div>
+        </div>
+    );
+}
+
+// ============================================================
+// MÓDULO 2: ACTUALIDAD (Feed / Ticker Vivo)
+// ============================================================
+function ActualidadEditorial({ card, setMode }: { card: TrackCard, setMode: (m: ExperienceMode) => void }) {
+    return (
+        <div className="lg:w-5/12 py-12 lg:py-16 lg:pl-16 border-t lg:border-t-0 lg:border-l border-slate-200 flex flex-col group relative overflow-hidden">
+            <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-danger-600 text-2xl">{card.icon}</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-slate-900">
+                        {card.title}
                     </span>
-                    
-                    {card.available ? (
-                        <div className={`flex items-center gap-1.5 text-[11px] md:text-[12px] font-bold tracking-wide transition-all duration-300 ${tone.accentText} group-hover/cta:translate-x-1`}>
-                            {card.cta} <span className="material-symbols-outlined text-[16px] md:text-[18px]">arrow_forward</span>
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-1.5 text-[11px] font-bold tracking-wide text-slate-400">
-                            Próximamente
+                </div>
+                <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-danger-600">Live</span>
+                    <span className="h-2 w-2 rounded-full bg-danger animate-[pulse_1.5s_ease-in-out_infinite]" />
+                </div>
+            </div>
+
+            <h4 className="text-3xl md:text-4xl font-light tracking-tight text-slate-900 leading-tight mb-8">
+                {card.subtitle}
+            </h4>
+
+            <div className="flex-1 flex flex-col gap-6 w-full max-w-sm relative z-10">
+                <ActualidadTickerList />
+            </div>
+
+            <div className="mt-12 flex">
+                <button 
+                    onClick={() => card.mode && setMode(card.mode as ExperienceMode)}
+                    className="group/btn inline-flex items-center gap-2 text-sm font-black tracking-wider text-danger-600 hover:text-danger-800 transition-colors uppercase border-b-2 border-transparent hover:border-danger-600 pb-1"
+                >
+                    {card.cta} 
+                    <span className="material-symbols-outlined text-[16px] group-hover/btn:translate-x-1 transition-transform">arrow_right_alt</span>
+                </button>
+            </div>
+        </div>
+    );
+}
+
+// ============================================================
+// MÓDULO 3: PROFUNDIDAD (Franja de Análisis)
+// ============================================================
+function ProfundidadEditorial({ card, setMode }: { card: TrackCard, setMode: (m: ExperienceMode) => void }) {
+    return (
+        <div className="w-full py-12 lg:py-16 flex flex-col md:flex-row gap-12 lg:gap-24 group">
+            <div className="md:w-5/12 flex flex-col items-start justify-center">
+                <div className="flex items-center gap-3 mb-6">
+                    <span className="material-symbols-outlined text-slate-400 text-2xl">{card.icon}</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">
+                        {card.title} / {card.status}
+                    </span>
+                </div>
+                
+                <h4 className="text-3xl lg:text-4xl font-medium tracking-tight text-slate-900 mb-4">
+                    Más allá de la <span className="font-serif italic text-slate-500">superficie.</span>
+                </h4>
+                
+                <p className="text-[15px] font-medium leading-relaxed text-slate-500 mb-8 max-w-sm">
+                    {card.statement}
+                </p>
+
+                <button 
+                    onClick={() => card.mode && setMode(card.mode as ExperienceMode)}
+                    className="group/btn inline-flex items-center gap-3 text-sm font-bold tracking-wide text-slate-900 hover:text-brand-600 transition-colors"
+                >
+                    <span className="w-8 h-px bg-slate-900 group-hover/btn:w-12 group-hover/btn:bg-brand-600 transition-all duration-300" />
+                    {card.cta} 
+                </button>
+            </div>
+
+            <div className="md:w-7/12 flex items-center justify-end">
+                <ProfundidadChartVisual />
+            </div>
+        </div>
+    );
+}
+
+// ============================================================
+// MÓDULO 4: DIRECTORIO (Satélites Minimalistas)
+// ============================================================
+function DirectorioEditorial({ lugares, servicios, setMode }: { lugares: TrackCard, servicios: TrackCard, setMode: (m: ExperienceMode) => void }) {
+    return (
+        <div className="w-full flex flex-col sm:flex-row items-center gap-x-12 gap-y-4 text-sm font-medium text-slate-500">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 border-r border-slate-200 pr-4 hidden sm:block">
+                Directorio Anexo
+            </span>
+
+            {[lugares, servicios].map((card) => (
+                <button
+                    key={card.key}
+                    type="button"
+                    onClick={card.available && card.mode ? () => setMode(card.mode as ExperienceMode) : undefined}
+                    disabled={!card.available}
+                    className={`flex items-center gap-3 transition-colors ${card.available ? "hover:text-slate-900 cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
+                >
+                    <span className="material-symbols-outlined text-[18px]">{card.icon}</span>
+                    <span className="tracking-wide">
+                        {card.title}
+                        {card.beta && <sup className="ml-1 text-[9px] font-bold text-brand-600">BETA</sup>}
+                    </span>
+                    {!card.available && <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 ml-2">(Próximamente)</span>}
+                </button>
+            ))}
+        </div>
+    );
+}
+
+// ============================================================
+// VISUALES ARTESANALES ("ZERO-CARD")
+// ============================================================
+
+function TorneoMinimalBracket() {
+    return (
+        <svg viewBox="0 0 300 200" className="w-full max-w-[280px] h-auto text-slate-200 group-hover:text-brand-200 transition-colors duration-700" aria-hidden="true">
+            {/* Outline editorial ultrafino */}
+            <g stroke="currentColor" strokeWidth="1" fill="none" strokeLinecap="square">
+                {/* Cuartos */}
+                <path d="M10 20 L80 20 L80 60 L140 60" />
+                <path d="M10 100 L80 100 L80 60" />
+                
+                <path d="M10 140 L80 140 L80 180 L140 180" />
+                <path d="M10 220 L80 220 L80 180" />
+                
+                {/* Semis */}
+                <path d="M140 60 L210 60 L210 120 L280 120" />
+                <path d="M140 180 L210 180 L210 120" />
+            </g>
+            
+            {/* Puntos de anclaje técnicos */}
+            <g fill="currentColor">
+                <rect x="8" y="18" width="4" height="4" />
+                <rect x="8" y="98" width="4" height="4" />
+                <rect x="8" y="138" width="4" height="4" />
+                <rect x="8" y="218" width="4" height="4" />
+                
+                <rect x="138" y="58" width="4" height="4" className="text-brand-400" />
+                <rect x="138" y="178" width="4" height="4" className="text-brand-400" />
+                
+                {/* Finalista con acento */}
+                <circle cx="280" cy="120" r="5" className="text-brand-600 group-hover:fill-brand-500 transition-colors duration-300" />
+            </g>
+        </svg>
+    );
+}
+
+function ActualidadTickerList() {
+    const news = [
+        { topic: 'Nuevas Tendencias', time: 'hace 2 min', pulse: true },
+        { topic: 'Consumo Masivo', time: 'hace 15 min', pulse: false },
+        { topic: 'Tech & IA', time: 'hace 1 hora', pulse: false }
+    ];
+
+    return (
+        <div className="flex flex-col border-l border-slate-200">
+            {news.map((item, i) => (
+                <div key={i} className="pl-5 py-3 relative group/item">
+                    {item.pulse && (
+                        <div className="absolute left-[-3px] top-[18px] w-1.5 h-1.5 rounded-full bg-danger-500 ring-4 ring-danger-100 animate-pulse" />
+                    )}
+                    {!item.pulse && (
+                        <div className="absolute left-[-2px] top-[18px] w-1 h-1 rounded-full bg-slate-300" />
+                    )}
+                    <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
+                        {item.time}
+                    </span>
+                    <span className="block text-sm md:text-base font-medium text-slate-800 group-hover/item:text-danger-600 transition-colors">
+                        {item.topic}
+                    </span>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function ProfundidadChartVisual() {
+    return (
+        <div className="w-full flex gap-1 h-32 md:h-40 items-end opacity-60 group-hover:opacity-100 transition-opacity duration-700">
+            {/* Gráfico de barras asimétrico tipo Financial Times */}
+            {[40, 25, 60, 45, 80, 55, 95, 70, 30, 85, 65, 50, 100].map((h, i) => (
+                <div 
+                    key={i} 
+                    className="flex-1 bg-slate-200 group-hover:bg-slate-300 transition-colors duration-500 rounded-t-[1px] relative"
+                    style={{ height: `${h}%` }}
+                >
+                    {/* Línea de lectura analítica superior */}
+                    {i % 3 === 0 && (
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[8px] font-black text-slate-400">
+                            {h}
                         </div>
                     )}
+                    {/* Acento en barras altas */}
+                    {h > 80 && (
+                        <div className="absolute top-0 left-0 w-full h-1 bg-slate-800" />
+                    )}
                 </div>
-
-            </div>
-        </button>
+            ))}
+        </div>
     );
 }
 

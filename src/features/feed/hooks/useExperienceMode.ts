@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { analyticsService } from "../../analytics/services/analyticsService";
+import { analyticsService, type BehaviorModuleType } from "../../analytics/services/analyticsService";
 
 export type ExperienceMode = "menu" | "versus" | "torneo" | "profundidad" | "actualidad" | "lugares" | "servicios";
 
@@ -19,18 +19,19 @@ export function useExperienceMode() {
 
     const setMode = (newMode: ExperienceMode) => {
         if (newMode !== mode && newMode !== "menu") {
-            const moduleMap: Record<string, string> = {
+            // Nota: 'servicios' no tiene un `BehaviorModuleType` propio aún; se colapsa a 'home'
+            // hasta que se agregue en el enum de analytics (ver DEBT_REGISTER).
+            const moduleMap: Partial<Record<ExperienceMode, BehaviorModuleType>> = {
                 'versus': 'versus',
                 'torneo': 'progressive',
                 'profundidad': 'depth',
                 'actualidad': 'news',
-                'lugares': 'pulse',
-                'servicios': 'services'
+                'lugares': 'pulse'
             };
-            
+
             analyticsService.trackBehavior({
                 event_type: 'module_open',
-                module_type: (moduleMap[newMode] || 'home') as any,
+                module_type: moduleMap[newMode] ?? 'home',
                 screen_name: `hub_${newMode}`,
                 status: 'completed'
             });

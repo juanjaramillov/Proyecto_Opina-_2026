@@ -5,11 +5,11 @@ export default function PrivacyPolicy() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans pb-24 selection:bg-primary-500 selection:text-white pt-24">
+        <div className="min-h-screen bg-slate-50 font-sans pb-24 selection:bg-brand selection:text-white pt-24">
             <div className="max-w-4xl mx-auto px-6">
                 <button
                     onClick={() => navigate(-1)}
-                    className="inline-flex items-center text-sm font-bold text-slate-500 hover:text-primary-600 mb-8 transition-colors group"
+                    className="inline-flex items-center text-sm font-bold text-slate-500 hover:text-brand mb-8 transition-colors group"
                 >
                     <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
                     Volver
@@ -17,8 +17,8 @@ export default function PrivacyPolicy() {
 
                 <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 shadow-sm">
                     <div className="flex items-center gap-4 mb-8">
-                        <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center">
-                            <ShieldCheck className="text-primary-600" size={24} />
+                        <div className="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center">
+                            <ShieldCheck className="text-brand" size={24} />
                         </div>
                         <div>
                             <h1 className="text-3xl font-black text-slate-900 tracking-tight">Política de Privacidad</h1>

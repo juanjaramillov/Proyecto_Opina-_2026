@@ -15,10 +15,9 @@ export type TrafficSnapshot = {
 };
 
 export const adminTrafficService = {
-  getTrafficData: async (days: number = 30): Promise<TrafficSnapshot> => {
-    const fromDate = new Date();
-    fromDate.setDate(fromDate.getDate() - days);
-    const fromString = fromDate.toISOString();
+  getTrafficData: async (startDate: Date, endDate: Date = new Date()): Promise<TrafficSnapshot> => {
+    const fromString = startDate.toISOString();
+    const toString = endDate.toISOString();
 
     // 1. Fetch active sessions right now (True Live: active status AND started in the last 15 minutes)
     const fifteenMinutesAgo = new Date();
@@ -36,6 +35,7 @@ export const adminTrafficService = {
       .from('app_sessions')
       .select('started_at, ended_at, device_type, browser, os, user_id')
       .gte('started_at', fromString)
+      .lte('started_at', toString)
       .order('started_at', { ascending: true });
       
     if (error) {
@@ -49,7 +49,7 @@ export const adminTrafficService = {
       
     let newUsers = 0;
     if (profiles) {
-      newUsers = profiles.filter(p => p.created_at && p.created_at >= fromString).length;
+      newUsers = profiles.filter(p => p.created_at && p.created_at >= fromString && p.created_at <= toString).length;
     }
 
     // 4. Fetch behaviour events for top sections
@@ -58,6 +58,7 @@ export const adminTrafficService = {
       .select('module_type, screen_name')
       .eq('event_type', 'view')
       .gte('created_at', fromString)
+      .lte('created_at', toString)
       .limit(10000);
 
     const snapshot: TrafficSnapshot = {

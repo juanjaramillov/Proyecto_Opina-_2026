@@ -8,10 +8,11 @@ import {
     isNonRetriableSignalErrorMessage,
     removeOutboxJob
 } from './signalOutbox';
+import { checkSignalRateLimit, SignalRateLimitError } from './signalRateLimiter';
 import { analyticsService } from '../../analytics/services/analyticsService';
 import { SignalEventPayload } from './signalTypes';
 
-const sb = supabase as unknown as SupabaseClient<Database>;
+const sb = supabase as SupabaseClient<Database>;
 
 export const signalWriteService = {
     saveSignalEvent: async (payload: SignalEventPayload): Promise<void> => {
@@ -32,10 +33,24 @@ export const signalWriteService = {
             }
         }
 
-        // Lógica Device Hash
+        // Lógica Device Hash robustecida (Audit Fix: Device Hash Débil)
         let deviceHash = localStorage.getItem('opina_device_hash');
         if (!deviceHash) {
-            deviceHash = crypto.randomUUID();
+            const getBrowserFingerprint = () => {
+                try {
+                    const fp = `${navigator.userAgent}-${screen.width}x${screen.height}-${navigator.language}-${new Date().getTimezoneOffset()}`;
+                    let hash = 0;
+                    for (let i = 0; i < fp.length; i++) {
+                        const char = fp.charCodeAt(i);
+                        hash = ((hash << 5) - hash) + char;
+                        hash = hash & hash;
+                    }
+                    return `fp${Math.abs(hash).toString(16)}`;
+                } catch {
+                    return 'fpx';
+                }
+            };
+            deviceHash = `${crypto.randomUUID()}-${getBrowserFingerprint()}`;
             localStorage.setItem('opina_device_hash', deviceHash);
         }
 
@@ -53,6 +68,21 @@ export const signalWriteService = {
         } else if (payload.meta?.source === 'pulse') {
             signalTypeCode = 'PERSONAL_PULSE_SIGNAL';
             moduleType = 'pulse';
+        }
+
+        // 2. RATE LIMIT (DEBT-006): protect backend from client bursts before
+        // touching the outbox so we don't fill localStorage with doomed jobs.
+        try {
+            checkSignalRateLimit(moduleType);
+        } catch (err) {
+            if (err instanceof SignalRateLimitError) {
+                analyticsService.trackSystem(
+                    'signal_rate_limited',
+                    'warn',
+                    { module_type: moduleType, retry_after_ms: err.retryAfterMs }
+                );
+            }
+            throw err;
         }
 
         const args = {
@@ -88,7 +118,7 @@ export const signalWriteService = {
         };
 
         // 3. ENCOLAR SIEMPRE
-        const { id } = enqueueInsertSignalEvent(args);
+        const { id } = await enqueueInsertSignalEvent(args);
 
         // 4. UI REFRESH INMEDIATO (optimistic)
         try {
@@ -102,14 +132,13 @@ export const signalWriteService = {
             let res = await sb.rpc('insert_signal_event', {
                 ...args,
                 p_client_event_id: id
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any);
+            } as Database['public']['Functions']['insert_signal_event']['Args']);
 
             // Si falla por p_device_hash, reintento sin ese campo (fallback)
             if (res.error && String(res.error.message).includes('p_device_hash')) {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { p_device_hash: _, ...fallbackArgs } = { ...args, p_client_event_id: id };
-                res = await sb.rpc('insert_signal_event', (fallbackArgs as unknown) as Database['public']['Functions']['insert_signal_event']['Args']);
+                res = await sb.rpc('insert_signal_event', fallbackArgs as Database['public']['Functions']['insert_signal_event']['Args']);
             }
 
             const { error } = res;
@@ -147,7 +176,7 @@ export const signalWriteService = {
                 }
 
                 if (isNonRetriableSignalErrorMessage(eMsg)) {
-                    removeOutboxJob(id);
+                    await removeOutboxJob(id);
                     analyticsService.trackSystem("signal_emit_non_retriable_error", "error", { message: String(eMsg).slice(0, 160) }, id);
                     try {
                         window.dispatchEvent(new CustomEvent('opina:signal_emitted'));
@@ -160,7 +189,7 @@ export const signalWriteService = {
                 logger.warn('[SignalService] RPC insert_signal_event failed (transient)', eMsg);
             } else {
                 // V14 Enrichment: Native backend persistence handles all args. No subsequent async UPDATE requirement.
-                removeOutboxJob(id);
+                await removeOutboxJob(id);
                 analyticsService.trackSystem("signal_saved", "info", { battle_id: payload.battle_id, option_id: payload.option_id }, id);
             }
         } catch (err: unknown) {

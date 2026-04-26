@@ -70,7 +70,7 @@ export default function AdminSignals() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-3">
-                        <Database className="w-8 h-8 text-primary-600" />
+                        <Database className="w-8 h-8 text-brand" />
                         Catálogo Maestro
                     </h1>
                     <p className="text-slate-500 mt-1">Gestión centralizada de todas las batallas y señales.</p>
@@ -86,14 +86,14 @@ export default function AdminSignals() {
                         placeholder="Buscar por título o descripción..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-slate-50 border-none rounded-xl pl-11 pr-4 py-3 text-sm font-medium focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all outline-none"
+                        className="w-full bg-slate-50 border-none rounded-xl pl-11 pr-4 py-3 text-sm font-medium focus:ring-2 focus:ring-brand/50 focus:bg-white transition-all outline-none"
                     />
                 </div>
                 <div className="flex gap-3">
                     <select 
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
-                        className="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold text-slate-700 outline-none cursor-pointer focus:ring-2 focus:ring-primary-500"
+                        className="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold text-slate-700 outline-none cursor-pointer focus:ring-2 focus:ring-brand/50"
                     >
                         <option value="all">Todos los Estados</option>
                         <option value="active">Activas</option>
@@ -140,11 +140,11 @@ export default function AdminSignals() {
                                     </td>
                                     <td className="p-4">
                                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
-                                            signal.status === 'active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                                            signal.status === 'active' ? 'bg-accent/10 text-accent border border-accent-200' :
                                             signal.status === 'archived' ? 'bg-slate-100 text-slate-600 border border-slate-200' :
-                                            'bg-amber-50 text-amber-700 border border-amber-200'
+                                            'bg-warning/10 text-warning border border-warning/30'
                                         }`}>
-                                            {signal.status === 'active' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>}
+                                            {signal.status === 'active' && <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>}
                                             {signal.status}
                                         </span>
                                     </td>
@@ -160,8 +160,8 @@ export default function AdminSignals() {
                                                 onClick={() => handleToggleStatus(signal.id, signal.status)}
                                                 className={`p-2 rounded-xl transition-colors ${
                                                     signal.status === 'active' 
-                                                        ? 'bg-amber-50 text-amber-600 hover:bg-amber-100' 
-                                                        : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
+                                                        ? 'bg-warning/10 text-warning hover:bg-warning/20'
+                                                        : 'bg-accent/10 text-accent hover:bg-accent/20'
                                                 }`}
                                                 title={signal.status === 'active' ? 'Pausar Señal' : 'Activar Señal'}
                                             >
@@ -172,7 +172,7 @@ export default function AdminSignals() {
                                                     setSelectedBattleId(signal.id);
                                                     setSelectedBattleTitle(signal.title);
                                                 }}
-                                                className="p-2 bg-slate-50 text-slate-600 hover:bg-primary-50 rounded-xl transition-colors" title="Modelos y Analítica">
+                                                className="p-2 bg-slate-50 text-slate-600 hover:bg-brand/10 rounded-xl transition-colors" title="Modelos y Analítica">
                                                 <BarChart2 className="w-4 h-4" />
                                             </button>
                                         </div>
@@ -182,7 +182,7 @@ export default function AdminSignals() {
                             {loading && (
                                 <tr>
                                     <td colSpan={5} className="p-8 text-center text-slate-400">
-                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-2"></div>
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand mx-auto mb-2"></div>
                                         Cargando catálogo...
                                     </td>
                                 </tr>

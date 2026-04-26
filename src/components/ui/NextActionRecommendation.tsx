@@ -54,7 +54,7 @@ export const NextActionRecommendation: React.FC<NextActionRecommendationProps> =
     return (
         <div className="bg-slate-900 rounded-[2rem] p-10 md:p-14 flex flex-col md:flex-row items-center justify-between text-left w-full relative overflow-hidden group shadow-xl">
             {/* Elementos Decorativos de Fondo */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600 rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-1000 -mr-20 -mt-20 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-1000 -mr-20 -mt-20 pointer-events-none" />
             
             <div className="relative z-10 w-full max-w-xl mb-8 md:mb-0">
                 {signalsEarned !== undefined && signalsEarned > 0 && (
@@ -63,7 +63,7 @@ export const NextActionRecommendation: React.FC<NextActionRecommendationProps> =
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         className="mb-6 inline-flex items-center gap-2 px-3 py-1 bg-surface2/10 border border-white/10 text-white rounded-full font-black text-xs uppercase tracking-widest shadow-sm"
                     >
-                        <span className="material-symbols-outlined text-[16px] text-primary">add_circle</span>
+                        <span className="material-symbols-outlined text-[16px] text-brand">add_circle</span>
                         +{signalsEarned} Señal{signalsEarned === 1 ? '' : 'es'} Reciente{signalsEarned === 1 ? '' : 's'}
                     </motion.div>
                 )}
@@ -79,7 +79,7 @@ export const NextActionRecommendation: React.FC<NextActionRecommendationProps> =
             <div className="relative z-10 w-full md:w-auto flex flex-col sm:flex-row gap-4 shrink-0">
                 <button
                     onClick={() => onAction(recommendedAction)}
-                    className="flex-1 sm:flex-none flex items-center justify-center gap-3 py-4 px-8 bg-primary text-white rounded-2xl font-black text-[15px] hover:bg-primary-hover active:scale-[0.98] transition-all whitespace-nowrap"
+                    className="flex-1 sm:flex-none flex items-center justify-center gap-3 py-4 px-8 bg-brand text-white rounded-2xl font-black text-[15px] hover:bg-brand-700 active:scale-[0.98] transition-all whitespace-nowrap"
                 >
                     {buttonLabel}
                     <span className="material-symbols-outlined text-[20px]">{actionIcon}</span>

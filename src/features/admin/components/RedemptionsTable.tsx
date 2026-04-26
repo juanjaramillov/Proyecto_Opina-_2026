@@ -30,9 +30,9 @@ export function RedemptionsTable({ redemptions }: RedemptionsTableProps) {
                             <td className="px-4 py-3 text-slate-500 text-xs text-center">{new Date(r.created_at).toLocaleString()}</td>
                             <td className="px-4 py-3 font-mono font-medium text-slate-900 text-center">{r.invite_code_entered}</td>
                             <td className="px-4 py-3 text-center">
-                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${r.result === 'success' ? 'bg-emerald-100 text-emerald-800' :
-                                    r.result === 'invite_invalid' || r.result === 'invite_already_used' ? 'bg-red-100 text-red-800' :
-                                        'bg-blue-100 text-blue-800'
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${r.result === 'success' ? 'bg-accent/20 text-accent-800' :
+                                    r.result === 'invite_invalid' || r.result === 'invite_already_used' ? 'bg-danger-100 text-danger-800' :
+                                        'bg-brand-100 text-brand-800'
                                     }`}>
                                     {r.result}
                                 </span>

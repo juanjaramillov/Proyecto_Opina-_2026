@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Calculator, Clock, BarChart2, Activity, Save } from "lucide-react";
 import { mathEngineService } from "../services/mathEngineService";
 import { Link } from "react-router-dom";
+import { GradientText } from "../../../components/ui/foundation";
 
 export default function AdminMathEngine() {
   const [activeTab, setActiveTab] = useState<"decay" | "wilson" | "entropy">("decay");
@@ -9,7 +10,7 @@ export default function AdminMathEngine() {
   // DB Config State
   const [loadingConfig, setLoadingConfig] = useState(true);
   const [savingConfig, setSavingConfig] = useState(false);
-  const [configParams, setConfigParams] = useState<Record<string, any> | null>(null);
+  const [configParams, setConfigParams] = useState<Record<string, number | string | null> | null>(null);
 
   // Load config on mount
   useEffect(() => {
@@ -114,17 +115,17 @@ export default function AdminMathEngine() {
   };
 
   if (loadingConfig) {
-    return <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10 flex items-center justify-center">Cargando Motor Canónico...</div>;
+    return <div className="min-h-screen bg-slate-50 p-6 lg:p-10 flex items-center justify-center">Cargando Motor Canónico...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10">
+    <div className="min-h-screen bg-slate-50 p-6 lg:p-10">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-            <Calculator className="w-8 h-8 text-purple-600" />
-            <span className="text-gradient-brand">Motor Estadístico</span>
+            <Calculator className="w-8 h-8 text-brand" />
+            <GradientText>Motor Estadístico</GradientText>
           </h1>
           <p className="text-slate-500 mt-1">
             Auditoría y gobernanza en vivo de las fórmulas matemáticas nativas de la base de datos (Canonical Analytics).
@@ -142,21 +143,21 @@ export default function AdminMathEngine() {
       <div className="flex gap-2 mb-8 border-b border-slate-200 pb-2">
         <button
           onClick={() => setActiveTab("decay")}
-          className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${activeTab === "decay" ? "bg-purple-100 text-purple-800" : "text-slate-600 hover:bg-slate-100"}`}
+          className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${activeTab === "decay" ? "bg-brand-100 text-brand-800" : "text-slate-600 hover:bg-slate-100"}`}
         >
           <Clock className="w-4 h-4" />
           Time Decay (Vida Media)
         </button>
         <button
           onClick={() => setActiveTab("wilson")}
-          className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${activeTab === "wilson" ? "bg-purple-100 text-purple-800" : "text-slate-600 hover:bg-slate-100"}`}
+          className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${activeTab === "wilson" ? "bg-brand-100 text-brand-800" : "text-slate-600 hover:bg-slate-100"}`}
         >
           <BarChart2 className="w-4 h-4" />
           Wilson Score Interval
         </button>
         <button
           onClick={() => setActiveTab("entropy")}
-          className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${activeTab === "entropy" ? "bg-purple-100 text-purple-800" : "text-slate-600 hover:bg-slate-100"}`}
+          className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${activeTab === "entropy" ? "bg-brand-100 text-brand-800" : "text-slate-600 hover:bg-slate-100"}`}
         >
           <Activity className="w-4 h-4" />
           Entropía de Shannon
@@ -164,7 +165,7 @@ export default function AdminMathEngine() {
       </div>
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl border border-red-200 font-medium text-sm">
+        <div className="mb-6 p-4 bg-danger-50 text-danger-700 rounded-xl border border-danger-200 font-medium text-sm">
           {error}
         </div>
       )}
@@ -183,7 +184,7 @@ export default function AdminMathEngine() {
               <button 
                 onClick={() => handleSaveConfig('decay_half_life_days', halfLife)}
                 disabled={savingConfig || configParams?.decay_half_life_days === halfLife}
-                className="px-4 py-2 flex items-center gap-2 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition shadow-sm"
+                className="px-4 py-2 flex items-center gap-2 bg-accent text-white font-bold rounded-xl hover:bg-accent-700 disabled:opacity-50 transition shadow-sm"
               >
                 <Save className="w-4 h-4" />
                 Guardar en Global
@@ -196,14 +197,14 @@ export default function AdminMathEngine() {
                 <input 
                   type="range" min="0" max="180" 
                   value={decayDays} onChange={(e) => setDecayDays(Number(e.target.value))}
-                  className="w-full accent-purple-600"
+                  className="w-full accent-brand"
                 />
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">Constante Global: Vida Media (días): {halfLife}</label>
                 <select 
                   value={halfLife} onChange={(e) => setHalfLife(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand shadow-sm"
                 >
                   <option value={7}>7 días (Muy rápido)</option>
                   <option value={15}>15 días</option>
@@ -222,11 +223,11 @@ export default function AdminMathEngine() {
             </button>
 
             {decayResult !== null && (
-              <div className="mt-8 p-6 bg-purple-50 border border-purple-100 rounded-2xl">
-                <p className="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Peso Estadístico Resultante</p>
+              <div className="mt-8 p-6 bg-brand-50 border border-brand-100 rounded-2xl">
+                <p className="text-sm font-bold text-brand-400 uppercase tracking-widest mb-1">Peso Estadístico Resultante</p>
                 <div className="flex items-end gap-3">
-                  <span className="text-5xl font-black text-purple-900">{(decayResult * 100).toFixed(2)}%</span>
-                  <span className="text-purple-700 font-medium mb-2">del valor original ({decayResult} factor)</span>
+                  <span className="text-5xl font-black text-brand-900">{(decayResult * 100).toFixed(2)}%</span>
+                  <span className="text-brand-700 font-medium mb-2">del valor original ({decayResult} factor)</span>
                 </div>
               </div>
             )}
@@ -244,7 +245,7 @@ export default function AdminMathEngine() {
               <button 
                 onClick={() => handleSaveConfig('wilson_confidence_level', confidence)}
                 disabled={savingConfig || configParams?.wilson_confidence_level === confidence}
-                className="px-4 py-2 flex items-center gap-2 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition shadow-sm"
+                className="px-4 py-2 flex items-center gap-2 bg-accent text-white font-bold rounded-xl hover:bg-accent-700 disabled:opacity-50 transition shadow-sm"
               >
                 <Save className="w-4 h-4" />
                 Guardar en Global
@@ -257,21 +258,21 @@ export default function AdminMathEngine() {
                 <input 
                   type="number" min="0" 
                   value={posVotes} onChange={(e) => setPosVotes(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand shadow-sm"
                 />
                 
                 <label className="block text-sm font-bold text-slate-700 mt-4 mb-2">Total Emitidas (Pos + Neg/Skips)</label>
                 <input 
                   type="number" min="1" 
                   value={totVotes} onChange={(e) => setTotVotes(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand shadow-sm"
                 />
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">Nivel de Confianza Global</label>
                 <select 
                   value={confidence} onChange={(e) => setConfidence(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand shadow-sm"
                 >
                   <option value={0.90}>90% (Más agresivo)</option>
                   <option value={0.95}>95% (Estándar Estadístico - Opina+)</option>
@@ -288,17 +289,17 @@ export default function AdminMathEngine() {
             </button>
 
             {wilsonResult !== null && (
-              <div className="mt-8 p-6 bg-purple-50 border border-purple-100 rounded-2xl flex flex-col gap-4">
+              <div className="mt-8 p-6 bg-brand-50 border border-brand-100 rounded-2xl flex flex-col gap-4">
                 <div>
-                  <p className="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Score Crudo Tradicional (Engañoso)</p>
+                  <p className="text-sm font-bold text-brand-400 uppercase tracking-widest mb-1">Score Crudo Tradicional (Engañoso)</p>
                   <span className="text-3xl font-black text-slate-400">{((posVotes / Math.max(1, totVotes)) * 100).toFixed(2)}%</span>
                 </div>
-                <div className="w-full h-px bg-purple-200"></div>
+                <div className="w-full h-px bg-brand-200"></div>
                 <div>
-                  <p className="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Score Real Inferior (Wilson)</p>
+                  <p className="text-sm font-bold text-brand-400 uppercase tracking-widest mb-1">Score Real Inferior (Wilson)</p>
                   <div className="flex items-end gap-3">
-                    <span className="text-5xl font-black text-purple-900">{(wilsonResult * 100).toFixed(2)}%</span>
-                    <span className="text-purple-700 font-medium mb-2">Score suavizado ({wilsonResult})</span>
+                    <span className="text-5xl font-black text-brand-900">{(wilsonResult * 100).toFixed(2)}%</span>
+                    <span className="text-brand-700 font-medium mb-2">Score suavizado ({wilsonResult})</span>
                   </div>
                 </div>
               </div>
@@ -317,7 +318,7 @@ export default function AdminMathEngine() {
               <button 
                 onClick={() => handleSaveConfig('entropy_base', entropyBase)}
                 disabled={savingConfig || configParams?.entropy_base === entropyBase}
-                className="px-4 py-2 flex items-center gap-2 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition shadow-sm"
+                className="px-4 py-2 flex items-center gap-2 bg-accent text-white font-bold rounded-xl hover:bg-accent-700 disabled:opacity-50 transition shadow-sm"
               >
                 <Save className="w-4 h-4" />
                 Guardar en Global
@@ -331,14 +332,14 @@ export default function AdminMathEngine() {
                   type="text" 
                   placeholder="Ejemplo: 30, 20, 10, 5"
                   value={entropyShares} onChange={(e) => setEntropyShares(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand shadow-sm"
                 />
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">Base Logarítmica</label>
                 <select 
                   value={entropyBase} onChange={(e) => setEntropyBase(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-purple-500 shadow-sm"
+                  className="w-full bg-white border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand shadow-sm"
                 >
                   <option value={2.0}>Base 2 (Bits - Estándar)</option>
                   <option value={2.71828}>Base e (Nats)</option>
@@ -355,12 +356,12 @@ export default function AdminMathEngine() {
             </button>
 
             {entropyResult !== null && (
-              <div className="mt-8 p-6 bg-purple-50 border border-purple-100 rounded-2xl">
-                <p className="text-sm font-bold text-purple-400 uppercase tracking-widest mb-1">Índice de Entropía</p>
+              <div className="mt-8 p-6 bg-brand-50 border border-brand-100 rounded-2xl">
+                <p className="text-sm font-bold text-brand-400 uppercase tracking-widest mb-1">Índice de Entropía</p>
                 <div className="flex items-end gap-3">
-                  <span className="text-5xl font-black text-purple-900">{entropyResult.toFixed(4)}</span>
+                  <span className="text-5xl font-black text-brand-900">{entropyResult.toFixed(4)}</span>
                 </div>
-                <p className="mt-3 text-sm text-purple-800">
+                <p className="mt-3 text-sm text-brand-800">
                   {entropyResult < 1 ? "Baja Entropía: Muestra Monopolio o Alta Concentración. Una marca domina a todas las demás." : 
                    entropyResult < 2 ? "Entropía Media: Competencia saludable con líderes claros." : 
                    "Alta Entropía: Mercado híper-fragmentado. Muchas opciones similares compiten sin un líder dominante."}

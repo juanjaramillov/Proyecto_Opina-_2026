@@ -204,6 +204,7 @@ import { ServiceEntity } from "../types/service";
 
 import { signalService } from "../../signals/services/signalService";
 import ServicioDetailView from "./ServicioDetailView";
+import { BetaDisclaimerBanner } from "../../../components/ui/BetaDisclaimerBanner";
 
 interface ServiciosViewProps {
     battles?: Battle[];
@@ -223,8 +224,15 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
             setIsLoading(true);
             try {
                 const data = await signalService.getEntitiesByModule('is_active_servicio');
-                const mappedServices: ServiceEntity[] = data.map((entity: any) => {
-                    const meta = typeof entity.metadata === 'object' ? entity.metadata || {} : {};
+                type EntityRow = {
+                    id: string;
+                    name: string;
+                    image_url?: string | null;
+                    metadata?: Record<string, unknown> | null;
+                    category?: string | null;
+                };
+                const mappedServices: ServiceEntity[] = (data as EntityRow[]).map((entity) => {
+                    const meta = (typeof entity.metadata === 'object' && entity.metadata) ? entity.metadata as Record<string, unknown> : {};
                     return {
                         id: entity.id,
                         name: entity.name,
@@ -276,7 +284,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
-                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
+                <div className="w-16 h-16 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin mb-6"></div>
                 <h3 className="text-xl font-black text-slate-800">Cargando servicios...</h3>
             </div>
         );
@@ -284,12 +292,21 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
 
     return (
         <div className="space-y-8 flex flex-col animate-in fade-in duration-500 w-full mb-24">
-            
+
+            {/* Aviso de estado Beta: el directorio muestra marcas reales pero todavía no hay entrada de señales end-to-end. */}
+            <div className="max-w-5xl xl:max-w-6xl mx-auto w-full px-2">
+                <BetaDisclaimerBanner
+                    moduleSlug="servicios"
+                    title="Servicios está en Beta"
+                    message="Hoy puedes explorar el directorio de proveedores, pero la captura de señales sobre cada servicio llega en la próxima versión. Los rankings que ves son preliminares."
+                />
+            </div>
+
             {/* Header del Componente */}
             <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-6 md:p-10 relative overflow-hidden">
                 {/* Background Decorativo */}
                 <div className="absolute inset-0 pointer-events-none opacity-30">
-                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 from-blue-100 to-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
+                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 from-brand-100 to-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
                 </div>
                 
                 <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
@@ -298,11 +315,11 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                              <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                         </button>
                     </div>
-                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-blue-600 shadow-inner">
+                    <div className="w-16 h-16 bg-brand-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-brand-600 shadow-inner">
                         <span className="material-symbols-outlined text-4xl">storefront</span>
                     </div>
                     <h2 className="text-3xl md:text-4xl font-black text-ink tracking-tight">
-                        Explora <span className="text-blue-600">Servicios</span>
+                        Explora <span className="text-brand-600">Servicios</span>
                     </h2>
                     <p className="text-slate-500 font-medium max-w-2xl mx-auto">
                         Evalúa y compara proveedores, suscripciones y entidades de todas las áreas.
@@ -315,7 +332,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                         </div>
                         <input 
                             type="text" 
-                            className="w-full bg-slate-50/50 border border-slate-200 text-ink rounded-full py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium placeholder:text-slate-400 shadow-sm"
+                            className="w-full bg-slate-50/50 border border-slate-200 text-ink rounded-full py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all font-medium placeholder:text-slate-400 shadow-sm"
                             placeholder="Buscar internet, bancos, isapres..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -354,7 +371,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                                 onClick={() => setActiveSubfilter(subcat.id)}
                                 className={`px-4 py-1.5 rounded-full font-bold text-xs whitespace-nowrap transition-all shadow-sm
                                     ${activeSubfilter === subcat.id 
-                                        ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-500/50' 
+                                        ? 'bg-brand-100 text-brand-700 ring-1 ring-brand-500/50' 
                                         : 'bg-white border border-slate-100 text-slate-500 hover:bg-slate-50 hover:text-slate-700'
                                     }`}
                             >
@@ -387,7 +404,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
 
                                     {/* Action Header on Image */}
                                     <div className="absolute top-4 right-4 flex gap-2 z-10">
-                                        <button className="p-2.5 bg-white/90 hover:bg-white backdrop-blur-md rounded-full text-slate-700 hover:text-rose-500 transition-colors shadow-sm">
+                                        <button className="p-2.5 bg-white/90 hover:bg-white backdrop-blur-md rounded-full text-slate-700 hover:text-danger-500 transition-colors shadow-sm">
                                             <span className="material-symbols-outlined text-[20px] leading-none block">bookmark</span>
                                         </button>
                                     </div>
@@ -401,17 +418,17 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                                 {/* Contenido Inferior */}
                                 <div className="p-5 flex flex-col flex-grow relative">
                                     <div className="flex justify-between items-start mb-2 gap-4">
-                                        <h3 className="text-[1.35rem] leading-tight font-black text-ink group-hover:text-blue-600 transition-colors line-clamp-1">{service.name}</h3>
+                                        <h3 className="text-[1.35rem] leading-tight font-black text-ink group-hover:text-brand-600 transition-colors line-clamp-1">{service.name}</h3>
                                         <div className="flex flex-col items-end gap-1 shrink-0 relative">
-                                            <div className="flex items-center gap-1 bg-amber-50 text-amber-700 px-2 py-1 rounded-lg border border-amber-100/50 w-full justify-center">
-                                                <span className="material-symbols-outlined text-[16px] text-amber-500 fill-current">star</span>
+                                            <div className="flex items-center gap-1 bg-warning-50 text-warning-700 px-2 py-1 rounded-lg border border-warning-100/50 w-full justify-center">
+                                                <span className="material-symbols-outlined text-[16px] text-warning-500 fill-current">star</span>
                                                 <span className="text-sm font-bold">{service.rating.toFixed(1)}</span>
-                                                <span className="text-[10px] text-amber-600/70 font-semibold absolute -top-2.5 -right-2 bg-white rounded-full px-1.5 shadow-sm border border-slate-100">
+                                                <span className="text-[10px] text-warning-600/70 font-semibold absolute -top-2.5 -right-2 bg-white rounded-full px-1.5 shadow-sm border border-slate-100">
                                                     +{service.reviews >= 1000 ? (service.reviews/1000).toFixed(1)+'k' : service.reviews}
                                                 </span>
                                             </div>
                                             {service.trendDirection && (
-                                                <div className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[10px] font-bold border ${service.trendDirection === 'up' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : service.trendDirection === 'down' ? 'bg-rose-50 text-rose-600 border-rose-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
+                                                <div className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[10px] font-bold border ${service.trendDirection === 'up' ? 'bg-accent/10 text-accent border-accent-100/50' : service.trendDirection === 'down' ? 'bg-danger-50 text-danger-600 border-danger-100/50' : 'bg-slate-50 text-slate-500 border-slate-100/50'}`}>
                                                     <span className="material-symbols-outlined text-[12px] stroke-2">
                                                         {service.trendDirection === 'up' ? 'trending_up' : service.trendDirection === 'down' ? 'trending_down' : 'trending_flat'}
                                                     </span>
@@ -428,7 +445,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
                                     </div>
                     
                                     <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                                        <span className="flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-full">
+                                        <span className="flex items-center gap-1.5 text-xs font-bold text-brand-700 bg-brand-50 px-3 py-1.5 rounded-full">
                                             Ver análisis
                                             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
                                         </span>

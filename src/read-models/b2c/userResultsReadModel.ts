@@ -40,10 +40,9 @@ export const userResultsReadModel = {
       if (statsError) throw statsError;
 
       const totalSignals = userStats?.length || 0;
-      
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const moduleCounts = (userStats || []).reduce((acc: Record<string, number>, curr: any) => {
-        const mod = curr.module_type;
+
+      const moduleCounts = (userStats ?? []).reduce<Record<string, number>>((acc, curr) => {
+        const mod = curr.module_type ?? 'unknown';
         acc[mod] = (acc[mod] || 0) + 1;
         return acc;
       }, {});
@@ -67,28 +66,24 @@ export const userResultsReadModel = {
       if (recentError) throw recentError;
 
       // Enriquecer recientes con display_names
-      const entityIds = (recentSignals || [])
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .map((s: any) => s.entity_id)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .filter((id: any): id is string => !!id);
-        
+      const entityIds = (recentSignals ?? [])
+        .map((s) => s.entity_id)
+        .filter((id): id is string => !!id);
+
       let entityNames: Record<string, string> = {};
       if (entityIds.length > 0) {
          const { data: entities } = await supabase
            .from('signal_entities')
            .select('id, display_name')
            .in('id', entityIds);
-           
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-         entityNames = (entities || []).reduce((acc: Record<string, string>, curr: any) => {
+
+         entityNames = (entities ?? []).reduce<Record<string, string>>((acc, curr) => {
            acc[curr.id] = curr.display_name;
            return acc;
-         }, {} as Record<string, string>);
+         }, {});
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const recentActivity: SignalActivity[] = (recentSignals || []).map((s: any) => ({
+      const recentActivity: SignalActivity[] = (recentSignals ?? []).map((s) => ({
         id: s.id,
         moduleType: s.module_type || 'versus',
         entityId: s.entity_id || undefined,
@@ -110,8 +105,7 @@ export const userResultsReadModel = {
           
          if (comparisonsData) {
            for (const vs of versusSignals) {
-             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-             const comp = comparisonsData.find((c: any) => c.entity_id === vs.entityId);
+             const comp = comparisonsData.find((c) => c.entity_id === vs.entityId);
              if (comp) {
                const prefShare = comp.preference_share || 0;
                comparisons.push({

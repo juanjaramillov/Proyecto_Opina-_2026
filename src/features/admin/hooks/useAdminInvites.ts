@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { adminInvitesService, InviteRow, RedemptionRow } from '../services/adminInvitesService';
-import { supabase } from '../../../supabase/client';
+import { typedRpc } from '../../../supabase/typedRpc';
 
 export type StatusFilterType = 'all' | 'pending' | 'in_use' | 'abandoned' | 'revoked';
 
@@ -156,7 +156,7 @@ export function useAdminInvites() {
                 await adminInvitesService.deleteInvite(inviteId);
                 setInvites(invites.filter((i) => i.id !== inviteId));
             } else {
-                const { error } = await (supabase.rpc as unknown as (n: string, a: object) => Promise<{ error: unknown }>)('admin_set_invitation_status', {
+                const { error } = await typedRpc<unknown>('admin_set_invitation_status', {
                     p_invite_id: inviteId,
                     p_status: action,
                 });
@@ -184,7 +184,7 @@ export function useAdminInvites() {
         try {
             await navigator.clipboard.writeText(activeCodes);
             alert('Códigos copiados al portapapeles!');
-        } catch (err) {
+        } catch {
             setErrorMsg('Failed to copy to clipboard');
         }
     };
@@ -215,7 +215,7 @@ export function useAdminInvites() {
                 if (action === 'delete') {
                     return adminInvitesService.deleteInvite(inviteId);
                 } else {
-                    return (supabase.rpc as unknown as (n: string, a: object) => Promise<{ error: unknown }>)('admin_set_invitation_status', {
+                    return typedRpc<unknown>('admin_set_invitation_status', {
                         p_invite_id: inviteId,
                         p_status: action,
                     });

@@ -15,7 +15,7 @@ const PreviewNewsCard: React.FC<{ items: NewsItem[] }> = ({ items }) => {
                     <div className="flex flex-col md:flex-row gap-6 relative z-10">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-3">
-                                <span className="px-2 py-0.5 bg-rose-50 text-rose-600 text-[9px] font-black uppercase tracking-widest rounded-md border border-rose-100">
+                                <span className="px-2 py-0.5 bg-danger-50 text-danger-600 text-[9px] font-black uppercase tracking-widest rounded-md border border-danger-100">
                                     {news.source}
                                 </span>
                                 <span className="text-[10px] font-bold text-slate-400">Hace {news.date}</span>

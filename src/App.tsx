@@ -6,6 +6,7 @@ import Gate from "./features/access/components/Gate";
 import { MotionConfig } from "framer-motion";
 import MainLayout from "./components/layout/MainLayout";
 import { GlobalErrorBoundary } from "./components/ui/GlobalErrorBoundary";
+import { ModuleErrorBoundary } from "./components/ui/ModuleErrorBoundary";
 
 // Core Pages (Synchronous for fast first render)
 import Home from "./features/home/pages/Home";
@@ -44,6 +45,7 @@ const AdminAnalytics = lazy(() => import("./features/admin/pages/AdminAnalytics"
 const AdminResults = lazy(() => import("./features/admin/pages/AdminResults"));
 const AdminMathEngine = lazy(() => import("./features/admin/pages/AdminMathEngine"));
 const AdminDemoLaunchpad = lazy(() => import("./features/admin/pages/AdminDemoLaunchpad"));
+const AdminSectionLayout = lazy(() => import("./features/admin/layouts/AdminSectionLayout"));
 
 const AboutUs = lazy(() => import("./pages/static/AboutUs"));
 const PrivacyPolicy = lazy(() => import("./pages/static/PrivacyPolicy"));
@@ -119,20 +121,41 @@ export default function App() {
             <Route path="/intelligence-dashboard" element={<Navigate to="/b2b" replace />} />
 
             {/* 5. PROTECTED ROUTES - ADMIN ONLY */}
-            <Route path="/admin/system" element={<Gate module="admin"><AdminSystemOverview /></Gate>} />
-            <Route path="/admin/invitaciones" element={<Gate module="admin"><AdminInvites /></Gate>} />
-            <Route path="/admin/health" element={<Gate module="admin"><AdminHealth /></Gate>} />
-            <Route path="/admin/antifraude" element={<Gate module="admin"><AdminAntifraud /></Gate>} />
-            <Route path="/admin/actualidad" element={<Gate module="admin"><AdminActualidad /></Gate>} />
-            <Route path="/admin/actualidad/:id" element={<Gate module="admin"><AdminActualidadEditor /></Gate>} />
-            <Route path="/admin/users" element={<Gate module="admin"><AdminUsers /></Gate>} />
-            <Route path="/admin/signals" element={<Gate module="admin"><AdminSignals /></Gate>} />
-            <Route path="/admin/entities" element={<Gate module="admin"><AdminEntities /></Gate>} />
-            <Route path="/admin/traffic" element={<Gate module="admin"><AdminTrafficDashboard /></Gate>} />
-            <Route path="/admin/analytics" element={<Gate module="admin"><AdminAnalytics /></Gate>} />
-            <Route path="/admin/math-engine" element={<Gate module="admin"><AdminMathEngine /></Gate>} />
-            <Route path="/admin/results" element={<Gate module="admin"><AdminResults /></Gate>} />
-            <Route path="/admin/demo" element={<Gate module="admin"><AdminDemoLaunchpad /></Gate>} />
+            {/* 5.1 Analytics & Rendimiento */}
+            <Route path="/admin/analytics" element={<Gate module="admin"><AdminSectionLayout title="Analytics & Rendimiento" description="Visión global del negocio y comportamiento de los usuarios" tabs={[{label: "System Overview", path: "/admin/analytics/system", icon: "data_usage"}, {label: "Tráfico y Usuarios", path: "/admin/analytics/traffic", icon: "monitoring"}, {label: "Insights Analítica", path: "/admin/analytics/insights", icon: "bar_chart"}]} /></Gate>}>
+              <Route index element={<Navigate to="system" replace />} />
+              <Route path="system" element={<AdminSystemOverview />} />
+              <Route path="traffic" element={<AdminTrafficDashboard />} />
+              <Route path="insights" element={<AdminAnalytics />} />
+            </Route>
+
+            {/* 5.2 Usuarios & Comunidad */}
+            <Route path="/admin/users-community" element={<Gate module="admin"><AdminSectionLayout title="Usuarios & Comunidad" description="Directorio CRM y gestión de accesos al piloto" tabs={[{label: "Usuarios CRM", path: "/admin/users-community/crm", icon: "group"}, {label: "Invitaciones", path: "/admin/users-community/invites", icon: "vpn_key"}]} /></Gate>}>
+              <Route index element={<Navigate to="crm" replace />} />
+              <Route path="crm" element={<AdminUsers />} />
+              <Route path="invites" element={<AdminInvites />} />
+            </Route>
+
+            {/* 5.3 Catálogo y Contenido */}
+            <Route path="/admin/content" element={<Gate module="admin"><AdminSectionLayout title="Catálogo y Contenido" description="Administración del catálogo de entidades y actualidad" tabs={[{label: "Entidades (Base)", path: "/admin/content/entities", icon: "stars"}, {label: "Catálogo General", path: "/admin/content/signals", icon: "database"}, {label: "Mesa Editorial", path: "/admin/content/actualidad", icon: "newspaper"}]} /></Gate>}>
+              <Route index element={<Navigate to="entities" replace />} />
+              <Route path="actualidad" element={<AdminActualidad />} />
+              <Route path="actualidad/:id" element={<AdminActualidadEditor />} />
+              <Route path="entities" element={<AdminEntities />} />
+              <Route path="signals" element={<AdminSignals />} />
+            </Route>
+
+            {/* 5.4 Seguridad & Operaciones */}
+            <Route path="/admin/security" element={<Gate module="admin"><AdminSectionLayout title="Seguridad & Operaciones" description="Auditoría técnica, salud del sistema y algoritmos" tabs={[{label: "Antifraude", path: "/admin/security/antifraud", icon: "local_police"}, {label: "Motor Matemático", path: "/admin/security/math-engine", icon: "calculate"}, {label: "Health Checks", path: "/admin/security/health", icon: "monitor_heart"}, {label: "Resultados", path: "/admin/security/results", icon: "rule"}]} /></Gate>}>
+              <Route index element={<Navigate to="antifraud" replace />} />
+              <Route path="antifraud" element={<AdminAntifraud />} />
+              <Route path="math-engine" element={<AdminMathEngine />} />
+              <Route path="health" element={<AdminHealth />} />
+              <Route path="results" element={<AdminResults />} />
+            </Route>
+
+            {/* 5.5 Pilot Launchpad */}
+            <Route path="/admin/demo" element={<Gate module="admin"><ModuleErrorBoundary moduleName="Pilot Launchpad"><AdminDemoLaunchpad /></ModuleErrorBoundary></Gate>} />
 
             {/* 6. FALLBACK */}
             <Route path="*" element={<NotFound />} />

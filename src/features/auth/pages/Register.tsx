@@ -1,10 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import AuthLayout from "../layout/AuthLayout";
-import { authService } from "../services/authService";
+import { authService, RegistrationError } from "../services/authService";
 import { supabase } from "../../../supabase/client";
 import { logger } from "../../../lib/logger";
 import { accessGate } from "../../access/services/accessGate";
+import { useAuthContext } from "../context/AuthContext";
+
+// Site Key pública de hCaptcha. Se inyecta en build via env var.
+// La validación real ocurre en la edge function register-user contra
+// el secret server-side, así que exponer la site key es seguro y esperado.
+const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY as string | undefined;
 
 function getParam(search: string, key: string) {
     return new URLSearchParams(search).get(key);
@@ -18,6 +25,7 @@ function getNext(search: string) {
 export default function RegisterPage() {
     const nav = useNavigate();
     const loc = useLocation();
+    const { accessState } = useAuthContext();
 
     const nextPath = useMemo(() => getNext(loc.search), [loc.search]);
 
@@ -27,9 +35,15 @@ export default function RegisterPage() {
     const [confirm, setConfirm] = useState("");
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState<string | null>(null);
+    // Cuando el error es EMAIL_EXISTS mostramos un CTA a login en vez de solo mensaje.
+    const [showLoginSuggestion, setShowLoginSuggestion] = useState(false);
+    // Token efímero del widget hCaptcha. Se setea en onVerify y se invalida
+    // tras un submit (exitoso o fallido) — los tokens son single-use server-side.
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+    const captchaRef = useRef<HCaptcha | null>(null);
 
     useEffect(() => {
-        if (accessGate.isEnabled() && !accessGate.hasAccess()) {
+        if (accessGate.isEnabled() && !accessState.isLoading && !accessState.hasAccessGateToken) {
             nav(`/access?next=${encodeURIComponent(loc.pathname + loc.search)}`, { replace: true });
             return;
         }
@@ -45,11 +59,12 @@ export default function RegisterPage() {
                 }
             }
         })();
-    }, [nav, loc, nextPath]);
+    }, [nav, loc, nextPath, accessState.isLoading, accessState.hasAccessGateToken]);
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErr(null);
+        setShowLoginSuggestion(false);
 
         const e1 = email.trim();
         if (!e1) {
@@ -73,15 +88,37 @@ export default function RegisterPage() {
             return;
         }
 
+        // Bloquear submit si no hay token de hCaptcha. Si la site key no está
+        // configurada, dejamos pasar (modo desarrollo) — el backend igual lo
+        // exige en producción y devolverá CAPTCHA_FAILED.
+        if (HCAPTCHA_SITE_KEY && !captchaToken) {
+            setErr("Por favor completa la verificación anti-bot.");
+            return;
+        }
+
         setLoading(true);
         try {
-            await authService.registerWithEmail(e1, password, n1);
-            // Después de registrarse, se completa perfil (claim de invitación + nickname)
+            // Registro atómico via Edge Function — evita dejar auth.users huérfanos
+            // si el proceso falla a mitad. La función crea auth + users +
+            // user_profiles en una sola transacción con rollback.
+            await authService.registerWithProfile(e1, password, n1, captchaToken);
+            // Si el registro fue exitoso, ya hay sesión iniciada: ir a completar demografía.
             nav("/complete-profile", { replace: true });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (e: any) {
-            logger.error(e);
-            setErr(e?.message ?? "Algo falló. Intenta de nuevo.");
+        } catch (e: unknown) {
+            logger.error('Error en registro atómico', undefined, e);
+            // Tokens hCaptcha son single-use — resetear el widget para que el
+            // user pueda reintentar sin recargar página.
+            captchaRef.current?.resetCaptcha();
+            setCaptchaToken(null);
+
+            if (e instanceof RegistrationError) {
+                setErr(e.message);
+                if (e.code === 'EMAIL_EXISTS') {
+                    setShowLoginSuggestion(true);
+                }
+            } else {
+                setErr(e instanceof Error ? e.message : "Algo falló. Intenta de nuevo.");
+            }
         } finally {
             setLoading(false);
         }
@@ -100,7 +137,7 @@ export default function RegisterPage() {
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-brand focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="tu@correo.com"
                         type="email"
                         required
@@ -114,7 +151,7 @@ export default function RegisterPage() {
                     <input
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-brand focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="ej: juan_razona"
                         type="text"
                         required
@@ -128,7 +165,7 @@ export default function RegisterPage() {
                     <input
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-brand focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="••••••••"
                         type="password"
                         required
@@ -142,19 +179,58 @@ export default function RegisterPage() {
                     <input
                         value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
-                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-bold text-slate-900"
+                        className="w-full mt-2 px-4 py-3 rounded-xl border border-slate-200 focus:border-brand focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-slate-900"
                         placeholder="••••••••"
                         type="password"
                         required
                     />
                 </div>
 
-                {err && <p className="text-sm text-rose-600 font-bold">{err}</p>}
+                {/* Widget hCaptcha — se renderiza solo si la site key está configurada. */}
+                {HCAPTCHA_SITE_KEY && (
+                    <div className="flex justify-center pt-1">
+                        <HCaptcha
+                            ref={captchaRef}
+                            sitekey={HCAPTCHA_SITE_KEY}
+                            theme="light"
+                            size="normal"
+                            onVerify={(token: string) => setCaptchaToken(token)}
+                            onExpire={() => setCaptchaToken(null)}
+                            onError={(e: unknown) => {
+                                logger.error('hCaptcha widget error', { domain: 'auth', action: 'captcha_error' }, e);
+                                setCaptchaToken(null);
+                            }}
+                        />
+                    </div>
+                )}
+
+                {err && (
+                    <div className="p-3 rounded-xl bg-danger-50 border border-danger-100">
+                        <p className="text-sm text-danger-600 font-bold">{err}</p>
+                        {showLoginSuggestion && (
+                            <div className="mt-2 flex gap-2 items-center">
+                                <Link
+                                    to={`/login?email=${encodeURIComponent(email.trim())}&next=${encodeURIComponent(nextPath)}`}
+                                    className="text-xs font-black text-brand hover:text-brand underline"
+                                >
+                                    Iniciar sesión
+                                </Link>
+                                <span className="text-xs text-slate-400">·</span>
+                                <Link
+                                    to={`/reset-password?email=${encodeURIComponent(email.trim())}`}
+                                    className="text-xs font-black text-brand hover:text-brand underline"
+                                >
+                                    Recuperar contraseña
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-black transition-all hover:shadow-lg hover:shadow-primary-500/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 shadow-sm"
+                    className="w-full py-3.5 rounded-xl bg-brand hover:bg-brand text-white font-black transition-all hover:shadow-lg hover:shadow-brand-500/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 shadow-sm"
                 >
                     {loading ? "Un segundo…" : "Crear cuenta"}
                 </button>
@@ -162,7 +238,7 @@ export default function RegisterPage() {
                 <div className="text-center pt-2">
                     <p className="text-sm text-slate-500 font-medium">
                         ¿Ya tienes cuenta?{" "}
-                        <Link to={`/login?next=${encodeURIComponent(nextPath)}`} className="font-black text-primary-700 hover:text-primary-800">
+                        <Link to={`/login?next=${encodeURIComponent(nextPath)}`} className="font-black text-brand hover:text-brand">
                             Entrar
                         </Link>
                     </p>

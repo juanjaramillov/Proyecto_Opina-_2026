@@ -19,7 +19,13 @@ const FALLBACK_IMAGES = [
 
 const getDeterministicImage = (topic: ActualidadTopicDetail) => {
     // 1. Try real metadata image
-    const realImg = topic.image_url || topic.metadata?.image_url || topic.metadata?.image || (topic.metadata?.image && typeof topic.metadata.image === 'object' ? (topic.metadata.image as Record<string, unknown>).url : null) || (topic as any).image || (topic as any).cover_image;
+    const topicWithExtras = topic as ActualidadTopicDetail & { image?: unknown; cover_image?: unknown };
+    const realImg = topic.image_url
+        || topic.metadata?.image_url
+        || topic.metadata?.image
+        || (topic.metadata?.image && typeof topic.metadata.image === 'object' ? (topic.metadata.image as Record<string, unknown>).url : null)
+        || topicWithExtras.image
+        || topicWithExtras.cover_image;
     if (realImg && typeof realImg === 'string' && realImg.trim() !== '' && realImg !== 'null') return realImg;
     
     // 2. Deterministic Hash Fallback
@@ -129,7 +135,7 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                         className="w-full p-5 md:p-6 rounded-3xl border-2 border-transparent bg-white shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)] hover:border-[var(--accent-primary)] hover:shadow-[0_10px_40px_-10px_rgba(59,130,246,0.3)] transition-all text-left text-lg md:text-xl font-black text-ink flex items-center justify-between group transform hover:-translate-y-1"
                     >
                         {opcion.label}
-                        <div className="w-6 h-6 rounded-full border-2 border-slate-200 group-hover:border-[var(--accent-primary)] flex items-center justify-center shrink-0 bg-slate-50 group-hover:bg-blue-50 transition-colors">
+                        <div className="w-6 h-6 rounded-full border-2 border-slate-200 group-hover:border-[var(--accent-primary)] flex items-center justify-center shrink-0 bg-slate-50 group-hover:bg-brand-50 transition-colors">
                             <div className="w-3 h-3 rounded-full bg-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                     </button>
@@ -145,7 +151,7 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                 <div className="flex items-center gap-4">
                     <button
                         onClick={onCancel}
-                        className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-slate-50 text-slate-500 border border-slate-200 hover:text-blue-600 rounded-[1rem] hover:bg-blue-50 hover:border-blue-200 hover:shadow-sm transition-all"
+                        className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-slate-50 text-slate-500 border border-slate-200 hover:text-brand-600 rounded-[1rem] hover:bg-brand-50 hover:border-brand-200 hover:shadow-sm transition-all"
                         aria-label="Volver atrás"
                     >
                         <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -244,13 +250,13 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                                                 className="w-full sm:w-2/3 mx-auto bg-slate-900 hover:bg-slate-800 text-white rounded-2xl py-5 sm:py-6 text-xl sm:text-2xl font-black flex items-center justify-center gap-3 shadow-[0_10px_40px_-10px_rgba(15,23,42,0.5)] hover:-translate-y-1 transition-all relative overflow-hidden group/btn"
                                             >
                                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000 ease-in-out"></div>
-                                                <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_12px_#34D399]"></span>
+                                                <span className="w-2.5 h-2.5 bg-accent-400 rounded-full animate-pulse shadow-[0_0_12px_#34D399]"></span>
                                                 Comenzar a opinar 
                                                 <span className="text-sm border border-slate-700 bg-slate-800 text-slate-300 px-3 py-1 rounded-full hidden sm:inline-block ml-2">{questions.length} preguntas</span>
                                                 <ChevronRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
                                             </button>
                                         ) : (
-                                            <div className="p-4 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl text-sm font-bold flex items-center justify-center gap-2 w-full">
+                                            <div className="p-4 bg-warning-50 text-warning-600 border border-warning-200 rounded-xl text-sm font-bold flex items-center justify-center gap-2 w-full">
                                                 Tema sin preguntas configuradas.
                                             </div>
                                         )}
@@ -271,8 +277,8 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                                 className="py-10 flex flex-col justify-center w-full max-w-lg mx-auto"
                             >
                                 <div className="flex flex-col items-center mb-10 w-full text-center relative z-10">
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full mb-6 border border-blue-100 flex items-center gap-2 shadow-sm">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-brand-600 bg-brand-50 px-4 py-1.5 rounded-full mb-6 border border-brand-100 flex items-center gap-2 shadow-sm">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
                                         Pregunta {index + 1} de {questions.length}
                                     </span>
                                     <h3 className="text-2xl md:text-4xl font-black text-ink leading-tight tracking-tight drop-shadow-sm max-w-2xl">{question.question_text}</h3>
@@ -293,20 +299,20 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                             className="py-10 flex flex-col items-center justify-center w-full h-full my-auto"
                         >
                             <div className="bg-ink rounded-[2.5rem] p-10 sm:p-14 text-center shadow-2xl w-full max-w-lg relative overflow-hidden border border-slate-800">
-                                <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-blue-600/10 via-transparent to-emerald-500/10 pointer-events-none z-0"></div>
-                                <div className="w-24 h-24 bg-blue-600 text-white rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(37,99,235,0.4)] transform rotate-6 animate-pulse z-10 relative">
+                                <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-brand/10 via-transparent to-accent/10 pointer-events-none z-0"></div>
+                                <div className="w-24 h-24 bg-brand-600 text-white rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(37,99,235,0.4)] transform rotate-6 animate-pulse z-10 relative">
                                     <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
                                 <h3 className="text-4xl font-black text-white mb-4 leading-tight tracking-tight drop-shadow-sm relative z-10">¡Señal Enviada!</h3>
-                                <p className="text-blue-100/80 mb-10 text-lg leading-relaxed font-medium relative z-10">
+                                <p className="text-brand-100/80 mb-10 text-lg leading-relaxed font-medium relative z-10">
                                     Tu opinión fue sumada exitosamente a la inteligencia colectiva sobre este tema.
                                 </p>
 
                                 <button
                                     onClick={() => onComplete(answers)}
-                                    className="w-full bg-white hover:bg-slate-50 text-blue-700 rounded-2xl py-5 text-xl font-black flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(255,255,255,0.1)] hover:shadow-[0_6px_20px_rgba(255,255,255,0.2)] hover:-translate-y-1 transition-all uppercase tracking-widest relative z-10"
+                                    className="w-full bg-white hover:bg-slate-50 text-brand-700 rounded-2xl py-5 text-xl font-black flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(255,255,255,0.1)] hover:shadow-[0_6px_20px_rgba(255,255,255,0.2)] hover:-translate-y-1 transition-all uppercase tracking-widest relative z-10"
                                 >
                                     Volver al Hub
                                 </button>

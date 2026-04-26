@@ -7,9 +7,9 @@ on:
     branches: [ main, master ]
 
 jobs:
-  validate:
+  static-checks:
+    name: Static checks (typecheck · lint · build · unit tests)
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -28,5 +28,54 @@ jobs:
       - name: Lint check
         run: npm run lint
 
+      - name: Unit tests (Vitest)
+        run: npm run test:run
+
       - name: Build check
         run: npm run build
+
+  e2e:
+    name: E2E smoke tests (Playwright)
+    # Corre en paralelo con static-checks pero sólo cuando el build
+    # probablemente compila: needs compara contra el mismo job para evitar
+    # gastar minutos de CI cuando el typecheck está roto.
+    needs: static-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers (Chromium only)
+        # La config actual sólo activa el proyecto chromium. Al no bajar
+        # firefox/webkit ahorramos ~3min y ~1GB de cache en cada run.
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright smoke tests
+        # Las specs mockean todas las RPCs de Supabase con page.route(),
+        # así que no se necesitan secrets para ejecutar la suite.
+        run: npm run test:e2e
+
+      - name: Upload Playwright report (always, even on success)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload Playwright traces (only on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 14

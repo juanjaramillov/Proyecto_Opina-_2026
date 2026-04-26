@@ -1,5 +1,6 @@
 import { supabase } from '../../../supabase/client';
 import { logger } from '../../../lib/logger';
+import { typedRpc } from '../../../supabase/typedRpc';
 
 // ----------------------------------------------------------------------------
 // Types & Interfaces
@@ -66,10 +67,48 @@ export interface ResultsKPIs {
 export const metricsService = {
   
   /**
-   * Obtiene el top de entidades mejor valoradas basándose en la vista
-   * v_comparative_preference_summary limitando a las que tienen suficiente data.
+   * Obtiene el top de entidades mejor valoradas.
+   *
+   * Con time-travel (Bloque B):
+   *   - Si se pasa `asOf`, usa la RPC `entity_ranking_as_of` que dedupea al
+   *     último voto de cada usuario por battle al momento consultado.
+   *   - Si NO se pasa `asOf`, fallback a la vista legacy `v_comparative_preference_summary`
+   *     para no romper callsites que todavía no migraron.
+   *
+   * Nota: la vista legacy NO dedupea (cuenta cada evento como voto independiente).
+   * La RPC nueva sí dedupea. Por eso, cuando `asOf` viene, los números pueden
+   * ser menores — es el comportamiento correcto del Modelo 3.
+   *
+   * @param opts.limit  cantidad máxima de entidades (default 10)
+   * @param opts.asOf   fecha de corte; default = now() cuando se usa RPC
+   * @param opts.categorySlug filtro por categoría (solo con asOf)
    */
-  async getGlobalLeaderboard(limit = 10): Promise<LeaderboardEntry[]> {
+  async getGlobalLeaderboard(
+    opts: { limit?: number; asOf?: Date; categorySlug?: string } | number = {}
+  ): Promise<LeaderboardEntry[]> {
+    // Backwards-compat: aceptar llamada antigua con number suelto (getGlobalLeaderboard(10))
+    const normalized: { limit?: number; asOf?: Date; categorySlug?: string } =
+      typeof opts === 'number' ? { limit: opts } : opts;
+    const limit = normalized.limit ?? 10;
+    const asOf = normalized.asOf;
+    const categorySlug = normalized.categorySlug ?? null;
+
+    if (asOf) {
+      // Ruta nueva: RPC con deduplicación por usuario
+      const { data, error } = await typedRpc<LeaderboardEntry[]>('entity_ranking_as_of', {
+        p_as_of: asOf.toISOString(),
+        p_category_slug: categorySlug,
+        p_limit: limit,
+      });
+
+      if (error) {
+        logger.error('Error fetching ranking as_of', { domain: 'b2b_intelligence', origin: 'metricsService', action: 'fetch_leaderboard_asof', state: 'failed' }, error);
+        return [];
+      }
+      return data ?? [];
+    }
+
+    // Ruta legacy: vista actual sin deduplicación (pendiente de deprecar)
     const { data, error } = await supabase
       .from('v_comparative_preference_summary')
       .select('entity_id, entity_name, wins_count, losses_count, preference_share, win_rate, total_comparisons')
@@ -222,7 +261,7 @@ export const metricsService = {
    * Obtiene los KPIs globales de la plataforma para el dashboard de resultados.
    */
   async getResultsKPIs(): Promise<ResultsKPIs | null> {
-    const { data, error } = await (supabase.rpc as unknown as (name: string) => Promise<{ data: ResultsKPIs | null; error: unknown }>)('get_results_kpis');
+    const { data, error } = await typedRpc<ResultsKPIs>('get_results_kpis');
 
     if (error) {
       logger.error('Error fetching results KPIs', { domain: 'b2b_intelligence', origin: 'metricsService', action: 'fetch_kpis', state: 'failed' }, error);

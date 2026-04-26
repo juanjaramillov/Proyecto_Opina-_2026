@@ -276,7 +276,7 @@ export default function AdminEntities() {
         <div className="relative z-10 flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="bg-primary-50 p-2.5 rounded-xl text-primary-600 border border-primary-100/50">
+              <div className="bg-brand/10 p-2.5 rounded-xl text-brand border border-brand-100/50">
                  <BadgeAlert className="w-6 h-6" />
               </div>
               <h1 className="text-3xl font-black text-slate-900 tracking-tight">Gestión Maestro de Entidades</h1>
@@ -293,7 +293,7 @@ export default function AdminEntities() {
                </div>
                <div className="flex flex-col border-l border-slate-200 pl-6 text-right">
                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Activas</span>
-                 <span className="text-2xl font-black text-emerald-600">{loading ? '-' : entities.filter(e => e.is_active).length}</span>
+                 <span className="text-2xl font-black text-accent">{loading ? '-' : entities.filter(e => e.is_active).length}</span>
                </div>
           </div>
         </div>
@@ -309,7 +309,7 @@ export default function AdminEntities() {
                   placeholder="Buscar por nombre o slug..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-xl pl-10 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 shadow-sm transition-all"
+                  className="w-full bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-xl pl-10 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand shadow-sm transition-all"
                 />
               </div>
 
@@ -317,7 +317,7 @@ export default function AdminEntities() {
                 <select 
                   value={categoryFilter} 
                   onChange={e => setCategoryFilter(e.target.value)}
-                  className="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 shadow-sm transition-all cursor-pointer"
+                  className="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand shadow-sm transition-all cursor-pointer"
                 >
                   <option value="all">Todas Categorías</option>
                   {uniqueCategories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -329,7 +329,7 @@ export default function AdminEntities() {
                 <select 
                   value={subcategoryFilter} 
                   onChange={e => setSubcategoryFilter(e.target.value)}
-                  className="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 shadow-sm transition-all cursor-pointer"
+                  className="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-4 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand shadow-sm transition-all cursor-pointer"
                 >
                   <option value="all">Todas Subcategorías</option>
                   {uniqueSubcategories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -342,7 +342,7 @@ export default function AdminEntities() {
                 <select 
                   value={statusFilter} 
                   onChange={e => setStatusFilter(e.target.value as 'all' | 'active' | 'inactive')}
-                  className="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-10 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 shadow-sm transition-all cursor-pointer"
+                  className="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl pl-10 pr-10 py-2.5 outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand shadow-sm transition-all cursor-pointer"
                 >
                   <option value="all">Todos Estados</option>
                   <option value="active">Activas</option>
@@ -356,7 +356,7 @@ export default function AdminEntities() {
            <div className="lg:col-span-4 w-full flex items-center justify-end gap-2 relative z-50">
              <button 
                onClick={openCreateModal}
-               className="shrink-0 inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm hover:shadow active:scale-95"
+               className="shrink-0 inline-flex items-center gap-2 bg-brand hover:bg-brand text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm hover:shadow active:scale-95"
              >
                <Plus className="w-4 h-4" />
                <span className="hidden sm:inline">Nueva Entidad</span>
@@ -368,7 +368,7 @@ export default function AdminEntities() {
       {/* Main Table Area */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600 mb-4"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand mb-4"></div>
           <p className="text-slate-400 font-medium animate-pulse">Cargando catálogo maestro...</p>
         </div>
       ) : filteredEntities.length === 0 ? (
@@ -393,7 +393,7 @@ export default function AdminEntities() {
                   <th className="px-6 py-4 w-12 text-center">
                     <input 
                       type="checkbox" 
-                      className="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500 cursor-pointer"
+                      className="w-4 h-4 rounded border-slate-300 text-brand focus:ring-brand/50 cursor-pointer"
                       checked={filteredEntities.length > 0 && selectedEntities.length === filteredEntities.length}
                       onChange={(e) => handleSelectAll(e.target.checked)}
                     />
@@ -420,7 +420,7 @@ export default function AdminEntities() {
                       <td className="px-6 py-4 text-center">
                         <input 
                           type="checkbox" 
-                          className="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500 cursor-pointer"
+                          className="w-4 h-4 rounded border-slate-300 text-brand focus:ring-brand/50 cursor-pointer"
                           checked={selectedEntities.includes(entity.id)}
                           onChange={(e) => handleSelectOne(entity.id, e.target.checked)}
                         />
@@ -458,7 +458,7 @@ export default function AdminEntities() {
                       <td className="px-6 py-4 text-center">
                         <button
                           onClick={() => handleStatusToggle(entity.id, entity.is_active)}
-                          className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors ${entity.is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700' : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-500'}`}
+                          className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors ${entity.is_active ? 'bg-accent/10 text-accent hover:bg-accent/20 hover:text-accent' : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-500'}`}
                           title={entity.is_active ? 'Desactivar Entidad' : 'Activar Entidad'}
                         >
                           <Power className="w-4 h-4" />
@@ -479,7 +479,7 @@ export default function AdminEntities() {
                             const isActive = modulesConfig ? modulesConfig[m.id] : true;
                             if (!isActive) return null;
                             return (
-                              <div key={m.id} className="bg-primary/10 text-primary p-1 rounded-md" title={m.label}>
+                              <div key={m.id} className="bg-brand/10 text-brand p-1 rounded-md" title={m.label}>
                                 <span className="material-symbols-outlined text-[14px] aspect-square flex items-center justify-center">{m.icon}</span>
                               </div>
                             );
@@ -489,7 +489,7 @@ export default function AdminEntities() {
                       <td className="px-6 py-4 text-right">
                         <button
                           onClick={() => openEditModal(entity)}
-                          className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors inline-flex"
+                          className="p-2 text-slate-400 hover:text-brand hover:bg-brand/10 rounded-lg transition-colors inline-flex"
                           title="Editar Entidad"
                         >
                           <Edit2 className="w-4 h-4" />
@@ -514,7 +514,7 @@ export default function AdminEntities() {
             className="fixed bottom-8 left-1/2 z-[90] flex items-center gap-4 bg-slate-900/95 backdrop-blur-xl px-4 py-3 rounded-2xl border border-slate-700 shadow-2xl shadow-slate-900/20"
           >
             <div className="flex items-center gap-3 pr-4 border-r border-slate-700/50">
-              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-500/20 text-primary-400">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-brand/20 text-brand">
                 <span className="text-sm font-black">{selectedEntities.length}</span>
               </div>
               <span className="text-sm font-medium text-slate-300">Entidades seleccionadas</span>
@@ -524,7 +524,7 @@ export default function AdminEntities() {
               <button 
                 disabled={isSaving}
                 onClick={() => handleBulkStatusChange(true)}
-                className="inline-flex items-center gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-xl transition-colors font-semibold text-sm"
+                className="inline-flex items-center gap-2 bg-accent/10 hover:bg-accent/20 text-accent-400 px-4 py-2 rounded-xl transition-colors font-semibold text-sm"
               >
                 <Power className="w-4 h-4" />
                 <span>Activar Todas</span>
@@ -602,25 +602,25 @@ export default function AdminEntities() {
                       ) : (
                         <>
                           <label className="block text-xs font-bold text-slate-500 mb-1">URL manual de Imagen</label>
-                          <input type="text" value={editingEntity.logo_path || ''} onChange={e => setEditingEntity({...editingEntity, logo_path: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-primary-500 outline-none font-mono text-slate-600" placeholder="Ej: https://.../logo.png" />
+                          <input type="text" value={editingEntity.logo_path || ''} onChange={e => setEditingEntity({...editingEntity, logo_path: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-brand/50 outline-none font-mono text-slate-600" placeholder="Ej: https://.../logo.png" />
                         </>
                       )}
                     </div>
 
                     <div>
                       <label className="block text-xs font-bold text-slate-500 mb-1">Fuente / Autor (Opcional)</label>
-                      <input type="text" value={editingEntity.metadata?.image_source || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, image_source: e.target.value }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Instagram oficial" />
+                      <input type="text" value={editingEntity.metadata?.image_source || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, image_source: e.target.value }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="Ej: Instagram oficial" />
                     </div>
                   </div>
 
                   <div className="pt-6 border-t border-slate-200">
                     <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Estado General</h3>
-                    <label className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 cursor-pointer hover:border-primary-300 transition-colors">
+                    <label className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 cursor-pointer hover:border-brand/40 transition-colors">
                       <div className="flex flex-col">
                         <span className="font-bold text-sm text-slate-800">{editingEntity.is_active ? 'Entidad Activa' : 'Entidad Inactiva'}</span>
                         <span className="text-xs text-slate-500">Visible en la plataforma</span>
                       </div>
-                      <div className={`w-12 h-6 rounded-full p-1 transition-colors ${editingEntity.is_active ? 'bg-primary-500' : 'bg-slate-300'}`}>
+                      <div className={`w-12 h-6 rounded-full p-1 transition-colors ${editingEntity.is_active ? 'bg-brand' : 'bg-slate-300'}`}>
                         <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${editingEntity.is_active ? 'translate-x-6' : 'translate-x-0'}`} />
                       </div>
                       <input type="checkbox" className="hidden" checked={editingEntity.is_active || false} onChange={e => setEditingEntity({...editingEntity, is_active: e.target.checked})} />
@@ -637,20 +637,20 @@ export default function AdminEntities() {
                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                       <div className="col-span-2 lg:col-span-1">
                         <label className="block text-xs font-bold text-slate-500 mb-1">Nombre *</label>
-                        <input type="text" value={editingEntity.name || ''} onChange={e => setEditingEntity({...editingEntity, name: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="El nombre público" />
+                        <input type="text" value={editingEntity.name || ''} onChange={e => setEditingEntity({...editingEntity, name: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="El nombre público" />
                       </div>
                       <div className="col-span-2 lg:col-span-1">
                         <label className="block text-xs font-bold text-slate-500 mb-1">
                           Slug *
                           {editingEntity.logo_storage_path && (
-                            <span className="text-amber-500 ml-2 font-normal">(Bloqueado: Logo existente)</span>
+                            <span className="text-warning ml-2 font-normal">(Bloqueado: Logo existente)</span>
                           )}
                         </label>
-                        <input type="text" value={editingEntity.slug || ''} onChange={e => setEditingEntity({...editingEntity, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '')})} className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none font-mono ${editingEntity.logo_storage_path ? 'bg-slate-100/50 cursor-not-allowed text-slate-400' : ''}`} placeholder="identificador-unico" disabled={!!editingEntity.logo_storage_path} title={editingEntity.logo_storage_path ? "No puedes modificar el slug porque esta entidad ya tiene un logo persistido en Storage." : "Identificador único"} />
+                        <input type="text" value={editingEntity.slug || ''} onChange={e => setEditingEntity({...editingEntity, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '')})} className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none font-mono ${editingEntity.logo_storage_path ? 'bg-slate-100/50 cursor-not-allowed text-slate-400' : ''}`} placeholder="identificador-unico" disabled={!!editingEntity.logo_storage_path} title={editingEntity.logo_storage_path ? "No puedes modificar el slug porque esta entidad ya tiene un logo persistido en Storage." : "Identificador único"} />
                       </div>
                       <div className="col-span-2 lg:col-span-1">
                         <label className="block text-xs font-bold text-slate-500 mb-1">Tipo</label>
-                        <select value={editingEntity.type || 'brand'} onChange={e => setEditingEntity({...editingEntity, type: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none bg-white">
+                        <select value={editingEntity.type || 'brand'} onChange={e => setEditingEntity({...editingEntity, type: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none bg-white">
                           <option value="brand">Marca (Brand)</option>
                           <option value="place">Lugar (Place)</option>
                           <option value="service">Servicio (Service)</option>
@@ -659,19 +659,19 @@ export default function AdminEntities() {
                       </div>
                       <div className="col-span-2 lg:col-span-1">
                         <label className="block text-xs font-bold text-slate-500 mb-1">Categoría</label>
-                        <input type="text" value={editingEntity.category || ''} onChange={e => setEditingEntity({...editingEntity, category: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Fast Food" />
+                        <input type="text" value={editingEntity.category || ''} onChange={e => setEditingEntity({...editingEntity, category: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="Ej: Fast Food" />
                       </div>
                       <div className="col-span-2 lg:col-span-1">
                         <label className="block text-xs font-bold text-slate-500 mb-1">Subcategoría</label>
-                        <input type="text" value={editingEntity.metadata?.subcategory || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, subcategory: e.target.value }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Hamburguesas" />
+                        <input type="text" value={editingEntity.metadata?.subcategory || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, subcategory: e.target.value }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="Ej: Hamburguesas" />
                       </div>
                       <div className="col-span-2 lg:col-span-1">
                         <label className="block text-xs font-bold text-slate-500 mb-1">Vertical / Industria</label>
-                        <input type="text" value={editingEntity.vertical || ''} onChange={e => setEditingEntity({...editingEntity, vertical: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Gastronomía" />
+                        <input type="text" value={editingEntity.vertical || ''} onChange={e => setEditingEntity({...editingEntity, vertical: e.target.value})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="Ej: Gastronomía" />
                       </div>
                       <div className="col-span-2 lg:col-span-1">
                         <label className="block text-xs font-bold text-slate-500 mb-1">ELO Score Base</label>
-                        <input type="number" value={editingEntity.elo_score || 1500} onChange={e => setEditingEntity({...editingEntity, elo_score: parseInt(e.target.value) || 1500})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none font-mono" />
+                        <input type="number" value={editingEntity.elo_score || 1500} onChange={e => setEditingEntity({...editingEntity, elo_score: parseInt(e.target.value) || 1500})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none font-mono" />
                       </div>
                     </div>
                   </section>
@@ -682,19 +682,19 @@ export default function AdminEntities() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-bold text-slate-500 mb-1">Dirección / Locación</label>
-                        <input type="text" value={editingEntity.metadata?.contact?.address || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, contact: { ...editingEntity.metadata?.contact, address: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Av. Principal 123" />
+                        <input type="text" value={editingEntity.metadata?.contact?.address || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, contact: { ...editingEntity.metadata?.contact, address: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="Ej: Av. Principal 123" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-slate-500 mb-1">Teléfono</label>
-                        <input type="tel" value={editingEntity.metadata?.contact?.phone || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, contact: { ...editingEntity.metadata?.contact, phone: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="+56 9 1234 5678" />
+                        <input type="tel" value={editingEntity.metadata?.contact?.phone || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, contact: { ...editingEntity.metadata?.contact, phone: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="+56 9 1234 5678" />
                       </div>
                       <div>
                          <label className="block text-xs font-bold text-slate-500 mb-1">Sitio Web</label>
-                         <input type="url" value={editingEntity.metadata?.socials?.website || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, socials: { ...editingEntity.metadata?.socials, website: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="https://www.ejemplo.com" />
+                         <input type="url" value={editingEntity.metadata?.socials?.website || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, socials: { ...editingEntity.metadata?.socials, website: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="https://www.ejemplo.com" />
                       </div>
                       <div>
                          <label className="block text-xs font-bold text-slate-500 mb-1">Instagram (@)</label>
-                         <input type="text" value={editingEntity.metadata?.socials?.instagram || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, socials: { ...editingEntity.metadata?.socials, instagram: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="usuario" />
+                         <input type="text" value={editingEntity.metadata?.socials?.instagram || ''} onChange={e => setEditingEntity({...editingEntity, metadata: { ...editingEntity.metadata, socials: { ...editingEntity.metadata?.socials, instagram: e.target.value } }})} className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand/50 outline-none" placeholder="usuario" />
                       </div>
                     </div>
                   </section>
@@ -709,7 +709,7 @@ export default function AdminEntities() {
                           <button
                             key={mdl.id}
                             onClick={() => handleModuleToggle(mdl.id)}
-                            className={`flex flex-col items-center gap-2 p-3 rounded-xl border text-center transition-all ${isActive ? 'bg-primary-50 border-primary-200 text-primary-700 shadow-sm ring-1 ring-primary-500/20' : 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50'}`}
+                            className={`flex flex-col items-center gap-2 p-3 rounded-xl border text-center transition-all ${isActive ? 'bg-brand/10 border-brand/30 text-brand shadow-sm ring-1 ring-brand-500/20' : 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50'}`}
                           >
                             <span className="material-symbols-outlined text-[24px]">{mdl.icon}</span>
                             <span className="text-xs font-bold">{mdl.label}</span>
@@ -726,7 +726,7 @@ export default function AdminEntities() {
                 <button onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-200 rounded-xl transition-colors">
                   Cancelar
                 </button>
-                <button onClick={handleSaveEntity} disabled={isSaving} className="px-8 py-2.5 text-sm font-bold bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                <button onClick={handleSaveEntity} disabled={isSaving} className="px-8 py-2.5 text-sm font-bold bg-brand text-white hover:bg-brand disabled:opacity-50 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                   {isSaving && <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />}
                   {isSaving ? 'Guardando...' : 'Guardar Ficha'}
                 </button>

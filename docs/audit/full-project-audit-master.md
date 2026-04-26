@@ -1,5 +1,13 @@
 # Auditoría Integral Full-Stack del Proyecto Opina+ (Marzo 2026)
 
+> **⚠ ESTADO: HISTÓRICO — Auditoría de Marzo 2026 sobre V15.**
+> Este documento refleja el estado anterior a la ejecución del roadmap de remediación
+> (`docs/audit/full-project-audit-remediation-roadmap.md`). Las conclusiones aquí (p.ej.
+> datos sintéticos en `BattlePage.tsx`, "Inadmisible para DD B2B profunda") se consideraron
+> cerradas al emitir `docs/reports/final_audit_conclusions.md` (30-Mar-2026).
+> Para el estado actual del proyecto en V16, consultar `docs/PROJECT_MASTER_STATUS.md` y
+> `docs/DEBT_REGISTER.md`. Este archivo se conserva como referencia histórica y trazabilidad.
+
 ## 1. Resumen Ejecutivo
 El proyecto Opina+ V15 se encuentra en una etapa de madurez técnica avanzada con una excelente fundación basada en React, Vite, TypeScript, Tailwind y Supabase. Presenta un esfuerzo evidente por posicionarse como una plataforma premium *"gamificada"* (uso intensivo de Framer Motion, diseño UI cuidado, jerarquía de componentes).
 

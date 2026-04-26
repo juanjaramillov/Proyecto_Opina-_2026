@@ -73,7 +73,7 @@ export function FilterBar({
       {/* Selector de Periodo */}
       <div className="flex items-center gap-2 px-1 shrink-0 snap-start">
         <select 
-          className="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full px-4 py-1.5 text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-colors cursor-pointer appearance-none text-center"
+          className="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full px-4 py-1.5 text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-brand/50 outline-none transition-colors cursor-pointer appearance-none text-center"
           value={activePeriod}
           onChange={(e) => onPeriodChange(e.target.value as ResultsPeriod)}
         >

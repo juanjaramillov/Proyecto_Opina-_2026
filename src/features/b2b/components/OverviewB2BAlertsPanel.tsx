@@ -10,10 +10,10 @@ export function OverviewB2BAlertsPanel({ alerts }: OverviewB2BAlertsPanelProps) 
     <div className="space-y-6">
       <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
         <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
-          <Bell className="w-5 h-5 text-indigo-500" />
+          <Bell className="w-5 h-5 text-brand-500" />
           Alertas de Mercado
           {alerts.length > 0 && (
-            <span className="bg-indigo-100 text-indigo-600 text-[10px] px-2 py-0.5 rounded-full">
+            <span className="bg-brand-100 text-brand-600 text-[10px] px-2 py-0.5 rounded-full">
               {alerts.length}
             </span>
           )}
@@ -22,11 +22,11 @@ export function OverviewB2BAlertsPanel({ alerts }: OverviewB2BAlertsPanelProps) 
         <div className="space-y-4">
           {alerts.length > 0 ? (
             alerts.map((alert) => (
-              <div key={alert.id} className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-indigo-100 transition-colors cursor-pointer">
+              <div key={alert.id} className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-brand-100 transition-colors cursor-pointer">
                 <div className="flex items-center gap-2 mb-2">
                   <span className={`w-2 h-2 rounded-full ${
-                    alert.severity === 'high' ? 'bg-rose-500 animate-pulse' :
-                    alert.severity === 'medium' ? 'bg-amber-500' : 'bg-blue-500'
+                    alert.severity === 'high' ? 'bg-danger-500 animate-pulse' :
+                    alert.severity === 'medium' ? 'bg-warning-500' : 'bg-brand-500'
                   }`} />
                   <p className="text-xs font-bold text-slate-900">{alert.category}</p>
                 </div>

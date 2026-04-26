@@ -28,7 +28,7 @@ Para eliminar dependencias frágiles de la interfaz (como `input[type="number"]`
 
 El test corre principalmente contra interfaces reales pero bloqueamos dependencias de red del motor de gamificación para garantizar repetitibilidad rápida:
 
-- **Local Storage Access Bypass:** Se siembra tanto `opina_access_pass` como la estructura JSON `opina_access_gate_v1` para eludir la pantalla `/access`. (Evitando el race-condition de ruteo).
+- **Access gate desactivado por env var:** El dev-server que levanta Playwright arranca con `VITE_ACCESS_GATE_ENABLED=false` (ver `playwright.config.ts → webServer.command`), lo que hace que `accessGate.isEnabled()` devuelva `false` y el Gate no bloquee. Reemplaza al viejo bypass client-side de `localStorage.opina_access_pass='admin'`, que se retiró al cerrar la vulnerabilidad crítica #2 de la auditoría Drimo.
 - **RPC `validate_invitation`:** Mockeado con respuesta en array válido `[{ is_valid: true }]` para emular un Access Code Admin perfecto, sin mutar la red de Supabase.
 - **RPC `bootstrap_user_after_signup_v2`:** Interceptado para retornar `{ success: true }`, evitando errores de asincronía o fallas tempranas por intentos de bootstrap duplicados en usuarios de testeo.
 - **RPC `get_active_battles`:** Proveemos un set de *3 Batallas Sintéticas* inyectadas directamente en formato JSON (Battle 1, Battle 2, Battle 3) para garantizar su presencia independiente del estado de la base de datos de producción o del ambiente local.

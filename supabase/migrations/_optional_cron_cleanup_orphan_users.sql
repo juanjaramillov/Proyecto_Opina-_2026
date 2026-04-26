@@ -1,0 +1,49 @@
+-- ============================================================
+-- OPCIONAL — Schedule cleanup-orphan-users como cron diario
+-- ============================================================
+-- Este archivo tiene prefijo `_optional_` para que NO se aplique
+-- automáticamente con `supabase db push`. Se aplica manualmente
+-- cuando quieras activar la limpieza automática.
+--
+-- Requisitos previos:
+--   1. Extensión pg_cron habilitada:
+--        Supabase Dashboard → Database → Extensions → pg_cron
+--
+--   2. Extensión http habilitada (para net.http_post):
+--        Supabase Dashboard → Database → Extensions → http
+--
+--   3. Tener un SUPABASE_SERVICE_ROLE_KEY listo en secret/vault
+--      (el cron necesita autorización para llamar a la Edge Function).
+--
+-- Cómo aplicar:
+--   Copia el bloque de abajo al SQL Editor de Supabase, REEMPLAZA
+--   los placeholders, y ejecuta.
+--
+-- Cómo desactivar:
+--   SELECT cron.unschedule('cleanup-orphan-users-daily');
+-- ============================================================
+
+-- Ejemplo (NO ejecutar tal cual — reemplazar placeholders):
+
+-- SELECT cron.schedule(
+--   'cleanup-orphan-users-daily',
+--   '0 3 * * *',  -- todos los días a las 03:00 UTC (~00:00 CL verano)
+--   $$
+--     SELECT net.http_post(
+--       url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/cleanup-orphan-users',
+--       headers := jsonb_build_object(
+--         'Content-Type',  'application/json',
+--         'Authorization', 'Bearer <SERVICE_ROLE_KEY_O_JWT_DE_ADMIN>'
+--       ),
+--       body := jsonb_build_object('older_than_hours', 24, 'dry_run', false)
+--     ) AS request_id;
+--   $$
+-- );
+
+-- Para validar que el schedule quedó registrado:
+--   SELECT jobid, schedule, command FROM cron.job WHERE jobname = 'cleanup-orphan-users-daily';
+
+-- Para ver las corridas recientes:
+--   SELECT * FROM cron.job_run_details
+--   WHERE jobid = (SELECT jobid FROM cron.job WHERE jobname = 'cleanup-orphan-users-daily')
+--   ORDER BY start_time DESC LIMIT 20;

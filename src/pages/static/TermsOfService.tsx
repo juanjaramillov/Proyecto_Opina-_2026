@@ -5,11 +5,11 @@ export default function TermsOfService() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans pb-24 selection:bg-primary-500 selection:text-white pt-24">
+        <div className="min-h-screen bg-slate-50 font-sans pb-24 selection:bg-brand selection:text-white pt-24">
             <div className="max-w-4xl mx-auto px-6">
                 <button
                     onClick={() => navigate(-1)}
-                    className="inline-flex items-center text-sm font-bold text-slate-500 hover:text-primary-600 mb-8 transition-colors group"
+                    className="inline-flex items-center text-sm font-bold text-slate-500 hover:text-brand mb-8 transition-colors group"
                 >
                     <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
                     Volver
@@ -17,7 +17,7 @@ export default function TermsOfService() {
 
                 <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 shadow-sm">
                     <div className="flex items-center gap-4 mb-8">
-                        <div className="w-12 h-12 bg-primary-900 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center">
                             <Scale className="text-white" size={24} />
                         </div>
                         <div>
@@ -54,11 +54,11 @@ export default function TermsOfService() {
                             </p>
                         </section>
 
-                        <div className="mt-12 bg-amber-50 border border-amber-100 p-6 rounded-2xl flex items-start gap-4">
-                            <Info className="text-amber-500 shrink-0" size={24} />
+                        <div className="mt-12 bg-warning-50 border border-warning-100 p-6 rounded-2xl flex items-start gap-4">
+                            <Info className="text-warning-500 shrink-0" size={24} />
                             <div>
                                 <h3 className="text-sm font-bold text-slate-900 mb-1">Aprobación Legal</h3>
-                                <p className="text-sm text-amber-700">
+                                <p className="text-sm text-warning-700">
                                     Al transicionar hacia las Fases Generales de Producción (GTM), este texto será sustituido por las matrices contractuales de provisión de servicios B2B (Licencia de Software) y Adhesión de Usuario B2C.
                                 </p>
                             </div>

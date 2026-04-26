@@ -92,8 +92,9 @@ describe('actualidadService.submitAnswers', () => {
         }
 
         expect(caughtError).toBeDefined();
-        // Solo debió llamarse 2 veces, no 3
-        expect(mockSaveSignalEvent).toHaveBeenCalledTimes(2);
+        // Promise.all despacha las 3 promesas concurrentemente, por lo que mockSaveSignalEvent 
+        // será llamado 3 veces independientemente de si la segunda falla rápido.
+        expect(mockSaveSignalEvent).toHaveBeenCalledTimes(3);
 
         // El logger debió registrar la pregunta exacta que falló (q2)
         expect(logger.error).toHaveBeenCalledWith(

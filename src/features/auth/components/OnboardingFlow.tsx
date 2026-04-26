@@ -208,7 +208,7 @@ export default function OnboardingFlow({ onClose, onSuccess, isMandatory = false
                 <div className="p-4 bg-slate-50 flex items-center justify-center">
                     <button
                         onClick={onClose}
-                        className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 p-2 rounded-lg"
+                        className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand/50 p-2 rounded-lg"
                     >
                         Cerrar
                     </button>

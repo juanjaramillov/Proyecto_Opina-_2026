@@ -45,7 +45,7 @@
 
   ::selection {
     background-color: rgba(37, 99, 235, 0.2);
-    @apply text-primary;
+    @apply text-brand;
   }
 
   /* ✅ 4. TIPOGRAFÍA (Jerarquía Clara) */
@@ -150,7 +150,7 @@
   }
 
   .grad-text {
-    @apply text-primary;
+    @apply text-brand;
   }
 
   /* ✅ BRAND COLOR: Unified Open+ Logo and CTAs */
@@ -195,7 +195,7 @@
   }
 
   .state-selected {
-    @apply bg-primary/5 border-primary/30 text-primary;
+    @apply bg-brand/5 border-brand/30 text-brand;
   }
 
   .state-active {
@@ -222,19 +222,19 @@
   }
 
   .card-interactive {
-    @apply card transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-primary/30 cursor-pointer;
+    @apply card transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-brand/30 cursor-pointer;
   }
 
   .card-kpi {
-    @apply card card-pad flex flex-col justify-center items-start border-l-4 border-l-primary;
+    @apply card card-pad flex flex-col justify-center items-start border-l-4 border-l-brand;
   }
 
   .card-signal {
-    @apply card card-pad flex flex-col gap-4 border-t-4 border-t-ink hover:border-t-primary transition-colors;
+    @apply card card-pad flex flex-col gap-4 border-t-4 border-t-ink hover:border-t-brand transition-colors;
   }
 
   .card-explore {
-    @apply card p-0 overflow-hidden relative group hover:border-primary/40 transition-colors cursor-pointer;
+    @apply card p-0 overflow-hidden relative group hover:border-brand/40 transition-colors cursor-pointer;
   }
 
   .card-hover {
@@ -255,10 +255,10 @@
   }
 
   .btn-primary {
-    @apply btn text-white border-0 hover:-translate-y-0.5 hover:shadow-lg focus:ring-primary/20;
+    @apply btn text-white border-0 hover:-translate-y-0.5 hover:shadow-lg focus:ring-brand/20;
     /* Color corporativo Opina+ */
     background: var(--brand-accent);
-    box-shadow: 0 4px 10px -2px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 4px 10px -2px rgba(37, 99, 235, 0.3);
   }
 
   .btn-secondary {
@@ -272,9 +272,9 @@
   }
 
   .btn-hero {
-    @apply btn text-white text-lg px-8 py-4 rounded-2xl border-0 hover:-translate-y-1 hover:shadow-xl focus:ring-primary/20;
+    @apply btn text-white text-lg px-8 py-4 rounded-2xl border-0 hover:-translate-y-1 hover:shadow-xl focus:ring-brand/20;
     background: var(--brand-accent);
-    box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+    box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
   }
 
   /* Botón con estado ACTIVO */
@@ -295,7 +295,7 @@
 
   .kpi-trend {
     /* Indicador opcional de cambio */
-    @apply inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full bg-emerald-50 text-emerald-600;
+    @apply inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full bg-accent-50 text-accent-600;
   }
 
   .badge {
@@ -303,11 +303,11 @@
   }
 
   .badge-primary {
-    @apply badge text-primary border-primary/20 bg-primary/10;
+    @apply badge text-brand border-brand/20 bg-brand/10;
   }
 
   .badge-accent {
-    @apply badge text-primary border-primary/20 bg-primary/10;
+    @apply badge text-brand border-brand/20 bg-brand/10;
   }
 
   .section-header {

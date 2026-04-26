@@ -95,7 +95,7 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
             return (
                  <div className="flex-1 flex flex-col h-full bg-slate-50 relative items-center justify-center p-20">
                     <div className="w-10 h-10 border-4 border-slate-200 border-t-[var(--accent-primary)] rounded-full animate-spin"></div>
-                    <p className="mt-4 text-sm font-bold text-text-muted">Desglosando el tema...</p>
+                    <p className="mt-4 text-sm font-bold text-slate-500">Desglosando el tema...</p>
                  </div>
             );
         }
@@ -116,7 +116,7 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
                     <div className="flex items-center gap-3 w-full">
                         <button
                             onClick={onClose}
-                            className="w-10 h-10 flex items-center justify-center bg-white border border-stroke text-text-secondary hover:text-[var(--accent-primary)] rounded-full shadow-sm hover:border-[var(--accent-primary)]/50 transition-colors"
+                            className="w-10 h-10 flex items-center justify-center bg-white border border-stroke text-slate-600 hover:text-[var(--accent-primary)] rounded-full shadow-sm hover:border-[var(--accent-primary)]/50 transition-colors"
                             aria-label="Volver al Hub"
                         >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,7 +125,7 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
                         </button>
                         <div>
                             <h1 className="text-2xl font-black text-ink">Actualidad</h1>
-                            <span className="text-xs font-bold uppercase tracking-wider text-text-muted">Radiografía del momento</span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Radiografía del momento</span>
                         </div>
                     </div>
                 </div>
@@ -134,11 +134,11 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
             <div className="flex-1 pb-24 px-4 sm:px-6">
                 {error ? (
                     <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in zoom-in duration-300">
-                        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-4">
+                        <div className="w-16 h-16 bg-danger-50 text-danger-500 rounded-2xl flex items-center justify-center mb-4">
                             <span className="material-symbols-outlined text-[32px]">cloud_off</span>
                         </div>
                         <h3 className="text-lg font-black text-ink mb-1">Sin conexión</h3>
-                        <p className="text-sm text-text-secondary max-w-xs mb-6">No pudimos cargar los temas de actualidad. Revisa tu internet.</p>
+                        <p className="text-sm text-slate-600 max-w-xs mb-6">No pudimos cargar los temas de actualidad. Revisa tu internet.</p>
                         <button 
                             onClick={loadTopics}
                             className="h-11 px-8 rounded-full bg-slate-900 text-white text-sm font-bold hover:bg-slate-800 transition-all shadow-md active:scale-95"
