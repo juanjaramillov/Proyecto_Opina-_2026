@@ -1,42 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { ActiveBattle, signalService } from '../features/signals/services/signalService';
 import { logger } from '../lib/logger';
 
+/**
+ * FASE 2 React Query — primer hook migrado (2026-04-26).
+ *
+ * Antes: useState + useEffect + setLoading + setError (37 líneas).
+ * Ahora: useQuery con cache compartido. La firma pública
+ * `{ battles, loading, error }` se mantiene idéntica para no tocar
+ * `SignalsHub.tsx` ni futuros consumidores.
+ *
+ * Defaults heredados de `queryClient`: staleTime 5min, gcTime 10min,
+ * retry 1, refetchOnWindowFocus false. Volver al Hub dentro de la
+ * ventana de 5min ya no dispara fetch — viene del cache.
+ */
 export function useActiveBattles() {
-    const [battles, setBattles] = useState<ActiveBattle[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
-
-    useEffect(() => {
-        let mounted = true;
-
-        const fetchBattles = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                // Fetch real data from Supabase
-                const data = await signalService.getActiveBattles();
-
-                if (mounted) {
-                    if (data && data.length > 0) {
-                        setBattles(data);
-                    } else {
-                        logger.warn("No active battles found in DB.");
-                        setBattles([]);
-                    }
-                }
-            } catch (err: unknown) {
-                logger.error("Failed to load battles:", err);
-                if (mounted) setError(err instanceof Error ? err : new Error(String(err)));
-            } finally {
-                if (mounted) setLoading(false);
+    const { data, isLoading, error } = useQuery<ActiveBattle[], Error>({
+        queryKey: ['signals', 'active-battles'],
+        queryFn: async () => {
+            const list = await signalService.getActiveBattles();
+            if (!list || list.length === 0) {
+                logger.warn('No active battles found in DB.');
+                return [];
             }
-        };
+            return list;
+        },
+    });
 
-        fetchBattles();
-
-        return () => { mounted = false; };
-    }, []);
-
-    return { battles, loading, error };
+    return {
+        battles: data ?? [],
+        loading: isLoading,
+        error: error ?? null,
+    };
 }

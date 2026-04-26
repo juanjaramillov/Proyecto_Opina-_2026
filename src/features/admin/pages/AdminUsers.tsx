@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Search, UserCircle, Shield, Activity, Star, Medal, MoreVertical } from "lucide-react";
 import toast from 'react-hot-toast';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminUsersService, AdminUserRow } from "../services/adminUsersService";
 import { logger } from "../../../lib/logger";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog";
@@ -13,8 +14,7 @@ type PendingRoleChange = {
 };
 
 export default function AdminUsers() {
-    const [users, setUsers] = useState<AdminUserRow[]>([]);
-    const [loading, setLoading] = useState(true);
+    const qc = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [pendingRoleChange, setPendingRoleChange] = useState<PendingRoleChange | null>(null);
@@ -27,21 +27,21 @@ export default function AdminUsers() {
         return () => clearTimeout(timer);
     }, [searchTerm]);
 
-    const fetchUsers = useCallback(async () => {
-        setLoading(true);
-        try {
-            const data = await adminUsersService.searchUsers(debouncedSearch);
-            setUsers(data);
-        } catch (err) {
-            logger.error("Failed to load users for CRM", { domain: 'admin_actions', origin: 'AdminUsers' }, err);
-        } finally {
-            setLoading(false);
-        }
-    }, [debouncedSearch]);
+    // FASE 2 React Query — la búsqueda admin queda cacheada por queryKey con
+    // el término debounced; navegar y volver no recarga si última fetch <5min.
+    const { data, isLoading, error } = useQuery<AdminUserRow[], Error>({
+        queryKey: ['admin', 'users', debouncedSearch],
+        queryFn: () => adminUsersService.searchUsers(debouncedSearch),
+    });
 
     useEffect(() => {
-        fetchUsers();
-    }, [fetchUsers]);
+        if (error) {
+            logger.error("Failed to load users for CRM", { domain: 'admin_actions', origin: 'AdminUsers' }, error);
+        }
+    }, [error]);
+
+    const users = data ?? [];
+    const loading = isLoading;
 
     const handleRoleChange = (userId: string, currentRole: string, nickname: string) => {
         const newRole: 'user' | 'admin' = currentRole === 'admin' ? 'user' : 'admin';
@@ -55,7 +55,10 @@ export default function AdminUsers() {
 
         try {
             await adminUsersService.updateRole(userId, newRole);
-            setUsers(prev => prev.map(u => u.user_id === userId ? { ...u, role: newRole } : u));
+            // Invalida el cache de admin/users — más limpio que mutar
+            // localmente y garantiza consistencia con `total_interactions`,
+            // `is_identity_verified`, etc. que pueden cambiar server-side.
+            qc.invalidateQueries({ queryKey: ['admin', 'users'] });
             toast.success(`Rol actualizado a ${newRole.toUpperCase()}`);
         } catch (err) {
             // La RPC admin_set_user_role devuelve mensajes específicos. Los
@@ -123,7 +126,7 @@ export default function AdminUsers() {
                     />
                 </div>
                 <button
-                    onClick={fetchUsers}
+                    onClick={() => qc.invalidateQueries({ queryKey: ['admin', 'users'] })}
                     className="w-full md:w-auto px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm"
                 >
                     Refrescar

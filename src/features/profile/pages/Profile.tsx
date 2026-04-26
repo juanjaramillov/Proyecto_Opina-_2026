@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useQuery } from '@tanstack/react-query';
 import { useAuth, authService } from "../../auth";
 import { profileService, UserStats, ParticipationSummary, ActivityEvent, SegmentComparison, PersonalHistoryPoint, getNextDemographicsUpdateDate, UserRanking } from "../services/profileService";
 import { AccountProfile } from "../../auth/types";
@@ -55,39 +56,44 @@ function ProfileContent({ profile }: { profile: AccountProfile }) {
   const navigate = useNavigate();
   const { signals: localSignals } = useSignalStore();
   const { level, archetype, progressPercentage, powerStats } = useIdentityEngine();
-  const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [participation, setParticipation] = useState<ParticipationSummary>({ versus_count: 0, progressive_count: 0, depth_count: 0 });
-  const [history, setHistory] = useState<ActivityEvent[]>([]);
-  const [comparisons, setComparisons] = useState<SegmentComparison[]>([]);
-  const [personalHistory, setPersonalHistory] = useState<PersonalHistoryPoint[]>([]);
 
-  const [ranking, setRanking] = useState<UserRanking | null>(null);
+  // FASE 2 React Query — 6 queries paralelas independientes. Cada una tiene
+  // su propio cache y staleTime; volver al perfil dentro de 5min ya no
+  // dispara fetch. Si una falla (ej. ranking), las otras 5 siguen pintando.
+  const { data: userStats = null, error: statsError } = useQuery<UserStats | null, Error>({
+    queryKey: ['profile', 'stats'],
+    queryFn: () => profileService.getUserStats(),
+  });
+  const { data: participation = { versus_count: 0, progressive_count: 0, depth_count: 0 }, error: partError } = useQuery<ParticipationSummary, Error>({
+    queryKey: ['profile', 'participation'],
+    queryFn: () => profileService.getParticipationSummary(),
+  });
+  const { data: history = [], error: histError } = useQuery<ActivityEvent[], Error>({
+    queryKey: ['profile', 'activity-history', 5],
+    queryFn: () => profileService.getActivityHistory(5),
+  });
+  const { data: comparisons = [], error: compError } = useQuery<SegmentComparison[], Error>({
+    queryKey: ['profile', 'segment-comparison'],
+    queryFn: () => profileService.getSegmentComparison(),
+  });
+  const { data: personalHistory = [], error: phError } = useQuery<PersonalHistoryPoint[], Error>({
+    queryKey: ['profile', 'personal-history'],
+    queryFn: () => profileService.getPersonalHistory(),
+  });
+  const { data: ranking = null, error: rankError } = useQuery<UserRanking | null, Error>({
+    queryKey: ['profile', 'ranking'],
+    queryFn: () => profileService.getUserRanking(),
+  });
 
+  // Notificación equivalente a la del catch antiguo: si CUALQUIERA falla,
+  // logueamos y mostramos toast una sola vez por error.
+  const profileError = statsError || partError || histError || compError || phError || rankError;
   useEffect(() => {
-    const loadAllProfileData = async () => {
-      try {
-        const [stats, summary, activity, compData, histData, rankData] = await Promise.all([
-          profileService.getUserStats(),
-          profileService.getParticipationSummary(),
-          profileService.getActivityHistory(5),
-          profileService.getSegmentComparison(),
-          profileService.getPersonalHistory(),
-          profileService.getUserRanking()
-        ]);
-
-        setUserStats(stats);
-        setParticipation(summary);
-        setHistory(activity);
-        setComparisons(compData);
-        setPersonalHistory(histData);
-        setRanking(rankData);
-      } catch (err) {
-        logger.error("Failed to load profile data:", err);
-        notifyService.error("No pudimos cargar tu perfil. Intenta de nuevo.");
-      }
-    };
-    loadAllProfileData();
-  }, []);
+    if (profileError) {
+      logger.error("Failed to load profile data:", profileError);
+      notifyService.error("No pudimos cargar tu perfil. Intenta de nuevo.");
+    }
+  }, [profileError]);
 
   const completedSignals = Math.max(userStats?.total_signals || 0, localSignals);
   const isLocked = completedSignals < MIN_SIGNALS_THRESHOLD;
