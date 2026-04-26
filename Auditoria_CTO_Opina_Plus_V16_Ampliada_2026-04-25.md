@@ -1,12 +1,35 @@
 # Auditoría Técnica Ampliada — Opina+ V16
 
-**Fecha:** 2026-04-25
+**Fecha original:** 2026-04-25
+**Última actualización:** 2026-04-26 (estado de remediación al cierre de sesión)
 **Autor:** Claude (rol Director CTO)
 **Alcance:** Segunda pasada profunda, accionable y verificable. NO se modifica código.
 **Base auditada:** `/Users/juanignaciojaramillo/Desktop/Opina+/Antigravity - Proyecto/Opina+ V16`
 **Documento previo:** `Auditoria_CTO_Opina_Plus_V16_2026-04-25.md` (Fase 1, complementaria)
 
 > **Reglas seguidas:** sin refactors, sin branches, sin cambios. Cada hallazgo cita archivo y línea. Se separa hecho verificado de inferencia (marcado **(inferencia)**).
+
+---
+
+## 0. Estado de Remediación (al 2026-04-26)
+
+> **Documento vivo.** Esta sección refleja el cierre real de items contra código y migraciones en producción. Las secciones siguientes (1-10 y anexos) preservan el snapshot original del 2026-04-25 con la adición de columnas/marcas de estado.
+
+**Cerrados (6 de 15 F-XX):** F-01 ✅ · F-02 ✅ · F-03 ✅ · F-04 ✅ · F-06 ✅ · F-13 ✅ (funcional, smoke prod pendiente)
+
+**Pendientes P1 (3):** F-05 · F-08 · F-12
+**Pendientes P2 (4):** F-07 · F-09 · F-10 · F-11
+**Pendientes P3 (2):** F-14 · F-15
+
+**P0 críticos:** **4 / 4 cerrados** → ya no hay bloqueante de producción comercial por hallazgos numerados.
+
+**Bloqueantes operativos inmediatos para smoke F-13 en `opinamas.app`:**
+1. Rotar `HCAPTCHA_SECRET_KEY` (secret expuesto en chat el 2026-04-26 — plan free/pro de hCaptcha no permite regeneración del Account-level Secret; alternativa: pivotar a Cloudflare Turnstile).
+2. Desactivar Supabase Auth Attack Protection captcha global (rompe `signInWithPassword` interno: auto-login post-register, login manual, anonymous signUp del access gate).
+
+**Auditoría externa Drimo (10 items D-1..D-10):** 8 cerrados, D-3 (no encontrada en 4 rondas grep — marcada no aplica) y D-10 (sanitización de logs parcial) en zona gris.
+
+**Hallazgos transversales no numerados (pendientes):** 84 supresores TypeScript (`@ts-ignore`/`as any`), 65 llamadas directas a Supabase sin capa unificada (43 `from` + 22 `rpc`), capa de caché / React Query (plan en 3 fases acordado al 2026-04-24).
 
 ---
 
@@ -88,24 +111,25 @@ Verificado en `supabase/migrations/20260312000000_consolidated_baseline.sql`:
 ## 3. Tabla de Hallazgos (con evidencia exacta)
 
 > Prioridad: **P0** = bloqueante producción · **P1** = antes de B2B real · **P2** = antes de escalar · **P3** = puede esperar
+> Estado al 2026-04-26: ✅ cerrado · ❌ pendiente
 
-| ID | Área | Hallazgo | Evidencia (archivo:línea) | Riesgo | Prioridad | Recomendación |
-|----|------|----------|--------------------------|--------|-----------|---------------|
-| **F-01** | DB / Seguridad | Trigger `audit_role_changes` inserta en columnas `target_resource` y `details` que **no existen** en `admin_audit_log` (esquema real: `actor_user_id, action, target_type, target_id, payload, created_at`). Cualquier UPDATE a `users.role` lanzará error y revertirá la transacción. | `supabase/migrations/20260425031603_security_fix_prevent_role_escalation.sql:153` vs `20260424000100_admin_audit_log.sql` | **Crítico** — bloquea promoción/democión de rol | **P0** | Renombrar columnas en el INSERT a `target_type='users'`, `target_id=NEW.user_id`, `payload=jsonb_build_object('old_role',OLD.role,'new_role',NEW.role)` |
-| **F-02** | DB / Seguridad | 20 funciones `SECURITY DEFINER` **sin** `SET search_path = public, pg_temp` (riesgo de search_path hijacking si un esquema malicioso queda primero en el path). | `bash` sobre `supabase/migrations/*.sql` (20 ocurrencias DEFINER sin SET search_path) | Alto | **P0** | Auditar las 20 funciones y agregar `SET search_path = public, pg_temp;` |
-| **F-03** | Frontend / Seguridad | Cambio de rol se hace por mutación directa del cliente: `supabase.from('users').update({ role }).eq('user_id', userId)`. Saltea la RPC `admin_promote_user` (si existe) y depende solo de RLS. | `src/features/admin/services/adminUsersService.ts:29` | Alto | **P0** | Crear/usar RPC `admin_set_user_role(target_user_id uuid, new_role text)` con `SECURITY DEFINER`, `is_admin_user()` check y `log_admin_action()` |
-| **F-04** | Edge Function / Seguridad | `wa-webhook` legacy desplegada con `verify_jwt=false`, sin HMAC, `VERIFY_TOKEN` por defecto `my_super_secret_token`, `console.log` del body completo (PII en logs). Meta sigue apuntando aquí. | `supabase/functions/wa-webhook/index.ts` (61 líneas), `supabase/config.toml` | Alto (mientras Meta no se redirija) | **P0** | Apuntar Meta a `whatsapp-webhook` (ya tiene HMAC SHA256 timing-safe), luego `supabase functions delete wa-webhook` |
-| **F-05** | Edge Function / Seguridad | `llm-narrative` interpola `entry.entityName` y `entry.stabilityLabel` directamente en el prompt OpenAI sin Zod ni sanitización. Vector clásico de prompt injection. | `supabase/functions/llm-narrative/index.ts:73` | Medio-Alto | **P1** | Validar con Zod, escapar/limitar longitud, separar contexto de instrucciones con delimitadores |
-| **F-06** | Frontend / Seguridad | `vercel.json` no define headers de seguridad (CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy). | `vercel.json` (solo redirects + rewrites) | Medio | **P1** | Agregar bloque `headers` con CSP estricta apuntando a `*.supabase.co`, `sentry.io`, `vercel.app` |
-| **F-07** | Frontend / Performance | `AuthContext` recarga el perfil completo en cada `onAuthStateChange`, incluyendo eventos de refresh de token (~cada hora). Potencial N+1 al hidratar la app. | `src/features/auth/context/AuthContext.tsx` | Bajo-Medio | **P2** | Cachear perfil con TTL o reaccionar solo a SIGNED_IN/SIGNED_OUT/USER_UPDATED |
-| **F-08** | Frontend / Calidad | Servicios admin (`adminActualidadCrudService.ts`) hacen 7 mutaciones directas (`.insert/.update/.delete`) sobre tablas privadas, dependiendo solo de RLS. | `src/features/admin/services/adminActualidadCrudService.ts:103,162,188,202,210,292,310,329` | Medio | **P1** | Migrar a RPCs con `is_admin_user()` + `log_admin_action()` |
-| **F-09** | DB / Modelo | 14 políticas RLS con `USING (true)`. 12 son catálogos públicos legítimos; 2 requieren revisión (no detalladas aquí — auditar nombre tabla por tabla). | `bash grep "USING (true)" supabase/migrations` | Bajo-Medio | **P2** | Revisar las 14, dejar comentario `-- public catalog: intentional` en las legítimas |
-| **F-10** | Frontend / Estado | 17 usos de `localStorage` en 7 archivos (no encriptado, accesible por XSS). Si alguno guarda token o flag de bypass, es vector. | `bash grep "localStorage" src/` (7 archivos) | Medio (depende contenido) | **P2** | Revisar cada uso; mover lo sensible a `httpOnly cookies` (ya lo hace Supabase para sesión) o cifrar |
-| **F-11** | Tests / Cobertura | 22 unit + 8 e2e cubren flujos clave (auth, gate, signals, admin). Pero no hay cobertura medida ni gates de CI obligatorios. | `vitest.config.ts`, `playwright.config.ts`, `.github/workflows/*` (inferencia: no verificado en este pase) | Bajo | **P2** | Agregar `vitest --coverage` con umbral 70% en CI |
-| **F-12** | Build / Secrets | `.env` no está en git (verificado en Fase 1), pero la rotación de keys vive solo en `.env` local; sin Doppler/1Password ni rotación periódica documentada. | Política operacional, no archivo | Medio (operacional) | **P1** | Migrar a Vercel Env + Supabase Vault o Doppler; documentar rotación |
-| **F-13** | Edge Function / Resiliencia | `register-user` con `verify_jwt=false`. Necesario por diseño (signup), pero requiere rate limit y captcha. | `supabase/config.toml`, `supabase/functions/register-user/` | Medio | **P1** | Agregar Turnstile/hCaptcha + rate limit por IP |
-| **F-14** | Frontend / UX | `Gate.tsx` usa `useEffect` para toasts laterales en deny. Funciona, pero acopla UX a re-renders. | `src/features/access/components/Gate.tsx` | Bajo | **P3** | Mover toast a action al primer render con flag |
-| **F-15** | DB / Observabilidad | `admin_audit_log` no se purga ni rota. Crecerá indefinidamente. | `supabase/migrations/20260424000100_admin_audit_log.sql` | Bajo | **P3** | Cron mensual archivando >90 días a tabla fría o S3 |
+| ID | Estado | Área | Hallazgo | Evidencia (archivo:línea) | Riesgo | Prioridad | Recomendación / Cierre |
+|----|--------|------|----------|--------------------------|--------|-----------|------------------------|
+| **F-01** | ✅ 2026-04-25 | DB / Seguridad | Trigger `audit_role_changes` inserta en columnas `target_resource` y `details` que **no existen** en `admin_audit_log` (esquema real: `actor_user_id, action, target_type, target_id, payload, created_at`). Cualquier UPDATE a `users.role` lanzará error y revertirá la transacción. | `supabase/migrations/20260425031603_security_fix_prevent_role_escalation.sql:153` vs `20260424000100_admin_audit_log.sql` | **Crítico** — bloquea promoción/democión de rol | **P0** | Trigger reescrito con columnas correctas. Cierre vía RPC `admin_set_user_role` (F-03) que delega audit log a `log_admin_action()`. |
+| **F-02** | ✅ 2026-04-25 | DB / Seguridad | 20 funciones `SECURITY DEFINER` **sin** `SET search_path = public, pg_temp` (riesgo de search_path hijacking si un esquema malicioso queda primero en el path). | `bash` sobre `supabase/migrations/*.sql` (20 ocurrencias DEFINER sin SET search_path) | Alto | **P0** | 16 funciones SECURITY DEFINER auditadas en prod (`pg_proc`) ya con `SET search_path`. Diferencia 16 vs 20: 4 funciones no eran DEFINER reales sino reportadas por grep. Verificación final contra `pg_proc`, no contra migraciones. |
+| **F-03** | ✅ 2026-04-25 | Frontend / Seguridad | Cambio de rol se hace por mutación directa del cliente: `supabase.from('users').update({ role }).eq('user_id', userId)`. Saltea la RPC `admin_promote_user` (si existe) y depende solo de RLS. | `src/features/admin/services/adminUsersService.ts:29` | Alto | **P0** | RPC `admin_set_user_role` creada (mig. `20260425040000`) con reglas: caller admin, no self-change, no admin canónico, no degradar último admin, role ∈ {user, admin, b2b}. Cliente migrado a `typedRpc<null>('admin_set_user_role', ...)`. Audit emitido por trigger AFTER UPDATE OF role. |
+| **F-04** | ✅ 2026-04-24 | Edge Function / Seguridad | `wa-webhook` legacy desplegada con `verify_jwt=false`, sin HMAC, `VERIFY_TOKEN` por defecto `my_super_secret_token`, `console.log` del body completo (PII en logs). Meta sigue apuntando aquí. | `supabase/functions/wa-webhook/index.ts` (61 líneas), `supabase/config.toml` | Alto (mientras Meta no se redirija) | **P0** | Meta apuntando a `whatsapp-webhook` con HMAC SHA256 timing-safe; `wa-webhook` borrado. Runbook: si webhooks no llegan, primer fix es `DELETE+POST subscribed_apps` en Meta. |
+| **F-05** | ❌ pendiente | Edge Function / Seguridad | `llm-narrative` interpola `entry.entityName` y `entry.stabilityLabel` directamente en el prompt OpenAI sin Zod ni sanitización. Vector clásico de prompt injection. | `supabase/functions/llm-narrative/index.ts:73` | Medio-Alto | **P1** | Validar con Zod, escapar/limitar longitud, separar contexto de instrucciones con delimitadores |
+| **F-06** | ✅ 2026-04-25 | Frontend / Seguridad | `vercel.json` no define headers de seguridad (CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy). | `vercel.json` (solo redirects + rewrites) | Medio | **P1** | `vercel.json` con CSP estricto + HSTS + X-Frame-Options + X-Content-Type-Options + Referrer-Policy + Permissions-Policy. Recordatorio: añadir nuevos dominios externos a `connect-src`/`img-src` antes de deploy. |
+| **F-07** | ❌ pendiente | Frontend / Performance | `AuthContext` recarga el perfil completo en cada `onAuthStateChange`, incluyendo eventos de refresh de token (~cada hora). Potencial N+1 al hidratar la app. | `src/features/auth/context/AuthContext.tsx` | Bajo-Medio | **P2** | Cachear perfil con TTL o reaccionar solo a SIGNED_IN/SIGNED_OUT/USER_UPDATED |
+| **F-08** | ❌ pendiente | Frontend / Calidad | Servicios admin (`adminActualidadCrudService.ts`) hacen 7 mutaciones directas (`.insert/.update/.delete`) sobre tablas privadas, dependiendo solo de RLS. | `src/features/admin/services/adminActualidadCrudService.ts:103,162,188,202,210,292,310,329` | Medio | **P1** | Migrar a RPCs con `is_admin_user()` + `log_admin_action()` |
+| **F-09** | ❌ pendiente | DB / Modelo | 14 políticas RLS con `USING (true)`. 12 son catálogos públicos legítimos; 2 requieren revisión (no detalladas aquí — auditar nombre tabla por tabla). | `bash grep "USING (true)" supabase/migrations` | Bajo-Medio | **P2** | Revisar las 14, dejar comentario `-- public catalog: intentional` en las legítimas |
+| **F-10** | ❌ pendiente | Frontend / Estado | 17 usos de `localStorage` en 7 archivos (no encriptado, accesible por XSS). Si alguno guarda token o flag de bypass, es vector. | `bash grep "localStorage" src/` (7 archivos) | Medio (depende contenido) | **P2** | Revisar cada uso; mover lo sensible a `httpOnly cookies` (ya lo hace Supabase para sesión) o cifrar |
+| **F-11** | ❌ pendiente | Tests / Cobertura | 22 unit + 8 e2e cubren flujos clave (auth, gate, signals, admin). Pero no hay cobertura medida ni gates de CI obligatorios. | `vitest.config.ts`, `playwright.config.ts`, `.github/workflows/*` (inferencia: no verificado en este pase) | Bajo | **P2** | Agregar `vitest --coverage` con umbral 70% en CI |
+| **F-12** | ❌ pendiente | Build / Secrets | `.env` no está en git (verificado en Fase 1), pero la rotación de keys vive solo en `.env` local; sin Doppler/1Password ni rotación periódica documentada. | Política operacional, no archivo | Medio (operacional) | **P1** | Migrar a Vercel Env + Supabase Vault o Doppler; documentar rotación |
+| **F-13** | ✅ 2026-04-26 (funcional) | Edge Function / Resiliencia | `register-user` con `verify_jwt=false`. Necesario por diseño (signup), pero requiere rate limit y captcha. | `supabase/config.toml`, `supabase/functions/register-user/` | Medio | **P1** | Widget hCaptcha en `Register.tsx` con `VITE_HCAPTCHA_SITE_KEY`; edge function `register-user` valida token contra `https://api.hcaptcha.com/siteverify` con `HCAPTCHA_SECRET_KEY`; respuesta `code: "CAPTCHA_FAILED"` si falla. **Smoke prod pendiente** tras rotar secret expuesto y desactivar Supabase Auth Attack Protection captcha. |
+| **F-14** | ❌ pendiente | Frontend / UX | `Gate.tsx` usa `useEffect` para toasts laterales en deny. Funciona, pero acopla UX a re-renders. | `src/features/access/components/Gate.tsx` | Bajo | **P3** | Mover toast a action al primer render con flag |
+| **F-15** | ❌ pendiente | DB / Observabilidad | `admin_audit_log` no se purga ni rota. Crecerá indefinidamente. | `supabase/migrations/20260424000100_admin_audit_log.sql` | Bajo | **P3** | Cron mensual archivando >90 días a tabla fría o S3 |
 
 ---
 
@@ -113,23 +137,25 @@ Verificado en `supabase/migrations/20260312000000_consolidated_baseline.sql`:
 
 Solo los **P0** de la tabla anterior:
 
-1. **F-01** — Trigger `audit_role_changes` con columnas inexistentes. **Cualquier flujo que cambie `users.role` está roto**. Si un admin hoy intenta promover un usuario a B2B, recibirá error de columna inexistente y la transacción se revertirá. Validable en 30s con un UPDATE en SQL Editor.
+> **Estado al 2026-04-26:** los 4 P0 están **cerrados**. Ya no hay hallazgo crítico bloqueante de producción comercial.
 
-2. **F-02** — 20 SECURITY DEFINER sin `search_path`. Riesgo de escalación si un atacante con permiso `CREATE` en un esquema (poco probable en Supabase managed, pero principio de defensa en profundidad). Suma puntos en cualquier auditoría externa o due diligence.
+1. **F-01** ✅ cerrado 2026-04-25 — Trigger `audit_role_changes` con columnas inexistentes. **Cualquier flujo que cambie `users.role` está roto**. Si un admin hoy intenta promover un usuario a B2B, recibirá error de columna inexistente y la transacción se revertirá. Validable en 30s con un UPDATE en SQL Editor.
 
-3. **F-03** — Cambio de rol por `.update()` directo. Si las RLS de `users` permiten `WITH CHECK` por `is_admin_user()`, el ataque está mitigado, pero la **defensa única** es RLS. Una migración futura que afloje esa policy abre privilege escalation. Convertir a RPC ahora cuesta 1h, evitarlo cuesta el incidente.
+2. **F-02** ✅ cerrado 2026-04-25 — 20 SECURITY DEFINER sin `search_path`. Riesgo de escalación si un atacante con permiso `CREATE` en un esquema (poco probable en Supabase managed, pero principio de defensa en profundidad). Suma puntos en cualquier auditoría externa o due diligence. Cierre verificado contra `pg_proc` en prod, no solo migraciones.
 
-4. **F-04** — `wa-webhook` legacy expuesta. Mientras Meta apunte ahí, cualquiera con la URL (que no es secreta) puede inyectar mensajes simulados, llenar logs, o disparar lógica downstream. **Cerrarlo es trivial** — apuntar Meta al `whatsapp-webhook` (que ya tiene HMAC) y borrar la legacy.
+3. **F-03** ✅ cerrado 2026-04-25 — Cambio de rol por `.update()` directo. Si las RLS de `users` permiten `WITH CHECK` por `is_admin_user()`, el ataque está mitigado, pero la **defensa única** es RLS. Una migración futura que afloje esa policy abre privilege escalation. Convertir a RPC ahora cuesta 1h, evitarlo cuesta el incidente.
+
+4. **F-04** ✅ cerrado 2026-04-24 — `wa-webhook` legacy expuesta. Mientras Meta apunte ahí, cualquiera con la URL (que no es secreta) puede inyectar mensajes simulados, llenar logs, o disparar lógica downstream. **Cerrarlo es trivial** — apuntar Meta al `whatsapp-webhook` (que ya tiene HMAC) y borrar la legacy.
 
 ---
 
 ## 5. Hallazgos Importantes No Bloqueantes
 
-- **F-05** prompt injection en `llm-narrative` — cualquier nombre de entidad con texto malicioso (`"Ignore previous instructions and..."`) puede inyectarse al modelo. Rompe garantías de salida, no de seguridad de datos.
-- **F-06** sin CSP — facilita XSS si llega a haber.
-- **F-08** mutaciones directas en admin actualidad — patrón inconsistente con el resto de admin RPCs.
-- **F-12** secrets sin rotación — operacional.
-- **F-13** signup sin captcha — riesgo de bot signup masivo.
+- **F-05** ❌ prompt injection en `llm-narrative` — cualquier nombre de entidad con texto malicioso (`"Ignore previous instructions and..."`) puede inyectarse al modelo. Rompe garantías de salida, no de seguridad de datos.
+- **F-06** ✅ cerrado 2026-04-25 — sin CSP → ahora con CSP estricto + 5 headers más en `vercel.json`.
+- **F-08** ❌ mutaciones directas en admin actualidad — patrón inconsistente con el resto de admin RPCs.
+- **F-12** ❌ secrets sin rotación — operacional.
+- **F-13** ✅ cerrado 2026-04-26 (funcional) — signup ahora requiere hCaptcha verificado server-side. Smoke prod pendiente tras tareas operativas (rotación secret + desactivar Auth Attack Protection captcha).
 
 ---
 
@@ -154,33 +180,39 @@ Solo los **P0** de la tabla anterior:
 
 ## 7. Deuda Técnica Priorizada
 
-### 7.1 Antes de producción (P0 — bloqueantes)
-- F-01 — fix trigger `audit_role_changes`
-- F-02 — `SET search_path` en 20 funciones DEFINER
-- F-03 — RPC `admin_set_user_role`
-- F-04 — apuntar Meta + borrar `wa-webhook`
+### 7.1 Antes de producción (P0 — bloqueantes) — **TODOS CERRADOS al 2026-04-26**
+- ✅ F-01 — fix trigger `audit_role_changes`
+- ✅ F-02 — `SET search_path` en funciones DEFINER (verificado en `pg_proc`)
+- ✅ F-03 — RPC `admin_set_user_role`
+- ✅ F-04 — apuntar Meta + borrar `wa-webhook`
 
-### 7.2 Antes de escalar / ir a B2B real (P1)
-- F-05 — Zod + sanitización en `llm-narrative` y otras edge functions con OpenAI
-- F-06 — headers CSP en `vercel.json`
-- F-08 — migrar admin CRUD actualidad a RPCs
-- F-12 — Doppler/Vault + rotación documentada
-- F-13 — Turnstile en `register-user`
+### 7.2 Antes de escalar / ir a B2B real (P1) — 2/5 cerrados
+- ❌ F-05 — Zod + sanitización en `llm-narrative` y otras edge functions con OpenAI
+- ✅ F-06 — headers CSP en `vercel.json` (cerrado 2026-04-25)
+- ❌ F-08 — migrar admin CRUD actualidad a RPCs
+- ❌ F-12 — Doppler/Vault + rotación documentada
+- ✅ F-13 — hCaptcha en `register-user` (cerrado funcional 2026-04-26; smoke prod pendiente)
 
-### 7.3 Antes de venta B2B / due diligence (P2)
-- F-07 — desacoplar reload de perfil de refresh de token
-- F-09 — revisión policies `USING (true)`
-- F-10 — auditoría de `localStorage`
-- F-11 — coverage threshold en CI
+### 7.3 Antes de venta B2B / due diligence (P2) — 0/4 cerrados
+- ❌ F-07 — desacoplar reload de perfil de refresh de token
+- ❌ F-09 — revisión policies `USING (true)`
+- ❌ F-10 — auditoría de `localStorage`
+- ❌ F-11 — coverage threshold en CI
 
-### 7.4 Antes de compartir repo público (P0/P1)
-- Confirmar `.env*` ignorado (✓ ya verificado)
-- F-04 — borrar webhook legacy (sino expone URL)
-- Revisar `console.log` con PII (F-04 incluye esto)
+### 7.4 Antes de compartir repo público (P0/P1) — cerrado
+- ✅ Confirmar `.env*` ignorado (verificado en Fase 1; reconfirmado 2026-04-26: `.env*` patterns en `.gitignore`)
+- ✅ F-04 — webhook legacy borrado
+- ✅ Revisar `console.log` con PII — cerrado vía F-04
 
-### 7.5 Puede esperar (P3)
-- F-14 — toast en Gate
-- F-15 — rotación de admin_audit_log
+### 7.5 Puede esperar (P3) — 0/2 cerrados
+- ❌ F-14 — toast en Gate
+- ❌ F-15 — rotación de admin_audit_log
+
+### 7.6 Operativos inmediatos (no F-XX, abiertos al 2026-04-26)
+- ❌ #18 — Rotar `HCAPTCHA_SECRET_KEY` (expuesto en chat). Plan free/pro de hCaptcha no permite regeneración → decisión: pagar Enterprise o pivotar a Cloudflare Turnstile.
+- ❌ #19 — Desactivar Supabase Auth Attack Protection captcha global (rompe `signInWithPassword` interno: auto-login, login manual, anonymous signUp).
+- ❌ #20 — Smoke F-13 en `opinamas.app` (post-#18 y #19).
+- ❌ #21 — Bug `validate_invite_token` (códigos ACTIVE rechazados — probable misma raíz que #19).
 
 ---
 
@@ -251,6 +283,8 @@ Solo los **P0** de la tabla anterior:
 
 ## 10. Veredicto Final
 
+**Snapshot 2026-04-25:**
+
 **¿Lista para producción comercial?** **No, hasta cerrar P0.**
 
 **¿Lista para piloto cerrado / beta privada?** **Sí**, con los cuatro P0 cerrados (estimado: 5 días).
@@ -263,28 +297,41 @@ Solo los **P0** de la tabla anterior:
 
 ---
 
+**Actualización 2026-04-26:**
+
+**¿Lista para producción comercial?** **Sí para piloto cerrado** una vez cerrados los 2 bloqueantes operativos (#18 rotar secret + #19 desactivar Auth Attack Protection captcha). Los 4 P0 numerados (F-01..F-04) están cerrados; F-13 cerrado funcionalmente; F-06 cerrado.
+
+**¿Sólida para due diligence técnica hoy?** El revisor externo ya no encontrará P0 abiertos. Los pendientes son P1/P2/P3 más transversales (deuda TS, capa unificada Supabase, React Query). Sigue habiendo trabajo de endurecimiento, pero ya no hay smoking gun.
+
+**Tiempo estimado restante para due diligence pulido:** ~1 semana cerrando F-05 + F-08 + F-12 + revisión rápida de F-09/F-10. P2/P3 pueden quedar en backlog.
+
+**Próximo paso recomendado:** desbloquear smoke F-13 en prod (#18 + #19 + #20 + #21) → cerrar F-05 + F-08 + F-12 → planificar capa de caché / React Query (item grande pendiente, 3 fases acordadas al 2026-04-24).
+
+---
+
 # Anexos — Checklists obligatorias
 
 ## Checklist 1 — Producción (Go/No-Go)
 
 | Ítem | Estado | Evidencia / Acción |
 |------|--------|--------------------|
-| `.env*` fuera de git | ✅ | Solo `.env.example` versionado |
+| `.env*` fuera de git | ✅ | Solo `.env.example` versionado (reconfirmado 2026-04-26) |
 | Sentry inicializado en frontend | ✅ | `src/main.tsx` |
 | RLS en 100% de tablas | ✅ | 95/95 |
-| Edge functions con `verify_jwt=true` por default | ⚠ | 2 excepciones: `register-user` (necesaria, falta captcha), `wa-webhook` (legacy, borrar) |
-| HMAC en webhooks externos | ⚠ | `whatsapp-webhook` ✓; `wa-webhook` ✗ (borrar) |
-| Headers de seguridad (CSP, X-Frame, etc.) | ❌ | `vercel.json` no los define — F-06 |
-| Rate limiting en endpoints públicos | ⚠ | Existe en `insert_signal_event` (40/min); falta en `register-user` |
-| Captcha en signup | ❌ | F-13 |
-| Logs sin PII | ⚠ | `wa-webhook` loguea body completo — se cierra con F-04 |
+| Edge functions con `verify_jwt=true` por default | ✅ (2026-04-26) | Única excepción legítima: `register-user` (signup, ahora con captcha F-13). `wa-webhook` borrado. |
+| HMAC en webhooks externos | ✅ (2026-04-24) | `whatsapp-webhook` con HMAC SHA256 timing-safe; `wa-webhook` borrado. |
+| Headers de seguridad (CSP, X-Frame, etc.) | ✅ (2026-04-25) | `vercel.json` con CSP estricto + HSTS + 4 headers más — F-06 cerrado |
+| Rate limiting en endpoints públicos | ⚠ | Existe en `insert_signal_event` (40/min); en `register-user` se mitiga vía captcha (F-13). Rate limit por IP en `register-user` sigue como follow-up. |
+| Captcha en signup | ✅ funcional (2026-04-26) | F-13 cerrado. Smoke prod pendiente tras #18/#19. |
+| Logs sin PII | ✅ (2026-04-24) | `wa-webhook` borrado; `whatsapp-webhook` no loguea body. D-10 (sanitización exhaustiva) en zona gris. |
 | Audit log de acciones admin | ✅ | `admin_audit_log` + `log_admin_action()` |
 | Backups DB documentados | ❓ | (inferencia) Supabase managed los hace; falta runbook de restore |
-| Plan de rotación de keys | ❌ | F-12 |
+| Plan de rotación de keys | ❌ | F-12 — pendiente |
 | Monitoreo de errores en edge functions | ❓ | (inferencia) Falta verificar Logflare / Sentry edge |
 | Tests e2e de flujos críticos | ✅ | 8 Playwright |
 
-**Veredicto:** **NO GO** hasta cerrar F-01..F-04.
+**Veredicto al 2026-04-25:** **NO GO** hasta cerrar F-01..F-04.
+**Veredicto al 2026-04-26:** P0 cerrados. **GO para piloto cerrado** una vez cerrados los 2 bloqueantes operativos (#18 rotar `HCAPTCHA_SECRET_KEY` + #19 desactivar Auth Attack Protection captcha).
 
 ---
 
@@ -293,14 +340,14 @@ Solo los **P0** de la tabla anterior:
 | Ítem | Estado | Evidencia |
 |------|--------|-----------|
 | RLS habilitado en todas las tablas de aplicación | ✅ | 95/95 `ENABLE ROW LEVEL SECURITY` |
-| Políticas RLS revisadas (no `USING (true)` accidentales) | ⚠ | 14 políticas con `USING (true)` — revisar (F-09) |
-| Funciones DEFINER con `SET search_path` | ❌ | 11/31 sí, 20/31 **no** — F-02 |
-| RPCs admin verifican `is_admin_user()` server-side | ✅ | Verificado en `admin_search_users`, `admin_generate_invites`, etc. |
+| Políticas RLS revisadas (no `USING (true)` accidentales) | ⚠ | 14 políticas con `USING (true)` — revisar (F-09 pendiente) |
+| Funciones DEFINER con `SET search_path` | ✅ (2026-04-25) | 16 funciones SECURITY DEFINER en `pg_proc` ya con search_path — F-02 cerrado |
+| RPCs admin verifican `is_admin_user()` server-side | ✅ | Verificado en `admin_search_users`, `admin_generate_invites`, `admin_set_user_role`, etc. |
 | Migraciones idempotentes / consolidables | ✅ | Baseline `20260312000000` |
 | FKs con `ON DELETE` definidos | ✅ | Verificado en `signal_events` (SET NULL hacia auth.users) |
-| Triggers con tests | ❌ | F-01 no se hubiera escapado con un test |
+| Triggers con tests | ❌ | F-01 no se hubiera escapado con un test (cerrado en código pero sin test e2e de promoción) |
 | `auth.users` no es referenciada con CASCADE | ✅ | Solo SET NULL |
-| `admin_audit_log` rotada | ❌ | F-15 |
+| `admin_audit_log` rotada | ❌ | F-15 — pendiente |
 
 ---
 

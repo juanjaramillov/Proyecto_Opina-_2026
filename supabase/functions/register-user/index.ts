@@ -21,8 +21,8 @@
 //
 // Protecciones:
 //   - Rate limit en memoria: 5 registros/minuto por IP.
-//   - hCaptcha siteverify (F-13): bloquea registro automatizado por bots.
-//     Requiere env var HCAPTCHA_SECRET_KEY. Si no está seteada, la función
+//   - Cloudflare Turnstile siteverify (F-13): bloquea registro automatizado por bots.
+//     Requiere env var TURNSTILE_SECRET_KEY. Si no está seteada, la función
 //     registra warning y continúa (permite desarrollo local sin captcha).
 //   - Validación estricta (formato email, length password, format nickname).
 //   - Respuestas con códigos de error específicos para UX cliente.
@@ -117,22 +117,22 @@ function validateInput(body: unknown): ValidatedInput | { error: string; code: s
 }
 
 // ============================================================
-// hCaptcha siteverify
+// Cloudflare Turnstile siteverify
 // ============================================================
-// Valida un token de hCaptcha contra el endpoint oficial. Devuelve true sólo
-// si el provider confirma success. Pasa el IP del cliente para que hCaptcha
-// pueda hacer su análisis de riesgo basado en origen.
+// Valida un token de Turnstile contra el endpoint oficial de Cloudflare.
+// Devuelve true sólo si el provider confirma success. Pasa el IP del cliente
+// para que Cloudflare pueda hacer su análisis de riesgo basado en origen.
 //
-// Si HCAPTCHA_SECRET_KEY no está seteada en las env vars, devuelve true con
+// Si TURNSTILE_SECRET_KEY no está seteada en las env vars, devuelve true con
 // un warning (modo desarrollo). En producción esta env var DEBE estar
 // configurada — sin ella, la función pierde la protección anti-bot.
 //
-// Refs: https://docs.hcaptcha.com/#verify-the-user-response-server-side
+// Refs: https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
 async function verifyCaptcha(token: string | null, clientIp: string): Promise<{ ok: boolean; reason?: string }> {
-    const secret = Deno.env.get('HCAPTCHA_SECRET_KEY');
+    const secret = Deno.env.get('TURNSTILE_SECRET_KEY');
 
     if (!secret) {
-        console.warn('[register-user] HCAPTCHA_SECRET_KEY not set — skipping captcha verification (dev mode)');
+        console.warn('[register-user] TURNSTILE_SECRET_KEY not set — skipping captcha verification (dev mode)');
         return { ok: true };
     }
 
@@ -148,24 +148,24 @@ async function verifyCaptcha(token: string | null, clientIp: string): Promise<{ 
     }
 
     try {
-        const resp = await fetch('https://api.hcaptcha.com/siteverify', {
+        const resp = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: formData.toString(),
         });
         if (!resp.ok) {
-            console.error('[register-user] hCaptcha siteverify HTTP error:', resp.status);
+            console.error('[register-user] Turnstile siteverify HTTP error:', resp.status);
             return { ok: false, reason: `siteverify_http_${resp.status}` };
         }
         const data = await resp.json() as { success?: boolean; 'error-codes'?: string[] };
         if (data.success !== true) {
             const codes = Array.isArray(data['error-codes']) ? data['error-codes'].join(',') : 'unknown';
-            console.warn('[register-user] hCaptcha siteverify rejected:', codes);
+            console.warn('[register-user] Turnstile siteverify rejected:', codes);
             return { ok: false, reason: codes };
         }
         return { ok: true };
     } catch (err) {
-        console.error('[register-user] hCaptcha siteverify network error:', err);
+        console.error('[register-user] Turnstile siteverify network error:', err);
         return { ok: false, reason: 'siteverify_network' };
     }
 }
@@ -203,7 +203,7 @@ serve(async (req) => {
     const { email, password, nickname, captchaToken } = validated;
 
     // ====================================================
-    // hCaptcha (F-13): bloquea registros automatizados.
+    // Turnstile (F-13): bloquea registros automatizados.
     // Se verifica ANTES de tocar auth.users para no consumir
     // recursos en intentos maliciosos.
     // ====================================================

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import AuthLayout from "../layout/AuthLayout";
 import { authService, RegistrationError } from "../services/authService";
 import { supabase } from "../../../supabase/client";
@@ -8,10 +8,10 @@ import { logger } from "../../../lib/logger";
 import { accessGate } from "../../access/services/accessGate";
 import { useAuthContext } from "../context/AuthContext";
 
-// Site Key pública de hCaptcha. Se inyecta en build via env var.
+// Site Key pública de Cloudflare Turnstile. Se inyecta en build via env var.
 // La validación real ocurre en la edge function register-user contra
 // el secret server-side, así que exponer la site key es seguro y esperado.
-const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY as string | undefined;
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 
 function getParam(search: string, key: string) {
     return new URLSearchParams(search).get(key);
@@ -37,10 +37,10 @@ export default function RegisterPage() {
     const [err, setErr] = useState<string | null>(null);
     // Cuando el error es EMAIL_EXISTS mostramos un CTA a login en vez de solo mensaje.
     const [showLoginSuggestion, setShowLoginSuggestion] = useState(false);
-    // Token efímero del widget hCaptcha. Se setea en onVerify y se invalida
+    // Token efímero del widget Turnstile. Se setea en onSuccess y se invalida
     // tras un submit (exitoso o fallido) — los tokens son single-use server-side.
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-    const captchaRef = useRef<HCaptcha | null>(null);
+    const captchaRef = useRef<TurnstileInstance | null>(null);
 
     useEffect(() => {
         if (accessGate.isEnabled() && !accessState.isLoading && !accessState.hasAccessGateToken) {
@@ -88,10 +88,10 @@ export default function RegisterPage() {
             return;
         }
 
-        // Bloquear submit si no hay token de hCaptcha. Si la site key no está
+        // Bloquear submit si no hay token de Turnstile. Si la site key no está
         // configurada, dejamos pasar (modo desarrollo) — el backend igual lo
         // exige en producción y devolverá CAPTCHA_FAILED.
-        if (HCAPTCHA_SITE_KEY && !captchaToken) {
+        if (TURNSTILE_SITE_KEY && !captchaToken) {
             setErr("Por favor completa la verificación anti-bot.");
             return;
         }
@@ -106,9 +106,9 @@ export default function RegisterPage() {
             nav("/complete-profile", { replace: true });
         } catch (e: unknown) {
             logger.error('Error en registro atómico', undefined, e);
-            // Tokens hCaptcha son single-use — resetear el widget para que el
+            // Tokens Turnstile son single-use — resetear el widget para que el
             // user pueda reintentar sin recargar página.
-            captchaRef.current?.resetCaptcha();
+            captchaRef.current?.reset();
             setCaptchaToken(null);
 
             if (e instanceof RegistrationError) {
@@ -186,18 +186,20 @@ export default function RegisterPage() {
                     />
                 </div>
 
-                {/* Widget hCaptcha — se renderiza solo si la site key está configurada. */}
-                {HCAPTCHA_SITE_KEY && (
+                {/* Widget Cloudflare Turnstile — se renderiza solo si la site key está configurada. */}
+                {TURNSTILE_SITE_KEY && (
                     <div className="flex justify-center pt-1">
-                        <HCaptcha
+                        <Turnstile
                             ref={captchaRef}
-                            sitekey={HCAPTCHA_SITE_KEY}
-                            theme="light"
-                            size="normal"
-                            onVerify={(token: string) => setCaptchaToken(token)}
+                            siteKey={TURNSTILE_SITE_KEY}
+                            options={{
+                                theme: "light",
+                                size: "normal",
+                            }}
+                            onSuccess={(token: string) => setCaptchaToken(token)}
                             onExpire={() => setCaptchaToken(null)}
-                            onError={(e: unknown) => {
-                                logger.error('hCaptcha widget error', { domain: 'auth', action: 'captcha_error' }, e);
+                            onError={() => {
+                                logger.error('Turnstile widget error', { domain: 'auth', action: 'captcha_error' });
                                 setCaptchaToken(null);
                             }}
                         />

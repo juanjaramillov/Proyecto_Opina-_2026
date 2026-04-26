@@ -22,8 +22,8 @@ type SubscriptionRow = Database['public']['Tables']['subscription_plans']['Row']
  *   - INVALID_EMAIL           (400)
  *   - INVALID_PASSWORD        (400)
  *   - INVALID_NICKNAME        (400)
- *   - CAPTCHA_MISSING         (400) token de hCaptcha no enviado
- *   - CAPTCHA_FAILED          (403) token de hCaptcha rechazado
+ *   - CAPTCHA_MISSING         (400) token de Turnstile no enviado
+ *   - CAPTCHA_FAILED          (403) token de Turnstile rechazado
  *   - RATE_LIMITED            (429) demasiados intentos
  *   - BAD_REQUEST             (400) body malformado
  *   - PROFILE_CREATION_FAILED (500) rollback ocurrido
@@ -310,7 +310,7 @@ export const authService = {
                 },
                 // captchaToken puede ser null en entornos sin site key configurada
                 // (ej. local dev). El backend decide si rechazar o aceptar
-                // según su propia config de HCAPTCHA_SECRET_KEY.
+                // según su propia config de TURNSTILE_SECRET_KEY.
                 body: JSON.stringify({ email, password, nickname, captchaToken }),
             });
         } catch (netErr) {

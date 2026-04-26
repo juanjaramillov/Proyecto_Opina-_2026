@@ -33,7 +33,7 @@
     "legacy:versus:test-build": "vite build --mode testing"
   },
   "dependencies": {
-    "@hcaptcha/react-hcaptcha": "^1.11.0",
+    "@marsidev/react-turnstile": "^1.4.0",
     "@sentry/browser": "^10.49.0",
     "@sentry/react": "^10.49.0",
     "@supabase/supabase-js": "^2.91.0",
