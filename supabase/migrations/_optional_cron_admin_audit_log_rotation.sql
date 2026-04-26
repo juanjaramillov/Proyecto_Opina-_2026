@@ -1,0 +1,45 @@
+-- ============================================================
+-- OPCIONAL — Schedule archive_admin_audit_log como cron mensual
+-- ============================================================
+-- Este archivo tiene prefijo `_optional_` para que NO se aplique
+-- automáticamente con `supabase db push`. Se aplica MANUAL en SQL
+-- Editor cuando el operador quiera activar la rotación.
+--
+-- Patrón idéntico a `_optional_cron_cleanup_orphan_users.sql`.
+--
+-- Pre-requisitos (ya cumplidos al 2026-04-26):
+--   1. pg_cron habilitado (verified en baseline 20260312).
+--   2. Migración 20260426000400_admin_audit_log_rotation aplicada.
+--
+-- ------------------------------------------------------------
+-- DÓNDE EJECUTAR: Supabase Dashboard → SQL Editor → New query
+--                 → pegar el bloque de abajo → Run
+-- ------------------------------------------------------------
+--
+-- Cómo desactivar después:
+--   SELECT cron.unschedule('archive-admin-audit-log-monthly');
+--
+-- Cómo verificar el estado:
+--   SELECT * FROM cron.job WHERE jobname = 'archive-admin-audit-log-monthly';
+--
+-- Cómo ver últimas ejecuciones:
+--   SELECT * FROM cron.job_run_details
+--   WHERE jobid = (SELECT jobid FROM cron.job
+--                  WHERE jobname = 'archive-admin-audit-log-monthly')
+--   ORDER BY start_time DESC LIMIT 10;
+-- ============================================================
+
+-- Bloque para pegar en SQL Editor:
+--
+-- SELECT cron.schedule(
+--   'archive-admin-audit-log-monthly',
+--   '0 4 1 * *',  -- día 1 de cada mes a las 04:00 UTC (~01:00 CL)
+--   $$ SELECT public.archive_admin_audit_log(90); $$
+-- );
+--
+-- Notas:
+--   - retention_days = 90 → entradas más viejas que 90 días pasan
+--     a admin_audit_log_archive.
+--   - La función auditea su propia ejecución como meta-audit, así
+--     que cada corrida del cron deja huella en la tabla caliente.
+--   - Si querés un período distinto (ej: 180 o 30), cambiá el int.

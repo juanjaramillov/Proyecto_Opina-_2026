@@ -8,7 +8,9 @@ import { logger } from './lib/logger';
 import { installWindowErrorBridge } from './lib/observability/windowErrorBridge';
 import { ToastProvider } from './components/ui/ToastProvider';
 import { Toaster } from 'react-hot-toast';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { startSignalOutbox } from './features/signals/services/signalOutbox';
+import { queryClient } from './lib/queryClient';
 
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 
@@ -100,18 +102,36 @@ if ((!supabaseUrl || !supabaseAnonKey || supabaseUrl === 'YOUR_SUPABASE_URL' || 
     }
 
     startSignalOutbox();
+
+    // FASE 1 React Query — Devtools solo en DEV (lazy import para que no
+    // entren al bundle de producción).
+    const ReactQueryDevtoolsLazy = import.meta.env.DEV
+        ? React.lazy(() =>
+            import('@tanstack/react-query-devtools').then((m) => ({
+                default: m.ReactQueryDevtools,
+            }))
+        )
+        : null;
+
     root.render(
         <React.StrictMode>
-            <BrowserRouter>
-                <ErrorBoundary>
-                    <HelmetProvider>
-                        <ToastProvider>
-                            <App />
-                            <Toaster position="bottom-center" toastOptions={{ className: 'text-sm font-bold', style: { zIndex: 9999 } }} />
-                        </ToastProvider>
-                    </HelmetProvider>
-                </ErrorBoundary>
-            </BrowserRouter>
+            <QueryClientProvider client={queryClient}>
+                <BrowserRouter>
+                    <ErrorBoundary>
+                        <HelmetProvider>
+                            <ToastProvider>
+                                <App />
+                                <Toaster position="bottom-center" toastOptions={{ className: 'text-sm font-bold', style: { zIndex: 9999 } }} />
+                                {ReactQueryDevtoolsLazy && (
+                                    <React.Suspense fallback={null}>
+                                        <ReactQueryDevtoolsLazy initialIsOpen={false} buttonPosition="bottom-left" />
+                                    </React.Suspense>
+                                )}
+                            </ToastProvider>
+                        </HelmetProvider>
+                    </ErrorBoundary>
+                </BrowserRouter>
+            </QueryClientProvider>
         </React.StrictMode>
     );
 }

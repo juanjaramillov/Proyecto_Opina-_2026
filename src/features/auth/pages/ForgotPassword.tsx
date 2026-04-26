@@ -16,7 +16,10 @@ export default function ForgotPassword() {
         setNotice(null);
 
         try {
-            logger.info("=== FORGOT PASSWORD: Sending reset for " + email.trim());
+            // Drimo #10: NO incluir email en el mensaje del log — el message no pasa
+            // por sanitizePayload. Pasarlo como context (key 'email' está en sensitiveKeys
+            // y se redacta a [REDACTED] en cualquier log emitido).
+            logger.info("Solicitud de reset de contraseña iniciada", { domain: 'auth', action: 'request_reset', email: email.trim() });
             await authService.resetPasswordForEmail(email.trim());
 
             setNotice({
@@ -25,7 +28,7 @@ export default function ForgotPassword() {
             });
         } catch (err: unknown) {
             const e = err as Error;
-            logger.error("=== FORGOT PASSWORD: Error", e);
+            logger.error("Error en reset de contraseña", { domain: 'auth', action: 'request_reset' }, e);
             setNotice({
                 variant: "error",
                 message: e.message || "Algo falló. Intenta de nuevo.",

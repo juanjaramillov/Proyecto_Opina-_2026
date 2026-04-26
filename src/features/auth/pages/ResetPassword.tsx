@@ -15,7 +15,7 @@ export default function ResetPassword() {
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
-            logger.info("=== RESET PASSWORD: session: " + !!session);
+            logger.info("Reset password screen mounted", { domain: 'auth', action: 'reset_screen_mount', has_session: !!session });
             if (!session) {
                 setNotice({
                     variant: "info",

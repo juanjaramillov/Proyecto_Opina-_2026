@@ -54,11 +54,33 @@ class OpinaLogger {
             return data.map(item => this.sanitizePayload(item));
         }
 
-        const sensitiveKeys = ['email', 'password', 'token', 'access_token', 'refresh_token', 'session', 'user', 'user_metadata', 'app_metadata', 'phone', 'identities'];
-        const sanitized: Record<string, unknown> = {};
+        // Drimo #10 — keys explícitas + patrones de sufijo/contiene para PII y secrets.
+        // Lista completa al 2026-04-26: identidad, contacto, credenciales, tokens, infra.
+        const sensitiveKeys = [
+            // Identidad / contacto
+            'email', 'phone', 'whatsapp_phone', 'nickname', 'username', 'address',
+            // Credenciales / tokens
+            'password', 'token', 'access_token', 'refresh_token', 'jwt', 'authorization',
+            'cookie', 'secret', 'api_key', 'apikey', 'private_key',
+            // Sesión / usuario completo (objetos Supabase con PII anidada)
+            'session', 'user', 'user_metadata', 'app_metadata', 'identities',
+            // Antifraude / device
+            'device_hash', 'device_fingerprint', 'ip', 'ip_address',
+            // Invitaciones (códigos consumibles tienen sensibilidad parcial)
+            'invite_code', 'invitation_code', 'captcha_token',
+        ];
+        // Patrones por sufijo — capturan variantes como user_email, customer_phone, etc.
+        const sensitiveSuffixes = ['_email', '_phone', '_token', '_password', '_secret', '_key', '_jwt'];
 
+        const isSensitive = (key: string): boolean => {
+            const lower = key.toLowerCase();
+            if (sensitiveKeys.includes(lower)) return true;
+            return sensitiveSuffixes.some(suffix => lower.endsWith(suffix));
+        };
+
+        const sanitized: Record<string, unknown> = {};
         for (const [key, value] of Object.entries(data as Record<string, unknown>)) {
-            if (sensitiveKeys.includes(key.toLowerCase())) {
+            if (isSensitive(key)) {
                 sanitized[key] = '[REDACTED]';
             } else {
                 sanitized[key] = this.sanitizePayload(value);

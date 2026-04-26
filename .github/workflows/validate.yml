@@ -31,6 +31,20 @@ jobs:
       - name: Unit tests (Vitest)
         run: npm run test:run
 
+      # F-11 — coverage SOFT durante el primer sprint para medir baseline.
+      # `|| true` evita romper main mientras se construye cobertura. Cuando
+      # baseline supere los thresholds en vitest.config.ts, quitar el `|| true`.
+      - name: Unit tests with coverage (soft gate, baseline collection)
+        run: npm run test:coverage || true
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
+
       - name: Build check
         run: npm run build
 
