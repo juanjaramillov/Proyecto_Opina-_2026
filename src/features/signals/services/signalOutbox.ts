@@ -251,7 +251,7 @@ export async function flushSignalOutbox(maxJobs: number = 50): Promise<{ sent: n
     flushing = true;
 
     try {
-        let queue = await loadQueue();
+        const queue = await loadQueue();
         if (queue.length === 0) return { sent: 0, failed: 0, remaining: 0 };
 
         const t = now();

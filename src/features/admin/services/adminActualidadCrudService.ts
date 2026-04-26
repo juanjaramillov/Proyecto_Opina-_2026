@@ -1,11 +1,25 @@
 import { supabase } from '../../../supabase/client';
+import { typedRpc } from '../../../supabase/typedRpc';
 import { logger } from '../../../lib/logger';
 import { Topic, TopicQuestion, TopicStatus } from '../../signals/types/actualidad';
-import { generateTopicSlug, validateTopicForPublication } from '../utils/actualidadHelpers';
 
+/**
+ * Servicio CRUD admin para temas de Actualidad.
+ *
+ * Toda escritura (y la lectura consolidada por id) pasa por RPCs
+ * SECURITY DEFINER definidas en la migración
+ * `20260426000100_admin_actualidad_rpcs.sql`. El cliente nunca toca
+ * `current_topics`, `topic_question_sets` ni `topic_questions`
+ * directamente para escritura — el gate de admin y el audit log
+ * viven server-side.
+ *
+ * El listado plano (`getAdminTopics`) sigue como SELECT directo:
+ * está protegido por RLS y no necesita reglas de negocio extra,
+ * así que no amerita una RPC dedicada.
+ */
 export const adminActualidadCrudService = {
   /**
-   * Obtener listado de temas filtrado por estado
+   * Listar temas filtrado por estado. Lectura plana protegida por RLS.
    */
   async getAdminTopics(status: TopicStatus | 'all' = 'all'): Promise<Topic[]> {
     try {
@@ -40,49 +54,41 @@ export const adminActualidadCrudService = {
   },
 
   /**
-   * Obtener un tema por id con sus preguntas (y options)
+   * Obtener tema completo (con preguntas) en un solo round-trip.
+   * Backed by RPC admin_actualidad_get_topic_full.
    */
   async getAdminTopicById(id: string): Promise<Topic | null> {
     try {
-      const { data: topic, error: topicError } = await supabase
-        .from('current_topics')
-        .select('*')
-        .eq('id', id)
-        .single();
+      const { data, error } = await typedRpc<{
+        topic: Record<string, unknown>;
+        questions: Array<{
+          id: string;
+          order: number;
+          text: string;
+          type: TopicQuestion['type'];
+          options: TopicQuestion['options'];
+        }>;
+      } | null>('admin_actualidad_get_topic_full', { p_id: id });
 
-      if (topicError || !topic) return null;
-
-      // Obtener preguntas
-      const { data: set } = await supabase
-        .from('topic_question_sets')
-        .select('id')
-        .eq('topic_id', id)
-        .single();
-
-      let questions: TopicQuestion[] = [];
-      if (set) {
-        const { data: qData } = await supabase
-          .from('topic_questions')
-          .select('*')
-          .eq('set_id', set.id)
-          .order('question_order', { ascending: true });
-        
-        if (qData) {
-          questions = qData.map(q => ({
-            id: q.id,
-            order: q.question_order,
-            text: q.question_text,
-            type: q.answer_type as TopicQuestion['type'],
-            options: q.options_json as TopicQuestion['options']
-          }));
-        }
+      if (error) {
+        logger.error(`Error en RPC admin_actualidad_get_topic_full(${id})`, { error });
+        return null;
       }
+      if (!data) return null;
 
-      const rawTopic = topic as Record<string, unknown>;
+      const topic = data.topic;
+      const questions: TopicQuestion[] = (data.questions || []).map((q) => ({
+        id: q.id,
+        order: q.order,
+        text: q.text,
+        type: q.type,
+        options: q.options
+      }));
+
       return {
-        ...rawTopic,
-        summary: rawTopic.short_summary || '',
-        impact_phrase: rawTopic.impact_quote || '',
+        ...topic,
+        summary: topic.short_summary || '',
+        impact_phrase: topic.impact_quote || '',
         questions
       } as unknown as Topic;
     } catch (e) {
@@ -92,39 +98,46 @@ export const adminActualidadCrudService = {
   },
 
   /**
-   * Guardar tema genérico con preguntas
+   * Crear tema atómicamente (topic + question_set + questions).
+   * Backed by RPC admin_actualidad_create_topic.
    */
-  async createTopicWithQuestions(topic: Partial<Topic>, questions: TopicQuestion[]): Promise<string | null> {
+  async createTopicWithQuestions(
+    topic: Partial<Topic>,
+    questions: TopicQuestion[]
+  ): Promise<string | null> {
     try {
-      const slug = topic.title ? generateTopicSlug(topic.title) : `tema-${Math.floor(Math.random() * 1000)}`;
-      
-      const { data: topicData, error: topicError } = await supabase
-        .from('current_topics')
-        .insert([{
-          slug: topic.slug || slug,
+      const { data, error } = await typedRpc<string>('admin_actualidad_create_topic', {
+        p_topic: {
           title: topic.title,
-          short_summary: topic.summary,
-          category: topic.category || 'País',
-          status: topic.status || 'detected',
-          impact_quote: topic.impact_phrase,
-          tags: topic.tags || [],
-          actors: topic.actors || [],
-          intensity: topic.intensity || 1,
-          relevance_chile: topic.relevance_chile || 3,
+          slug: topic.slug,
+          summary: topic.summary,
+          category: topic.category,
+          status: topic.status,
+          impact_phrase: topic.impact_phrase,
+          tags: topic.tags,
+          actors: topic.actors,
+          intensity: topic.intensity,
+          relevance_chile: topic.relevance_chile,
           confidence_score: topic.confidence_score,
-          event_stage: topic.event_stage || 'discussion',
-          topic_duration: topic.topic_duration || 'short',
-          opinion_maturity: topic.opinion_maturity || 'low',
+          event_stage: topic.event_stage,
+          topic_duration: topic.topic_duration,
+          opinion_maturity: topic.opinion_maturity,
           source_domain: topic.source_domain,
-          metadata: { source_url: topic.source_url } as unknown as Exclude<unknown, undefined>
-        } as never])
-        .select('id')
-        .single();
-        
-      if (topicError || !topicData) throw topicError;
-      
-      await this.updateTopicQuestions(topicData.id, questions);
-      return topicData.id;
+          source_url: topic.source_url
+        },
+        p_questions: questions.map((q) => ({
+          order: q.order,
+          text: q.text,
+          type: q.type,
+          options: q.options || []
+        }))
+      });
+
+      if (error) {
+        logger.error('Error en RPC admin_actualidad_create_topic', { error });
+        return null;
+      }
+      return data || null;
     } catch (e) {
       logger.error('Error al guardar tema genérico', { error: e });
       return null;
@@ -132,38 +145,30 @@ export const adminActualidadCrudService = {
   },
 
   /**
-   * Actualizar metadatos editoriales del tema. Marca automáticamente admin_edited=true
+   * Actualizar metadatos editoriales del tema.
+   * Backed by RPC admin_actualidad_update_editorial.
+   *
+   * NOTA: la whitelist de columnas editables vive server-side. Cualquier
+   * campo no whitelist (status, *_by, *_at, admin_edited, id, slug,
+   * timestamps) se ignora silenciosamente.
    */
-  async updateTopicEditorialData(id: string, updates: Partial<Topic>, markAsAdminEdited: boolean = true): Promise<boolean> {
+  async updateTopicEditorialData(
+    id: string,
+    updates: Partial<Topic>,
+    markAsAdminEdited: boolean = true
+  ): Promise<boolean> {
     try {
-      const dbUpdates: Record<string, unknown> = { ...updates };
-      // Map frontend interface to DB schema if needed
-      if (updates.summary !== undefined) {
-        dbUpdates.short_summary = updates.summary;
-        delete dbUpdates.summary;
-      }
-      if (updates.impact_phrase !== undefined) {
-        dbUpdates.impact_quote = updates.impact_phrase;
-        delete dbUpdates.impact_phrase;
-      }
-      
-      if (markAsAdminEdited) {
-        dbUpdates.admin_edited = true;
-      }
+      const { data, error } = await typedRpc<boolean>('admin_actualidad_update_editorial', {
+        p_id: id,
+        p_updates: updates as Record<string, unknown>,
+        p_mark_admin_edited: markAsAdminEdited
+      });
 
-      // Avoid trying to update relations directly
-      delete dbUpdates.questions; 
-      delete dbUpdates.id;
-      delete dbUpdates.created_at;
-      delete dbUpdates.updated_at;
-
-      const { error } = await supabase
-        .from('current_topics')
-        .update(dbUpdates)
-        .eq('id', id);
-
-      if (error) throw error;
-      return true;
+      if (error) {
+        logger.error(`Error en RPC admin_actualidad_update_editorial(${id})`, { error });
+        return false;
+      }
+      return data === true;
     } catch (e) {
       logger.error(`Error al actualizar data editorial del tema ${id}`, { error: e });
       return false;
@@ -171,128 +176,66 @@ export const adminActualidadCrudService = {
   },
 
   /**
-   * Actualizar o sobreescribir las preguntas de un tema
+   * Sincronizar preguntas de un tema (delete-then-upsert atómico).
+   * Backed by RPC admin_actualidad_upsert_questions.
    */
   async updateTopicQuestions(topicId: string, questions: TopicQuestion[]): Promise<boolean> {
     try {
-      // 1. Obtener o crear setId
-      let { data: set } = await supabase
-        .from('topic_question_sets')
-        .select('id')
-        .eq('topic_id', topicId)
-        .single();
-      
-      if (!set) {
-        const { data: newSet, error: setError } = await supabase
-          .from('topic_question_sets')
-          .insert([{ topic_id: topicId }])
-          .select('id')
-          .single();
-        if (setError || !newSet) throw setError || new Error('No se pudo crear Question Set');
-        set = newSet;
-      }
+      const payload = questions.map((q) => ({
+        id: q.id,
+        order: q.order,
+        text: q.text,
+        type: q.type,
+        options: q.options || []
+      }));
 
-      // 2. Extraer IDs de las preguntas enviadas que YA existen
-      const incomingIds = questions.filter(q => q.id).map(q => q.id!);
-
-      // 3. Eliminar las preguntas que están en la base de datos pero NO en la lista entrante
-      if (incomingIds.length > 0) {
-        const { error: delError } = await supabase
-          .from('topic_questions')
-          .delete()
-          .eq('set_id', set.id)
-          .not('id', 'in', `(${incomingIds.join(',')})`);
-        if (delError) throw delError;
-      } else {
-        // Si no vienen IDs, borrar todo
-        const { error: delError } = await supabase
-          .from('topic_questions')
-          .delete()
-          .eq('set_id', set.id);
-        if (delError) throw delError;
-      }
-
-      // 4. Preparar UPSERT
-      const questionsToUpsert = questions.map(q => {
-        const payload: {
-          set_id: string;
-          question_order: number;
-          question_text: string;
-          answer_type: string;
-          options_json: string[];
-          id?: string;
-        } = {
-          set_id: set!.id,
-          question_order: q.order,
-          question_text: q.text,
-          answer_type: q.type,
-          options_json: q.options || []
-        };
-        // Si tiene un UUID, lo pasamos para UPSERT
-        if (q.id) {
-          payload.id = q.id;
-        }
-        return payload;
+      const { data, error } = await typedRpc<boolean>('admin_actualidad_upsert_questions', {
+        p_topic_id: topicId,
+        p_questions: payload
       });
 
-      if (questionsToUpsert.length > 0) {
-        const { error: upsertError } = await supabase
-          .from('topic_questions')
-          .upsert(questionsToUpsert, { onConflict: 'id' });
-        if (upsertError) throw upsertError;
+      if (error) {
+        logger.error(`Error en RPC admin_actualidad_upsert_questions(${topicId})`, { error });
+        return false;
       }
-
-      return true;
+      return data === true;
     } catch (e: unknown) {
       logger.error(`Error actualizando preguntas para el tema ${topicId}`, { error: e });
-      const msg = e instanceof Error ? e.message : JSON.stringify(e);
-      alert(`[DIAGNÓSTICO OPINA] Error DB Preguntas: ${msg}`);
       return false;
     }
   },
 
   /**
-   * Actualizar estado editorial (Detectado -> Aprobado -> Publicado, Archivación, etc)
-   * Incluye defensas críticas para pubicaciones.
+   * Cambiar estado editorial. Reglas de negocio (validación de
+   * transición + tracking editorial) viven server-side.
+   * Backed by RPC admin_actualidad_update_status.
    */
-  async updateTopicStatus(id: string, nextStatus: TopicStatus): Promise<{ success: boolean; error?: string }> {
+  async updateTopicStatus(
+    id: string,
+    nextStatus: TopicStatus
+  ): Promise<{ success: boolean; error?: string }> {
     try {
-      // Regla estricta antes de aprobar o publicar
-      if (nextStatus === 'approved' || nextStatus === 'published') {
-        const topic = await this.getAdminTopicById(id);
-        if (!topic) return { success: false, error: 'Tema no existe' };
-        
-        const validation = validateTopicForPublication(topic);
-        if (!validation.success) {
-            return validation;
-        }
+      const { data, error } = await typedRpc<{
+        success: boolean;
+        error?: string;
+        message?: string;
+      }>('admin_actualidad_update_status', {
+        p_id: id,
+        p_next_status: nextStatus
+      });
+
+      if (error) {
+        logger.error(`Error en RPC admin_actualidad_update_status(${id})`, { error });
+        return { success: false, error: 'Excepción de base de datos' };
       }
 
-      const { data: { user } } = await supabase.auth.getUser();
+      if (!data || data.success !== true) {
+        return {
+          success: false,
+          error: data?.message || data?.error || 'No se pudo actualizar el estado'
+        };
+      }
 
-      const updates: Record<string, unknown> = { status: nextStatus };
-      
-      // Tracking editorial
-      if (nextStatus === 'review' && user) {
-        updates.created_by = user.id;
-      }
-      if (nextStatus === 'approved' && user) {
-        updates.reviewed_by = user.id;
-        updates.approved_by = user.id;
-      }
-      if (nextStatus === 'published') {
-        updates.published_at = new Date().toISOString();
-      }
-      if (nextStatus === 'archived') {
-        updates.archived_at = new Date().toISOString();
-      }
-      
-      const { error } = await supabase
-        .from('current_topics')
-        .update(updates)
-        .eq('id', id);
-
-      if (error) throw error;
       return { success: true };
     } catch (e) {
       logger.error(`Error al cambiar estado de tema ${id} a ${nextStatus}`, { error: e });
@@ -301,17 +244,19 @@ export const adminActualidadCrudService = {
   },
 
   /**
-   * Marcar explícitamente si fue editado por admin
+   * Marcar admin_edited=true. Backed by RPC admin_actualidad_mark_edited.
    */
   async markAsAdminEdited(id: string): Promise<boolean> {
     try {
-      const { error } = await supabase
-        .from('current_topics')
-        .update({ admin_edited: true })
-        .eq('id', id);
+      const { data, error } = await typedRpc<boolean>('admin_actualidad_mark_edited', {
+        p_id: id
+      });
 
-      if (error) throw error;
-      return true;
+      if (error) {
+        logger.error(`Error en RPC admin_actualidad_mark_edited(${id})`, { error });
+        return false;
+      }
+      return data === true;
     } catch (e) {
       logger.error(`Error al marcar editado por admin en tema ${id}`, { error: e });
       return false;
@@ -319,30 +264,32 @@ export const adminActualidadCrudService = {
   },
 
   /**
-   * Eliminar temas definitivamente de la base de datos (Bulk Hard Delete)
+   * Bulk hard delete. Backed by RPC admin_actualidad_delete_topics.
+   * Devuelve true solo si se borró al menos una fila (detecta fallos
+   * silenciosos por RLS u ids inválidos sin que el frontend tenga que
+   * conocer detalles de RLS).
    */
   async deleteTopics(ids: string[]): Promise<boolean> {
     if (!ids.length) return true;
     try {
-      const { data, error } = await supabase
-        .from('current_topics')
-        .delete()
-        .in('id', ids)
-        .select();
+      const { data, error } = await typedRpc<number>('admin_actualidad_delete_topics', {
+        p_ids: ids
+      });
 
-      if (error) throw error;
-      
-      // Si RLS falló silenciosamente, data estará vacío.
-      if (!data || data.length === 0) {
-        console.warn('Supabase no borró ningún row. Posible fallo por RLS o IDs inválidos.');
-        // Opcional: puedes lanzar un error si crees que no debería estar vacío
-        // throw new Error('No se borraron registros. Chequea permisos RLS.');
+      if (error) {
+        logger.error('Error en RPC admin_actualidad_delete_topics', { error, ids });
+        return false;
+      }
+
+      const deleted = data ?? 0;
+      if (deleted === 0) {
+        logger.warn('admin_actualidad_delete_topics no borró ningún registro', { ids });
+        return false;
       }
 
       return true;
     } catch (e) {
-      console.error(`Error al realizar bulk delete de de temas`, e);
-      logger.error(`Error al realizar bulk delete de de temas`, { error: e, ids });
+      logger.error('Error al realizar bulk delete de temas', { error: e, ids });
       return false;
     }
   }
