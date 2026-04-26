@@ -1,36 +1,87 @@
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import OpenAI from "https://esm.sh/openai@4.28.0";
+import { z } from "https://esm.sh/zod@3.23.8";
 import { corsHeaders } from "../_shared/requireAdmin.ts";
 import { requireAuth } from "../_shared/requireAuth.ts";
 
 // Roles autorizados a pedir narrativas LLM (evita abuso desde B2C).
 const ALLOWED_ROLES = new Set(['admin', 'b2b_pro']);
 
-type EntityInput = {
-    entityName: string;
-    weightedPreferenceShare: number;
-    leaderRank: number;
-    nEff: number;
-    marginVsSecond: number | null;
-    stabilityLabel: string;
-};
+// =========================================================================
+// Sanitización para prompt LLM
+// =========================================================================
+// Limpia strings que serán interpoladas en el prompt:
+//  - quita caracteres de control / null bytes
+//  - neutraliza triple-backtick (rompe fences markdown del prompt)
+//  - neutraliza marcadores comunes de prompt-injection (system:/assistant:/user:)
+//  - colapsa whitespace
+//  - aplica cap de longitud
+function sanitizeForPrompt(raw: string, maxLen: number): string {
+    return raw
+        // eslint-disable-next-line no-control-regex
+        .replace(/[\x00-\x1F\x7F]/g, ' ')
+        .replace(/```/g, "'''")
+        .replace(/\b(system|assistant|user)\s*:/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, maxLen);
+}
 
-type MarketEntryInput = {
-    entityName: string;
-    weightedPreferenceShare: number;
-    leaderRank: number;
-    nEff: number;
-};
+// =========================================================================
+// Zod schemas
+// =========================================================================
+const EntityNameSchema = z
+    .string()
+    .min(1)
+    .max(120)
+    .transform(s => sanitizeForPrompt(s, 120));
 
-type MarketInput = {
-    entries: MarketEntryInput[];
-    highAlertMessage?: string | null;
-};
+const StabilityLabelSchema = z
+    .string()
+    .min(1)
+    .max(40)
+    .transform(s => sanitizeForPrompt(s, 40));
 
-type RequestBody =
-    | { type: 'entity'; input: EntityInput }
-    | { type: 'market'; input: MarketInput };
+const HighAlertMessageSchema = z
+    .string()
+    .max(300)
+    .transform(s => sanitizeForPrompt(s, 300));
 
+const EntityInputSchema = z
+    .object({
+        entityName: EntityNameSchema,
+        weightedPreferenceShare: z.number().finite().min(0).max(1),
+        leaderRank: z.number().int().min(1).max(10000),
+        nEff: z.number().finite().min(0).max(1e9),
+        marginVsSecond: z.number().finite().min(-1).max(1).nullable(),
+        stabilityLabel: StabilityLabelSchema,
+    })
+    .strict();
+
+const MarketEntryInputSchema = z
+    .object({
+        entityName: EntityNameSchema,
+        weightedPreferenceShare: z.number().finite().min(0).max(1),
+        leaderRank: z.number().int().min(1).max(10000),
+        nEff: z.number().finite().min(0).max(1e9),
+    })
+    .strict();
+
+const MarketInputSchema = z
+    .object({
+        entries: z.array(MarketEntryInputSchema).min(1).max(50),
+        highAlertMessage: HighAlertMessageSchema.nullable().optional(),
+    })
+    .strict();
+
+const RequestBodySchema = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('entity'), input: EntityInputSchema }).strict(),
+    z.object({ type: z.literal('market'), input: MarketInputSchema }).strict(),
+]);
+
+// =========================================================================
+// Handler
+// =========================================================================
 serve(async (req) => {
     // CORS preflight
     if (req.method === 'OPTIONS') {
@@ -59,10 +110,10 @@ serve(async (req) => {
 
         const openai = new OpenAI({ apiKey: openAiKey });
 
-        // 3. Parse body
-        let body: RequestBody;
+        // 3. Parse + validar payload con Zod
+        let raw: unknown;
         try {
-            body = await req.json();
+            raw = await req.json();
         } catch {
             return new Response(JSON.stringify({ error: 'Body is not valid JSON.' }), {
                 status: 400,
@@ -70,12 +121,20 @@ serve(async (req) => {
             });
         }
 
-        if (!body || (body.type !== 'entity' && body.type !== 'market')) {
-            return new Response(JSON.stringify({ error: "Campo 'type' debe ser 'entity' o 'market'." }), {
+        const parsed = RequestBodySchema.safeParse(raw);
+        if (!parsed.success) {
+            const firstIssue = parsed.error.issues[0];
+            const detail = firstIssue
+                ? `${firstIssue.path.join('.') || '<root>'}: ${firstIssue.message}`
+                : 'Invalid payload shape.';
+            console.warn('[llm-narrative] Payload inválido:', detail);
+            return new Response(JSON.stringify({ error: `Invalid payload: ${detail}` }), {
                 status: 400,
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             });
         }
+
+        const body = parsed.data;
 
         // 4. Dispatch por tipo de narrativa
         if (body.type === 'entity') {
