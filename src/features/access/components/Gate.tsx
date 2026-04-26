@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { useAuthContext } from '../../auth/context/AuthContext';
 import { AppRouteModule } from '../types/policy';
@@ -18,19 +18,49 @@ export default function Gate({ module, children }: GateProps) {
     // 1. Resolve policy
     const policyResult = resolveAccessPolicy(module, accessState);
 
-    // 2. Handle side effects predictably (only ONCE when access is denied)
+    // 2. Handle side effects predictably.
+    //
+    // F-14 (auditoría 2026-04-26): el patrón anterior dejaba que el toast
+    // se disparara cada vez que el effect re-corría (acoplado a re-renders e
+    // inestabilidad de identidad de `policyResult`). Aunque react-hot-toast
+    // deduplica por `id`, era trabajo desperdiciado y podía resetear el timer
+    // del toast.
+    //
+    // Patrón nuevo: useRef como flag de fingerprint. El effect sigue siendo
+    // el dispatcher (cumple las reglas de React sobre side effects fuera del
+    // render), pero el ref garantiza que solo notificamos una vez por
+    // combinación (módulo, reason). Si la decisión cambia (deny por X → deny
+    // por Y), refire una vez para la nueva razón. Si la denegación se levanta
+    // (allowed=true), reseteamos el flag para que la próxima denegación
+    // vuelva a notificar correctamente.
+    const lastDenyFingerprintRef = useRef<string | null>(null);
+
     useEffect(() => {
-        if (!accessState.isLoading && !policyResult.allowed && policyResult.uiMessage) {
-            logger.info("Access denied by Gate policy", {
-                domain: 'access_policy',
-                origin: 'Gate',
-                action: 'resolve_policy',
-                state: 'blocked',
-                module,
-                reason: policyResult.reason
-            });
-            toast.error(policyResult.uiMessage, { id: `gate-denied-${module}`, duration: 4000 });
+        if (accessState.isLoading) return;
+
+        if (policyResult.allowed) {
+            lastDenyFingerprintRef.current = null;
+            return;
         }
+
+        if (!policyResult.uiMessage) return;
+
+        const fingerprint = `${module}|${policyResult.reason ?? 'unknown'}`;
+        if (lastDenyFingerprintRef.current === fingerprint) return;
+
+        lastDenyFingerprintRef.current = fingerprint;
+        logger.info("Access denied by Gate policy", {
+            domain: 'access_policy',
+            origin: 'Gate',
+            action: 'resolve_policy',
+            state: 'blocked',
+            module,
+            reason: policyResult.reason
+        });
+        toast.error(policyResult.uiMessage, {
+            id: `gate-denied-${module}`,
+            duration: 4000
+        });
     }, [accessState.isLoading, policyResult.allowed, policyResult.uiMessage, policyResult.reason, module]);
 
     // 3. Render logic
