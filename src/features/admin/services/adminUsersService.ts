@@ -1,4 +1,5 @@
 import { supabase } from '../../../supabase/client';
+import { typedRpc } from '../../../supabase/typedRpc';
 import { logger } from '../../../lib/logger';
 
 export type AdminUserRow = {
@@ -32,7 +33,10 @@ export const adminUsersService = {
             //   - role ∈ {user, admin, b2b}
             // El audit log lo emite el trigger AFTER UPDATE OF role
             // (audit_role_changes → log_admin_action), no se duplica aquí.
-            const { error } = await supabase.rpc('admin_set_user_role', {
+            // Cast vía typedRpc — la RPC existe en DB (migración 20260425040000)
+            // pero database.types.ts aún no la incluye. Cuando se regenere
+            // (npm run ops:db:generate-types), migrar a `supabase.rpc` directo.
+            const { error } = await typedRpc<null>('admin_set_user_role', {
                 p_target_user_id: userId,
                 p_new_role: targetRole,
             });
