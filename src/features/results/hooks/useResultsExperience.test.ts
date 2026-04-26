@@ -1,5 +1,7 @@
+import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useResultsExperience } from './useResultsExperience';
 import { resultsCommunityService } from '../services/resultsCommunityService';
 import { analyticsService } from '../../analytics/services/analyticsService';
@@ -30,6 +32,16 @@ vi.mock('../../analytics/services/analyticsService', () => ({
     }
 }));
 
+// FASE 3A React Query — el hook usa useQuery, así que renderHook requiere
+// envolver con QueryClientProvider. Cliente fresco por test para aislar cache.
+const createWrapper = () => {
+    const queryClient = new QueryClient({
+        defaultOptions: { queries: { retry: false, gcTime: 0 } }
+    });
+    return ({ children }: { children: React.ReactNode }) =>
+        React.createElement(QueryClientProvider, { client: queryClient }, children);
+};
+
 // Basic mock snapshot for tests
 const createMockSnapshot = (microdetailLocked = false, minimumCohortSize = true) => ({
     generatedAt: "2026-03-27T00:00:00.000Z",
@@ -53,7 +65,7 @@ describe('useResultsExperience', () => {
         const mockSnapshot = createMockSnapshot();
         (resultsCommunityService.getResultsCommunitySnapshot as import('vitest').Mock).mockResolvedValue(mockSnapshot);
 
-        const { result } = renderHook(() => useResultsExperience());
+        const { result } = renderHook(() => useResultsExperience(), { wrapper: createWrapper() });
 
         await waitFor(() => {
             expect(result.current.loading).toBe(false);
@@ -73,7 +85,7 @@ describe('useResultsExperience', () => {
             return Promise.resolve(createMockSnapshot());
         });
 
-        const { result } = renderHook(() => useResultsExperience());
+        const { result } = renderHook(() => useResultsExperience(), { wrapper: createWrapper() });
 
         act(() => {
             result.current.setActiveGeneration('GEN_Z');
@@ -83,14 +95,14 @@ describe('useResultsExperience', () => {
             expect(result.current.loading).toBe(false);
             expect(result.current.snapshot).toEqual(insufficientSnapshot);
         });
-        
+
         expect(result.current.snapshot?.guardrails.minimumCohortSize).toBe(false);
     });
 
     it('manages activeModule and period state', async () => {
         (resultsCommunityService.getResultsCommunitySnapshot as import('vitest').Mock).mockResolvedValue(createMockSnapshot());
 
-        const { result } = renderHook(() => useResultsExperience());
+        const { result } = renderHook(() => useResultsExperience(), { wrapper: createWrapper() });
 
         // Defaults
         expect(result.current.activeModule).toBe('ALL');
@@ -101,7 +113,7 @@ describe('useResultsExperience', () => {
             result.current.setActiveModule('TOURNAMENT');
             result.current.setActivePeriod('7D');
         });
-        
+
         expect(result.current.activeModule).toBe('TOURNAMENT');
         expect(result.current.activePeriod).toBe('7D');
     });

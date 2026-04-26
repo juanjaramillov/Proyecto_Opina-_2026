@@ -1,4 +1,5 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useQuery } from '@tanstack/react-query';
 import { intelligenceAnalyticsService } from "../services/intelligenceAnalyticsService";
 import { IntelligenceAnalyticsSnapshot, IntelligenceBenchmarkEntry } from "../../../read-models/b2b/intelligenceAnalyticsTypes";
 import { logger } from "../../../lib/logger";
@@ -7,36 +8,26 @@ import { useAuthContext } from "../../../features/auth/context/AuthContext";
 export function useOverviewB2BState() {
     const { accessState } = useAuthContext();
     const role = accessState.role;
-    const isB2B = role === 'b2b' || role === 'admin'; 
-    
-    // El snapshot unificado que nutre Overview, Benchmark, Alerts, DeepDive
-    const [snapshot, setSnapshot] = useState<IntelligenceAnalyticsSnapshot | null>(null);
+    const isB2B = role === 'b2b' || role === 'admin';
+
+    // UI puro — no es data del server, queda como useState.
     const [selectedEntity, setSelectedEntity] = useState<IntelligenceBenchmarkEntry | null>(null);
     const [loadingDetails, setLoadingDetails] = useState(false);
-    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
 
-    const loadData = useCallback(async () => {
-        setLoading(true);
-        try {
-            // Unificamos el fetch de query hacia todos los tabs B2B
-            const data = await intelligenceAnalyticsService.getIntelligenceAnalyticsSnapshot({
-                period: "30D" // default o configurable futuro
-            });
-            
-            setSnapshot(data);
-        } catch (err) {
-            logger.error("[OverviewB2B] Error loading canonic data:", err);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+    // FASE 3A React Query — el snapshot canónico B2B se cachea por queryKey.
+    // Navegar entre tabs B2B no recarga si última fetch <5min.
+    const { data: snapshot, isLoading, error, refetch } = useQuery<IntelligenceAnalyticsSnapshot, Error>({
+        queryKey: ['b2b', 'overview', '30D'],
+        queryFn: () => intelligenceAnalyticsService.getIntelligenceAnalyticsSnapshot({ period: "30D" }),
+        enabled: isB2B,
+    });
 
     useEffect(() => {
-        if (isB2B) {
-            loadData();
+        if (error) {
+            logger.error("[OverviewB2B] Error loading canonic data:", error);
         }
-    }, [isB2B, loadData]);
+    }, [error]);
 
     const handleSelectEntity = async (entity: IntelligenceBenchmarkEntry) => {
         setSelectedEntity(entity);
@@ -45,7 +36,7 @@ export function useOverviewB2BState() {
             // Futuro: Aquí se puede hacer drill-down fetch pidiendo deepDive de esa entity
             // intelligenceAnalyticsService.getDeepDiveForEntity(entity.entityId)
             // Por ahora, el snapshot canónico B2B de Bloque 4 asume que podemos mostrar los
-            // stats básicos de Bencharmark.
+            // stats básicos de Benchmark.
         } catch (error) {
             logger.error("[OverviewB2B] Error fetching deep dive constraints:", error);
         } finally {
@@ -54,14 +45,22 @@ export function useOverviewB2BState() {
     };
 
     const leaderboard = snapshot?.benchmark?.entries || [];
-    const filteredRankings = leaderboard.filter(item => 
-        item.entityName.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredRankings = useMemo(
+        () => leaderboard.filter(item =>
+            item.entityName.toLowerCase().includes(searchTerm.toLowerCase())
+        ),
+        [leaderboard, searchTerm]
     );
+
+    // Mantenemos `loadData` como wrapper de refetch para no tocar consumidores.
+    const loadData = useCallback(async () => {
+        await refetch();
+    }, [refetch]);
 
     return {
         isB2B,
-        loading,
-        snapshot,
+        loading: isLoading,
+        snapshot: snapshot ?? null,
         alerts: snapshot?.alerts || [],
         searchTerm,
         setSearchTerm,
