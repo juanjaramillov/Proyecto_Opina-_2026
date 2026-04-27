@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     adminAntifraudService,
     MultiAccountDeviceRow,
     DeviceUserRow,
 } from '../services/adminAntifraudService';
-import { logger } from '../../../lib/logger';
 
 /**
  * Panel "Multi-cuenta" — #9 Media Drimo.
@@ -20,58 +20,71 @@ import { logger } from '../../../lib/logger';
  * Los dos hashes pueden ser distintos en transición (signals usa el
  * legacy con randomUUID, sessions usa el determinístico nuevo).
  */
+/**
+ * FASE 3D React Query (2026-04-26): list de devices con multi-cuenta como
+ * useQuery con queryKey ['admin','multi-account','devices',minUsers,sinceDays]
+ * — el botón "Aplicar" ya no necesita un fetch imperativo: cambiar los inputs
+ * dispara un refetch automático por queryKey. La lista de usuarios por
+ * device se cachea con queryKey ['admin','multi-account','users',hash,sinceDays]
+ * y se enabled cuando el row está expandido.
+ */
 const MultiAccountDevicesPanel: React.FC = () => {
-    const [rows, setRows] = useState<MultiAccountDeviceRow[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [expandedHash, setExpandedHash] = useState<string | null>(null);
-    const [users, setUsers] = useState<Record<string, DeviceUserRow[]>>({});
-    const [loadingUsers, setLoadingUsers] = useState<Record<string, boolean>>({});
+    const [error, setError] = useState<string | null>(null);
     const [minUsers, setMinUsers] = useState<number>(3);
     const [sinceDays, setSinceDays] = useState<number>(30);
+    // Versión "aplicada" — los inputs son borrador, fetchamos solo cuando el
+    // usuario aprieta "Aplicar" (mantenemos el comportamiento original).
+    const [appliedMinUsers, setAppliedMinUsers] = useState<number>(3);
+    const [appliedSinceDays, setAppliedSinceDays] = useState<number>(30);
 
-    const fetchRows = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            const data = await adminAntifraudService.findMultiAccountDevices(minUsers, sinceDays);
-            setRows(data);
-            // Cerrar expansión si el hash ya no está en la lista nueva
-            if (expandedHash && !data.find(r => r.device_hash === expandedHash)) {
-                setExpandedHash(null);
-            }
-        } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : String(err));
-        } finally {
-            setLoading(false);
+    const rowsQuery = useQuery<MultiAccountDeviceRow[], Error>({
+        queryKey: ['admin', 'multi-account', 'devices', appliedMinUsers, appliedSinceDays],
+        queryFn: () => adminAntifraudService.findMultiAccountDevices(appliedMinUsers, appliedSinceDays),
+    });
+
+    const rows = rowsQuery.data ?? [];
+    const loading = rowsQuery.isLoading;
+
+    // Sync error visible.
+    useEffect(() => {
+        const err = rowsQuery.error?.message;
+        setError(err ?? null);
+    }, [rowsQuery.error]);
+
+    // Cerrar expansión si el hash ya no aparece en la nueva lista.
+    useEffect(() => {
+        if (expandedHash && rows.length > 0 && !rows.find(r => r.device_hash === expandedHash)) {
+            setExpandedHash(null);
         }
+    }, [rows, expandedHash]);
+
+    const usersQuery = useQuery<DeviceUserRow[], Error>({
+        queryKey: ['admin', 'multi-account', 'users', expandedHash, appliedSinceDays],
+        queryFn: () => adminAntifraudService.listDeviceUsers(expandedHash as string, appliedSinceDays),
+        enabled: !!expandedHash,
+    });
+
+    // Map device-hash → users[], alimentado solo desde la cache del expandido.
+    const users: Record<string, DeviceUserRow[]> = expandedHash && usersQuery.data
+        ? { [expandedHash]: usersQuery.data }
+        : {};
+    const loadingUsers: Record<string, boolean> = expandedHash
+        ? { [expandedHash]: usersQuery.isLoading }
+        : {};
+
+    const fetchRows = () => {
+        // "Aplicar" → propaga inputs en borrador a los applied (dispara refetch).
+        setAppliedMinUsers(minUsers);
+        setAppliedSinceDays(sinceDays);
     };
 
-    useEffect(() => {
-        fetchRows();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const toggleExpand = async (deviceHash: string) => {
+    const toggleExpand = (deviceHash: string) => {
         if (expandedHash === deviceHash) {
             setExpandedHash(null);
             return;
         }
         setExpandedHash(deviceHash);
-
-        if (!users[deviceHash]) {
-            try {
-                setLoadingUsers(prev => ({ ...prev, [deviceHash]: true }));
-                const data = await adminAntifraudService.listDeviceUsers(deviceHash, sinceDays);
-                setUsers(prev => ({ ...prev, [deviceHash]: data }));
-            } catch (err: unknown) {
-                logger.error('listDeviceUsers falló', {
-                    domain: 'admin_actions', origin: 'MultiAccountDevicesPanel', action: 'list_users'
-                }, err);
-            } finally {
-                setLoadingUsers(prev => ({ ...prev, [deviceHash]: false }));
-            }
-        }
     };
 
     return (

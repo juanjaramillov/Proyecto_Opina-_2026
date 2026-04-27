@@ -1,4 +1,5 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { metricsService, LeaderboardEntry } from '../services/metricsService';
 import TimeFilterPresets, { TimeFilterPreset } from '../../../components/ui/TimeFilterPresets';
 import TimeFilterDatePicker from '../../../components/ui/TimeFilterDatePicker';
@@ -42,6 +43,13 @@ export interface LeaderboardWithTimeTravelProps {
     title?: string;
 }
 
+/**
+ * FASE 3D React Query (2026-04-26): el ranking se cachea por queryKey
+ * ['metrics','leaderboard',mode,b2cPreset,b2bAsOfTs,limit,categorySlug].
+ * Los filtros temporales (preset / date picker) cambian la key y disparan
+ * refetch automático — desaparece el useEffect + useCallback(getAsOf).
+ * El cálculo de `asOf` vive ahora dentro del queryFn.
+ */
 export default function LeaderboardWithTimeTravel({
     mode = 'b2c',
     limit = 10,
@@ -52,60 +60,39 @@ export default function LeaderboardWithTimeTravel({
     const [b2cPreset, setB2cPreset] = useState<TimeFilterPreset>('today');
     const [b2bAsOf, setB2bAsOf] = useState<Date | null>(null);
 
-    // Estado de data
-    const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const b2bAsOfTs = b2bAsOf ? b2bAsOf.getTime() : null;
 
-    // Calcular la fecha as_of según el modo actual
-    const getAsOf = useCallback((): Date | undefined => {
-        if (mode === 'b2b') {
-            return b2bAsOf ?? undefined;
-        }
-        // B2C: derivar de preset
-        if (b2cPreset === 'today') return undefined;
-        const daysMap: Record<TimeFilterPreset, number> = {
-            today: 0,
-            '1w': 7,
-            '1m': 30,
-            '3m': 90,
-            '6m': 180,
-            '1y': 365,
-        };
-        const d = new Date();
-        d.setUTCDate(d.getUTCDate() - daysMap[b2cPreset]);
-        return d;
-    }, [mode, b2cPreset, b2bAsOf]);
-
-    // Fetch rankings
-    useEffect(() => {
-        let cancelled = false;
-        setLoading(true);
-        setError(null);
-
-        metricsService
-            .getGlobalLeaderboard({
+    const leaderboardQuery = useQuery<LeaderboardEntry[], Error>({
+        queryKey: ['metrics', 'leaderboard', mode, b2cPreset, b2bAsOfTs, limit, categorySlug ?? null],
+        queryFn: () => {
+            // Calcular as_of dentro del queryFn — sin useCallback ni dep-array.
+            let asOf: Date | undefined;
+            if (mode === 'b2b') {
+                asOf = b2bAsOf ?? undefined;
+            } else if (b2cPreset !== 'today') {
+                const daysMap: Record<TimeFilterPreset, number> = {
+                    today: 0,
+                    '1w': 7,
+                    '1m': 30,
+                    '3m': 90,
+                    '6m': 180,
+                    '1y': 365,
+                };
+                const d = new Date();
+                d.setUTCDate(d.getUTCDate() - daysMap[b2cPreset]);
+                asOf = d;
+            }
+            return metricsService.getGlobalLeaderboard({
                 limit,
-                asOf: getAsOf(),
+                asOf,
                 categorySlug,
-            })
-            .then((data) => {
-                if (cancelled) return;
-                setEntries(data);
-            })
-            .catch((err: unknown) => {
-                if (cancelled) return;
-                const msg = err instanceof Error ? err.message : 'Error cargando ranking';
-                setError(msg);
-            })
-            .finally(() => {
-                if (!cancelled) setLoading(false);
             });
+        },
+    });
 
-        return () => {
-            cancelled = true;
-        };
-    }, [limit, categorySlug, getAsOf]);
+    const entries = leaderboardQuery.data ?? [];
+    const loading = leaderboardQuery.isLoading;
+    const error = leaderboardQuery.error?.message ?? null;
 
     // Etiqueta descriptiva del momento consultado (para el header)
     const asOfLabel = (() => {

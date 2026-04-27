@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from "react-router-dom";
 import VersusGame from "../components/VersusGame";
 import { signalService } from "../services/signalService";
@@ -8,37 +9,24 @@ import { logger } from "../../../lib/logger";
 import PageHeader from "../../../components/ui/PageHeader";
 import { PageState } from "../../../components/ui/StateBlocks";
 
+/**
+ * FASE 3D React Query (2026-04-26): el contexto de la batalla se cachea por
+ * queryKey ['battle','context',slug]. El fetch arranca solo cuando hay slug
+ * (`enabled`); el array `battles` se memoriza en client. El submit del voto
+ * sigue siendo fire-and-forget (no bloquea la UI).
+ */
 export default function BattlePage() {
     const { battleSlug } = useParams();
     const navigate = useNavigate();
     const { showToast } = useToast();
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [battle, setBattle] = useState<Battle | null>(null);
-
-    useEffect(() => {
-        let mounted = true;
-
-        async function load() {
-            if (!battleSlug) {
-                setError("Falta el identificador de la evaluación.");
-                setLoading(false);
-                return;
-            }
-
-            setLoading(true);
-            setError(null);
-
-            const ctx = await signalService.resolveBattleContext(battleSlug);
-
-            if (!mounted) return;
+    const battleQuery = useQuery<Battle, Error>({
+        queryKey: ['battle', 'context', battleSlug],
+        queryFn: async () => {
+            const ctx = await signalService.resolveBattleContext(battleSlug as string);
 
             if (!ctx.ok || !ctx.battle_id || !ctx.title || !ctx.options || ctx.options.length < 2) {
-                setError(ctx.error || "No se pudo cargar la evaluación.");
-                setBattle(null);
-                setLoading(false);
-                return;
+                throw new Error(ctx.error || "No se pudo cargar la evaluación.");
             }
 
             const options = ctx.options
@@ -63,16 +51,16 @@ export default function BattlePage() {
                 layout: "versus",
             };
 
-            setBattle(built);
-            setLoading(false);
-        }
+            return built;
+        },
+        enabled: !!battleSlug,
+    });
 
-        load();
-
-        return () => {
-            mounted = false;
-        };
-    }, [battleSlug]);
+    const battle = battleQuery.data ?? null;
+    const loading = battleQuery.isLoading || (!!battleSlug && battleQuery.isPending);
+    const error = !battleSlug
+        ? "Falta el identificador de la evaluación."
+        : battleQuery.error?.message ?? null;
 
     const battles = useMemo(() => (battle ? [battle] : []), [battle]);
 

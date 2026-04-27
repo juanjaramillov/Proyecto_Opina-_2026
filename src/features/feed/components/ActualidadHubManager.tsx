@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { actualidadService, ActualidadTopicDetail, ActualidadTopic } from '../../signals/services/actualidadService';
 import { ActualidadTopicView } from './ActualidadTopicView';
 import { ActualidadHome } from './ActualidadHome';
@@ -10,35 +11,44 @@ interface ActualidadHubManagerProps {
     onClose: () => void;
 }
 
+const TOPICS_KEY = ['actualidad', 'published-topics'] as const;
+
+/**
+ * FASE 3D React Query (2026-04-26): el listado de topics publicados se cachea
+ * por queryKey ['actualidad','published-topics']. Submit de respuestas hace
+ * optimistic update con `qc.setQueryData` para reflejar `has_answered` y los
+ * stats sin esperar refetch. El detalle del topic seleccionado queda con
+ * fetch imperativo (es transitorio: se selecciona, se contesta, se cierra).
+ */
 export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
-    const [topics, setTopics] = useState<ActualidadTopic[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<boolean>(false);
-    
+    const qc = useQueryClient();
+    const { showToast } = useToast();
+
     // Store either the detail of the selected topic or null to show Home
     const [selectedTopicDetail, setSelectedTopicDetail] = useState<ActualidadTopicDetail | null>(null);
     const [loadingTopic, setLoadingTopic] = useState(false);
-    
-    const { showToast } = useToast();
 
-    const loadTopics = useCallback(async () => {
-        setLoading(true);
-        setError(false);
-        try {
-            const activeTopics = await actualidadService.getPublishedTopics();
-            setTopics(activeTopics);
-        } catch (err) {
-            setError(true);
-            logger.error("Error loading actualidad topics", { domain: 'actualidad_editorial', origin: 'ActualidadHubManager', action: 'load_topics', state: 'failed' }, err);
-            showToast("Error al cargar temas de actualidad.", "error");
-        } finally {
-            setLoading(false);
-        }
-    }, [showToast]);
+    const topicsQuery = useQuery<ActualidadTopic[], Error>({
+        queryKey: TOPICS_KEY,
+        queryFn: () => actualidadService.getPublishedTopics(),
+    });
 
+    const topics = topicsQuery.data ?? [];
+    const loading = topicsQuery.isLoading;
+    const error = !!topicsQuery.error;
+
+    // Toast de error en error inicial — coincide con el comportamiento previo
+    // (toast solo en error, no en cada refetch).
     useEffect(() => {
-        loadTopics();
-    }, [loadTopics]);
+        if (topicsQuery.error) {
+            logger.error("Error loading actualidad topics", { domain: 'actualidad_editorial', origin: 'ActualidadHubManager', action: 'load_topics', state: 'failed' }, topicsQuery.error);
+            showToast("Error al cargar temas de actualidad.", "error");
+        }
+    }, [topicsQuery.error, showToast]);
+
+    const loadTopics = async () => {
+        await topicsQuery.refetch();
+    };
 
     const handleSelectTopic = async (topic: ActualidadTopic) => {
         setLoadingTopic(true);
@@ -69,9 +79,15 @@ export function ActualidadHubManager({ onClose }: ActualidadHubManagerProps) {
 
             if (success) {
                 showToast("¡Respuestas registradas con éxito!", "award", 1);
-                
-                // Update local topics state to reflect 'has_answered'
-                setTopics(prev => prev.map(t => t.id === selectedTopicDetail.id ? { ...t, has_answered: true, stats: { ...t.stats, total_participants: (t.stats?.total_participants || 0) + 1, total_signals: (t.stats?.total_signals || 0) + answers.length } } as ActualidadTopic : t));
+
+                // Optimistic update: parchamos el topic en cache para reflejar
+                // has_answered + stats incrementados sin refetch.
+                qc.setQueryData<ActualidadTopic[]>(TOPICS_KEY, (prev) => {
+                    if (!prev) return prev;
+                    return prev.map(t => t.id === selectedTopicDetail.id
+                        ? { ...t, has_answered: true, stats: { ...t.stats, total_participants: (t.stats?.total_participants || 0) + 1, total_signals: (t.stats?.total_signals || 0) + answers.length } } as ActualidadTopic
+                        : t);
+                });
             } else {
                 showToast("Hubo un error al procesar tu respuesta.", "error");
             }
