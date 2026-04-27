@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useMemo } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter, ChevronDown, BadgeAlert, Power, Search, Plus, X, Edit2 } from "lucide-react";
 import toast from 'react-hot-toast';
@@ -15,9 +16,18 @@ const MODULES = [
   { id: 'profundidad', label: 'Profundidad', icon: 'query_stats' }
 ];
 
+const ENTITIES_KEY = ['admin', 'entities'] as const;
+
+/**
+ * FASE 3D React Query (2026-04-26): listado de entidades como `useQuery`.
+ * Toggle de status (single + bulk) hacen optimistic update con
+ * `qc.setQueryData` y rollback en error. Save invalida la queryKey.
+ * Form state (`editingEntity`, `selectedEntities`) se queda en useState
+ * porque es state del modal, no server state.
+ */
 export default function AdminEntities() {
-  const [entities, setEntities] = useState<AdminEntity[]>([]);
-  const [loading, setLoading] = useState(true);
+  const qc = useQueryClient();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [subcategoryFilter, setSubcategoryFilter] = useState('all');
@@ -32,14 +42,40 @@ export default function AdminEntities() {
   // Selection State
   const [selectedEntities, setSelectedEntities] = useState<string[]>([]);
 
+  const entitiesQuery = useQuery<AdminEntity[], Error>({
+    queryKey: ENTITIES_KEY,
+    queryFn: async () => {
+      try {
+        return await adminEntitiesService.getAdminEntities();
+      } catch (err) {
+        logger.error("Error fetching entities", { domain: 'admin_actions', origin: 'AdminEntities', action: 'fetch_entities', state: 'failed' }, err);
+        throw err;
+      }
+    },
+  });
+
+  const entities = entitiesQuery.data ?? [];
+  const loading = entitiesQuery.isLoading;
+
+  // Helper para parchar el array en cache (optimistic / rollback).
+  const patchEntities = (updater: (list: AdminEntity[]) => AdminEntity[]) => {
+    qc.setQueryData<AdminEntity[]>(ENTITIES_KEY, (prev) => updater(prev ?? []));
+  };
+
   // Bulk actions
   const handleBulkStatusChange = async (newStatus: boolean) => {
+    const idsSnapshot = [...selectedEntities];
     setIsSaving(true);
+    // Optimistic local: reflejamos el cambio sobre los rows seleccionados.
+    patchEntities(list => list.map(e => idsSnapshot.includes(e.id) ? { ...e, is_active: newStatus } : e));
     try {
-      await Promise.all(selectedEntities.map(id => adminEntitiesService.toggleEntityStatus(id, newStatus)));
-      setEntities(prev => prev.map(e => selectedEntities.includes(e.id) ? { ...e, is_active: newStatus } : e));
+      await Promise.all(idsSnapshot.map(id => adminEntitiesService.toggleEntityStatus(id, newStatus)));
       setSelectedEntities([]);
+      // Refrescamos contra server por si el toggle normaliza otros campos.
+      qc.invalidateQueries({ queryKey: ENTITIES_KEY });
     } catch (err) {
+      // Rollback al estado previo (refetch del server).
+      qc.invalidateQueries({ queryKey: ENTITIES_KEY });
       logger.error("Error bulk updating status", err);
       toast.error("No se pudo actualizar el estado de algunas entidades");
     } finally {
@@ -63,21 +99,6 @@ export default function AdminEntities() {
     }
   };
 
-  const fetchEntities = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await adminEntitiesService.getAdminEntities();
-      setEntities(data);
-    } catch (err) {
-      logger.error("Error fetching entities", { domain: 'admin_actions', origin: 'AdminEntities', action: 'fetch_entities', state: 'failed' }, err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchEntities();
-  }, [fetchEntities]);
 
   const uniqueCategories = useMemo(() => {
     const categories = new Set<string>();
@@ -127,15 +148,17 @@ export default function AdminEntities() {
 
   const handleStatusToggle = async (id: string, currentStatus: boolean | null) => {
     const newStatus = !currentStatus;
-    setEntities(prev => prev.map(e => e.id === id ? { ...e, is_active: newStatus } : e));
+    // Optimistic local: ya parchamos la cache, el toggle del UI es instantáneo.
+    patchEntities(list => list.map(e => e.id === id ? { ...e, is_active: newStatus } : e));
     try {
       const success = await adminEntitiesService.toggleEntityStatus(id, newStatus);
       if (!success) {
-        setEntities(prev => prev.map(e => e.id === id ? { ...e, is_active: currentStatus } : e));
+        // Rollback al estado original.
+        patchEntities(list => list.map(e => e.id === id ? { ...e, is_active: currentStatus } : e));
         toast.error("No se pudo actualizar el estado");
       }
     } catch (err) {
-      setEntities(prev => prev.map(e => e.id === id ? { ...e, is_active: currentStatus } : e));
+      patchEntities(list => list.map(e => e.id === id ? { ...e, is_active: currentStatus } : e));
       logger.error("Error updating status", err);
     }
   };
@@ -197,7 +220,7 @@ export default function AdminEntities() {
     if (success) {
       setIsModalOpen(false);
       toast.success("Entidad guardada");
-      fetchEntities();
+      qc.invalidateQueries({ queryKey: ENTITIES_KEY });
     } else {
       toast.error("No se pudo guardar la entidad");
     }

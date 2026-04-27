@@ -1,24 +1,31 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useInfiniteQuery, useQueryClient, InfiniteData } from '@tanstack/react-query';
 import { Search, Database, Power, PowerOff, Activity, ImageIcon, BarChart2 } from "lucide-react";
 import toast from 'react-hot-toast';
 import { adminSignalsService, AdminSignalRow } from "../services/adminSignalsService";
 import { AdminSignalAnalyticsDrawer } from "../components/AdminSignalAnalyticsDrawer";
 
+const PAGE_LIMIT = 50;
+
+/**
+ * FASE 3D React Query (2026-04-26): paginación migrada a `useInfiniteQuery` —
+ * el queryKey lleva debouncedSearch + statusFilter, así un cambio de filtro
+ * hace que React Query trate cada combinación como un dataset independiente
+ * (no necesitamos resetear manualmente). `fetchNextPage` reemplaza el
+ * setPage+fetch acoplado que tenía el código original (que capturaba page
+ * stale dentro del useCallback). El toggle de status hace optimistic update
+ * sobre los pages de la cache vía `qc.setQueryData`.
+ */
 export default function AdminSignals() {
-    const [signals, setSignals] = useState<AdminSignalRow[]>([]);
-    const [loading, setLoading] = useState(true);
+    const qc = useQueryClient();
+
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
-    
+
     // Analytics Drawer State
     const [selectedBattleId, setSelectedBattleId] = useState<string | null>(null);
     const [selectedBattleTitle, setSelectedBattleTitle] = useState("");
-
-    // Pagination
-    const [page, setPage] = useState(0);
-    const limit = 50;
-    const [hasMore, setHasMore] = useState(true);
 
     // Debounce search term
     useEffect(() => {
@@ -28,38 +35,44 @@ export default function AdminSignals() {
         return () => clearTimeout(timer);
     }, [searchTerm]);
 
-    const fetchSignals = useCallback(async (reset: boolean = false) => {
-        try {
-            setLoading(true);
-            const currentPage = reset ? 0 : page;
-            const data = await adminSignalsService.searchSignals(debouncedSearch, statusFilter, limit, currentPage * limit);
-            
-            if (reset) {
-                setSignals(data);
-            } else {
-                setSignals(prev => [...prev, ...data]);
-            }
-            
-            setHasMore(data.length === limit);
-            if (reset) setPage(0);
-        } catch (error) {
-            console.error("Error fetching signals", error);
-        } finally {
-            setLoading(false);
-        }
-    }, [debouncedSearch, statusFilter, page]);
+    const queryKey = ['admin', 'signals', debouncedSearch, statusFilter] as const;
 
-    // Initial load and filter change
-    useEffect(() => {
-        fetchSignals(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debouncedSearch, statusFilter]);
+    const signalsQuery = useInfiniteQuery<AdminSignalRow[], Error>({
+        queryKey,
+        queryFn: ({ pageParam = 0 }) => adminSignalsService.searchSignals(
+            debouncedSearch,
+            statusFilter,
+            PAGE_LIMIT,
+            (pageParam as number) * PAGE_LIMIT,
+        ),
+        initialPageParam: 0,
+        // Si la última página vino full, asumimos que hay más; si vino corta,
+        // no hay siguiente.
+        getNextPageParam: (lastPage, allPages) =>
+            lastPage.length === PAGE_LIMIT ? allPages.length : undefined,
+    });
+
+    const signals = useMemo(
+        () => signalsQuery.data?.pages.flat() ?? [],
+        [signalsQuery.data],
+    );
+    const loading = signalsQuery.isLoading || signalsQuery.isFetchingNextPage;
+    const hasMore = !!signalsQuery.hasNextPage;
 
     const handleToggleStatus = async (id: string, currentStatus: string) => {
         const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
         const res = await adminSignalsService.updateStatus(id, newStatus);
         if (res.success) {
-            setSignals(prev => prev.map(s => s.id === id ? { ...s, status: newStatus } : s));
+            // Optimistic local: parchamos la página donde vive la señal.
+            qc.setQueryData<InfiniteData<AdminSignalRow[]>>(queryKey, (prev) => {
+                if (!prev) return prev;
+                return {
+                    ...prev,
+                    pages: prev.pages.map(page =>
+                        page.map(s => s.id === id ? { ...s, status: newStatus } : s),
+                    ),
+                };
+            });
         } else {
             toast.error(res.error || "No se pudo actualizar la señal");
         }
@@ -82,16 +95,16 @@ export default function AdminSignals() {
             <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4">
                 <div className="relative flex-1">
                     <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                    <input 
-                        type="text" 
-                        placeholder="Buscar por título o descripción..." 
+                    <input
+                        type="text"
+                        placeholder="Buscar por título o descripción..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full bg-slate-50 border-none rounded-xl pl-11 pr-4 py-3 text-sm font-medium focus:ring-2 focus:ring-brand/50 focus:bg-white transition-all outline-none"
                     />
                 </div>
                 <div className="flex gap-3">
-                    <select 
+                    <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
                         className="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold text-slate-700 outline-none cursor-pointer focus:ring-2 focus:ring-brand/50"
@@ -157,10 +170,10 @@ export default function AdminSignals() {
                                     </td>
                                     <td className="p-4 text-right">
                                         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button 
+                                            <button
                                                 onClick={() => handleToggleStatus(signal.id, signal.status)}
                                                 className={`p-2 rounded-xl transition-colors ${
-                                                    signal.status === 'active' 
+                                                    signal.status === 'active'
                                                         ? 'bg-warning/10 text-warning hover:bg-warning/20'
                                                         : 'bg-accent/10 text-accent hover:bg-accent/20'
                                                 }`}
@@ -168,7 +181,7 @@ export default function AdminSignals() {
                                             >
                                                 {signal.status === 'active' ? <PowerOff className="w-4 h-4" /> : <Power className="w-4 h-4" />}
                                             </button>
-                                            <button 
+                                            <button
                                                 onClick={() => {
                                                     setSelectedBattleId(signal.id);
                                                     setSelectedBattleTitle(signal.title);
@@ -201,8 +214,8 @@ export default function AdminSignals() {
                 {/* Pagination footer */}
                 {hasMore && !loading && (
                     <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-center">
-                        <button 
-                            onClick={() => { setPage(p => p + 1); fetchSignals(false); }}
+                        <button
+                            onClick={() => signalsQuery.fetchNextPage()}
                             className="bg-white border border-slate-200 text-slate-700 font-bold py-2 px-6 rounded-xl text-sm hover:bg-slate-50 hover:shadow-sm transition-all"
                         >
                             Cargar Más Señales

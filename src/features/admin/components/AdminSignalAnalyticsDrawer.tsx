@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { X, Activity, ShieldAlert, BrainCircuit, Loader2, Gauge, AlertTriangle, PlayCircle } from "lucide-react";
 import { insightsService, B2BBattleAnalytics, PolarizationData } from "../../signals/services/insightsService";
 import { supabase } from "../../../supabase/client";
@@ -9,53 +10,65 @@ interface AdminSignalAnalyticsDrawerProps {
     onClose: () => void;
 }
 
+interface BattleMeta {
+    slug: string | null;
+    ai_summary: string | null;
+}
+
+/**
+ * FASE 3D React Query (2026-04-26): drawer migrado a 3 useQuery paralelos
+ * (meta del battle, analytics B2B, polarización por slug). El AI summary
+ * post-generación se actualiza con `qc.setQueryData` en la queryKey del meta
+ * — instantáneo, sin refetch.
+ */
 export function AdminSignalAnalyticsDrawer({ battleId, battleTitle, onClose }: AdminSignalAnalyticsDrawerProps) {
-    const [loading, setLoading] = useState(false);
-    const [slug, setSlug] = useState<string | null>(null);
-    const [analytics, setAnalytics] = useState<B2BBattleAnalytics | null>(null);
-    const [polarization, setPolarization] = useState<PolarizationData | null>(null);
-    const [aiSummary, setAiSummary] = useState<string | null>(null);
+    const qc = useQueryClient();
     const [generatingAi, setGeneratingAi] = useState(false);
 
-    useEffect(() => {
-        if (!battleId) return;
+    const metaQuery = useQuery<BattleMeta, Error>({
+        queryKey: ['admin', 'signals', 'meta', battleId],
+        queryFn: async () => {
+            const { data } = await supabase
+                .from('battles')
+                .select('slug, ai_summary')
+                .eq('id', battleId as string)
+                .single();
+            return { slug: data?.slug ?? null, ai_summary: data?.ai_summary ?? null };
+        },
+        enabled: !!battleId,
+    });
 
-        const loadData = async () => {
-            setLoading(true);
-            try {
-                // 1. Get slug & basic data
-                const { data: dbData } = await supabase.from('battles').select('slug, ai_summary').eq('id', battleId).single();
-                const currentSlug = dbData?.slug || null;
-                setSlug(currentSlug);
-                setAiSummary(dbData?.ai_summary || null);
+    const slug = metaQuery.data?.slug ?? null;
+    const aiSummary = metaQuery.data?.ai_summary ?? null;
 
-                // 2. Load battle analytics directly
-                const b2b = await insightsService.getB2BBattleAnalytics(battleId);
-                setAnalytics(b2b);
+    const analyticsQuery = useQuery<B2BBattleAnalytics | null, Error>({
+        queryKey: ['admin', 'signals', 'analytics', battleId],
+        queryFn: () => insightsService.getB2BBattleAnalytics(battleId as string),
+        enabled: !!battleId,
+    });
 
-                // 3. If slug exists, load polarization
-                if (currentSlug) {
-                    const pol = await insightsService.getBattlePolarization(currentSlug);
-                    setPolarization(pol);
-                }
+    const polarizationQuery = useQuery<PolarizationData | null, Error>({
+        queryKey: ['admin', 'signals', 'polarization', slug],
+        queryFn: () => insightsService.getBattlePolarization(slug as string),
+        enabled: !!slug,
+    });
 
-            } catch (err) {
-                console.error("Error loading admin drawer data", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadData();
-    }, [battleId]);
+    const analytics = analyticsQuery.data ?? null;
+    const polarization = polarizationQuery.data ?? null;
+    // Loading agregado: cualquiera de las 3 cargando = spinner.
+    const loading = metaQuery.isLoading || analyticsQuery.isLoading || (slug ? polarizationQuery.isLoading : false);
 
     const handleGenerateAi = async () => {
-        if (!slug) return;
+        if (!slug || !battleId) return;
         setGeneratingAi(true);
         try {
             const summary = await insightsService.generateAiSummary(slug);
             if (summary) {
-                setAiSummary(summary);
+                // Optimistic update sobre la queryKey del meta para evitar refetch.
+                qc.setQueryData<BattleMeta>(['admin', 'signals', 'meta', battleId], (prev) => ({
+                    slug: prev?.slug ?? slug,
+                    ai_summary: summary,
+                }));
             }
         } catch (error) {
             console.error("Failed to generate AI summary", error);
