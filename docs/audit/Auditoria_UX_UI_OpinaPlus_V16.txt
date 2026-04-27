@@ -1,0 +1,390 @@
+Auditoría UX/UI, diseño, layout y consistencia visual
+Opina+ V16
+"Tu opinión es una señal."
+Diagnóstico externo · Director de Producto + UX/UI + Director Creativo 
+26 de abril de 2026
+Alcance: 19 zonas auditadas · 50+ archivos leídos · 0 cambios al código.
+
+1. Veredicto general
+Estado actual: Prometedor pero inconsistente.
+En lo visual, Opina+ tiene fundamentos sólidos: paleta canónica perfectamente limpia (cero colores fuera), tipografía clara, sistema de gradientes con dirección correcta, navegación coherente entre B2C y admin, modo "b2b-mode" para apagar animaciones en zonas ejecutivas, y un diferencial de marca real (azul brand + emerald accent + slate). En lo conceptual, falla en lo más importante: el producto no se cuenta a sí mismo de forma consistente.
+El slogan oficial "Tu opinión es una señal." aparece UNA sola vez en todo el producto (Home Hero) y conviven con él variantes no aprobadas ("Tu opinión define la tendencia" en Login). El concepto de "señal" cambia de significado de una página a otra: poética en Home, jargon en Results ("Consenso Actual", "Señales Procesadas"), métrica en Profile ("Señales Emitidas"), y nunca se explica en términos del usuario. Results parece dashboard B2B disfrazado de B2C. Profile es un RPG character sheet de 10+ paneles. El onboarding pide 11–14 interacciones antes de entrar al producto.
+No es "visualmente débil" ni "necesita rediseño completo". Es un producto premium en superficie con deuda narrativa y de jerarquía que, si no se resuelve, hace que el usuario nuevo no entienda qué es Opina+, qué obtiene a cambio, ni por qué importa su voto.
+2. Resumen ejecutivo
+	•	Paleta y fundamentos visuales en marca: 0 colores prohibidos detectados, gradientes en dirección correcta, modo b2b-mode bien implementado.
+	•	El slogan oficial sólo aparece en Home; ausente en Login, Register, Auth, Results y Profile. Existe una variante diluida en Login.
+	•	El concepto de "señal" no está unificado: significa cosas distintas según la página y nunca se explica al usuario.
+	•	Results y Profile son los dos quiebres más graves de enfoque B2C: parecen dashboard analítico y RPG, no perfil de usuario común.
+	•	Onboarding está fragmentado en dos flujos paralelos (ProfileWizard + OnboardingFlow modal) sin reglas claras de cuándo se ejecuta cada uno.
+	•	Existe un sistema de cards (.card, .card-pad, .card-interactive) bien definido pero ~40% del código construye cards inline con Tailwind suelto (Home Hero, WhatIsOpina, LiveTrends).
+	•	Intelligence B2B está bien diferenciado y coherente; Admin reusa componentes de Intelligence B2C, lo que confunde intent.
+	•	Lo más urgente: rediseñar Results y Profile, integrar el slogan en todo el flujo de auth, simplificar el mockup 3D del Home y unificar el onboarding.
+3. Tabla página por página
+Auditadas 19 zonas con observaciones concretas extraídas de la lectura del código (rutas y líneas en los apartados internos de cada agente). La gravedad se evalúa por su impacto sobre el usuario nuevo y la coherencia del producto, no por la dificultad técnica de arreglarlo.
+Página
+Qué funciona
+Qué no funciona
+Gravedad
+Recomendación principal
+Nivel de cambio
+Home
+Hero premium, gradientes en marca, paleta limpia, slogan presente.
+Mockup 3D decorativo distrae del CTA; "señal" nunca se explica; CTA principal compite con otros badges.
+Alta
+Simplificar el mockup, añadir 1 línea que defina qué es una señal, jerarquizar el CTA.
+Rediseño parcial
+Login
+Flujo limpio, redirección inteligente por contexto, CAPTCHA solo si aplica.
+Slogan ausente y reemplazado por variante "Tu opinión define la tendencia"; tipografía label/placeholder inconsistente.
+Media
+Reemplazar variante por slogan oficial; alinear tipografía a tokens del sistema.
+Ajuste menor
+Register
+Validación temprana, manejo claro de "email ya existe" con link a reset.
+Pide nickname que vuelve a pedirse en Wizard; CAPTCHA aparece sin contexto; sin validación en vivo de password.
+Media
+Mover nickname a Wizard, validación de password en vivo, micro-explicación del CAPTCHA.
+Ajuste menor
+Forgot Password
+Una sola acción clara, AuthNotice reutilizable.
+Tono informal ("se pone pesado") choca con sensibilidad del flujo; sin info de expiración del link.
+Baja
+Subir tono formal; añadir copy "el link expira en X minutos".
+Ajuste menor
+Reset Password
+Detecta sesión expirada y muestra notice; auto-redirect post-éxito.
+Subtítulo "Te estoy mirando" reduce confianza en operación de seguridad; sin CTA si link expirado.
+Media
+Tono formal; CTA "Pedir nuevo link" si expirado; reemplazar auto-redirect por botón explícito.
+Ajuste menor
+Complete Profile (Wizard)
+Multi-step animado, stage tracking, skip parcial.
+Badge "Nivel 2 de 4" pero solo hay 3 pasos; copy técnico ("Multiplicador de Señal"); sin auto-save; INPUT/SELECT hardcoded.
+Alta
+Arreglar contador, copy en lenguaje de usuario, auto-save por step, mover INPUT/SELECT a sistema.
+Rediseño parcial
+Onboarding (modal alterno)
+OAuth + email/password en un solo modal; analytics por step.
+Coexiste con ProfileWizard sin reglas claras de cuál corre cuándo; bug en useState que debería ser useEffect; invite code valida tarde.
+Alta
+Decidir un único flujo de onboarding, fix del hook, validar invite antes de submit.
+Rediseño parcial
+AccessGate (/access)
+Funciona, tiene admin bypass segregado, footer legal correcto.
+Título "Acceso Restringido" suena negativo; el mensaje de error en pantalla no refleja el error real del servidor.
+Media
+Cambiar a "Tu invitación / Bienvenido al piloto", sincronizar mensajes de error con backend.
+Ajuste menor
+Signals Hub
+Versus jugable inmediato (sin login), bento grid editorial, tono accionable.
+"Buscando señales" suena pasivo; jerarquía del bento poco clara (por qué Actualidad rojo "live"); empty state abrupto.
+Media
+Renombrar a "Aporta señales", clarificar jerarquía del bento, empty state con módulos Coming Soon como cards apagadas.
+Rediseño parcial
+BattlePage / Versus
+Mensaje claro: "Dos opciones. Una señal." Anonimato destacado. Lo más simple y poderoso del producto.
+Eyebrow + badges redundantes; al terminar, lleva a /results en vez de seguir jugando.
+Baja
+Quitar redundancia visual; al completar, devolver al Hub para seguir el loop.
+Ajuste menor
+VersusView (feed horizontal)
+Auto-advance fluido, rate limiting, golden hour visual.
+IndustrySelector debajo y poco visible; sin progreso visible (cuántas batallas completaste).
+Media
+Selector arriba o colapsable, contador "X / Y completadas".
+Ajuste menor
+Profundidad (DepthWizard)
+Modal limpio, animaciones suaves, soporta varios tipos de pregunta.
+No explica por qué se hace cada pregunta; copy "potencia el algoritmo" es vago; sin error UI si falla save.
+Media
+Añadir contexto por pregunta, copy en lenguaje claro, toast de error si save falla.
+Ajuste menor
+ComingSoonModule
+Tracking de interés, deduplicación, previews por tipo.
+Después de "Registrar interés" no hay promesa concreta (sin email, sin ETA); previews son cajas vacías que no ilustran nada.
+Baja
+Confirmar suscripción por email + dar ETA orientativa.
+Ajuste menor
+Results
+Selector generacional, bloques modulares, gráficos en marca.
+Parece dashboard analítico B2B disfrazado de B2C; el usuario no ve "tu voto fue contado", solo agregados; copy "Consenso Actual / Señales Procesadas" es jargon.
+Alta
+Reenfocar como "Tu impacto hoy" primero, agregados después; mover filtro generacional a una vista avanzada.
+Rediseño completo
+Profile
+Progressive profiling lateral, react-query bien usado, identity verification banner claro.
+Sobrecarga: 10+ paneles (level, racha, ranking, reputación, lealtad, misiones, wallet, coherencia, histórico); parece RPG character sheet, no perfil; falta edición simple (foto, nombre, email).
+Alta
+Separar en pestañas Cuenta / Estadísticas / Recompensas (o rutas distintas); por defecto mostrar solo lo esencial.
+Rediseño completo
+Intelligence Landing (pública)
+Premium, 4 pilares ejecutivos, pricing explícito, lead form claro.
+No activa b2b-mode (animaciones decorativas siguen activas); 1 SVG con color hardcoded fuera de variable.
+Baja
+Aplicar b2b-mode al wrapper; reemplazar color hardcoded por var CSS.
+Ajuste menor
+B2B Layout + 5 páginas
+b2b-mode activo, sidebar clínico, naming ejecutivo, sin emojis ni 3D, paleta limpia.
+Mensajes de "datos insuficientes" son vagos; AlertsB2B usa window.location.reload() para refrescar; sticky header puede romperse.
+Media
+Añadir progreso "X/Y interacciones para desbloquear", reemplazar reload por invalidate de query, fijar layout sticky.
+Ajuste menor
+IntelligenceSidebar / Drawer / Cards B2B
+Métricas exclusivas B2B (OpinaScore, N_EFF, Integridad), badges semánticos correctos.
+Drawer no es responsive en móvil (450px fijo); tooltips ausentes para términos técnicos; 4 cards apiladas en sidebar pesan en móvil.
+Media
+Modal en mobile, tooltips para métricas, simplificar sidebar a 2 cards principales.
+Rediseño parcial
+Admin Layout + 13 páginas
+AdminSectionLayout consistente, tabs animados; paleta correcta; React Query bien usado.
+AdminSystemOverview reusa componentes de Intelligence B2C (confunde intent); densidad muy alta (11 cards antes del contenido); MoreVertical vacío en CRM; toggle "emitir señal real" sin warning fuerte.
+Media
+Crear componentes admin propios; bajar densidad a 3 KPI clave; warning rojo para acciones destructivas.
+Rediseño parcial
+
+4. Problemas sistémicos
+No son problemas de una página: aparecen en muchas a la vez y no se resuelven editando una pantalla. Requieren acuerdo de producto + diseño + ingeniería.
+4.1 Narrativa de "señal" no unificada
+Hoy "señal" se usa con cuatro significados distintos: poética en Home ("Tu opinión es una señal"), instrucción en BattlePage ("Dos opciones. Una señal."), agregado analítico en Results ("Señales Procesadas"), métrica de gamificación en Profile ("Señales Emitidas"). El usuario nuevo no termina de armar el concepto. Necesita una definición canónica de una línea, repetida en Home, en post-batalla y en Results, en lenguaje claro.
+4.2 Slogan oficial subutilizado
+"Tu opinión es una señal." aparece sólo en Home Hero. Ni en Login, ni Register, ni AuthLayout, ni Results, ni Profile, ni footer global. En Login además aparece una variante no autorizada ("Tu opinión define la tendencia"). El slogan debería ser el ancla visible en al menos 3 momentos del primer uso.
+4.3 Producto se siente como dashboard cuando debería sentirse B2C
+Results es el caso paradigmático: el usuario juega Versus, espera ver "tu voto fue contado, coincidiste con el 72%", y en su lugar ve "Consenso Actual", "Muestra Regional", "Señales Base Procesadas" y un selector generacional. Profile es el otro: 10+ paneles (level, racha, ranking, reputación, lealtad, misiones, wallet, coherencia, histórico, comparación segmento) sin lo más básico (foto, nombre, email, settings, logout). Esto es B2B/analytics inyectado en zonas que deben ser populares y simples.
+4.4 Cards y patrones visuales fragmentados
+El sistema define .card, .card-pad, .card-interactive, .card-kpi, .card-signal, .card-explore, pero los componentes más visibles del Home (InteractiveHeroSection, WhatIsOpinaSection, LiveTrendsSection) construyen cards a mano con Tailwind suelto. Existen además componentes de fundación (PageHero, GlassCard) que están en el repo pero nunca se importan. La consecuencia: secciones contiguas tienen distintos paddings, bordes y sombras.
+4.5 Tipografía mezcla tokens y tamaños sueltos
+index.css define h1/h2/h3/p/.label-sm con jerarquía clara. Sin embargo ~30% del código usa text-3xl/text-4xl/text-[10px] directamente (StatTile, AuthLayout, Login). El producto es legible, pero hay micro-saltos de jerarquía entre páginas que ensucian la sensación premium.
+4.6 Onboarding sobredimensionado y duplicado
+Existen dos flujos para entrar al producto: Register + ProfileWizard (4 pasos visibles, con bug en el contador "Nivel 2 de 4" cuando son 3) y OnboardingFlow modal (identity → demographics → success, con un bug de useState donde debería ser useEffect). Sumando ambos, un usuario nuevo enfrenta 11–14 interacciones antes de poder opinar. Sin auto-save: si abandona, pierde todo.
+4.7 Uso de 3D decorativo en zonas críticas
+No hay Spline ni Three.js (bien). Pero el mockup del teléfono en InteractiveHeroSection y la malla de energía de GamifiedCTASection acumulan capas (rotaciones, anillos orbitales, partículas, glassmorphism interno) que distraen del CTA. Las ilustraciones del Hub (TorneoMinimalBracket, ActualidadTickerList) sí tienen propósito narrativo y están bien resueltas. La regla "3D solo si tiene sentido con el mensaje" se cumple a medias.
+4.8 Fricción acumulada y empty states pobres
+Si battles.length === 0 en el Hub, desaparece todo y se muestra un empty state genérico, en lugar de mantener el bento grid con módulos en estado "vuelve en N min". En Wizard, en AccessGate y en módulos Coming Soon faltan promesas concretas (sin ETA, sin "te avisamos por mail"). El usuario queda sin siguiente paso claro.
+4.9 Admin reusa lenguaje visual de Intelligence B2C
+AdminSystemOverview importa useIntelligence, RankingTable, IntelligenceSidebar y DepthInsightsDrawer (que son componentes B2C/B2B). Esto es ágil para construir, pero confunde el intent: admin debería tener sus propios componentes específicos, alineados al lenguaje clínico de B2B Intelligence pero con datos y acciones administrativas.
+
+5. Opciones de solución
+Para cada problema sistémico se ofrecen al menos dos caminos. La opción A es conservadora; la B es ambiciosa; la C, cuando aparece, implica reestructurar.
+5.1 Cómo unificar la narrativa de "señal"
+Opción A — Definición canónica + glosario en marca
+	•	Qué se cambia: Acordar una sola definición de una línea ("Una señal es tu opinión: cuando votas, se suma a las de miles para revelar lo que realmente piensa la gente.") y aparecerla en Home, post-batalla y al inicio de Results.
+	•	Por qué conviene: Mantiene el copy actual en su mayor parte; solo añade un ancla repetida que da sentido al resto.
+	•	Impacto en UX/UI: Aporta cohesión sin tocar layouts; el usuario empieza a entender el producto en 1 lectura.
+	•	Riesgo / costo: Bajo. Trabajo de copywriting + 3 pequeños inserts.
+Opción B — Reescritura de copy en zonas analíticas
+	•	Qué se cambia: Reemplazar "Consenso Actual / Señales Procesadas / Muestra Regional" por lenguaje de usuario ("Lo que está votando la gente / Tu voto contó / Esto piensa tu región") y refactorizar microcopy en Profile.
+	•	Por qué conviene: Resuelve el problema en superficie y baja la sensación de "dashboard B2B".
+	•	Impacto en UX/UI: Alto: el producto deja de sentirse técnico, gana cercanía B2C.
+	•	Riesgo / costo: Medio. Requiere alineación con producto y posiblemente A/B test del nuevo copy.
+5.2 Cómo arreglar Results
+Opción A — Reordenar bloques sin reescribir
+	•	Qué se cambia: Poner primero un bloque "Tu impacto hoy" (votos contados, % de coincidencia, tema más votado por ti) y empujar los agregados generacionales y de coherencia a una pestaña "Análisis avanzado".
+	•	Por qué conviene: No requiere rediseñar componentes; solo cambia la jerarquía y oculta lo que sobrecarga.
+	•	Impacto en UX/UI: Alto: el usuario casual ve algo que reconoce como suyo en los primeros 3 segundos.
+	•	Riesgo / costo: Bajo. Refactor de orden y un toggle de avanzado.
+Opción B — Rediseño de la página como "Tu impacto"
+	•	Qué se cambia: Convertir Results en una pantalla biográfica del usuario (scroll narrativo: lo que opinaste → con quién coincidiste → qué tendencia movió tu voto → qué pasó en la comunidad). Mover la vista analítica a /insights, oculta para usuarios normales.
+	•	Por qué conviene: Resuelve la confusión B2C/B2B definitivamente; alinea con el slogan.
+	•	Impacto en UX/UI: Muy alto: Results pasa a ser el momento "wow" del producto, no un panel.
+	•	Riesgo / costo: Medio. Requiere rediseño visual y un nuevo read-model centrado en el usuario.
+5.3 Cómo arreglar Profile
+Opción A — Tres pestañas dentro de /profile
+	•	Qué se cambia: Tabs "Cuenta · Estadísticas · Recompensas". Por defecto se abre "Cuenta" con foto, nombre, email, sign out, identity verification. Las métricas y misiones quedan a un click.
+	•	Por qué conviene: Conserva todo el código actual; solo reorganiza con un componente Tabs.
+	•	Impacto en UX/UI: Alto: deja de sentirse RPG; "Cuenta" se vuelve simple y reconocible.
+	•	Riesgo / costo: Bajo. Refactor de layout, no de componentes.
+Opción B — Tres rutas separadas (/profile, /stats, /rewards)
+	•	Qué se cambia: Cada espacio se vuelve una página propia con su intención clara. /profile es perfil de usuario; /stats es analytics personal; /rewards es loyalty/misiones.
+	•	Por qué conviene: Da más libertad de diseño en cada zona y libera Profile de su rol múltiple.
+	•	Impacto en UX/UI: Muy alto: cada página puede optimizarse para su misión.
+	•	Riesgo / costo: Medio. Requiere actualizar nav, deeplinks, y educar al usuario sobre el cambio.
+Opción C — Profile minimal + dashboard separado para "power users"
+	•	Qué se cambia: /profile pasa a ser ultra mínimo (foto + nombre + email + 3 acciones); todo lo demás se mueve a una sección opcional "Mi inteligencia" para quienes opten in. Por defecto, oculto.
+	•	Por qué conviene: Alinea totalmente con B2C; los usuarios casuales nunca ven lenguaje técnico.
+	•	Impacto en UX/UI: Máximo en simplificación; potencial pérdida de engagement si la gamificación atraía a parte de la base.
+	•	Riesgo / costo: Alto. Decisión de producto sobre cuánto exponer la capa de gamificación.
+5.4 Cómo arreglar el onboarding
+Opción A — Quirúrgico: arreglar bugs y reducir 1 paso
+	•	Qué se cambia: Fix del contador "Nivel 2 de 4" del Wizard, fix del useState→useEffect en OnboardingFlow, mover nickname de Register al Wizard, agregar auto-save por step.
+	•	Por qué conviene: Resuelve los puntos rojos sin replantear la arquitectura.
+	•	Impacto en UX/UI: Medio. Reduce fricción de 11–14 a 8–11 interacciones.
+	•	Riesgo / costo: Bajo. Cambios localizados.
+Opción B — Unificar en un solo flujo (ProfileWizard como canónico)
+	•	Qué se cambia: Eliminar OnboardingFlow modal; todo el camino post-Register entra al ProfileWizard como única fuente. Documentar cuándo aparece cada paso.
+	•	Por qué conviene: Acaba con la duplicación y deja una sola superficie a mantener.
+	•	Impacto en UX/UI: Alto. La experiencia se vuelve predecible y testeable.
+	•	Riesgo / costo: Medio. Hay que migrar callsites de OnboardingFlow.
+Opción C — Onboarding progresivo (perfil mínimo + completar después)
+	•	Qué se cambia: Pedir solo email + password al inicio (1 paso). Permitir entrar al Hub y jugar Versus. Pedir demografía cuando el usuario quiera filtrar o ver Results detallados ("contexto opcional para que tu señal pese más").
+	•	Por qué conviene: Es el mejor camino B2C: cero fricción inicial, retención por valor demostrado antes de pedir datos.
+	•	Impacto en UX/UI: Máximo en activación; impacta KPIs de registro→primer voto.
+	•	Riesgo / costo: Alto. Requiere rediseñar el contrato de "perfil completo" y validar que el motor de señales tolera perfiles parciales.
+5.5 Cómo cerrar la deuda de cards y tipografía
+Opción A — Sprint de migración de cards inline a clases del sistema
+	•	Qué se cambia: Identificar las cards inline (Home Hero, WhatIsOpina, LiveTrends, StatTile, AuthLayout) y migrarlas a .card / .card-pad / variantes nuevas (.card-hero, .card-glass) que faltaran.
+	•	Por qué conviene: Cierra la fragmentación visual sin rediseñar nada.
+	•	Impacto en UX/UI: Alto. Toda la app se siente del mismo sistema.
+	•	Riesgo / costo: Medio. Una semana de refactor con QA visual.
+Opción B — Migración + adopción real de PageHero/GlassCard ya existentes
+	•	Qué se cambia: Auditar foundation/, eliminar componentes muertos (PageHero/GlassCard si nadie los usa) o forzar su adopción en Home y Auth.
+	•	Por qué conviene: Limpia código muerto y sube la consistencia al máximo posible con el sistema actual.
+	•	Impacto en UX/UI: Alto. Reduce mantenimiento futuro.
+	•	Riesgo / costo: Bajo-medio. Requiere alinear con quien diseñó esos componentes.
+
+6. Sistema visual recomendado
+Esto NO es un rediseño. Es la formulación explícita del sistema que el código actual ya quiere ser, expresado para que pueda aplicarse de forma uniforme.
+6.1 Color
+	•	Primario: brand (azul #2563EB) para CTAs principales, énfasis tipográfico y bordes activos.
+	•	Acento: accent (emerald #10B981) para confirmaciones, success states y momentos de "logro".
+	•	Neutros: slate (50/100/200/500/600/900) para fondos, bordes y texto secundario. Fondos siempre blancos o slate-50.
+	•	Semánticos: danger (red 500/600), warning (amber 500/600), success = accent. Nunca usar amber decorativo.
+	•	Prohibidos: indigo, violet, purple, cyan, sky, teal, lime, fuchsia, pink, rose. Hoy hay 0 ocurrencias — mantener.
+	•	Gradientes: texto con direction to-r (brand→accent), formas con direction to-br. Definir un único gradient corporativo y reutilizarlo.
+6.2 Tipografía
+	•	Display: Outfit para H1, H2, H3.
+	•	Body: Inter para párrafos, captions y labels.
+	•	Tokens: Usar h1/h2/h3/p/.body-base/.body-caption/.label-sm — nunca text-3xl ni text-[10px] sueltos.
+	•	Casos especiales: StatTile, AuthLayout, Login deben migrar a tokens.
+6.3 Cards
+	•	Base: .card (white bg, slate-200 border, rounded-2xl, shadow-sm).
+	•	Variantes: .card-pad para padding, .card-interactive para hovers, .card-kpi para métricas, .card-signal para señales editoriales, .card-explore para módulos.
+	•	Crear: .card-hero (versión Home Hero con backdrop blur), .card-glass (glassmorphism reutilizable). Erradicar cards inline.
+6.4 Botones
+	•	Primario: .btn-primary (gradiente brand→accent, sombra brand/30).
+	•	Secundario: .btn-secondary (white bg, slate border).
+	•	Ghost: .btn-ghost (transparente, text-slate-600).
+	•	Hero: .btn-hero (versión XL del primary, solo para Hero/landing).
+	•	Regla: nunca construir un botón con bg-brand inline. Si hace falta una variante nueva, agregarla al sistema.
+6.5 Badges
+	•	Base: .badge (slate fill, ink text, hairline border).
+	•	Marca: .badge-primary y .badge-accent unificados (hoy son iguales, simplificar a uno solo).
+	•	Semánticos: definir .badge-danger, .badge-warning, .badge-success usando los tokens.
+6.6 Ilustraciones 3D
+	•	Permitidos: CSS/SVG sin librerías externas. Mantener el mockup de teléfono pero reducir 40% de capas (sin anillos orbitales, sin floating icons sueltos).
+	•	Conexión obligatoria: cada visual 3D debe ilustrar el texto del bloque. Si no lo hace, se quita.
+	•	B2B: aplicar b2b-mode siempre que el usuario esté en zona analítica/ejecutiva.
+6.7 Slogan
+	•	Frase: "Tu opinión es una señal." — sin variantes.
+	•	Apariciones obligatorias: Home Hero, AuthLayout (subtitle), Results (header), StepSuccess del onboarding, footer global.
+	•	Tratamiento: siempre con "señal" como GradientText. Nunca como una afirmación pegada al final sin contexto.
+6.8 Diferenciación B2C / B2B Intelligence
+	•	B2C: animaciones suaves, emoji ocasional (en estados de éxito), copy en lenguaje cotidiano, gradientes y orbes ambientales.
+	•	B2B Intelligence: b2b-mode activo (sin animaciones), copy ejecutivo, sin emoji, densidad alta tolerada, paleta idéntica pero más sobria (más slate, menos gradientes).
+	•	Admin: lenguaje visual igual al de B2B Intelligence, pero con componentes propios (no reusar Intelligence). Toggle de acción destructiva siempre con warning rojo fuerte.
+
+7. Recomendaciones estructurales
+7.1 Reordenar páginas
+Mantener la estructura actual de rutas. El cambio estructural más importante es interno a Results y Profile: el contenido debe ser reordenado/separado para reflejar la intención B2C real (ver Opciones 5.2 y 5.3).
+7.2 Simplificar navegación
+La navegación principal funciona y es coherente. Recomendaciones acotadas: separar Admin del menú de usuario logueado (hoy aparece en el mismo dropdown), añadir un acceso visible a Cuenta vs Estadísticas si se adopta la opción 5.3.B, y mover Intelligence Landing a una posición que comunique que es un producto distinto.
+7.3 Eliminar secciones
+	•	Eliminar: componentes no usados en foundation/ (PageHero y GlassCard si tras auditar nadie los importa).
+	•	Eliminar: la variante de slogan "Tu opinión define la tendencia" en Login.
+	•	Eliminar: capas decorativas del mockup 3D (anillos orbitales, floating BarChart3, partículas pulsantes en GamifiedCTASection) que no comunican nada.
+7.4 Fusionar bloques
+	•	Fusionar: .badge-primary y .badge-accent (hoy son visualmente idénticas, solo cambia el nombre).
+	•	Fusionar: OnboardingFlow modal con ProfileWizard (un solo flujo canónico).
+	•	Fusionar: estados de loading/empty/error en cada feature al sistema StateBlocks/EmptyState/Skeleton ya existente.
+7.5 Rediseñar páginas completas
+	•	Results: rediseño parcial o completo (ver Opciones 5.2).
+	•	Profile: rediseño completo en estructura de pestañas o rutas (ver Opciones 5.3).
+	•	Home: rediseño parcial — simplificar Hero y explicar "señal".
+7.6 Lógica visual común
+Definir y publicar internamente un mini-design-doc de 2 páginas (extraído de la sección 6 de este informe) y revisar contra él toda página o componente nuevo antes de mergear.
+
+8. Prioridades
+15 cambios ordenados por impacto. P0 son críticos (afectan claridad B2C del producto). P1 son alto impacto. P2 son importantes para consistencia y deuda. P3 son deseables.
+Prio
+Qué cambiar
+Por qué / Impacto
+Nivel
+P0
+Reenfocar Results de "dashboard" a "tu impacto"
+Hoy contradice el posicionamiento B2C: el usuario vota y ve métricas agregadas con jargon, no su propia huella.
+Rediseño completo
+P0
+Separar Profile en Cuenta / Estadísticas / Recompensas
+Profile actual tiene 10+ paneles y se siente RPG; falta lo básico (foto, nombre, email, sign out).
+Rediseño completo
+P0
+Definir y fijar UNA narrativa para "señal" en todo el producto
+Slogan oficial solo aparece en Home; "señal" significa cosas distintas en cada página (poética / jargon / métrica).
+Sistémico
+P1
+Unificar el flujo de onboarding (ProfileWizard vs OnboardingFlow)
+Hoy hay dos flujos paralelos sin reglas claras; el contador del Wizard está mal (Nivel 2 de 4 con 3 pasos).
+Rediseño parcial
+P1
+Simplificar Home: reducir mockup decorativo y explicar qué es una señal en 1 línea
+Hero hermoso pero el mensaje compite con la decoración; usuario nuevo no entiende qué obtiene.
+Rediseño parcial
+P1
+Migrar 40% de cards inline a clases del sistema (.card, .card-hero, etc.)
+Cards construidas a mano fragmentan visualmente Home/Hero/Trends y rompen consistencia.
+Sistémico
+P1
+Reemplazar variante de slogan en Login y agregar slogan oficial en Login/Register/AuthLayout
+La variante "Tu opinión define la tendencia" diluye el mensaje principal del producto.
+Ajuste menor
+P2
+AdminSystemOverview: bajar densidad y crear componentes admin propios
+Hoy reusa componentes de Intelligence B2C, lo que confunde intent y agrega 11 cards antes del contenido principal.
+Rediseño parcial
+P2
+IntelligenceSidebar y DepthInsightsDrawer: responsive móvil
+Drawer fijo en 450px y sidebar de 4 cards apiladas son inutilizables en móvil.
+Rediseño parcial
+P2
+IntelligenceLanding: aplicar b2b-mode al wrapper raíz
+La landing B2B sigue ejecutando animaciones decorativas que apaga b2b-mode (orbes, fade-in-up).
+Ajuste menor
+P2
+Migrar tipografía suelta (text-3xl, text-[10px]) a tokens (h1/h2/h3/p/.label-sm)
+~30% del código usa tamaños sueltos en lugar de los tokens definidos en index.css.
+Sistémico
+P2
+BattlePage: al completar la batalla, volver al Hub (no a Results)
+Rompe el loop: el usuario quiere seguir jugando, no analizar resultados.
+Ajuste menor
+P3
+AlertsB2B: reemplazar window.location.reload() por invalidate de React Query
+Refrescar destruyendo la sesión es heavy y rompe estado optimista.
+Ajuste menor
+P3
+Wizard: auto-save por step y CTA explícito de skip
+Si el usuario abandona en el paso 3, pierde todo; el skip existe pero está oculto.
+Ajuste menor
+P3
+AdminHealth: warning rojo fuerte en toggle "emitir señal real"
+Hoy el toggle de acción destructiva no se distingue visualmente del resto.
+Ajuste menor
+
+9. Qué NO cambiar todavía
+Lista corta y deliberada. Estas zonas funcionan, son coherentes, y tocarlas ahora gastaría energía sin ganancia real.
+	•	Paleta y tokens en tailwind.config.js + index.css: están bien definidos, son la única capa que sí está unificada.
+	•	BattlePage / Versus: es lo más simple y poderoso del producto. Solo arreglar el "volver a Hub vs ir a Results" y el eyebrow redundante.
+	•	AuthControls (AuthNotice / AuthTextInput / AuthPrimaryButton): son la base correcta. Mejor adoptarlos en más sitios que reescribirlos.
+	•	B2B Layout y dashboards (Overview/Benchmark/Alerts/DeepDive/Reports): están bien diferenciados con b2b-mode, paleta limpia, tono ejecutivo.
+	•	Sistema de loading/empty/error (StateBlocks, EmptyState, Skeleton): están bien resueltos y ya unificados. Solo falta adopción.
+	•	AdminSectionLayout: el wrapper de admin con tabs animados es el patrón correcto; mantener.
+	•	Profundidad (DepthWizard): modal limpio y funcional. Solo añadir contexto por pregunta y manejo de errores en save.
+	•	Header y navegación de PageShell: la jerarquía y los estados (logueado / admin / no-logueado) están bien resueltos.
+
+10. Conclusión final
+¿Opina+ se ve hoy como un producto coherente y de alta calidad?
+A nivel visual, sí: la paleta es perfecta, la tipografía premium, los componentes de fundación están bien pensados. A nivel narrativo y de jerarquía, no del todo: el producto no termina de explicarse a sí mismo y mezcla mundos (B2C divertido, dashboard analítico, RPG gamificado) en pantallas que deberían estar enfocadas. Es un 7,5/10 disfrazado de 9/10. La distancia entre las dos notas es exactamente lo que esta auditoría propone cerrar.
+¿Cuál es el mayor problema de UX/UI?
+La sobrecarga de Profile (10+ paneles) y la contradicción de Results (dashboard analítico cuando el usuario espera ver su impacto). Son las dos pantallas que hacen que el producto se sienta más complicado de lo que realmente es.
+¿Cuál es el mayor problema visual?
+La fragmentación de cards: ~40% del código construye cards a mano con Tailwind suelto en lugar de usar el sistema. Esto hace que Home Hero, WhatIsOpina y LiveTrends se sientan de tres productos distintos aunque sean la misma página. Es una deuda silenciosa pero acumulativa.
+¿Cuál es el mayor problema de enfoque B2C?
+El slogan oficial "Tu opinión es una señal." aparece una sola vez en todo el producto, y el concepto de "señal" significa cosas distintas en cada página. Sin un ancla única, el usuario nuevo no logra explicarse a sí mismo qué hace en Opina+.
+¿Qué 5 cambios harías primero?
+	•	1. Reenfocar Results de "panel analítico" a "tu impacto" — la pantalla más importante post-voto.
+	•	2. Separar Profile en Cuenta / Estadísticas / Recompensas — devolverle a Profile su rol básico.
+	•	3. Definir y fijar UNA narrativa para "señal" en todo el producto, e integrar el slogan oficial en Login, Register, AuthLayout, Results y footer.
+	•	4. Unificar el flujo de onboarding en uno solo (ProfileWizard como canónico) y arreglar los bugs (contador, useState→useEffect, validación de invite).
+	•	5. Sprint de migración de cards inline (Home Hero, WhatIsOpina, LiveTrends, StatTile) al sistema .card y sus variantes.
+
+Auditoría preparada como insumo de decisión. No se modificó código, archivos ni configuraciones.
+Próximo paso sugerido: revisar este documento, marcar qué prioridades tomar (P0/P1/P2/P3) y, en otra conversación, abrir las opciones (A/B/C) seleccionadas como tickets de implementación.

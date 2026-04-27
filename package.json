@@ -27,10 +27,6 @@
     "export:clean": "bash scripts/repo/create-clean-export.sh",
     "legacy:logos:rebuild-next": "tsx scripts/assets/rebuild-logos.ts",
     "legacy:logos:migrate-strong": "tsx scripts/assets/migrate-strong.ts",
-    "legacy:logos:high-priority:prep": "npx tsx scripts/logos/prepare-high-priority.ts",
-    "legacy:logos:high-priority:apply": "npx tsx scripts/logos/apply-high-priority.ts",
-    "legacy:logos:medium-priority:prep": "npx tsx scripts/logos/prepare-medium-priority.ts",
-    "legacy:logos:medium-priority:apply": "npx tsx scripts/logos/apply-medium-priority.ts",
     "legacy:versus:test-build": "vite build --mode testing"
   },
   "dependencies": {
