@@ -1,34 +1,56 @@
 import { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Calculator, Clock, BarChart2, Activity, Save } from "lucide-react";
 import toast from 'react-hot-toast';
 import { mathEngineService } from "../services/mathEngineService";
 import { Link } from "react-router-dom";
 import { GradientText } from "../../../components/ui/foundation";
 
+type EngineConfig = Record<string, number | string | null>;
+
+/**
+ * FASE 3D React Query (2026-04-26): la config global del motor matemático se
+ * cachea con queryKey ['admin','math','engine-config']; al cambiar un valor,
+ * `qc.setQueryData` aplica optimistic update + invalidación. Las simulaciones
+ * (decay/wilson/entropy) se quedan como useState porque son cómputos
+ * imperativos transientes, no server state.
+ */
 export default function AdminMathEngine() {
+  const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState<"decay" | "wilson" | "entropy">("decay");
 
-  // DB Config State
-  const [loadingConfig, setLoadingConfig] = useState(true);
-  const [savingConfig, setSavingConfig] = useState(false);
-  const [configParams, setConfigParams] = useState<Record<string, number | string | null> | null>(null);
+  const configQuery = useQuery<EngineConfig | null, Error>({
+    queryKey: ['admin', 'math', 'engine-config'],
+    queryFn: () => mathEngineService.getEngineConfig(),
+  });
 
-  // Load config on mount
+  const configParams = configQuery.data ?? null;
+  const loadingConfig = configQuery.isLoading;
+  const [savingConfig, setSavingConfig] = useState(false);
+
+  // Hidratamos los inputs de simulación con los defaults del servidor UNA vez
+  // por carga (similar al patrón useActualidadEditor: watcheamos huella, no el
+  // objeto entero, para no machacar ediciones del usuario).
+  const [hydratedConfig, setHydratedConfig] = useState(false);
   useEffect(() => {
-    mathEngineService.getEngineConfig().then(data => {
-      setConfigParams(data);
-      if (data?.decay_half_life_days) setHalfLife(data.decay_half_life_days);
-      if (data?.wilson_confidence_level) setConfidence(data.wilson_confidence_level);
-      if (data?.entropy_base) setEntropyBase(data.entropy_base);
-    }).catch(console.error).finally(() => setLoadingConfig(false));
-  }, []);
+    if (!configParams || hydratedConfig) return;
+    if (configParams.decay_half_life_days) setHalfLife(Number(configParams.decay_half_life_days));
+    if (configParams.wilson_confidence_level) setConfidence(Number(configParams.wilson_confidence_level));
+    if (configParams.entropy_base) setEntropyBase(Number(configParams.entropy_base));
+    setHydratedConfig(true);
+  }, [configParams, hydratedConfig]);
 
   const handleSaveConfig = async (key: string, value: number) => {
     setSavingConfig(true);
     setError(null);
     try {
       await mathEngineService.updateEngineConfig({ [key]: value });
-      setConfigParams(prev => prev ? { ...prev, [key]: value } : { [key]: value });
+      // Optimistic update local (instantáneo) + invalidación para refrescar.
+      qc.setQueryData<EngineConfig | null>(['admin', 'math', 'engine-config'], (prev) => ({
+        ...(prev ?? {}),
+        [key]: value,
+      }));
+      qc.invalidateQueries({ queryKey: ['admin', 'math', 'engine-config'] });
       toast.success("Configuración guardada");
     } catch(e) {
       if (e instanceof Error) setError(e.message);

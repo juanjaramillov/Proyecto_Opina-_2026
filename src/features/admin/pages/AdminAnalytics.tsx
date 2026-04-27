@@ -1,44 +1,56 @@
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminAnalyticsService } from "../services/adminAnalyticsService";
 import { AdminAnalyticsSnapshot } from "../../../services/analytics/analyticsReadService";
 import { METRIC_CATALOG } from "../../../read-models/analytics/metricCatalog";
 import { MetricOverride, MetricStatus, MetricAudience, MetricFamily } from "../../../read-models/analytics/analyticsTypes";
 
+/**
+ * FASE 3D React Query (2026-04-26): snapshot y overrides quedan como dos
+ * useQuery paralelos. `toggleEnabled` hace optimistic update con
+ * `qc.setQueryData(['admin','analytics','overrides'], …)` y persiste en
+ * background; refresh masivo y save invalidan ambos namespaces.
+ */
 export default function AdminAnalytics() {
-  const [snapshot, setSnapshot] = useState<AdminAnalyticsSnapshot | null>(null);
-  const [overrides, setOverrides] = useState<Record<string, MetricOverride>>({});
-  const [loading, setLoading] = useState(true);
+  const qc = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
 
   // Filtros
   const [fFamily, setFFamily] = useState<MetricFamily | "all">("all");
   const [fAudience, setFAudience] = useState<MetricAudience | "all">("all");
   const [fStatus, setFStatus] = useState<MetricStatus | "all">("all");
 
-  const load = async () => {
-    setLoading(true);
-    try {
-      const [snapData, overData] = await Promise.all([
-        adminAnalyticsService.getSnapshot(),
-        adminAnalyticsService.getOverrides()
-      ]);
-      setSnapshot(snapData);
-      
-      const overMap: Record<string, MetricOverride> = {};
-      overData.forEach(o => overMap[o.metric_id] = o);
-      setOverrides(overMap);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const snapshotQuery = useQuery<AdminAnalyticsSnapshot, Error>({
+    queryKey: ['admin', 'analytics', 'snapshot'],
+    queryFn: () => adminAnalyticsService.getSnapshot(),
+  });
 
-  useEffect(() => { load(); }, []);
+  const overridesQuery = useQuery<MetricOverride[], Error>({
+    queryKey: ['admin', 'analytics', 'overrides'],
+    queryFn: () => adminAnalyticsService.getOverrides(),
+  });
+
+  const snapshot = snapshotQuery.data ?? null;
+
+  const overrides = useMemo(() => {
+    const map: Record<string, MetricOverride> = {};
+    (overridesQuery.data ?? []).forEach(o => { map[o.metric_id] = o; });
+    return map;
+  }, [overridesQuery.data]);
+
+  const loading = snapshotQuery.isLoading || overridesQuery.isLoading || refreshing;
 
   const handleRefreshRollups = async () => {
-    setLoading(true);
-    await adminAnalyticsService.refreshRollups();
-    await load();
+    setRefreshing(true);
+    try {
+      await adminAnalyticsService.refreshRollups();
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: ['admin', 'analytics', 'snapshot'] }),
+        qc.invalidateQueries({ queryKey: ['admin', 'analytics', 'overrides'] }),
+      ]);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   const toggleEnabled = async (metricId: string, currentEnabled: boolean) => {
@@ -48,10 +60,21 @@ export default function AdminAnalytics() {
       metric_id: metricId,
       is_enabled: !currentEnabled
     };
-    
-    // update optimistic
-    setOverrides(prev => ({ ...prev, [metricId]: newOverride }));
+
+    // Optimistic update — mutamos el array en cache para feedback instantáneo.
+    qc.setQueryData<MetricOverride[]>(['admin', 'analytics', 'overrides'], (prev) => {
+      const list = prev ?? [];
+      const idx = list.findIndex(o => o.metric_id === metricId);
+      if (idx >= 0) {
+        const next = [...list];
+        next[idx] = newOverride;
+        return next;
+      }
+      return [...list, newOverride];
+    });
     await adminAnalyticsService.saveOverride(newOverride);
+    // Refresca contra el server (por si el save normaliza valores).
+    qc.invalidateQueries({ queryKey: ['admin', 'analytics', 'overrides'] });
   };
 
   if (loading && !snapshot) return <div className="p-8">Cargando Analytics...</div>;

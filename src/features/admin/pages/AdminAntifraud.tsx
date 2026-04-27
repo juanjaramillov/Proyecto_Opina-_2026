@@ -1,38 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { adminAntifraudService, AntifraudFlagRow, DeviceSummary } from '../services/adminAntifraudService';
-import { logger } from '../../../lib/logger';
 import MultiAccountDevicesPanel from '../components/MultiAccountDevicesPanel';
 import ConfirmDialog from '../../../components/ui/ConfirmDialog';
 import PromptDialog from '../../../components/ui/PromptDialog';
 
+/**
+ * FASE 3D React Query (2026-04-26): listado de flags como useQuery; el summary
+ * de cada device se cachea con queryKey ['admin','antifraud','device-summary',hash]
+ * y solo arranca cuando el row está expandido (`enabled: !!expandedDeviceHash`),
+ * así no metemos la fetch a un useEffect imperativo.
+ */
 const AdminAntifraud: React.FC = () => {
-    const [flags, setFlags] = useState<AntifraudFlagRow[]>([]);
-    const [summaries, setSummaries] = useState<Record<string, DeviceSummary>>({});
-    const [loading, setLoading] = useState(true);
-    const [loadingSummary, setLoadingSummary] = useState<Record<string, boolean>>({});
+    const qc = useQueryClient();
     const [error, setError] = useState<string | null>(null);
     const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+    const [expandedDeviceHash, setExpandedDeviceHash] = useState<string | null>(null);
     const [pendingBan, setPendingBan] = useState<{ deviceHash: string } | null>(null);
     const [pendingUnban, setPendingUnban] = useState<{ deviceHash: string } | null>(null);
+    const [mutationLoading, setMutationLoading] = useState(false);
+
+    const flagsQuery = useQuery<AntifraudFlagRow[], Error>({
+        queryKey: ['admin', 'antifraud', 'flags'],
+        queryFn: () => adminAntifraudService.listFlags(),
+    });
+
+    const flags = flagsQuery.data ?? [];
+    const loading = flagsQuery.isLoading || mutationLoading;
+
+    // Sync error visible con el de la query (consumidores leen `error` plano).
+    useEffect(() => {
+        const err = flagsQuery.error?.message;
+        if (err) setError(err);
+    }, [flagsQuery.error]);
+
+    // Summary del device expandido — la query arranca solo cuando hay hash.
+    const summaryQuery = useQuery<DeviceSummary, Error>({
+        queryKey: ['admin', 'antifraud', 'device-summary', expandedDeviceHash],
+        queryFn: () => adminAntifraudService.getDeviceSummary(expandedDeviceHash as string),
+        enabled: !!expandedDeviceHash,
+    });
+
+    // Map device-hash → summary, alimentado desde la cache.
+    const summaries: Record<string, DeviceSummary> = expandedDeviceHash && summaryQuery.data
+        ? { [expandedDeviceHash]: summaryQuery.data }
+        : {};
+    const loadingSummary: Record<string, boolean> = expandedDeviceHash
+        ? { [expandedDeviceHash]: summaryQuery.isLoading }
+        : {};
 
     const fetchFlags = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            const data = await adminAntifraudService.listFlags();
-            setFlags(data);
-        } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : String(err));
-        } finally {
-            setLoading(false);
-        }
+        setError(null);
+        await flagsQuery.refetch();
     };
-
-    useEffect(() => {
-        fetchFlags();
-    }, []);
 
     const handleBanToggle = (deviceHash: string, currentBanned: boolean) => {
         if (currentBanned) {
@@ -60,7 +82,7 @@ const AdminAntifraud: React.FC = () => {
 
     const applyBan = async (deviceHash: string, isBanning: boolean, reason: string) => {
         try {
-            setLoading(true);
+            setMutationLoading(true);
             setError(null);
             const result = await adminAntifraudService.setBan(deviceHash, isBanning, reason);
 
@@ -69,35 +91,26 @@ const AdminAntifraud: React.FC = () => {
             }
 
             toast.success(isBanning ? 'Dispositivo baneado' : 'Ban removido');
-            await fetchFlags(); // Refresh list to get updated row from DB
+            await qc.invalidateQueries({ queryKey: ['admin', 'antifraud', 'flags'] });
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg);
             toast.error(msg);
-            setLoading(false); // only set to false on error, fetchFlags handles success
+        } finally {
+            setMutationLoading(false);
         }
     };
 
     const toggleExpand = async (id: string, deviceHash: string) => {
         if (expandedRowId === id) {
             setExpandedRowId(null);
+            setExpandedDeviceHash(null);
             return;
         }
 
         setExpandedRowId(id);
-
-        // Fetch summary si no se tiene
-        if (!summaries[deviceHash]) {
-            try {
-                setLoadingSummary(prev => ({ ...prev, [deviceHash]: true }));
-                const summary = await adminAntifraudService.getDeviceSummary(deviceHash);
-                setSummaries(prev => ({ ...prev, [deviceHash]: summary }));
-            } catch (err: unknown) {
-                logger.error("Failed to fetch summary", { domain: 'admin_actions', origin: 'AdminAntifraud', action: 'fetch_summary', state: 'failed' }, err);
-            } finally {
-                setLoadingSummary(prev => ({ ...prev, [deviceHash]: false }));
-            }
-        }
+        // Setear el hash dispara la query del summary (enabled).
+        setExpandedDeviceHash(deviceHash);
     };
 
     const getSeverityBadge = (severity: string) => {

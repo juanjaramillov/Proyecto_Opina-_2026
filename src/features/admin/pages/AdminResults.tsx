@@ -1,36 +1,62 @@
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminResultsService } from "../services/adminResultsService";
 import { AdminResultsConfiguration } from "../../../services/analytics/analyticsReadService";
 import { PublicationMode } from "../../../read-models/analytics/analyticsTypes";
 import { METRIC_CATALOG } from "../../../read-models/analytics/metricCatalog";
 import { SurfaceMetricConfig, MetricSurface } from "../../../read-models/analytics/analyticsTypes";
 
+/**
+ * FASE 3D React Query (2026-04-26): la configuración del Results Publisher se
+ * cachea por queryKey ['admin','results','config']. El form state local
+ * (config + localConfigs) se hidrata en useEffect cuando llega data por primera
+ * vez — no en cada render — para no machacar ediciones del usuario tras una
+ * invalidación.
+ */
 export default function AdminResults() {
+  const qc = useQueryClient();
+
+  const configQuery = useQuery<AdminResultsConfiguration, Error>({
+    queryKey: ['admin', 'results', 'config'],
+    queryFn: () => adminResultsService.getConfiguration(),
+  });
+
   const [config, setConfig] = useState<AdminResultsConfiguration | null>(null);
   const [localConfigs, setLocalConfigs] = useState<SurfaceMetricConfig[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [hydratedFor, setHydratedFor] = useState<string | null>(null);
 
-  const load = async () => {
-    setLoading(true);
-    try {
-      const data = await adminResultsService.getConfiguration();
-      setConfig(data);
-      setLocalConfigs(data.surfaceConfigs || []);
-    } catch(e) { console.error(e); }
-    finally { setLoading(false); }
-  };
+  // Hidrata el form state UNA vez por carga de data. Si watcháramos `data`
+  // completo, una invalidación post-save sobreescribiría el form local.
+  useEffect(() => {
+    const data = configQuery.data;
+    if (!data) return;
+    // Usamos updatedAt o el propio objeto como huella; si no hay timestamp,
+    // hidratamos solo si todavía no hay config local.
+    const fingerprint = (data as { updatedAt?: string }).updatedAt || 'loaded';
+    if (hydratedFor === fingerprint) return;
+    setConfig(data);
+    setLocalConfigs(data.surfaceConfigs || []);
+    setHydratedFor(fingerprint);
+  }, [configQuery.data, hydratedFor]);
 
-  useEffect(() => { load(); }, []);
+  const loading = configQuery.isLoading || saving;
 
   const handleSave = async () => {
-    if(!config) return;
-    setLoading(true);
-    const payload = {
-      ...config,
-      surfaceConfigs: localConfigs
-    };
-    await adminResultsService.publishConfiguration(payload);
-    await load();
+    if (!config) return;
+    setSaving(true);
+    try {
+      const payload = {
+        ...config,
+        surfaceConfigs: localConfigs,
+      };
+      await adminResultsService.publishConfiguration(payload);
+      // Forzar re-hidratación cuando vuelva a entrar la data fresca.
+      setHydratedFor(null);
+      await qc.invalidateQueries({ queryKey: ['admin', 'results', 'config'] });
+    } finally {
+      setSaving(false);
+    }
   };
 
   const toggleMetricVisibility = (metricId: string, surfaceId: MetricSurface) => {
@@ -41,7 +67,7 @@ export default function AdminResults() {
         next[idx] = { ...next[idx], is_visible: !next[idx].is_visible };
         return next;
       }
-      
+
       // Si no existe, lo creamos default para este update
       const baseMet = METRIC_CATALOG[metricId];
       if (!baseMet) return prev;
@@ -70,8 +96,8 @@ export default function AdminResults() {
         <div className="grid grid-cols-2 gap-4">
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-1">Título Hero</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               value={config.heroTitle}
               onChange={(e) => setConfig({...config, heroTitle: e.target.value})}
               className="w-full border p-2 rounded"
@@ -79,7 +105,7 @@ export default function AdminResults() {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-1">Modo de Datos</label>
-            <select 
+            <select
               value={config.mode}
               onChange={(e) => setConfig({...config, mode: e.target.value as PublicationMode})}
               className="w-full border p-2 rounded"
@@ -95,10 +121,10 @@ export default function AdminResults() {
       <div className="bg-white p-6 border rounded shadow-sm mb-6">
         <h2 className="text-lg font-bold mb-2">Composición de Componentes (Slots)</h2>
         <p className="text-sm text-slate-500 mb-6">
-          Habilita qué métricas deben estar presentes en cada superficie de resultados para la audiencia B2C. 
+          Habilita qué métricas deben estar presentes en cada superficie de resultados para la audiencia B2C.
           Las métricas mostradas dependen del Catálogo Central de Gobernanza.
         </p>
-        
+
         {targetSurfaces.map(s => {
           // Filtrar las métricas que dicen estar permitidas en este surface
           const allowedMetrics = Object.values(METRIC_CATALOG).filter(m => m.surfaces.includes(s));
@@ -134,7 +160,7 @@ export default function AdminResults() {
       </div>
 
       <div className="flex justify-end gap-4 mt-8 sticky bottom-8 p-4 bg-white/90 backdrop-blur border-t rounded-t shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-        <button 
+        <button
           onClick={handleSave}
           className="bg-brand hover:bg-brand-700 text-white px-6 py-2 rounded-lg font-semibold shadow-md transition-colors"
         >

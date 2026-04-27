@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from '@tanstack/react-query';
 import { adminTrafficService, TrafficSnapshot } from "../services/adminTrafficService";
 import {
   Chart as ChartJS,
@@ -28,16 +29,22 @@ ChartJS.register(
   Filler
 );
 
+/**
+ * FASE 3D React Query (2026-04-26): el snapshot de tráfico se cachea por
+ * queryKey ['admin','traffic',filterType,customStart,customEnd]. Cambiar el
+ * filtro dispara un refetch automático sin useEffect manual. El cómputo de
+ * fechas se mueve dentro del queryFn — la queryKey solo lleva los inputs
+ * "humanos" (filterType + custom dates), así dos llamadas con el mismo filtro
+ * comparten cache.
+ */
 export default function AdminTrafficDashboard() {
-  const [data, setData] = useState<TrafficSnapshot | null>(null);
-  const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState<'hoy' | '7d' | '30d' | '90d' | 'custom'>('30d');
   const [customStart, setCustomStart] = useState<string>('');
   const [customEnd, setCustomEnd] = useState<string>('');
 
-  const loadTraffic = useCallback(async () => {
-    setLoading(true);
-    try {
+  const trafficQuery = useQuery<TrafficSnapshot, Error>({
+    queryKey: ['admin', 'traffic', filterType, customStart, customEnd],
+    queryFn: async () => {
       let startDate = new Date();
       let endDate = new Date();
 
@@ -50,28 +57,20 @@ export default function AdminTrafficDashboard() {
       } else if (filterType === '90d') {
         startDate.setDate(startDate.getDate() - 90);
       } else if (filterType === 'custom') {
-        if (!customStart || !customEnd) {
-          setLoading(false);
-          return; // Wait until both are selected
-        }
         // Force the time so we don't have timezone offset issues comparing dates
         startDate = new Date(`${customStart}T00:00:00`);
         endDate = new Date(`${customEnd}T23:59:59.999`);
       }
 
-      const snap = await adminTrafficService.getTrafficData(startDate, endDate);
-      setData(snap);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterType, customStart, customEnd]);
+      return adminTrafficService.getTrafficData(startDate, endDate);
+    },
+    // En custom solo arrancamos cuando hay ambas fechas — antes era un
+    // early-return manual; ahora `enabled` lo hace declarativo.
+    enabled: filterType !== 'custom' || (!!customStart && !!customEnd),
+  });
 
-  useEffect(() => {
-    if (filterType === 'custom' && (!customStart || !customEnd)) return;
-    loadTraffic();
-  }, [filterType, customStart, customEnd, loadTraffic]);
+  const data = trafficQuery.data ?? null;
+  const loading = trafficQuery.isLoading;
 
   if (loading && !data) {
     return (
