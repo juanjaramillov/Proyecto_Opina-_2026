@@ -37,9 +37,12 @@ export default defineConfig({
         '**/*.d.ts',
       ],
       thresholds: {
-        lines: 10,
+        // Capturados al 2026-04-28 después de Sprint Coverage Tanda 1 (3 tests
+        // nuevos: rateLimit, metricAvailability, metricAlerts). Baseline real:
+        // 11.5 / 8.49 / 8.1 / 10.88. Threshold = baseline redondeado abajo.
+        lines: 11,
         functions: 8,
-        branches: 7,
+        branches: 8,
         statements: 10,
       },
     },
