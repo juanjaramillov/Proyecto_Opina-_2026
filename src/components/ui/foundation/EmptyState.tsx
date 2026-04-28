@@ -23,7 +23,7 @@ export function EmptyState({
     className = ''
 }: EmptyStateProps) {
     return (
-        <div className={`flex flex-col items-center justify-center p-8 md:p-12 text-center bg-white border border-stroke rounded-[2rem] shadow-sm animate-in fade-in duration-500 ${className}`}>
+        <div className={`flex flex-col items-center justify-center p-8 md:p-12 text-center bg-white border border-stroke rounded-4xl shadow-sm animate-in fade-in duration-500 ${className}`}>
             {Icon && (
               <div className="w-16 h-16 bg-surface2 border border-stroke flex items-center justify-center rounded-2xl mb-6 shadow-inner">
                   {typeof Icon === 'string' ? (

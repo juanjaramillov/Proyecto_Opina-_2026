@@ -54,7 +54,7 @@ const PreviewNpsSurvey: React.FC<PreviewNpsSurveyProps> = ({ question, followUps
                 ))}
             </div>
 
-            <button disabled className="w-full py-5 bg-slate-900 text-white rounded-[1.5rem] font-black uppercase tracking-widest opacity-20 cursor-not-allowed">
+            <button disabled className="w-full py-5 bg-slate-900 text-white rounded-3xl font-black uppercase tracking-widest opacity-20 cursor-not-allowed">
                 Siguiente
             </button>
         </div>

@@ -16,7 +16,7 @@ const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, su
 
     return (
         <div className="flex flex-col items-center text-center py-8 animate-in zoom-in duration-500">
-            <div className="w-24 h-24 bg-gradient-to-br from-accent-400 to-accent-600 text-white rounded-[2rem] flex items-center justify-center mb-8 shadow-2xl shadow-accent-500/30">
+            <div className="w-24 h-24 bg-gradient-to-br from-accent-400 to-accent-600 text-white rounded-4xl flex items-center justify-center mb-8 shadow-2xl shadow-accent-500/30">
                 <span className="material-symbols-outlined text-5xl">verified</span>
             </div>
 
@@ -49,7 +49,7 @@ const DepthComplete: React.FC<DepthCompleteProps> = ({ onNextPack, onGoToHub, su
                 {onNextPack ? (
                     <button
                         onClick={onNextPack}
-                        className="w-full py-5 bg-gradient-brand text-white rounded-[1.5rem] font-black text-base uppercase tracking-widest shadow-xl shadow-brand-500/20 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95"
+                        className="w-full py-5 bg-gradient-brand text-white rounded-3xl font-black text-base uppercase tracking-widest shadow-xl shadow-brand-500/20 hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95"
                     >
                         Siguiente pack
                     </button>

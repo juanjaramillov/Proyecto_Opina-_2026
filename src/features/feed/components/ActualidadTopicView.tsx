@@ -151,7 +151,7 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                 <div className="flex items-center gap-4">
                     <button
                         onClick={onCancel}
-                        className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-slate-50 text-slate-500 border border-slate-200 hover:text-brand-600 rounded-[1rem] hover:bg-brand-50 hover:border-brand-200 hover:shadow-sm transition-all"
+                        className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-slate-50 text-slate-500 border border-slate-200 hover:text-brand-600 rounded-xl hover:bg-brand-50 hover:border-brand-200 hover:shadow-sm transition-all"
                         aria-label="Volver atrás"
                     >
                         <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -183,9 +183,9 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                             transition={{ duration: 0.4 }}
                             className="py-6 sm:py-10 flex flex-col items-center w-full"
                         >
-                            <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 border border-stroke/50 shadow-2xl w-full relative overflow-hidden group max-w-4xl mx-auto">
+                            <div className="bg-white rounded-4xl sm:rounded-3xl p-6 sm:p-10 border border-stroke/50 shadow-2xl w-full relative overflow-hidden group max-w-4xl mx-auto">
                                 {/* Hero Image Block */}
-                                <div className="relative w-full h-[250px] sm:h-[350px] rounded-2xl sm:rounded-[1.5rem] overflow-hidden mb-8 shadow-inner group-hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.3)] transition-all duration-500">
+                                <div className="relative w-full h-[250px] sm:h-[350px] rounded-2xl sm:rounded-3xl overflow-hidden mb-8 shadow-inner group-hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.3)] transition-all duration-500">
                                     <div className="absolute inset-0 bg-slate-900/20 z-10 mix-blend-multiply" />
                                     <div 
                                         className="absolute inset-0 bg-cover bg-center" 
@@ -298,9 +298,9 @@ export function ActualidadTopicView({ topic, onComplete, onCancel }: ActualidadT
                             transition={{ type: "spring", stiffness: 200, damping: 20 }}
                             className="py-10 flex flex-col items-center justify-center w-full h-full my-auto"
                         >
-                            <div className="bg-ink rounded-[2.5rem] p-10 sm:p-14 text-center shadow-2xl w-full max-w-lg relative overflow-hidden border border-slate-800">
+                            <div className="bg-ink rounded-5xl p-10 sm:p-14 text-center shadow-2xl w-full max-w-lg relative overflow-hidden border border-slate-800">
                                 <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-brand/10 via-transparent to-accent/10 pointer-events-none z-0"></div>
-                                <div className="w-24 h-24 bg-brand-600 text-white rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(37,99,235,0.4)] transform rotate-6 animate-pulse z-10 relative">
+                                <div className="w-24 h-24 bg-brand-600 text-white rounded-4xl flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(37,99,235,0.4)] transform rotate-6 animate-pulse z-10 relative">
                                     <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
                                     </svg>

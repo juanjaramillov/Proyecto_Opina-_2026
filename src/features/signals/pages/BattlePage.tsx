@@ -145,7 +145,7 @@ export default function BattlePage() {
                 }
             />
 
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_15px_35px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] p-4 md:p-6 transition-all relative overflow-hidden group">
+            <div className="bg-white rounded-5xl border border-slate-100 shadow-glass p-4 md:p-6 transition-all relative overflow-hidden group">
                 <div className="relative z-10">
                     <VersusGame
                         battles={battles}

@@ -5,12 +5,25 @@ import { B2BLeadForm } from "../components/B2BLeadForm";
 import { GradientCTA, GradientText, AmbientOrbs } from "../../../components/ui/foundation";
 import { ResultsExtendedKPIs } from "../components/ResultsExtendedKPIs";
 import { useResultsExperience } from "../hooks/useResultsExperience";
+import { IntelligenceKPICatalog } from "../components/intelligence/IntelligenceKPICatalog";
+import { IntelligenceTierScopeSelector } from "../components/intelligence/IntelligenceTierScopeSelector";
+import { IntelligencePrivacyAccordion } from "../components/intelligence/IntelligencePrivacyAccordion";
+import { IntelligenceAPIAccessStub } from "../components/intelligence/IntelligenceAPIAccessStub";
+import { KPITier } from "../components/intelligence/kpiCatalog";
+import { ScopeType } from "../components/intelligence/tierScopeMatrix";
 
 export default function IntelligenceLanding() {
     const [loading, setLoading] = useState(true);
     const [trendingFeed, setTrendingFeed] = useState<TrendingItem[]>([]);
     const [liveStats, setLiveStats] = useState<PlatformStats | null>(null);
+    const [leadPrefill, setLeadPrefill] = useState<{ tier?: KPITier; scope?: ScopeType; source?: string } | null>(null);
     const { snapshot } = useResultsExperience();
+
+    // Scroll al lead form, opcionalmente con prefill de tier/scope/source
+    const scrollToLeadForm = (prefill?: typeof leadPrefill) => {
+        if (prefill) setLeadPrefill(prefill);
+        document.getElementById('b2b-lead-form')?.scrollIntoView({ behavior: 'smooth' });
+    };
 
     useEffect(() => {
         let mounted = true;
@@ -99,7 +112,7 @@ export default function IntelligenceLanding() {
 
                 <div className="space-y-12">
                     {/* PILAR 1: TENDENCIAS EN TIEMPO REAL */}
-                    <section className="card overflow-hidden group">
+                    <section className="card overflow-hidden group rounded-3xl">
                         <div className="bg-surface2 p-6 md:p-8 border-b border-stroke">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="material-symbols-outlined text-brand text-[24px]">trending_up</span>
@@ -182,7 +195,7 @@ export default function IntelligenceLanding() {
                     {/* TWO COLUMN GRID FOR PILLAR 2 & 3 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* PILAR 2: COMPARACIONES */}
-                        <section className="card p-8 flex flex-col">
+                        <section className="card p-8 flex flex-col rounded-3xl">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="material-symbols-outlined text-accent text-[24px]">compare_arrows</span>
                                 <h2 className="text-2xl font-black text-ink tracking-tight">Share of Preference</h2>
@@ -223,7 +236,7 @@ export default function IntelligenceLanding() {
                         </section>
 
                         {/* PILAR 3: SEGMENTACIÓN DEMOGRÁFICA */}
-                        <section className="card p-8 flex flex-col">
+                        <section className="card p-8 flex flex-col rounded-3xl">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="material-symbols-outlined text-brand text-[24px]">troubleshoot</span>
                                 <h2 className="text-2xl font-black text-ink tracking-tight">Segmentación Profunda</h2>
@@ -262,7 +275,7 @@ export default function IntelligenceLanding() {
                     </div>
 
                     {/* PILAR 4: EVOLUCIÓN TEMPORAL */}
-                    <section className="card p-8 lg:p-12 relative overflow-hidden bg-gradient-to-br from-white to-surface2/50">
+                    <section className="card p-8 lg:p-12 relative overflow-hidden bg-gradient-to-br from-white to-surface2/50 rounded-3xl">
                         <div className="absolute -right-32 -bottom-32 w-96 h-96 bg-brand/5 rounded-full blur-[100px]"></div>
 
                         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -332,7 +345,7 @@ export default function IntelligenceLanding() {
 
                 {/* --- 1.5 KPIs EXTENDIDOS REALES (F9-F13) --- */}
                 {snapshot && (
-                    <section className="card p-2 md:p-4 bg-white border border-stroke">
+                    <section className="card p-2 md:p-4 bg-white border border-stroke rounded-3xl">
                         <div className="px-6 pt-6 mb-4">
                             <div className="flex items-center gap-2 mb-3 flex-wrap">
                                 <span className="text-brand font-bold uppercase tracking-widest text-xs">Live Intelligence — datos reales</span>
@@ -360,7 +373,7 @@ export default function IntelligenceLanding() {
                 )}
 
                 {/* --- 2. CASOS DE USO O DOLORES DE NEGOCIO --- */}
-                <section className="bg-surface2 rounded-[2rem] p-8 md:p-12 border border-stroke">
+                <section className="bg-surface2 rounded-4xl p-8 md:p-12 border border-stroke">
                     <div className="text-center max-w-2xl mx-auto mb-12">
                         <span className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-3 block">Aplicaciones de Negocio</span>
                         <h2 className="text-3xl font-black text-ink tracking-tight mb-4">Certezas para cada ciclo <GradientText>corporativo</GradientText></h2>
@@ -394,110 +407,25 @@ export default function IntelligenceLanding() {
                 </section>
 
 
-                {/* --- 3. OFERTA COMERCIAL / PLANES DE ACCESO --- */}
-                <section className="card p-8 md:p-12 mb-20 border-none shadow-lg">
-                    <div className="text-center max-w-2xl mx-auto mb-16">
-                        <span className="text-brand font-bold uppercase tracking-widest text-xs mb-3 block">Accesos Especializados</span>
-                        <h2 className="text-3xl lg:text-4xl font-black text-ink tracking-tight mb-4">La profundidad que tu <GradientText>industria</GradientText> necesita</h2>
-                        <p className="text-slate-600 font-medium text-lg">Desde un paneo de mercado hasta inteligencia táctica basada en señales. Configura tu acceso a la medida de tu industria.</p>
-                    </div>
+                {/* --- 3. CATÁLOGO DE KPIs POR TIER --- */}
+                <IntelligenceKPICatalog />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-end">
-                        {/* Tier 1: BASE */}
-                        <div className="card p-8 flex flex-col relative group hover:border-brand/30 transition-colors">
-                            <h3 className="text-2xl font-black text-ink mb-1">Market Pulse</h3>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Plan Base</p>
-                            <p className="text-sm text-slate-600 mb-8 font-medium border-b border-stroke pb-6">Entiende la dirección del mercado hoy. Ideal para agencias boutique.</p>
+                {/* --- 4. SELECTOR TIER × SCOPE (pricing config) --- */}
+                <IntelligenceTierScopeSelector
+                    onRequestQuote={(sel) => scrollToLeadForm({ tier: sel.tier, scope: sel.scope, source: 'tier_scope_selector' })}
+                />
 
-                            <ul className="space-y-4 mb-10 flex-1">
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-slate-500 text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-medium leading-tight">Feed de Tendencias Nacional</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-slate-500 text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-medium leading-tight">Monitoreo Marca (Semanal)</span>
-                                </li>
-                            </ul>
-                            <GradientCTA
-                                label="Solicitar Acceso"
-                                variant="ghost"
-                                size="md"
-                                fullWidth
-                                onClick={() => document.getElementById('b2b-lead-form')?.scrollIntoView({ behavior: 'smooth' })}
-                            />
-                        </div>
+                {/* --- 5. PRIVACY & COMPLIANCE --- */}
+                <IntelligencePrivacyAccordion />
 
-                        {/* Tier 2: PRO (Highlighted) */}
-                        <div className="card p-10 border-2 border-brand relative shadow-xl flex flex-col md:-translate-y-4">
-                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">Recomendado</div>
-
-                            <h3 className="text-2xl font-black text-ink mb-1">Deep Analytics</h3>
-                            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-6">Plan Pro</p>
-                            <p className="text-sm text-slate-600 mb-8 font-medium border-b border-stroke pb-6">Descubre quién te prefiere y por qué. Insights tácticos inmediatos.</p>
-
-                            <ul className="space-y-4 mb-10 flex-1">
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-brand text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-bold leading-tight">Todo lo de Base</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-brand text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-medium leading-tight">Share of Preference vs Rivals</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-brand text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-medium leading-tight">Cruces Demográficos Libres</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-brand text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-medium leading-tight">Exportación PDF/CSV</span>
-                                </li>
-                            </ul>
-                            <GradientCTA
-                                label="Hablar con Ventas"
-                                icon="arrow_forward"
-                                iconPosition="trailing"
-                                size="md"
-                                fullWidth
-                                onClick={() => document.getElementById('b2b-lead-form')?.scrollIntoView({ behavior: 'smooth' })}
-                            />
-                        </div>
-
-                        {/* Tier 3: ENTERPRISE */}
-                        <div className="card p-8 flex flex-col relative group hover:border-brand/30 transition-colors">
-                            <h3 className="text-2xl font-black text-ink mb-1">Velocity</h3>
-                            <p className="text-xs font-bold text-accent uppercase tracking-widest mb-6">Enterprise</p>
-                            <p className="text-sm text-slate-600 mb-8 font-medium border-b border-stroke pb-6">Adelántate al mercado con actualizaciones periódicas de alto volumen.</p>
-
-                            <ul className="space-y-4 mb-10 flex-1">
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-accent text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-bold leading-tight">Todo lo de Pro</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-accent text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-medium leading-tight">Segmentación Micro-Granular</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="material-symbols-outlined text-accent text-[20px] mt-0.5">check_circle</span>
-                                    <span className="text-sm text-ink font-medium leading-tight">Alertas de Crisis Inmediatas</span>
-                                </li>
-                            </ul>
-                            <GradientCTA
-                                label="Contactar Partner"
-                                variant="ghost"
-                                size="md"
-                                fullWidth
-                                onClick={() => document.getElementById('b2b-lead-form')?.scrollIntoView({ behavior: 'smooth' })}
-                            />
-                        </div>
-                    </div>
-                </section>
+                {/* --- 6. ACCESO PROGRAMÁTICO / API STUB --- */}
+                <IntelligenceAPIAccessStub
+                    onRequestEarlyAccess={() => scrollToLeadForm({ source: 'api_early_access' })}
+                />
 
 
                 {/* --- 4. FOOTER B2B CAPTURA DE LEAD --- */}
-                <section className="bg-surface2 text-center py-20 px-6 rounded-[2rem] border border-stroke shadow-sm mb-12">
+                <section className="bg-surface2 text-center py-20 px-6 rounded-4xl border border-stroke shadow-sm mb-12">
                     <div className="relative z-10 flex flex-col items-center">
                         <span className="text-brand font-black uppercase tracking-widest text-xs mb-4 block">Capacidad Empresarial</span>
                         <h2 className="text-3xl md:text-5xl lg:text-5xl font-black text-ink mb-6 tracking-tight max-w-3xl mx-auto leading-tight">
@@ -508,8 +436,7 @@ export default function IntelligenceLanding() {
                         </p>
 
                         <div id="b2b-lead-form" className="w-full max-w-2xl mx-auto mt-4 transition-all duration-500 pt-8 border-t border-stroke">
-                            {/* Assuming B2BLeadForm was also styled safely, if not it needs CSS review */}
-                            <B2BLeadForm />
+                            <B2BLeadForm prefill={leadPrefill} />
                         </div>
                     </div>
                 </section>

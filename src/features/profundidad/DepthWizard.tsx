@@ -83,7 +83,7 @@ const DepthWizard: React.FC<DepthWizardProps> = ({
         .filter(Boolean) as string[];
 
     return (
-        <div className="w-full max-w-2xl mx-auto bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border border-slate-100 min-h-[400px] flex flex-col relative overflow-hidden group">
+        <div className="w-full max-w-2xl mx-auto bg-white rounded-5xl p-8 md:p-12 shadow-glass border border-slate-100 min-h-[400px] flex flex-col relative overflow-hidden group">
             {/* Soft decorative background glows for Light Theme */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-100/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent-50/50 rounded-full blur-[80px] pointer-events-none transition-colors duration-700" />

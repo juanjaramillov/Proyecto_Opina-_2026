@@ -22,7 +22,7 @@ export function SectionShell({
   const isHighlighted = variant === 'highlighted';
 
   return (
-    <div className={`w-full rounded-[2.5rem] border overflow-hidden flex flex-col relative ${isHighlighted ? 'bg-gradient-to-br from-white via-slate-50 to-brand-50/30 shadow-sm border-slate-100' : 'bg-white border-stroke'} ${className}`}>
+    <div className={`w-full rounded-5xl border overflow-hidden flex flex-col relative ${isHighlighted ? 'bg-gradient-to-br from-white via-slate-50 to-brand-50/30 shadow-sm border-slate-100' : 'bg-white border-stroke'} ${className}`}>
       {/* Container Header */}
       <div className={`relative z-10 flex flex-col md:flex-row items-center justify-between px-8 pt-8 pb-4 ${isHighlighted ? 'border-b border-slate-100/50' : ''}`}>
         <div className="text-center md:text-left mb-4 md:mb-0">

@@ -81,7 +81,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm relative overflow-hidden mb-8"
+                className="bg-white border border-slate-200 rounded-5xl p-8 md:p-12 shadow-sm relative overflow-hidden mb-8"
             >
                 <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
                     <div className={`w-20 h-20 rounded-3xl flex items-center justify-center shrink-0 ring-8 ${toneColors[tone] || toneColors.slate}`}>
@@ -129,7 +129,7 @@ const PreviewShell: React.FC<PreviewShellProps> = ({
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="relative bg-white border border-slate-200 rounded-[2.5rem] p-6 md:p-10 shadow-xl overflow-hidden min-h-[400px]"
+                className="relative bg-white border border-slate-200 rounded-3xl p-6 md:p-10 shadow-xl overflow-hidden min-h-[400px]"
             >
                 <div className="absolute inset-0 bg-slate-50/30 backdrop-blur-[2px] pointer-events-none" />
 

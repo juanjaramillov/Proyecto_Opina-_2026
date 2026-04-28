@@ -23,7 +23,7 @@ export function ActualidadGridCard({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05 * index, duration: 0.5, ease: "easeOut" }}
         onClick={() => onSelectTopic(topic)}
-        className="bg-white rounded-[2rem] overflow-hidden group cursor-pointer relative flex flex-col h-auto hover:-translate-y-1.5 transition-transform duration-500 shadow-md hover:shadow-[0_20px_40px_-10px_rgba(37,99,235,0.15)] border border-slate-200"
+        className="bg-white rounded-4xl overflow-hidden group cursor-pointer relative flex flex-col h-auto hover:-translate-y-1.5 transition-transform duration-500 shadow-md hover:shadow-[0_20px_40px_-10px_rgba(37,99,235,0.15)] border border-slate-200"
     >
         {/* TOP HALF: Media & Primary Quote */}
         <div className="relative h-48 sm:h-56 overflow-hidden flex flex-col p-6 items-center text-center">

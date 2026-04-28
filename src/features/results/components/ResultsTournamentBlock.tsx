@@ -13,7 +13,7 @@ export function ResultsTournamentBlock({ tournamentData }: Props) {
 
   return (
     <section className="w-full max-w-6xl mx-auto px-4 mt-8">
-      <div className="w-full bg-white rounded-[2rem] border border-stroke shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] overflow-hidden flex relative">
+      <div className="w-full bg-white rounded-4xl border border-stroke shadow-glass overflow-hidden flex relative">
       
       {/* Decorative Left Border */}
       <div className="w-1.5 h-full bg-brand absolute left-0 top-0 bottom-0" />

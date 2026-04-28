@@ -228,7 +228,7 @@ const DepthQuestionCard: React.FC<DepthQuestionCardProps> = ({
                             disabled={isSubmitting || isAutoAdvancing}
                             className="w-full p-6 bg-slate-50 border-2 border-slate-100 rounded-3xl focus:border-brand focus:bg-white focus:outline-none focus:shadow-xl focus:shadow-brand-500/10 transition-all text-slate-800 font-medium min-h-[140px] resize-none text-lg leading-relaxed z-10 relative"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-br from-brand to-accent opacity-0 group-focus-within:opacity-10 rounded-[1.4rem] -z-0 transition-opacity duration-500 blur-lg" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-brand to-accent opacity-0 group-focus-within:opacity-10 rounded-3xl -z-0 transition-opacity duration-500 blur-lg" />
                     </div>
                     <div className="flex justify-between items-center px-2">
                         <span className="text-xs font-bold text-slate-400 flex items-center gap-1">

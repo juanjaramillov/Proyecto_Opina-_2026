@@ -165,7 +165,7 @@ export default function PageShell({ children }: { children: React.ReactNode }) {
                   Admin
                   <span className={`material-symbols-outlined text-[14px] transition-transform ${isAdminMenuOpen ? 'rotate-180' : ''}`}>expand_more</span>
                 </button>
-                <div className={`absolute top-full right-0 mt-2 p-2 w-56 bg-white border border-stroke rounded-[24px] shadow-2xl transition-all duration-300 z-[100] flex flex-col gap-1 ${isAdminMenuOpen ? 'opacity-100 visible translate-y-0 scale-100' : 'opacity-0 invisible translate-y-2 scale-95'}`}>
+                <div className={`absolute top-full right-0 mt-2 p-2 w-56 bg-white border border-stroke rounded-3xl shadow-2xl transition-all duration-300 z-[100] flex flex-col gap-1 ${isAdminMenuOpen ? 'opacity-100 visible translate-y-0 scale-100' : 'opacity-0 invisible translate-y-2 scale-95'}`}>
                   <div className="px-3 py-2 mb-1">
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Panel de Control</p>
                   </div>

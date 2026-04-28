@@ -180,7 +180,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    className="bg-white rounded-[2.5rem] p-8 flex flex-col items-center justify-center max-w-sm w-full shadow-2xl relative border border-slate-100 text-center"
+                    className="bg-white rounded-5xl p-8 flex flex-col items-center justify-center max-w-sm w-full shadow-2xl relative border border-slate-100 text-center"
                 >
                     <div className="w-8 h-8 border-4 border-brand border-t-transparent rounded-full animate-spin mb-4" />
                     <p className="font-bold text-slate-500">Cargando profundidad...</p>
@@ -250,7 +250,7 @@ const InsightPack: React.FC<InsightPackProps> = ({ optionId, optionLabel, catego
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="bg-white rounded-[2.5rem] p-6 md:p-10 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto relative border border-slate-100"
+                className="bg-white rounded-5xl p-6 md:p-10 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto relative border border-slate-100"
             >
                 {showAnalyticsResults ? (
                     <div className="p-6">

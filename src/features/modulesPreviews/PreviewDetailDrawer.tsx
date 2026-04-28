@@ -22,7 +22,7 @@ const PreviewDetailDrawer: React.FC<PreviewDetailDrawerProps> = ({
         <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="hidden lg:flex flex-col w-80 shrink-0 bg-slate-50 border border-slate-100 rounded-[2rem] p-6 shadow-inner"
+            className="hidden lg:flex flex-col w-80 shrink-0 bg-slate-50 border border-slate-100 rounded-4xl p-6 shadow-inner"
         >
             <div className="text-[10px] font-black text-brand uppercase tracking-widest mb-4">Ficha de Detalle</div>
 

@@ -50,7 +50,7 @@ export default function InteractiveHeroSection() {
         <div className="flex-1 w-full flex items-center justify-center relative min-h-[350px] sm:min-h-[400px] lg:min-h-[600px] mt-8 lg:mt-0">
            <div className="w-full flex justify-center relative scale-[1.05] sm:scale-125 lg:scale-125 transform-origin-center lg:transform-origin-right">
              {/* Main Phone */}
-             <div className="relative z-10 w-64 h-[28rem] bg-white rounded-[3rem] border-8 border-slate-800 shadow-2xl flex flex-col overflow-hidden transform rotate-6 hover:rotate-0 transition-transform duration-700">
+             <div className="relative z-10 w-64 h-[28rem] bg-white rounded-6xl border-8 border-slate-800 shadow-2xl flex flex-col overflow-hidden transform rotate-6 hover:rotate-0 transition-transform duration-700">
                {/* Notch */}
                <div className="absolute top-0 inset-x-0 h-6 flex justify-center">
                   <div className="w-24 h-full bg-slate-800 rounded-b-xl" />
@@ -101,7 +101,7 @@ export default function InteractiveHeroSection() {
                   <div className="flex-1 px-3 py-4 flex flex-col gap-3 relative z-10 overflow-hidden">
                     
                     {/* Tarjeta Versús Premium */}
-                    <div className="bg-white/70 backdrop-blur-lg rounded-2xl p-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.06)] border border-white/80 flex flex-col gap-3 relative group hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(16,185,129,0.1)] transition-all duration-500">
+                    <div className="bg-white/70 backdrop-blur-lg rounded-2xl p-3.5 shadow-glass border border-white/80 flex flex-col gap-3 relative group hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(16,185,129,0.1)] transition-all duration-500">
                        
                        {/* Shimmer Effect */}
                        <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-0 rounded-2xl" />
@@ -159,7 +159,7 @@ export default function InteractiveHeroSection() {
                     </div>
 
                     {/* Results Mini-Card Corporate */}
-                    <div className="bg-white/80 backdrop-blur-xl rounded-[1.25rem] p-4 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white/80 flex flex-col gap-3 relative translate-y-1 group-hover:translate-y-0 opacity-95 group-hover:opacity-100 transition-all duration-500 delay-75">
+                    <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-4 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-white/80 flex flex-col gap-3 relative translate-y-1 group-hover:translate-y-0 opacity-95 group-hover:opacity-100 transition-all duration-500 delay-75">
                        <div className="flex justify-between items-end mb-1">
                           <div className="flex flex-col">
                             <span className="text-[7px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Consenso Actual</span>
@@ -209,10 +209,10 @@ export default function InteractiveHeroSection() {
              </div>
 
              {/* Floating elements popping out - 3D Claymorphism Premium */}
-             <div className="absolute top-10 -right-4 md:-right-8 z-30 bg-gradient-to-br from-white to-slate-50 p-4 rounded-2xl shadow-[inset_0_-8px_16px_rgba(0,0,0,0.06),_inset_0_4px_8px_rgba(255,255,255,1),_0_20px_40px_rgba(37,99,235,0.15)] border-t-2 border-white animate-[bounce_4s_ease-in-out_infinite] flex items-center justify-center transform hover:scale-110 transition-transform cursor-default">
+             <div className="absolute top-10 -right-4 md:-right-8 z-30 bg-gradient-to-br from-white to-slate-50 p-4 rounded-2xl shadow-paper-brand-sm border-t-2 border-white animate-[bounce_4s_ease-in-out_infinite] flex items-center justify-center transform hover:scale-110 transition-transform cursor-default">
                 <BarChart3 className="w-9 h-9 text-brand drop-shadow-[0_4px_8px_rgba(37,99,235,0.4)]" />
              </div>
-             <div className="absolute bottom-20 -left-6 md:-left-12 z-30 bg-gradient-to-br from-white to-slate-50 p-3.5 rounded-2xl shadow-[inset_0_-8px_16px_rgba(0,0,0,0.06),_inset_0_4px_8px_rgba(255,255,255,1),_0_20px_40px_rgba(16,185,129,0.15)] border-t-2 border-white animate-[bounce_5s_ease-in-out_infinite_reverse] flex items-center justify-center transform hover:scale-110 transition-transform cursor-default">
+             <div className="absolute bottom-20 -left-6 md:-left-12 z-30 bg-gradient-to-br from-white to-slate-50 p-3.5 rounded-2xl shadow-paper-accent-sm border-t-2 border-white animate-[bounce_5s_ease-in-out_infinite_reverse] flex items-center justify-center transform hover:scale-110 transition-transform cursor-default">
                 <TrendingUp className="w-8 h-8 text-accent drop-shadow-[0_4px_8px_rgba(16,185,129,0.4)]" />
              </div>
              

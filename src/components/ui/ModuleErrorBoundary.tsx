@@ -38,7 +38,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="w-full p-8 rounded-[2rem] border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
+        <div className="w-full p-8 rounded-4xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center text-center animate-in fade-in duration-500">
             <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center mb-4 text-slate-400">
                 <span className="material-symbols-outlined text-[24px]">extension_off</span>
             </div>

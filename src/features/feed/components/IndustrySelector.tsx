@@ -151,7 +151,7 @@ export function IndustrySelector({
             {/* Left Quadrant (Parent Focus) */}
             <motion.div
                 layoutId={`parent-${selectedParentId}`}
-                className="w-full md:w-1/3 xl:w-1/4 rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden relative flex flex-col isolate shrink-0"
+                className="w-full md:w-1/3 xl:w-1/4 rounded-4xl border border-slate-100 shadow-xl overflow-hidden relative flex flex-col isolate shrink-0"
                 style={{ backgroundColor: 'white' }}
             >
                 {/* Visual Background Accent using theme color */}
@@ -193,7 +193,7 @@ export function IndustrySelector({
             </motion.div>
 
             {/* Right Side: Subcategories */}
-            <div className="flex-1 rounded-[2rem] border border-slate-100 shadow-sm bg-slate-50/50 p-6 md:p-8 flex flex-col">
+            <div className="flex-1 rounded-4xl border border-slate-100 shadow-sm bg-slate-50/50 p-6 md:p-8 flex flex-col">
                 <div className="flex items-center justify-between mb-6">
                     <h4 className="text-lg font-black text-slate-800">Elige la subcategoría</h4>
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">

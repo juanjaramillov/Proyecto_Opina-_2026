@@ -33,7 +33,7 @@ export default function ResultsPage() {
         <Skeleton variant="pill" className="w-[300px] h-12 mb-12 bg-white border border-stroke shadow-sm" />
         
         {/* Editorial Hero Skeleton */}
-        <div className="w-full max-w-5xl bg-white p-8 sm:p-12 rounded-[40px] border border-stroke shadow-xl overflow-hidden relative">
+        <div className="w-full max-w-5xl bg-white p-8 sm:p-12 rounded-5xl border border-stroke shadow-xl overflow-hidden relative">
              <div className="flex flex-col gap-6 w-full relative z-10">
                  <Skeleton variant="pill" className="w-32 h-6 bg-surface2" />
                  <Skeleton variant="text" className="w-3/4 h-12 sm:h-16 bg-surface2" />

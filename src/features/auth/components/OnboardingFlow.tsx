@@ -159,7 +159,7 @@ export default function OnboardingFlow({ onClose, onSuccess, isMandatory = false
     };
 
     return (
-        <div role="dialog" aria-modal="true" aria-labelledby="onboarding-title" className="relative w-full max-w-md bg-white rounded-[32px] shadow-2xl overflow-hidden min-h-[500px] flex flex-col">
+        <div role="dialog" aria-modal="true" aria-labelledby="onboarding-title" className="relative w-full max-w-md bg-white rounded-4xl shadow-2xl overflow-hidden min-h-[500px] flex flex-col">
             <AnimatePresence mode="wait" custom={step === 'identity' ? -1 : 1}>
                 {step === 'identity' && (
                     <StepIdentity

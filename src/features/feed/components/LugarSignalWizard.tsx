@@ -228,7 +228,7 @@ export default function LugarSignalWizard({ place, onClose, onComplete }: LugarS
                         {/* STEP 5: NOTA GLOBAL */}
                         {step === 5 && (
                             <motion.div key="step-5" variants={slideVariants} initial="enter" animate="center" exit="exit" className="w-full flex flex-col items-center text-center">
-                                <div className="w-24 h-24 bg-gradient-to-br from-brand to-accent rounded-[2rem] flex items-center justify-center mb-6 shadow-[0_0_50px_rgba(37,99,235,0.4)] border-4 border-white">
+                                <div className="w-24 h-24 bg-gradient-to-br from-brand to-accent rounded-4xl flex items-center justify-center mb-6 shadow-glass border-4 border-white">
                                     <span className="text-5xl font-black text-white">{notaGlobal}</span>
                                 </div>
                                 <h2 className="text-3xl font-black text-white mb-2 leading-tight">Señal Final</h2>

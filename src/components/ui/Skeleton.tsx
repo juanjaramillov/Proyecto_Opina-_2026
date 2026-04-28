@@ -41,7 +41,7 @@ export function SkeletonModuleCard() {
 
 export function SkeletonRankingTopCard() {
     return (
-        <div className="relative p-8 rounded-[40px] border bg-white border-slate-100 shadow-xl overflow-hidden">
+        <div className="relative p-8 rounded-5xl border bg-white border-slate-100 shadow-xl overflow-hidden">
             <Skeleton variant="circular" className="absolute -top-4 -left-4 w-12 h-12 border-4 border-white bg-slate-200" />
             <div className="flex flex-col items-center text-center gap-4">
                 <Skeleton variant="card" className="w-20 h-20 rounded-2xl bg-slate-100" />

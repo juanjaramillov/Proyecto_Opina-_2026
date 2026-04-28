@@ -26,14 +26,14 @@ export function ActualidadHomeHero({
   return (
     <div className="relative mb-12 mt-4">
         {/* Glow ambient background WOW */}
-        <div className="absolute -inset-4 bg-gradient-to-br from-brand/20 to-accent/20 blur-3xl rounded-[3rem] -z-10 pointer-events-none"></div>
+        <div className="absolute -inset-4 bg-gradient-to-br from-brand/20 to-accent/20 blur-3xl rounded-6xl -z-10 pointer-events-none"></div>
         
         <motion.div
             key={currentHeroTopic.id}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full flex flex-col lg:flex-row bg-white rounded-[2rem] overflow-hidden shadow-premium hover:shadow-[0_30px_60px_-15px_rgba(37,99,235,0.15)] transition-shadow duration-700 border border-slate-200 min-h-[500px] group/hero"
+            className="w-full flex flex-col lg:flex-row bg-white rounded-4xl overflow-hidden shadow-premium hover:shadow-[0_30px_60px_-15px_rgba(37,99,235,0.15)] transition-shadow duration-700 border border-slate-200 min-h-[500px] group/hero"
         >
             {/* LEFT PANE: Immersive Media & Quote */}
             <div className="relative w-full lg:w-7/12 flex flex-col justify-between p-8 md:p-12 min-h-[400px] lg:min-h-full border-b lg:border-b-0 lg:border-r border-slate-200 cursor-pointer group" onClick={() => onSelectTopic(currentHeroTopic)}>

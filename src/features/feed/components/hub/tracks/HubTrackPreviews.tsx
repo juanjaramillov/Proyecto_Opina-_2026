@@ -2,7 +2,7 @@ import { toneClasses, TrackCard } from "./hubSecondaryData";
 
 export function TorneoPreview({ tone }: { tone: ReturnType<typeof toneClasses> }) {
     return (
-        <div className={`relative rounded-[26px] border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
+        <div className={`relative rounded-3xl border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
             <div className={`absolute inset-x-6 top-0 h-10 rounded-b-[24px] ${tone.softBlob} blur-2xl opacity-70`} />
             <div className="relative flex items-center justify-between gap-4">
                 <div className="flex flex-1 flex-col items-center gap-2">
@@ -38,7 +38,7 @@ export function TorneoPreview({ tone }: { tone: ReturnType<typeof toneClasses> }
 
 export function ActualidadPreview({ tone }: { tone: ReturnType<typeof toneClasses> }) {
     return (
-        <div className={`relative rounded-[26px] border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
+        <div className={`relative rounded-3xl border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
             <div className={`absolute inset-x-6 bottom-2 h-8 rounded-full ${tone.softBlob} blur-2xl opacity-60`} />
             <div className="relative space-y-3">
                 {[
@@ -70,7 +70,7 @@ export function ActualidadPreview({ tone }: { tone: ReturnType<typeof toneClasse
 
 export function LugaresPreview({ tone }: { tone: ReturnType<typeof toneClasses> }) {
     return (
-        <div className={`relative rounded-[26px] border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
+        <div className={`relative rounded-3xl border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
             <div className={`absolute inset-x-6 bottom-2 h-8 rounded-full ${tone.softBlob} blur-2xl opacity-60`} />
             <div className="relative space-y-3">
                 {[
@@ -102,7 +102,7 @@ export function LugaresPreview({ tone }: { tone: ReturnType<typeof toneClasses> 
 
 export function ProfundidadPreview({ tone }: { tone: ReturnType<typeof toneClasses> }) {
     return (
-        <div className={`relative rounded-[26px] border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
+        <div className={`relative rounded-3xl border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-500 group-hover:-translate-y-1.5`}>
             <div className={`absolute inset-x-6 bottom-2 h-8 rounded-full ${tone.softBlob} blur-2xl opacity-60`} />
             <div className="relative">
                 <div className="flex items-center justify-between gap-3">
@@ -138,9 +138,9 @@ export function ProfundidadPreview({ tone }: { tone: ReturnType<typeof toneClass
 
 export function LockedPreview({ tone }: { tone: ReturnType<typeof toneClasses> }) {
     return (
-        <div className={`relative rounded-[26px] border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.22)]`}>
+        <div className={`relative rounded-3xl border ${tone.previewRing} bg-gradient-to-b ${tone.previewBg} p-4 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.22)]`}>
             <div className={`absolute inset-x-6 bottom-2 h-8 rounded-full ${tone.softBlob} blur-2xl opacity-50`} />
-            <div className="relative flex h-[124px] flex-col items-center justify-center gap-2 rounded-[22px] border border-dashed border-slate-200 bg-white/85">
+            <div className="relative flex h-[124px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-200 bg-white/85">
                 <span className={`material-symbols-outlined text-[34px] ${tone.accentText}`}>lock</span>
                 <div className="text-center">
                     <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">Disponible más adelante</div>

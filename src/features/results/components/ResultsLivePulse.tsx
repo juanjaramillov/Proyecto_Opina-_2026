@@ -89,7 +89,7 @@ export function ResultsLivePulse({ pulseData }: Props) {
                 </div>
                 <div className="text-sm font-black text-ink flex items-center gap-1.5 leading-tight">
                   <span className="truncate max-w-[200px]">{metrics.hotTopicTitle}</span>
-                  <span className="px-1.5 py-0.5 bg-brand text-white rounded-[4px] text-[8px] uppercase tracking-widest font-black shrink-0">Hot</span>
+                  <span className="px-1.5 py-0.5 bg-brand text-white rounded text-[8px] uppercase tracking-widest font-black shrink-0">Hot</span>
                 </div>
                 <div className="text-[10px] text-slate-500 font-medium opacity-0">.</div>
               </div>

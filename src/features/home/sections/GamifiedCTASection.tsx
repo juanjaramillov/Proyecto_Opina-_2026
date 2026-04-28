@@ -29,16 +29,16 @@ export default function GamifiedCTASection() {
                      
                      {/* Partículas viajeras MASIVAS */}
                      <div className="absolute w-full h-full">
-                         <span className="absolute top-[20%] left-[20%] w-3 h-3 bg-brand rounded-full shadow-[0_0_15px_#2563EB] blur-[1px] animate-[ping_3s_infinite]"></span>
+                         <span className="absolute top-[20%] left-[20%] w-3 h-3 bg-brand rounded-full shadow-[0_0_15px_#2563EB] blur-[1px] animate-ping-slow"></span>
                          <span className="absolute top-[80%] left-[70%] w-2 h-2 bg-accent rounded-full shadow-[0_0_10px_#10B981] animate-pulse"></span>
-                         <span className="absolute top-[30%] right-[30%] w-4 h-4 bg-brand-700 rounded-full shadow-[0_0_20px_#1D4ED8] blur-[2px] animate-[bounce_4s_infinite]"></span>
-                         <span className="absolute bottom-[20%] right-[40%] w-2 h-2 bg-accent-300 rounded-full shadow-[0_0_10px_#6EE7B7] animate-[ping_2s_infinite]"></span>
+                         <span className="absolute top-[30%] right-[30%] w-4 h-4 bg-brand-700 rounded-full shadow-[0_0_20px_#1D4ED8] blur-[2px] animate-bounce-slower"></span>
+                         <span className="absolute bottom-[20%] right-[40%] w-2 h-2 bg-accent-300 rounded-full shadow-[0_0_10px_#6EE7B7] animate-ping"></span>
 
                          {/* Más puntos simulando señales masivas */}
                          <span className="absolute top-[40%] left-[10%] w-2 h-2 bg-brand-300 rounded-full shadow-[0_0_10px_#93C5FD] animate-[ping_2.5s_infinite]"></span>
-                         <span className="absolute bottom-[40%] left-[30%] w-3 h-3 bg-accent rounded-full shadow-[0_0_12px_#34D399] animate-[bounce_3s_infinite]"></span>
+                         <span className="absolute bottom-[40%] left-[30%] w-3 h-3 bg-accent rounded-full shadow-[0_0_12px_#34D399] animate-bounce-slow"></span>
                          <span className="absolute top-[60%] right-[15%] w-2 h-2 bg-brand-400 rounded-full shadow-[0_0_10px_#60A5FA] animate-[ping_3.5s_infinite]"></span>
-                         <span className="absolute top-[10%] right-[50%] w-3 h-3 bg-accent-200 rounded-full shadow-[0_0_12px_#A7F3D0] blur-[1px] animate-[pulse_2s_infinite]"></span>
+                         <span className="absolute top-[10%] right-[50%] w-3 h-3 bg-accent-200 rounded-full shadow-[0_0_12px_#A7F3D0] blur-[1px] animate-pulse"></span>
                          <span className="absolute bottom-[10%] right-[20%] w-2 h-2 bg-accent-600 rounded-full shadow-[0_0_10px_#059669] animate-[ping_1.5s_infinite]"></span>
                      </div>
                  </div>
@@ -51,7 +51,7 @@ export default function GamifiedCTASection() {
                      <div className="absolute inset-0 bg-white/40 rounded-full blur-xl animate-pulse"></div>
 
                      {/* Esfera Central Glassmorphism Hiper-Premium */}
-                     <div className="relative w-24 h-24 md:w-32 md:h-32 bg-white/20 backdrop-blur-2xl border border-white/80 shadow-[0_30px_60px_rgba(0,0,0,0.15),inset_0_2px_10px_rgba(255,255,255,1)] rounded-[2.5rem] flex items-center justify-center overflow-hidden rotate-45 transform-style-3d group-hover:rotate-[40deg] transition-all duration-700">
+                     <div className="relative w-24 h-24 md:w-32 md:h-32 bg-white/20 backdrop-blur-2xl border border-white/80 shadow-[0_30px_60px_rgba(0,0,0,0.15),inset_0_2px_10px_rgba(255,255,255,1)] rounded-5xl flex items-center justify-center overflow-hidden rotate-45 transform-style-3d group-hover:rotate-[40deg] transition-all duration-700">
                          <div className="absolute inset-0 bg-gradient-to-tr from-brand/30 via-transparent to-accent/30 animate-[spin_10s_linear_infinite]"></div>
                          {/* Pulso interno 3D con LOGO OPINA+ */}
                          <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-brand rounded-full shadow-[inset_0_-8px_15px_rgba(0,0,0,0.3),0_10px_30px_rgba(37,99,235,0.5)] flex items-center justify-center text-white relative z-10 -rotate-45 transform-style-3d perspective-1000">
@@ -68,37 +68,37 @@ export default function GamifiedCTASection() {
 
                  {/* Etiquetas de datos flotantes en 3D (Secciones de Opina+) */}
                  {/* Versus */}
-                 <div className="absolute top-[15%] left-[5%] md:left-[15%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-[0_10px_20px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] text-ink px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[-5deg] flex items-center gap-2 animate-[bounce_4.5s_ease-in-out_infinite] z-40">
+                 <div className="absolute top-[15%] left-[5%] md:left-[15%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-paper text-ink px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[-5deg] flex items-center gap-2 animate-[bounce_4.5s_ease-in-out_infinite] z-40">
                      <span className="material-symbols-outlined text-[16px] text-brand">compare_arrows</span>
                      Versus
                  </div>
                  
                  {/* Recompensas */}
-                 <div className="absolute top-[25%] right-[10%] lg:right-[5%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-[0_10px_20px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] text-brand-800 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-6 flex items-center gap-2 animate-[bounce_5.5s_ease-in-out_infinite] z-40">
+                 <div className="absolute top-[25%] right-[10%] lg:right-[5%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-paper text-brand-800 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-6 flex items-center gap-2 animate-[bounce_5.5s_ease-in-out_infinite] z-40">
                      <span className="material-symbols-outlined text-[16px] text-accent">redeem</span>
                      Recompensas
                  </div>
 
                  {/* Actualidad */}
-                 <div className="absolute top-[50%] left-[5%] lg:left-[2%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-[0_10px_20px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] text-accent-800 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[2deg] flex items-center gap-2 animate-[bounce_5s_ease-in-out_infinite] z-40">
+                 <div className="absolute top-[50%] left-[5%] lg:left-[2%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-paper text-accent-800 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[2deg] flex items-center gap-2 animate-[bounce_5s_ease-in-out_infinite] z-40">
                      <span className="material-symbols-outlined text-[16px] text-accent">newspaper</span>
                      Actualidad
                  </div>
 
                  {/* Entretenimiento */}
-                 <div className="absolute top-[60%] right-[5%] lg:right-[2%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-[0_10px_20px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] text-brand-900 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[-4deg] flex items-center gap-2 animate-[bounce_4.8s_ease-in-out_infinite] z-40">
+                 <div className="absolute top-[60%] right-[5%] lg:right-[2%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-paper text-brand-900 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[-4deg] flex items-center gap-2 animate-[bounce_4.8s_ease-in-out_infinite] z-40">
                      <span className="material-symbols-outlined text-[16px] text-brand-700">movie</span>
                      Entretenimiento
                  </div>
 
                  {/* Torneos */}
-                 <div className="absolute bottom-[25%] left-[20%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-[0_10px_20px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] text-brand-800 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[4deg] flex items-center gap-2 animate-[bounce_4s_ease-in-out_infinite] z-40">
+                 <div className="absolute bottom-[25%] left-[20%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-paper text-brand-800 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[4deg] flex items-center gap-2 animate-[bounce_4s_ease-in-out_infinite] z-40">
                      <span className="material-symbols-outlined text-[16px] text-brand">emoji_events</span>
                      Torneos
                  </div>
 
                  {/* Tendencias */}
-                 <div className="absolute bottom-[15%] right-[15%] lg:right-[10%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-[0_10px_20px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] text-accent-900 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[-3deg] flex items-center gap-2 animate-[bounce_6s_ease-in-out_infinite] z-40">
+                 <div className="absolute bottom-[15%] right-[15%] lg:right-[10%] bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-paper text-accent-900 px-4 py-2 rounded-xl text-[10px] sm:text-xs font-black tracking-widest uppercase transform rotate-[-3deg] flex items-center gap-2 animate-[bounce_6s_ease-in-out_infinite] z-40">
                      <span className="material-symbols-outlined text-[16px] text-accent">trending_up</span>
                      Tendencias
                  </div>

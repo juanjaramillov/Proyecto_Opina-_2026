@@ -58,7 +58,7 @@ export default function BatchSessionResults({
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="batch-results-title"
-                    className="relative bg-white rounded-[32px] p-6 md:p-8 max-w-2xl w-full shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto"
+                    className="relative bg-white rounded-4xl p-6 md:p-8 max-w-2xl w-full shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto"
                 >
                     <button
                         onClick={handleClose}

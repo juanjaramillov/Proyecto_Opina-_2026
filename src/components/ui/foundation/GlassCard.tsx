@@ -57,7 +57,8 @@ export function GlassCard({
   className = '',
   ...rest
 }: GlassCardProps) {
-  const shadowClass = shadow ? 'shadow-[0_8px_32px_rgba(0,0,0,0.06)]' : '';
+  // 2026-04-28 · Migrado de shadow-[0_8px_32px_rgba(0,0,0,0.06)] inline a token canónico shadow-glass.
+  const shadowClass = shadow ? 'shadow-glass' : '';
 
   return (
     <div

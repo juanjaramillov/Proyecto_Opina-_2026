@@ -184,7 +184,7 @@ export default function VersusGame(props: GameProps) {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className={`relative mt-8 mb-4 max-w-lg aspect-video rounded-[2rem] overflow-hidden bg-slate-800 shadow-2xl border border-slate-700/50 group ${isSplit ? '' : 'mx-auto'}`}
+                        className={`relative mt-8 mb-4 max-w-lg aspect-video rounded-4xl overflow-hidden bg-slate-800 shadow-2xl border border-slate-700/50 group ${isSplit ? '' : 'mx-auto'}`}
                     >
                         <div className="absolute inset-0 bg-brand/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-3xl -z-10" />
                         <FallbackAvatar
@@ -222,7 +222,7 @@ export default function VersusGame(props: GameProps) {
                                 ) : (
                                     <div className="relative mt-2 w-full mx-auto md:px-0">
                                     {/* VERSUS ARENA: Flex Container (Vertical in mobile, Horizontal in desktop) */}
-                                    <div className={`flex flex-col md:flex-row w-full min-h-[400px] md:min-h-[440px] max-h-[480px] rounded-[2.5rem] overflow-hidden relative bg-white border border-slate-100/50 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12),_0_10px_30px_-10px_rgba(0,0,0,0.06),_inset_0_2px_4px_rgba(255,255,255,1)] ring-1 ring-slate-900/10 transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-80 grayscale-[0.3] pointer-events-none' : ''}`}>
+                                    <div className={`flex flex-col md:flex-row w-full min-h-[400px] md:min-h-[440px] max-h-[480px] rounded-3xl overflow-hidden relative bg-white border border-slate-100/50 shadow-glass ring-1 ring-slate-900/10 transition-opacity duration-300 ${isCurrentlySubmitting ? 'opacity-80 grayscale-[0.3] pointer-events-none' : ''}`}>
                                         
                                         {/* Option A */}
                                         {a && (

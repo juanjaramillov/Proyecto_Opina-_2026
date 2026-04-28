@@ -54,7 +54,7 @@ export function VersusGameModals({
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="relative bg-white rounded-[2rem] p-8 md:p-10 max-w-md w-full shadow-2xl border border-slate-100 text-center overflow-hidden"
+                            className="relative bg-white rounded-4xl p-8 md:p-10 max-w-md w-full shadow-2xl border border-slate-100 text-center overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-100/50 rounded-full blur-[40px] pointer-events-none"></div>
 

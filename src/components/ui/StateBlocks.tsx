@@ -46,7 +46,7 @@ export const PageState: React.FC<PageStateProps> = ({
 
     return (
         <div className={["min-h-[60vh] flex items-center justify-center", className].filter(Boolean).join(" ")}>
-            <div className="w-full max-w-xl bg-white/90 backdrop-blur-md border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-200/50 p-8 text-center animate-in fade-in duration-500">
+            <div className="w-full max-w-xl bg-white/90 backdrop-blur-md border border-slate-200 rounded-4xl shadow-xl shadow-slate-200/50 p-8 text-center animate-in fade-in duration-500">
                 <div className="w-16 h-16 bg-slate-50 border border-slate-100 flex items-center justify-center rounded-2xl mx-auto mb-6 shadow-sm">
                     <span className="material-symbols-outlined text-4xl text-slate-500">{icon}</span>
                 </div>

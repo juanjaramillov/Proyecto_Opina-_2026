@@ -205,7 +205,7 @@ export default function VersusView({ battles, batchIndex, onBatchComplete, onBac
                             />
                         ) : (
                             <div className="flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px] animate-in fade-in duration-500">
-                                <div className="w-24 h-24 bg-brand-50/50 rounded-[2rem] flex items-center justify-center mb-6 border border-brand-100/50 shadow-sm relative overflow-hidden">
+                                <div className="w-24 h-24 bg-brand-50/50 rounded-4xl flex items-center justify-center mb-6 border border-brand-100/50 shadow-sm relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-br from-brand/10 to-accent/10 mix-blend-multiply"></div>
                                     <span className="material-symbols-outlined text-4xl text-brand-500 relative z-10" aria-hidden="true">radar</span>
                                 </div>

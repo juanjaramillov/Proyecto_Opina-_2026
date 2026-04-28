@@ -132,7 +132,7 @@ export function ResultsVersusBlock({ versusData }: Props) {
              </div>
 
              <div className="flex flex-col gap-4">
-                <div className="relative w-full bg-surface2 border border-stroke rounded-[2rem] p-6 md:p-8 overflow-hidden flex flex-col items-center justify-center text-center">
+                <div className="relative w-full bg-surface2 border border-stroke rounded-4xl p-6 md:p-8 overflow-hidden flex flex-col items-center justify-center text-center">
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-brand/5 blur-[50px] pointer-events-none" />
                   
                   <MetricAvailabilityCard 

@@ -51,7 +51,7 @@ export default function WhatIsOpinaSection() {
           <Link to="/signals" className="relative z-10 flex flex-col items-center text-center group cursor-pointer">
             <div className="relative w-36 h-36 sm:w-40 sm:h-40 mb-10">
               {/* Pedestal Claymorphism */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white to-slate-50 rounded-[2.5rem] shadow-[inset_0_-10px_20px_rgba(0,0,0,0.04),_inset_0_4px_10px_rgba(255,255,255,1),_0_20px_40px_rgba(37,99,235,0.1)] border-t-2 border-white flex flex-col items-center justify-center transform transition-transform duration-500 group-hover:-translate-y-4 animate-float-slow">
+              <div className="absolute inset-0 bg-gradient-to-br from-white to-slate-50 rounded-5xl shadow-paper-brand border-t-2 border-white flex flex-col items-center justify-center transform transition-transform duration-500 group-hover:-translate-y-4 animate-float-slow">
                 <MousePointerClick className="w-14 h-14 text-brand-500 drop-shadow-[0_4px_8px_rgba(37,99,235,0.4)] group-hover:scale-110 transition-transform duration-300" />
                 <Sparkles className="absolute top-8 right-8 w-6 h-6 text-brand-400 drop-shadow-sm animate-float-fast" />
               </div>
@@ -70,7 +70,7 @@ export default function WhatIsOpinaSection() {
           <Link to="/results" className="relative z-10 flex flex-col items-center text-center group mt-8 md:mt-0 cursor-pointer">
             <div className="relative w-36 h-36 sm:w-40 sm:h-40 mb-10">
               {/* Pedestal Claymorphism */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white to-slate-50 rounded-[2.5rem] shadow-[inset_0_-10px_20px_rgba(0,0,0,0.04),_inset_0_4px_10px_rgba(255,255,255,1),_0_20px_40px_rgba(16,185,129,0.1)] border-t-2 border-white flex flex-col items-center justify-center transform transition-transform duration-500 group-hover:-translate-y-4 animate-float-slow" style={{ animationDelay: '0.4s' }}>
+              <div className="absolute inset-0 bg-gradient-to-br from-white to-slate-50 rounded-5xl shadow-paper-accent border-t-2 border-white flex flex-col items-center justify-center transform transition-transform duration-500 group-hover:-translate-y-4 animate-float-slow" style={{ animationDelay: '0.4s' }}>
                 <PieChart className="w-14 h-14 text-accent drop-shadow-[0_4px_8px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform duration-300" />
                 <TrendingUp className="absolute bottom-8 right-8 w-6 h-6 text-accent-400 drop-shadow-sm animate-float-fast" style={{ animationDelay: '0.2s' }} />
               </div>
@@ -89,7 +89,7 @@ export default function WhatIsOpinaSection() {
           <Link to="/profile" className="relative z-10 flex flex-col items-center text-center group mt-8 md:mt-0 cursor-pointer">
             <div className="relative w-36 h-36 sm:w-40 sm:h-40 mb-10">
               {/* Pedestal Claymorphism */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white to-slate-50 rounded-[2.5rem] shadow-[inset_0_-10px_20px_rgba(0,0,0,0.04),_inset_0_4px_10px_rgba(255,255,255,1),_0_20px_40px_rgba(37,99,235,0.1)] border-t-2 border-white flex flex-col items-center justify-center transform transition-transform duration-500 group-hover:-translate-y-4 animate-float-slow" style={{ animationDelay: '0.8s' }}>
+              <div className="absolute inset-0 bg-gradient-to-br from-white to-slate-50 rounded-5xl shadow-paper-brand border-t-2 border-white flex flex-col items-center justify-center transform transition-transform duration-500 group-hover:-translate-y-4 animate-float-slow" style={{ animationDelay: '0.8s' }}>
                 <Gift className="w-14 h-14 text-brand drop-shadow-[0_4px_8px_rgba(37,99,235,0.4)] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300" />
                 <Coins className="absolute top-6 left-6 w-7 h-7 text-accent drop-shadow-sm animate-float-fast" style={{ animationDelay: '0.5s' }} />
                 <Sparkles className="absolute bottom-8 right-6 w-5 h-5 text-accent-400 drop-shadow-sm animate-pulse" />

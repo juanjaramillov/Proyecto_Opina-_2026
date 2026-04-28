@@ -51,7 +51,7 @@ export function FilterBar({
   return (
     <div className="flex flex-col items-center gap-1 w-full relative z-50">
       {/* Primera Fila: Principal */}
-      <div className="bg-white/95 backdrop-blur-xl border border-slate-200/80 p-2 md:p-3 shadow-md rounded-[2.5rem] flex flex-row items-center gap-2 hover:gap-3 transition-all w-max md:max-w-max mx-auto overflow-x-auto hide-scrollbar snap-x max-w-[95vw]">
+      <div className="bg-white/95 backdrop-blur-xl border border-slate-200/80 p-2 md:p-3 shadow-md rounded-5xl flex flex-row items-center gap-2 hover:gap-3 transition-all w-max md:max-w-max mx-auto overflow-x-auto hide-scrollbar snap-x max-w-[95vw]">
       
       {/* Selector de Módulo */}
       <div className="flex items-center gap-1.5 shrink-0 px-1">

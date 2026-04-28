@@ -192,7 +192,7 @@ export default function ProgressiveRunner({ progressiveData, onVote, onPlayAgain
 
                 <div className="relative mt-2 w-full mx-auto md:px-0">
                     {/* VERSUS ARENA: Flex Container (Vertical in mobile, Horizontal in desktop) */}
-                    <div className={`flex flex-col md:flex-row w-full h-[58vh] min-h-[480px] md:h-[500px] lg:h-[550px] rounded-[2.5rem] overflow-hidden relative shadow-2xl transition-opacity duration-300 ${isVoting ? 'opacity-80 grayscale-[0.3] pointer-events-none' : ''}`}>
+                    <div className={`flex flex-col md:flex-row w-full h-[58vh] min-h-[480px] md:h-[500px] lg:h-[550px] rounded-5xl overflow-hidden relative shadow-2xl transition-opacity duration-300 ${isVoting ? 'opacity-80 grayscale-[0.3] pointer-events-none' : ''}`}>
                         {/* Left Option */}
                         <AnimatePresence mode="popLayout" initial={false}>
                             {leftOption && (

@@ -60,7 +60,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
             </div>
 
             {selectedTheme && selectedTheme !== 'mix' ? (
-                <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
+                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
                     <div className="absolute inset-0 pointer-events-none opacity-30">
                         <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 ${PARENT_INDUSTRIES[selectedTheme].theme.bgGradient} rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
                     </div>
@@ -92,7 +92,7 @@ export default function ProfundidadView({ battles, onClose }: ProfundidadViewPro
                     </div>
                 </div>
             ) : (
-                <div className="bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-slate-200 p-12 text-center">
+                <div className="bg-slate-50/50 rounded-6xl border-2 border-dashed border-slate-200 p-12 text-center">
                     <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
                         <span className="material-symbols-outlined text-3xl text-slate-300">layers</span>
                     </div>

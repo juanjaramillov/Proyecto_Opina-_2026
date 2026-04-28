@@ -303,7 +303,7 @@ export default function ServiciosView({ onClose }: ServiciosViewProps) {
             </div>
 
             {/* Header del Componente */}
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-6 md:p-10 relative overflow-hidden">
+            <div className="bg-white rounded-5xl border border-slate-100 shadow-sm p-6 md:p-10 relative overflow-hidden">
                 {/* Background Decorativo */}
                 <div className="absolute inset-0 pointer-events-none opacity-30">
                     <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br transition-all duration-700 from-brand-100 to-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />

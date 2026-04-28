@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 export function VersusLoadingState() {
     const navigate = useNavigate();
     return (
-        <div className="w-full flex flex-col items-center justify-center py-12 px-4 text-center bg-white border border-slate-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] rounded-[2rem] min-h-[400px]">
-            <div className="w-20 h-20 rounded-[1.5rem] bg-slate-50 border border-slate-100 shadow-sm flex items-center justify-center mb-6 text-slate-400">
+        <div className="w-full flex flex-col items-center justify-center py-12 px-4 text-center bg-white border border-slate-100 shadow-glass rounded-4xl min-h-[400px]">
+            <div className="w-20 h-20 rounded-3xl bg-slate-50 border border-slate-100 shadow-sm flex items-center justify-center mb-6 text-slate-400">
                 <span className="material-symbols-outlined text-slate-500 text-5xl mb-4">hourglass_empty</span>
             </div>
             <h2 className="text-2xl font-black text-ink tracking-tight mb-2">No hay combates disponibles</h2>

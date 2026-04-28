@@ -66,7 +66,7 @@ export default function SignalsRouter({
                 {mode === "actualidad" && (
                     <ModuleErrorBoundary moduleName="Actualidad">
                         <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
-                            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
+                            <div className="bg-white rounded-5xl border border-slate-100 shadow-sm p-4 md:p-8 min-h-[600px] relative overflow-hidden">
                                 <ActualidadHubManager onClose={resetToMenu} />
                             </div>
                         </div>

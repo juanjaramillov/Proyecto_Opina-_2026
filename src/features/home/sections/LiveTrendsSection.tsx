@@ -79,12 +79,12 @@ export default function LiveTrendsSection() {
             <div key={signal.id} className="relative group">
               {/* Glow detrás de la card, alterna brand/accent */}
               <div
-                className={`absolute -inset-1 rounded-[2rem] blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 ${
+                className={`absolute -inset-1 rounded-4xl blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 ${
                   idx % 2 === 0 ? "bg-brand/20" : "bg-accent/20"
                 }`}
               />
 
-              <div className="relative bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-[0_15px_35px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] rounded-[2rem] p-6 flex flex-col gap-5 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] transition-all duration-500 h-full">
+              <div className="relative bg-gradient-to-b from-white to-slate-50 border-t-2 border-white shadow-glass rounded-4xl p-6 flex flex-col gap-5 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] transition-all duration-500 h-full">
                 {/* Header: categoría + delta */}
                 <div className="flex items-center justify-between">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-widest">

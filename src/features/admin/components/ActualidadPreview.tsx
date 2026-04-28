@@ -7,7 +7,7 @@ interface Props {
 
 export function ActualidadPreview({ data }: Props) {
   return (
-    <div className="bg-slate-900 rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col relative w-full h-[700px]">
+    <div className="bg-slate-900 rounded-5xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col relative w-full h-[700px]">
       
       {/* Simulation of App Header */}
       <div className="px-6 py-4 border-b border-slate-800/60 flex items-center justify-between bg-slate-900/90 backdrop-blur-md z-10">

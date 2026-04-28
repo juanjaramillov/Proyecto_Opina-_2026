@@ -35,7 +35,7 @@ export function GuestConversionModal({ onClose, onRegister, isOpen }: GuestConve
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="guest-conversion-title"
-                    className="relative w-full max-w-md bg-white rounded-[32px] shadow-2xl overflow-hidden"
+                    className="relative w-full max-w-md bg-white rounded-4xl shadow-2xl overflow-hidden"
                 >
                     {/* Header Banner */}
                     <div className="bg-gradient-to-br from-brand to-accent-600 p-8 text-center text-white relative overflow-hidden">

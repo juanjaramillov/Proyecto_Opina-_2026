@@ -45,7 +45,7 @@ export default function AboutUs() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0 }}
                         >
-                            <GlassCard intensity="subtle" radius="3xl" className="p-8 relative z-10 hover:border-brand/20 transition-all group">
+                            <GlassCard intensity="subtle" radius="3xl" className="p-8 relative z-10 hover:border-brand/20 transition-all group rounded-3xl">
                                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-stroke group-hover:scale-110 transition-transform mx-auto md:mx-0">
                                     <LockKeyhole className="text-slate-700" size={24} />
                                 </div>
@@ -111,7 +111,7 @@ export default function AboutUs() {
                 <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
 
                     {/* Pilar 1 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-brand/20 transition-colors">
+                    <div className="bg-white p-10 rounded-4xl border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-brand/20 transition-colors">
                         <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 group-hover:bg-brand-50/50 transition-all">
                             <Activity className="text-brand" size={28} strokeWidth={1.5} />
                         </div>
@@ -122,7 +122,7 @@ export default function AboutUs() {
                     </div>
 
                     {/* Pilar 2 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-accent/20 transition-colors">
+                    <div className="bg-white p-10 rounded-4xl border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-accent/20 transition-colors">
                         <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 group-hover:bg-accent-50/50 transition-all">
                             <ShieldCheck className="text-accent" size={28} strokeWidth={1.5} />
                         </div>
@@ -133,7 +133,7 @@ export default function AboutUs() {
                     </div>
 
                     {/* Pilar 3 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-brand/20 transition-colors">
+                    <div className="bg-white p-10 rounded-4xl border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-brand/20 transition-colors">
                         <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 group-hover:bg-brand-50/50 transition-all">
                             <BarChart3 className="text-brand" size={28} strokeWidth={1.5} />
                         </div>
@@ -144,7 +144,7 @@ export default function AboutUs() {
                     </div>
 
                     {/* Pilar 4 */}
-                    <div className="bg-white p-10 rounded-[2rem] border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-accent/20 transition-colors">
+                    <div className="bg-white p-10 rounded-4xl border border-stroke shadow-xl shadow-slate-200/40 relative group hover:border-accent/20 transition-colors">
                         <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-stroke group-hover:scale-110 group-hover:bg-accent-50/50 transition-all">
                             <Globe2 className="text-accent" size={28} strokeWidth={1.5} />
                         </div>
@@ -182,7 +182,7 @@ export default function AboutUs() {
                 <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
 
                     {/* B2B CTA — ex dark, ahora light gradient con AmbientOrbs */}
-                    <div className="relative rounded-[2rem] p-10 md:p-12 overflow-hidden group flex flex-col justify-between bg-gradient-to-br from-brand-50 via-white to-accent-50 border border-brand-100 shadow-xl">
+                    <div className="relative rounded-4xl p-10 md:p-12 overflow-hidden group flex flex-col justify-between bg-gradient-to-br from-brand-50 via-white to-accent-50 border border-brand-100 shadow-xl">
                         <AmbientOrbs variant="corner" />
                         <div className="relative z-10 mb-10">
                             <span className="text-brand font-black uppercase tracking-widest text-[10px] mb-4 block">Para Empresas y Decisores</span>
@@ -201,7 +201,7 @@ export default function AboutUs() {
                     </div>
 
                     {/* B2C CTA */}
-                    <div className="bg-white border border-stroke rounded-[2rem] p-10 md:p-12 relative overflow-hidden group flex flex-col justify-between shadow-xl shadow-slate-200/40 hover:border-slate-300 transition-colors">
+                    <div className="bg-white border border-stroke rounded-4xl p-10 md:p-12 relative overflow-hidden group flex flex-col justify-between shadow-xl shadow-slate-200/40 hover:border-slate-300 transition-colors">
                         <div className="relative z-10 mb-10">
                             <span className="text-accent font-black uppercase tracking-widest text-[10px] mb-4 block">Para Usuarios y Ciudadanos</span>
                             <h3 className="text-3xl font-black text-ink mb-4 leading-tight">Pasa del ruido a la tendencia estructurada.</h3>

@@ -45,7 +45,7 @@ const OptionCard = ({
             data-testid={`versus-option-${option.id}`}
             onClick={onClick}
             disabled={disabled}
-            className={`group relative w-full h-full text-center flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${layout === 'versus' ? 'bg-white hover:bg-slate-50/50 hover:shadow-[0_0_40px_rgba(37,99,235,0.08)] z-10 hover:z-20 ring-1 ring-transparent hover:ring-brand/20' : 'rounded-[2rem] bg-white border border-slate-100 shadow-[0_10px_25px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),_inset_0_2px_4px_rgba(255,255,255,1)]'} ${layout !== 'versus' && isSelected ? "ring-2 ring-brand-500/20 ring-offset-2" : ""} ${disabled && !isSelected ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-brand ring-offset-2 z-20 border-brand shadow-[0_15px_45px_rgba(37,99,235,0.2)]" : ""}`}
+            className={`group relative w-full h-full text-center flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${layout === 'versus' ? 'bg-white hover:bg-slate-50/50 hover:shadow-[0_0_40px_rgba(37,99,235,0.08)] z-10 hover:z-20 ring-1 ring-transparent hover:ring-brand/20' : 'rounded-4xl bg-white border border-slate-100 shadow-[0_10px_25px_rgba(0,0,0,0.05),_inset_0_2px_4px_rgba(255,255,255,1)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),_inset_0_2px_4px_rgba(255,255,255,1)]'} ${layout !== 'versus' && isSelected ? "ring-2 ring-brand-500/20 ring-offset-2" : ""} ${disabled && !isSelected ? "opacity-60 pointer-events-none cursor-default saturate-[.9]" : "cursor-pointer active:scale-[0.98]"} ${isChampion ? "ring-[3px] ring-brand ring-offset-2 z-20 border-brand shadow-[0_15px_45px_rgba(37,99,235,0.2)]" : ""}`}
         >
             {/* 2) Halo Opina+ (hover/selected) */}
             <div className={`pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 bg-gradient-to-br from-brand/5 to-accent/5 ${isSelected ? "opacity-100" : "group-hover:opacity-100"}`} />
@@ -84,9 +84,9 @@ const OptionCard = ({
                     <FallbackAvatar
                         src={option.image_url || option.imageUrl || undefined}
                         name={option.label}
-                        className={`relative z-10 w-24 h-24 md:w-36 md:h-36 object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'bg-white rounded-[2rem] p-4 md:p-6 shadow-sm border border-slate-100' : 'absolute inset-0 w-full h-full object-cover'}`}
+                        className={`relative z-10 w-24 h-24 md:w-36 md:h-36 object-contain drop-shadow-lg transition-transform duration-300 ease-out group-hover:scale-[1.08] group-hover:-translate-y-1 ${isSelected ? "scale-[1.06] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageFit === 'contain' ? 'bg-white rounded-4xl p-4 md:p-6 shadow-sm border border-slate-100' : 'absolute inset-0 w-full h-full object-cover'}`}
                         containerClassName="absolute inset-0 flex items-center justify-center p-3 md:p-4"
-                        fallbackClassName="w-24 h-24 md:w-36 md:h-36 text-4xl md:text-5xl font-black bg-gradient-to-br from-brand/10 via-brand/5 to-accent/5 text-brand shadow-inner border-4 border-white rounded-[2rem] flex items-center justify-center"
+                        fallbackClassName="w-24 h-24 md:w-36 md:h-36 text-4xl md:text-5xl font-black bg-gradient-to-br from-brand/10 via-brand/5 to-accent/5 text-brand shadow-inner border-4 border-white rounded-4xl flex items-center justify-center"
                     />
                 )}
 
@@ -108,7 +108,7 @@ const OptionCard = ({
                                     size="lg"
                                     variant={layout === 'opinion' ? 'depth' : 'versus'}
                                     className={`relative z-10 w-full h-full object-contain transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.12] group-hover:-translate-y-2 ${isSelected ? "scale-[1.08] -translate-y-1" : ""} ${showResult ? "opacity-20 blur-sm" : ""} ${option.imageClassName || ''}`}
-                                    fallbackClassName="w-24 h-24 md:w-32 md:h-32 text-4xl md:text-5xl font-black bg-gradient-to-br from-brand/10 via-brand/5 to-accent/5 text-brand shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)] border-[3px] md:border-[4px] border-white rounded-[2rem] flex items-center justify-center"
+                                    fallbackClassName="w-24 h-24 md:w-32 md:h-32 text-4xl md:text-5xl font-black bg-gradient-to-br from-brand/10 via-brand/5 to-accent/5 text-brand shadow-[inset_0_2px_15px_rgba(0,0,0,0.05)] border-[3px] md:border-[4px] border-white rounded-4xl flex items-center justify-center"
                                 />
                             </div>
                         </div>
@@ -130,7 +130,7 @@ const OptionCard = ({
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none blur-3xl scale-150"
                             style={{ background: `radial-gradient(circle, ${theme?.primary || '#10b981'}15 0%, transparent 70%)` }}
                         />
-                        <div className={`w-20 h-20 md:w-28 md:h-28 rounded-full flex items-center justify-center mb-2 md:mb-3 shadow-2xl border-[3px] border-white transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.15] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] group-hover:-translate-y-3 ${showResult ? 'opacity-30 blur-sm bg-slate-100' : 'bg-white'}`}>
+                        <div className={`w-20 h-20 md:w-28 md:h-28 rounded-full flex items-center justify-center mb-2 md:mb-3 shadow-2xl border-[3px] border-white transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.15] group-hover:shadow-premium group-hover:-translate-y-3 ${showResult ? 'opacity-30 blur-sm bg-slate-100' : 'bg-white'}`}>
                             <span className="material-symbols-outlined text-[3.5rem] md:text-[4.5rem] transition-colors duration-500" style={{ color: showResult ? '#cbd5e1' : (theme?.primary || '#10b981') }}>
                                 {option.icon || 'star'}
                             </span>
