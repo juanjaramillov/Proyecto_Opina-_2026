@@ -37,14 +37,14 @@ export default defineConfig({
         '**/*.d.ts',
       ],
       thresholds: {
-        // Capturados al 2026-04-28 post Sprint Coverage Tanda 2 (signalStore
-        // 17% -> 100%). Baseline real: 11.95 / 8.73 / 8.35 / 11.3.
-        // Threshold = baseline redondeado abajo. Anti-drift: si una próxima
-        // tanda sube alguno, ajustar acá en el mismo PR.
-        lines: 11,
-        functions: 8,
-        branches: 8,
-        statements: 11,
+        // Capturados al 2026-04-28 post Sprint Coverage Tanda 5 (metricResolvers
+        // 1.4% -> alto). Baseline real: 13.28 / 10.53 / 9.62 / 12.63.
+        // Threshold = baseline redondeado abajo. Anti-drift: subir solo si
+        // margen post-cambio queda > 0.5.
+        lines: 12,
+        functions: 10,
+        branches: 9,
+        statements: 12,
       },
     },
   },
