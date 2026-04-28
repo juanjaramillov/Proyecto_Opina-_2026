@@ -1,13 +1,17 @@
 # Guía de Diseño y Experiencia de Usuario (UI/UX): Opina+
 
+> Actualización 2026-04-28 — paleta migrada a `brand-*`/`accent-*` (DEBT-009); Dark Mode global queda fuera de scope (invariante actual exige fondo blanco en todas las páginas); ticker en tiempo real declarado como aspiración no implementada (no existe componente vivo).
+
 ## 1. Guía de Estilos Visuales (Design System)
 
 La identidad de **Opina+** debe transmitir simultáneamente **confianza institucional**, **modernidad tecnológica** y extrema **facilidad de uso**. Debe sentirse y comportarse como una aplicación nativa móvil premium en cualquier dispositivo, alejándose radicalmente de la estética clínica y aburrida de las herramientas de encuestas tradicionales.
 
 ### Paleta de Colores
-* **Primario (Brand Blue):** `#0A2540` o azul profundo similar. Utilizado para acciones principales, interfaces de máxima legibilidad, encabezados, y estructuración de la confianza.
-* **Secundario (Teal/Emerald):** `#00D287` o variantes de verde vibrante. Utilizado paradenotar éxito, llamados a la acción (CTAs) positivos, validación de la participación y crecimiento.
-* **Superficies y Fondos:** Se priorizan fondos neutros refinados. Implementación de estética *"Glassmorphism"* sutil para paneles superpuestos, tarjetas con elevación por sombras muy suaves, y un **Modo Oscuro (Dark Mode)** elegante y pulido (esencial para la inmersión en consumo prolongado y para el panel analítico).
+* **Primario (Brand Blue):** `brand-500` (`#2563EB`). Utilizado para acciones principales, interfaces de máxima legibilidad, encabezados, y estructuración de la confianza. La paleta vieja `primary-*` y el hex `#0A2540` quedaron deprecados en DEBT-009.
+* **Secundario (Teal/Emerald):** `accent-500` (`#10B981`). Utilizado para denotar éxito, llamados a la acción (CTAs) positivos, validación de la participación y crecimiento. El hex viejo `#00D287` quedó deprecado.
+* **Tokens semánticos:** `danger-*` para errores, `warning-*` para avisos. Nunca usar colores hardcoded fuera de la paleta corporativa (prohibidos `indigo`, `violet`, `purple`, `cyan`, `sky`, `teal`, `lime`, `amber`, `pink` decorativos).
+* **Superficies y Fondos:** **Fondo blanco invariante** en todas las páginas (`bg-white` en tarjetas, `bg-slate-50` en fondo base de la app). No existe Dark Mode global — el invariante actual del producto (`project_opina_design_invariants`) exige fondo claro en toda la app, incluido el panel analítico. Excepción acotada: fragmentos puntuales con `bg-slate-900` permitidos solo dentro de Hero sections o tarjetas decorativas, nunca como fondo de página completa.
+* **Glassmorphism** sutil para paneles superpuestos y tarjetas con sombras suaves se mantiene como recurso decorativo, siempre sobre fondo claro.
 
 ### Tipografía
 * **Títulos y Componentes Display:** *Outfit*, *Inter* o tipografías geométricas similares (Pesos Bold/ExtraBold) para crear impacto visual, asegurar modernidad y atrapar la mirada rápido en el feed.
@@ -45,7 +49,7 @@ El objetivo es "Claridad Analítica y Rapidez B2B".
 * **Header / Navegación:** Barra superior muy limpia. Contiene el imagotipo de Opina+, acceso rápido al perfil de usuario (avatar) e indicadores sutiles de estatus o gamificación.
 * **Hero Interactive Section (Versus Destacado):** La sección superior domina la pantalla promoviendo el debate o interacción más relevante del momento. Diseñado visualmente como un bloque grande, impactante, con botones claros para tomar partido (A vs B).
 * **Track Secundarios (Torneos / Módulos de Profundidad):** Carruseles o listas horizontales desplazables nativamente (swipe) para explorar interactuables secundarios, organizados por estética y temática.
-* **Componente de "Actualidad Viviente" (Ticker):** Un elemento en la interfaz (como una delgada marquesina o tarjetas rotativas al fondo) que demuestra que la plataforma está "viva", mostrando resultados cambientes en tiempo real de forma pasiva.
+* **Componente de "Actualidad Viviente" (Ticker) — *aspiración, no implementado al 2026-04-28*:** la idea original era un elemento en la interfaz (marquesina o tarjetas rotativas) mostrando resultados cambiantes en tiempo real. No existe componente vivo en código. Si se decide rescatarlo, evaluar primero el costo en realtime/Supabase Realtime y la coherencia con el invariante de fondo blanco.
 
 ### Pantalla 2: Interfaz Inmersiva de Resolución (Ej. Módulo Versus)
 * Dominancia visual absoluta de la interacción. Si es un "Versus", la pantalla se divide claramente estableciendo la competencia.
@@ -57,4 +61,4 @@ El objetivo es "Claridad Analítica y Rapidez B2B".
 * **Área de Contenido Principal (Canvas de Datos):**
   * **Top Metrics:** Fila superior fija con "Tarjetas de Estado" que contienen los números absolutos más vitales (Volumen entrante, Tendencia).
   * **Core Visualization:** Centro visual dominado por el gráfico principal de la herramienta activa (ej. gráfico de líneas temporales de sentimiento, o barras comparativas para resultados de Torneos). Responde fluidamente a filtros aplicados en el momento.
-  * **Modo Oscuro Obligatorio:** Para esta vista, el ambiente oscuro (esquemas de color azules y grises muy profundos) facilita la lectura prolongada de datos brillantes al reducir el impacto luminoso del blanco puro de las hojas de estilo estándar.
+  * **Fondo claro consistente:** el panel analítico mantiene fondo blanco/`slate-50` igual que el resto del producto (invariante actual de diseño). La idea original de "Modo Oscuro Obligatorio" en este panel quedó fuera de scope; la legibilidad prolongada se resuelve con jerarquía tipográfica fuerte, contrastes WCAG AA y agrupación visual cuidadosa, no con dark mode.
