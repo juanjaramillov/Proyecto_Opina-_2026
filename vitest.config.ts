@@ -13,9 +13,14 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
     // F-11 — Coverage threshold en CI (Drimo/CTO).
-    // Estrategia: thresholds escritos pero CI arranca con `|| true` durante el
-    // primer sprint para medir baseline sin bloquear. Cuando estabilice, quitar
-    // el `|| true` del workflow y ajustar a baseline real.
+    // Estrategia (2026-04-28): thresholds bajados a baseline real + margen
+    // mínimo para activar hard-gate honesto en CI (`|| true` removido del
+    // workflow). El propósito ahora es PREVENIR DEGRADACIÓN: si alguien rompe
+    // tests existentes o agrega volumen de código sin tests, los porcentajes
+    // caen por debajo del threshold y CI rompe. Subir estos thresholds hacia
+    // 70/60 requiere un sprint dedicado a tests (deuda documentada como
+    // mayor — el grueso del codebase, especialmente componentes UI, pages B2B
+    // y services admin, está sin tests).
     coverage: {
       provider: 'v8',
       reporter: ['text', 'text-summary', 'html', 'lcov'],
@@ -32,10 +37,10 @@ export default defineConfig({
         '**/*.d.ts',
       ],
       thresholds: {
-        lines: 70,
-        functions: 70,
-        branches: 60,
-        statements: 70,
+        lines: 10,
+        functions: 8,
+        branches: 7,
+        statements: 10,
       },
     },
   },

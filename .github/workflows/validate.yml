@@ -31,11 +31,12 @@ jobs:
       - name: Unit tests (Vitest)
         run: npm run test:run
 
-      # F-11 — coverage SOFT durante el primer sprint para medir baseline.
-      # `|| true` evita romper main mientras se construye cobertura. Cuando
-      # baseline supere los thresholds en vitest.config.ts, quitar el `|| true`.
-      - name: Unit tests with coverage (soft gate, baseline collection)
-        run: npm run test:coverage || true
+      # F-11 — coverage HARD-GATE (cerrado 2026-04-28). Thresholds en
+      # vitest.config.ts ajustados a baseline real + margen mínimo.
+      # Si los tests bajan estos porcentajes, este step rompe el CI.
+      # Subir thresholds hacia 70/60 requiere un sprint dedicado a tests.
+      - name: Unit tests with coverage (hard gate)
+        run: npm run test:coverage
 
       - name: Upload coverage report
         if: always()

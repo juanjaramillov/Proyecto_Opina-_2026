@@ -936,6 +936,7 @@ export type Database = {
           created_at: string | null
           id: string
           image_url: string | null
+          is_synthetic: boolean
           label: string
           sort_order: number | null
         }
@@ -946,6 +947,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           image_url?: string | null
+          is_synthetic?: boolean
           label: string
           sort_order?: number | null
         }
@@ -956,6 +958,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           image_url?: string | null
+          is_synthetic?: boolean
           label?: string
           sort_order?: number | null
         }
@@ -1012,6 +1015,7 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: string
+          is_synthetic: boolean
           slug: string | null
           status: string | null
           title: string
@@ -1023,6 +1027,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          is_synthetic?: boolean
           slug?: string | null
           status?: string | null
           title: string
@@ -1034,6 +1039,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          is_synthetic?: boolean
           slug?: string | null
           status?: string | null
           title?: string
@@ -1113,6 +1119,7 @@ export type Database = {
       categories: {
         Row: {
           active: boolean | null
+          commercial_status: Database["public"]["Enums"]["commercial_status_t"]
           comparison_family: string | null
           cover_url: string | null
           created_at: string | null
@@ -1127,6 +1134,7 @@ export type Database = {
         }
         Insert: {
           active?: boolean | null
+          commercial_status?: Database["public"]["Enums"]["commercial_status_t"]
           comparison_family?: string | null
           cover_url?: string | null
           created_at?: string | null
@@ -1141,6 +1149,7 @@ export type Database = {
         }
         Update: {
           active?: boolean | null
+          commercial_status?: Database["public"]["Enums"]["commercial_status_t"]
           comparison_family?: string | null
           cover_url?: string | null
           created_at?: string | null
@@ -1586,6 +1595,9 @@ export type Database = {
           battles_won: number | null
           category: string | null
           city: string | null
+          commercial_status:
+            | Database["public"]["Enums"]["commercial_status_t"]
+            | null
           country_code: string | null
           created_at: string | null
           elo_modifier_pct: number | null
@@ -1593,6 +1605,7 @@ export type Database = {
           id: string
           image_url: string | null
           is_active: boolean | null
+          is_synthetic: boolean
           logo_path: string | null
           logo_storage_path: string | null
           metadata: Json | null
@@ -1609,6 +1622,9 @@ export type Database = {
           battles_won?: number | null
           category?: string | null
           city?: string | null
+          commercial_status?:
+            | Database["public"]["Enums"]["commercial_status_t"]
+            | null
           country_code?: string | null
           created_at?: string | null
           elo_modifier_pct?: number | null
@@ -1616,6 +1632,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          is_synthetic?: boolean
           logo_path?: string | null
           logo_storage_path?: string | null
           metadata?: Json | null
@@ -1632,6 +1649,9 @@ export type Database = {
           battles_won?: number | null
           category?: string | null
           city?: string | null
+          commercial_status?:
+            | Database["public"]["Enums"]["commercial_status_t"]
+            | null
           country_code?: string | null
           created_at?: string | null
           elo_modifier_pct?: number | null
@@ -1639,6 +1659,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          is_synthetic?: boolean
           logo_path?: string | null
           logo_storage_path?: string | null
           metadata?: Json | null
@@ -3713,6 +3734,42 @@ export type Database = {
         }
         Relationships: []
       }
+      synthetic_seed_batches: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          deleted_by: string | null
+          id: string
+          label: string
+          notes: string | null
+          signal_count: number
+          user_count: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          deleted_by?: string | null
+          id?: string
+          label: string
+          notes?: string | null
+          signal_count?: number
+          user_count?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          deleted_by?: string | null
+          id?: string
+          label?: string
+          notes?: string | null
+          signal_count?: number
+          user_count?: number
+        }
+        Relationships: []
+      }
       topic_answers: {
         Row: {
           answer_value: string
@@ -3990,6 +4047,7 @@ export type Database = {
           housing_type: string | null
           income_range: string | null
           influence_level: string | null
+          is_synthetic: boolean
           last_demographics_update: string | null
           nickname: string
           profile_completeness: number | null
@@ -3997,6 +4055,7 @@ export type Database = {
           purchase_behavior: string | null
           region: string | null
           signal_weight: number | null
+          synthetic_batch_label: string | null
           updated_at: string
           user_id: string
         }
@@ -4015,6 +4074,7 @@ export type Database = {
           housing_type?: string | null
           income_range?: string | null
           influence_level?: string | null
+          is_synthetic?: boolean
           last_demographics_update?: string | null
           nickname: string
           profile_completeness?: number | null
@@ -4022,6 +4082,7 @@ export type Database = {
           purchase_behavior?: string | null
           region?: string | null
           signal_weight?: number | null
+          synthetic_batch_label?: string | null
           updated_at?: string
           user_id: string
         }
@@ -4040,6 +4101,7 @@ export type Database = {
           housing_type?: string | null
           income_range?: string | null
           influence_level?: string | null
+          is_synthetic?: boolean
           last_demographics_update?: string | null
           nickname?: string
           profile_completeness?: number | null
@@ -4047,6 +4109,7 @@ export type Database = {
           purchase_behavior?: string | null
           region?: string | null
           signal_weight?: number | null
+          synthetic_batch_label?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -4266,8 +4329,10 @@ export type Database = {
           created_at: string
           invitation_code_id: string | null
           is_identity_verified: boolean
+          is_synthetic: boolean
           last_active_at: string | null
           role: string
+          synthetic_batch_label: string | null
           total_interactions: number | null
           total_sessions: number | null
           total_time_spent_seconds: number | null
@@ -4278,8 +4343,10 @@ export type Database = {
           created_at?: string
           invitation_code_id?: string | null
           is_identity_verified?: boolean
+          is_synthetic?: boolean
           last_active_at?: string | null
           role?: string
+          synthetic_batch_label?: string | null
           total_interactions?: number | null
           total_sessions?: number | null
           total_time_spent_seconds?: number | null
@@ -4290,8 +4357,10 @@ export type Database = {
           created_at?: string
           invitation_code_id?: string | null
           is_identity_verified?: boolean
+          is_synthetic?: boolean
           last_active_at?: string | null
           role?: string
+          synthetic_batch_label?: string | null
           total_interactions?: number | null
           total_sessions?: number | null
           total_time_spent_seconds?: number | null
@@ -4495,12 +4564,14 @@ export type Database = {
           gender: string | null
           identity_verified: boolean | null
           invitation_code_id: string | null
+          is_synthetic: boolean | null
           last_demographics_update: string | null
           nickname: string | null
           profile_completeness: number | null
           region: string | null
           role: string | null
           signal_weight: number | null
+          synthetic_batch_label: string | null
           updated_at: string | null
           user_id: string | null
           verified: boolean | null
@@ -4930,6 +5001,51 @@ export type Database = {
           },
         ]
       }
+      synthetic_seed_summary: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          deleted_at: string | null
+          deleted_by: string | null
+          id: string | null
+          is_deleted: boolean | null
+          label: string | null
+          notes: string | null
+          signal_count_alive: number | null
+          signal_count_recorded: number | null
+          user_count_alive: number | null
+          user_count_planned: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          deleted_at?: string | null
+          deleted_by?: string | null
+          id?: string | null
+          is_deleted?: never
+          label?: string | null
+          notes?: string | null
+          signal_count_alive?: never
+          signal_count_recorded?: number | null
+          user_count_alive?: never
+          user_count_planned?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          deleted_at?: string | null
+          deleted_by?: string | null
+          id?: string | null
+          is_deleted?: never
+          label?: string | null
+          notes?: string | null
+          signal_count_alive?: never
+          signal_count_recorded?: number | null
+          user_count_alive?: never
+          user_count_planned?: number | null
+        }
+        Relationships: []
+      }
       v_comparative_preference_summary: {
         Row: {
           entity_id: string | null
@@ -5054,6 +5170,7 @@ export type Database = {
       }
     }
     Functions: {
+      _seed_synthetic_entities: { Args: never; Returns: number }
       activate_algorithm_version: {
         Args: { p_version_id: string }
         Returns: undefined
@@ -5278,7 +5395,16 @@ export type Database = {
           user_id: string
         }[]
       }
+      admin_seed_battles_from_entities: { Args: never; Returns: Json }
       admin_set_analytics_mode: { Args: { p_mode: string }; Returns: Json }
+      admin_set_commercial_status: {
+        Args: {
+          p_status: Database["public"]["Enums"]["commercial_status_t"]
+          p_target_id: string
+          p_target_type: string
+        }
+        Returns: undefined
+      }
       admin_set_device_ban: {
         Args: { p_banned: boolean; p_device_hash: string; p_reason?: string }
         Returns: Json
@@ -5326,6 +5452,7 @@ export type Database = {
           snapshot_bucket: string
         }[]
       }
+      backfill_synthetic_signals: { Args: { p_label: string }; Returns: Json }
       battle_preference_as_of: {
         Args: { p_as_of?: string; p_battle_id: string }
         Returns: {
@@ -5412,6 +5539,8 @@ export type Database = {
       }
       count_my_versus_signals: { Args: never; Returns: number }
       current_user_is_admin: { Args: never; Returns: boolean }
+      delete_all_synthetic_data: { Args: { p_confirm: string }; Returns: Json }
+      delete_synthetic_batch: { Args: { p_label: string }; Returns: Json }
       detect_antifraud_high_velocity: {
         Args: { p_window?: string }
         Returns: undefined
@@ -5437,6 +5566,7 @@ export type Database = {
         Args: { p_anon_id: string; p_module_type: string; p_user_id: string }
         Returns: undefined
       }
+      ensure_synthetic_battles_exist: { Args: never; Returns: number }
       entity_ranking_as_of: {
         Args: { p_as_of?: string; p_category_slug?: string; p_limit?: number }
         Returns: {
@@ -6129,6 +6259,10 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_admin_user: { Args: never; Returns: boolean }
       is_b2b_user: { Args: never; Returns: boolean }
+      is_entity_commercially_sellable: {
+        Args: { p_entity_id: string }
+        Returns: boolean
+      }
       kpi_engagement_quality: {
         Args: {
           p_battle_id: string
@@ -6374,6 +6508,9 @@ export type Database = {
         Args: { p_window_days?: number }
         Returns: undefined
       }
+      regenerate_synthetic_signals_for_rollups:
+        | { Args: { p_label: string }; Returns: Json }
+        | { Args: { p_days_window?: number; p_label: string }; Returns: Json }
       register_user_session:
         | {
             Args: {
@@ -6401,6 +6538,10 @@ export type Database = {
       rollup_signal_events_incremental: {
         Args: { p_max_lag_minutes?: number }
         Returns: undefined
+      }
+      seed_synthetic_batch: {
+        Args: { p_label: string; p_notes?: string; p_user_count?: number }
+        Returns: string
       }
       set_access_gate_token_active: {
         Args: { p_active: boolean; p_token_id: string }
@@ -6517,7 +6658,7 @@ export type Database = {
       validate_invite_token: { Args: { p_invite_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      commercial_status_t: "sellable" | "restricted" | "pending_review"
     }
     CompositeTypes: {
       b2b_premium_output: {
@@ -6671,6 +6812,8 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      commercial_status_t: ["sellable", "restricted", "pending_review"],
+    },
   },
 } as const
