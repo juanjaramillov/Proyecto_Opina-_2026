@@ -89,16 +89,73 @@ export default {
                 'brand-gradient': 'linear-gradient(to right, #2563EB, #10b981)',
             },
             boxShadow: {
-                card: "0 4px 14px rgba(0,0,0,0.06)",
-                lift: "0 8px 24px rgba(0,0,0,0.08)",
-                premium: "0 20px 40px rgba(0, 0, 0, 0.10)", // Consistent premium shadow
+                // ==========================================
+                // ELEVACIÓN CANÓNICA (3 niveles + glass)
+                // Cualquier shadow-[...] arbitrario debe mapear acá.
+                // ==========================================
+                card:    "0 4px 14px rgba(0,0,0,0.06)",
+                lift:    "0 8px 24px rgba(0,0,0,0.08)",
+                premium: "0 20px 40px rgba(0,0,0,0.10)",
+                glass:   "0 8px 32px rgba(0,0,0,0.06)",            // GlassCard
+
+                // Glow effects para CTAs gradient y heroes animados
+                'glow-brand':  "0 0 16px rgba(37,99,235,0.40)",
+                'glow-accent': "0 0 16px rgba(16,185,129,0.40)",
+                // Glow más intenso para botones primarios sobre dark areas
+                'glow-brand-lg':  "0 10px 28px rgba(37,99,235,0.30)",
+
+                // Sombra "papel": label flotante con drop sombra + borde superior brilloso.
+                // Usada en etiquetas flotantes del Home.
+                paper: "0 10px 20px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,1)",
+
+                // Sombras "papel premium" con tint brand/accent — cards heroicas con
+                // halo del color corporativo. Usadas en WhatIsOpinaSection y similares.
+                'paper-brand':  "inset 0 -10px 20px rgba(0,0,0,0.04), inset 0 4px 10px rgba(255,255,255,1), 0 20px 40px rgba(37,99,235,0.10)",
+                'paper-accent': "inset 0 -10px 20px rgba(0,0,0,0.04), inset 0 4px 10px rgba(255,255,255,1), 0 20px 40px rgba(16,185,129,0.10)",
+                'paper-brand-sm':  "inset 0 -8px 16px rgba(0,0,0,0.06), inset 0 4px 8px rgba(255,255,255,1), 0 20px 40px rgba(37,99,235,0.15)",
+                'paper-accent-sm': "inset 0 -8px 16px rgba(0,0,0,0.06), inset 0 4px 8px rgba(255,255,255,1), 0 20px 40px rgba(16,185,129,0.15)",
             },
             borderRadius: {
-                xl: "1rem",
-                "2xl": "1.25rem",
+                // ==========================================
+                // RADIOS CANÓNICOS
+                // ==========================================
+                xl:    "1rem",     // 16px
+                "2xl": "1.25rem",  // 20px
+                "3xl": "1.5rem",   // 24px
+                "4xl": "2rem",     // 32px — heroes, cards grandes
+                "5xl": "2.5rem",   // 40px — option cards, contenedores destacados
+                "6xl": "3rem",     // 48px — phone mockups, frames de showcase
             },
             maxWidth: {
                 ws: "100rem",
+            },
+            keyframes: {
+                // ==========================================
+                // ANIMACIONES CANÓNICAS
+                // Cualquier animate-[...] inline debe mapear acá.
+                // ==========================================
+                'float-slow': {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%':       { transform: 'translateY(-8px)' },
+                },
+                'pulse-soft': {
+                    '0%, 100%': { opacity: '0.6' },
+                    '50%':       { opacity: '1' },
+                },
+                'fade-up': {
+                    'from': { opacity: '0', transform: 'translateY(14px)' },
+                    'to':   { opacity: '1', transform: 'translateY(0)' },
+                },
+            },
+            animation: {
+                'float-slow':  'float-slow 6s ease-in-out infinite',
+                'ping-slow':   'ping 3s cubic-bezier(0,0,0.2,1) infinite',
+                'ping-slower': 'ping 4s cubic-bezier(0,0,0.2,1) infinite',
+                'bounce-slow': 'bounce 3s ease-in-out infinite',
+                'bounce-slower': 'bounce 4s ease-in-out infinite',
+                'pulse-slow': 'pulse 3s cubic-bezier(0.4,0,0.6,1) infinite',
+                'pulse-soft': 'pulse-soft 2.5s ease-in-out infinite',
+                'fade-up':    'fade-up 0.5s ease-out both',
             },
         },
     },
