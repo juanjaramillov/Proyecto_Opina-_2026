@@ -2,12 +2,24 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TemporalMovieRow } from '../../services/kpiService';
 
-interface B2CTrendCardProps {
-  movieData: TemporalMovieRow[];
-  title?: string;
+interface SampleQualityChip {
+  nEff: number | null;
+  freshnessHours: number | null;
+  qualityLabel: string | null;
 }
 
-export const B2CTrendCard: React.FC<B2CTrendCardProps> = ({ movieData, title = "Tu Tendencia" }) => {
+interface B2CTrendCardProps {
+  movieData: TemporalMovieRow[] | null | undefined;
+  title?: string;
+  /**
+   * Metadatos de calidad estadística para contextualizar la película
+   * (n_eff + freshness + label de robustez). Opcional; si se pasa,
+   * se renderiza como chip al pie de la tarjeta.
+   */
+  sampleQuality?: SampleQualityChip;
+}
+
+export const B2CTrendCard: React.FC<B2CTrendCardProps> = ({ movieData, title = "Tu Tendencia", sampleQuality }) => {
   if (!movieData || movieData.length === 0) return null;
 
   // Los datos vienen en orden inverso (del más reciente al más antiguo)
@@ -99,7 +111,7 @@ export const B2CTrendCard: React.FC<B2CTrendCardProps> = ({ movieData, title = "
         </div>
 
         {/* Hallazgo Editorial (Simulado) */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
@@ -108,10 +120,35 @@ export const B2CTrendCard: React.FC<B2CTrendCardProps> = ({ movieData, title = "
           <div className="flex items-start gap-3">
             <span className="text-brand-500 text-lg leading-none">✨</span>
             <p className="text-sm text-slate-700 leading-relaxed font-medium">
-              Sigue ganando terreno. Ha mantenido un crecimiento sostenido durante {current.persistencia} semanas, y su tendencia se está acelerando.
+              {isPositive ? "Sigue ganando terreno." : "Está perdiendo terreno."}
+              {" "}Ha mantenido la dirección durante {current.persistencia || 1} día{(current.persistencia || 1) === 1 ? "" : "s"}
+              {current.aceleracion !== 0
+                ? `, y su tendencia se está ${current.aceleracion > 0 ? "acelerando" : "desacelerando"}.`
+                : "."}
             </p>
           </div>
         </motion.div>
+
+        {/* Calidad estadística (n_eff + freshness) */}
+        {sampleQuality && (sampleQuality.nEff || sampleQuality.freshnessHours !== null) && (
+          <div className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-slate-500">
+            {sampleQuality.nEff != null && (
+              <span className="px-2 py-1 bg-slate-100 rounded-full">
+                {sampleQuality.nEff} duelos efectivos
+              </span>
+            )}
+            {sampleQuality.freshnessHours != null && (
+              <span className="px-2 py-1 bg-slate-100 rounded-full">
+                hace {sampleQuality.freshnessHours}h
+              </span>
+            )}
+            {sampleQuality.qualityLabel && (
+              <span className="px-2 py-1 bg-accent-100 text-accent-700 rounded-full">
+                {sampleQuality.qualityLabel}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

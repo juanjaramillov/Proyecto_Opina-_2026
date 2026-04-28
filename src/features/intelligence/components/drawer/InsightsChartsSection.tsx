@@ -25,6 +25,9 @@ ChartJS.register(
 import { Zap, PieChart, Users, Clock, TrendingUp, TrendingDown, Activity, Database, CheckCircle } from "lucide-react";
 import { TrendingItem } from "../../../../types/trending";
 import { DepthInsight, TemporalComparison, VolatilityData, PolarizationData, SegmentInfluence, EarlySignal, B2BBattleAnalytics, B2BEligibility } from "../../../signals/services/insightsService";
+import { B2BCompositeIndicesCard } from "./B2BCompositeIndicesCard";
+import { ResultsExtendedKPIs } from "../../../results/components/ResultsExtendedKPIs";
+import { useResultsExperience } from "../../../results/hooks/useResultsExperience";
 
 interface InsightsChartsSectionProps {
     selectedBattle: TrendingItem | null;
@@ -63,6 +66,10 @@ export function InsightsChartsSection({
     loadDepthData,
     depthInsights
 }: InsightsChartsSectionProps) {
+    // F16.3 — capas extendidas agregadas (predictiva/explicativa/integridad/comercial/salud)
+    // El drawer es admin-only por lo tanto publicMode=false (muestra todas las capas).
+    const { snapshot } = useResultsExperience();
+
     return (
         <div className="space-y-8">
             {/* MAGIC INSIGHTS (AI SUMMARY) */}
@@ -144,6 +151,26 @@ export function InsightsChartsSection({
                         </p>
                     </div>
                 </div>
+            )}
+
+            {/* COMPOSITE INDICES (Marco Metodológico + OpinaScore v1) */}
+            <B2BCompositeIndicesCard
+                b2bEligibility={b2bEligibility}
+                segmentInfluence={segmentInfluence}
+                depthInsights={depthInsights}
+                temporalComparison={temporalComparison}
+            />
+
+            {/* MARCO METODOLÓGICO EXTENDIDO — capas predictiva/explicativa/integridad/salud/comercial */}
+            {snapshot && (
+                <ResultsExtendedKPIs
+                    predictive={snapshot.predictive}
+                    explanatory={snapshot.explanatory}
+                    productHealth={snapshot.productHealth}
+                    integrity={snapshot.integrity}
+                    commercial={snapshot.commercial}
+                    publicMode={false}
+                />
             )}
 
             {/* VOLATILITY CARD WITH AREA CHART */}

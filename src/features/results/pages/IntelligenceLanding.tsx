@@ -1,24 +1,36 @@
 import { useState, useEffect } from "react";
-import { platformService } from "../../signals/services/platformService";
+import { platformService, PlatformStats } from "../../signals/services/platformService";
 import { TrendingItem } from "../../../types/trending";
 import { B2BLeadForm } from "../components/B2BLeadForm";
 import { GradientCTA, GradientText, AmbientOrbs } from "../../../components/ui/foundation";
+import { ResultsExtendedKPIs } from "../components/ResultsExtendedKPIs";
+import { useResultsExperience } from "../hooks/useResultsExperience";
 
 export default function IntelligenceLanding() {
     const [loading, setLoading] = useState(true);
     const [trendingFeed, setTrendingFeed] = useState<TrendingItem[]>([]);
+    const [liveStats, setLiveStats] = useState<PlatformStats | null>(null);
+    const { snapshot } = useResultsExperience();
 
     useEffect(() => {
         let mounted = true;
         const fetchStats = async () => {
-            const data = await platformService.getSegmentedTrending("all", "all", "all");
+            const [trending, stats] = await Promise.all([
+                platformService.getSegmentedTrending("all", "all", "all"),
+                platformService.getLiveStats(),
+            ]);
             if (!mounted) return;
-            setTrendingFeed(data || []);
+            setTrendingFeed(trending || []);
+            setLiveStats(stats);
             setLoading(false);
         };
         fetchStats();
         return () => { mounted = false; };
     }, []);
+
+    // Helper para formatear números grandes con separador de miles (es-CL)
+    const fmt = (n: number | undefined | null) =>
+        n != null ? n.toLocaleString('es-CL') : '—';
 
     return (
         <div className="min-h-screen bg-white font-sans pb-24 text-ink">
@@ -40,6 +52,24 @@ export default function IntelligenceLanding() {
                     <p className="text-lg md:text-xl text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed mb-10">
                         Descubre cómo las señales individuales de miles de usuarios se transforman en certezas analíticas, identificando tendencias antes de que sean evidentes para tu industria.
                     </p>
+
+                    {/* STRIP DE CREDIBILIDAD — datos reales del motor */}
+                    <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-10 text-sm font-bold text-slate-700">
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-brand text-[18px]">bolt</span>
+                            <span><span className="text-ink font-black">{fmt(liveStats?.signals_24h)}</span> señales · 24h</span>
+                        </div>
+                        <span className="hidden sm:inline text-stroke">·</span>
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-brand text-[18px]">groups</span>
+                            <span><span className="text-ink font-black">{fmt(liveStats?.active_users)}</span> usuarios activos</span>
+                        </div>
+                        <span className="hidden sm:inline text-stroke">·</span>
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-accent text-[18px]">verified_user</span>
+                            <span>Datos anonimizados <span className="text-ink font-black">k≥50</span></span>
+                        </div>
+                    </div>
 
                     <div className="flex gap-4 items-center flex-col sm:flex-row">
                         <GradientCTA
@@ -75,9 +105,16 @@ export default function IntelligenceLanding() {
                                 <span className="material-symbols-outlined text-brand text-[24px]">trending_up</span>
                                 <h2 className="text-2xl font-black text-ink tracking-tight">Velocidad y Tendencias</h2>
                             </div>
-                            <p className="text-sm font-medium text-slate-600 max-w-xl">
+                            <p className="text-sm font-medium text-slate-600 max-w-xl mb-4">
                                 Identifica el Momentum. Monitoreo constante de variaciones en la percepción del consumidor.
                             </p>
+                            {/* KPI chips — qué métricas trae este pilar */}
+                            <div className="flex flex-wrap gap-2">
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Aceleración</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Fastest Riser</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Persistencia</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Momentum 6H</span>
+                            </div>
                         </div>
 
                         <div className="p-6 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white">
@@ -150,9 +187,15 @@ export default function IntelligenceLanding() {
                                 <span className="material-symbols-outlined text-accent text-[24px]">compare_arrows</span>
                                 <h2 className="text-2xl font-black text-ink tracking-tight">Share of Preference</h2>
                             </div>
-                            <p className="text-sm font-medium text-slate-600 mb-8">
+                            <p className="text-sm font-medium text-slate-600 mb-4">
                                 Mide tu tracción exacta en comparaciones directas de mercado y descubre a quién le estás quitando cuota.
                             </p>
+                            <div className="flex flex-wrap gap-2 mb-8">
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">OpinaScore</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Wilson CI 95%</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">n_eff</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Convicción</span>
+                            </div>
 
                             <div className="flex-1 flex flex-col justify-center gap-8">
                                 <div className="space-y-3">
@@ -185,9 +228,15 @@ export default function IntelligenceLanding() {
                                 <span className="material-symbols-outlined text-brand text-[24px]">troubleshoot</span>
                                 <h2 className="text-2xl font-black text-ink tracking-tight">Segmentación Profunda</h2>
                             </div>
-                            <p className="text-sm font-medium text-slate-600 mb-8">
+                            <p className="text-sm font-medium text-slate-600 mb-4">
                                 Identifica micro-diferencias sociodemográficas al instante para alinear esfuerzos de retargeting.
                             </p>
+                            <div className="flex flex-wrap gap-2 mb-8">
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Top Influencers</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Brecha Generacional</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Brecha Territorial</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface2 border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Sensibilidad Contextual</span>
+                            </div>
 
                             <div className="border-l-4 border-brand pl-4 py-1 mb-8">
                                 <p className="text-sm font-bold text-ink italic leading-snug">
@@ -222,9 +271,15 @@ export default function IntelligenceLanding() {
                                     <span className="material-symbols-outlined text-brand text-[28px]">speed</span>
                                     <h2 className="text-3xl font-black text-ink tracking-tight">Velocidad <GradientText>Temporal</GradientText></h2>
                                 </div>
-                                <p className="text-slate-600 font-medium mb-8 text-lg max-w-md leading-relaxed">
+                                <p className="text-slate-600 font-medium mb-4 text-lg max-w-md leading-relaxed">
                                     No importa solo quién gana, sino a qué velocidad está creciendo un fenómeno. Detecta anomalías, picos de viralidad y patrones estacionales.
                                 </p>
+                                <div className="flex flex-wrap gap-2 mb-8">
+                                    <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Forecast 7d</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Tipping Point</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Cambio de Régimen</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest bg-white border border-stroke text-slate-700 px-2.5 py-1 rounded-full">Volatilidad 30D</span>
+                                </div>
 
                                 <div className="card bg-white border-l-4 border-l-brand/60 border-y-0 border-r-0 rounded-l-none p-5 shadow-sm">
                                     <p className="text-sm font-bold text-ink italic leading-relaxed">
@@ -274,6 +329,35 @@ export default function IntelligenceLanding() {
                     </section>
                 </div>
 
+
+                {/* --- 1.5 KPIs EXTENDIDOS REALES (F9-F13) --- */}
+                {snapshot && (
+                    <section className="card p-2 md:p-4 bg-white border border-stroke">
+                        <div className="px-6 pt-6 mb-4">
+                            <div className="flex items-center gap-2 mb-3 flex-wrap">
+                                <span className="text-brand font-bold uppercase tracking-widest text-xs">Live Intelligence — datos reales</span>
+                                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest bg-accent/10 text-accent border border-accent/20 px-2 py-0.5 rounded-full">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse"></span>
+                                    En vivo
+                                </span>
+                            </div>
+                            <h2 className="text-2xl lg:text-3xl font-black text-ink tracking-tight mb-2">
+                                KPIs del <GradientText>marco metodológico extendido</GradientText>
+                            </h2>
+                            <p className="text-slate-600 font-medium leading-relaxed max-w-2xl">
+                                Capas predictiva, explicativa y comercial corriendo sobre el motor de señales. Solo aparece lo que tiene datos suficientes, filtrado por el catálogo comercializable.
+                            </p>
+                        </div>
+                        <ResultsExtendedKPIs
+                            predictive={snapshot.predictive}
+                            explanatory={snapshot.explanatory}
+                            productHealth={snapshot.productHealth}
+                            integrity={snapshot.integrity}
+                            commercial={snapshot.commercial}
+                            publicMode={true}
+                        />
+                    </section>
+                )}
 
                 {/* --- 2. CASOS DE USO O DOLORES DE NEGOCIO --- */}
                 <section className="bg-surface2 rounded-[2rem] p-8 md:p-12 border border-stroke">

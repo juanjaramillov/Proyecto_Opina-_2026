@@ -5,6 +5,34 @@ interface Props {
   pulseData: ResultsCommunitySnapshot["pulse"];
 }
 
+/** Mini sparkline SVG para mostrar evolución 7d junto al nombre de la entidad. */
+function MiniSparkline({ values, color }: { values: number[]; color: string }) {
+  if (!values || values.length < 2) return null;
+  const w = 56;
+  const h = 18;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const points = values
+    .map((v, i) => {
+      const x = (i / (values.length - 1)) * w;
+      const y = h - ((v - min) / range) * h;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="shrink-0">
+      <polyline points={points} fill="none" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function fmtDelta(delta: number | null): string | null {
+  if (delta == null) return null;
+  const sign = delta > 0 ? "+" : "";
+  return `${sign}${Math.round(delta)}%`;
+}
+
 export function ResultsLivePulse({ pulseData }: Props) {
   const { availability, metrics } = pulseData;
 
@@ -38,8 +66,18 @@ export function ResultsLivePulse({ pulseData }: Props) {
                 <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
                   <Minus className="w-3 h-3 text-accent rotate-45" /> Sube
                 </div>
-                <div className="text-sm font-black text-ink leading-tight">{metrics.fastestRiserEntity}</div>
-                <div className="text-[10px] text-slate-500 font-medium truncate max-w-[150px]">Tendencia al alza</div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-black text-ink leading-tight">{metrics.fastestRiserEntity}</span>
+                  {metrics.fastestRiserSparkline && metrics.fastestRiserSparkline.length > 1 && (
+                    <MiniSparkline values={metrics.fastestRiserSparkline} color="#10B981" />
+                  )}
+                  {fmtDelta(metrics.fastestRiserDeltaPct) && (
+                    <span className="text-[10px] font-bold text-accent-600 bg-accent-50 px-1.5 py-0.5 rounded-full">
+                      {fmtDelta(metrics.fastestRiserDeltaPct)} 7d
+                    </span>
+                  )}
+                </div>
+                <div className="text-[10px] text-slate-500 font-medium truncate max-w-[200px]">Tendencia al alza</div>
               </div>
             )}
 
@@ -63,8 +101,18 @@ export function ResultsLivePulse({ pulseData }: Props) {
                 <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
                   <Minus className="w-3 h-3 text-brand -rotate-45" /> Cae
                 </div>
-                <div className="text-sm font-black text-ink leading-tight">{metrics.fastestFallerEntity}</div>
-                <div className="text-[10px] text-slate-500 font-medium truncate max-w-[150px]">Perdiendo terreno</div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-black text-ink leading-tight">{metrics.fastestFallerEntity}</span>
+                  {metrics.fastestFallerSparkline && metrics.fastestFallerSparkline.length > 1 && (
+                    <MiniSparkline values={metrics.fastestFallerSparkline} color="#EF4444" />
+                  )}
+                  {fmtDelta(metrics.fastestFallerDeltaPct) && (
+                    <span className="text-[10px] font-bold text-danger-500 bg-danger-50 px-1.5 py-0.5 rounded-full">
+                      {fmtDelta(metrics.fastestFallerDeltaPct)} 7d
+                    </span>
+                  )}
+                </div>
+                <div className="text-[10px] text-slate-500 font-medium truncate max-w-[200px]">Perdiendo terreno</div>
               </div>
             )}
             

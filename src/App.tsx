@@ -45,6 +45,7 @@ const AdminAnalytics = lazy(() => import("./features/admin/pages/AdminAnalytics"
 const AdminResults = lazy(() => import("./features/admin/pages/AdminResults"));
 const AdminMathEngine = lazy(() => import("./features/admin/pages/AdminMathEngine"));
 const AdminDemoLaunchpad = lazy(() => import("./features/admin/pages/AdminDemoLaunchpad"));
+const AdminSynthetic = lazy(() => import("./features/admin/pages/AdminSynthetic"));
 const AdminSectionLayout = lazy(() => import("./features/admin/layouts/AdminSectionLayout"));
 
 const AboutUs = lazy(() => import("./pages/static/AboutUs"));
@@ -156,6 +157,9 @@ export default function App() {
 
             {/* 5.5 Pilot Launchpad */}
             <Route path="/admin/demo" element={<Gate module="admin"><ModuleErrorBoundary moduleName="Pilot Launchpad"><AdminDemoLaunchpad /></ModuleErrorBoundary></Gate>} />
+
+            {/* 5.6 Datos Sintéticos (uso interno, NO publicar) */}
+            <Route path="/admin/synthetic" element={<Gate module="admin"><ModuleErrorBoundary moduleName="Datos Sintéticos"><AdminSynthetic /></ModuleErrorBoundary></Gate>} />
 
             {/* 6. FALLBACK */}
             <Route path="*" element={<NotFound />} />

@@ -12,7 +12,9 @@ import { Battle, BattleOption, Progressive, SignalResult } from '../types';
 import SessionSummary from './SessionSummary';
 import { FallbackAvatar } from '../../../components/ui/FallbackAvatar';
 import { VersusGameModals } from './versus/VersusGameModals';
+import { VersusGamificationCard } from './versus/VersusGamificationCard';
 import { VoteMetadata } from '../hooks/useVersusGame';
+import { useAuthContext } from '../../auth/context/AuthContext';
 
 type GameProps = {
     battles: Battle[];
@@ -39,6 +41,7 @@ type GameProps = {
 
 export default function VersusGame(props: GameProps) {
     const navigate = useNavigate();
+    const { profile } = useAuthContext();
 
     const {
         effectiveBattle,
@@ -163,6 +166,19 @@ export default function VersusGame(props: GameProps) {
             {/* Cabecera (Izquierda en Split, Arriba en Centered) */}
             <div className={`pt-2 pb-0 ${isSplit ? 'lg:col-span-5 h-full flex flex-col justify-center' : ''}`}>
                 <VersusHeader title={effectiveBattle.title} layoutMode={isSplit ? 'split' : 'centered'} />
+
+                {/* F14 — Gamificación: tu peso, votos para revertir, profile match */}
+                {!result && !selected && (
+                    <VersusGamificationCard
+                        battleId={effectiveBattle.id}
+                        userSegment={{
+                            generation: profile?.demographics?.ageBucket ?? null,
+                            gender: profile?.demographics?.gender ?? null,
+                            commune: profile?.demographics?.commune ?? null,
+                        }}
+                        variant="compact"
+                    />
+                )}
 
                 {effectiveBattle.layout === 'opinion' && effectiveBattle.mainImageUrl && (
                     <motion.div

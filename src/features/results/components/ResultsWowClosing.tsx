@@ -1,5 +1,5 @@
 
-import { ArrowRight, Sparkles, AlertCircle, Users, Activity, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Sparkles, AlertCircle, Users, Activity, CheckCircle2, Layers } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ResultsCommunitySnapshot } from '../../../read-models/b2c/resultsCommunityTypes';
 
@@ -76,6 +76,23 @@ export const ResultsWowClosing = ({ footerNarrative }: Props) => {
                 </div>
              )}
            </div>
+        )}
+
+        {/* Cross-module coherence (Tournament vs Versus consistency) */}
+        {footerNarrative?.metrics?.crossModuleCoherenceLabel && (
+          <div className="max-w-3xl mx-auto mb-12 bg-white/10 rounded-2xl p-4 border border-white/20 text-left">
+            <div className="flex items-start gap-3">
+              <Layers className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-white/60 mb-1">
+                  Coherencia cross-módulo
+                </div>
+                <div className="font-bold text-white leading-tight">
+                  {footerNarrative.metrics.crossModuleCoherenceLabel}
+                </div>
+              </div>
+            </div>
+          </div>
         )}
         
         <button 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { analyticsService } from "../../analytics/services/analyticsService";
 import { useResultsExperience, ResultsGeneration } from "../hooks/useResultsExperience";
+import { useAuthContext } from "../../auth/context/AuthContext";
 import { Skeleton } from "../../../components/ui/Skeleton";
 import { ResultsGenerationSelector } from "../components/ResultsGenerationSelector";
 import { ResultsEditorialHero } from "../components/ResultsEditorialHero";
@@ -9,11 +10,15 @@ import { ResultsVersusBlock } from "../components/ResultsVersusBlock";
 import { ResultsTournamentBlock } from "../components/ResultsTournamentBlock";
 import { ResultsDepthBlock } from "../components/ResultsDepthBlock";
 import { ResultsNewsBlock } from "../components/ResultsNewsBlock";
+import { B2CTrendCard } from "../../signals/components/results/B2CTrendCard";
+import { ResultsExtendedKPIs } from "../components/ResultsExtendedKPIs";
 // Importaremos los modulos futuros aqui
 import { ResultsWowClosing } from "../components/ResultsWowClosing";
 
 export default function ResultsPage() {
   const { snapshot } = useResultsExperience();
+  const { profile } = useAuthContext();
+  const isAdmin = profile?.role === "admin";
   const [activeGeneration, setActiveGeneration] = useState<ResultsGeneration>("ALL");
 
   useEffect(() => {
@@ -65,6 +70,17 @@ export default function ResultsPage() {
         {/* Franja de Pulso Vivo */}
         <ResultsLivePulse pulseData={snapshot.pulse} />
 
+        {/* Tu Tendencia: película temporal del líder (KPIs B2C temporales del marco) */}
+        {snapshot.temporalTrend?.movie && snapshot.temporalTrend.movie.length > 0 && (
+          <div className="w-full max-w-6xl mx-auto px-4 mt-8 flex justify-center">
+            <B2CTrendCard
+              movieData={snapshot.temporalTrend.movie}
+              title="Tendencia del líder"
+              sampleQuality={snapshot.temporalTrend.sampleQuality}
+            />
+          </div>
+        )}
+
         {/* Bloques Editoriales Modulares (Cada uno controla su propio ancho y background) */}
         <div className="w-full flex flex-col pt-8">
            <ResultsVersusBlock versusData={snapshot.blocks.versus} />
@@ -72,6 +88,17 @@ export default function ResultsPage() {
            <ResultsDepthBlock depthData={snapshot.blocks.depth} />
            <ResultsNewsBlock newsData={snapshot.blocks.news} />
         </div>
+
+        {/* F9-F13 — Marco metodológico extendido (5 capas).
+            publicMode oculta integrity + productHealth para no-admin. */}
+        <ResultsExtendedKPIs
+          predictive={snapshot.predictive}
+          explanatory={snapshot.explanatory}
+          productHealth={snapshot.productHealth}
+          integrity={snapshot.integrity}
+          commercial={snapshot.commercial}
+          publicMode={!isAdmin}
+        />
 
         {/* Cierre Continuidad */}
         <ResultsWowClosing footerNarrative={snapshot.footerNarrative} />

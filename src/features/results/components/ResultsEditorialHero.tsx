@@ -1,4 +1,4 @@
-import { Clock, TrendingUp } from "lucide-react";
+import { Clock, TrendingUp, Shield, Scale } from "lucide-react";
 import { ResultsCommunitySnapshot } from "../../../read-models/b2c/resultsCommunityTypes";
 import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
 
@@ -82,6 +82,30 @@ export function ResultsEditorialHero({ heroData }: Props) {
                   </div>
               )}
             </div>
+
+            {/* Capa universal de calidad (integrity_score + mass_to_revert) */}
+            {(heroData.metrics.integrityLabel || heroData.metrics.massToRevertLabel) && (
+              <div className="flex flex-wrap items-center gap-2 mt-4">
+                {heroData.metrics.integrityLabel && (
+                  <div
+                    className="flex items-center gap-1.5 bg-white border border-stroke text-slate-700 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest"
+                    title={`Integridad: ${heroData.metrics.integrityScore ?? "—"}/100. Combina frescura + tamaño efectivo + consistencia.`}
+                  >
+                    <Shield className="w-3.5 h-3.5 text-brand" />
+                    {heroData.metrics.integrityLabel}
+                  </div>
+                )}
+                {heroData.metrics.massToRevertLabel && (
+                  <div
+                    className="flex items-center gap-1.5 bg-white border border-stroke text-slate-700 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest"
+                    title="Cuántos duelos efectivos tendrían que voltearse para revertir el liderazgo actual."
+                  >
+                    <Scale className="w-3.5 h-3.5 text-accent" />
+                    {heroData.metrics.massToRevertLabel}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="shrink-0 w-full md:w-auto">

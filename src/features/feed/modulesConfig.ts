@@ -78,7 +78,7 @@ export const MODULES: OpinaModule[] = [
         slug: "profundidad",
         title: "Profundidad",
         description: "10 preguntas rápidas para refinar la inteligencia colectiva sobre una opción.",
-        status: "soon",
+        status: "active",
         icon: "insights",
         tone: "emerald",
         tags: ["Analítico", "Contexto"],
@@ -87,51 +87,51 @@ export const MODULES: OpinaModule[] = [
         key: "pulso",
         slug: "pulso",
         title: "Tu Tendencia",
-        description: "Sincroniza tu estado actual. Registra cómo te sientes hoy.",
+        description: "Disponible Q3 2026 — película temporal personal: tu estado anímico vs. el agregado.",
         status: "soon",
         icon: "favorite",
         tone: "rose",
-        tags: ["Privado", "Confidencial"],
-        previewTitle: "Tu estado personal a un click",
-        previewSubtitle: "Sincroniza tus dimensiones vitales del día a día.",
+        tags: ["Q3 2026", "Privado"],
+        previewTitle: "Tu película temporal personal — Q3 2026",
+        previewSubtitle: "Tendencia, aceleración, volatilidad y persistencia de tu propio estado anímico.",
         previewBullets: [
-            "Registra tu estado de ánimo, felicidad y finanzas en segundos.",
-            "Tu identidad pública permanece protegida y separada de tus respuestas.",
-            "Desbloquea análisis de tendencias según el estado anímico general."
+            "Registra ánimo, felicidad y finanzas en segundos. Tu identidad permanece anónima.",
+            "Compara tu evolución contra tu generación, comuna y país.",
+            "Marco metodológico: las 4 dimensiones temporales aplicadas a ti, no solo al agregado."
         ]
     },
     {
         key: "lugares",
         slug: "lugares",
         title: "Lugares",
-        description: "Califica y rankea ubicaciones físicas y espacios a tu alrededor.",
+        description: "Disponible Q3 2026 — ranking presencial geo-localizado de espacios físicos.",
         status: "soon",
         icon: "location_on",
         tone: "slate",
-        tags: ["Presencial", "Geo"],
-        previewTitle: "Rankea lugares en el mundo real",
-        previewSubtitle: "Evalúa parques, restaurantes o locales físicos al instante.",
+        tags: ["Q3 2026", "Geo"],
+        previewTitle: "Inteligencia de lugares — Q3 2026",
+        previewSubtitle: "Aplicar el marco metodológico de Opina+ a parques, restaurantes y locales físicos.",
         previewBullets: [
-            "Checa la mejor ubicación valorada a pocos kilómetros.",
-            "Registra tus visitas y valora experiencias in-situ.",
-            "Mira mapas de calor basados en la opinión colectiva."
+            "Checa la mejor ubicación valorada cerca de ti, con n_eff y freshness reales.",
+            "Mapas de calor basados en duelos efectivos, no estrellas vanidosas.",
+            "Misma capa universal de calidad (integridad + masa para revertir) aplicada a geo."
         ]
     },
     {
         key: "servicios",
         slug: "servicios",
         title: "Servicios",
-        description: "Evalúa la calidad de atención y proveedores que facilitan tu vida.",
+        description: "Disponible Q3 2026 — comparador de calidad de atención en servicios locales.",
         status: "soon",
         icon: "support_agent",
         tone: "slate",
-        tags: ["Atención", "Calidad"],
-        previewTitle: "Inteligencia en Servicios Locales",
-        previewSubtitle: "¿Quién da la mejor atención en tu zona?",
+        tags: ["Q3 2026", "Calidad"],
+        previewTitle: "Inteligencia de servicios — Q3 2026",
+        previewSubtitle: "Isapres, telcos, aseguradoras evaluadas con el marco metodológico Opina+.",
         previewBullets: [
-            "Ranqueo de isapres, aseguradoras, telecomunicaciones y más.",
-            "Comparador directo de beneficios y calidad percibida.",
-            "Participa para generar inteligencia sobre estas redes de servicio."
+            "Ranqueo de proveedores con Wilson CI + n_eff visible.",
+            "Comparador directo de beneficios y calidad percibida (no solo precio).",
+            "OpinaScore por servicio para decisiones reales (cambiar de isapre, telco, banco)."
         ]
     },
     {
@@ -155,34 +155,34 @@ export const MODULES: OpinaModule[] = [
         key: "productos",
         slug: "productos",
         title: "Productos",
-        description: "Escanea un producto para ver su ficha y valoración comunitaria.",
+        description: "Disponible Q3 2026 — scanner de barcode con ficha y ranking comunitario.",
         status: "soon",
         icon: "qr_code_scanner",
         tone: "slate",
-        tags: ["Supermercado", "Cámara"],
-        previewTitle: "Inteligencia colectiva de bolsillo",
-        previewSubtitle: "Conoce lo que otros opinan escaneando el código de barras.",
+        tags: ["Q3 2026", "Cámara"],
+        previewTitle: "Inteligencia de productos — Q3 2026",
+        previewSubtitle: "Escanea el código de barras y aplica el marco metodológico al producto en tu mano.",
         previewBullets: [
-            "Ve directo al supermercado: escanea y visualiza quién lo recomienda.",
-            "Añade alternativas hiper-locales y descubre si es ecológico.",
-            "Conoce la relación precio/calidad sin leer foros largos."
+            "OpinaScore del producto + alternativas hiper-locales con n_eff visible.",
+            "Relación precio/calidad ponderada por integridad y muestra efectiva.",
+            "Detección de patrones cross-módulo (precio cae, NPS sube → señal real)."
         ]
     },
     {
         key: "nps",
         slug: "nps",
         title: "NPS",
-        description: "Evalúa en una escala rápida tu nivel de lealtad hacia ciertas marcas.",
+        description: "Disponible Q3 2026 — Top Lovemarks por industria con NPS sano (n_eff + freshness).",
         status: "soon",
         icon: "speed",
         tone: "slate",
-        tags: ["Lealtad", "Puntuación"],
-        previewTitle: "Descubriendo tu lealtad",
-        previewSubtitle: "Métrica estándar para conocer marcas ultra recomendadas.",
+        tags: ["Q3 2026", "Lealtad"],
+        previewTitle: "NPS con rigor estadístico — Q3 2026",
+        previewSubtitle: "Lealtad medida con la misma capa universal de Opina+: nada de promedios sin masa.",
         previewBullets: [
-            "Responde en escala rápida del 1 al 10 si recomendarías la marca.",
-            "Descubre si la opción preferida realmente es amada u odiada.",
-            "Ve listados Top de Lovemarks en tu industria preferida."
+            "Escala 0-10 estándar, pero con guardrails de muestra mínima y freshness.",
+            "Top Lovemarks por industria, ponderado por n_eff y consistencia temporal.",
+            "Cross-check trust_vs_choice: ¿la marca elegida coincide con la marca recomendada?"
         ]
     }
 ];

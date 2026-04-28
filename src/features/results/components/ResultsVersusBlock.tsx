@@ -89,6 +89,27 @@ export function ResultsVersusBlock({ versusData }: Props) {
                        </div>
                      </div>
                    )}
+
+                   {/* Calidad estadística del líder (capa universal) */}
+                   {metrics.sampleQuality && (metrics.sampleQuality.nEff != null || metrics.sampleQuality.freshnessHours != null) && (
+                     <div className="flex flex-wrap items-center gap-2 mt-4 text-[10px] uppercase tracking-widest font-bold text-slate-500">
+                       {metrics.sampleQuality.nEff != null && metrics.sampleQuality.nEff > 0 && (
+                         <span className="px-2.5 py-1 bg-slate-100 rounded-full" title="Tamaño efectivo de muestra">
+                           {metrics.sampleQuality.nEff} duelos efectivos
+                         </span>
+                       )}
+                       {metrics.sampleQuality.freshnessHours != null && (
+                         <span className="px-2.5 py-1 bg-slate-100 rounded-full" title="Antigüedad del último dato agregado">
+                           hace {metrics.sampleQuality.freshnessHours}h
+                         </span>
+                       )}
+                       {metrics.sampleQuality.qualityLabel && (
+                         <span className="px-2.5 py-1 bg-accent-100 text-accent-700 rounded-full">
+                           {metrics.sampleQuality.qualityLabel}
+                         </span>
+                       )}
+                     </div>
+                   )}
                  </>
                ) : (
                  <MetricAvailabilityCard 

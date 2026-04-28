@@ -1,4 +1,15 @@
 import { BaseAnalyticsQuery, PublicationMode } from "../analytics/analyticsTypes";
+import { TemporalMovieRow } from "../../features/signals/services/kpiService";
+
+/** Re-export para que el componente B2CTrendCard pueda importarlo desde el read-model. */
+export type { TemporalMovieRow };
+
+/** Calidad estadística mínima para contextualizar al usuario un KPI agregado. */
+export interface SampleQualityMeta {
+  nEff: number | null;
+  freshnessHours: number | null;
+  qualityLabel: string | null;
+}
 
 export interface ResultsCommunityQuery extends BaseAnalyticsQuery {
   generation?: "ALL" | "BOOMERS" | "GEN_X" | "MILLENNIALS" | "GEN_Z";
@@ -39,6 +50,14 @@ export interface ResultsCommunitySnapshot {
       freshnessHours: number | null;
       mainInsightHeadline: string | null;
       sampleQualityLabel: string | null;
+      /** Capa universal: integridad agregada de las señales (0-100). null si no se puede inferir. */
+      integrityScore: number | null;
+      /** Etiqueta humana derivada del integrity_score (Alta / Media / Aún preliminar). */
+      integrityLabel: string | null;
+      /** Cuántos duelos efectivos tendrían que cambiar para revertir el liderazgo actual. */
+      massToRevert: number | null;
+      /** Etiqueta humana del mass_to_revert ("~120 duelos para revertir" / "Liderazgo blando"). */
+      massToRevertLabel: string | null;
     };
     availability: MetricAvailabilityState;
   };
@@ -51,15 +70,91 @@ export interface ResultsCommunitySnapshot {
       hotTopicTitle: string | null;
       fragmentationLabel: string | null;
       generationGapLabel: string | null;
+      /** Cambio % semana vs semana del fastest riser (si > 0). */
+      fastestRiserDeltaPct: number | null;
+      /** Cambio % semana vs semana del fastest faller (si < 0). */
+      fastestFallerDeltaPct: number | null;
+      /** Serie 7 días de signals del fastest riser para sparkline. */
+      fastestRiserSparkline: number[] | null;
+      /** Serie 7 días de signals del fastest faller para sparkline. */
+      fastestFallerSparkline: number[] | null;
     };
+    availability: MetricAvailabilityState;
+  };
+
+  /**
+   * Película temporal del líder agregado (B2C "Tu Tendencia"):
+   * tendencia, aceleración, volatilidad, persistencia + sparkline 7-14 d.
+   * null si aún no hay suficientes días de rollup para construir la película.
+   */
+  temporalTrend: {
+    movie: TemporalMovieRow[] | null;
+    sampleQuality: SampleQualityMeta;
+    availability: MetricAvailabilityState;
+  };
+
+  /** F9 — Capa predictiva: hacia dónde va el agregado. */
+  predictive: {
+    /** Share del líder proyectado a 7 días (0-100). null si no hay regresión válida. */
+    forecastedLeaderShare7d: number | null;
+    /** Días estimados hasta tipping point (segundo supera al líder). null si no se cierra. */
+    tippingPointDays: number | null;
+    /** Etiqueta humana del cambio de régimen de volatilidad. */
+    volatilityRegimeChangeLabel: string | null;
+    availability: MetricAvailabilityState;
+  };
+
+  /** F10 — Capa explicativa: por qué se mueve. */
+  explanatory: {
+    /** Lag promedio (horas) entre publish_at de un current_topic y movimiento del rollup. */
+    newsImpactLagHours: number | null;
+    /** Cohorte que más cambió de opinión semana vs. semana anterior (label). */
+    cohortDefectionSignal: string | null;
+    /** Top 3 pares de topics correlacionados (label). */
+    topicCorrelationTop3: string | null;
+    availability: MetricAvailabilityState;
+  };
+
+  /** F11 — Salud del producto. */
+  productHealth: {
+    /** % de usuarios que han probado al menos 2 módulos. */
+    moduleDiscoveryRate: number | null;
+    /** % de sesiones que terminan a mitad de un módulo (status incompleto). */
+    moduleFrictionScore: number | null;
+    /** Días promedio que un usuario nuevo permanece activo (proxy half-life). */
+    cohortHalfLifeDays: number | null;
+    /** p50 del reputation score por usuario activo (0-100). */
+    userReputationP50: number | null;
+    availability: MetricAvailabilityState;
+  };
+
+  /** F12 — Integridad / antifraude. */
+  integrity: {
+    /** Índice de clustering sospechoso (0-100). > 70 → alerta. */
+    suspiciousClusterIndex: number | null;
+    /** Score de sospecha de bot agregado (0-100). */
+    botSuspicionScore: number | null;
+    /** Etiqueta de brigading detectado (null si no hay anomalía). */
+    brigadingAlertLabel: string | null;
+    availability: MetricAvailabilityState;
+  };
+
+  /** F13 — KPIs comerciales B2B. */
+  commercial: {
+    /** Estimador de impacto: si X subiera atributo Y en %, su OpinaScore subiría a Z. */
+    conversionImpactEstimatorLabel: string | null;
+    /** Ventana de vulnerabilidad competitiva del líder (label). */
+    competitiveVulnerabilityWindowLabel: string | null;
+    /** Categoría con white space (nadie lidera con OpinaScore alto). */
+    whiteSpaceCategoryLabel: string | null;
     availability: MetricAvailabilityState;
   };
 
   editorialHighlights: ResultsEditorialHighlight[];
 
   blocks: {
-    versus: { 
-      visible: boolean; 
+    versus: {
+      visible: boolean;
       metrics: {
         leaderEntityName: string | null;
         preferenceShareLeader: string | null;
@@ -67,6 +162,8 @@ export interface ResultsCommunitySnapshot {
         mostContestedCategory: string | null;
         fragmentationLabel: string | null;
         dominantChoiceLabel: string | null;
+        /** Calidad estadística del líder (n_eff + freshness + label). */
+        sampleQuality: SampleQualityMeta;
       };
       availability: MetricAvailabilityState;
     };
@@ -116,6 +213,8 @@ export interface ResultsCommunitySnapshot {
       territoryGapLabel: string | null;
       communityActivityLabel: string | null;
       sampleQualityLabel: string | null;
+      /** Cross-módulo: si el campeón de torneo coincide con el líder de versus, etc. */
+      crossModuleCoherenceLabel: string | null;
     };
   };
 }
