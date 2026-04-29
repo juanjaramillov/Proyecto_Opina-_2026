@@ -10,3 +10,8 @@ export * from './GradientCTA';
 export * from './GlassCard';
 export * from './AmbientOrbs';
 export * from './PageHero';
+
+// V17 · Signal Visual Language (microelemento canónico de marca)
+// Ver docs/design/v17-signal-system.md
+export * from './SignalNode';
+export * from './SignalNodeLegend';
