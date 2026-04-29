@@ -256,7 +256,11 @@
   }
 
   .card-explore {
-    @apply card p-0 overflow-hidden relative group hover:border-brand/40 transition-colors cursor-pointer;
+    /* Nota: 'group' fue removido del @apply porque Tailwind v3+ no lo permite
+     * dentro de @apply (es solo una marker class para group-hover:). Si en el
+     * futuro algún componente necesita group-hover sobre card-explore, aplicar
+     * 'group' como className adicional en JSX, no acá. */
+    @apply card p-0 overflow-hidden relative hover:border-brand/40 transition-colors cursor-pointer;
   }
 
   .card-hover {
