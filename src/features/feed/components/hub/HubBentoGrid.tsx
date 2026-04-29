@@ -1,4 +1,5 @@
 import { ExperienceMode, TRACKS, TrackCard } from "./tracks/hubSecondaryData";
+import { SignalNode } from '../../../../components/ui/foundation';
 
 interface HubBentoGridProps {
     setMode: (mode: ExperienceMode) => void;
@@ -103,8 +104,9 @@ function ActualidadEditorial({ card, setMode }: { card: TrackCard, setMode: (m: 
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-danger-600">Live</span>
-                    <span className="h-2 w-2 rounded-full bg-danger animate-[pulse_1.5s_ease-in-out_infinite]" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-danger-600">Activo</span>
+                    {/* V17 · Nodo de Señal Validada · reemplaza live dot pulsante (cliché SaaS) */}
+                    <SignalNode state="validated" size="sm" />
                 </div>
             </div>
 
@@ -246,12 +248,10 @@ function ActualidadTickerList() {
         <div className="flex flex-col border-l border-slate-200">
             {news.map((item, i) => (
                 <div key={i} className="pl-5 py-3 relative group/item">
-                    {item.pulse && (
-                        <div className="absolute left-[-3px] top-[18px] w-1.5 h-1.5 rounded-full bg-danger-500 ring-4 ring-danger-100 animate-pulse" />
-                    )}
-                    {!item.pulse && (
-                        <div className="absolute left-[-2px] top-[18px] w-1 h-1 rounded-full bg-slate-300" />
-                    )}
+                    {/* V17 · Nodo de Señal · validated si está vivo, umbral si todavía no */}
+                    <div className="absolute left-[-8px] top-[10px]">
+                        <SignalNode state={item.pulse ? "validated" : "umbral"} size="sm" />
+                    </div>
                     <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
                         {item.time}
                     </span>
