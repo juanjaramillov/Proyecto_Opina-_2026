@@ -19,9 +19,10 @@ export function HubBentoGrid({ setMode }: HubBentoGridProps) {
                 {/* Header Editorial */}
                 <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <h2 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-2">Ecosistema Extendido</h2>
-                        <h3 className="text-3xl md:text-4xl font-light tracking-tight text-slate-900">
-                            Explora el <span className="font-medium text-brand-600 italic">Pulso</span> de Opina+
+                        {/* V17 · alineado con el resto del Hub: Outfit Black, sin italic decorativo */}
+                        <h2 className="text-[11px] font-bold tracking-widest text-slate-500 uppercase mb-3">Ecosistema Extendido</h2>
+                        <h3 className="text-3xl md:text-4xl font-black font-display tracking-tight text-ink leading-tight">
+                            Explora el <span className="font-black text-brand">Pulso</span> de Opina+
                         </h3>
                     </div>
                 </div>
@@ -58,15 +59,17 @@ function TorneosEditorial({ card, setMode }: { card: TrackCard, setMode: (m: Exp
         <div className="lg:w-7/12 py-12 lg:py-16 lg:pr-16 flex flex-col lg:flex-row gap-8 lg:gap-12 group">
             <div className="flex-1 flex flex-col items-start justify-between">
                 <div>
-                    <div className="flex items-center gap-3 mb-6">
-                        <span className="material-symbols-outlined text-brand-600 text-2xl">{card.icon}</span>
-                        <span className="text-[11px] font-black uppercase tracking-widest text-slate-900">
+                    <div className="flex items-center gap-4 mb-6">
+                        {/* V17 · icono compuesto (versus = 2 SignalNodes enfrentados) */}
+                        <SectionMark variant="versus" />
+                        <span className="text-[11px] font-black uppercase tracking-widest text-brand">
                             {card.title} / {card.status}
                         </span>
                     </div>
                     
-                    <h4 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 leading-[0.95] mb-6">
-                        La arena de<br/><span className="text-transparent bg-clip-text bg-gradient-to-br from-slate-900 to-slate-400">competición.</span>
+                    {/* V17 · gradient slate decorativo removido; text-ink plano */}
+                    <h4 className="text-4xl md:text-5xl lg:text-6xl font-black font-display tracking-tighter text-ink leading-[0.95] mb-6">
+                        La arena de<br/>competición.
                     </h4>
                     
                     <p className="text-base md:text-lg font-medium leading-relaxed text-slate-500 max-w-sm mb-10">
@@ -97,20 +100,22 @@ function ActualidadEditorial({ card, setMode }: { card: TrackCard, setMode: (m: 
     return (
         <div className="lg:w-5/12 py-12 lg:py-16 lg:pl-16 border-t lg:border-t-0 lg:border-l border-slate-200 flex flex-col group relative overflow-hidden">
             <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-danger-600 text-2xl">{card.icon}</span>
-                    <span className="text-[11px] font-black uppercase tracking-widest text-slate-900">
+                <div className="flex items-center gap-4">
+                    {/* V17 · icono compuesto (live = SignalNode validated lg + umbral sm) */}
+                    <SectionMark variant="live" />
+                    <span className="text-[11px] font-black uppercase tracking-widest text-ink">
                         {card.title}
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-danger-600">Activo</span>
-                    {/* V17 · Nodo de Señal Validada · reemplaza live dot pulsante (cliché SaaS) */}
+                    {/* V17 · "Activo" en accent (verde = activación), no danger (cliché breaking news) */}
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-accent-700">Activo</span>
                     <SignalNode state="validated" size="sm" />
                 </div>
             </div>
 
-            <h4 className="text-3xl md:text-4xl font-light tracking-tight text-slate-900 leading-tight mb-8">
+            {/* V17 · font-light → font-black para consistencia con el resto del Hub */}
+            <h4 className="text-3xl md:text-4xl font-black font-display tracking-tight text-ink leading-tight mb-8">
                 {card.subtitle}
             </h4>
 
@@ -119,11 +124,12 @@ function ActualidadEditorial({ card, setMode }: { card: TrackCard, setMode: (m: 
             </div>
 
             <div className="mt-12 flex">
-                <button 
+                <button
                     onClick={() => card.mode && setMode(card.mode as ExperienceMode)}
-                    className="group/btn inline-flex items-center gap-2 text-sm font-black tracking-wider text-danger-600 hover:text-danger-800 transition-colors uppercase border-b-2 border-transparent hover:border-danger-600 pb-1"
+                    /* V17 · CTA neutralizado: text-ink + brand on hover (sin saturación danger) */
+                    className="group/btn inline-flex items-center gap-2 text-sm font-black tracking-wider text-ink hover:text-brand transition-colors uppercase border-b-2 border-transparent hover:border-brand pb-1"
                 >
-                    {card.cta} 
+                    {card.cta}
                     <span className="material-symbols-outlined text-[16px] group-hover/btn:translate-x-1 transition-transform">arrow_right_alt</span>
                 </button>
             </div>
@@ -138,15 +144,17 @@ function ProfundidadEditorial({ card, setMode }: { card: TrackCard, setMode: (m:
     return (
         <div className="w-full py-12 lg:py-16 flex flex-col md:flex-row gap-12 lg:gap-24 group">
             <div className="md:w-5/12 flex flex-col items-start justify-center">
-                <div className="flex items-center gap-3 mb-6">
-                    <span className="material-symbols-outlined text-slate-400 text-2xl">{card.icon}</span>
-                    <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">
+                <div className="flex items-center gap-4 mb-6">
+                    {/* V17 · icono compuesto (depth = 3 SignalNodes verticales como capas) */}
+                    <SectionMark variant="depth" />
+                    <span className="text-[11px] font-black uppercase tracking-widest text-brand">
                         {card.title} / {card.status}
                     </span>
                 </div>
                 
-                <h4 className="text-3xl lg:text-4xl font-medium tracking-tight text-slate-900 mb-4">
-                    Más allá de la <span className="font-serif italic text-slate-500">superficie.</span>
+                {/* V17 · font-medium → font-black; quitado font-serif italic decorativo */}
+                <h4 className="text-3xl lg:text-4xl font-black font-display tracking-tight text-ink mb-4">
+                    Más allá de la superficie.
                 </h4>
                 
                 <p className="text-[15px] font-medium leading-relaxed text-slate-500 mb-8 max-w-sm">
@@ -230,8 +238,9 @@ function TorneoMinimalBracket() {
                 <rect x="138" y="58" width="4" height="4" className="text-brand-400" />
                 <rect x="138" y="178" width="4" height="4" className="text-brand-400" />
                 
-                {/* Finalista con acento */}
-                <circle cx="280" cy="120" r="5" className="text-brand-600 group-hover:fill-brand-500 transition-colors duration-300" />
+                {/* V17 · Finalista como Nodo de Señal Validada amplificado (halo accent + nodo brand) */}
+                <circle cx="280" cy="120" r="11" className="stroke-accent fill-none" strokeWidth="1.5" />
+                <circle cx="280" cy="120" r="6" className="fill-brand group-hover:fill-brand-500 transition-colors duration-300" />
             </g>
         </svg>
     );
@@ -280,14 +289,54 @@ function ProfundidadChartVisual() {
                             {h}
                         </div>
                     )}
-                    {/* Acento en barras altas */}
-                    {h > 80 && (
-                        <div className="absolute top-0 left-0 w-full h-1 bg-slate-800" />
+                    {/* V17 · acento brand/accent en barras altas (umbral cruzado · señal activada) */}
+                    {h > 90 && (
+                        <div className="absolute top-0 left-0 w-full h-1.5 bg-accent" />
+                    )}
+                    {h > 80 && h <= 90 && (
+                        <div className="absolute top-0 left-0 w-full h-1 bg-brand" />
                     )}
                 </div>
             ))}
         </div>
     );
+}
+
+// ============================================================
+// SECTIONMARK · "Iconos" compuestos de SignalNodes (microelemento canónico V17)
+// Reemplaza Material Symbols genéricos por composiciones propias de marca.
+// ============================================================
+function SectionMark({ variant }: { variant: 'versus' | 'live' | 'depth' }) {
+    if (variant === 'versus') {
+        // Torneos · 2 nodos enfrentados con línea fina entre ellos
+        return (
+            <span className="inline-flex items-center gap-1.5" aria-hidden="true">
+                <SignalNode state="validated" size="md" />
+                <span className="block w-2.5 h-px bg-slate-300" />
+                <SignalNode state="validated" size="md" />
+            </span>
+        );
+    }
+    if (variant === 'live') {
+        // Actualidad · nodo validado grande + nodo umbral pequeño (live + breaking)
+        return (
+            <span className="inline-flex items-center gap-1.5" aria-hidden="true">
+                <SignalNode state="validated" size="lg" />
+                <SignalNode state="umbral" size="sm" />
+            </span>
+        );
+    }
+    if (variant === 'depth') {
+        // Profundidad · 3 nodos verticales (capas / dimensiones)
+        return (
+            <span className="inline-flex flex-col gap-1" aria-hidden="true">
+                <SignalNode state="validated" size="sm" />
+                <SignalNode state="umbral" size="sm" />
+                <SignalNode state="insufficient" size="sm" />
+            </span>
+        );
+    }
+    return null;
 }
 
 export default HubBentoGrid;

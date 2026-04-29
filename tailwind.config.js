@@ -146,6 +146,11 @@ export default {
                     'from': { opacity: '0', transform: 'translateY(14px)' },
                     'to':   { opacity: '1', transform: 'translateY(0)' },
                 },
+                // V17 · breath sutil del halo en SignalNode pulsing
+                'signal-breath': {
+                    '0%, 100%': { transform: 'scale(1)', opacity: '0.85' },
+                    '50%':       { transform: 'scale(1.18)', opacity: '0.45' },
+                },
             },
             animation: {
                 'float-slow':  'float-slow 6s ease-in-out infinite',
@@ -156,6 +161,7 @@ export default {
                 'pulse-slow': 'pulse 3s cubic-bezier(0.4,0,0.6,1) infinite',
                 'pulse-soft': 'pulse-soft 2.5s ease-in-out infinite',
                 'fade-up':    'fade-up 0.5s ease-out both',
+                'signal-breath': 'signal-breath 3.5s ease-in-out infinite',
             },
         },
     },

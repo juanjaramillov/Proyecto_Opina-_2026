@@ -14,6 +14,7 @@ import SignalsRouter from "../components/hub/SignalsRouter";
 import BatchSessionResults, { BatchSessionResultRecord } from "../components/BatchSessionResults";
 import { ModuleErrorBoundary } from "../../../components/ui/ModuleErrorBoundary";
 import HubBentoGrid from "../components/hub/HubBentoGrid";
+import HubSignalSummary from "../components/hub/HubSignalSummary";
 import { useExperienceMode } from "../hooks/useExperienceMode";
 import { Battle } from "../../signals/types";
 import HubActiveState from "../components/HubActiveState";
@@ -24,7 +25,7 @@ export default function SignalsHub() {
     const { mode, setMode, requestedBatch, resetToMenu } = useExperienceMode();
     const { battles, loading, error } = useActiveBattles();
     const { profile } = useAuth();
-    const { signalsToday } = useSignalStore();
+    const { signalsToday, signals: signalsTotal, streakDays } = useSignalStore();
     const navigate = useNavigate();
 
     const [showBatchResults, setShowBatchResults] = useState(false);
@@ -123,7 +124,15 @@ export default function SignalsHub() {
                     </div>
                 </section>
 
-                {/* 2. BENTO GRID DE MÓDULOS (Reemplaza al radar horizontal) */}
+                {/* 2. SUMMARY V17 (stat tiles + leyenda + live activity strip) */}
+                <HubSignalSummary
+                    signalsToday={signalsToday}
+                    signalsTotal={signalsTotal}
+                    streakDays={streakDays}
+                    signalsLimit={signalsLimit}
+                />
+
+                {/* 3. BENTO GRID DE MÓDULOS (Reemplaza al radar horizontal) */}
                 <HubBentoGrid setMode={setMode} />
 
                 <BatchSessionResults 

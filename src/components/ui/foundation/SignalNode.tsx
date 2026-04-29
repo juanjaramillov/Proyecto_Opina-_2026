@@ -36,6 +36,13 @@ interface SignalNodeProps {
    */
   size?: SignalNodeSize;
   /**
+   * Si true, agrega un breath sutil al halo (solo aplica si state === 'validated').
+   * Usar con MUCHA moderación: máximo 1-2 nodos por pantalla. Solo en lugares
+   * donde representa "ancla viva" (no decoración). Respeta prefers-reduced-motion
+   * vía la regla global de index.css.
+   */
+  pulse?: boolean;
+  /**
    * Etiqueta accesible para screen readers. Default: derivada del estado.
    */
   'aria-label'?: string;
@@ -60,6 +67,7 @@ const DEFAULT_LABELS: Record<SignalNodeState, string> = {
 export function SignalNode({
   state,
   size = 'md',
+  pulse = false,
   'aria-label': ariaLabel,
   className = '',
 }: SignalNodeProps) {
@@ -84,11 +92,13 @@ export function SignalNode({
       className={`relative inline-flex items-center justify-center shrink-0 ${className}`}
       style={{ width: containerSize, height: containerSize }}
     >
-      {/* Halo · solo en estado validated */}
+      {/* Halo · solo en estado validated · pulse opcional para "ancla viva" */}
       {state === 'validated' && (
         <span
           aria-hidden="true"
-          className="absolute inset-0 rounded-full border-accent pointer-events-none"
+          className={`absolute inset-0 rounded-full border-accent pointer-events-none ${
+            pulse ? 'animate-signal-breath' : ''
+          }`}
           style={{ borderWidth: stroke }}
         />
       )}
