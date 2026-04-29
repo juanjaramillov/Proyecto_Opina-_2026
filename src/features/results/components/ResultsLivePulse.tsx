@@ -1,5 +1,6 @@
 import { Minus, Info } from "lucide-react";
 import { ResultsCommunitySnapshot } from "../../../read-models/b2c/resultsCommunityTypes";
+import { SignalNode } from "../../../components/ui/foundation";
 
 interface Props {
   pulseData: ResultsCommunitySnapshot["pulse"];
@@ -47,8 +48,13 @@ export function ResultsLivePulse({ pulseData }: Props) {
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
           
           <div className="flex flex-col">
-            <h3 className="text-xs font-black text-ink uppercase tracking-widest flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.6)] ${availability === "success" ? "bg-brand animate-pulse" : "bg-stroke"}`} />
+            <h3 className="text-xs font-black text-ink uppercase tracking-widest flex items-center gap-2">
+              {/* V17 · live dot con shadow brand reemplazado por SignalNode */}
+              {availability === "success" ? (
+                <SignalNode state="validated" size="sm" pulse />
+              ) : (
+                <SignalNode state="insufficient" size="sm" />
+              )}
               Señales en vivo
             </h3>
             <span className="text-[10px] font-medium text-slate-500">

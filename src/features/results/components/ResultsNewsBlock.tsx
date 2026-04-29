@@ -22,8 +22,9 @@ export const ResultsNewsBlock = ({ newsData }: Props) => {
              <span className="inline-block mb-4 border border-stroke text-slate-500 rounded-full px-4 py-1 uppercase tracking-widest text-xs font-semibold">
                 EL PULSO DE LA ACTUALIDAD
              </span>
+             {/* V17 · animate-pulse removido del Flame icon (cliché breaking news) */}
              <h2 className="text-4xl md:text-5xl font-black text-ink tracking-tight leading-none mb-4 flex items-center gap-4">
-                Lo que está en debate <Flame className="w-10 h-10 text-brand animate-pulse" />
+                Lo que está en debate <Flame className="w-10 h-10 text-brand" />
              </h2>
              <p className="text-lg text-slate-500 max-w-xl">
                 Temas de discusión activa, qué une a la comunidad y qué genera mayor división hoy.
@@ -47,8 +48,9 @@ export const ResultsNewsBlock = ({ newsData }: Props) => {
                            Tema Más Candente
                          </span>
                          {metrics.hotTopicHeatIndex && (
+                             /* V17 · emoji 🔥 decorativo eliminado · queda métrica limpia */
                              <span className="text-xs font-bold text-slate-500">
-                               🔥 {metrics.hotTopicHeatIndex} interacciones
+                               {metrics.hotTopicHeatIndex} interacciones
                              </span>
                          )}
                        </div>

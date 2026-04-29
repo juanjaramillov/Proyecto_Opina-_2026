@@ -1,6 +1,7 @@
 import { Clock, TrendingUp, Shield, Scale } from "lucide-react";
 import { ResultsCommunitySnapshot } from "../../../read-models/b2c/resultsCommunityTypes";
 import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
+import { SignalNode } from "../../../components/ui/foundation";
 
 interface Props {
   heroData: ResultsCommunitySnapshot["hero"];
@@ -47,9 +48,13 @@ export function ResultsEditorialHero({ heroData }: Props) {
         <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
           
           <div className="flex-1">
-            {/* Eyebrow badge */}
+            {/* Eyebrow badge · V17 · live dot pulsante reemplazado por SignalNode con pulse */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-stroke mb-6 shadow-sm">
-              <span className={`w-2 h-2 rounded-full ${signalStatus === "success" ? "bg-brand animate-pulse" : "bg-accent"}`} />
+              {signalStatus === "success" ? (
+                <SignalNode state="validated" size="sm" pulse />
+              ) : (
+                <SignalNode state="umbral" size="sm" />
+              )}
               <span className="text-[10px] md:text-xs font-bold text-ink uppercase tracking-widest">
                 {heroData.title}
               </span>

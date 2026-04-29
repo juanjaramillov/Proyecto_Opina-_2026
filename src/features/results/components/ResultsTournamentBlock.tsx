@@ -36,7 +36,8 @@ export function ResultsTournamentBlock({ tournamentData }: Props) {
                  El campeón invicto actual
                </h2>
                {availability === "success" && (
-                   <span className="px-1.5 py-0.5 bg-accent text-white rounded text-[9px] font-black uppercase tracking-wider animate-pulse shadow-sm">
+                   /* V17 · animate-pulse removido (cliché) · pill estática · accent semántico */
+                   <span className="px-1.5 py-0.5 bg-accent text-white rounded text-[9px] font-black uppercase tracking-wider shadow-sm">
                      Dominante
                    </span>
                )}
