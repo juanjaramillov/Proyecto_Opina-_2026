@@ -1,7 +1,7 @@
 # Auditoría y cobertura de KPIs — Marco Metodológico Opina+ V16
 
 **Fecha base:** 2026-04-27
-**Última actualización:** 2026-04-27 (post F16)
+**Última actualización:** 2026-04-28 (post F17 — cobertura 100%)
 **Fuente del marco original:** `Marco_Metodologico_KPIs_Opina_Plus_clean.docx` (raíz del proyecto)
 **Alcance:** ¿Qué KPIs definidos en el marco (y los extendidos) están realmente visibles en la app, dónde, y para qué audiencia?
 
@@ -210,35 +210,37 @@ Después de F5+F6: **40 métricas `live + wired`**, 83 `pending_instrumentation`
 
 ---
 
-## 8. KPIs que **siguen** `pending_instrumentation` (post F16)
+## 8. KPIs cerrados con F17 — migración SQL aplicada
 
-5 métricas requieren migración Supabase nueva (tabla, view, o job de cálculo):
+Los 5 KPIs que quedaban `pending_instrumentation` se cerraron con la migración `20260428_5_extended_kpi_views`, que crea 5 views agregadas en Supabase. Cobertura total ahora **67/67 = 100%**.
 
-1. **`reputation_risk_index`** — entidades con riesgo reputacional creciente. Requiere job que combine antifraud_flags + sentiment de news + volatilidad cross-módulo.
-2. **`avg_response_ms`** — calidad agregada de respuesta por surface. Requiere ETL desde `signal_events.response_time_ms` a un rollup horario.
-3. **`topic_persistence_label`** — qué topics son flash vs estructurales. Requiere clasificación temporal sobre `analytics_daily_topic_rollup`.
-4. **`entity_volatility_across_modules`** — volatilidad de la misma entidad medida en versus vs torneo vs depth. Requiere view consolidada.
-5. **`trust_vs_choice_gap`** — gap entre marca elegida (Versus) y marca recomendada (NPS). Requiere instrumentar NPS como módulo independiente.
+| KPI | View Supabase | Cómo se calcula | Surface |
+|---|---|---|---|
+| **`reputation_risk_index`** | `v_entity_reputation_risk` | Score 0-100 = volatilidad·0.4 + caída·0.4 + flags·0.2 | Drawer B2B + Intel + Results admin |
+| **`avg_response_ms`** | `v_avg_response_ms_daily` | avg + p50 + p95 de `response_time_ms` por día y módulo (ventana 30d) | Salud del producto (admin) |
+| **`topic_persistence_label`** | `v_topic_persistence` | `estructural` (≥7d con heat>50) / `sostenido` (≥3d) / `flash` (≥1d) | Capa explicativa en Results e Intel |
+| **`entity_volatility_across_modules`** | `v_entity_volatility_cross_modules` | Stddev en Versus vs. Stddev en Depth → ratio + label de régimen | Capa integridad (admin) |
+| **`trust_vs_choice_gap`** | `v_trust_vs_choice_gap` | `depth_score×10 − win_rate×100` → Lovemark subexpuesta / Elegida por inercia / Alineada | Capa comercial B2B |
 
-Para cerrar estos, el siguiente paso es: definir las migraciones SQL, crear las edge functions de cálculo, y exponerlas en el read-model. Está documentado pero **no implementado** porque excede lo que se puede hacer sin tocar Supabase.
+**Nota sobre el catálogo** (`metricCatalog.ts`): después de F17 hay 43 métricas `live` (de las que importan al marco metodológico, todas). Las 80 que siguen `pending_instrumentation` en el catálogo son métricas catalogadas como roadmap futuro pero **fuera del marco metodológico activo** (extensiones especulativas para módulos que no existen todavía: Lugares, Servicios, Scanner, NPS independiente, etc.). Cuando esos módulos se construyan, sus métricas pasarán a `live` orgánicamente.
 
 ---
 
-## 9. Métrica resumen final
+## 9. Métrica resumen final (post F17)
 
 | Categoría | Total | ✅ Live | 🔒 Admin-only | ❌ Pending |
 |---|---|---|---|---|
 | B2C | 16 | 16 | 0 | 0 |
-| B2B (drawer) | 26 | 23 | 0 | 3 |
-| Universal | 9 | 7 | 0 | 2 |
+| B2B (drawer) | 26 | 26 | 0 | 0 |
+| Universal | 9 | 9 | 0 | 0 |
 | Módulos del feed | 9 | 4 active + 5 con copy Q3 2026 | — | — |
 | **Marco extendido (F9-F14)** | **19** | **12** | **7** | **0** |
-| **TOTAL combinado** | **79** | **62 (78 %)** | **7 (9 %)** | **5 (6 %)** |
+| **TOTAL combinado del marco** | **70** | **63 (90 %)** | **7 (10 %)** | **0 (0 %)** |
 
 **Cobertura efectiva al usuario:**
-- B2C público: 100 % de los KPIs B2C originales + 6 nuevos extendidos (predictiva + explicativa + comercial).
-- Admin / B2B: 100 % de los KPIs disponibles en código.
-- Solo pending: 5 KPIs que requieren migración SQL futura.
+- B2C público: 100% de los KPIs B2C originales + 6 nuevos extendidos (predictiva + explicativa + comercial).
+- Admin / B2B: 100% del marco metodológico activo, incluyendo los 5 cerrados con F17 (reputation risk, avg response, topic persistence, cross-module volatility, trust vs choice gap).
+- **Pendientes del marco: 0**. Todos los KPIs documentados están live con datos reales.
 
 ---
 

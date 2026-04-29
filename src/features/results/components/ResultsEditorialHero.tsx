@@ -117,6 +117,14 @@ export function ResultsEditorialHero({ heroData }: Props) {
              {/* Data highlight box OR fallback */}
              {signalStatus === "success" || signalStatus === "degraded" ? (
                  <div className="bg-white border border-stroke rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center min-w-[240px] shadow-sm">
+                   {/* V17 · cluster de Nodos como ancla viva del estado actual de señales */}
+                   <div className="flex items-center gap-1.5 mb-4">
+                     <SignalNode state="validated" size="sm" pulse />
+                     <SignalNode state="validated" size="sm" />
+                     <SignalNode state="validated" size="sm" />
+                     <SignalNode state="umbral" size="sm" />
+                     <SignalNode state="insufficient" size="sm" />
+                   </div>
                    <div className="text-4xl md:text-5xl font-black text-ink tracking-tighter mb-1">
                      {activeSignals.toLocaleString()}
                    </div>

@@ -663,6 +663,100 @@ async function buildCommercialLayer(): Promise<{
   return { conversionImpactEstimatorLabel, competitiveVulnerabilityWindowLabel, whiteSpaceCategoryLabel };
 }
 
+// ============================================================================
+// F17 — KPIs cerrados con migración SQL (5 views nuevas)
+// ============================================================================
+
+/**
+ * Reputation risk: top entidad con risk_index alto (de v_entity_reputation_risk).
+ */
+async function buildReputationRiskTop(): Promise<string | null> {
+  const { data, error } = await (supabase.from as unknown as (t: string) => ReturnType<typeof supabase.from>)("v_entity_reputation_risk")
+    .select("entity_name, risk_index")
+    .order("risk_index", { ascending: false })
+    .limit(1)
+    .single();
+  if (error || !data) return null;
+  const row = data as unknown as { entity_name: string; risk_index: number };
+  if (row.risk_index < 30) return null;
+  return `${row.entity_name} con riesgo reputacional ${row.risk_index}/100`;
+}
+
+/**
+ * Avg response_ms: p50 agregado de últimos 30 días.
+ */
+async function buildAvgResponseMs(): Promise<number | null> {
+  const { data, error } = await (supabase.from as unknown as (t: string) => ReturnType<typeof supabase.from>)("v_avg_response_ms_daily")
+    .select("p50_response_ms, total_signals");
+  if (error || !data) return null;
+  const rows = data as unknown as Array<{ p50_response_ms: number; total_signals: number }>;
+  if (rows.length === 0) return null;
+  const totalSignals = rows.reduce((s, r) => s + (r.total_signals || 0), 0);
+  if (totalSignals === 0) return null;
+  // Promedio ponderado por volumen
+  const weightedSum = rows.reduce((s, r) => s + (r.p50_response_ms || 0) * (r.total_signals || 0), 0);
+  return Math.round(weightedSum / totalSignals);
+}
+
+/**
+ * Topic persistence: top topic estructural si existe, fallback a sostenido o flash.
+ */
+async function buildTopicPersistenceTop(): Promise<string | null> {
+  const { data, error } = await (supabase.from as unknown as (t: string) => ReturnType<typeof supabase.from>)("v_topic_persistence")
+    .select("topic_title, persistence_label, days_hot, avg_heat")
+    .neq("persistence_label", "sin_calor")
+    .order("days_hot", { ascending: false })
+    .limit(1)
+    .single();
+  if (error || !data) return null;
+  const row = data as unknown as { topic_title: string | null; persistence_label: string; days_hot: number; avg_heat: number };
+  if (!row.topic_title) return null;
+  const labelES: Record<string, string> = {
+    estructural: "Estructural",
+    sostenido: "Sostenido",
+    flash: "Flash",
+  };
+  return `"${row.topic_title}" — ${labelES[row.persistence_label] || row.persistence_label} (${row.days_hot}d calientes)`;
+}
+
+/**
+ * Cross-module volatility: top entidad con régimen desigual entre Versus y Depth.
+ */
+async function buildCrossModuleVolatility(): Promise<string | null> {
+  const { data, error } = await (supabase.from as unknown as (t: string) => ReturnType<typeof supabase.from>)("v_entity_volatility_cross_modules")
+    .select("entity_name, regime_label, cross_module_ratio")
+    .neq("regime_label", "volatilidad_pareja")
+    .order("cross_module_ratio", { ascending: false, nullsFirst: false })
+    .limit(1)
+    .single();
+  if (error || !data) return null;
+  const row = data as unknown as { entity_name: string; regime_label: string; cross_module_ratio: number | null };
+  const labelES: Record<string, string> = {
+    inestable_en_versus: "inestable en Versus pero sólida en Depth",
+    inestable_en_depth: "inestable en Depth pero sólida en Versus",
+  };
+  return `${row.entity_name}: ${labelES[row.regime_label] || row.regime_label}`;
+}
+
+/**
+ * Trust vs Choice gap: top entidad con gap > 15.
+ */
+async function buildTrustVsChoiceGap(): Promise<string | null> {
+  const { data, error } = await (supabase.from as unknown as (t: string) => ReturnType<typeof supabase.from>)("v_trust_vs_choice_gap")
+    .select("entity_name, gap_label, gap_signed")
+    .neq("gap_label", "alineada")
+    .order("gap_abs", { ascending: false, nullsFirst: false })
+    .limit(1)
+    .single();
+  if (error || !data) return null;
+  const row = data as unknown as { entity_name: string; gap_label: string; gap_signed: number };
+  const labelES: Record<string, string> = {
+    lovemark_subexpuesta: `Lovemark subexpuesta (más recomendada que elegida, gap +${Math.round(row.gap_signed)})`,
+    elegida_por_inercia: `Elegida por inercia (más elegida que recomendada, gap ${Math.round(row.gap_signed)})`,
+  };
+  return `${row.entity_name}: ${labelES[row.gap_label] || row.gap_label}`;
+}
+
 /**
  * Adapter: Backend Core Availability -> Frontend B2C UI Availability
  */
@@ -845,48 +939,57 @@ export async function getResultsCommunityReadModel(query: ResultsCommunityQuery)
   } catch (err) { console.warn("[predictive]", err); predictive.availability = "error"; }
 
   let explanatory: ResultsCommunitySnapshot["explanatory"] = {
-    newsImpactLagHours: null, cohortDefectionSignal: null, topicCorrelationTop3: null, availability: "pending",
+    newsImpactLagHours: null, cohortDefectionSignal: null, topicCorrelationTop3: null, topicPersistenceTopLabel: null, availability: "pending",
   };
   try {
-    const [lag, def, cor] = await Promise.all([buildNewsImpactLag(), buildCohortDefection(), buildTopicCorrelation()]);
+    const [lag, def, cor, persist] = await Promise.all([
+      buildNewsImpactLag(), buildCohortDefection(), buildTopicCorrelation(), buildTopicPersistenceTop(),
+    ]);
     explanatory = {
       newsImpactLagHours: lag,
       cohortDefectionSignal: def,
       topicCorrelationTop3: cor,
-      availability: lag != null || def != null || cor != null ? "success" : "insufficient_data",
+      topicPersistenceTopLabel: persist,
+      availability: lag != null || def != null || cor != null || persist != null ? "success" : "insufficient_data",
     };
   } catch (err) { console.warn("[explanatory]", err); explanatory.availability = "error"; }
 
   let productHealth: ResultsCommunitySnapshot["productHealth"] = {
-    moduleDiscoveryRate: null, moduleFrictionScore: null, cohortHalfLifeDays: null, userReputationP50: null, availability: "pending",
+    moduleDiscoveryRate: null, moduleFrictionScore: null, cohortHalfLifeDays: null, userReputationP50: null, avgResponseMsP50: null, availability: "pending",
   };
   try {
-    const r = await buildProductHealth();
+    const [base, avgMs] = await Promise.all([buildProductHealth(), buildAvgResponseMs()]);
     productHealth = {
-      ...r,
-      availability: r.moduleDiscoveryRate != null || r.userReputationP50 != null ? "success" : "insufficient_data",
+      ...base,
+      avgResponseMsP50: avgMs,
+      availability: base.moduleDiscoveryRate != null || base.userReputationP50 != null || avgMs != null ? "success" : "insufficient_data",
     };
   } catch (err) { console.warn("[productHealth]", err); productHealth.availability = "error"; }
 
   let integrity: ResultsCommunitySnapshot["integrity"] = {
-    suspiciousClusterIndex: null, botSuspicionScore: null, brigadingAlertLabel: null, availability: "pending",
+    suspiciousClusterIndex: null, botSuspicionScore: null, brigadingAlertLabel: null, reputationRiskTopEntity: null, crossModuleVolatilityLabel: null, availability: "pending",
   };
   try {
-    const r = await buildIntegrityLayer();
+    const [base, repRisk, crossVol] = await Promise.all([
+      buildIntegrityLayer(), buildReputationRiskTop(), buildCrossModuleVolatility(),
+    ]);
     integrity = {
-      ...r,
-      availability: r.suspiciousClusterIndex != null || r.botSuspicionScore != null ? "success" : "insufficient_data",
+      ...base,
+      reputationRiskTopEntity: repRisk,
+      crossModuleVolatilityLabel: crossVol,
+      availability: base.suspiciousClusterIndex != null || base.botSuspicionScore != null || repRisk != null || crossVol != null ? "success" : "insufficient_data",
     };
   } catch (err) { console.warn("[integrity]", err); integrity.availability = "error"; }
 
   let commercial: ResultsCommunitySnapshot["commercial"] = {
-    conversionImpactEstimatorLabel: null, competitiveVulnerabilityWindowLabel: null, whiteSpaceCategoryLabel: null, availability: "pending",
+    conversionImpactEstimatorLabel: null, competitiveVulnerabilityWindowLabel: null, whiteSpaceCategoryLabel: null, trustVsChoiceTopGapLabel: null, availability: "pending",
   };
   try {
-    const r = await buildCommercialLayer();
+    const [base, trustGap] = await Promise.all([buildCommercialLayer(), buildTrustVsChoiceGap()]);
     commercial = {
-      ...r,
-      availability: r.conversionImpactEstimatorLabel != null || r.whiteSpaceCategoryLabel != null ? "success" : "insufficient_data",
+      ...base,
+      trustVsChoiceTopGapLabel: trustGap,
+      availability: base.conversionImpactEstimatorLabel != null || base.whiteSpaceCategoryLabel != null || trustGap != null ? "success" : "insufficient_data",
     };
   } catch (err) { console.warn("[commercial]", err); commercial.availability = "error"; }
 

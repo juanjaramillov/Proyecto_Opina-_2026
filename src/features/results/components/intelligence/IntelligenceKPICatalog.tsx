@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { GradientText } from '../../../../components/ui/foundation';
-import { KPI_CATALOG, KPILayer, KPI, KPITier, kpisInLayerForTier } from './kpiCatalog';
+import { KPI_CATALOG, KPILayer, KPITier, kpisInLayerForTier } from './kpiCatalog';
 
 const TIERS: { id: KPITier; label: string; cssAccent: string }[] = [
   { id: 'basic',      label: 'Basic',      cssAccent: 'text-slate-600' },
   { id: 'pro',        label: 'Pro',        cssAccent: 'text-brand' },
   { id: 'enterprise', label: 'Enterprise', cssAccent: 'text-accent' },
 ];
-
-const TIER_ORDER: KPITier[] = ['basic', 'pro', 'enterprise'];
-
-function tierIncludes(kpi: KPI, tier: KPITier): boolean {
-  return TIER_ORDER.indexOf(kpi.minTier) <= TIER_ORDER.indexOf(tier);
-}
 
 /**
  * Tabla expandible que muestra qué KPIs trae cada tier por capa.

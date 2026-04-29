@@ -1,6 +1,7 @@
 import { Layers, Trophy, AlertCircle, Activity, TrendingUp } from "lucide-react";
 import { ResultsCommunitySnapshot } from "../../../read-models/b2c/resultsCommunityTypes";
 import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
+import { SignalNode } from "../../../components/ui/foundation";
 
 interface Props {
   tournamentData: ResultsCommunitySnapshot["blocks"]["tournament"];
@@ -62,6 +63,10 @@ export function ResultsTournamentBlock({ tournamentData }: Props) {
                  <div className="relative bg-surface2 border border-stroke rounded-2xl p-6 flex flex-col items-center justify-center text-center h-full shadow-sm overflow-hidden group">
                    <div className="absolute inset-0 bg-white/40 blur-xl group-hover:bg-white/60 transition-colors" />
                    <div className="relative z-10 flex flex-col items-center">
+                     {/* V17 · SignalNode validated lg con pulse marca al campeón como "señal cristalizada" */}
+                     <div className="mb-2">
+                       <SignalNode state="validated" size="lg" pulse />
+                     </div>
                      <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mb-3">
                        <Trophy className="w-6 h-6 text-brand" />
                      </div>

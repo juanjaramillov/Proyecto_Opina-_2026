@@ -19,6 +19,7 @@ const ModuleEntry = lazy(() => import("./features/feed/pages/ModuleEntry"));
 const Profile = lazy(() => import("./features/profile/pages/Profile"));
 const BattlePage = lazy(() => import("./features/signals/pages/BattlePage"));
 const Results = lazy(() => import("./features/results/pages/Results"));
+const ResultsV2 = lazy(() => import("./features/results/pages/ResultsV2"));
 const IntelligenceLanding = lazy(() => import("./features/results/pages/IntelligenceLanding"));
 const ForgotPassword = lazy(() => import("./features/auth/pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./features/auth/pages/ResetPassword"));
@@ -108,6 +109,8 @@ export default function App() {
             {/* [LEGACY] Visor aislado de una sola batalla. Se mantiene por enlaces externos compartidos de la V13/V14 */}
             <Route path="/battle/:battleSlug" element={<Gate module="signals"><BattlePage /></Gate>} />
             <Route path="/results" element={<Gate module="signals"><Results /></Gate>} />
+            {/* V17 · /results-v2 · convive con /results hasta validación humana externa */}
+            <Route path="/results-v2" element={<Gate module="signals"><ResultsV2 /></Gate>} />
             <Route path="/profile" element={<Gate module="signals"><Profile /></Gate>} />
             <Route path="/complete-profile" element={<Gate module="signals"><ProfileWizard /></Gate>} />
             

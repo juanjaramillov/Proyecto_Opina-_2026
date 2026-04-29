@@ -1,4 +1,4 @@
-import { TrendingUp, AlertTriangle, Newspaper, Users2, Network, Heart, ShieldCheck, Briefcase, Target, Compass } from "lucide-react";
+import { TrendingUp, AlertTriangle, Newspaper, Users2, Network, Heart, ShieldCheck, Briefcase, Target, Compass, Sparkles } from "lucide-react";
 import { ResultsCommunitySnapshot } from "../../../read-models/b2c/resultsCommunityTypes";
 
 interface Props {
@@ -102,6 +102,12 @@ export function ResultsExtendedKPIs({ predictive, explanatory, productHealth, in
                                     <div className="text-[10px] font-medium text-slate-500 leading-snug">{explanatory.topicCorrelationTop3}</div>
                                 </div>
                             )}
+                            {explanatory.topicPersistenceTopLabel && (
+                                <div className="flex items-start gap-2 p-2 bg-brand/5 border border-brand/10 rounded-xl">
+                                    <Newspaper className="w-3.5 h-3.5 text-brand shrink-0 mt-0.5" />
+                                    <div className="text-[10px] font-bold text-brand-700 leading-snug">{explanatory.topicPersistenceTopLabel}</div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -140,6 +146,12 @@ export function ResultsExtendedKPIs({ predictive, explanatory, productHealth, in
                                     <div className="text-lg font-black text-ink tracking-tighter">{productHealth.userReputationP50}/100</div>
                                 </div>
                             )}
+                            {productHealth.avgResponseMsP50 != null && (
+                                <div>
+                                    <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tiempo respuesta p50</div>
+                                    <div className={`text-lg font-black tracking-tighter ${productHealth.avgResponseMsP50 > 5000 ? "text-warning-600" : "text-ink"}`}>{productHealth.avgResponseMsP50.toLocaleString('es-CL')}ms</div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -174,6 +186,18 @@ export function ResultsExtendedKPIs({ predictive, explanatory, productHealth, in
                                     </div>
                                 )}
                             </div>
+                            {integrity.reputationRiskTopEntity && (
+                                <div className="flex items-start gap-2 p-2 bg-warning-50 border border-warning-100 rounded-xl">
+                                    <AlertTriangle className="w-3.5 h-3.5 text-warning-600 shrink-0 mt-0.5" />
+                                    <div className="text-xs font-bold text-warning-700">{integrity.reputationRiskTopEntity}</div>
+                                </div>
+                            )}
+                            {integrity.crossModuleVolatilityLabel && (
+                                <div className="flex items-start gap-2 text-[10px] font-medium text-slate-500">
+                                    <Network className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                                    <span>{integrity.crossModuleVolatilityLabel}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -204,6 +228,12 @@ export function ResultsExtendedKPIs({ predictive, explanatory, productHealth, in
                                 <div className="flex items-start gap-2 text-xs font-medium text-accent">
                                     <Compass className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                                     <span>{commercial.whiteSpaceCategoryLabel}</span>
+                                </div>
+                            )}
+                            {commercial.trustVsChoiceTopGapLabel && (
+                                <div className="flex items-start gap-2 bg-white/10 rounded-xl p-3 mt-2">
+                                    <Sparkles className="w-4 h-4 text-brand-200 shrink-0 mt-0.5" />
+                                    <div className="text-xs font-bold text-white leading-snug">{commercial.trustVsChoiceTopGapLabel}</div>
                                 </div>
                             )}
                         </div>

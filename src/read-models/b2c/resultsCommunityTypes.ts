@@ -112,6 +112,8 @@ export interface ResultsCommunitySnapshot {
     cohortDefectionSignal: string | null;
     /** Top 3 pares de topics correlacionados (label). */
     topicCorrelationTop3: string | null;
+    /** F17 — Top topic con etiqueta de persistencia (estructural/sostenido/flash). */
+    topicPersistenceTopLabel: string | null;
     availability: MetricAvailabilityState;
   };
 
@@ -125,6 +127,8 @@ export interface ResultsCommunitySnapshot {
     cohortHalfLifeDays: number | null;
     /** p50 del reputation score por usuario activo (0-100). */
     userReputationP50: number | null;
+    /** F17 — p50 del response_time_ms agregado de los últimos 30 días. */
+    avgResponseMsP50: number | null;
     availability: MetricAvailabilityState;
   };
 
@@ -136,6 +140,10 @@ export interface ResultsCommunitySnapshot {
     botSuspicionScore: number | null;
     /** Etiqueta de brigading detectado (null si no hay anomalía). */
     brigadingAlertLabel: string | null;
+    /** F17 — Top entidad con riesgo reputacional alto (nombre + score). */
+    reputationRiskTopEntity: string | null;
+    /** F17 — Top entidad con régimen de volatilidad cross-módulo desigual. */
+    crossModuleVolatilityLabel: string | null;
     availability: MetricAvailabilityState;
   };
 
@@ -147,6 +155,8 @@ export interface ResultsCommunitySnapshot {
     competitiveVulnerabilityWindowLabel: string | null;
     /** Categoría con white space (nadie lidera con OpinaScore alto). */
     whiteSpaceCategoryLabel: string | null;
+    /** F17 — Top entidad con gap trust vs choice (lovemark subexpuesta o elegida por inercia). */
+    trustVsChoiceTopGapLabel: string | null;
     availability: MetricAvailabilityState;
   };
 

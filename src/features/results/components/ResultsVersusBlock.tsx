@@ -1,6 +1,7 @@
 import { Zap, Trophy, Swords } from "lucide-react";
 import { ResultsCommunitySnapshot } from "../../../read-models/b2c/resultsCommunityTypes";
 import { MetricAvailabilityCard } from "../../../components/ui/MetricAvailabilityCard";
+import { SignalNode } from "../../../components/ui/foundation";
 
 interface Props {
   versusData: ResultsCommunitySnapshot["blocks"]["versus"];
@@ -82,7 +83,10 @@ export function ResultsVersusBlock({ versusData }: Props) {
                    {(metrics.mostContestedCategory || metrics.fragmentationLabel) && (
                      <div className="w-full bg-surface2 border border-stroke rounded-2xl p-5 mt-8 backdrop-blur-md">
                        <div className="flex gap-3 items-start">
-                         <div className="w-2 h-2 rounded-full bg-accent mt-1.5 shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                         {/* V17 · dot decorativo con shadow → SignalNode validated · marca insight defendible */}
+                         <div className="mt-1 shrink-0">
+                           <SignalNode state="validated" size="sm" />
+                         </div>
                          <p className="text-sm font-medium text-slate-600">
                            <strong className="text-ink font-black">{metrics.mostContestedCategory || "Disputa Actual"}:</strong> {metrics.fragmentationLabel}
                          </p>

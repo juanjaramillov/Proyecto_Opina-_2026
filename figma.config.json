@@ -1,0 +1,18 @@
+{
+  "codeConnect": {
+    "include": [
+      "src/**/*.figma.tsx",
+      "src/components/ui/foundation/*.tsx"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**"
+    ],
+    "parser": "react",
+    "label": "React",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

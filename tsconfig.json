@@ -36,6 +36,7 @@
     "scripts/debug/**",
     "scripts/seed/**",
     "dist/**",
-    "node_modules/**"
+    "node_modules/**",
+    "src/**/*.figma.tsx"
   ]
 }
